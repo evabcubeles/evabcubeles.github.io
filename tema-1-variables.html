@@ -70,6 +70,28 @@
       margin-bottom:16px;
       text-decoration:none;
     }
+
+    .code-wrapper{
+      position: relative;
+    }
+    .copy-inside{
+      position: absolute;
+      top: 10px;
+      right: 10px;
+      padding: 6px 10px;
+      font-size: 14px;
+      border-radius: 8px;
+      border: 1px solid #ccc;
+      background: #ffffff;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+    .copy-inside:hover{
+      background: #f0f0f0;
+    }
+
   </style>
 </head>
 
@@ -109,16 +131,22 @@ nombre = "Eva"</code></pre>
 
 <section class="panel" id="codigo">
   <h2>Código (copiable)</h2>
-  <pre><code id="codeblock">nombre = "Eva"
+
+  <div class="code-wrapper">
+    <button class="copy-inside" onclick="copiar()">
+      📋 Copiar código
+    </button>
+
+    <pre><code id="codeblock">nombre = "Eva"
 edad = 16
 
 print("Nombre:", nombre)
 print("Edad:", edad)</code></pre>
+  </div>
 
-  <!-- AQUÍ está el botón con icono -->
-  <button class="copy" onclick="copiar()">📋 Copiar código</button>
   <span id="ok" style="display:none;"> ✅ Copiado</span>
 </section>
+
 
 <section class="panel" id="salida">
   <h2>Salida esperada</h2>
