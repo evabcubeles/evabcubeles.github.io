@@ -75,7 +75,8 @@
 
 <body>
 
-<a class="volver" href="index.md">← Volver al índice</a>
+<!-- Recomendado: volver a la portada publicada -->
+<a class="volver" href="/">← Volver al índice</a>
 
 <h1>Tema 1 — Variables</h1>
 
@@ -114,7 +115,8 @@ edad = 16
 print("Nombre:", nombre)
 print("Edad:", edad)</code></pre>
 
-  <button class="copy" onclick="copiar()">Copiar código</button>
+  <!-- AQUÍ está el botón con icono -->
+  <button class="copy" onclick="copiar()">📋 Copiar código</button>
   <span id="ok" style="display:none;"> ✅ Copiado</span>
 </section>
 
@@ -134,6 +136,29 @@ Edad: 16</code></pre>
 </section>
 
 <script>
+  // Pestañas
   document.querySelectorAll(".tab").forEach(boton => {
     boton.addEventListener("click", () => {
-      document.querySelectorAll(".tab").forEach(b => b.classList.remove("act
+      document.querySelectorAll(".tab").forEach(b => b.classList.remove("active"));
+      document.querySelectorAll(".panel").forEach(p => p.classList.remove("active"));
+
+      boton.classList.add("active");
+      document.getElementById(boton.dataset.tab).classList.add("active");
+    });
+  });
+
+  // Copiar
+  function copiar(){
+    const texto = document.getElementById("codeblock").innerText;
+
+    // Clipboard API (GitHub Pages va en https, debería funcionar)
+    navigator.clipboard.writeText(texto).then(() => {
+      const ok = document.getElementById("ok");
+      ok.style.display = "inline";
+      setTimeout(()=> ok.style.display="none", 1200);
+    });
+  }
+</script>
+
+</body>
+</html>
