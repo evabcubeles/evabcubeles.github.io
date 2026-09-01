@@ -100,8 +100,9 @@ a {
 }
 
 .icono-profesora {
-  width: 46px;
-  height: 46px;
+  width: 42px;
+  height: 42px;
+  display: block;
   object-fit: contain;
   flex-shrink: 0;
 }
