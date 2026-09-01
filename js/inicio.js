@@ -36,7 +36,7 @@ modulosActivos.forEach(modulo => {
 
     <div class="tarjeta-contenido">
       <p>
-        Módulo ${modulo.codigo} · ${modulo.curso}
+        Módulo ${modulo.codigo} - ${modulo.curso}
       </p>
 
       <a
