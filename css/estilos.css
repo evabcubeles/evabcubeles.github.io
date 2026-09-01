@@ -330,11 +330,11 @@ a {
 /* Parte inferior de la tarjeta */
 
 .tarjeta-contenido {
-  padding: 18px 18px 22px;
+  padding: 12px 16px 14px;
 }
 
 .tarjeta-contenido p {
-  margin: 0 0 22px;
+  margin: 0 0 12px;
   color: var(--texto-secundario);
   font-size: 16px;
   font-weight: 500;
