@@ -219,9 +219,9 @@ a {
 
 .seccion-modulos > h2 {
   margin: 0 0 36px;
-
   text-align: center;
-  font-size: 34px;
+  font-size: 28px;
+  font-weight: 700;
 }
 
 .rejilla-modulos {
