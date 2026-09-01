@@ -99,9 +99,11 @@ a {
   white-space: nowrap;
 }
 
-.icono-profesora {
-  font-size: 30px;
-  line-height: 1;
+.icono-profesora{
+    width:42px;
+    height:42px;
+    object-fit:contain;
+    border-radius:50%;
 }
 
 .menu-modulos {
