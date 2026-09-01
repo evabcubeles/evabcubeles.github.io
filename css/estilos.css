@@ -255,8 +255,8 @@ a {
 /* Parte superior coloreada */
 
 .tarjeta-cabecera {
-  min-height: 150px;
-  padding: 30px;
+  height: 180px;
+  padding: 24px;
 
   display: flex;
   align-items: center;
