@@ -1,0 +1,417 @@
+/* ==========================================
+   COLORES GENERALES
+========================================== */
+
+:root {
+  --verde-principal: #157a3d;
+  --verde-oscuro: #0f5d2e;
+
+  --fondo-pagina: #ffffff;
+  --fondo-cabecera: #d7edd3;
+  --fondo-tarjeta: #ffffff;
+
+  --texto-principal: #151515;
+  --texto-secundario: #505050;
+
+  --borde: #dddddd;
+  --sombra: rgba(0, 0, 0, 0.09);
+}
+
+/* Modo oscuro */
+
+body.modo-oscuro {
+  --fondo-pagina: #111827;
+  --fondo-cabecera: #1e3a2b;
+  --fondo-tarjeta: #1f2937;
+
+  --texto-principal: #f9fafb;
+  --texto-secundario: #d1d5db;
+
+  --borde: #374151;
+  --sombra: rgba(0, 0, 0, 0.35);
+}
+
+/* ==========================================
+   ESTILOS GENERALES
+========================================== */
+
+* {
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  margin: 0;
+
+  font-family:
+    system-ui,
+    -apple-system,
+    BlinkMacSystemFont,
+    "Segoe UI",
+    Arial,
+    sans-serif;
+
+  color: var(--texto-principal);
+  background-color: var(--fondo-pagina);
+
+  transition:
+    color 0.25s ease,
+    background-color 0.25s ease;
+}
+
+a {
+  color: inherit;
+}
+
+/* ==========================================
+   BARRA SUPERIOR
+========================================== */
+
+.navbar {
+  min-height: 82px;
+  padding: 0 20px;
+
+  display: flex;
+  align-items: center;
+  gap: 38px;
+
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+
+  background-color: var(--fondo-pagina);
+  border-bottom: 1px solid var(--borde);
+
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.04);
+}
+
+.inicio {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+
+  font-size: 22px;
+  font-weight: 750;
+  text-decoration: none;
+  white-space: nowrap;
+}
+
+.icono-profesora {
+  font-size: 38px;
+  line-height: 1;
+}
+
+.menu-modulos {
+  display: flex;
+  align-items: center;
+  gap: 38px;
+}
+
+.menu-modulos a {
+  position: relative;
+
+  font-size: 21px;
+  font-weight: 550;
+  text-decoration: none;
+}
+
+.menu-modulos a::after {
+  content: "";
+
+  position: absolute;
+  left: 0;
+  bottom: -10px;
+
+  width: 0;
+  height: 3px;
+
+  background-color: var(--verde-principal);
+  border-radius: 10px;
+
+  transition: width 0.2s ease;
+}
+
+.menu-modulos a:hover::after {
+  width: 100%;
+}
+
+.boton-tema {
+  width: 44px;
+  height: 44px;
+
+  margin-left: auto;
+
+  display: grid;
+  place-items: center;
+
+  color: var(--texto-principal);
+  background-color: var(--fondo-tarjeta);
+
+  border: 1px solid var(--borde);
+  border-radius: 50%;
+
+  cursor: pointer;
+  font-size: 21px;
+
+  transition:
+    transform 0.2s ease,
+    background-color 0.2s ease;
+}
+
+.boton-tema:hover {
+  transform: scale(1.08);
+}
+
+/* ==========================================
+   CABECERA GRANDE
+========================================== */
+
+.presentacion {
+  min-height: 380px;
+  padding: 70px 28px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  text-align: center;
+  background-color: var(--fondo-cabecera);
+}
+
+.presentacion-contenido {
+  width: 100%;
+  max-width: 1600px;
+}
+
+.presentacion h1 {
+  margin: 0 0 30px;
+
+  font-size: clamp(46px, 5.5vw, 74px);
+  line-height: 1.1;
+  letter-spacing: -2px;
+}
+
+.presentacion p {
+  margin: 0;
+
+  font-size: clamp(21px, 2.2vw, 34px);
+  line-height: 1.45;
+}
+
+/* ==========================================
+   MÓDULOS
+========================================== */
+
+.seccion-modulos {
+  max-width: 1650px;
+  margin: 0 auto;
+  padding: 48px 34px 80px;
+}
+
+.seccion-modulos > h2 {
+  margin: 0 0 36px;
+
+  text-align: center;
+  font-size: 34px;
+}
+
+.rejilla-modulos {
+  display: grid;
+
+  grid-template-columns:
+    repeat(auto-fit, minmax(290px, 380px));
+
+  justify-content: center;
+  gap: 42px;
+}
+
+/* Tarjeta completa */
+
+.tarjeta-modulo {
+  overflow: hidden;
+
+  background-color: var(--fondo-tarjeta);
+  border: 1px solid var(--borde);
+  border-radius: 24px;
+
+  box-shadow: 0 8px 24px var(--sombra);
+
+  transition:
+    transform 0.25s ease,
+    box-shadow 0.25s ease;
+}
+
+.tarjeta-modulo:hover {
+  transform: translateY(-7px);
+  box-shadow: 0 16px 34px var(--sombra);
+}
+
+/* Parte superior coloreada */
+
+.tarjeta-cabecera {
+  min-height: 215px;
+  padding: 30px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  text-align: center;
+}
+
+.tarjeta-cabecera h3 {
+  margin: 0;
+
+  color: #ffffff;
+
+  font-family: "Courier New", monospace;
+  font-size: 31px;
+  line-height: 1.08;
+  text-transform: uppercase;
+
+  text-shadow:
+    2px 2px 0 rgba(0, 0, 0, 0.75),
+    -1px -1px 0 rgba(0, 0, 0, 0.55);
+}
+
+/* Fondo de DWEC */
+
+.fondo-dwec {
+  background:
+    radial-gradient(
+      circle at 18% 18%,
+      rgba(255, 255, 255, 0.3),
+      transparent 30%
+    ),
+    radial-gradient(
+      circle at 80% 75%,
+      rgba(255, 255, 255, 0.12),
+      transparent 25%
+    ),
+    linear-gradient(135deg, #b49ad2, #75529d);
+}
+
+/* Fondos preparados para futuros módulos */
+
+.fondo-di {
+  background:
+    radial-gradient(
+      circle at 18% 18%,
+      rgba(255, 255, 255, 0.3),
+      transparent 30%
+    ),
+    linear-gradient(135deg, #77c1f1, #3182bd);
+}
+
+.fondo-diw {
+  background:
+    radial-gradient(
+      circle at 18% 18%,
+      rgba(255, 255, 255, 0.3),
+      transparent 30%
+    ),
+    linear-gradient(135deg, #ffb454, #ed711c);
+}
+
+.fondo-pidaw {
+  background:
+    radial-gradient(
+      circle at 18% 18%,
+      rgba(255, 255, 255, 0.3),
+      transparent 30%
+    ),
+    linear-gradient(135deg, #7add80, #37aa56);
+}
+
+/* Parte inferior de la tarjeta */
+
+.tarjeta-contenido {
+  padding: 24px 24px 28px;
+}
+
+.tarjeta-contenido p {
+  margin: 0 0 22px;
+
+  color: var(--texto-secundario);
+  font-size: 20px;
+}
+
+.enlace-modulo {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+
+  color: var(--verde-principal);
+
+  font-size: 19px;
+  font-weight: 750;
+  text-decoration: none;
+}
+
+.enlace-modulo:hover {
+  color: var(--verde-oscuro);
+  text-decoration: underline;
+}
+
+/* ==========================================
+   PIE DE PÁGINA
+========================================== */
+
+footer {
+  padding: 30px 20px;
+
+  color: var(--texto-secundario);
+  text-align: center;
+
+  border-top: 1px solid var(--borde);
+}
+
+/* ==========================================
+   TABLETAS Y MÓVILES
+========================================== */
+
+@media (max-width: 760px) {
+
+  .navbar {
+    min-height: auto;
+    padding: 15px 18px;
+
+    flex-wrap: wrap;
+    gap: 17px;
+  }
+
+  .menu-modulos {
+    width: 100%;
+    order: 3;
+
+    gap: 24px;
+    overflow-x: auto;
+    padding-bottom: 7px;
+  }
+
+  .menu-modulos a {
+    white-space: nowrap;
+  }
+
+  .presentacion {
+    min-height: 315px;
+    padding: 52px 20px;
+  }
+
+  .seccion-modulos {
+    padding: 42px 18px 60px;
+  }
+
+  .rejilla-modulos {
+    grid-template-columns: 1fr;
+  }
+
+  .tarjeta-modulo {
+    max-width: 420px;
+    width: 100%;
+    margin: 0 auto;
+  }
+}
