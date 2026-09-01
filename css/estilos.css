@@ -99,8 +99,11 @@ a {
   white-space: nowrap;
 }
 
-.icono-profesora{
-    font-size:30px;
+.icono-profesora {
+  width: 46px;
+  height: 46px;
+  object-fit: contain;
+  flex-shrink: 0;
 }
 
 .menu-modulos {
