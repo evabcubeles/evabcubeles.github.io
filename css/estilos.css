@@ -226,12 +226,10 @@ a {
 
 .rejilla-modulos {
   display: grid;
-
   grid-template-columns:
-    repeat(auto-fit, minmax(290px, 380px));
-
+    repeat(auto-fit, minmax(240px, 300px));
   justify-content: center;
-  gap: 42px;
+  gap: 28px;
 }
 
 /* Tarjeta completa */
@@ -258,7 +256,7 @@ a {
 /* Parte superior coloreada */
 
 .tarjeta-cabecera {
-  min-height: 215px;
+  min-height: 150px;
   padding: 30px;
 
   display: flex;
@@ -270,14 +268,11 @@ a {
 
 .tarjeta-cabecera h3 {
   margin: 0;
-
   color: #ffffff;
-
   font-family: "Courier New", monospace;
-  font-size: 31px;
+  font-size: 24px;
   line-height: 1.08;
   text-transform: uppercase;
-
   text-shadow:
     2px 2px 0 rgba(0, 0, 0, 0.75),
     -1px -1px 0 rgba(0, 0, 0, 0.55);
@@ -335,7 +330,7 @@ a {
 /* Parte inferior de la tarjeta */
 
 .tarjeta-contenido {
-  padding: 24px 24px 28px;
+  padding: 18px 18px 22px;
 }
 
 .tarjeta-contenido p {
