@@ -11,7 +11,7 @@ const modulos = [
     nombre: "Desarrollo web en entorno cliente",
     tituloTarjeta: "Desarrollo web<br>en entorno cliente",
     codigo: "0612",
-    curso: "2.º DAW",
+    curso: "2º DAW",
     carpeta: "dwec",
     claseColor: "fondo-dwec",
     activo: true
@@ -22,9 +22,9 @@ const modulos = [
     nombre: "Sostenibilidad aplicada al sistema productivo",
     tituloTarjeta: "Sostenibilidad aplicada<br>al sistema productivo",
     codigo: "1708",
-    curso: "2.º DAW",
-    carpeta: "di",
-    claseColor: "fondo-di",
+    curso: "2º DAW",
+    carpeta: "sasp",
+    claseColor: "fondo-sasp",
     activo: true
   },
 
@@ -33,7 +33,7 @@ const modulos = [
     nombre: "Diseño de interfaces web",
     tituloTarjeta: "Diseño de<br>interfaces web",
     codigo: "0615",
-    curso: "2.º DAW",
+    curso: "2º DAW",
     carpeta: "diw",
     claseColor: "fondo-diw",
     activo: true
