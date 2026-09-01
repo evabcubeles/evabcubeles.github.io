@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+  <meta charset="UTF-8">
+
+  <meta
+    name="viewport"
+    content="width=device-width, initial-scale=1.0"
+  >
+
+  <meta
+    name="description"
+    content="Apuntes digitales para ciclos formativos de la familia profesional de Informática."
+  >
+
+  <title>Apuntes de Informática</title>
+
+  <link rel="stylesheet" href="css/estilos.css">
+</head>
+
+<body>
+
+  <!-- Barra superior -->
+  <header class="navbar">
+
+    <a class="inicio" href="index.html">
+      <span class="icono-profesora" aria-hidden="true">👩🏻‍💻</span>
+      <span>Inicio</span>
+    </a>
+
+    <!-- Los módulos activos aparecerán aquí automáticamente -->
+    <nav
+      id="menuModulos"
+      class="menu-modulos"
+      aria-label="Módulos formativos"
+    ></nav>
+
+    <button
+      id="botonTema"
+      class="boton-tema"
+      type="button"
+      aria-label="Cambiar entre modo claro y oscuro"
+      title="Cambiar tema"
+    >
+      ☀️
+    </button>
+
+  </header>
+
+  <main>
+
+    <!-- Presentación -->
+    <section class="presentacion">
+
+      <div class="presentacion-contenido">
+
+        <h1>Apuntes de Informática</h1>
+
+        <p>
+          Repositorio de apuntes para Ciclos Formativos de Formación
+          Profesional de la familia de Informática.
+        </p>
+
+      </div>
+
+    </section>
+
+    <!-- Tarjetas de los módulos activos -->
+    <section class="seccion-modulos">
+
+      <h2>Módulos formativos</h2>
+
+      <div
+        id="listaModulos"
+        class="rejilla-modulos"
+      ></div>
+
+    </section>
+
+  </main>
+
+  <footer>
+    <p>Apuntes de Informática · Material educativo</p>
+  </footer>
+
+  <!-- Es importante mantener este orden -->
+  <script src="js/modulos.js"></script>
+  <script src="js/inicio.js"></script>
+
+</body>
+
+</html>
