@@ -22,7 +22,7 @@ const modulos = [
     nombre: "Sostenibilidad aplicada al sistema productivo",
     tituloTarjeta: "Sostenibilidad aplicada<br>al sistema productivo",
     codigo: "1708",
-    curso: "2.º DAM",
+    curso: "2.º DAW",
     carpeta: "di",
     claseColor: "fondo-di",
     activo: true
