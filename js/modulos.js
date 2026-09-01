@@ -36,6 +36,6 @@ const modulos = [
     curso: "2.º DAW",
     carpeta: "diw",
     claseColor: "fondo-diw",
-    activo: false
+    activo: true
   },
 ];
