@@ -360,13 +360,56 @@ a {
    PIE DE PÁGINA
 ========================================== */
 
-footer {
-  padding: 30px 20px;
+.footer {
+  padding: 24px 20px;
 
-  color: var(--texto-secundario);
+  background-color: #303847;
+  color: #ffffff;
+
   text-align: center;
+}
 
-  border-top: 1px solid var(--borde);
+.footer p {
+  margin: 0;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-wrap: wrap;
+
+  gap: 6px;
+
+  font-size: 16px;
+  line-height: 1.6;
+}
+
+.titulo-footer {
+  color: #35a65b;
+  font-weight: 600;
+}
+
+.footer a {
+  color: #35a65b;
+  text-decoration: none;
+}
+
+.footer a:hover {
+  text-decoration: underline;
+}
+
+.enlace-licencia {
+  display: inline-flex;
+  align-items: center;
+
+  margin-left: 4px;
+}
+
+.icono-licencia {
+  width: 88px;
+  height: 31px;
+
+  display: block;
+  border: 0;
 }
 
 /* ==========================================
