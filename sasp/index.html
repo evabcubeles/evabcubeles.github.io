@@ -275,6 +275,15 @@
     a.nav-pagina:hover {
       border-color: var(--verde-principal);
     }
+    /* En la portada del módulo solo aparece "Siguiente" */
+
+    .portada-modulo {
+      grid-template-columns: 1fr 1fr;
+    }
+
+    .portada-modulo .nav-siguiente {
+      grid-column: 2;
+    }
 
     /* ==========================================
        RESPONSIVE
@@ -314,8 +323,13 @@
       .contenido-modulo h1 {
         font-size: 36px;
       }
-      .navegacion-paginas {
+      .navegacion-paginas,
+      .portada-modulo {
         grid-template-columns: 1fr;
+      }
+
+      .portada-modulo .nav-siguiente {
+        grid-column: 1;
       }
 
       .nav-siguiente {
@@ -493,22 +507,23 @@
 
       </div>
       <!-- ==========================================
-        NAVEGACIÓN ANTERIOR / SIGUIENTE
+       NAVEGACIÓN SIGUIENTE
       ========================================== -->
 
-      <nav class="navegacion-paginas">
-
-        <div class="nav-pagina nav-anterior">
-          <!-- En la portada del módulo no hay página anterior -->
-        </div>
+      <nav class="navegacion-paginas portada-modulo">
 
         <a class="nav-pagina nav-siguiente" href="ut1/index.html">
-          <span class="nav-etiqueta">Siguiente</span>
+
+          <span class="nav-etiqueta">
+            Siguiente
+          </span>
 
           <strong>
             UT1 - Sostenibilidad, desarrollo sostenible y criterios ASG ›
           </strong>
+
         </a>
+
       </nav>
     </main>
 
