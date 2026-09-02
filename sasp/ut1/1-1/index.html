@@ -641,6 +641,63 @@ body.modo-oscuro .submenu-apartados {
     body.modo-oscuro .actividad-reflexion {
       background-color: #232d3d;
     }
+    /* ==========================================
+   SOLUCIÓN DESPLEGABLE
+========================================== */
+
+.solucion-desplegable {
+  margin-top: 20px;
+}
+
+.solucion-desplegable summary {
+  display: inline-block;
+
+  padding: 10px 16px;
+
+  background-color: #eef8f1;
+
+  border: 1px solid #b9dfc6;
+  border-radius: 7px;
+
+  color: var(--verde-principal);
+
+  font-size: 16px;
+  font-weight: 700;
+
+  cursor: pointer;
+  user-select: none;
+}
+
+.solucion-desplegable summary:hover {
+  background-color: #e2f3e7;
+}
+
+.contenido-solucion {
+  margin-top: 16px;
+
+  padding: 18px 20px;
+
+  background-color: var(--fondo-pagina);
+
+  border-left: 4px solid var(--verde-principal);
+  border-radius: 6px;
+}
+
+.contenido-solucion p {
+  margin: 0 0 12px;
+
+  font-size: 16px;
+  line-height: 1.65;
+}
+
+.contenido-solucion p:last-child {
+  margin-bottom: 0;
+}
+
+body.modo-oscuro .solucion-desplegable summary {
+  background-color: #20372a;
+  border-color: #315d40;
+}
 
 
     /* ==========================================
@@ -1381,6 +1438,43 @@ body.modo-oscuro .submenu-apartados {
     ¿Qué dimensiones de la sostenibilidad podrían verse afectadas?
     ¿Qué alternativa propondrías?
   </p>
+
+  <details class="solucion-desplegable">
+
+    <summary>
+      Ver una posible solución
+    </summary>
+
+    <div class="contenido-solucion">
+
+      <p>
+        Esta decisión afecta principalmente a las dimensiones
+        <strong>ambiental y económica</strong> de la sostenibilidad.
+      </p>
+
+      <p>
+        Desde el punto de vista ambiental, sustituir equipos que todavía
+        funcionan genera residuos electrónicos y aumenta el consumo de
+        materias primas y energía necesarias para fabricar nuevos dispositivos.
+      </p>
+
+      <p>
+        Desde el punto de vista económico, supone realizar un gasto que
+        podría no ser necesario si los equipos continúan siendo adecuados
+        para realizar el trabajo.
+      </p>
+
+      <p>
+        Una alternativa más sostenible sería
+        <strong>prolongar la vida útil de los equipos</strong> y sustituirlos
+        únicamente cuando sea necesario. También se podrían actualizar
+        algunos componentes, reparar los dispositivos o reutilizarlos
+        para otras tareas antes de convertirlos en residuos.
+      </p>
+
+    </div>
+
+  </details>
 
 </div>
 </section>
