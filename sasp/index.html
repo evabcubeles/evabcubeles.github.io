@@ -227,6 +227,56 @@
     }
 
     /* ==========================================
+     NAVEGACIÓN ANTERIOR / SIGUIENTE
+    ========================================== */
+
+    .navegacion-paginas {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 20px;
+
+      margin-top: 50px;
+    }
+
+    .nav-pagina {
+      min-height: 100px;
+      padding: 18px 20px;
+
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+
+      border: 1px solid var(--borde);
+      border-radius: 8px;
+
+      text-decoration: none;
+
+      background-color: var(--fondo-tarjeta);
+    }
+
+    .nav-siguiente {
+      text-align: right;
+      align-items: flex-end;
+    }
+
+    .nav-etiqueta {
+      margin-bottom: 5px;
+      color: var(--texto-secundario);
+      font-size: 14px;
+    }
+
+    .nav-pagina strong {
+      color: var(--verde-principal);
+
+      font-size: 16px;
+      line-height: 1.4;
+    }
+
+    a.nav-pagina:hover {
+      border-color: var(--verde-principal);
+    }
+
+    /* ==========================================
        RESPONSIVE
     ========================================== */
 
@@ -434,44 +484,77 @@
         </p>
 
       </div>
+      <!-- ==========================================
+        NAVEGACIÓN ANTERIOR / SIGUIENTE
+      ========================================== -->
 
+      <nav class="navegacion-paginas">
+
+        <div class="nav-pagina nav-anterior">
+          <!-- En la portada del módulo no hay página anterior -->
+        </div>
+
+        <a class="nav-pagina nav-siguiente" href="ut1/index.html">
+          <span class="nav-etiqueta">Siguiente</span>
+
+          <strong>
+            UT1 - Sostenibilidad, desarrollo sostenible y criterios ASG ›
+          </strong>
+        </a>
+      </nav>
     </main>
 
     <!-- COLUMNA DERECHA -->
-
     <aside class="indice-derecho">
-
       <h2>Contenidos del módulo</h2>
-
       <ul>
         <li>
           <a href="ut1/index.html">UT1 · Sostenibilidad y ASG</a>
         </li>
-
         <li>
           <a href="ut2/index.html">UT2 · Retos ambientales y sociales</a>
         </li>
-
         <li>
           <a href="ut3/index.html">UT3 · Desempeño profesional y personal</a>
         </li>
-
         <li>
           <a href="ut4/index.html">UT4 · Economía circular</a>
         </li>
-
         <li>
           <a href="ut5/index.html">UT5 · Sector informático</a>
         </li>
-
         <li>
           <a href="ut6/index.html">UT6 · Plan de sostenibilidad</a>
         </li>
       </ul>
-
     </aside>
-
   </div>
+  <footer class="footer">
+    <p>
+      Material elaborado por
+      <strong>Eva Ballestero Cubeles</strong>
+
+      - Licencia
+
+      <span class="licencia">
+        CC BY-NC-SA 4.0
+      </span>
+
+      <a
+        class="enlace-licencia"
+        href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.es"
+        target="_blank"
+        rel="license noopener noreferrer"
+        aria-label="Licencia Creative Commons BY-NC-SA 4.0"
+      >
+        <img
+          class="icono-licencia"
+          src="../img/licencias/cc-by-nc-sa.png"
+          alt="Licencia Creative Commons BY-NC-SA 4.0"
+        >
+      </a>
+    </p>
+  </footer>
 
   <!-- ==========================================
        JAVASCRIPT COMÚN
