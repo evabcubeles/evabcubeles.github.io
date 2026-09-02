@@ -176,6 +176,204 @@
 
       font-size: 22px;
     }
+    /* ==========================================
+   MENÚ LATERAL DESPLEGABLE
+========================================== */
+
+.menu-desplegable {
+  width: 100%;
+}
+
+
+/* Cabecera de una UT o de un apartado */
+
+.menu-cabecera {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+
+  width: 100%;
+
+  border-radius: 6px;
+}
+
+
+/* UT en la que estamos actualmente */
+
+.menu-cabecera-activa {
+  background-color: #f1f1f1;
+}
+
+.menu-cabecera-activa > .menu-titulo {
+  color: var(--verde-principal);
+}
+
+
+/* Texto/enlace de la UT o apartado */
+
+.menu-titulo {
+  flex: 1;
+
+  display: block;
+
+  padding: 11px 8px 11px 14px;
+
+  color: #626873;
+
+  font-size: 16px;
+  font-weight: 650;
+  line-height: 1.4;
+
+  text-decoration: none;
+}
+
+.menu-titulo:hover {
+  color: var(--verde-principal);
+}
+
+
+/* Botón de la flecha */
+
+.boton-desplegar {
+  width: 36px;
+  height: 36px;
+
+  margin-right: 5px;
+  padding: 0;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  flex-shrink: 0;
+
+  border: 0;
+  border-radius: 6px;
+
+  background: transparent;
+
+  color: #777;
+
+  font-family: inherit;
+  font-size: 24px;
+  line-height: 1;
+
+  cursor: pointer;
+}
+
+.boton-desplegar:hover {
+  background-color: #e5e7eb;
+  color: var(--verde-principal);
+}
+
+
+/* ==========================================
+   CONTENIDO DESPLEGABLE
+========================================== */
+
+.submenu {
+  display: none;
+}
+
+.submenu.submenu-abierto {
+  display: block;
+}
+
+
+/* ==========================================
+   APARTADOS DE UNA UT
+========================================== */
+
+.menu-apartado {
+  margin-left: 14px;
+}
+
+.menu-apartado .menu-titulo {
+  padding-top: 9px;
+  padding-bottom: 9px;
+
+  font-size: 15px;
+  font-weight: 600;
+}
+
+
+/* Apartados que NO tienen subapartados */
+
+.enlace-apartado-simple {
+  display: block;
+
+  margin-left: 14px;
+  padding: 10px 14px;
+
+  color: #626873;
+
+  font-size: 15px;
+  font-weight: 600;
+  line-height: 1.4;
+
+  text-decoration: none;
+
+  border-radius: 6px;
+
+  transition:
+    background-color 0.2s ease,
+    color 0.2s ease;
+}
+
+.enlace-apartado-simple:hover {
+  background-color: #f3f4f6;
+  color: var(--verde-principal);
+}
+
+
+/* ==========================================
+   SUBAPARTADOS DE 1.1
+========================================== */
+
+.submenu-apartados {
+  margin: 2px 0 5px 28px;
+
+  border-left: 2px solid #e0e3e7;
+}
+
+.submenu-apartados a {
+  display: block;
+
+  padding: 7px 10px;
+
+  color: #777d87;
+
+  font-size: 14px;
+  font-weight: 500;
+  line-height: 1.35;
+
+  text-decoration: none;
+}
+
+.submenu-apartados a:hover {
+  color: var(--verde-principal);
+}
+
+
+/* ==========================================
+   MODO OSCURO DEL MENÚ
+========================================== */
+
+body.modo-oscuro .menu-cabecera-activa {
+  background-color: #273244;
+}
+
+body.modo-oscuro .boton-desplegar:hover {
+  background-color: #334155;
+}
+
+body.modo-oscuro .enlace-apartado-simple:hover {
+  background-color: #273244;
+}
+
+body.modo-oscuro .submenu-apartados {
+  border-left-color: #3a4659;
+}
 
 
     /* ==========================================
@@ -1068,6 +1266,57 @@
       );
 
     });
+    /* ==========================================
+   MENÚ LATERAL DESPLEGABLE
+========================================== */
+
+const botonesDesplegar =
+  document.querySelectorAll(".boton-desplegar");
+
+botonesDesplegar.forEach((boton) => {
+
+  boton.addEventListener("click", () => {
+
+    const idSubmenu =
+      boton.getAttribute("data-target");
+
+    const submenu =
+      document.getElementById(idSubmenu);
+
+    if (!submenu) {
+      return;
+    }
+
+    const estaAbierto =
+      submenu.classList.contains("submenu-abierto");
+
+    if (estaAbierto) {
+
+      submenu.classList.remove("submenu-abierto");
+
+      boton.textContent = "›";
+
+      boton.setAttribute(
+        "aria-expanded",
+        "false"
+      );
+
+    } else {
+
+      submenu.classList.add("submenu-abierto");
+
+      boton.textContent = "⌄";
+
+      boton.setAttribute(
+        "aria-expanded",
+        "true"
+      );
+
+    }
+
+  });
+
+});
 
   </script>
 
