@@ -38,4 +38,15 @@ const modulos = [
     claseColor: "fondo-diw",
     activo: true
   },
+
+    {
+    siglas: "IA",
+    nombre: "Inteligencia artificial y computación en la nube",
+    tituloTarjeta: "Inteligencia<br>artificial y<br>computación en<br>la nube",
+    codigo: "AOP1091",
+    curso: "2º DAW",
+    carpeta: "ia",
+    claseColor: "fondo-ia",
+    activo: true
+  },
 ];
