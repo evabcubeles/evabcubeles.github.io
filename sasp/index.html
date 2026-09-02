@@ -1,0 +1,543 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+  <meta charset="UTF-8">
+
+  <meta
+    name="viewport"
+    content="width=device-width, initial-scale=1.0"
+  >
+
+  <meta
+    name="description"
+    content="Apuntes del módulo Sostenibilidad aplicada al sistema productivo."
+  >
+
+  <title>Sostenibilidad aplicada al sistema productivo</title>
+
+  <link rel="icon" type="image/png" href="../img/favicon.png?v=5">
+
+  <link rel="stylesheet" href="../css/estilos.css">
+
+  <style>
+    /* ==========================================
+       DISEÑO INTERNO DEL MÓDULO SASP
+    ========================================== */
+
+    .pagina-modulo {
+      display: grid;
+      grid-template-columns: 280px 1fr 260px;
+      min-height: calc(100vh - 68px);
+    }
+
+    /* ==========================================
+       COLUMNA IZQUIERDA
+    ========================================== */
+
+    .sidebar {
+      border-right: 1px solid var(--borde);
+      background-color: var(--fondo-pagina);
+
+      padding: 12px 10px 30px;
+
+      position: sticky;
+      top: 68px;
+
+      height: calc(100vh - 68px);
+
+      overflow-y: auto;
+    }
+
+    .sidebar-titulo {
+      margin-bottom: 12px;
+      padding: 10px 14px;
+
+      background-color: #f1f1f1;
+      border-radius: 5px;
+
+      color: #24844d;
+
+      font-size: 18px;
+      font-weight: 700;
+      line-height: 1.3;
+    }
+
+    body.modo-oscuro .sidebar-titulo {
+      background-color: #273244;
+      color: #5ed28a;
+    }
+
+    .lista-ut {
+      list-style: none;
+      margin: 0;
+      padding: 0;
+    }
+
+    .lista-ut li {
+      border-bottom: 1px solid transparent;
+    }
+
+    .enlace-ut {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+
+      padding: 12px 12px;
+
+      color: #626873;
+
+      text-decoration: none;
+
+      font-size: 16px;
+      font-weight: 650;
+      line-height: 1.35;
+
+      border-radius: 6px;
+
+      transition:
+        background-color 0.2s ease,
+        color 0.2s ease;
+    }
+
+    .enlace-ut:hover {
+      background-color: #f3f4f6;
+      color: var(--verde-principal);
+    }
+
+    body.modo-oscuro .enlace-ut:hover {
+      background-color: #273244;
+    }
+
+    .flecha-ut {
+      flex-shrink: 0;
+
+      color: #8b8b8b;
+
+      font-size: 24px;
+      font-weight: 400;
+    }
+
+    /* ==========================================
+       ZONA CENTRAL
+    ========================================== */
+
+    .contenido-modulo {
+      padding: 28px 34px 70px;
+
+      max-width: 1150px;
+      width: 100%;
+    }
+
+    .migas {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+
+      margin-bottom: 30px;
+
+      font-size: 14px;
+    }
+
+    .miga-inicio {
+      text-decoration: none;
+      font-size: 18px;
+    }
+
+    .miga-separador {
+      color: #999;
+      font-size: 22px;
+    }
+
+    .miga-actual {
+      padding: 8px 14px;
+
+      background-color: #f3f3f3;
+      border-radius: 24px;
+
+      color: var(--verde-principal);
+    }
+
+    body.modo-oscuro .miga-actual {
+      background-color: #273244;
+    }
+
+    .contenido-modulo h1 {
+      margin: 0 0 28px;
+
+      font-size: clamp(36px, 5vw, 58px);
+      line-height: 1.1;
+    }
+
+    .introduccion-modulo {
+      max-width: 980px;
+
+      font-size: 19px;
+      line-height: 1.75;
+    }
+
+    .introduccion-modulo p {
+      margin: 0 0 20px;
+    }
+
+    /* ==========================================
+       COLUMNA DERECHA
+    ========================================== */
+
+    .indice-derecho {
+      padding: 28px 22px;
+
+      border-left: 1px solid var(--borde);
+
+      position: sticky;
+      top: 68px;
+
+      height: calc(100vh - 68px);
+    }
+
+    .indice-derecho h2 {
+      margin: 8px 0 20px;
+
+      font-size: 17px;
+      color: #555b65;
+    }
+
+    body.modo-oscuro .indice-derecho h2 {
+      color: #d1d5db;
+    }
+
+    .indice-derecho ul {
+      margin: 0;
+      padding-left: 18px;
+    }
+
+    .indice-derecho li {
+      margin-bottom: 10px;
+    }
+
+    .indice-derecho a {
+      color: var(--texto-secundario);
+      text-decoration: none;
+      font-size: 14px;
+    }
+
+    .indice-derecho a:hover {
+      color: var(--verde-principal);
+    }
+
+    /* ==========================================
+       RESPONSIVE
+    ========================================== */
+
+    @media (max-width: 1100px) {
+
+      .pagina-modulo {
+        grid-template-columns: 250px 1fr;
+      }
+
+      .indice-derecho {
+        display: none;
+      }
+    }
+
+    @media (max-width: 760px) {
+
+      .pagina-modulo {
+        display: block;
+      }
+
+      .sidebar {
+        position: static;
+
+        width: 100%;
+        height: auto;
+
+        border-right: 0;
+        border-bottom: 1px solid var(--borde);
+      }
+
+      .contenido-modulo {
+        padding: 28px 20px 60px;
+      }
+
+      .contenido-modulo h1 {
+        font-size: 36px;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+  <!-- ==========================================
+       BARRA SUPERIOR
+  ========================================== -->
+
+  <header class="navbar">
+
+    <a class="inicio" href="../index.html">
+
+      <img
+        src="../img/profesora-castana.png?v=2"
+        alt=""
+        class="icono-profesora"
+      >
+
+      <span>Inicio</span>
+
+    </a>
+
+    <nav
+      id="menuModulos"
+      class="menu-modulos"
+      aria-label="Módulos formativos"
+    ></nav>
+
+    <button
+      id="botonTema"
+      class="boton-tema"
+      type="button"
+      aria-label="Cambiar entre modo claro y oscuro"
+      title="Cambiar tema"
+    >
+      ☀️
+    </button>
+
+  </header>
+
+  <!-- ==========================================
+       ESTRUCTURA PRINCIPAL
+  ========================================== -->
+
+  <div class="pagina-modulo">
+
+    <!-- COLUMNA IZQUIERDA -->
+
+    <aside class="sidebar">
+
+      <div class="sidebar-titulo">
+        Sostenibilidad aplicada al sistema productivo
+      </div>
+
+      <ul class="lista-ut">
+
+        <li>
+          <a class="enlace-ut" href="ut1/index.html">
+            <span>
+              UT1 - Sostenibilidad, desarrollo sostenible y criterios ASG
+            </span>
+
+            <span class="flecha-ut">›</span>
+          </a>
+        </li>
+
+        <li>
+          <a class="enlace-ut" href="ut2/index.html">
+            <span>
+              UT2 - Retos ambientales y sociales
+            </span>
+
+            <span class="flecha-ut">›</span>
+          </a>
+        </li>
+
+        <li>
+          <a class="enlace-ut" href="ut3/index.html">
+            <span>
+              UT3 - Sostenibilidad en el desempeño profesional y personal
+            </span>
+
+            <span class="flecha-ut">›</span>
+          </a>
+        </li>
+
+        <li>
+          <a class="enlace-ut" href="ut4/index.html">
+            <span>
+              UT4 - Economía circular, ciclo de vida y ecodiseño
+            </span>
+
+            <span class="flecha-ut">›</span>
+          </a>
+        </li>
+
+        <li>
+          <a class="enlace-ut" href="ut5/index.html">
+            <span>
+              UT5 - Sostenibilidad aplicada al sector informático
+            </span>
+
+            <span class="flecha-ut">›</span>
+          </a>
+        </li>
+
+        <li>
+          <a class="enlace-ut" href="ut6/index.html">
+            <span>
+              UT6 - Plan de sostenibilidad de una empresa
+            </span>
+
+            <span class="flecha-ut">›</span>
+          </a>
+        </li>
+
+      </ul>
+
+    </aside>
+
+    <!-- ZONA CENTRAL -->
+
+    <main class="contenido-modulo">
+
+      <div class="migas">
+
+        <a
+          class="miga-inicio"
+          href="../index.html"
+          aria-label="Volver a la página principal"
+        >
+          🏠
+        </a>
+
+        <span class="miga-separador">›</span>
+
+        <span class="miga-actual">
+          Sostenibilidad aplicada al sistema productivo
+        </span>
+
+      </div>
+
+      <h1>Sostenibilidad aplicada al sistema productivo</h1>
+
+      <div class="introduccion-modulo">
+
+        <p>
+          En este módulo se estudian los principales retos ambientales,
+          sociales y económicos relacionados con el desarrollo sostenible
+          y su aplicación en el ámbito profesional.
+        </p>
+
+        <p>
+          A lo largo del curso se analizarán los criterios ambientales,
+          sociales y de gobernanza (ASG), los Objetivos de Desarrollo
+          Sostenible, los principales retos ambientales y sociales y los
+          principios de la economía circular.
+        </p>
+
+        <p>
+          Los contenidos se aplicarán especialmente al ámbito de la
+          informática y al entorno profesional del alumnado, prestando
+          atención al impacto ambiental de la tecnología, al consumo de
+          recursos, a los residuos electrónicos y a las prácticas
+          sostenibles en las organizaciones.
+        </p>
+
+      </div>
+
+    </main>
+
+    <!-- COLUMNA DERECHA -->
+
+    <aside class="indice-derecho">
+
+      <h2>Contenidos del módulo</h2>
+
+      <ul>
+        <li>
+          <a href="ut1/index.html">UT1 · Sostenibilidad y ASG</a>
+        </li>
+
+        <li>
+          <a href="ut2/index.html">UT2 · Retos ambientales y sociales</a>
+        </li>
+
+        <li>
+          <a href="ut3/index.html">UT3 · Desempeño profesional y personal</a>
+        </li>
+
+        <li>
+          <a href="ut4/index.html">UT4 · Economía circular</a>
+        </li>
+
+        <li>
+          <a href="ut5/index.html">UT5 · Sector informático</a>
+        </li>
+
+        <li>
+          <a href="ut6/index.html">UT6 · Plan de sostenibilidad</a>
+        </li>
+      </ul>
+
+    </aside>
+
+  </div>
+
+  <!-- ==========================================
+       JAVASCRIPT COMÚN
+  ========================================== -->
+
+  <script src="../js/modulos.js"></script>
+
+  <script>
+    /* ==========================================
+       MENÚ SUPERIOR DE MÓDULOS
+    ========================================== */
+
+    const menuModulos = document.getElementById("menuModulos");
+    const botonTema = document.getElementById("botonTema");
+
+    const modulosActivos =
+      modulos.filter(modulo => modulo.activo === true);
+
+    modulosActivos.forEach(modulo => {
+
+      const enlace = document.createElement("a");
+
+      enlace.href = `../${modulo.carpeta}/index.html`;
+      enlace.textContent = modulo.siglas;
+      enlace.title = modulo.nombre;
+
+      if (modulo.siglas === "SASP") {
+        enlace.style.color = "var(--verde-principal)";
+      }
+
+      menuModulos.appendChild(enlace);
+
+    });
+
+    /* ==========================================
+       MODO CLARO / OSCURO
+    ========================================== */
+
+    const temaGuardado = localStorage.getItem("tema");
+
+    if (temaGuardado === "oscuro") {
+
+      document.body.classList.add("modo-oscuro");
+
+      botonTema.textContent = "🌙";
+
+    }
+
+    botonTema.addEventListener("click", () => {
+
+      document.body.classList.toggle("modo-oscuro");
+
+      const estaOscuro =
+        document.body.classList.contains("modo-oscuro");
+
+      botonTema.textContent =
+        estaOscuro ? "🌙" : "☀️";
+
+      localStorage.setItem(
+        "tema",
+        estaOscuro ? "oscuro" : "claro"
+      );
+
+    });
+  </script>
+
+</body>
+
+</html>
