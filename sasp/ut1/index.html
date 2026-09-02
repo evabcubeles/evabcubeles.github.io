@@ -1,1 +1,725 @@
+<!DOCTYPE html>
+<html lang="es">
 
+<head>
+  <meta charset="UTF-8">
+
+  <meta
+    name="viewport"
+    content="width=device-width, initial-scale=1.0"
+  >
+
+  <meta
+    name="description"
+    content="UT1 - Sostenibilidad, desarrollo sostenible y criterios ASG."
+  >
+
+  <title>UT1 - Sostenibilidad, desarrollo sostenible y criterios ASG</title>
+
+  <link rel="icon" type="image/png" href="../../img/favicon.png?v=5">
+
+  <link rel="stylesheet" href="../../css/estilos.css">
+
+  <style>
+
+    /* ==========================================
+       ESTRUCTURA DE LA UT
+    ========================================== */
+
+    .pagina-ut {
+      display: grid;
+      grid-template-columns: 280px 1fr 260px;
+      min-height: calc(100vh - 68px);
+    }
+
+
+    /* ==========================================
+       COLUMNA IZQUIERDA
+    ========================================== */
+
+    .sidebar {
+      border-right: 1px solid var(--borde);
+      background-color: var(--fondo-pagina);
+
+      padding: 12px 10px 30px;
+
+      position: sticky;
+      top: 68px;
+
+      height: calc(100vh - 68px);
+      overflow-y: auto;
+    }
+
+    .sidebar-modulo {
+      margin-bottom: 8px;
+      padding: 8px 14px;
+
+      color: #626873;
+
+      font-size: 17px;
+      font-weight: 700;
+      line-height: 1.3;
+    }
+
+    .sidebar-ut {
+      margin-bottom: 12px;
+      padding: 10px 14px;
+
+      background-color: #f1f1f1;
+      border-radius: 5px;
+
+      color: var(--verde-principal);
+
+      font-size: 17px;
+      font-weight: 700;
+      line-height: 1.35;
+    }
+
+    body.modo-oscuro .sidebar-ut {
+      background-color: #273244;
+      color: #5ed28a;
+    }
+
+    .lista-apartados {
+      list-style: none;
+      margin: 0;
+      padding: 0;
+    }
+
+    .enlace-apartado {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+
+      padding: 11px 14px;
+
+      color: #626873;
+
+      text-decoration: none;
+
+      font-size: 15px;
+      font-weight: 600;
+      line-height: 1.4;
+
+      border-radius: 6px;
+
+      transition:
+        background-color 0.2s ease,
+        color 0.2s ease;
+    }
+
+    .enlace-apartado:hover {
+      background-color: #f3f4f6;
+      color: var(--verde-principal);
+    }
+
+    body.modo-oscuro .enlace-apartado:hover {
+      background-color: #273244;
+    }
+
+    .flecha-apartado {
+      flex-shrink: 0;
+
+      color: #8b8b8b;
+
+      font-size: 22px;
+    }
+
+
+    /* ==========================================
+       ZONA CENTRAL
+    ========================================== */
+
+    .contenido-ut {
+      padding: 28px 34px 70px;
+
+      max-width: 1150px;
+      width: 100%;
+    }
+
+    .migas {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+
+      margin-bottom: 30px;
+
+      font-size: 14px;
+    }
+
+    .miga-inicio {
+      text-decoration: none;
+      font-size: 18px;
+    }
+
+    .miga-separador {
+      color: #999;
+      font-size: 22px;
+    }
+
+    .miga-modulo {
+      color: var(--texto-secundario);
+      text-decoration: none;
+    }
+
+    .miga-modulo:hover {
+      color: var(--verde-principal);
+    }
+
+    .miga-actual {
+      padding: 8px 14px;
+
+      background-color: #f3f3f3;
+      border-radius: 24px;
+
+      color: var(--verde-principal);
+    }
+
+    body.modo-oscuro .miga-actual {
+      background-color: #273244;
+    }
+
+    .contenido-ut h1 {
+      margin: 0 0 30px;
+
+      font-size: clamp(38px, 5vw, 58px);
+      line-height: 1.12;
+    }
+
+    .introduccion-ut {
+      max-width: 980px;
+
+      font-size: 19px;
+      line-height: 1.75;
+    }
+
+    .introduccion-ut p {
+      margin: 0 0 20px;
+    }
+
+
+    /* ==========================================
+       COLUMNA DERECHA
+    ========================================== */
+
+    .indice-derecho {
+      padding: 28px 22px;
+
+      border-left: 1px solid var(--borde);
+
+      position: sticky;
+      top: 68px;
+
+      height: calc(100vh - 68px);
+    }
+
+    .indice-derecho h2 {
+      margin: 8px 0 20px;
+
+      font-size: 17px;
+      color: #555b65;
+    }
+
+    body.modo-oscuro .indice-derecho h2 {
+      color: #d1d5db;
+    }
+
+    .indice-derecho ul {
+      margin: 0;
+      padding-left: 18px;
+    }
+
+    .indice-derecho li {
+      margin-bottom: 12px;
+    }
+
+    .indice-derecho a {
+      color: var(--texto-secundario);
+
+      text-decoration: none;
+
+      font-size: 14px;
+      line-height: 1.4;
+    }
+
+    .indice-derecho a:hover {
+      color: var(--verde-principal);
+    }
+
+
+    /* ==========================================
+       NAVEGACIÓN ANTERIOR / SIGUIENTE
+    ========================================== */
+
+    .navegacion-paginas {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 20px;
+
+      margin-top: 50px;
+    }
+
+    .nav-pagina {
+      min-height: 100px;
+      padding: 18px 20px;
+
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+
+      border: 1px solid var(--borde);
+      border-radius: 8px;
+
+      text-decoration: none;
+
+      background-color: var(--fondo-tarjeta);
+    }
+
+    .nav-anterior {
+      align-items: flex-start;
+      text-align: left;
+    }
+
+    .nav-siguiente {
+      align-items: flex-end;
+      text-align: right;
+    }
+
+    .nav-etiqueta {
+      margin-bottom: 5px;
+
+      color: var(--texto-secundario);
+
+      font-size: 14px;
+    }
+
+    .nav-pagina strong {
+      color: var(--verde-principal);
+
+      font-size: 16px;
+      line-height: 1.4;
+    }
+
+    .nav-pagina:hover {
+      border-color: var(--verde-principal);
+    }
+
+
+    /* ==========================================
+       RESPONSIVE
+    ========================================== */
+
+    @media (max-width: 1100px) {
+
+      .pagina-ut {
+        grid-template-columns: 250px 1fr;
+      }
+
+      .indice-derecho {
+        display: none;
+      }
+
+    }
+
+    @media (max-width: 760px) {
+
+      .pagina-ut {
+        display: block;
+      }
+
+      .sidebar {
+        position: static;
+
+        width: 100%;
+        height: auto;
+
+        border-right: 0;
+        border-bottom: 1px solid var(--borde);
+      }
+
+      .contenido-ut {
+        padding: 28px 20px 60px;
+      }
+
+      .contenido-ut h1 {
+        font-size: 36px;
+      }
+
+      .navegacion-paginas {
+        grid-template-columns: 1fr;
+      }
+
+      .nav-siguiente {
+        align-items: flex-start;
+        text-align: left;
+      }
+
+    }
+
+  </style>
+
+</head>
+
+
+<body>
+
+  <!-- ==========================================
+       BARRA SUPERIOR
+  ========================================== -->
+
+  <header class="navbar">
+
+    <a class="inicio" href="../../index.html">
+
+      <img
+        src="../../img/profesora-castana.png?v=2"
+        alt=""
+        class="icono-profesora"
+      >
+
+      <span>Inicio</span>
+
+    </a>
+
+    <nav
+      id="menuModulos"
+      class="menu-modulos"
+      aria-label="Módulos formativos"
+    ></nav>
+
+    <button
+      id="botonTema"
+      class="boton-tema"
+      type="button"
+      aria-label="Cambiar entre modo claro y oscuro"
+      title="Cambiar tema"
+    >
+      ☀️
+    </button>
+
+  </header>
+
+
+  <!-- ==========================================
+       ESTRUCTURA PRINCIPAL
+  ========================================== -->
+
+  <div class="pagina-ut">
+
+
+    <!-- ==========================================
+         COLUMNA IZQUIERDA
+    ========================================== -->
+
+    <aside class="sidebar">
+
+      <div class="sidebar-modulo">
+        Sostenibilidad aplicada al sistema productivo
+      </div>
+
+      <div class="sidebar-ut">
+        UT1 - Sostenibilidad, desarrollo sostenible y criterios ASG
+      </div>
+
+      <ul class="lista-apartados">
+
+        <li>
+          <a class="enlace-apartado" href="#sostenibilidad">
+            <span>
+              1.1 Sostenibilidad y desarrollo sostenible
+            </span>
+
+            <span class="flecha-apartado">›</span>
+          </a>
+        </li>
+
+        <li>
+          <a class="enlace-apartado" href="#evolucion">
+            <span>
+              1.2 Evolución del desarrollo sostenible
+            </span>
+
+            <span class="flecha-apartado">›</span>
+          </a>
+        </li>
+
+        <li>
+          <a class="enlace-apartado" href="#onu">
+            <span>
+              1.3 La ONU y el marco internacional del desarrollo sostenible
+            </span>
+
+            <span class="flecha-apartado">›</span>
+          </a>
+        </li>
+
+      </ul>
+
+    </aside>
+
+
+    <!-- ==========================================
+         ZONA CENTRAL
+    ========================================== -->
+
+    <main class="contenido-ut">
+
+      <div class="migas">
+
+        <a
+          class="miga-inicio"
+          href="../../index.html"
+          aria-label="Volver a la página principal"
+        >
+          🏠
+        </a>
+
+        <span class="miga-separador">›</span>
+
+        <a
+          class="miga-modulo"
+          href="../index.html"
+        >
+          SASP
+        </a>
+
+        <span class="miga-separador">›</span>
+
+        <span class="miga-actual">
+          UT1
+        </span>
+
+      </div>
+
+
+      <h1>
+        UT1 - Sostenibilidad, desarrollo sostenible y criterios ASG
+      </h1>
+
+
+      <div class="introduccion-ut">
+
+        <p>
+          En esta unidad comenzaremos estudiando qué significan los
+          conceptos de sostenibilidad y desarrollo sostenible y cómo
+          han evolucionado hasta convertirse en elementos fundamentales
+          para la sociedad y las organizaciones.
+        </p>
+
+        <p>
+          También analizaremos el papel de los organismos internacionales
+          y los principales marcos relacionados con el desarrollo
+          sostenible, para posteriormente estudiar los criterios ASG,
+          la Agenda 2030, los Objetivos de Desarrollo Sostenible y su
+          aplicación en las empresas.
+        </p>
+
+      </div>
+
+
+      <!--
+        Más adelante iremos incorporando aquí
+        los contenidos de los apartados de la UT1.
+      -->
+
+
+      <!-- ==========================================
+           NAVEGACIÓN ANTERIOR / SIGUIENTE
+      ========================================== -->
+
+      <nav class="navegacion-paginas">
+
+        <a
+          class="nav-pagina nav-anterior"
+          href="../index.html"
+        >
+
+          <span class="nav-etiqueta">
+            Anterior
+          </span>
+
+          <strong>
+            ‹ Sostenibilidad aplicada al sistema productivo
+          </strong>
+
+        </a>
+
+        <a
+          class="nav-pagina nav-siguiente"
+          href="#sostenibilidad"
+        >
+
+          <span class="nav-etiqueta">
+            Siguiente
+          </span>
+
+          <strong>
+            1.1 Sostenibilidad y desarrollo sostenible ›
+          </strong>
+
+        </a>
+
+      </nav>
+
+    </main>
+
+
+    <!-- ==========================================
+         COLUMNA DERECHA
+    ========================================== -->
+
+    <aside class="indice-derecho">
+
+      <h2>
+        Contenidos de la UT1
+      </h2>
+
+      <ul>
+
+        <li>
+          <a href="#sostenibilidad">
+            1.1 Sostenibilidad y desarrollo sostenible
+          </a>
+        </li>
+
+        <li>
+          <a href="#evolucion">
+            1.2 Evolución del desarrollo sostenible
+          </a>
+        </li>
+
+        <li>
+          <a href="#onu">
+            1.3 La ONU y el marco internacional del desarrollo sostenible
+          </a>
+        </li>
+
+      </ul>
+
+    </aside>
+
+  </div>
+
+
+  <!-- ==========================================
+       FOOTER
+  ========================================== -->
+
+  <footer class="footer">
+
+    <p>
+
+      Material elaborado por
+
+      <strong>Eva Ballestero Cubeles</strong>
+
+      · Licencia
+
+      <span class="licencia">
+        CC BY-NC-SA 4.0
+      </span>
+
+      <a
+        class="enlace-licencia"
+        href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.es"
+        target="_blank"
+        rel="license noopener noreferrer"
+        aria-label="Licencia Creative Commons BY-NC-SA 4.0"
+      >
+
+        <img
+          class="icono-licencia"
+          src="../../img/licencias/cc-by-nc-sa.png"
+          alt="Licencia Creative Commons BY-NC-SA 4.0"
+        >
+
+      </a>
+
+    </p>
+
+  </footer>
+
+
+  <!-- ==========================================
+       JAVASCRIPT
+  ========================================== -->
+
+  <script src="../../js/modulos.js"></script>
+
+  <script>
+
+    /* ==========================================
+       MENÚ SUPERIOR DE MÓDULOS
+    ========================================== */
+
+    const menuModulos =
+      document.getElementById("menuModulos");
+
+    const botonTema =
+      document.getElementById("botonTema");
+
+    const modulosActivos =
+      modulos.filter(modulo => modulo.activo === true);
+
+    modulosActivos.forEach(modulo => {
+
+      const enlace =
+        document.createElement("a");
+
+      enlace.href =
+        `../../${modulo.carpeta}/index.html`;
+
+      enlace.textContent =
+        modulo.siglas;
+
+      enlace.title =
+        modulo.nombre;
+
+      if (modulo.siglas === "SASP") {
+        enlace.style.color =
+          "var(--verde-principal)";
+      }
+
+      menuModulos.appendChild(enlace);
+
+    });
+
+
+    /* ==========================================
+       MODO CLARO / OSCURO
+    ========================================== */
+
+    const temaGuardado =
+      localStorage.getItem("tema");
+
+    if (temaGuardado === "oscuro") {
+
+      document.body.classList.add("modo-oscuro");
+
+      botonTema.textContent = "🌙";
+
+    }
+
+    botonTema.addEventListener("click", () => {
+
+      document.body.classList.toggle("modo-oscuro");
+
+      const estaOscuro =
+        document.body.classList.contains("modo-oscuro");
+
+      botonTema.textContent =
+        estaOscuro ? "🌙" : "☀️";
+
+      localStorage.setItem(
+        "tema",
+        estaOscuro ? "oscuro" : "claro"
+      );
+
+    });
+
+  </script>
+
+</body>
+
+</html>
