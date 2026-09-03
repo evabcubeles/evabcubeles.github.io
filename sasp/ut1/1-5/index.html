@@ -1222,10 +1222,10 @@ body.modo-oscuro .solucion-desplegable summary {
       class="boton-desplegar"
       type="button"
       data-target="submenu-1-5"
-      aria-expanded="true"
+      aria-expanded="false"
       aria-label="Mostrar u ocultar los subapartados del 1.5"
     >
-      ⌄
+      ›
     </button>
 
   </div>
@@ -1233,7 +1233,7 @@ body.modo-oscuro .solucion-desplegable summary {
 
   <div
     id="submenu-1-5"
-    class="submenu submenu-apartados submenu-abierto"
+    class="submenu submenu-apartados"
   >
 
     <a href="#riesgos-asg">
@@ -2378,7 +2378,7 @@ botonesDesplegar.forEach((boton) => {
   }
 
 
-  /* La UT1 permanece abierta */
+  /* UT1 permanece abierta */
 
   if (idSubmenu === "submenu-ut1") {
 
@@ -2388,19 +2388,23 @@ botonesDesplegar.forEach((boton) => {
   }
 
 
-  /* Desplegable 1.1 */
+  /* 1.1 y 1.5 */
 
-  if (idSubmenu === "submenu-1-1") {
+  if (
+    idSubmenu === "submenu-1-1" ||
+    idSubmenu === "submenu-1-5"
+  ) {
+
+    const clave =
+      "sasp-" + idSubmenu;
 
     const estadoManual =
-      localStorage.getItem(
-        "sasp-submenu-1-1"
-      );
+      localStorage.getItem(clave);
 
 
     /*
-      Si el usuario había abierto manualmente 1.1,
-      lo dejamos abierto.
+      Si el usuario lo abrió manualmente,
+      permanece abierto.
     */
 
     if (estadoManual === "abierto") {
@@ -2412,18 +2416,27 @@ botonesDesplegar.forEach((boton) => {
 
 
     /*
-      Si estamos dentro de la página 1.1,
+      Si estamos en la propia página del apartado,
       se abre automáticamente.
-      Esta apertura no se guarda.
+      Esta apertura NO se guarda.
     */
 
-    const estamosEn11 =
-      window.location.pathname.includes(
-        "/ut1/1-1/"
+    const ruta =
+      window.location.pathname;
+
+    const esPaginaPropia =
+      (
+        idSubmenu === "submenu-1-1" &&
+        ruta.includes("/ut1/1-1/")
+      )
+      ||
+      (
+        idSubmenu === "submenu-1-5" &&
+        ruta.includes("/ut1/1-5/")
       );
 
 
-    if (estamosEn11) {
+    if (esPaginaPropia) {
 
       abrirSubmenu(boton, submenu);
 
@@ -2481,24 +2494,29 @@ botonesDesplegar.forEach((boton) => {
     }
 
 
-    /* 1.1 */
+    /* 1.1 y 1.5 */
 
-    if (idSubmenu === "submenu-1-1") {
+    if (
+      idSubmenu === "submenu-1-1" ||
+      idSubmenu === "submenu-1-5"
+    ) {
+
+      const clave =
+        "sasp-" + idSubmenu;
+
 
       if (estaAbierto) {
 
         cerrarSubmenu(boton, submenu);
 
-        localStorage.removeItem(
-          "sasp-submenu-1-1"
-        );
+        localStorage.removeItem(clave);
 
       } else {
 
         abrirSubmenu(boton, submenu);
 
         localStorage.setItem(
-          "sasp-submenu-1-1",
+          clave,
           "abierto"
         );
 
