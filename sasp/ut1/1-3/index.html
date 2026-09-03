@@ -1,1 +1,1925 @@
+<!DOCTYPE html>
+<html lang="es">
 
+<head>
+  <meta charset="UTF-8">
+
+  <meta
+    name="viewport"
+    content="width=device-width, initial-scale=1.0"
+  >
+
+  <meta
+    name="description"
+    content="UT1 - Sostenibilidad, desarrollo sostenible y criterios ASG."
+  >
+
+  <title>UT1 - Sostenibilidad, desarrollo sostenible y criterios ASG</title>
+
+  <link rel="icon" type="image/png" href="../../../img/favicon.png?v=5">
+  <link rel="stylesheet" href="../../../css/estilos.css">
+
+  <style>
+
+    /* ==========================================
+       ESTRUCTURA DE LA UT
+    ========================================== */
+
+    .pagina-ut {
+      display: grid;
+      grid-template-columns: 280px 1fr 260px;
+      min-height: calc(100vh - 68px);
+    }
+
+
+    /* ==========================================
+       COLUMNA IZQUIERDA
+    ========================================== */
+
+    .sidebar {
+      border-right: 1px solid var(--borde);
+      background-color: var(--fondo-pagina);
+
+      padding: 12px 10px 30px;
+
+      position: sticky;
+      top: 68px;
+
+      height: calc(100vh - 68px);
+      overflow-y: auto;
+    }
+
+    .sidebar-modulo {
+      display: block;
+      margin-bottom: 8px;
+      padding: 8px 14px;
+      color: #626873;
+      font-size: 17px;
+      font-weight: 700;
+      line-height: 1.3;
+      text-decoration: none;
+      border-radius: 6px;
+      transition:
+        color 0.2s ease,
+        background-color 0.2s ease;
+    }
+
+    .sidebar-modulo:hover {
+      color: var(--verde-principal);
+      background-color: #f3f4f6;
+    }
+
+    body.modo-oscuro .sidebar-modulo:hover {
+      background-color: #273244;
+    }
+
+    .sidebar-ut {
+      margin-bottom: 12px;
+      padding: 10px 14px;
+
+      background-color: #f1f1f1;
+      border-radius: 5px;
+
+      color: var(--verde-principal);
+
+      font-size: 17px;
+      font-weight: 700;
+      line-height: 1.35;
+    }
+    .sidebar-ut-activa {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+    }
+
+    .flecha-ut-abierta {
+      flex-shrink: 0;
+      font-size: 22px;
+      color: #777;
+    }
+
+    .sidebar-ut-cerrada {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      padding: 13px 14px;
+      color: #626873;
+      text-decoration: none;
+      font-size: 16px;
+      font-weight: 650;
+      line-height: 1.35;
+      border-radius: 6px;
+      transition:
+      background-color 0.2s ease,
+      color 0.2s ease;
+    }
+
+    .sidebar-ut-cerrada:hover {
+      background-color: #f3f4f6;
+      color: var(--verde-principal);
+    }
+
+    body.modo-oscuro .sidebar-ut-cerrada:hover {
+      background-color: #273244;
+    }
+
+    body.modo-oscuro .sidebar-ut {
+      background-color: #273244;
+      color: #5ed28a;
+    }
+
+    .lista-apartados {
+      list-style: none;
+      margin: 0;
+      padding: 0;
+    }
+
+    .enlace-apartado {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+
+      padding: 11px 14px;
+
+      color: #626873;
+
+      text-decoration: none;
+
+      font-size: 15px;
+      font-weight: 600;
+      line-height: 1.4;
+
+      border-radius: 6px;
+
+      transition:
+        background-color 0.2s ease,
+        color 0.2s ease;
+    }
+
+    .enlace-apartado:hover {
+      background-color: #f3f4f6;
+      color: var(--verde-principal);
+    }
+
+    body.modo-oscuro .enlace-apartado:hover {
+      background-color: #273244;
+    }
+
+    .flecha-apartado {
+      flex-shrink: 0;
+
+      color: #8b8b8b;
+
+      font-size: 22px;
+    }
+    /* ==========================================
+   MENÚ LATERAL DESPLEGABLE
+========================================== */
+
+.menu-desplegable {
+  width: 100%;
+}
+
+
+/* Cabecera de una UT o de un apartado */
+
+.menu-cabecera {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+
+  width: 100%;
+
+  border-radius: 6px;
+}
+
+
+/* UT en la que estamos actualmente */
+
+.menu-cabecera-activa {
+  background-color: #f1f1f1;
+}
+
+.menu-cabecera-activa > .menu-titulo {
+  color: var(--verde-principal);
+}
+
+
+/* Texto/enlace de la UT o apartado */
+
+.menu-titulo {
+  flex: 1;
+
+  display: block;
+
+  padding: 11px 8px 11px 14px;
+
+  color: #626873;
+
+  font-size: 16px;
+  font-weight: 650;
+  line-height: 1.4;
+
+  text-decoration: none;
+}
+
+.menu-titulo:hover {
+  color: var(--verde-principal);
+}
+
+
+/* Botón de la flecha */
+
+.boton-desplegar {
+  width: 36px;
+  height: 36px;
+
+  margin-right: 5px;
+  padding: 0;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  flex-shrink: 0;
+
+  border: 0;
+  border-radius: 6px;
+
+  background: transparent;
+
+  color: #777;
+
+  font-family: inherit;
+  font-size: 24px;
+  line-height: 1;
+
+  cursor: pointer;
+}
+
+.boton-desplegar:hover {
+  background-color: #e5e7eb;
+  color: var(--verde-principal);
+}
+
+
+/* ==========================================
+   CONTENIDO DESPLEGABLE
+========================================== */
+
+.submenu {
+  display: none;
+}
+
+.submenu.submenu-abierto {
+  display: block;
+}
+
+
+/* ==========================================
+   APARTADOS DE UNA UT
+========================================== */
+
+.menu-apartado {
+  margin-left: 14px;
+}
+
+.menu-apartado .menu-titulo {
+  padding-top: 9px;
+  padding-bottom: 9px;
+
+  font-size: 15px;
+  font-weight: 600;
+}
+
+
+/* Apartados que NO tienen subapartados */
+
+.enlace-apartado-simple {
+  display: block;
+
+  margin-left: 14px;
+  padding: 10px 14px;
+
+  color: #626873;
+
+  font-size: 15px;
+  font-weight: 600;
+  line-height: 1.4;
+
+  text-decoration: none;
+
+  border-radius: 6px;
+
+  transition:
+    background-color 0.2s ease,
+    color 0.2s ease;
+}
+
+.enlace-apartado-simple:hover {
+  background-color: #f3f4f6;
+  color: var(--verde-principal);
+}
+
+
+/* ==========================================
+   SUBAPARTADOS DE 1.1
+========================================== */
+
+.submenu-apartados {
+  margin: 2px 0 5px 28px;
+
+  border-left: 2px solid #e0e3e7;
+}
+
+.submenu-apartados a {
+  display: block;
+
+  padding: 7px 10px;
+
+  color: #777d87;
+
+  font-size: 14px;
+  font-weight: 500;
+  line-height: 1.35;
+
+  text-decoration: none;
+}
+
+.submenu-apartados a:hover {
+  color: var(--verde-principal);
+}
+
+
+/* ==========================================
+   MODO OSCURO DEL MENÚ
+========================================== */
+
+body.modo-oscuro .menu-cabecera-activa {
+  background-color: #273244;
+}
+
+body.modo-oscuro .boton-desplegar:hover {
+  background-color: #334155;
+}
+
+body.modo-oscuro .enlace-apartado-simple:hover {
+  background-color: #273244;
+}
+
+body.modo-oscuro .submenu-apartados {
+  border-left-color: #3a4659;
+}
+
+
+    /* ==========================================
+       ZONA CENTRAL
+    ========================================== */
+
+    .contenido-ut {
+      padding: 28px 34px 70px;
+
+      max-width: 1150px;
+      width: 100%;
+    }
+
+    .migas {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+
+      margin-bottom: 30px;
+
+      font-size: 14px;
+    }
+
+    .miga-inicio {
+      text-decoration: none;
+      font-size: 18px;
+    }
+
+    .miga-separador {
+      color: #999;
+      font-size: 22px;
+    }
+
+    .miga-modulo {
+      color: var(--texto-secundario);
+      text-decoration: none;
+    }
+
+    .miga-modulo:hover {
+      color: var(--verde-principal);
+    }
+
+    .miga-actual {
+      padding: 8px 14px;
+
+      background-color: #f3f3f3;
+      border-radius: 24px;
+
+      color: var(--verde-principal);
+    }
+
+    body.modo-oscuro .miga-actual {
+      background-color: #273244;
+    }
+
+    .contenido-ut h1 {
+      margin: 0 0 30px;
+
+      font-size: clamp(38px, 5vw, 58px);
+      line-height: 1.12;
+    }
+
+    .introduccion-ut {
+      max-width: 980px;
+
+      font-size: 19px;
+      line-height: 1.75;
+    }
+
+    .introduccion-ut p {
+      margin: 0 0 20px;
+    }
+    /* ==========================================
+     CONTENIDO DE LOS APARTADOS
+    ========================================== */
+
+    .apartado-ut {
+      margin-top: 55px;
+      scroll-margin-top: 95px;
+    }
+
+    .apartado-ut h2 {
+      margin: 0 0 24px;
+      font-size: 32px;
+      line-height: 1.2;
+    }
+
+    .apartado-ut h3 {
+      margin: 34px 0 16px;
+      font-size: 24px;
+      line-height: 1.3;
+    }
+
+    .apartado-ut p {
+      margin: 0 0 18px;
+      font-size: 18px;
+      line-height: 1.75;
+    }
+
+    .apartado-ut ul {
+      margin: 16px 0 24px;
+      padding-left: 28px;
+    }
+
+    .apartado-ut li {
+      margin-bottom: 10px;
+      font-size: 17px;
+      line-height: 1.6;
+    }
+
+
+    /* ==========================================
+     CAJAS DE LOS APUNTES
+    ========================================== */
+
+    .caja {
+      margin: 28px 0;
+      padding: 18px 20px;
+      border-left: 5px solid;
+      border-radius: 8px;
+      line-height: 1.65;
+    }
+
+    .caja p {
+      margin: 0;
+      font-size: 17px;
+    }
+
+    .caja-titulo {
+      display: block;
+      margin-bottom: 8px;
+      font-size: 17px;
+      font-weight: 700;
+    }
+
+    .caja-importante {
+      background-color: #eef8f1;
+      border-left-color: #2f9e5b;
+    }
+
+    .caja-atencion {
+      background-color: #fff7e8;
+      border-left-color: #e09b27;
+    }
+
+    .caja-ejemplo {
+      background-color: #eef5ff;
+      border-left-color: #3f7acb;
+    }
+
+    .caja-curiosidad {
+      background-color: #f7f1ff;
+      border-left-color: #8b5cc7;
+    }
+
+    body.modo-oscuro .caja-importante {
+      background-color: #20372a;
+    }
+
+    body.modo-oscuro .caja-atencion {
+      background-color: #3b3020;
+    }
+
+    body.modo-oscuro .caja-ejemplo {
+      background-color: #23344a;
+    }
+
+    body.modo-oscuro .caja-curiosidad {
+      background-color: #332944;
+    }
+    /* ==========================================
+   LÍNEA TEMPORAL
+========================================== */
+
+.linea-tiempo {
+  position: relative;
+  margin: 35px 0 45px;
+  padding-left: 105px;
+}
+
+/* Línea vertical */
+
+.linea-tiempo::before {
+  content: "";
+  position: absolute;
+
+  left: 72px;
+  top: 12px;
+  bottom: 12px;
+
+  width: 3px;
+
+  background-color: #d6dadd;
+  border-radius: 3px;
+}
+
+
+/* Cada acontecimiento */
+
+.hito-tiempo {
+  position: relative;
+
+  margin-bottom: 28px;
+  padding: 20px 22px;
+
+  background-color: var(--fondo-tarjeta);
+
+  border: 1px solid var(--borde);
+  border-radius: 10px;
+}
+
+
+/* Punto de la línea temporal */
+
+.hito-tiempo::before {
+  content: "";
+
+  position: absolute;
+
+  left: -41px;
+  top: 26px;
+
+  width: 15px;
+  height: 15px;
+
+  background-color: var(--verde-principal);
+
+  border: 4px solid var(--fondo-pagina);
+  border-radius: 50%;
+
+  box-sizing: content-box;
+}
+
+
+/* Año */
+
+.fecha-tiempo {
+  position: absolute;
+
+  left: -105px;
+  top: 22px;
+
+  width: 55px;
+
+  color: var(--verde-principal);
+
+  font-size: 18px;
+  font-weight: 800;
+
+  text-align: right;
+}
+
+
+/* Título del acontecimiento */
+
+.contenido-hito h3 {
+  margin: 0 0 10px;
+
+  font-size: 21px;
+  line-height: 1.3;
+}
+
+
+/* Texto */
+
+.contenido-hito p {
+  margin: 0 0 10px;
+
+  font-size: 16px;
+  line-height: 1.65;
+}
+
+.contenido-hito p:last-child {
+  margin-bottom: 0;
+}
+
+
+/* Hito especialmente importante */
+
+.hito-destacado {
+  border: 2px solid var(--verde-principal);
+  background-color: #eef8f1;
+}
+
+.hito-destacado::before {
+  width: 19px;
+  height: 19px;
+
+  left: -44px;
+  top: 24px;
+}
+
+.hito-destacado .fecha-tiempo {
+  font-size: 20px;
+}
+
+
+/* Modo oscuro */
+
+body.modo-oscuro .linea-tiempo::before {
+  background-color: #3a4659;
+}
+
+body.modo-oscuro .hito-destacado {
+  background-color: #20372a;
+}
+
+
+    /* ==========================================
+      TABLAS
+    ========================================== */
+
+    .tabla-responsive {
+      width: 100%;
+      margin: 28px 0;
+      overflow-x: auto;
+    }
+
+    .tabla-apuntes {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 16px;
+    }
+
+    .tabla-apuntes th,
+    .tabla-apuntes td {
+      padding: 14px 16px;
+      border: 1px solid var(--borde);
+      text-align: left;
+      vertical-align: top;
+      line-height: 1.55;
+    }
+
+    .tabla-apuntes th {
+      background-color: #f1f3f5;
+      font-weight: 700;
+    }
+
+    body.modo-oscuro .tabla-apuntes th {
+      background-color: #273244;
+    }
+
+
+    /* ==========================================
+     ESQUEMA VISUAL
+    ========================================== */
+
+    .esquema-sostenibilidad {
+      max-width: 520px;
+      margin: 30px auto;
+      padding: 24px;
+      text-align: center;
+    }
+
+    .esquema-caja {
+      padding: 16px 20px;
+      background-color: var(--fondo-tarjeta);
+      border: 1px solid var(--borde);
+      border-radius: 10px;
+      font-size: 18px;
+      font-weight: 700;
+    }
+
+    .esquema-flecha {
+      margin: 8px 0;
+      color: var(--verde-principal);
+      font-size: 26px;
+      font-weight: 700;
+    }
+
+    .esquema-texto {
+      margin: 0 0 8px;
+      color: var(--texto-secundario);
+      font-size: 15px;
+    }
+
+
+    /* ==========================================
+     ACTIVIDAD DE REFLEXIÓN
+    ========================================== */
+
+    .actividad-reflexion {
+      margin: 32px 0;
+      padding: 22px 24px;
+      background-color: #f7f8fa;
+      border: 1px solid var(--borde);
+      border-radius: 10px;
+    }
+
+    .actividad-reflexion h3 {
+      margin: 0 0 12px;
+      color: var(--verde-principal);
+      font-size: 20px;
+    }
+
+    .actividad-reflexion p {
+      margin: 0;
+      font-size: 17px;
+      line-height: 1.65;
+    }
+
+    body.modo-oscuro .actividad-reflexion {
+      background-color: #232d3d;
+    }
+    /* ==========================================
+   SOLUCIÓN DESPLEGABLE
+========================================== */
+
+.solucion-desplegable {
+  margin-top: 20px;
+}
+
+.solucion-desplegable summary {
+  display: inline-block;
+
+  padding: 10px 16px;
+
+  background-color: #eef8f1;
+
+  border: 1px solid #b9dfc6;
+  border-radius: 7px;
+
+  color: var(--verde-principal);
+
+  font-size: 16px;
+  font-weight: 700;
+
+  cursor: pointer;
+  user-select: none;
+}
+
+.solucion-desplegable summary:hover {
+  background-color: #e2f3e7;
+}
+
+.contenido-solucion {
+  margin-top: 16px;
+
+  padding: 18px 20px;
+
+  background-color: var(--fondo-pagina);
+
+  border-left: 4px solid var(--verde-principal);
+  border-radius: 6px;
+}
+
+.contenido-solucion p {
+  margin: 0 0 12px;
+
+  font-size: 16px;
+  line-height: 1.65;
+}
+
+.contenido-solucion p:last-child {
+  margin-bottom: 0;
+}
+
+body.modo-oscuro .solucion-desplegable summary {
+  background-color: #20372a;
+  border-color: #315d40;
+}
+
+
+    /* ==========================================
+       COLUMNA DERECHA
+    ========================================== */
+
+    .indice-derecho {
+      padding: 28px 22px;
+
+      border-left: 1px solid var(--borde);
+
+      position: sticky;
+      top: 68px;
+
+      height: calc(100vh - 68px);
+    }
+
+    .indice-derecho h2 {
+      margin: 8px 0 20px;
+
+      font-size: 17px;
+      color: #555b65;
+    }
+
+    body.modo-oscuro .indice-derecho h2 {
+      color: #d1d5db;
+    }
+
+    .indice-derecho ul {
+      margin: 0;
+      padding-left: 18px;
+    }
+
+    .indice-derecho li {
+      margin-bottom: 12px;
+    }
+
+    .indice-derecho a {
+      color: var(--texto-secundario);
+
+      text-decoration: none;
+
+      font-size: 14px;
+      line-height: 1.4;
+    }
+
+    .indice-derecho a:hover {
+      color: var(--verde-principal);
+    }
+
+
+    /* ==========================================
+       NAVEGACIÓN ANTERIOR / SIGUIENTE
+    ========================================== */
+
+    .navegacion-paginas {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 20px;
+
+      margin-top: 50px;
+    }
+
+    .nav-pagina {
+      min-height: 100px;
+      padding: 18px 20px;
+
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+
+      border: 1px solid var(--borde);
+      border-radius: 8px;
+
+      text-decoration: none;
+
+      background-color: var(--fondo-tarjeta);
+    }
+
+    .nav-anterior {
+      align-items: flex-start;
+      text-align: left;
+    }
+
+    .nav-siguiente {
+      align-items: flex-end;
+      text-align: right;
+    }
+
+    .nav-etiqueta {
+      margin-bottom: 5px;
+
+      color: var(--texto-secundario);
+
+      font-size: 14px;
+    }
+
+    .nav-pagina strong {
+      color: var(--verde-principal);
+
+      font-size: 16px;
+      line-height: 1.4;
+    }
+
+    .nav-pagina:hover {
+      border-color: var(--verde-principal);
+    }
+
+
+    /* ==========================================
+       RESPONSIVE
+    ========================================== */
+
+    @media (max-width: 1100px) {
+
+      .pagina-ut {
+        grid-template-columns: 250px 1fr;
+      }
+
+      .indice-derecho {
+        display: none;
+      }
+
+    }
+
+    @media (max-width: 760px) {
+
+      .pagina-ut {
+        display: block;
+      }
+
+      .sidebar {
+        position: static;
+
+        width: 100%;
+        height: auto;
+
+        border-right: 0;
+        border-bottom: 1px solid var(--borde);
+      }
+
+      .contenido-ut {
+        padding: 28px 20px 60px;
+      }
+
+      .contenido-ut h1 {
+        font-size: 36px;
+      }
+
+      .navegacion-paginas {
+        grid-template-columns: 1fr;
+      }
+
+      .nav-siguiente {
+        align-items: flex-start;
+        text-align: left;
+      }
+      .linea-tiempo {
+  padding-left: 42px;
+}
+
+.linea-tiempo::before {
+  left: 11px;
+}
+
+.hito-tiempo {
+  margin-bottom: 24px;
+}
+
+.hito-tiempo::before {
+  left: -42px;
+}
+
+.hito-destacado::before {
+  left: -45px;
+}
+
+.fecha-tiempo {
+  position: static;
+
+  width: auto;
+
+  margin-bottom: 8px;
+
+  text-align: left;
+
+  font-size: 19px;
+}
+
+.hito-destacado .fecha-tiempo {
+  font-size: 20px;
+}
+
+    }
+
+  </style>
+
+</head>
+
+
+<body>
+
+  <!-- ==========================================
+       BARRA SUPERIOR
+  ========================================== -->
+
+  <header class="navbar">
+
+    <a class="inicio" href="../../../index.html">
+
+      <img
+        src="../../../img/profesora-castana.png?v=2"
+        alt=""
+        class="icono-profesora"
+      >
+
+      <span>Inicio</span>
+
+    </a>
+
+    <nav
+      id="menuModulos"
+      class="menu-modulos"
+      aria-label="Módulos formativos"
+    ></nav>
+
+    <button
+      id="botonTema"
+      class="boton-tema"
+      type="button"
+      aria-label="Cambiar entre modo claro y oscuro"
+      title="Cambiar tema"
+    >
+      ☀️
+    </button>
+
+  </header>
+
+
+  <!-- ==========================================
+       ESTRUCTURA PRINCIPAL
+  ========================================== -->
+
+  <div class="pagina-ut">
+
+
+    <!-- ==========================================
+         COLUMNA IZQUIERDA
+    ========================================== -->
+
+<aside class="sidebar">
+
+  <!-- VOLVER AL MÓDULO -->
+  <a
+    class="sidebar-modulo"
+    href="../../index.html"
+  >
+    Sostenibilidad aplicada al sistema productivo
+  </a>
+
+
+  <!-- =========================
+       UT1
+  ========================== -->
+
+  <div class="menu-desplegable">
+
+    <div class="menu-cabecera menu-cabecera-activa">
+
+      <a
+        class="menu-titulo"
+        href="../index.html"
+      >
+        UT1 - Sostenibilidad, desarrollo sostenible y criterios ASG
+      </a>
+
+      <button
+        class="boton-desplegar"
+        type="button"
+        data-target="submenu-ut1"
+        aria-expanded="true"
+        aria-label="Mostrar u ocultar UT1"
+      >
+       ⌄
+      </button>
+
+    </div>
+
+
+    <div
+      id="submenu-ut1"
+      class="submenu submenu-abierto"
+    >
+
+      <!-- 1.1: TIENE SUBAPARTADOS -->
+
+      <div class="menu-desplegable menu-apartado">
+
+        <div class="menu-cabecera">
+
+          <a
+            class="menu-titulo"
+            href="../1-1/index.html"
+          >
+            1.1 Sostenibilidad y desarrollo sostenible
+          </a>
+
+          <button
+            class="boton-desplegar"
+            type="button"
+            data-target="submenu-1-1"
+            aria-expanded="true"
+            aria-label="Mostrar u ocultar los subapartados del 1.1"
+          >
+            ⌄
+          </button>
+
+        </div>
+
+
+        <div
+          id="submenu-1-1"
+          class="submenu submenu-apartados submenu-abierto"
+        >
+
+          <a href="../1-1/index.html#que-es-sostenibilidad">
+  ¿Qué es la sostenibilidad?
+</a>
+
+<a href="../1-1/index.html#dimensiones">
+  Dimensiones de la sostenibilidad
+</a>
+
+<a href="../1-1/index.html#desarrollo-sostenible">
+  ¿Qué es el desarrollo sostenible?
+</a>
+
+<a href="../1-1/index.html#dia-a-dia">
+  La sostenibilidad en nuestro día a día
+</a>
+
+        </div>
+
+      </div>
+
+
+      <!-- 1.2: SIN SUBAPARTADOS -->
+
+      <a
+        class="enlace-apartado-simple"
+        href="../1-2/index.html"
+      >
+        1.2 Evolución del desarrollo sostenible
+      </a>
+
+
+      <!-- 1.3: SIN SUBAPARTADOS POR AHORA -->
+
+      <a
+        class="enlace-apartado-simple"
+        href="../1-3/index.html"
+      >
+        1.3 La ONU y el marco internacional del desarrollo sostenible
+      </a>
+
+    </div>
+
+  </div>
+
+      <!-- RESTO DE UT -->
+      <a class="sidebar-ut-cerrada" href="../../ut2/index.html">
+        <span>
+          UT2 - Retos ambientales y sociales
+        </span>
+        <span>›</span>
+      </a>
+
+      <a class="sidebar-ut-cerrada" href="../../ut3/index.html">
+        <span>
+          UT3 - Sostenibilidad en el desempeño profesional y personal
+        </span>
+        <span>›</span>
+      </a>
+
+      <a class="sidebar-ut-cerrada" href="../../ut4/index.html">
+        <span>
+          UT4 - Economía circular, ciclo de vida y ecodiseño
+        </span>
+        <span>›</span>
+      </a>
+
+      <a class="sidebar-ut-cerrada" href="../../ut5/index.html">
+        <span>
+          UT5 - Sostenibilidad aplicada al sector informático
+        </span>
+        <span>›</span>
+      </a>
+
+      <a class="sidebar-ut-cerrada" href="../../ut6/index.html">
+        <span>
+          UT6 - Plan de sostenibilidad de una empresa
+        </span>
+        <span>›</span>
+      </a>
+
+    </aside>
+
+
+    <!-- ==========================================
+         ZONA CENTRAL
+    ========================================== -->
+
+    <main class="contenido-ut">
+
+      <div class="migas">
+
+        <a
+          class="miga-inicio"
+          href="../../../index.html"
+          aria-label="Volver a la página principal"
+        >
+          🏠
+        </a>
+
+        <span class="miga-separador">›</span>
+
+        <a
+          class="miga-modulo"
+          href="../../index.html"
+        >
+          SASP
+        </a>
+
+        <span class="miga-separador">›</span>
+
+        <a
+          class="miga-modulo"
+          href="../index.html"
+        >
+          UT1
+        </a>
+
+  <span class="miga-separador">›</span>
+
+  <span class="miga-actual">
+    1.3
+  </span>
+
+</div>
+
+
+      <h1>
+          1.3 La ONU y el marco internacional del desarrollo sostenible
+      </h1>
+      
+      <section class="apartado-ut">
+
+  <p>
+    Muchos de los principales retos relacionados con la sostenibilidad
+    tienen una dimensión global. Problemas como el cambio climático,
+    la pérdida de biodiversidad, la pobreza o las desigualdades no afectan
+    únicamente a un país y, por tanto, no pueden resolverse mediante
+    actuaciones aisladas.
+  </p>
+
+  <p>
+    Por este motivo, la cooperación internacional es fundamental para
+    establecer objetivos comunes, coordinar actuaciones y promover un
+    desarrollo sostenible a escala mundial.
+  </p>
+
+  <p>
+    La <strong>Organización de las Naciones Unidas (ONU)</strong> desempeña
+    un papel fundamental en este proceso, impulsando acuerdos, programas
+    y objetivos internacionales relacionados con la sostenibilidad.
+  </p>
+
+
+
+  <h2 id="papel-onu">
+    La ONU y su papel en el desarrollo sostenible
+  </h2>
+
+  <p>
+    La Organización de las Naciones Unidas fue creada en
+    <strong>1945</strong> con el objetivo de favorecer la cooperación entre
+    los países, mantener la paz y la seguridad internacional y promover
+    el desarrollo y los derechos humanos.
+  </p>
+
+  <p>
+    Con el paso del tiempo, la sostenibilidad se ha convertido también en
+    uno de sus principales ámbitos de actuación. La ONU sirve como espacio
+    de encuentro entre los países para debatir problemas globales y
+    establecer compromisos comunes.
+  </p>
+
+  <p>
+    En materia de desarrollo sostenible, algunas de sus principales
+    funciones son:
+  </p>
+
+  <ul>
+
+    <li>
+      Promover la cooperación entre países.
+    </li>
+
+    <li>
+      Identificar problemas ambientales, sociales y económicos de alcance
+      mundial.
+    </li>
+
+    <li>
+      Establecer objetivos y prioridades comunes.
+    </li>
+
+    <li>
+      Impulsar acuerdos y programas internacionales.
+    </li>
+
+    <li>
+      Evaluar los avances realizados hacia un desarrollo más sostenible.
+    </li>
+
+  </ul>
+
+
+
+  <div class="caja caja-importante">
+
+    <span class="caja-titulo">
+      📌 Importante
+    </span>
+
+    <p>
+      La sostenibilidad requiere
+      <strong>cooperación internacional</strong> porque muchos de sus
+      principales retos son globales y no pueden resolverse mediante
+      la actuación aislada de un único país.
+    </p>
+
+  </div>
+
+
+
+  <h2 id="marco-internacional">
+    ¿Por qué es necesario un marco internacional?
+  </h2>
+
+  <p>
+    Las decisiones que adopta un país pueden tener consecuencias fuera de
+    sus fronteras. Por ejemplo, las emisiones de gases de efecto invernadero,
+    la contaminación de los océanos o la explotación de determinados
+    recursos naturales pueden producir efectos a escala mundial.
+  </p>
+
+  <p>
+    Por ello, es necesario establecer un
+    <strong>marco internacional</strong> que permita a los países trabajar
+    siguiendo unas orientaciones y objetivos comunes.
+  </p>
+
+  <p>
+    Este marco facilita:
+  </p>
+
+  <ul>
+
+    <li>
+      Coordinar las políticas de diferentes países.
+    </li>
+
+    <li>
+      Establecer objetivos comunes de sostenibilidad.
+    </li>
+
+    <li>
+      Definir compromisos y líneas de actuación.
+    </li>
+
+    <li>
+      Utilizar indicadores que permitan medir los avances realizados.
+    </li>
+
+    <li>
+      Favorecer la colaboración entre gobiernos, empresas y sociedad.
+    </li>
+
+  </ul>
+
+
+
+  <div class="esquema-sostenibilidad">
+
+    <div class="esquema-caja">
+      Problemas globales
+    </div>
+
+    <div class="esquema-flecha">
+      ↓
+    </div>
+
+    <div class="esquema-caja">
+      Cooperación internacional
+    </div>
+
+    <div class="esquema-flecha">
+      ↓
+    </div>
+
+    <div class="esquema-caja">
+      Organización de las Naciones Unidas
+    </div>
+
+    <div class="esquema-flecha">
+      ↓
+    </div>
+
+    <div class="esquema-caja">
+      Objetivos y acuerdos comunes
+    </div>
+
+    <div class="esquema-flecha">
+      ↓
+    </div>
+
+    <div class="esquema-caja">
+      Actuación de países, empresas y sociedad
+    </div>
+
+  </div>
+
+
+
+  <h2 id="instrumentos-internacionales">
+    Principales instrumentos y acuerdos internacionales
+  </h2>
+
+  <p>
+    La cooperación internacional en materia de sostenibilidad se concreta
+    mediante diferentes agendas, objetivos, acuerdos y convenios.
+  </p>
+
+  <p>
+    Algunos de los más importantes en el marco actual son los siguientes:
+  </p>
+
+
+
+  <div class="tabla-responsive">
+
+    <table class="tabla-apuntes">
+
+      <thead>
+
+        <tr>
+          <th>Instrumento</th>
+          <th>Finalidad principal</th>
+        </tr>
+
+      </thead>
+
+      <tbody>
+
+        <tr>
+
+          <td>
+            <strong>Agenda 2030</strong>
+          </td>
+
+          <td>
+            Establece un marco mundial de actuación para avanzar hacia
+            un desarrollo sostenible hasta el año 2030.
+          </td>
+
+        </tr>
+
+        <tr>
+
+          <td>
+            <strong>Objetivos de Desarrollo Sostenible (ODS)</strong>
+          </td>
+
+          <td>
+            Concretan la Agenda 2030 en 17 grandes objetivos relacionados
+            con cuestiones ambientales, económicas y sociales.
+          </td>
+
+        </tr>
+
+        <tr>
+
+          <td>
+            <strong>Acuerdo de París</strong>
+          </td>
+
+          <td>
+            Establece un marco internacional de cooperación frente al
+            cambio climático.
+          </td>
+
+        </tr>
+
+        <tr>
+
+          <td>
+            <strong>Convenios y acuerdos internacionales</strong>
+          </td>
+
+          <td>
+            Permiten establecer compromisos comunes sobre cuestiones
+            ambientales, sociales y económicas concretas.
+          </td>
+
+        </tr>
+
+      </tbody>
+
+    </table>
+
+  </div>
+
+
+
+  <div class="caja caja-atencion">
+
+    <span class="caja-titulo">
+      ⚠️ Atención
+    </span>
+
+    <p>
+      Los acuerdos internacionales establecen un marco común, pero su
+      aplicación requiere posteriormente la actuación de los países,
+      las administraciones, las empresas y otros agentes de la sociedad.
+    </p>
+
+  </div>
+
+
+
+  <h2 id="cooperacion">
+    Cooperación entre gobiernos, empresas y sociedad
+  </h2>
+
+  <p>
+    Alcanzar los objetivos de sostenibilidad no depende únicamente de los
+    gobiernos. También requiere la participación de empresas,
+    organizaciones, instituciones educativas y ciudadanía.
+  </p>
+
+  <p>
+    Las empresas, por ejemplo, pueden incorporar criterios de sostenibilidad
+    en sus decisiones, reducir sus impactos ambientales, mejorar las
+    condiciones laborales o informar de forma transparente sobre su
+    actividad.
+  </p>
+
+  <p>
+    Por tanto, el desarrollo sostenible requiere la participación conjunta
+    de diferentes actores que deben colaborar para alcanzar objetivos
+    compartidos.
+  </p>
+
+
+
+  <div class="caja caja-ejemplo">
+
+    <span class="caja-titulo">
+      💻 Ejemplo DAW
+    </span>
+
+    <p>
+      Una empresa tecnológica que presta servicios en diferentes países
+      también forma parte de este contexto internacional. Sus decisiones
+      pueden estar relacionadas con cuestiones como el consumo energético
+      de los centros de datos, la reducción de emisiones, la gestión de
+      residuos electrónicos, las condiciones laborales, la igualdad,
+      la accesibilidad de las aplicaciones o la protección de los datos.
+    </p>
+
+  </div>
+
+
+
+  <div class="actividad-reflexion">
+
+    <h3>
+      💭 Piensa
+    </h3>
+
+    <p>
+      ¿Por qué crees que sería difícil luchar contra el cambio climático
+      si cada país actuase de forma completamente independiente?
+    </p>
+
+
+
+    <details class="solucion-desplegable">
+
+      <summary>
+        Ver una posible solución
+      </summary>
+
+      <div class="contenido-solucion">
+
+        <p>
+          El cambio climático es un problema global. Los gases de efecto
+          invernadero emitidos en un país se incorporan a la atmósfera y
+          contribuyen a un fenómeno que afecta al conjunto del planeta.
+        </p>
+
+        <p>
+          Por ello, las medidas adoptadas por un solo país serían
+          insuficientes si otros países continuasen aumentando sus emisiones.
+        </p>
+
+        <p>
+          La cooperación internacional permite establecer objetivos comunes,
+          coordinar las actuaciones y conseguir que un mayor número de países
+          participe en la reducción de emisiones y en la adaptación a los
+          efectos del cambio climático.
+        </p>
+
+      </div>
+
+    </details>
+
+  </div>
+
+</section>
+
+      <!-- ==========================================
+           NAVEGACIÓN ANTERIOR / SIGUIENTE
+      ========================================== -->
+
+<nav class="navegacion-paginas">
+
+  <a
+    class="nav-pagina nav-anterior"
+    href="../1-2/index.html"
+  >
+
+    <span class="nav-etiqueta">
+      Anterior
+    </span>
+
+    <strong>
+      ‹ 1.2 Evolución del desarrollo sostenible
+    </strong>
+
+  </a>
+
+
+  <a
+    class="nav-pagina nav-siguiente"
+    href="../1-3/index.html"
+  >
+
+    <span class="nav-etiqueta">
+      Siguiente
+    </span>
+
+    <strong>
+      1.3 La ONU y el marco internacional del desarrollo sostenible ›
+    </strong>
+
+  </a>
+
+</nav>
+
+    </main>
+
+
+    <!-- ==========================================
+         COLUMNA DERECHA
+    ========================================== -->
+
+<aside class="indice-derecho">
+
+  <h2>
+    Contenidos del apartado
+  </h2>
+
+  <ul>
+
+  <li>
+    <a href="#papel-onu">
+      La ONU y su papel en el desarrollo sostenible
+    </a>
+  </li>
+
+  <li>
+    <a href="#marco-internacional">
+      ¿Por qué es necesario un marco internacional?
+    </a>
+  </li>
+
+  <li>
+    <a href="#instrumentos-internacionales">
+      Principales instrumentos y acuerdos internacionales
+    </a>
+  </li>
+
+  <li>
+    <a href="#cooperacion">
+      Cooperación entre gobiernos, empresas y sociedad
+    </a>
+  </li>
+
+</ul>
+
+</aside>
+
+  </div>
+
+
+  <!-- ==========================================
+       FOOTER
+  ========================================== -->
+
+  <footer class="footer">
+
+    <p>
+
+      Material elaborado por
+
+      <strong>Eva Ballestero Cubeles</strong>
+
+      · Licencia
+
+      <span class="licencia">
+        CC BY-NC-SA 4.0
+      </span>
+
+      <a
+        class="enlace-licencia"
+        href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.es"
+        target="_blank"
+        rel="license noopener noreferrer"
+        aria-label="Licencia Creative Commons BY-NC-SA 4.0"
+      >
+
+        <img
+          class="icono-licencia"
+          src="../../../img/licencias/cc-by-nc-sa.png"
+          alt="Licencia Creative Commons BY-NC-SA 4.0"
+        >
+
+      </a>
+
+    </p>
+
+  </footer>
+
+
+  <!-- ==========================================
+       JAVASCRIPT
+  ========================================== -->
+
+  <script src="../../../js/modulos.js"></script>
+
+  <script>
+
+    /* ==========================================
+       MENÚ SUPERIOR DE MÓDULOS
+    ========================================== */
+
+    const menuModulos =
+      document.getElementById("menuModulos");
+
+    const botonTema =
+      document.getElementById("botonTema");
+
+    const modulosActivos =
+      modulos.filter(modulo => modulo.activo === true);
+
+    modulosActivos.forEach(modulo => {
+
+      const enlace =
+        document.createElement("a");
+
+      enlace.href =
+        `../../../${modulo.carpeta}/index.html`;
+
+      enlace.textContent =
+        modulo.siglas;
+
+      enlace.title =
+        modulo.nombre;
+
+      if (modulo.siglas === "SASP") {
+        enlace.style.color =
+          "var(--verde-principal)";
+      }
+
+      menuModulos.appendChild(enlace);
+
+    });
+
+
+    /* ==========================================
+       MODO CLARO / OSCURO
+    ========================================== */
+
+    const temaGuardado =
+      localStorage.getItem("tema");
+
+    if (temaGuardado === "oscuro") {
+
+      document.body.classList.add("modo-oscuro");
+
+      botonTema.textContent = "🌙";
+
+    }
+
+    botonTema.addEventListener("click", () => {
+
+      document.body.classList.toggle("modo-oscuro");
+
+      const estaOscuro =
+        document.body.classList.contains("modo-oscuro");
+
+      botonTema.textContent =
+        estaOscuro ? "🌙" : "☀️";
+
+      localStorage.setItem(
+        "tema",
+        estaOscuro ? "oscuro" : "claro"
+      );
+
+    });
+    /* ==========================================
+   MENÚ LATERAL DESPLEGABLE
+========================================== */
+
+const botonesDesplegar =
+  document.querySelectorAll(".boton-desplegar");
+
+botonesDesplegar.forEach((boton) => {
+
+  boton.addEventListener("click", () => {
+
+    const idSubmenu =
+      boton.getAttribute("data-target");
+
+    const submenu =
+      document.getElementById(idSubmenu);
+
+    if (!submenu) {
+      return;
+    }
+
+    const estaAbierto =
+      submenu.classList.contains("submenu-abierto");
+
+    if (estaAbierto) {
+
+      submenu.classList.remove("submenu-abierto");
+
+      boton.textContent = "›";
+
+      boton.setAttribute(
+        "aria-expanded",
+        "false"
+      );
+
+    } else {
+
+      submenu.classList.add("submenu-abierto");
+
+      boton.textContent = "⌄";
+
+      boton.setAttribute(
+        "aria-expanded",
+        "true"
+      );
+
+    }
+
+  });
+
+});
+
+  </script>
+
+</body>
+
+</html>
