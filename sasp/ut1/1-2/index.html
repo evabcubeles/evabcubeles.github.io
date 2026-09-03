@@ -1257,6 +1257,59 @@ body.modo-oscuro .solucion-desplegable summary {
   </div>
 
 </div>
+      <!-- 1.6: TIENE SUBAPARTADOS -->
+
+<div class="menu-desplegable menu-apartado">
+
+  <div class="menu-cabecera">
+
+    <a
+      class="menu-titulo"
+      href="../1-6/index.html"
+    >
+      1.6 La Agenda 2030 y los Objetivos de Desarrollo Sostenible
+    </a>
+
+    <button
+      class="boton-desplegar"
+      type="button"
+      data-target="submenu-1-6"
+      aria-expanded="false"
+      aria-label="Mostrar u ocultar los subapartados del 1.6"
+    >
+      ›
+    </button>
+
+  </div>
+
+  <div
+    id="submenu-1-6"
+    class="submenu submenu-apartados"
+  >
+
+    <a href="../1-6/index.html#agenda-2030">
+      ¿Qué es la Agenda 2030?
+    </a>
+
+    <a href="../1-6/index.html#ods">
+      Los 17 Objetivos de Desarrollo Sostenible
+    </a>
+
+    <a href="../1-6/index.html#metas-indicadores">
+      Metas e indicadores de los ODS
+    </a>
+
+    <a href="../1-6/index.html#relacion-ods">
+      Los ODS están relacionados entre sí
+    </a>
+
+    <a href="../1-6/index.html#sector-tecnologico">
+      La Agenda 2030 en el sector tecnológico
+    </a>
+
+  </div>
+
+</div>
 
     </div>
 
@@ -1978,12 +2031,13 @@ botonesDesplegar.forEach((boton) => {
   }
 
 
-  /* 1.1 y 1.5 */
+  /* 1.1  1.5 y 1.6*/
 
-  if (
-    idSubmenu === "submenu-1-1" ||
-    idSubmenu === "submenu-1-5"
-  ) {
+if (
+  idSubmenu === "submenu-1-1" ||
+  idSubmenu === "submenu-1-5" ||
+  idSubmenu === "submenu-1-6"
+) {
 
     const clave =
       "sasp-" + idSubmenu;
@@ -2014,16 +2068,21 @@ botonesDesplegar.forEach((boton) => {
     const ruta =
       window.location.pathname;
 
-    const esPaginaPropia =
-      (
-        idSubmenu === "submenu-1-1" &&
-        ruta.includes("/ut1/1-1/")
-      )
-      ||
-      (
-        idSubmenu === "submenu-1-5" &&
-        ruta.includes("/ut1/1-5/")
-      );
+const esPaginaPropia =
+  (
+    idSubmenu === "submenu-1-1" &&
+    ruta.includes("/ut1/1-1/")
+  )
+  ||
+  (
+    idSubmenu === "submenu-1-5" &&
+    ruta.includes("/ut1/1-5/")
+  )
+  ||
+  (
+    idSubmenu === "submenu-1-6" &&
+    ruta.includes("/ut1/1-6/")
+  );
 
 
     if (esPaginaPropia) {
@@ -2084,12 +2143,13 @@ botonesDesplegar.forEach((boton) => {
     }
 
 
-    /* 1.1 y 1.5 */
+    /* 1.1  1.5 y 1.6*/
 
-    if (
-      idSubmenu === "submenu-1-1" ||
-      idSubmenu === "submenu-1-5"
-    ) {
+if (
+  idSubmenu === "submenu-1-1" ||
+  idSubmenu === "submenu-1-5" ||
+  idSubmenu === "submenu-1-6"
+) {
 
       const clave =
         "sasp-" + idSubmenu;
