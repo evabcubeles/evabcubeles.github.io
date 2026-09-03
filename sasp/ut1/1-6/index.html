@@ -778,6 +778,63 @@ body.modo-oscuro .tarjeta-ods {
 }
 
     /* ==========================================
+   ODS EN EL SECTOR TECNOLÓGICO
+========================================== */
+
+.rejilla-tecnologia-ods {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 20px;
+
+  margin: 30px 0 36px;
+}
+
+.tarjeta-tecnologia-ods {
+  display: flex;
+  flex-direction: column;
+
+  padding: 22px;
+
+  background-color: var(--fondo-tarjeta);
+
+  border: 1px solid var(--borde);
+  border-radius: 10px;
+}
+
+.icono-tecnologia-ods {
+  margin-bottom: 12px;
+
+  font-size: 30px;
+  line-height: 1;
+}
+
+.tarjeta-tecnologia-ods h3 {
+  margin: 0 0 12px;
+
+  font-size: 19px;
+  line-height: 1.35;
+}
+
+.tarjeta-tecnologia-ods p {
+  margin: 0 0 16px;
+
+  font-size: 15px;
+  line-height: 1.6;
+}
+
+.tarjeta-tecnologia-ods .ods-tarjeta {
+  margin-top: auto;
+  margin-bottom: 0;
+
+  padding-top: 12px;
+
+  border-top: 1px solid var(--borde);
+
+  color: var(--verde-principal);
+
+  font-size: 14px;
+}
+    /* ==========================================
       TABLAS
     ========================================== */
 
@@ -1063,6 +1120,9 @@ body.modo-oscuro .solucion-desplegable summary {
       .rejilla-ods {
         grid-template-columns: repeat(2, minmax(0, 1fr));
       }
+      .rejilla-tecnologia-ods {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
 
     }
 
@@ -1131,6 +1191,9 @@ body.modo-oscuro .solucion-desplegable summary {
       }
 
       .rejilla-ods {
+        grid-template-columns: 1fr;
+      }
+      .rejilla-tecnologia-ods {
         grid-template-columns: 1fr;
       }
 
@@ -2309,117 +2372,145 @@ body.modo-oscuro .solucion-desplegable summary {
 </p>
 
 
-<h3>
-  🌱 Eficiencia energética y uso responsable de los recursos
-</h3>
+<div class="rejilla-tecnologia-ods">
 
-<p>
-  Optimizar aplicaciones, servidores y bases de datos puede reducir
-  el consumo de recursos informáticos y de energía. También es importante
-  seleccionar infraestructuras eficientes y evitar el uso innecesario
-  de capacidad de procesamiento o almacenamiento.
-</p>
+  <article class="tarjeta-tecnologia-ods">
 
-<p>
-  Estas actuaciones pueden relacionarse especialmente con el
-  <strong>ODS 7 · Energía asequible y no contaminante</strong>,
-  el <strong>ODS 12 · Producción y consumo responsables</strong>
-  y el <strong>ODS 13 · Acción por el clima</strong>.
-</p>
+    <div class="icono-tecnologia-ods">
+      🌱
+    </div>
 
+    <h3>
+      Eficiencia energética
+    </h3>
 
-<h3>
-  ♻️ Vida útil de los equipos y residuos electrónicos
-</h3>
+    <p>
+      Optimizar aplicaciones, servidores y bases de datos ayuda a
+      reducir el consumo de recursos informáticos y de energía.
+    </p>
 
-<p>
-  Prolongar la vida útil de ordenadores, servidores y dispositivos reduce
-  la necesidad de fabricar nuevos equipos y disminuye la generación de
-  residuos electrónicos. Cuando los dispositivos dejan de utilizarse,
-  deben gestionarse correctamente para favorecer su reutilización
-  o reciclaje.
-</p>
+    <p class="ods-tarjeta">
+      <strong>ODS 7 · ODS 12 · ODS 13</strong>
+    </p>
 
-<p>
-  Estas actuaciones están especialmente relacionadas con el
-  <strong>ODS 12 · Producción y consumo responsables</strong>.
-</p>
+  </article>
 
 
-<h3>
-  ♿ Accesibilidad e inclusión digital
-</h3>
+  <article class="tarjeta-tecnologia-ods">
 
-<p>
-  Una aplicación web debe intentar ser utilizada por el mayor número
-  posible de personas, incluidas aquellas que presentan algún tipo
-  de discapacidad.
-</p>
+    <div class="icono-tecnologia-ods">
+      ♻️
+    </div>
 
-<p>
-  Aplicar criterios de accesibilidad, utilizar correctamente el HTML
-  semántico, proporcionar textos alternativos para las imágenes o garantizar
-  un adecuado contraste son ejemplos de decisiones técnicas que favorecen
-  la inclusión digital.
-</p>
+    <h3>
+      Equipos y residuos electrónicos
+    </h3>
 
-<p>
-  Estas actuaciones pueden contribuir al
-  <strong>ODS 10 · Reducción de las desigualdades</strong>.
-</p>
+    <p>
+      Prolongar la vida útil de los equipos, reutilizarlos y
+      gestionar correctamente los residuos electrónicos reduce
+      su impacto ambiental.
+    </p>
 
+    <p class="ods-tarjeta">
+      <strong>ODS 12</strong>
+    </p>
 
-<h3>
-  🔐 Seguridad, privacidad y protección de datos
-</h3>
-
-<p>
-  Los profesionales del desarrollo web trabajan habitualmente con datos
-  personales. Diseñar sistemas seguros, limitar la información que se
-  recopila y proteger adecuadamente los datos de los usuarios forma parte
-  de una actuación profesional responsable.
-</p>
-
-<p>
-  Estas prácticas pueden relacionarse con el
-  <strong>ODS 16 · Paz, justicia e instituciones sólidas</strong>.
-</p>
+  </article>
 
 
-<h3>
-  💡 Innovación tecnológica
-</h3>
+  <article class="tarjeta-tecnologia-ods">
 
-<p>
-  La tecnología permite desarrollar nuevas soluciones para mejorar
-  procesos, reducir consumos, gestionar recursos de forma más eficiente
-  o prestar nuevos servicios a la sociedad.
-</p>
+    <div class="icono-tecnologia-ods">
+      ♿
+    </div>
 
-<p>
-  El desarrollo responsable de soluciones digitales innovadoras está
-  especialmente relacionado con el
-  <strong>ODS 9 · Industria, innovación e infraestructura</strong>.
-</p>
+    <h3>
+      Accesibilidad e inclusión digital
+    </h3>
+
+    <p>
+      Diseñar aplicaciones accesibles y reducir las barreras
+      digitales facilita que más personas puedan utilizar los
+      servicios tecnológicos.
+    </p>
+
+    <p class="ods-tarjeta">
+      <strong>ODS 10</strong>
+    </p>
+
+  </article>
 
 
-<h3>
-  👥 Condiciones laborales e igualdad
-</h3>
+  <article class="tarjeta-tecnologia-ods">
 
-<p>
-  La sostenibilidad también tiene una dimensión social. Las empresas
-  tecnológicas deben favorecer condiciones laborales adecuadas, la igualdad
-  de oportunidades, la formación continua y la ausencia de discriminación.
-</p>
+    <div class="icono-tecnologia-ods">
+      🔐
+    </div>
 
-<p>
-  Estas actuaciones pueden contribuir, entre otros, al
-  <strong>ODS 5 · Igualdad de género</strong>
-  y al
-  <strong>ODS 8 · Trabajo decente y crecimiento económico</strong>.
-</p>
+    <h3>
+      Seguridad y privacidad
+    </h3>
 
+    <p>
+      Proteger los datos personales, limitar la información
+      recopilada y desarrollar sistemas seguros forma parte de
+      una actuación profesional responsable.
+    </p>
+
+    <p class="ods-tarjeta">
+      <strong>ODS 16</strong>
+    </p>
+
+  </article>
+
+
+  <article class="tarjeta-tecnologia-ods">
+
+    <div class="icono-tecnologia-ods">
+      💡
+    </div>
+
+    <h3>
+      Innovación tecnológica
+    </h3>
+
+    <p>
+      Las soluciones digitales pueden mejorar procesos,
+      reducir consumos y gestionar los recursos de forma
+      más eficiente.
+    </p>
+
+    <p class="ods-tarjeta">
+      <strong>ODS 9</strong>
+    </p>
+
+  </article>
+
+
+  <article class="tarjeta-tecnologia-ods">
+
+    <div class="icono-tecnologia-ods">
+      👥
+    </div>
+
+    <h3>
+      Condiciones laborales e igualdad
+    </h3>
+
+    <p>
+      La igualdad de oportunidades, la formación continua y
+      unas condiciones laborales adecuadas forman parte de
+      la dimensión social de la sostenibilidad.
+    </p>
+
+    <p class="ods-tarjeta">
+      <strong>ODS 5 · ODS 8</strong>
+    </p>
+
+  </article>
+
+</div>
 
 <div class="caja caja-ejemplo">
 
