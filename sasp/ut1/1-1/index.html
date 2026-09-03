@@ -974,10 +974,10 @@ body.modo-oscuro .solucion-desplegable summary {
             class="boton-desplegar"
             type="button"
             data-target="submenu-1-1"
-            aria-expanded="true"
+            aria-expanded="false"
             aria-label="Mostrar u ocultar los subapartados del 1.1"
           >
-            ⌄
+            ›
           </button>
 
         </div>
@@ -985,7 +985,7 @@ body.modo-oscuro .solucion-desplegable summary {
 
         <div
           id="submenu-1-1"
-          class="submenu submenu-apartados submenu-abierto"
+          class="submenu submenu-apartados"
         >
 
           <a href="#que-es-sostenibilidad">
@@ -1747,6 +1747,116 @@ body.modo-oscuro .solucion-desplegable summary {
 const botonesDesplegar =
   document.querySelectorAll(".boton-desplegar");
 
+
+function abrirSubmenu(boton, submenu) {
+
+  submenu.classList.add("submenu-abierto");
+
+  boton.textContent = "⌄";
+
+  boton.setAttribute(
+    "aria-expanded",
+    "true"
+  );
+
+}
+
+
+function cerrarSubmenu(boton, submenu) {
+
+  submenu.classList.remove("submenu-abierto");
+
+  boton.textContent = "›";
+
+  boton.setAttribute(
+    "aria-expanded",
+    "false"
+  );
+
+}
+
+
+/* ==========================================
+   ESTADO INICIAL DE LOS DESPLEGABLES
+========================================== */
+
+botonesDesplegar.forEach((boton) => {
+
+  const idSubmenu =
+    boton.getAttribute("data-target");
+
+  const submenu =
+    document.getElementById(idSubmenu);
+
+  if (!submenu) {
+    return;
+  }
+
+
+  /* La UT1 permanece abierta */
+
+  if (idSubmenu === "submenu-ut1") {
+
+    abrirSubmenu(boton, submenu);
+
+    return;
+  }
+
+
+  /* Desplegable 1.1 */
+
+  if (idSubmenu === "submenu-1-1") {
+
+    const estadoManual =
+      localStorage.getItem(
+        "sasp-submenu-1-1"
+      );
+
+
+    /*
+      Si el usuario había abierto manualmente 1.1,
+      lo dejamos abierto.
+    */
+
+    if (estadoManual === "abierto") {
+
+      abrirSubmenu(boton, submenu);
+
+      return;
+    }
+
+
+    /*
+      Si estamos dentro de la página 1.1,
+      se abre automáticamente.
+      Esta apertura no se guarda.
+    */
+
+    const estamosEn11 =
+      window.location.pathname.includes(
+        "/ut1/1-1/"
+      );
+
+
+    if (estamosEn11) {
+
+      abrirSubmenu(boton, submenu);
+
+    } else {
+
+      cerrarSubmenu(boton, submenu);
+
+    }
+
+  }
+
+});
+
+
+/* ==========================================
+   CLIC EN LAS FLECHAS
+========================================== */
+
 botonesDesplegar.forEach((boton) => {
 
   boton.addEventListener("click", () => {
@@ -1761,30 +1871,53 @@ botonesDesplegar.forEach((boton) => {
       return;
     }
 
+
     const estaAbierto =
-      submenu.classList.contains("submenu-abierto");
-
-    if (estaAbierto) {
-
-      submenu.classList.remove("submenu-abierto");
-
-      boton.textContent = "›";
-
-      boton.setAttribute(
-        "aria-expanded",
-        "false"
+      submenu.classList.contains(
+        "submenu-abierto"
       );
 
-    } else {
 
-      submenu.classList.add("submenu-abierto");
+    /* UT1 */
 
-      boton.textContent = "⌄";
+    if (idSubmenu === "submenu-ut1") {
 
-      boton.setAttribute(
-        "aria-expanded",
-        "true"
-      );
+      if (estaAbierto) {
+
+        cerrarSubmenu(boton, submenu);
+
+      } else {
+
+        abrirSubmenu(boton, submenu);
+
+      }
+
+      return;
+    }
+
+
+    /* 1.1 */
+
+    if (idSubmenu === "submenu-1-1") {
+
+      if (estaAbierto) {
+
+        cerrarSubmenu(boton, submenu);
+
+        localStorage.removeItem(
+          "sasp-submenu-1-1"
+        );
+
+      } else {
+
+        abrirSubmenu(boton, submenu);
+
+        localStorage.setItem(
+          "sasp-submenu-1-1",
+          "abierto"
+        );
+
+      }
 
     }
 
