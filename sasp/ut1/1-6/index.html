@@ -1312,8 +1312,6 @@ body.modo-oscuro .solucion-desplegable summary {
 
 </div>
 
-</div>
-
     </div>
 
   </div>
@@ -2442,12 +2440,13 @@ botonesDesplegar.forEach((boton) => {
   }
 
 
-  /* 1.1 y 1.5 */
+/* 1.1, 1.5 y 1.6 */
 
-  if (
-    idSubmenu === "submenu-1-1" ||
-    idSubmenu === "submenu-1-5"
-  ) {
+if (
+  idSubmenu === "submenu-1-1" ||
+  idSubmenu === "submenu-1-5" ||
+  idSubmenu === "submenu-1-6"
+) {
 
     const clave =
       "sasp-" + idSubmenu;
@@ -2478,16 +2477,21 @@ botonesDesplegar.forEach((boton) => {
     const ruta =
       window.location.pathname;
 
-    const esPaginaPropia =
-      (
-        idSubmenu === "submenu-1-1" &&
-        ruta.includes("/ut1/1-1/")
-      )
-      ||
-      (
-        idSubmenu === "submenu-1-5" &&
-        ruta.includes("/ut1/1-5/")
-      );
+const esPaginaPropia =
+  (
+    idSubmenu === "submenu-1-1" &&
+    ruta.includes("/ut1/1-1/")
+  )
+  ||
+  (
+    idSubmenu === "submenu-1-5" &&
+    ruta.includes("/ut1/1-5/")
+  )
+  ||
+  (
+    idSubmenu === "submenu-1-6" &&
+    ruta.includes("/ut1/1-6/")
+  );
 
 
     if (esPaginaPropia) {
@@ -2548,12 +2552,13 @@ botonesDesplegar.forEach((boton) => {
     }
 
 
-    /* 1.1 y 1.5 */
+/* 1.1, 1.5 y 1.6 */
 
-    if (
-      idSubmenu === "submenu-1-1" ||
-      idSubmenu === "submenu-1-5"
-    ) {
+if (
+  idSubmenu === "submenu-1-1" ||
+  idSubmenu === "submenu-1-5" ||
+  idSubmenu === "submenu-1-6"
+) {
 
       const clave =
         "sasp-" + idSubmenu;
