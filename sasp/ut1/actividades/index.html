@@ -1233,7 +1233,95 @@ body.modo-oscuro .solucion-desplegable summary {
       border-color: var(--verde-principal);
     }
 
+/* ==========================================
+   AUTOEVALUACIÓN
+========================================== */
 
+.pregunta-test {
+  margin: 28px 0;
+  padding: 22px 24px;
+
+  background-color: var(--fondo-tarjeta);
+
+  border: 1px solid var(--borde);
+  border-radius: 10px;
+}
+
+.pregunta-test > p {
+  margin: 0 0 18px;
+
+  font-size: 17px;
+  line-height: 1.6;
+}
+
+.pregunta-test label {
+  display: block;
+
+  margin: 9px 0;
+  padding: 11px 14px;
+
+  border: 1px solid var(--borde);
+  border-radius: 7px;
+
+  font-size: 16px;
+  line-height: 1.5;
+
+  cursor: pointer;
+
+  transition:
+    background-color 0.2s ease,
+    border-color 0.2s ease;
+}
+
+.pregunta-test label:hover {
+  background-color: #f3f7f4;
+  border-color: #b9d8c3;
+}
+
+.pregunta-test input[type="radio"] {
+  margin-right: 8px;
+
+  accent-color: var(--verde-principal);
+
+  cursor: pointer;
+}
+
+
+/* Botón para corregir */
+
+#boton-corregir {
+  margin-top: 18px;
+  padding: 13px 20px;
+
+  border: 0;
+  border-radius: 8px;
+
+  background-color: var(--verde-principal);
+  color: #ffffff;
+
+  font-family: inherit;
+  font-size: 16px;
+  font-weight: 700;
+
+  cursor: pointer;
+
+  transition:
+    opacity 0.2s ease,
+    transform 0.2s ease;
+}
+
+#boton-corregir:hover {
+  opacity: 0.9;
+  transform: translateY(-1px);
+}
+
+
+/* Modo oscuro */
+
+body.modo-oscuro .pregunta-test label:hover {
+  background-color: #273244;
+  border-color: #3a4659;
+}
     /* ==========================================
        RESPONSIVE
     ========================================== */
