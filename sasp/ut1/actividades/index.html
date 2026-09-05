@@ -1255,9 +1255,14 @@ body.modo-oscuro .solucion-desplegable summary {
 }
 
 .pregunta-test label {
-  display: block;
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
 
-  margin: 9px 0;
+  width: 100%;
+  box-sizing: border-box;
+
+  margin: 10px 0;
   padding: 11px 14px;
 
   border: 1px solid var(--borde);
@@ -1279,10 +1284,9 @@ body.modo-oscuro .solucion-desplegable summary {
 }
 
 .pregunta-test input[type="radio"] {
-  margin-right: 8px;
-
+  flex-shrink: 0;
+  margin: 5px 0 0;
   accent-color: var(--verde-principal);
-
   cursor: pointer;
 }
 
