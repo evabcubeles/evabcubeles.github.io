@@ -2970,6 +2970,214 @@ if (
 });
 
   </script>
+    <script>
+  const respuestasCorrectas = {
+    pregunta1: "b",
+    pregunta2: "a",
+    pregunta3: "c",
+    pregunta4: "d",
+    pregunta5: "b",
+    pregunta6: "a",
+    pregunta7: "c",
+    pregunta8: "b",
+    pregunta9: "c",
+    pregunta10: "a"
+  };
+
+  const explicaciones = {
+    pregunta1:
+      "El desarrollo sostenible busca satisfacer las necesidades actuales sin comprometer la capacidad de las generaciones futuras para satisfacer las suyas.",
+
+    pregunta2:
+      "ASG hace referencia a los factores ambientales, sociales y de gobernanza que permiten analizar el desempeño sostenible de una organización.",
+
+    pregunta3:
+      "Prolongar la vida útil de los equipos reduce el consumo de recursos y la generación de residuos electrónicos, por lo que se relaciona principalmente con la dimensión ambiental.",
+
+    pregunta4:
+      "La sostenibilidad también puede generar oportunidades empresariales, como ofrecer servicios digitales más eficientes y atraer clientes que valoran este tipo de prácticas.",
+
+    pregunta5:
+      "La Agenda 2030 es un plan internacional de acción aprobado por Naciones Unidas que establece 17 Objetivos de Desarrollo Sostenible.",
+
+    pregunta6:
+      "El ODS 12 promueve modelos de producción y consumo responsables, entre ellos una mejor gestión, reutilización y reciclaje de los equipos electrónicos.",
+
+    pregunta7:
+      "El Pacto Verde Europeo pretende avanzar hacia una economía más sostenible y climáticamente neutra.",
+
+    pregunta8:
+      "Las condiciones laborales dignas, la igualdad y la ausencia de discriminación forman parte de la dimensión social de la sostenibilidad.",
+
+    pregunta9:
+      "Los indicadores permiten medir y evaluar determinados aspectos del desempeño de una organización y comprobar su evolución.",
+
+    pregunta10:
+      "El consumo energético es ambiental, las horas de formación pertenecen al ámbito social y el cumplimiento de un código ético corresponde a la gobernanza."
+  };
+
+  const botonCorregir = document.getElementById("boton-corregir");
+  const resultado = document.getElementById("resultado-autoevaluacion");
+
+  botonCorregir.addEventListener("click", function () {
+
+    let todasRespondidas = true;
+
+    for (let i = 1; i <= 10; i++) {
+      const respuesta = document.querySelector(
+        `input[name="pregunta${i}"]:checked`
+      );
+
+      if (!respuesta) {
+        todasRespondidas = false;
+      }
+    }
+
+    if (!todasRespondidas) {
+      resultado.hidden = false;
+      resultado.innerHTML = `
+        <div class="mensaje-test mensaje-aviso">
+          ⚠️ Todavía tienes preguntas sin responder.
+          Responde las 10 preguntas antes de corregir la autoevaluación.
+        </div>
+      `;
+
+      return;
+    }
+
+    let aciertos = 0;
+
+    for (let i = 1; i <= 10; i++) {
+
+      const nombrePregunta = `pregunta${i}`;
+
+      const respuestaSeleccionada = document.querySelector(
+        `input[name="${nombrePregunta}"]:checked`
+      );
+
+      const contenedorPregunta =
+        respuestaSeleccionada.closest(".pregunta-test");
+
+      const labels = contenedorPregunta.querySelectorAll("label");
+
+      labels.forEach(function (label) {
+        label.classList.remove(
+          "respuesta-correcta",
+          "respuesta-incorrecta"
+        );
+      });
+
+      const opcionCorrecta = contenedorPregunta.querySelector(
+        `input[value="${respuestasCorrectas[nombrePregunta]}"]`
+      );
+
+      opcionCorrecta.closest("label").classList.add(
+        "respuesta-correcta"
+      );
+
+      const respuestaCorrecta =
+        respuestaSeleccionada.value ===
+        respuestasCorrectas[nombrePregunta];
+
+      if (respuestaCorrecta) {
+        aciertos++;
+      } else {
+        respuestaSeleccionada.closest("label").classList.add(
+          "respuesta-incorrecta"
+        );
+      }
+
+      let feedback =
+        contenedorPregunta.querySelector(".feedback-test");
+
+      if (!feedback) {
+        feedback = document.createElement("div");
+        feedback.classList.add("feedback-test");
+        contenedorPregunta.appendChild(feedback);
+      }
+
+      if (respuestaCorrecta) {
+        feedback.innerHTML = `
+          <strong>✅ Respuesta correcta.</strong>
+          <p>${explicaciones[nombrePregunta]}</p>
+        `;
+      } else {
+        feedback.innerHTML = `
+          <strong>❌ Respuesta incorrecta.</strong>
+          <p>
+            La respuesta correcta es la opción
+            <strong>${respuestasCorrectas[nombrePregunta].toUpperCase()}</strong>.
+            ${explicaciones[nombrePregunta]}
+          </p>
+        `;
+      }
+    }
+
+    resultado.hidden = false;
+
+    resultado.innerHTML = `
+      <div class="resultado-test">
+        <strong>
+          Has obtenido ${aciertos} de 10 respuestas correctas.
+        </strong>
+
+        <span>
+          Nota: ${aciertos}/10
+        </span>
+
+        <button
+          id="boton-reintentar"
+          type="button"
+        >
+          🔄 Volver a intentarlo
+        </button>
+      </div>
+    `;
+
+    document
+      .getElementById("boton-reintentar")
+      .addEventListener("click", reiniciarAutoevaluacion);
+  });
+
+
+  function reiniciarAutoevaluacion() {
+
+    const respuestas =
+      document.querySelectorAll(
+        '#autoevaluacion input[type="radio"]'
+      );
+
+    respuestas.forEach(function (respuesta) {
+      respuesta.checked = false;
+    });
+
+    const opciones =
+      document.querySelectorAll(".pregunta-test label");
+
+    opciones.forEach(function (opcion) {
+      opcion.classList.remove(
+        "respuesta-correcta",
+        "respuesta-incorrecta"
+      );
+    });
+
+    const feedback =
+      document.querySelectorAll(".feedback-test");
+
+    feedback.forEach(function (elemento) {
+      elemento.remove();
+    });
+
+    resultado.hidden = true;
+    resultado.innerHTML = "";
+
+    document
+      .getElementById("autoevaluacion")
+      .scrollIntoView({
+        behavior: "smooth"
+      });
+  }
+</script>
 
 </body>
 
