@@ -1590,6 +1590,67 @@ body.modo-oscuro .solucion-desplegable summary {
   </div>
 
 </div>
+      <!-- 1.9: TIENE SUBAPARTADOS -->
+
+<div class="menu-desplegable menu-apartado">
+
+  <div class="menu-cabecera">
+
+    <a
+      class="menu-titulo"
+      href="../1-9/index.html"
+    >
+      1.9 Evaluación del desempeño en sostenibilidad
+    </a>
+
+    <button
+      class="boton-desplegar"
+      type="button"
+      data-target="submenu-1-9"
+      aria-expanded="false"
+      aria-label="Mostrar u ocultar los subapartados del 1.9"
+    >
+      ›
+    </button>
+
+  </div>
+
+  <div
+    id="submenu-1-9"
+    class="submenu submenu-apartados"
+  >
+
+    <a href="../1-9/index.html#por-que-medir">
+      ¿Por qué se mide la sostenibilidad?
+    </a>
+
+    <a href="../1-9/index.html#metricas-indicadores">
+      Métricas e indicadores ASG
+    </a>
+
+    <a href="../1-9/index.html#indicadores-ambientales">
+      Indicadores ambientales
+    </a>
+
+    <a href="../1-9/index.html#indicadores-sociales">
+      Indicadores sociales
+    </a>
+
+    <a href="../1-9/index.html#indicadores-economicos">
+      Indicadores económicos
+    </a>
+
+    <a href="../1-9/index.html#indicadores-gobernanza">
+      Indicadores de gobernanza
+    </a>
+
+    <a href="../1-9/index.html#ejemplo-empresa-tecnologica">
+      Ejemplo aplicado a una empresa tecnológica
+    </a>
+
+  </div>
+
+</div>
 
       <!-- RESTO DE UT -->
       <a class="sidebar-ut-cerrada" href="../../ut2/index.html">
@@ -2235,14 +2296,15 @@ botonesDesplegar.forEach((boton) => {
     return;
   }
 
-/* 1.1, 1.5, 1.6, 1.7 y 1.8 */
+/* 1.1, 1.5, 1.6, 1.7, 1.8 y 1.9 */
 
 if (
   idSubmenu === "submenu-1-1" ||
   idSubmenu === "submenu-1-5" ||
   idSubmenu === "submenu-1-6" ||
   idSubmenu === "submenu-1-7" ||
-  idSubmenu === "submenu-1-8"
+  idSubmenu === "submenu-1-8" ||
+  idSubmenu === "submenu-1-9"
 ) {
 
     const clave =
@@ -2293,8 +2355,17 @@ const esPaginaPropia =
   (
     idSubmenu === "submenu-1-7" &&
     ruta.includes("/ut1/1-7/")
+  )
+  ||
+  (
+    idSubmenu === "submenu-1-8" &&
+    ruta.includes("/ut1/1-8/")
+  )
+  ||
+  (
+    idSubmenu === "submenu-1-9" &&
+    ruta.includes("/ut1/1-9/")
   );
-
 
     if (esPaginaPropia) {
 
@@ -2354,14 +2425,15 @@ botonesDesplegar.forEach((boton) => {
     }
 
 
-/* 1.1, 1.5, 1.6, 1.7 y 1.8 */
+/* 1.1, 1.5, 1.6, 1.7, 1.8 y 1.9 */
 
 if (
   idSubmenu === "submenu-1-1" ||
   idSubmenu === "submenu-1-5" ||
   idSubmenu === "submenu-1-6" ||
   idSubmenu === "submenu-1-7" ||
-  idSubmenu === "submenu-1-8"
+  idSubmenu === "submenu-1-8" ||
+  idSubmenu === "submenu-1-9"
 ) {
 
       const clave =
