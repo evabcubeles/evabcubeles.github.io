@@ -1,1 +1,3140 @@
+<!DOCTYPE html>
+<html lang="es">
 
+<head>
+  <meta charset="UTF-8">
+
+  <meta
+    name="viewport"
+    content="width=device-width, initial-scale=1.0"
+  >
+
+  <meta
+    name="description"
+    content="UT1 - Sostenibilidad, desarrollo sostenible y criterios ASG."
+  >
+  <title>UT1 - Sostenibilidad, desarrollo sostenible y criterios ASG</title>
+
+  <link rel="icon" type="image/png" href="../../../img/favicon.png?v=5">
+  <link rel="stylesheet" href="../../../css/estilos.css">
+
+  <style>
+
+    /* ==========================================
+       ESTRUCTURA DE LA UT
+    ========================================== */
+
+    .pagina-ut {
+      display: grid;
+      grid-template-columns: 280px 1fr 260px;
+      min-height: calc(100vh - 68px);
+    }
+
+
+    /* ==========================================
+       COLUMNA IZQUIERDA
+    ========================================== */
+
+    .sidebar {
+      border-right: 1px solid var(--borde);
+      background-color: var(--fondo-pagina);
+
+      padding: 12px 10px 30px;
+
+      position: sticky;
+      top: 68px;
+
+      height: calc(100vh - 68px);
+      overflow-y: auto;
+    }
+
+    .sidebar-modulo {
+      display: block;
+      margin-bottom: 8px;
+      padding: 8px 14px;
+      color: #626873;
+      font-size: 17px;
+      font-weight: 700;
+      line-height: 1.3;
+      text-decoration: none;
+      border-radius: 6px;
+      transition:
+        color 0.2s ease,
+        background-color 0.2s ease;
+    }
+
+    .sidebar-modulo:hover {
+      color: var(--verde-principal);
+      background-color: #f3f4f6;
+    }
+
+    body.modo-oscuro .sidebar-modulo:hover {
+      background-color: #273244;
+    }
+
+    .sidebar-ut {
+      margin-bottom: 12px;
+      padding: 10px 14px;
+
+      background-color: #f1f1f1;
+      border-radius: 5px;
+
+      color: var(--verde-principal);
+
+      font-size: 17px;
+      font-weight: 700;
+      line-height: 1.35;
+    }
+    .sidebar-ut-activa {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+    }
+
+    .flecha-ut-abierta {
+      flex-shrink: 0;
+      font-size: 22px;
+      color: #777;
+    }
+
+    .sidebar-ut-cerrada {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      padding: 13px 14px;
+      color: #626873;
+      text-decoration: none;
+      font-size: 16px;
+      font-weight: 650;
+      line-height: 1.35;
+      border-radius: 6px;
+      transition:
+      background-color 0.2s ease,
+      color 0.2s ease;
+    }
+
+    .sidebar-ut-cerrada:hover {
+      background-color: #f3f4f6;
+      color: var(--verde-principal);
+    }
+
+    body.modo-oscuro .sidebar-ut-cerrada:hover {
+      background-color: #273244;
+    }
+
+    body.modo-oscuro .sidebar-ut {
+      background-color: #273244;
+      color: #5ed28a;
+    }
+
+    .lista-apartados {
+      list-style: none;
+      margin: 0;
+      padding: 0;
+    }
+
+    .enlace-apartado {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+
+      padding: 11px 14px;
+
+      color: #626873;
+
+      text-decoration: none;
+
+      font-size: 15px;
+      font-weight: 600;
+      line-height: 1.4;
+
+      border-radius: 6px;
+
+      transition:
+        background-color 0.2s ease,
+        color 0.2s ease;
+    }
+
+    .enlace-apartado:hover {
+      background-color: #f3f4f6;
+      color: var(--verde-principal);
+    }
+
+    body.modo-oscuro .enlace-apartado:hover {
+      background-color: #273244;
+    }
+
+    .flecha-apartado {
+      flex-shrink: 0;
+
+      color: #8b8b8b;
+
+      font-size: 22px;
+    }
+    /* ==========================================
+   MENÚ LATERAL DESPLEGABLE
+========================================== */
+
+.menu-desplegable {
+  width: 100%;
+}
+
+
+/* Cabecera de una UT o de un apartado */
+
+.menu-cabecera {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+
+  width: 100%;
+
+  border-radius: 6px;
+}
+
+
+/* UT en la que estamos actualmente */
+
+.menu-cabecera-activa {
+  background-color: #f1f1f1;
+}
+
+.menu-cabecera-activa > .menu-titulo {
+  color: var(--verde-principal);
+}
+
+
+/* Texto/enlace de la UT o apartado */
+
+.menu-titulo {
+  flex: 1;
+
+  display: block;
+
+  padding: 11px 8px 11px 14px;
+
+  color: #626873;
+
+  font-size: 16px;
+  font-weight: 650;
+  line-height: 1.4;
+
+  text-decoration: none;
+}
+
+.menu-titulo:hover {
+  color: var(--verde-principal);
+}
+
+
+/* Botón de la flecha */
+
+.boton-desplegar {
+  width: 36px;
+  height: 36px;
+
+  margin-right: 5px;
+  padding: 0;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  flex-shrink: 0;
+
+  border: 0;
+  border-radius: 6px;
+
+  background: transparent;
+
+  color: #777;
+
+  font-family: inherit;
+  font-size: 24px;
+  line-height: 1;
+
+  cursor: pointer;
+}
+
+.boton-desplegar:hover {
+  background-color: #e5e7eb;
+  color: var(--verde-principal);
+}
+
+
+/* ==========================================
+   CONTENIDO DESPLEGABLE
+========================================== */
+
+.submenu {
+  display: none;
+}
+
+.submenu.submenu-abierto {
+  display: block;
+}
+
+
+/* ==========================================
+   APARTADOS DE UNA UT
+========================================== */
+
+.menu-apartado {
+  margin-left: 14px;
+}
+
+.menu-apartado .menu-titulo {
+  padding-top: 9px;
+  padding-bottom: 9px;
+
+  font-size: 15px;
+  font-weight: 600;
+}
+
+
+/* Apartados que NO tienen subapartados */
+
+.enlace-apartado-simple {
+  display: block;
+
+  margin-left: 14px;
+  padding: 10px 14px;
+
+  color: #626873;
+
+  font-size: 15px;
+  font-weight: 600;
+  line-height: 1.4;
+
+  text-decoration: none;
+
+  border-radius: 6px;
+
+  transition:
+    background-color 0.2s ease,
+    color 0.2s ease;
+}
+
+.enlace-apartado-simple:hover {
+  background-color: #f3f4f6;
+  color: var(--verde-principal);
+}
+
+
+/* ==========================================
+   SUBAPARTADOS DE 1.1
+========================================== */
+
+.submenu-apartados {
+  margin: 2px 0 5px 28px;
+
+  border-left: 2px solid #e0e3e7;
+}
+
+.submenu-apartados a {
+  display: block;
+
+  padding: 7px 10px;
+
+  color: #777d87;
+
+  font-size: 14px;
+  font-weight: 500;
+  line-height: 1.35;
+
+  text-decoration: none;
+}
+
+.submenu-apartados a:hover {
+  color: var(--verde-principal);
+}
+
+
+/* ==========================================
+   MODO OSCURO DEL MENÚ
+========================================== */
+
+body.modo-oscuro .menu-cabecera-activa {
+  background-color: #273244;
+}
+
+body.modo-oscuro .boton-desplegar:hover {
+  background-color: #334155;
+}
+
+body.modo-oscuro .enlace-apartado-simple:hover {
+  background-color: #273244;
+}
+
+body.modo-oscuro .submenu-apartados {
+  border-left-color: #3a4659;
+}
+
+
+    /* ==========================================
+       ZONA CENTRAL
+    ========================================== */
+
+    .contenido-ut {
+      padding: 28px 34px 70px;
+
+      max-width: 1150px;
+      width: 100%;
+    }
+
+    .migas {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+
+      margin-bottom: 30px;
+
+      font-size: 14px;
+    }
+
+    .miga-inicio {
+      text-decoration: none;
+      font-size: 18px;
+    }
+
+    .miga-separador {
+      color: #999;
+      font-size: 22px;
+    }
+
+    .miga-modulo {
+      color: var(--texto-secundario);
+      text-decoration: none;
+    }
+
+    .miga-modulo:hover {
+      color: var(--verde-principal);
+    }
+
+    .miga-actual {
+      padding: 8px 14px;
+
+      background-color: #f3f3f3;
+      border-radius: 24px;
+
+      color: var(--verde-principal);
+    }
+
+    body.modo-oscuro .miga-actual {
+      background-color: #273244;
+    }
+
+    .contenido-ut h1 {
+      margin: 0 0 30px;
+
+      font-size: clamp(38px, 5vw, 58px);
+      line-height: 1.12;
+    }
+
+    .introduccion-ut {
+      max-width: 980px;
+
+      font-size: 19px;
+      line-height: 1.75;
+    }
+
+    .introduccion-ut p {
+      margin: 0 0 20px;
+    }
+    /* ==========================================
+     CONTENIDO DE LOS APARTADOS
+    ========================================== */
+
+    .apartado-ut {
+      margin-top: 55px;
+      scroll-margin-top: 95px;
+    }
+
+    .apartado-ut h2 {
+      margin: 0 0 24px;
+      font-size: 32px;
+      line-height: 1.2;
+    }
+
+    .apartado-ut h3 {
+      margin: 34px 0 16px;
+      font-size: 24px;
+      line-height: 1.3;
+    }
+
+    .apartado-ut p {
+      margin: 0 0 18px;
+      font-size: 18px;
+      line-height: 1.75;
+    }
+
+    .apartado-ut ul {
+      margin: 16px 0 24px;
+      padding-left: 28px;
+    }
+
+    .apartado-ut li {
+      margin-bottom: 10px;
+      font-size: 17px;
+      line-height: 1.6;
+    }
+
+
+    /* ==========================================
+     CAJAS DE LOS APUNTES
+    ========================================== */
+
+    .caja {
+      margin: 28px 0;
+      padding: 18px 20px;
+      border-left: 5px solid;
+      border-radius: 8px;
+      line-height: 1.65;
+    }
+
+    .caja p {
+      margin: 0;
+      font-size: 17px;
+    }
+
+    .caja-titulo {
+      display: block;
+      margin-bottom: 8px;
+      font-size: 17px;
+      font-weight: 700;
+    }
+
+    .caja-importante {
+      background-color: #eef8f1;
+      border-left-color: #2f9e5b;
+    }
+
+    .caja-atencion {
+      background-color: #fff7e8;
+      border-left-color: #e09b27;
+    }
+
+    .caja-ejemplo {
+      background-color: #eef5ff;
+      border-left-color: #3f7acb;
+    }
+
+    .caja-curiosidad {
+      background-color: #f7f1ff;
+      border-left-color: #8b5cc7;
+    }
+
+    body.modo-oscuro .caja-importante {
+      background-color: #20372a;
+    }
+
+    body.modo-oscuro .caja-atencion {
+      background-color: #3b3020;
+    }
+
+    body.modo-oscuro .caja-ejemplo {
+      background-color: #23344a;
+    }
+
+    body.modo-oscuro .caja-curiosidad {
+      background-color: #332944;
+    }
+    /* ==========================================
+   LÍNEA TEMPORAL
+========================================== */
+
+.linea-tiempo {
+  position: relative;
+  margin: 35px 0 45px;
+  padding-left: 105px;
+}
+
+/* Línea vertical */
+
+.linea-tiempo::before {
+  content: "";
+  position: absolute;
+
+  left: 72px;
+  top: 12px;
+  bottom: 12px;
+
+  width: 3px;
+
+  background-color: #d6dadd;
+  border-radius: 3px;
+}
+
+
+/* Cada acontecimiento */
+
+.hito-tiempo {
+  position: relative;
+
+  margin-bottom: 28px;
+  padding: 20px 22px;
+
+  background-color: var(--fondo-tarjeta);
+
+  border: 1px solid var(--borde);
+  border-radius: 10px;
+}
+
+
+/* Punto de la línea temporal */
+
+.hito-tiempo::before {
+  content: "";
+
+  position: absolute;
+
+  left: -41px;
+  top: 26px;
+
+  width: 15px;
+  height: 15px;
+
+  background-color: var(--verde-principal);
+
+  border: 4px solid var(--fondo-pagina);
+  border-radius: 50%;
+
+  box-sizing: content-box;
+}
+
+
+/* Año */
+
+.fecha-tiempo {
+  position: absolute;
+
+  left: -105px;
+  top: 22px;
+
+  width: 55px;
+
+  color: var(--verde-principal);
+
+  font-size: 18px;
+  font-weight: 800;
+
+  text-align: right;
+}
+
+
+/* Título del acontecimiento */
+
+.contenido-hito h3 {
+  margin: 0 0 10px;
+
+  font-size: 21px;
+  line-height: 1.3;
+}
+
+
+/* Texto */
+
+.contenido-hito p {
+  margin: 0 0 10px;
+
+  font-size: 16px;
+  line-height: 1.65;
+}
+
+.contenido-hito p:last-child {
+  margin-bottom: 0;
+}
+
+
+/* Hito especialmente importante */
+
+.hito-destacado {
+  border: 2px solid var(--verde-principal);
+  background-color: #eef8f1;
+}
+
+.hito-destacado::before {
+  width: 19px;
+  height: 19px;
+
+  left: -44px;
+  top: 24px;
+}
+
+.hito-destacado .fecha-tiempo {
+  font-size: 20px;
+}
+
+
+/* Modo oscuro */
+
+body.modo-oscuro .linea-tiempo::before {
+  background-color: #3a4659;
+}
+
+body.modo-oscuro .hito-destacado {
+  background-color: #20372a;
+}
+
+    /* ==========================================
+   ESQUEMA CONCEPTUAL
+========================================== */
+
+.esquema-conceptual {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+
+  margin: 28px 0 34px;
+}
+
+.esquema-elemento {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  min-height: 65px;
+  padding: 12px 16px;
+
+  background-color: #f2f8f4;
+
+  border: 1px solid #b9d8c3;
+  border-radius: 8px;
+
+  text-align: center;
+}
+
+.esquema-elemento strong {
+  color: #176b3a;
+}
+
+.esquema-flecha {
+  flex-shrink: 0;
+
+  color: #198754;
+
+  font-size: 26px;
+  font-weight: bold;
+}
+
+
+/* ==========================================
+   REJILLA DE LOS ODS
+========================================== */
+    /* ==========================================
+   REJILLA DE LOS ODS
+========================================== */
+
+.rejilla-ods {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 26px;
+
+  margin: 34px 0;
+}
+
+.tarjeta-ods {
+  display: flex;
+  flex-direction: column;
+  padding: 16px;
+  background-color: var(--fondo-tarjeta);
+  border: 1px solid var(--borde);
+  border-radius: 10px;
+}
+
+.tarjeta-ods img {
+  display: block;
+
+  width: 100%;
+  max-width: 150px;
+
+  margin: 0 auto 16px;
+}
+
+.tarjeta-ods h3 {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 92px;
+  margin: 0 0 10px;
+  font-size: 17px;
+  line-height: 1.35;
+  text-align: center;
+}
+
+.tarjeta-ods p {
+  margin: 0;
+  font-size: 14px;
+  line-height: 1.5;
+  text-align: left;
+}
+
+body.modo-oscuro .tarjeta-ods {
+  background-color: #232d3d;
+}
+
+    /* ==========================================
+   ODS EN EL SECTOR TECNOLÓGICO
+========================================== */
+
+.rejilla-tecnologia-ods {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 20px;
+
+  margin: 30px 0 36px;
+}
+
+.tarjeta-tecnologia-ods {
+  display: flex;
+  flex-direction: column;
+
+  padding: 22px;
+
+  background-color: var(--fondo-tarjeta);
+
+  border: 1px solid var(--borde);
+  border-radius: 10px;
+}
+
+.icono-tecnologia-ods {
+  margin-bottom: 12px;
+
+  font-size: 30px;
+  line-height: 1;
+}
+
+.tarjeta-tecnologia-ods h3 {
+  margin: 0 0 12px;
+
+  font-size: 19px;
+  line-height: 1.35;
+}
+
+.tarjeta-tecnologia-ods p {
+  margin: 0 0 16px;
+
+  font-size: 15px;
+  line-height: 1.6;
+}
+
+.tarjeta-tecnologia-ods .ods-tarjeta {
+  margin-top: auto;
+  margin-bottom: 0;
+
+  padding-top: 12px;
+
+  border-top: 1px solid var(--borde);
+
+  color: var(--verde-principal);
+
+  font-size: 14px;
+}
+    /* ==========================================
+      TABLAS
+    ========================================== */
+
+    .tabla-responsive {
+      width: 100%;
+      margin: 28px 0;
+      overflow-x: auto;
+    }
+
+    .tabla-apuntes {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 16px;
+    }
+
+    .tabla-apuntes th,
+    .tabla-apuntes td {
+      padding: 14px 16px;
+      border: 1px solid var(--borde);
+      text-align: left;
+      vertical-align: top;
+      line-height: 1.55;
+    }
+
+    .tabla-apuntes th {
+      background-color: #f1f3f5;
+      font-weight: 700;
+    }
+    .tabla-apuntes th:first-child,
+    .tabla-apuntes td:first-child {
+      width: 48%;
+    }
+
+    .tabla-apuntes th:last-child,
+    .tabla-apuntes td:last-child {
+      width: 52%;
+    }
+    /* Tabla CSRD, ESRS y EFRAG */
+
+    .tabla-csrd th:first-child,
+    .tabla-csrd td:first-child {
+      width: 20%;
+    }
+
+    .tabla-csrd th:last-child,
+    .tabla-csrd td:last-child {
+      width: 80%;
+    }
+    /* Tabla Derechos humanos y sostenibilidad */
+
+    .tabla-derechos-humanos th:first-child,
+    .tabla-derechos-humanos td:first-child {
+      width: 25%;
+    }
+
+    .tabla-derechos-humanos th:last-child,
+    .tabla-derechos-humanos td:last-child {
+      width: 75%;
+    }
+    /* Tabla ODS y derechos humanos */
+
+    .tabla-ods-derechos th:first-child,
+    .tabla-ods-derechos td:first-child {
+      width: 32%;
+    }
+
+    .tabla-ods-derechos th:last-child,
+    .tabla-ods-derechos td:last-child {
+      width: 68%;
+    }
+    /* Tabla Pacto Mundial */
+
+    .tabla-pacto-mundial th:first-child,
+    .tabla-pacto-mundial td:first-child {
+      width: 35%;
+    }
+
+    .tabla-pacto-mundial th:last-child,
+    .tabla-pacto-mundial td:last-child {
+      width: 65%;
+    }
+    /* Tablas de los diez principios del Pacto Mundial */
+
+    .tabla-principios th:first-child,
+    .tabla-principios td:first-child {
+      width: 25%;
+    }
+
+    .tabla-principios th:last-child,
+    .tabla-principios td:last-child {
+      width: 75%;
+    }
+    /* Tabla Métricas e indicadores */
+
+    .tabla-metricas-indicadores th:first-child,
+    .tabla-metricas-indicadores td:first-child {
+      width: 25%;
+    }
+
+    .tabla-metricas-indicadores th:last-child,
+    .tabla-metricas-indicadores td:last-child {
+      width: 75%;
+    }
+    /* Tablas de indicadores ASG */
+
+    .tabla-indicadores th:nth-child(1),
+    .tabla-indicadores td:nth-child(1) {
+      width: 25%;
+    }
+
+    .tabla-indicadores th:nth-child(2),
+    .tabla-indicadores td:nth-child(2) {
+      width: 50%;
+    }
+
+    .tabla-indicadores th:nth-child(3),
+    .tabla-indicadores td:nth-child(3) {
+      width: 25%;
+    }
+    /* Tabla ejemplo global de indicadores ASG */
+
+    .tabla-ejemplo-asg th:nth-child(1),
+    .tabla-ejemplo-asg td:nth-child(1) {
+      width: 20%;
+    }
+
+    .tabla-ejemplo-asg th:nth-child(2),
+    .tabla-ejemplo-asg td:nth-child(2) {
+      width: 25%;
+    }
+
+    .tabla-ejemplo-asg th:nth-child(3),
+    .tabla-ejemplo-asg td:nth-child(3) {
+      width: 55%;
+    }
+    /* Tabla de indicadores sociales */
+
+    .tabla-indicadores-sociales th:nth-child(1),
+    .tabla-indicadores-sociales td:nth-child(1) {
+      width: 20%;
+    }
+
+    .tabla-indicadores-sociales th:nth-child(2),
+    .tabla-indicadores-sociales td:nth-child(2) {
+      width: 42%;
+    }
+
+    .tabla-indicadores-sociales th:nth-child(3),
+    .tabla-indicadores-sociales td:nth-child(3) {
+      width: 38%;
+    }
+    /* Tabla de indicadores de gobernanza */
+
+    .tabla-indicadores-gobernanza th:nth-child(1),
+    .tabla-indicadores-gobernanza td:nth-child(1) {
+      width: 20%;
+    }
+
+    .tabla-indicadores-gobernanza th:nth-child(2),
+    .tabla-indicadores-gobernanza td:nth-child(2) {
+      width: 42%;
+    }
+
+    .tabla-indicadores-gobernanza th:nth-child(3),
+    .tabla-indicadores-gobernanza td:nth-child(3) {
+      width: 38%;
+    }
+
+    body.modo-oscuro .tabla-apuntes th {
+      background-color: #273244;
+    }
+
+    /* ==========================================
+     ESQUEMA VISUAL
+    ========================================== */
+
+    .esquema-sostenibilidad {
+      max-width: 520px;
+      margin: 30px auto;
+      padding: 24px;
+      text-align: center;
+    }
+
+    .esquema-caja {
+      padding: 16px 20px;
+      background-color: var(--fondo-tarjeta);
+      border: 1px solid var(--borde);
+      border-radius: 10px;
+      font-size: 18px;
+      font-weight: 700;
+    }
+
+    .esquema-flecha {
+      margin: 8px 0;
+      color: var(--verde-principal);
+      font-size: 26px;
+      font-weight: 700;
+    }
+
+    .esquema-texto {
+      margin: 0 0 8px;
+      color: var(--texto-secundario);
+      font-size: 15px;
+    }
+
+
+    /* ==========================================
+     ACTIVIDAD DE REFLEXIÓN
+    ========================================== */
+
+    .actividad-reflexion {
+      margin: 32px 0;
+      padding: 22px 24px;
+      background-color: #f7f8fa;
+      border: 1px solid var(--borde);
+      border-radius: 10px;
+    }
+
+    .actividad-reflexion h3 {
+      margin: 0 0 12px;
+      color: var(--verde-principal);
+      font-size: 20px;
+    }
+
+    .actividad-reflexion p {
+      margin: 0;
+      font-size: 17px;
+      line-height: 1.65;
+    }
+
+    body.modo-oscuro .actividad-reflexion {
+      background-color: #232d3d;
+    }
+    /* ==========================================
+   SOLUCIÓN DESPLEGABLE
+========================================== */
+
+.solucion-desplegable {
+  margin-top: 20px;
+}
+
+.solucion-desplegable summary {
+  display: inline-block;
+
+  padding: 10px 16px;
+
+  background-color: #eef8f1;
+
+  border: 1px solid #b9dfc6;
+  border-radius: 7px;
+
+  color: var(--verde-principal);
+
+  font-size: 16px;
+  font-weight: 700;
+
+  cursor: pointer;
+  user-select: none;
+}
+
+.solucion-desplegable summary:hover {
+  background-color: #e2f3e7;
+}
+
+.contenido-solucion {
+  margin-top: 16px;
+
+  padding: 18px 20px;
+
+  background-color: var(--fondo-pagina);
+
+  border-left: 4px solid var(--verde-principal);
+  border-radius: 6px;
+}
+
+.contenido-solucion p {
+  margin: 0 0 12px;
+
+  font-size: 16px;
+  line-height: 1.65;
+}
+
+.contenido-solucion p:last-child {
+  margin-bottom: 0;
+}
+
+body.modo-oscuro .solucion-desplegable summary {
+  background-color: #20372a;
+  border-color: #315d40;
+}
+
+
+    /* ==========================================
+       COLUMNA DERECHA
+    ========================================== */
+
+    .indice-derecho {
+      padding: 28px 22px;
+
+      border-left: 1px solid var(--borde);
+
+      position: sticky;
+      top: 68px;
+
+      height: calc(100vh - 68px);
+    }
+
+    .indice-derecho h2 {
+      margin: 8px 0 20px;
+
+      font-size: 17px;
+      color: #555b65;
+    }
+
+    body.modo-oscuro .indice-derecho h2 {
+      color: #d1d5db;
+    }
+
+    .indice-derecho ul {
+      margin: 0;
+      padding-left: 18px;
+    }
+
+    .indice-derecho li {
+      margin-bottom: 12px;
+    }
+
+    .indice-derecho a {
+      color: var(--texto-secundario);
+
+      text-decoration: none;
+
+      font-size: 14px;
+      line-height: 1.4;
+    }
+
+    .indice-derecho a:hover {
+      color: var(--verde-principal);
+    }
+
+
+    /* ==========================================
+       NAVEGACIÓN ANTERIOR / SIGUIENTE
+    ========================================== */
+
+    .navegacion-paginas {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 20px;
+
+      margin-top: 50px;
+    }
+
+    .nav-pagina {
+      min-height: 100px;
+      padding: 18px 20px;
+
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+
+      border: 1px solid var(--borde);
+      border-radius: 8px;
+
+      text-decoration: none;
+
+      background-color: var(--fondo-tarjeta);
+    }
+
+    .nav-anterior {
+      align-items: flex-start;
+      text-align: left;
+    }
+
+    .nav-siguiente {
+      align-items: flex-end;
+      text-align: right;
+    }
+
+    .nav-etiqueta {
+      margin-bottom: 5px;
+
+      color: var(--texto-secundario);
+
+      font-size: 14px;
+    }
+
+    .nav-pagina strong {
+      color: var(--verde-principal);
+
+      font-size: 16px;
+      line-height: 1.4;
+    }
+
+    .nav-pagina:hover {
+      border-color: var(--verde-principal);
+    }
+
+
+    /* ==========================================
+       RESPONSIVE
+    ========================================== */
+
+    @media (max-width: 1100px) {
+
+      .pagina-ut {
+        grid-template-columns: 250px 1fr;
+      }
+
+      .indice-derecho {
+        display: none;
+      }
+      .rejilla-ods {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+      .rejilla-tecnologia-ods {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+
+    }
+
+    @media (max-width: 760px) {
+
+      .pagina-ut {
+        display: block;
+      }
+
+      .sidebar {
+        position: static;
+
+        width: 100%;
+        height: auto;
+
+        border-right: 0;
+        border-bottom: 1px solid var(--borde);
+      }
+
+      .contenido-ut {
+        padding: 28px 20px 60px;
+      }
+
+      .contenido-ut h1 {
+        font-size: 36px;
+      }
+
+      .navegacion-paginas {
+        grid-template-columns: 1fr;
+      }
+
+      .nav-siguiente {
+        align-items: flex-start;
+        text-align: left;
+      }
+      .linea-tiempo {
+        padding-left: 42px;
+      }
+
+      .linea-tiempo::before {
+        left: 11px;
+      }
+
+      .hito-tiempo {
+        margin-bottom: 24px;
+      }
+
+      .hito-tiempo::before {
+        left: -42px;
+      }
+
+      .hito-destacado::before {
+        left: -45px;
+      }
+
+      .fecha-tiempo {
+        position: static;
+        width: auto;
+        margin-bottom: 8px;
+        text-align: left;
+        font-size: 19px;
+      }
+
+      .hito-destacado .fecha-tiempo {
+        font-size: 20px;
+      }
+
+      .rejilla-ods {
+        grid-template-columns: 1fr;
+      }
+      .rejilla-tecnologia-ods {
+        grid-template-columns: 1fr;
+      }
+
+    }
+
+  </style>
+
+</head>
+
+
+<body>
+
+  <!-- ==========================================
+       BARRA SUPERIOR
+  ========================================== -->
+
+  <header class="navbar">
+
+    <a class="inicio" href="../../../index.html">
+
+      <img
+        src="../../../img/profesora-castana.png?v=2"
+        alt=""
+        class="icono-profesora"
+      >
+
+      <span>Inicio</span>
+
+    </a>
+
+    <nav
+      id="menuModulos"
+      class="menu-modulos"
+      aria-label="Módulos formativos"
+    ></nav>
+
+    <button
+      id="botonTema"
+      class="boton-tema"
+      type="button"
+      aria-label="Cambiar entre modo claro y oscuro"
+      title="Cambiar tema"
+    >
+      ☀️
+    </button>
+
+  </header>
+
+
+  <!-- ==========================================
+       ESTRUCTURA PRINCIPAL
+  ========================================== -->
+
+  <div class="pagina-ut">
+
+
+    <!-- ==========================================
+         COLUMNA IZQUIERDA
+    ========================================== -->
+
+<aside class="sidebar">
+
+  <!-- VOLVER AL MÓDULO -->
+  <a
+    class="sidebar-modulo"
+    href="../../index.html"
+  >
+    Sostenibilidad aplicada al sistema productivo
+  </a>
+
+
+  <!-- =========================
+       UT1
+  ========================== -->
+
+  <div class="menu-desplegable">
+
+    <div class="menu-cabecera menu-cabecera-activa">
+
+      <a
+        class="menu-titulo"
+        href="../index.html"
+      >
+        UT1 - Sostenibilidad, desarrollo sostenible y criterios ASG
+      </a>
+
+      <button
+        class="boton-desplegar"
+        type="button"
+        data-target="submenu-ut1"
+        aria-expanded="true"
+        aria-label="Mostrar u ocultar UT1"
+      >
+       ⌄
+      </button>
+
+    </div>
+
+
+    <div
+      id="submenu-ut1"
+      class="submenu submenu-abierto"
+    >
+
+      <!-- 1.1: TIENE SUBAPARTADOS -->
+
+      <div class="menu-desplegable menu-apartado">
+
+        <div class="menu-cabecera">
+
+          <a
+            class="menu-titulo"
+            href="../1-1/index.html"
+          >
+            1.1 Sostenibilidad y desarrollo sostenible
+          </a>
+
+          <button
+            class="boton-desplegar"
+            type="button"
+            data-target="submenu-1-1"
+            aria-expanded="false"
+            aria-label="Mostrar u ocultar los subapartados del 1.1"
+          >
+            ›
+          </button>
+
+        </div>
+
+
+        <div
+          id="submenu-1-1"
+          class="submenu submenu-apartados"
+        >
+
+          <a href="../1-1/index.html#que-es-sostenibilidad">
+  ¿Qué es la sostenibilidad?
+</a>
+
+<a href="../1-1/index.html#dimensiones">
+  Dimensiones de la sostenibilidad
+</a>
+
+<a href="../1-1/index.html#desarrollo-sostenible">
+  ¿Qué es el desarrollo sostenible?
+</a>
+
+<a href="../1-1/index.html#dia-a-dia">
+  La sostenibilidad en nuestro día a día
+</a>
+
+        </div>
+
+      </div>
+
+
+      <!-- 1.2: SIN SUBAPARTADOS -->
+
+      <a
+        class="enlace-apartado-simple"
+        href="../1-2/index.html"
+      >
+        1.2 Evolución del desarrollo sostenible
+      </a>
+
+
+      <!-- 1.3: SIN SUBAPARTADOS POR AHORA -->
+
+      <a
+        class="enlace-apartado-simple"
+        href="../1-3/index.html"
+      >
+        1.3 La ONU y el marco internacional del desarrollo sostenible
+      </a>
+      <a
+        class="enlace-apartado-simple"
+        href="../1-4/index.html"
+      >
+        1.4 Los criterios ASG: ambientales, sociales y de gobernanza
+      </a>
+      
+      <!-- 1.5: TIENE SUBAPARTADOS -->
+
+<div class="menu-desplegable menu-apartado">
+
+  <div class="menu-cabecera">
+
+    <a
+      class="menu-titulo"
+      href="../1-5/index.html"
+    >
+      1.5 Riesgos y oportunidades relacionados con los criterios ASG
+    </a>
+
+    <button
+      class="boton-desplegar"
+      type="button"
+      data-target="submenu-1-5"
+      aria-expanded="false"
+      aria-label="Mostrar u ocultar los subapartados del 1.5"
+    >
+      ›
+    </button>
+
+  </div>
+
+
+  <div
+    id="submenu-1-5"
+    class="submenu submenu-apartados"
+  >
+
+    <a href="../1-5/index.html#riesgos-asg">
+      ¿Qué son los riesgos ASG?
+    </a>
+
+    <a href="../1-5/index.html#riesgos-ambientales">
+      Riesgos ambientales
+    </a>
+
+    <a href="../1-5/index.html#riesgos-sociales">
+      Riesgos sociales
+    </a>
+
+    <a href="../1-5/index.html#riesgos-gobernanza">
+      Riesgos de gobernanza
+    </a>
+
+    <a href="../1-5/index.html#oportunidades-asg">
+      Oportunidades relacionadas con los ASG
+    </a>
+
+  </div>
+ </div>
+  <!-- 1.6: TIENE SUBAPARTADOS -->
+
+<div class="menu-desplegable menu-apartado">
+
+  <div class="menu-cabecera">
+
+    <a
+      class="menu-titulo"
+      href="../1-6/index.html"
+    >
+      1.6 La Agenda 2030 y los Objetivos de Desarrollo Sostenible
+    </a>
+
+    <button
+      class="boton-desplegar"
+      type="button"
+      data-target="submenu-1-6"
+      aria-expanded="false"
+      aria-label="Mostrar u ocultar los subapartados del 1.6"
+    >
+      ›
+    </button>
+
+  </div>
+
+  <div
+    id="submenu-1-6"
+    class="submenu submenu-apartados"
+  >
+
+    <a href="../1-6/index.html#agenda-2030">
+      ¿Qué es la Agenda 2030?
+    </a>
+
+    <a href="../1-6/index.html#ods">
+      Los 17 Objetivos de Desarrollo Sostenible
+    </a>
+
+    <a href="../1-6/index.html#metas-indicadores">
+      Metas e indicadores de los ODS
+    </a>
+
+    <a href="../1-6/index.html#relacion-ods">
+      Los ODS están relacionados entre sí
+    </a>
+
+    <a href="../1-6/index.html#sector-tecnologico">
+      La Agenda 2030 en el sector tecnológico
+    </a>
+
+  </div>
+
+</div>
+<!-- 1.7: TIENE SUBAPARTADOS -->
+
+<div class="menu-desplegable menu-apartado">
+
+  <div class="menu-cabecera">
+
+    <a
+      class="menu-titulo"
+      href="../1-7/index.html"
+    >
+      1.7 Marco normativo de la sostenibilidad en Europa
+    </a>
+
+    <button
+      class="boton-desplegar"
+      type="button"
+      data-target="submenu-1-7"
+      aria-expanded="false"
+      aria-label="Mostrar u ocultar los subapartados del 1.7"
+    >
+      ›
+    </button>
+
+  </div>
+
+  <div
+    id="submenu-1-7"
+    class="submenu submenu-apartados"
+  >
+
+    <a href="../1-7/index.html#sostenibilidad-ue">
+      La sostenibilidad en la Unión Europea
+    </a>
+
+    <a href="../1-7/index.html#pacto-verde">
+      El Pacto Verde Europeo
+    </a>
+
+    <a href="../1-7/index.html#informacion-sostenibilidad">
+      Información sobre sostenibilidad: CSRD, ESRS y EFRAG
+    </a>
+
+    <a href="../1-7/index.html#sostenibilidad-espana">
+      La sostenibilidad en España
+    </a>
+
+  </div>
+
+</div>
+      <!-- 1.8: TIENE SUBAPARTADOS -->
+
+<div class="menu-desplegable menu-apartado">
+
+  <div class="menu-cabecera">
+
+    <a
+      class="menu-titulo"
+      href="../1-8/index.html"
+    >
+      1.8 Derechos humanos, Agenda 2030 y Pacto Mundial
+    </a>
+
+    <button
+      class="boton-desplegar"
+      type="button"
+      data-target="submenu-1-8"
+      aria-expanded="false"
+      aria-label="Mostrar u ocultar los subapartados del 1.8"
+    >
+      ›
+    </button>
+
+  </div>
+
+  <div
+    id="submenu-1-8"
+    class="submenu submenu-apartados"
+  >
+
+    <a href="../1-8/index.html#derechos-humanos">
+      Derechos humanos y desarrollo sostenible
+    </a>
+
+    <a href="../1-8/index.html#derechos-humanos-ods">
+      Los derechos humanos y los ODS
+    </a>
+
+    <a href="../1-8/index.html#pacto-mundial">
+      El Pacto Mundial de Naciones Unidas
+    </a>
+
+    <a href="../1-8/index.html#principios-pacto-mundial">
+      Los diez principios del Pacto Mundial
+    </a>
+
+  </div>
+
+</div>
+<!-- 1.9: TIENE SUBAPARTADOS -->
+
+<div class="menu-desplegable menu-apartado">
+
+  <div class="menu-cabecera">
+
+    <a
+      class="menu-titulo"
+      href="../1-9/index.html"
+    >
+      1.9 Evaluación del desempeño en sostenibilidad
+    </a>
+
+    <button
+      class="boton-desplegar"
+      type="button"
+      data-target="submenu-1-9"
+      aria-expanded="false"
+      aria-label="Mostrar u ocultar los subapartados del 1.9"
+    >
+      ›
+    </button>
+
+  </div>
+
+  <div
+    id="submenu-1-9"
+    class="submenu submenu-apartados"
+  >
+
+    <a href="../1-9/index.html#por-que-medir">
+      ¿Por qué se mide la sostenibilidad?
+    </a>
+
+    <a href="../1-9/index.html#metricas-indicadores">
+      Métricas e indicadores ASG
+    </a>
+
+    <a href="../1-9/index.html#indicadores-ambientales">
+      Indicadores ambientales
+    </a>
+
+    <a href="../1-9/index.html#indicadores-sociales">
+      Indicadores sociales
+    </a>
+
+    <a href="../1-9/index.html#indicadores-economicos">
+      Indicadores económicos
+    </a>
+
+    <a href="../1-9/index.html#indicadores-gobernanza">
+      Indicadores de gobernanza
+    </a>
+
+    <a href="../1-9/index.html#ejemplo-empresa-tecnologica">
+      Ejemplo aplicado a una empresa tecnológica
+    </a>
+
+  </div>
+
+</div>
+      <!-- RESTO DE UT -->
+      <a class="sidebar-ut-cerrada" href="../../ut2/index.html">
+        <span>
+          UT2 - Retos ambientales y sociales
+        </span>
+        <span>›</span>
+      </a>
+
+      <a class="sidebar-ut-cerrada" href="../../ut3/index.html">
+        <span>
+          UT3 - Sostenibilidad en el desempeño profesional y personal
+        </span>
+        <span>›</span>
+      </a>
+
+      <a class="sidebar-ut-cerrada" href="../../ut4/index.html">
+        <span>
+          UT4 - Economía circular, ciclo de vida y ecodiseño
+        </span>
+        <span>›</span>
+      </a>
+
+      <a class="sidebar-ut-cerrada" href="../../ut5/index.html">
+        <span>
+          UT5 - Sostenibilidad aplicada al sector informático
+        </span>
+        <span>›</span>
+      </a>
+
+      <a class="sidebar-ut-cerrada" href="../../ut6/index.html">
+        <span>
+          UT6 - Plan de sostenibilidad de una empresa
+        </span>
+        <span>›</span>
+      </a>
+
+    </aside>
+
+
+    <!-- ==========================================
+         ZONA CENTRAL
+    ========================================== -->
+
+    <main class="contenido-ut">
+
+      <div class="migas">
+
+        <a
+          class="miga-inicio"
+          href="../../../index.html"
+          aria-label="Volver a la página principal"
+        >
+          🏠
+        </a>
+
+        <span class="miga-separador">›</span>
+
+        <a
+          class="miga-modulo"
+          href="../../index.html"
+        >
+          SASP
+        </a>
+
+        <span class="miga-separador">›</span>
+
+        <a
+          class="miga-modulo"
+          href="../index.html"
+        >
+          UT1
+        </a>
+
+  <span class="miga-separador">›</span>
+
+  <span class="miga-actual">
+    1.9
+  </span>
+
+</div>
+
+
+      <h1>
+          1.9 Evaluación del desempeño en sostenibilidad
+      </h1>
+      
+<section class="apartado-ut">
+
+  <p>
+    Para saber si una organización está avanzando realmente hacia un modelo más
+    sostenible no basta con establecer objetivos o adoptar determinadas medidas.
+    También es necesario <strong>medir y evaluar los resultados obtenidos</strong>.
+  </p>
+
+  <p>
+    La evaluación del desempeño en sostenibilidad permite conocer cómo evoluciona
+    una empresa en los ámbitos ambiental, social y de gobernanza, comparar sus
+    resultados y detectar aspectos que pueden mejorarse.
+  </p>
+
+  <h2 id="por-que-medir">
+    ¿Por qué se mide la sostenibilidad?
+  </h2>
+  <p>
+  Las empresas y organizaciones realizan cada vez más acciones relacionadas con
+  la sostenibilidad: reducen consumos, mejoran procesos, aplican políticas de
+  igualdad, gestionan mejor sus residuos o establecen medidas de transparencia.
+</p>
+
+<p>
+  Sin embargo, para saber si estas acciones están funcionando realmente es
+  necesario <strong>medir sus resultados</strong>.
+</p>
+
+<p>
+  La evaluación del desempeño en sostenibilidad permite transformar las acciones
+  de una organización en información que pueda ser analizada, comparada y utilizada
+  para tomar decisiones.
+</p>
+
+<div class="caja caja-importante">
+
+  <span class="caja-titulo">
+    📌 Importante
+  </span>
+
+  <p>
+    Medir la sostenibilidad permite comprobar si una organización está alcanzando
+    sus objetivos, detectar problemas y conocer cómo evoluciona su desempeño en
+    los ámbitos ambiental, social y de gobernanza.
+  </p>
+
+</div>
+
+<p>
+  Esta evaluación también mejora la <strong>transparencia</strong>, ya que permite
+  comunicar información sobre sostenibilidad a diferentes grupos de interés,
+  como trabajadores, clientes, inversores, administraciones públicas o proveedores.
+</p>
+
+<div class="caja caja-ejemplo">
+
+  <span class="caja-titulo">
+    💻 Ejemplo DAW
+  </span>
+
+  <p>
+    Una empresa de desarrollo web decide reducir el consumo energético de sus
+    servidores. Para saber si la medida ha funcionado no basta con afirmar que
+    los servidores son ahora más eficientes.
+  </p>
+
+  <p>
+    La empresa podría comparar el <strong>consumo eléctrico</strong> antes y después
+    del cambio, analizar la energía utilizada por sus infraestructuras o calcular
+    la reducción de emisiones asociada.
+  </p>
+
+</div>
+  <h2 id="metricas-indicadores">
+  Métricas e indicadores ASG
+</h2>
+  <p>
+  Para evaluar la sostenibilidad de una organización se utilizan
+  <strong>métricas</strong> e <strong>indicadores</strong> que permiten obtener
+  datos objetivos sobre su comportamiento.
+</p>
+
+<p>
+  Aunque ambos conceptos están relacionados, no significan exactamente lo mismo.
+</p>
+
+<div class="tabla-responsive">
+
+  <table class="tabla-apuntes tabla-metricas-indicadores">
+
+    <thead>
+      <tr>
+        <th>Concepto</th>
+        <th>¿Qué significa?</th>
+      </tr>
+    </thead>
+
+    <tbody>
+
+      <tr>
+        <td>
+          <strong>Métrica</strong>
+        </td>
+        <td>
+          Es un dato cuantificable que permite medir una determinada característica
+          o resultado. Por ejemplo, el consumo eléctrico mensual de unos servidores
+          expresado en kWh.
+        </td>
+      </tr>
+
+      <tr>
+        <td>
+          <strong>Indicador</strong>
+        </td>
+        <td>
+          Es una medida que se utiliza para interpretar la evolución o el nivel de
+          cumplimiento de un objetivo. Puede construirse a partir de una o varias métricas.
+        </td>
+      </tr>
+
+    </tbody>
+
+  </table>
+
+</div>
+
+<div class="caja caja-importante">
+
+  <span class="caja-titulo">
+    📌 Importante
+  </span>
+
+  <p>
+    Una métrica proporciona un <strong>dato</strong>, mientras que un indicador
+    ayuda a <strong>interpretar ese dato</strong> y comprobar si una organización
+    está mejorando o alcanzando un objetivo.
+  </p>
+
+</div>
+
+<div class="caja caja-ejemplo">
+
+  <span class="caja-titulo">
+    💻 Ejemplo DAW
+  </span>
+
+  <p>
+    Supongamos que una empresa registra que sus servidores consumen
+    <strong>8.000 kWh al año</strong>. Ese valor es una métrica.
+  </p>
+
+  <p>
+    Si la empresa se había marcado como objetivo reducir el consumo energético
+    un 10 % respecto al año anterior, podría utilizar la variación anual del
+    consumo como un <strong>indicador de eficiencia energética</strong>.
+  </p>
+
+</div>
+
+<p>
+  Dentro de la sostenibilidad, las métricas y los indicadores pueden agruparse
+  según los diferentes ámbitos ASG:
+</p>
+
+<ul>
+  <li><strong>Ambientales</strong>, relacionados con el uso de recursos y el impacto sobre el entorno.</li>
+  <li><strong>Sociales</strong>, relacionados con las personas y las condiciones de trabajo.</li>
+  <li><strong>Económicos</strong>, relacionados con la viabilidad y el rendimiento de las actuaciones sostenibles.</li>
+  <li><strong>De gobernanza</strong>, relacionados con la gestión, la transparencia y el cumplimiento de normas.</li>
+</ul>
+  <h2 id="indicadores-ambientales">
+  Indicadores ambientales
+</h2>
+  <p>
+  Los <strong>indicadores ambientales</strong> permiten evaluar el impacto que
+  las actividades de una organización producen sobre el medio ambiente.
+</p>
+
+<p>
+  Estos indicadores pueden medir, entre otros aspectos, el consumo de energía y
+  agua, las emisiones de gases de efecto invernadero, la generación de residuos
+  o el uso de materias primas y otros recursos.
+</p>
+
+<div class="tabla-responsive">
+
+  <table class="tabla-apuntes tabla-indicadores tabla-indicadores-sociales">
+
+    <thead>
+      <tr>
+        <th>Indicador</th>
+        <th>¿Qué permite evaluar?</th>
+        <th>Ejemplo de medida</th>
+      </tr>
+    </thead>
+
+    <tbody>
+
+      <tr>
+        <td><strong>Consumo energético</strong></td>
+        <td>
+          La cantidad de energía utilizada por la organización en sus
+          instalaciones, equipos o infraestructuras.
+        </td>
+        <td>kWh consumidos al año.</td>
+      </tr>
+
+      <tr>
+        <td><strong>Emisiones de gases de efecto invernadero</strong></td>
+        <td>
+          Las emisiones asociadas a las actividades de la organización.
+        </td>
+        <td>Toneladas de CO₂ equivalente (tCO₂e).</td>
+      </tr>
+
+      <tr>
+        <td><strong>Consumo de agua</strong></td>
+        <td>
+          La cantidad de agua utilizada en las actividades e instalaciones
+          de la organización.
+        </td>
+        <td>Metros cúbicos de agua consumidos.</td>
+      </tr>
+
+      <tr>
+        <td><strong>Generación de residuos</strong></td>
+        <td>
+          La cantidad y el tipo de residuos generados y la forma en la que
+          son gestionados.
+        </td>
+        <td>Kg de residuos generados o porcentaje reciclado.</td>
+      </tr>
+
+      <tr>
+        <td><strong>Uso de recursos</strong></td>
+        <td>
+          La cantidad de materiales y recursos utilizados para desarrollar
+          la actividad de la organización.
+        </td>
+        <td>Consumo de papel, materiales o equipos.</td>
+      </tr>
+
+    </tbody>
+
+  </table>
+
+</div>
+
+<div class="caja caja-ejemplo">
+
+  <span class="caja-titulo">
+    💻 Ejemplo DAW
+  </span>
+
+  <p>
+    En una empresa tecnológica algunos indicadores ambientales pueden estar
+    relacionados con el <strong>consumo energético de servidores y centros de
+    datos</strong>, la vida útil de los ordenadores, la cantidad de
+    <strong>residuos electrónicos</strong> generados o el porcentaje de equipos
+    que se reutilizan o reciclan.
+  </p>
+
+  <p>
+    También puede analizarse el impacto de las aplicaciones y servicios digitales.
+    Por ejemplo, optimizar una aplicación para reducir el procesamiento innecesario
+    o las transferencias de datos puede contribuir a disminuir el consumo de
+    recursos de la infraestructura que la ejecuta.
+  </p>
+
+</div>
+
+<div class="caja caja-importante">
+
+  <span class="caja-titulo">
+    📌 Importante
+  </span>
+
+  <p>
+    Aunque una empresa informática no fabrique productos físicos, su actividad
+    también tiene impacto ambiental: utiliza electricidad, servidores,
+    dispositivos electrónicos, redes e infraestructuras digitales.
+  </p>
+
+</div>
+  <h2 id="indicadores-sociales">
+  Indicadores sociales
+</h2>
+  <p>
+  Los <strong>indicadores sociales</strong> permiten evaluar cómo afecta la
+  actividad de una organización a las personas, especialmente a sus trabajadores,
+  clientes y otros grupos relacionados con ella.
+</p>
+
+<p>
+  Estos indicadores pueden analizar aspectos como la igualdad y la diversidad,
+  las condiciones laborales, la satisfacción de la plantilla, la rotación de
+  personal o la formación de los trabajadores.
+</p>
+
+<div class="tabla-responsive">
+
+  <table class="tabla-apuntes tabla-indicadores tabla-indicadores-gobernanza">
+
+    <thead>
+      <tr>
+        <th>Indicador</th>
+        <th>¿Qué permite evaluar?</th>
+        <th>Ejemplo de medida</th>
+      </tr>
+    </thead>
+
+    <tbody>
+
+      <tr>
+        <td><strong>Diversidad e igualdad</strong></td>
+        <td>
+          La representación de distintos grupos dentro de la organización y
+          la existencia de igualdad de oportunidades.
+        </td>
+        <td>
+          Porcentaje de mujeres en la plantilla o en puestos de responsabilidad.
+        </td>
+      </tr>
+
+      <tr>
+        <td><strong>Satisfacción de la plantilla</strong></td>
+        <td>
+          El grado de satisfacción de los trabajadores con sus condiciones
+          laborales y con la organización.
+        </td>
+        <td>
+          Resultados de encuestas de satisfacción laboral.
+        </td>
+      </tr>
+
+      <tr>
+        <td><strong>Rotación de personal</strong></td>
+        <td>
+          La frecuencia con la que los trabajadores abandonan la organización
+          y son sustituidos por otros.
+        </td>
+        <td>
+          Porcentaje anual de rotación de la plantilla.
+        </td>
+      </tr>
+
+      <tr>
+        <td><strong>Formación</strong></td>
+        <td>
+          El esfuerzo realizado por la organización para mejorar y actualizar
+          las competencias de sus trabajadores.
+        </td>
+        <td>
+          Horas de formación por trabajador y año.
+        </td>
+      </tr>
+
+      <tr>
+        <td><strong>Accesibilidad</strong></td>
+        <td>
+          El grado en que los productos, servicios o entornos digitales pueden
+          ser utilizados por personas con diferentes capacidades.
+        </td>
+        <td>
+          Porcentaje de servicios digitales que cumplen los criterios de
+          accesibilidad establecidos por la organización.
+        </td>
+      </tr>
+
+    </tbody>
+
+  </table>
+
+</div>
+
+<div class="caja caja-ejemplo">
+
+  <span class="caja-titulo">
+    💻 Ejemplo DAW
+  </span>
+
+  <p>
+    Una empresa dedicada al desarrollo de aplicaciones web podría medir las
+    <strong>horas de formación</strong> que recibe su equipo en nuevas
+    tecnologías, el nivel de satisfacción de sus trabajadores o la diversidad
+    de su plantilla.
+  </p>
+
+  <p>
+    También puede evaluar la <strong>accesibilidad de las aplicaciones y sitios
+    web que desarrolla</strong>, ya que crear servicios digitales que puedan ser
+    utilizados por el mayor número posible de personas contribuye a reducir
+    barreras y favorecer la inclusión digital.
+  </p>
+
+</div>
+
+<div class="caja caja-importante">
+
+  <span class="caja-titulo">
+    📌 Importante
+  </span>
+
+  <p>
+    La dimensión social de la sostenibilidad no se limita a las condiciones
+    laborales. También incluye cuestiones como la igualdad, la diversidad,
+    la formación, la inclusión y el impacto que los productos y servicios de
+    una organización tienen sobre las personas.
+  </p>
+
+</div>
+  
+<h2 id="indicadores-economicos">
+  Indicadores económicos
+</h2>
+  <p>
+  La sostenibilidad también debe ser compatible con la
+  <strong>viabilidad económica</strong> de la organización. Por ello, pueden
+  utilizarse indicadores que permitan analizar los resultados económicos de
+  las inversiones y actuaciones relacionadas con la sostenibilidad.
+</p>
+
+<p>
+  Estos indicadores ayudan a conocer si las medidas adoptadas generan ahorro,
+  mejoran la eficiencia, requieren determinadas inversiones o contribuyen a
+  crear productos y servicios más sostenibles.
+</p>
+
+<div class="tabla-responsive">
+
+  <table class="tabla-apuntes tabla-indicadores">
+
+    <thead>
+      <tr>
+        <th>Indicador</th>
+        <th>¿Qué permite evaluar?</th>
+        <th>Ejemplo de medida</th>
+      </tr>
+    </thead>
+
+    <tbody>
+
+      <tr>
+        <td><strong>Inversión sostenible</strong></td>
+        <td>
+          Los recursos económicos destinados a proyectos, tecnologías o
+          actuaciones que contribuyen a mejorar la sostenibilidad.
+        </td>
+        <td>
+          Euros invertidos en equipos más eficientes o energías renovables.
+        </td>
+      </tr>
+
+      <tr>
+        <td><strong>Retorno de la inversión (ROI)</strong></td>
+        <td>
+          La relación entre el beneficio obtenido y la inversión realizada
+          en una determinada actuación.
+        </td>
+        <td>
+          Porcentaje de retorno obtenido tras una inversión.
+        </td>
+      </tr>
+
+      <tr>
+        <td><strong>Ahorro de costes</strong></td>
+        <td>
+          La reducción de gastos conseguida mediante medidas de eficiencia
+          o sostenibilidad.
+        </td>
+        <td>
+          Euros ahorrados al año por reducir el consumo energético.
+        </td>
+      </tr>
+
+      <tr>
+        <td><strong>Ingresos de productos o servicios sostenibles</strong></td>
+        <td>
+          La aportación económica de productos o servicios que incorporan
+          criterios de sostenibilidad.
+        </td>
+        <td>
+          Porcentaje de ingresos procedente de productos o servicios
+          considerados sostenibles por la organización.
+        </td>
+      </tr>
+
+    </tbody>
+
+  </table>
+
+</div>
+
+<div class="caja caja-ejemplo">
+
+  <span class="caja-titulo">
+    💻 Ejemplo DAW
+  </span>
+
+  <p>
+    Una empresa de desarrollo web decide sustituir parte de su infraestructura
+    por servidores más eficientes. La inversión inicial supone un coste, pero
+    puede reducir el consumo eléctrico y, por tanto, el gasto energético de
+    los años siguientes.
+  </p>
+
+  <p>
+    La empresa podría medir el <strong>coste de la inversión</strong>, el
+    <strong>ahorro energético conseguido</strong> y el tiempo necesario para
+    recuperar el dinero invertido.
+  </p>
+
+</div>
+
+<div class="caja caja-importante">
+
+  <span class="caja-titulo">
+    📌 Importante
+  </span>
+
+  <p>
+    La sostenibilidad económica no consiste únicamente en obtener beneficios.
+    Implica que las actuaciones sean económicamente viables a largo plazo y
+    que la organización utilice sus recursos de forma eficiente y responsable.
+  </p>
+
+</div>
+  <h2 id="indicadores-gobernanza">
+  Indicadores de gobernanza
+</h2>
+<p>
+  Los <strong>indicadores de gobernanza</strong> permiten evaluar cómo se
+  dirige y gestiona una organización, prestando especial atención al
+  cumplimiento de las normas, la ética, la transparencia y la responsabilidad
+  en la toma de decisiones.
+</p>
+
+<p>
+  Una buena gobernanza ayuda a generar confianza entre los diferentes grupos
+  de interés y permite prevenir comportamientos inadecuados, incumplimientos
+  normativos y otros riesgos que pueden afectar a la organización.
+</p>
+
+<div class="tabla-responsive">
+
+  <table class="tabla-apuntes tabla-indicadores tabla-indicadores-gobernanza">
+
+    <thead>
+      <tr>
+        <th>Indicador</th>
+        <th>¿Qué permite evaluar?</th>
+        <th>Ejemplo de medida</th>
+      </tr>
+    </thead>
+
+    <tbody>
+
+      <tr>
+        <td><strong>Cumplimiento normativo</strong></td>
+        <td>
+          El grado en que la organización cumple las leyes, normas y
+          obligaciones aplicables a su actividad.
+        </td>
+        <td>
+          Número de incumplimientos o sanciones registrados.
+        </td>
+      </tr>
+
+      <tr>
+        <td><strong>Cumplimiento del código ético</strong></td>
+        <td>
+          La aplicación de los principios y normas de conducta establecidos
+          por la propia organización.
+        </td>
+        <td>
+          Número de incidencias o denuncias relacionadas con el código ético.
+        </td>
+      </tr>
+
+      <tr>
+        <td><strong>Transparencia</strong></td>
+        <td>
+          La capacidad de la organización para proporcionar información clara,
+          accesible y fiable sobre su actividad y sus resultados.
+        </td>
+        <td>
+          Publicación periódica de información e informes de sostenibilidad.
+        </td>
+      </tr>
+
+      <tr>
+        <td><strong>Protección de datos</strong></td>
+        <td>
+          La gestión responsable de los datos personales tratados por la
+          organización.
+        </td>
+        <td>
+          Número de incidentes relacionados con datos personales.
+        </td>
+      </tr>
+
+      <tr>
+        <td><strong>Seguridad de la información</strong></td>
+        <td>
+          La capacidad de la organización para proteger sus sistemas,
+          información y servicios digitales.
+        </td>
+        <td>
+          Número de incidentes de seguridad registrados y gestionados.
+        </td>
+      </tr>
+
+    </tbody>
+
+  </table>
+
+</div>
+
+<div class="caja caja-ejemplo">
+
+  <span class="caja-titulo">
+    💻 Ejemplo DAW
+  </span>
+
+  <p>
+    En una empresa de desarrollo web, la gobernanza también afecta directamente
+    al trabajo de los profesionales informáticos. La empresa debe gestionar
+    correctamente los <strong>datos personales de los usuarios</strong>,
+    establecer medidas de seguridad y cumplir las normas aplicables a los
+    servicios que desarrolla.
+  </p>
+
+  <p>
+    Por ejemplo, podría registrar el número de incidentes de seguridad
+    detectados, comprobar su resolución, analizar posibles brechas de datos
+    o revisar periódicamente el cumplimiento de sus políticas internas.
+  </p>
+
+</div>
+
+<div class="caja caja-importante">
+
+  <span class="caja-titulo">
+    📌 Importante
+  </span>
+
+  <p>
+    La gobernanza determina <strong>cómo se toman las decisiones y cómo se
+    controla el funcionamiento de una organización</strong>. Una empresa puede
+    obtener buenos resultados ambientales o sociales y, sin embargo, presentar
+    problemas de sostenibilidad si actúa sin transparencia, incumple las normas
+    o realiza prácticas poco éticas.
+  </p>
+
+</div>
+  <h2 id="ejemplo-empresa-tecnologica">
+  Ejemplo aplicado a una empresa tecnológica
+</h2>
+  <p>
+  Para evaluar el desempeño en sostenibilidad de una empresa no debemos analizar
+  cada aspecto de forma aislada. Lo habitual es utilizar un
+  <strong>conjunto de indicadores</strong> que permita obtener una visión global
+  de su comportamiento.
+</p>
+
+<p>
+  Imaginemos una empresa dedicada al <strong>desarrollo y alojamiento de
+  aplicaciones web</strong>. La empresa quiere evaluar anualmente su desempeño
+  en sostenibilidad y selecciona los siguientes indicadores:
+</p>
+
+<div class="tabla-responsive">
+
+  <table class="tabla-apuntes tabla-ejemplo-asg">
+
+    <thead>
+      <tr>
+        <th>Ámbito</th>
+        <th>Indicador</th>
+        <th>¿Qué analiza?</th>
+      </tr>
+    </thead>
+
+    <tbody>
+
+      <tr>
+        <td><strong>🌱 Ambiental</strong></td>
+        <td>Consumo energético</td>
+        <td>
+          La electricidad utilizada por servidores, equipos e instalaciones.
+        </td>
+      </tr>
+
+      <tr>
+        <td><strong>🌱 Ambiental</strong></td>
+        <td>Residuos electrónicos</td>
+        <td>
+          La cantidad de equipos retirados y el porcentaje que se reutiliza
+          o recicla correctamente.
+        </td>
+      </tr>
+
+      <tr>
+        <td><strong>👥 Social</strong></td>
+        <td>Formación de la plantilla</td>
+        <td>
+          Las horas dedicadas a actualizar y mejorar las competencias
+          profesionales de los trabajadores.
+        </td>
+      </tr>
+
+      <tr>
+        <td><strong>👥 Social</strong></td>
+        <td>Accesibilidad digital</td>
+        <td>
+          El grado de accesibilidad de las aplicaciones y sitios web
+          desarrollados por la empresa.
+        </td>
+      </tr>
+
+      <tr>
+        <td><strong>💶 Económico</strong></td>
+        <td>Ahorro energético</td>
+        <td>
+          La reducción de costes conseguida mediante infraestructuras
+          y equipos más eficientes.
+        </td>
+      </tr>
+
+      <tr>
+        <td><strong>⚖️ Gobernanza</strong></td>
+        <td>Protección de datos</td>
+        <td>
+          Los incidentes relacionados con el tratamiento y la protección
+          de datos personales.
+        </td>
+      </tr>
+
+      <tr>
+        <td><strong>⚖️ Gobernanza</strong></td>
+        <td>Seguridad de la información</td>
+        <td>
+          Los incidentes de seguridad detectados y la forma en la que
+          son gestionados.
+        </td>
+      </tr>
+
+    </tbody>
+
+  </table>
+
+</div>
+
+<div class="caja caja-importante">
+
+  <span class="caja-titulo">
+    📌 Importante
+  </span>
+
+  <p>
+    Ningún indicador por sí solo permite determinar si una empresa es
+    sostenible. Es necesario analizar <strong>un conjunto de indicadores</strong>
+    que refleje sus impactos ambientales, sociales, económicos y de gobernanza.
+  </p>
+
+</div>
+
+<div class="caja caja-ejemplo">
+
+  <span class="caja-titulo">
+    💻 Ejemplo DAW
+  </span>
+
+  <p>
+    Los profesionales del desarrollo web pueden influir directamente en varios
+    de estos indicadores mediante decisiones como optimizar aplicaciones,
+    reducir el consumo innecesario de recursos, desarrollar interfaces
+    accesibles, proteger los datos personales de los usuarios o aplicar
+    buenas prácticas de seguridad.
+  </p>
+
+</div>
+
+<div class="caja caja-piensa">
+
+  <span class="caja-titulo">
+    💭 Piensa
+  </span>
+
+  <p>
+    Una empresa tecnológica reduce un 20 % el consumo energético de sus
+    servidores, pero durante el mismo año aumenta considerablemente la rotación
+    de su plantilla y registra varios incidentes relacionados con la protección
+    de datos.
+  </p>
+
+  <p>
+    <strong>¿Podríamos afirmar únicamente por la reducción del consumo energético
+    que la empresa ha mejorado su sostenibilidad?</strong>
+  </p>
+
+  <details class="solucion-desplegable">
+
+    <summary>Ver una posible solución</summary>
+
+    <div class="contenido-solucion">
+
+      <p>
+        No necesariamente. La reducción del consumo energético supone una mejora
+        en el ámbito ambiental, pero la sostenibilidad debe evaluarse de forma
+        global.
+      </p>
+
+      <p>
+        El aumento de la rotación de personal podría mostrar problemas en el
+        ámbito social y los incidentes relacionados con la protección de datos
+        podrían indicar problemas de gobernanza.
+      </p>
+
+      <p>
+        Por tanto, para valorar correctamente la evolución de la empresa habría
+        que analizar <strong>todos los indicadores en conjunto</strong>.
+      </p>
+
+    </div>
+
+  </details>
+
+</div>
+  
+</section>
+      <!-- ==========================================
+           NAVEGACIÓN ANTERIOR / SIGUIENTE
+      ========================================== -->
+
+<nav class="navegacion-paginas">
+
+  <a
+    class="nav-pagina nav-anterior"
+    href="../1-8/index.html"
+  >
+
+    <span class="nav-etiqueta">
+      Anterior
+    </span>
+
+    <strong>
+      ‹ 1.8 Derechos humanos, Agenda 2030 y Pacto Mundial
+    </strong>
+
+  </a>
+
+  <a
+    class="nav-pagina nav-siguiente"
+    href="../1-9/index.html"
+  >
+
+    <span class="nav-etiqueta">
+      Siguiente
+    </span>
+
+    <strong>
+      1.9 Evaluación del desempeño en sostenibilidad ›
+    </strong>
+
+  </a>
+
+</nav>
+
+    </main>
+
+
+    <!-- ==========================================
+         COLUMNA DERECHA
+    ========================================== -->
+
+<aside class="indice-derecho">
+
+  <h2>
+    Contenidos del apartado
+  </h2>
+
+ <ul>
+
+  <li>
+    <a href="#por-que-medir">
+      ¿Por qué se mide la sostenibilidad?
+    </a>
+  </li>
+
+  <li>
+    <a href="#metricas-indicadores">
+      Métricas e indicadores ASG
+    </a>
+  </li>
+
+  <li>
+    <a href="#indicadores-ambientales">
+      Indicadores ambientales
+    </a>
+  </li>
+
+  <li>
+    <a href="#indicadores-sociales">
+      Indicadores sociales
+    </a>
+  </li>
+
+  <li>
+    <a href="#indicadores-economicos">
+      Indicadores económicos
+    </a>
+  </li>
+
+  <li>
+    <a href="#indicadores-gobernanza">
+      Indicadores de gobernanza
+    </a>
+  </li>
+
+  <li>
+    <a href="#ejemplo-empresa-tecnologica">
+      Ejemplo aplicado a una empresa tecnológica
+    </a>
+  </li>
+
+</ul>
+</aside>
+
+  </div>
+
+
+  <!-- ==========================================
+       FOOTER
+  ========================================== -->
+
+  <footer class="footer">
+
+    <p>
+
+      Material elaborado por
+
+      <strong>Eva Ballestero Cubeles</strong>
+
+      · Licencia
+
+      <span class="licencia">
+        CC BY-NC-SA 4.0
+      </span>
+
+      <a
+        class="enlace-licencia"
+        href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.es"
+        target="_blank"
+        rel="license noopener noreferrer"
+        aria-label="Licencia Creative Commons BY-NC-SA 4.0"
+      >
+
+        <img
+          class="icono-licencia"
+          src="../../../img/licencias/cc-by-nc-sa.png"
+          alt="Licencia Creative Commons BY-NC-SA 4.0"
+        >
+
+      </a>
+
+    </p>
+
+  </footer>
+
+
+  <!-- ==========================================
+       JAVASCRIPT
+  ========================================== -->
+
+  <script src="../../../js/modulos.js"></script>
+
+  <script>
+
+    /* ==========================================
+       MENÚ SUPERIOR DE MÓDULOS
+    ========================================== */
+
+    const menuModulos =
+      document.getElementById("menuModulos");
+
+    const botonTema =
+      document.getElementById("botonTema");
+
+    const modulosActivos =
+      modulos.filter(modulo => modulo.activo === true);
+
+    modulosActivos.forEach(modulo => {
+
+      const enlace =
+        document.createElement("a");
+
+      enlace.href =
+        `../../../${modulo.carpeta}/index.html`;
+
+      enlace.textContent =
+        modulo.siglas;
+
+      enlace.title =
+        modulo.nombre;
+
+      if (modulo.siglas === "SASP") {
+        enlace.style.color =
+          "var(--verde-principal)";
+      }
+
+      menuModulos.appendChild(enlace);
+
+    });
+
+
+    /* ==========================================
+       MODO CLARO / OSCURO
+    ========================================== */
+
+    const temaGuardado =
+      localStorage.getItem("tema");
+
+    if (temaGuardado === "oscuro") {
+
+      document.body.classList.add("modo-oscuro");
+
+      botonTema.textContent = "🌙";
+
+    }
+
+    botonTema.addEventListener("click", () => {
+
+      document.body.classList.toggle("modo-oscuro");
+
+      const estaOscuro =
+        document.body.classList.contains("modo-oscuro");
+
+      botonTema.textContent =
+        estaOscuro ? "🌙" : "☀️";
+
+      localStorage.setItem(
+        "tema",
+        estaOscuro ? "oscuro" : "claro"
+      );
+
+    });
+    /* ==========================================
+   MENÚ LATERAL DESPLEGABLE
+========================================== */
+
+const botonesDesplegar =
+  document.querySelectorAll(".boton-desplegar");
+
+
+function abrirSubmenu(boton, submenu) {
+
+  submenu.classList.add("submenu-abierto");
+
+  boton.textContent = "⌄";
+
+  boton.setAttribute(
+    "aria-expanded",
+    "true"
+  );
+
+}
+
+
+function cerrarSubmenu(boton, submenu) {
+
+  submenu.classList.remove("submenu-abierto");
+
+  boton.textContent = "›";
+
+  boton.setAttribute(
+    "aria-expanded",
+    "false"
+  );
+
+}
+
+
+/* ==========================================
+   ESTADO INICIAL DE LOS DESPLEGABLES
+========================================== */
+
+botonesDesplegar.forEach((boton) => {
+
+  const idSubmenu =
+    boton.getAttribute("data-target");
+
+  const submenu =
+    document.getElementById(idSubmenu);
+
+  if (!submenu) {
+    return;
+  }
+
+
+  /* UT1 permanece abierta */
+
+  if (idSubmenu === "submenu-ut1") {
+
+    abrirSubmenu(boton, submenu);
+
+    return;
+  }
+
+/* 1.1, 1.5, 1.6, 1.7, 1.8 y 1.9 */
+
+if (
+  idSubmenu === "submenu-1-1" ||
+  idSubmenu === "submenu-1-5" ||
+  idSubmenu === "submenu-1-6" ||
+  idSubmenu === "submenu-1-7" ||
+  idSubmenu === "submenu-1-8" ||
+  idSubmenu === "submenu-1-9"
+) {
+
+    const clave =
+      "sasp-" + idSubmenu;
+
+    const estadoManual =
+      localStorage.getItem(clave);
+
+
+    /*
+      Si el usuario lo abrió manualmente,
+      permanece abierto.
+    */
+
+    if (estadoManual === "abierto") {
+
+      abrirSubmenu(boton, submenu);
+
+      return;
+    }
+
+
+    /*
+      Si estamos en la propia página del apartado,
+      se abre automáticamente.
+      Esta apertura NO se guarda.
+    */
+
+    const ruta =
+      window.location.pathname;
+
+const esPaginaPropia =
+  (
+    idSubmenu === "submenu-1-1" &&
+    ruta.includes("/ut1/1-1/")
+  )
+  ||
+  (
+    idSubmenu === "submenu-1-5" &&
+    ruta.includes("/ut1/1-5/")
+  )
+  ||
+  (
+    idSubmenu === "submenu-1-6" &&
+    ruta.includes("/ut1/1-6/")
+  )
+  ||
+  (
+    idSubmenu === "submenu-1-7" &&
+    ruta.includes("/ut1/1-7/")
+  )
+  ||
+  (
+    idSubmenu === "submenu-1-8" &&
+    ruta.includes("/ut1/1-8/")
+  )
+  ||
+  (
+    idSubmenu === "submenu-1-9" &&
+    ruta.includes("/ut1/1-9/")
+  );
+
+
+    if (esPaginaPropia) {
+
+      abrirSubmenu(boton, submenu);
+
+    } else {
+
+      cerrarSubmenu(boton, submenu);
+
+    }
+
+  }
+
+});
+
+
+/* ==========================================
+   CLIC EN LAS FLECHAS
+========================================== */
+
+botonesDesplegar.forEach((boton) => {
+
+  boton.addEventListener("click", () => {
+
+    const idSubmenu =
+      boton.getAttribute("data-target");
+
+    const submenu =
+      document.getElementById(idSubmenu);
+
+    if (!submenu) {
+      return;
+    }
+
+
+    const estaAbierto =
+      submenu.classList.contains(
+        "submenu-abierto"
+      );
+
+
+    /* UT1 */
+
+    if (idSubmenu === "submenu-ut1") {
+
+      if (estaAbierto) {
+
+        cerrarSubmenu(boton, submenu);
+
+      } else {
+
+        abrirSubmenu(boton, submenu);
+
+      }
+
+      return;
+    }
+
+
+/* 1.1, 1.5, 1.6, 1.7, 1.8 y 1.9 */
+
+if (
+  idSubmenu === "submenu-1-1" ||
+  idSubmenu === "submenu-1-5" ||
+  idSubmenu === "submenu-1-6" ||
+  idSubmenu === "submenu-1-7" ||
+  idSubmenu === "submenu-1-8" ||
+  idSubmenu === "submenu-1-9"
+) {
+
+      const clave =
+        "sasp-" + idSubmenu;
+
+
+      if (estaAbierto) {
+
+        cerrarSubmenu(boton, submenu);
+
+        localStorage.removeItem(clave);
+
+      } else {
+
+        abrirSubmenu(boton, submenu);
+
+        localStorage.setItem(
+          clave,
+          "abierto"
+        );
+
+      }
+
+    }
+
+  });
+
+});
+
+  </script>
+
+</body>
+
+</html>
