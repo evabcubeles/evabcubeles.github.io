@@ -1318,6 +1318,125 @@ body.modo-oscuro .solucion-desplegable summary {
   opacity: 0.9;
   transform: translateY(-1px);
 }
+    /* Resultado de la autoevaluación */
+
+#resultado-autoevaluacion {
+  margin-top: 22px;
+}
+
+.mensaje-test {
+  padding: 16px 18px;
+
+  border-radius: 8px;
+
+  font-size: 16px;
+  line-height: 1.6;
+}
+
+.mensaje-aviso {
+  background-color: #fff7e8;
+
+  border-left: 5px solid #e09b27;
+}
+
+.resultado-test {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 14px;
+
+  padding: 18px 20px;
+
+  background-color: #eef8f1;
+
+  border-left: 5px solid var(--verde-principal);
+  border-radius: 8px;
+}
+
+.resultado-test strong {
+  font-size: 17px;
+}
+
+.resultado-test span {
+  font-size: 16px;
+}
+
+#boton-reintentar {
+  padding: 10px 16px;
+
+  border: 1px solid var(--verde-principal);
+  border-radius: 7px;
+
+  background-color: #ffffff;
+  color: var(--verde-principal);
+
+  font-family: inherit;
+  font-size: 15px;
+  font-weight: 700;
+
+  cursor: pointer;
+
+  transition:
+    background-color 0.2s ease,
+    color 0.2s ease;
+}
+
+#boton-reintentar:hover {
+  background-color: var(--verde-principal);
+  color: #ffffff;
+}
+
+
+/* Feedback de cada pregunta */
+
+.feedback-test {
+  margin-top: 16px;
+  padding: 14px 16px;
+
+  border-radius: 7px;
+
+  font-size: 16px;
+  line-height: 1.6;
+}
+
+.feedback-test p {
+  margin: 6px 0 0;
+
+  font-size: 16px;
+}
+
+.respuesta-correcta {
+  background-color: #eef8f1 !important;
+  border-color: #58b879 !important;
+}
+
+.respuesta-incorrecta {
+  background-color: #fff0f0 !important;
+  border-color: #d96c6c !important;
+}
+
+
+/* Modo oscuro */
+
+body.modo-oscuro .mensaje-aviso {
+  background-color: #3b3020;
+}
+
+body.modo-oscuro .resultado-test {
+  background-color: #20372a;
+}
+
+body.modo-oscuro #boton-reintentar {
+  background-color: #273244;
+}
+
+body.modo-oscuro .respuesta-correcta {
+  background-color: #20372a !important;
+}
+
+body.modo-oscuro .respuesta-incorrecta {
+  background-color: #402626 !important;
+}
 
 
 /* Modo oscuro */
