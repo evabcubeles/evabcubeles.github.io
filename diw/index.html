@@ -1,1 +1,604 @@
+<!DOCTYPE html>
+<html lang="es">
 
+<head>
+  <meta charset="UTF-8">
+
+  <meta
+    name="viewport"
+    content="width=device-width, initial-scale=1.0"
+  >
+
+  <meta
+    name="description"
+    content="Apuntes del módulo Diseño de interfaces web."
+  >
+
+  <title>Diseño de interfaces web</title>
+
+  <link rel="icon" type="image/png" href="../img/favicon.png?v=5">
+
+  <link rel="stylesheet" href="../css/estilos.css">
+
+  <style>
+    /* ==========================================
+       DISEÑO INTERNO DEL MÓDULO DIW
+    ========================================== */
+
+    .pagina-modulo {
+      display: grid;
+      grid-template-columns: 280px 1fr 260px;
+      min-height: calc(100vh - 68px);
+    }
+
+    /* ==========================================
+       COLUMNA IZQUIERDA
+    ========================================== */
+
+    .sidebar {
+      border-right: 1px solid var(--borde);
+      background-color: var(--fondo-pagina);
+
+      padding: 12px 10px 30px;
+
+      position: sticky;
+      top: 68px;
+
+      height: calc(100vh - 68px);
+
+      overflow-y: auto;
+    }
+
+    .sidebar-titulo {
+      margin-bottom: 12px;
+      padding: 10px 14px;
+
+      background-color: #f1f1f1;
+      border-radius: 5px;
+
+      color: #24844d;
+
+      font-size: 18px;
+      font-weight: 700;
+      line-height: 1.3;
+    }
+
+    body.modo-oscuro .sidebar-titulo {
+      background-color: #273244;
+      color: #5ed28a;
+    }
+
+    .lista-ut {
+      list-style: none;
+      margin: 0;
+      padding: 0;
+    }
+
+    .lista-ut li {
+      border-bottom: 1px solid transparent;
+    }
+
+    .enlace-ut {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+
+      padding: 12px 12px;
+
+      color: #626873;
+
+      text-decoration: none;
+
+      font-size: 16px;
+      font-weight: 650;
+      line-height: 1.35;
+
+      border-radius: 6px;
+
+      transition:
+        background-color 0.2s ease,
+        color 0.2s ease;
+    }
+
+    .enlace-ut:hover {
+      background-color: #f3f4f6;
+      color: var(--verde-principal);
+    }
+
+    body.modo-oscuro .enlace-ut:hover {
+      background-color: #273244;
+    }
+
+    .flecha-ut {
+      flex-shrink: 0;
+
+      color: #8b8b8b;
+
+      font-size: 24px;
+      font-weight: 400;
+    }
+
+    /* ==========================================
+       ZONA CENTRAL
+    ========================================== */
+
+    .contenido-modulo {
+      padding: 28px 34px 70px;
+
+      max-width: 1150px;
+      width: 100%;
+    }
+
+    .migas {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+
+      margin-bottom: 30px;
+
+      font-size: 14px;
+    }
+
+    .miga-inicio {
+      text-decoration: none;
+      font-size: 18px;
+    }
+
+    .miga-separador {
+      color: #999;
+      font-size: 22px;
+    }
+
+    .miga-actual {
+      padding: 8px 14px;
+
+      background-color: #f3f3f3;
+      border-radius: 24px;
+
+      color: var(--verde-principal);
+    }
+
+    body.modo-oscuro .miga-actual {
+      background-color: #273244;
+    }
+
+    .contenido-modulo h1 {
+      margin: 0 0 28px;
+
+      font-size: clamp(36px, 5vw, 58px);
+      line-height: 1.1;
+    }
+
+    .introduccion-modulo {
+      max-width: 980px;
+
+      font-size: 19px;
+      line-height: 1.75;
+    }
+
+    .introduccion-modulo p {
+      margin: 0 0 20px;
+    }
+
+    /* ==========================================
+       COLUMNA DERECHA
+    ========================================== */
+
+    .indice-derecho {
+      padding: 28px 22px;
+
+      border-left: 1px solid var(--borde);
+
+      position: sticky;
+      top: 68px;
+
+      height: calc(100vh - 68px);
+    }
+
+    .indice-derecho h2 {
+      margin: 8px 0 20px;
+
+      font-size: 17px;
+      color: #555b65;
+    }
+
+    body.modo-oscuro .indice-derecho h2 {
+      color: #d1d5db;
+    }
+
+    .indice-derecho ul {
+      margin: 0;
+      padding-left: 18px;
+    }
+
+    .indice-derecho li {
+      margin-bottom: 10px;
+    }
+
+    .indice-derecho a {
+      color: var(--texto-secundario);
+      text-decoration: none;
+      font-size: 14px;
+    }
+
+    .indice-derecho a:hover {
+      color: var(--verde-principal);
+    }
+
+    /* ==========================================
+     NAVEGACIÓN ANTERIOR / SIGUIENTE
+    ========================================== */
+
+    .navegacion-paginas {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 20px;
+
+      margin-top: 50px;
+    }
+
+    .nav-pagina {
+      min-height: 100px;
+      padding: 18px 20px;
+
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+
+      border: 1px solid var(--borde);
+      border-radius: 8px;
+
+      text-decoration: none;
+
+      background-color: var(--fondo-tarjeta);
+    }
+
+    .nav-siguiente {
+      text-align: right;
+      align-items: flex-end;
+    }
+
+    .nav-etiqueta {
+      margin-bottom: 5px;
+      color: var(--texto-secundario);
+      font-size: 14px;
+    }
+
+    .nav-pagina strong {
+      color: var(--verde-principal);
+
+      font-size: 16px;
+      line-height: 1.4;
+    }
+
+    a.nav-pagina:hover {
+      border-color: var(--verde-principal);
+    }
+    /* En la portada del módulo solo aparece "Siguiente" */
+
+    .portada-modulo {
+      grid-template-columns: 1fr 1fr;
+    }
+
+    .portada-modulo .nav-siguiente {
+      grid-column: 2;
+    }
+
+    /* ==========================================
+       RESPONSIVE
+    ========================================== */
+
+    @media (max-width: 1100px) {
+
+      .pagina-modulo {
+        grid-template-columns: 250px 1fr;
+      }
+
+      .indice-derecho {
+        display: none;
+      }
+    }
+
+    @media (max-width: 760px) {
+
+      .pagina-modulo {
+        display: block;
+      }
+
+      .sidebar {
+        position: static;
+
+        width: 100%;
+        height: auto;
+
+        border-right: 0;
+        border-bottom: 1px solid var(--borde);
+      }
+
+      .contenido-modulo {
+        padding: 28px 20px 60px;
+      }
+
+      .contenido-modulo h1 {
+        font-size: 36px;
+      }
+      .navegacion-paginas,
+      .portada-modulo {
+        grid-template-columns: 1fr;
+      }
+
+      .portada-modulo .nav-siguiente {
+        grid-column: 1;
+      }
+
+      .nav-siguiente {
+        text-align: left;
+        align-items: flex-start;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+  <!-- ==========================================
+       BARRA SUPERIOR
+  ========================================== -->
+
+  <header class="navbar">
+
+    <a class="inicio" href="../index.html">
+
+      <img
+        src="../img/profesora-castana.png?v=2"
+        alt=""
+        class="icono-profesora"
+      >
+
+      <span>Inicio</span>
+
+    </a>
+
+    <nav
+      id="menuModulos"
+      class="menu-modulos"
+      aria-label="Módulos formativos"
+    ></nav>
+
+    <button
+      id="botonTema"
+      class="boton-tema"
+      type="button"
+      aria-label="Cambiar entre modo claro y oscuro"
+      title="Cambiar tema"
+    >
+      ☀️
+    </button>
+
+  </header>
+
+
+  <!-- ==========================================
+       ESTRUCTURA PRINCIPAL
+  ========================================== -->
+
+  <div class="pagina-modulo">
+
+    <!-- COLUMNA IZQUIERDA -->
+
+    <aside class="sidebar">
+
+      <div class="sidebar-titulo">
+        Diseño de interfaces web
+      </div>
+
+      <ul class="lista-ut">
+
+        <li><a class="enlace-ut" href="ut1/index.html"><span>UT1 - Fundamentos del diseño de interfaces web</span><span class="flecha-ut">›</span></a></li>
+        <li><a class="enlace-ut" href="ut2/index.html"><span>UT2 - Color, tipografía, iconografía e identidad visual</span><span class="flecha-ut">›</span></a></li>
+        <li><a class="enlace-ut" href="ut3/index.html"><span>UT3 - Planificación, arquitectura y prototipado de interfaces</span><span class="flecha-ut">›</span></a></li>
+        <li><a class="enlace-ut" href="ut4/index.html"><span>UT4 - HTML: estructura y contenido de interfaces web</span><span class="flecha-ut">›</span></a></li>
+        <li><a class="enlace-ut" href="ut5/index.html"><span>UT5 - CSS: fundamentos y diseño visual</span><span class="flecha-ut">›</span></a></li>
+        <li><a class="enlace-ut" href="ut6/index.html"><span>UT6 - CSS: maquetación y diseño avanzado</span><span class="flecha-ut">›</span></a></li>
+        <li><a class="enlace-ut" href="ut7/index.html"><span>UT7 - Diseño web responsive</span><span class="flecha-ut">›</span></a></li>
+        <li><a class="enlace-ut" href="ut8/index.html"><span>UT8 - Recursos gráficos e imágenes para la web</span><span class="flecha-ut">›</span></a></li>
+        <li><a class="enlace-ut" href="ut9/index.html"><span>UT9 - Audio, vídeo, animaciones e interactividad</span><span class="flecha-ut">›</span></a></li>
+        <li><a class="enlace-ut" href="ut10/index.html"><span>UT10 - Accesibilidad web</span><span class="flecha-ut">›</span></a></li>
+        <li><a class="enlace-ut" href="ut11/index.html"><span>UT11 - Usabilidad y evaluación de interfaces web</span><span class="flecha-ut">›</span></a></li>
+
+      </ul>
+
+    </aside>
+
+
+    <!-- ZONA CENTRAL -->
+
+    <main class="contenido-modulo">
+
+      <div class="migas">
+
+        <a
+          class="miga-inicio"
+          href="../index.html"
+          aria-label="Volver a la página principal"
+        >
+          🏠
+        </a>
+
+        <span class="miga-separador">›</span>
+
+        <span class="miga-actual">
+          Diseño de interfaces web
+        </span>
+
+      </div>
+
+      <h1>Diseño de interfaces web</h1>
+
+      <div class="introduccion-modulo">
+
+        <p>
+          En este módulo aprenderemos a diseñar y desarrollar interfaces web
+          que sean visualmente coherentes, fáciles de utilizar, adaptables a
+          distintos dispositivos y accesibles para el mayor número posible de
+          personas.
+        </p>
+
+        <p>
+          A lo largo del curso estudiaremos los principios del diseño visual,
+          el uso del color y la tipografía, la planificación y el prototipado
+          de interfaces, y la creación de páginas mediante HTML y CSS.
+        </p>
+
+        <p>
+          También trabajaremos con imágenes, audio, vídeo, animaciones y otros
+          contenidos multimedia, y aprenderemos a evaluar una interfaz desde
+          dos perspectivas fundamentales en el desarrollo web profesional:
+          la <strong>accesibilidad</strong> y la <strong>usabilidad</strong>.
+        </p>
+
+        <p>
+          El enfoque será especialmente práctico: analizaremos interfaces,
+          construiremos ejemplos, modificaremos código y comprobaremos de forma
+          visual cómo cada decisión de diseño influye en la experiencia de las
+          personas usuarias.
+        </p>
+
+      </div>
+
+      <!-- ==========================================
+           NAVEGACIÓN SIGUIENTE
+      ========================================== -->
+
+      <nav class="navegacion-paginas portada-modulo">
+
+        <a class="nav-pagina nav-siguiente" href="ut1/index.html">
+
+          <span class="nav-etiqueta">
+            Siguiente
+          </span>
+
+          <strong>
+            UT1 - Fundamentos del diseño de interfaces web ›
+          </strong>
+
+        </a>
+
+      </nav>
+
+    </main>
+
+
+    <!-- COLUMNA DERECHA -->
+
+    <aside class="indice-derecho">
+
+      <h2>Contenidos del módulo</h2>
+
+      <ul>
+        <li><a href="ut1/index.html">UT1 · Fundamentos del diseño</a></li>
+        <li><a href="ut2/index.html">UT2 · Color, tipografía e identidad visual</a></li>
+        <li><a href="ut3/index.html">UT3 · Planificación y prototipado</a></li>
+        <li><a href="ut4/index.html">UT4 · HTML</a></li>
+        <li><a href="ut5/index.html">UT5 · CSS: fundamentos</a></li>
+        <li><a href="ut6/index.html">UT6 · CSS: maquetación avanzada</a></li>
+        <li><a href="ut7/index.html">UT7 · Responsive Web Design</a></li>
+        <li><a href="ut8/index.html">UT8 · Imágenes para la web</a></li>
+        <li><a href="ut9/index.html">UT9 · Multimedia e interactividad</a></li>
+        <li><a href="ut10/index.html">UT10 · Accesibilidad web</a></li>
+        <li><a href="ut11/index.html">UT11 · Usabilidad</a></li>
+      </ul>
+
+    </aside>
+
+  </div>
+
+
+  <footer class="footer">
+    <p>
+      Material elaborado por
+      <strong>Eva Ballestero Cubeles</strong>
+
+      - Licencia
+
+      <span class="licencia">
+        CC BY-NC-SA 4.0
+      </span>
+
+      <a
+        class="enlace-licencia"
+        href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.es"
+        target="_blank"
+        rel="license noopener noreferrer"
+        aria-label="Licencia Creative Commons BY-NC-SA 4.0"
+      >
+        <img
+          class="icono-licencia"
+          src="../img/licencias/cc-by-nc-sa.png"
+          alt="Licencia Creative Commons BY-NC-SA 4.0"
+        >
+      </a>
+    </p>
+  </footer>
+
+
+  <!-- ==========================================
+       JAVASCRIPT COMÚN
+  ========================================== -->
+
+  <script src="../js/modulos.js"></script>
+
+  <script>
+
+    const menuModulos = document.getElementById("menuModulos");
+    const botonTema = document.getElementById("botonTema");
+
+    const modulosActivos =
+      modulos.filter(modulo => modulo.activo === true);
+
+    modulosActivos.forEach(modulo => {
+
+      const enlace = document.createElement("a");
+
+      enlace.href = `../${modulo.carpeta}/index.html`;
+      enlace.textContent = modulo.siglas;
+      enlace.title = modulo.nombre;
+
+      if (modulo.siglas === "DIW") {
+        enlace.style.color = "var(--verde-principal)";
+      }
+
+      menuModulos.appendChild(enlace);
+
+    });
+
+
+    const temaGuardado = localStorage.getItem("tema");
+
+    if (temaGuardado === "oscuro") {
+      document.body.classList.add("modo-oscuro");
+      botonTema.textContent = "🌙";
+    }
+
+    botonTema.addEventListener("click", () => {
+
+      document.body.classList.toggle("modo-oscuro");
+
+      const estaOscuro =
+        document.body.classList.contains("modo-oscuro");
+
+      botonTema.textContent =
+        estaOscuro ? "🌙" : "☀️";
+
+      localStorage.setItem(
+        "tema",
+        estaOscuro ? "oscuro" : "claro"
+      );
+
+    });
+
+  </script>
+
+</body>
+</html>
