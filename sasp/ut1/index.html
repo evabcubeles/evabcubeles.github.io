@@ -649,14 +649,13 @@ body.modo-oscuro .submenu-apartados {
     ========================================== */
 
     .indice-derecho {
-      padding: 28px 22px;
-
+      padding: 28px 22px 100px;
       border-left: 1px solid var(--borde);
-
       position: sticky;
       top: 68px;
-
       height: calc(100vh - 68px);
+      overflow-y: auto;
+      box-sizing: border-box;
     }
 
     .indice-derecho h2 {
