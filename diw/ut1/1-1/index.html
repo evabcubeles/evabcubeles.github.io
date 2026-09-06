@@ -1,0 +1,1497 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+  <meta charset="UTF-8">
+
+  <meta
+    name="viewport"
+    content="width=device-width, initial-scale=1.0"
+  >
+
+  <meta
+    name="description"
+    content="1.1 - Introducción al diseño de interfaces web."
+  >
+
+  <title>1.1 - Introducción al diseño de interfaces web</title>
+
+  <link rel="icon" type="image/png" href="../../../img/favicon.png?v=5">
+  <link rel="stylesheet" href="../../../css/estilos.css">
+
+  <style>
+
+    /* ==========================================
+       ESTRUCTURA DE LA UT
+    ========================================== */
+
+    .pagina-ut {
+      display: grid;
+      grid-template-columns: 280px 1fr 260px;
+      min-height: calc(100vh - 68px);
+    }
+
+
+    /* ==========================================
+       COLUMNA IZQUIERDA
+    ========================================== */
+
+    .sidebar {
+      border-right: 1px solid var(--borde);
+      background-color: var(--fondo-pagina);
+
+      padding: 12px 10px 30px;
+
+      position: sticky;
+      top: 68px;
+
+      height: calc(100vh - 68px);
+      overflow-y: auto;
+    }
+
+    .sidebar-modulo {
+      display: block;
+      margin-bottom: 8px;
+      padding: 8px 14px;
+      color: #626873;
+      font-size: 17px;
+      font-weight: 700;
+      line-height: 1.3;
+      text-decoration: none;
+      border-radius: 6px;
+      transition:
+        color 0.2s ease,
+        background-color 0.2s ease;
+    }
+
+    .sidebar-modulo:hover {
+      color: var(--verde-principal);
+      background-color: #f3f4f6;
+    }
+
+    body.modo-oscuro .sidebar-modulo:hover {
+      background-color: #273244;
+    }
+
+    .sidebar-ut {
+      margin-bottom: 12px;
+      padding: 10px 14px;
+
+      background-color: #f1f1f1;
+      border-radius: 5px;
+
+      color: var(--verde-principal);
+
+      font-size: 17px;
+      font-weight: 700;
+      line-height: 1.35;
+    }
+    .sidebar-ut-activa {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+    }
+
+    .flecha-ut-abierta {
+      flex-shrink: 0;
+      font-size: 22px;
+      color: #777;
+    }
+
+    .sidebar-ut-cerrada {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      padding: 13px 14px;
+      color: #626873;
+      text-decoration: none;
+      font-size: 16px;
+      font-weight: 650;
+      line-height: 1.35;
+      border-radius: 6px;
+      transition:
+      background-color 0.2s ease,
+      color 0.2s ease;
+    }
+
+    .sidebar-ut-cerrada:hover {
+      background-color: #f3f4f6;
+      color: var(--verde-principal);
+    }
+
+    body.modo-oscuro .sidebar-ut-cerrada:hover {
+      background-color: #273244;
+    }
+
+    body.modo-oscuro .sidebar-ut {
+      background-color: #273244;
+      color: #5ed28a;
+    }
+
+    .lista-apartados {
+      list-style: none;
+      margin: 0;
+      padding: 0;
+    }
+
+    .enlace-apartado {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+
+      padding: 11px 14px;
+
+      color: #626873;
+
+      text-decoration: none;
+
+      font-size: 15px;
+      font-weight: 600;
+      line-height: 1.4;
+
+      border-radius: 6px;
+
+      transition:
+        background-color 0.2s ease,
+        color 0.2s ease;
+    }
+
+    .enlace-apartado:hover {
+      background-color: #f3f4f6;
+      color: var(--verde-principal);
+    }
+
+    body.modo-oscuro .enlace-apartado:hover {
+      background-color: #273244;
+    }
+
+    .flecha-apartado {
+      flex-shrink: 0;
+
+      color: #8b8b8b;
+
+      font-size: 22px;
+    }
+    /* ==========================================
+   MENÚ LATERAL DESPLEGABLE
+========================================== */
+
+.menu-desplegable {
+  width: 100%;
+}
+
+
+/* Cabecera de una UT o de un apartado */
+
+.menu-cabecera {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+
+  width: 100%;
+
+  border-radius: 6px;
+}
+
+
+/* UT en la que estamos actualmente */
+
+.menu-cabecera-activa {
+  background-color: #f1f1f1;
+}
+
+.menu-cabecera-activa > .menu-titulo {
+  color: var(--verde-principal);
+}
+
+
+/* Texto/enlace de la UT o apartado */
+
+.menu-titulo {
+  flex: 1;
+
+  display: block;
+
+  padding: 11px 8px 11px 14px;
+
+  color: #626873;
+
+  font-size: 16px;
+  font-weight: 650;
+  line-height: 1.4;
+
+  text-decoration: none;
+}
+
+.menu-titulo:hover {
+  color: var(--verde-principal);
+}
+
+
+/* Botón de la flecha */
+
+.boton-desplegar {
+  width: 36px;
+  height: 36px;
+
+  margin-right: 5px;
+  padding: 0;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  flex-shrink: 0;
+
+  border: 0;
+  border-radius: 6px;
+
+  background: transparent;
+
+  color: #777;
+
+  font-family: inherit;
+  font-size: 24px;
+  line-height: 1;
+
+  cursor: pointer;
+}
+
+.boton-desplegar:hover {
+  background-color: #e5e7eb;
+  color: var(--verde-principal);
+}
+
+
+/* ==========================================
+   CONTENIDO DESPLEGABLE
+========================================== */
+
+.submenu {
+  display: none;
+}
+
+.submenu.submenu-abierto {
+  display: block;
+}
+
+
+/* ==========================================
+   APARTADOS DE UNA UT
+========================================== */
+
+.menu-apartado {
+  margin-left: 14px;
+}
+
+.menu-apartado .menu-titulo {
+  padding-top: 9px;
+  padding-bottom: 9px;
+
+  font-size: 15px;
+  font-weight: 600;
+}
+
+
+/* Apartados que NO tienen subapartados */
+
+.enlace-apartado-simple {
+  display: block;
+
+  margin-left: 14px;
+  padding: 10px 14px;
+
+  color: #626873;
+
+  font-size: 15px;
+  font-weight: 600;
+  line-height: 1.4;
+
+  text-decoration: none;
+
+  border-radius: 6px;
+
+  transition:
+    background-color 0.2s ease,
+    color 0.2s ease;
+}
+
+.enlace-apartado-simple:hover {
+  background-color: #f3f4f6;
+  color: var(--verde-principal);
+}
+
+
+/* ==========================================
+   SUBAPARTADOS DE 1.1
+========================================== */
+
+.submenu-apartados {
+  margin: 2px 0 5px 28px;
+
+  border-left: 2px solid #e0e3e7;
+}
+
+.submenu-apartados a {
+  display: block;
+
+  padding: 7px 10px;
+
+  color: #777d87;
+
+  font-size: 14px;
+  font-weight: 500;
+  line-height: 1.35;
+
+  text-decoration: none;
+}
+
+.submenu-apartados a:hover {
+  color: var(--verde-principal);
+}
+
+
+/* ==========================================
+   MODO OSCURO DEL MENÚ
+========================================== */
+
+body.modo-oscuro .menu-cabecera-activa {
+  background-color: #273244;
+}
+
+body.modo-oscuro .boton-desplegar:hover {
+  background-color: #334155;
+}
+
+body.modo-oscuro .enlace-apartado-simple:hover {
+  background-color: #273244;
+}
+
+body.modo-oscuro .submenu-apartados {
+  border-left-color: #3a4659;
+}
+
+
+    /* ==========================================
+       ZONA CENTRAL
+    ========================================== */
+
+    .contenido-ut {
+      padding: 28px 34px 70px;
+
+      max-width: 1150px;
+      width: 100%;
+    }
+
+    .migas {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+
+      margin-bottom: 30px;
+
+      font-size: 14px;
+    }
+
+    .miga-inicio {
+      text-decoration: none;
+      font-size: 18px;
+    }
+
+    .miga-separador {
+      color: #999;
+      font-size: 22px;
+    }
+
+    .miga-modulo {
+      color: var(--texto-secundario);
+      text-decoration: none;
+    }
+
+    .miga-modulo:hover {
+      color: var(--verde-principal);
+    }
+
+    .miga-actual {
+      padding: 8px 14px;
+
+      background-color: #f3f3f3;
+      border-radius: 24px;
+
+      color: var(--verde-principal);
+    }
+
+    body.modo-oscuro .miga-actual {
+      background-color: #273244;
+    }
+
+    .contenido-ut h1 {
+      margin: 0 0 30px;
+
+      font-size: clamp(38px, 5vw, 58px);
+      line-height: 1.12;
+    }
+
+    .introduccion-ut {
+      max-width: 980px;
+
+      font-size: 19px;
+      line-height: 1.75;
+    }
+
+    .introduccion-ut p {
+      margin: 0 0 20px;
+    }
+    /* ==========================================
+     CONTENIDO DE LOS APARTADOS
+    ========================================== */
+
+    .apartado-ut {
+      margin-top: 55px;
+      scroll-margin-top: 95px;
+    }
+
+    .apartado-ut h2 {
+      margin: 0 0 24px;
+      font-size: 32px;
+      line-height: 1.2;
+    }
+
+    .apartado-ut h3 {
+      margin: 34px 0 16px;
+      font-size: 24px;
+      line-height: 1.3;
+    }
+
+    .apartado-ut p {
+      margin: 0 0 18px;
+      font-size: 18px;
+      line-height: 1.75;
+    }
+
+    .apartado-ut ul {
+      margin: 16px 0 24px;
+      padding-left: 28px;
+    }
+
+    .apartado-ut li {
+      margin-bottom: 10px;
+      font-size: 17px;
+      line-height: 1.6;
+    }
+
+
+    /* ==========================================
+     CAJAS DE LOS APUNTES
+    ========================================== */
+
+    .caja {
+      margin: 28px 0;
+      padding: 18px 20px;
+      border-left: 5px solid;
+      border-radius: 8px;
+      line-height: 1.65;
+    }
+
+    .caja p {
+      margin: 0;
+      font-size: 17px;
+    }
+
+    .caja-titulo {
+      display: block;
+      margin-bottom: 8px;
+      font-size: 17px;
+      font-weight: 700;
+    }
+
+    .caja-importante {
+      background-color: #eef8f1;
+      border-left-color: #2f9e5b;
+    }
+
+    .caja-atencion {
+      background-color: #fff7e8;
+      border-left-color: #e09b27;
+    }
+
+    .caja-ejemplo {
+      background-color: #eef5ff;
+      border-left-color: #3f7acb;
+    }
+
+    .caja-curiosidad {
+      background-color: #f7f1ff;
+      border-left-color: #8b5cc7;
+    }
+
+    body.modo-oscuro .caja-importante {
+      background-color: #20372a;
+    }
+
+    body.modo-oscuro .caja-atencion {
+      background-color: #3b3020;
+    }
+
+    body.modo-oscuro .caja-ejemplo {
+      background-color: #23344a;
+    }
+
+    body.modo-oscuro .caja-curiosidad {
+      background-color: #332944;
+    }
+
+
+    /* ==========================================
+      TABLAS
+    ========================================== */
+
+    .tabla-responsive {
+      width: 100%;
+      margin: 28px 0;
+      overflow-x: auto;
+    }
+
+    .tabla-apuntes {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 16px;
+    }
+
+    .tabla-apuntes th,
+    .tabla-apuntes td {
+      padding: 14px 16px;
+      border: 1px solid var(--borde);
+      text-align: left;
+      vertical-align: top;
+      line-height: 1.55;
+    }
+
+    .tabla-apuntes th {
+      background-color: #f1f3f5;
+      font-weight: 700;
+    }
+
+    body.modo-oscuro .tabla-apuntes th {
+      background-color: #273244;
+    }
+
+
+    /* ==========================================
+     ESQUEMA VISUAL
+    ========================================== */
+
+    .esquema-sostenibilidad {
+      max-width: 520px;
+      margin: 30px auto;
+      padding: 24px;
+      text-align: center;
+    }
+
+    .esquema-caja {
+      padding: 16px 20px;
+      background-color: var(--fondo-tarjeta);
+      border: 1px solid var(--borde);
+      border-radius: 10px;
+      font-size: 18px;
+      font-weight: 700;
+    }
+
+    .esquema-flecha {
+      margin: 8px 0;
+      color: var(--verde-principal);
+      font-size: 26px;
+      font-weight: 700;
+    }
+
+    .esquema-texto {
+      margin: 0 0 8px;
+      color: var(--texto-secundario);
+      font-size: 15px;
+    }
+
+
+    /* ==========================================
+     ACTIVIDAD DE REFLEXIÓN
+    ========================================== */
+
+    .actividad-reflexion {
+      margin: 32px 0;
+      padding: 22px 24px;
+      background-color: #f7f8fa;
+      border: 1px solid var(--borde);
+      border-radius: 10px;
+    }
+
+    .actividad-reflexion h3 {
+      margin: 0 0 12px;
+      color: var(--verde-principal);
+      font-size: 20px;
+    }
+
+    .actividad-reflexion p {
+      margin: 0;
+      font-size: 17px;
+      line-height: 1.65;
+    }
+
+    body.modo-oscuro .actividad-reflexion {
+      background-color: #232d3d;
+    }
+    /* ==========================================
+   SOLUCIÓN DESPLEGABLE
+========================================== */
+
+.solucion-desplegable {
+  margin-top: 20px;
+}
+
+.solucion-desplegable summary {
+  display: inline-block;
+
+  padding: 10px 16px;
+
+  background-color: #eef8f1;
+
+  border: 1px solid #b9dfc6;
+  border-radius: 7px;
+
+  color: var(--verde-principal);
+
+  font-size: 16px;
+  font-weight: 700;
+
+  cursor: pointer;
+  user-select: none;
+}
+
+.solucion-desplegable summary:hover {
+  background-color: #e2f3e7;
+}
+
+.contenido-solucion {
+  margin-top: 16px;
+
+  padding: 18px 20px;
+
+  background-color: var(--fondo-pagina);
+
+  border-left: 4px solid var(--verde-principal);
+  border-radius: 6px;
+}
+
+.contenido-solucion p {
+  margin: 0 0 12px;
+
+  font-size: 16px;
+  line-height: 1.65;
+}
+
+.contenido-solucion p:last-child {
+  margin-bottom: 0;
+}
+
+body.modo-oscuro .solucion-desplegable summary {
+  background-color: #20372a;
+  border-color: #315d40;
+}
+
+
+    /* ==========================================
+       COLUMNA DERECHA
+    ========================================== */
+
+    .indice-derecho {
+      padding: 28px 22px;
+
+      border-left: 1px solid var(--borde);
+
+      position: sticky;
+      top: 68px;
+
+      height: calc(100vh - 68px);
+    }
+
+    .indice-derecho h2 {
+      margin: 8px 0 20px;
+
+      font-size: 17px;
+      color: #555b65;
+    }
+
+    body.modo-oscuro .indice-derecho h2 {
+      color: #d1d5db;
+    }
+
+    .indice-derecho ul {
+      margin: 0;
+      padding-left: 18px;
+    }
+
+    .indice-derecho li {
+      margin-bottom: 12px;
+    }
+
+    .indice-derecho a {
+      color: var(--texto-secundario);
+
+      text-decoration: none;
+
+      font-size: 14px;
+      line-height: 1.4;
+    }
+
+    .indice-derecho a:hover {
+      color: var(--verde-principal);
+    }
+
+
+    /* ==========================================
+       NAVEGACIÓN ANTERIOR / SIGUIENTE
+    ========================================== */
+
+    .navegacion-paginas {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 20px;
+
+      margin-top: 50px;
+    }
+
+    .nav-pagina {
+      min-height: 100px;
+      padding: 18px 20px;
+
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+
+      border: 1px solid var(--borde);
+      border-radius: 8px;
+
+      text-decoration: none;
+
+      background-color: var(--fondo-tarjeta);
+    }
+
+    .nav-anterior {
+      align-items: flex-start;
+      text-align: left;
+    }
+
+    .nav-siguiente {
+      align-items: flex-end;
+      text-align: right;
+    }
+
+    .nav-etiqueta {
+      margin-bottom: 5px;
+
+      color: var(--texto-secundario);
+
+      font-size: 14px;
+    }
+
+    .nav-pagina strong {
+      color: var(--verde-principal);
+
+      font-size: 16px;
+      line-height: 1.4;
+    }
+
+    .nav-pagina:hover {
+      border-color: var(--verde-principal);
+    }
+
+
+    /* ==========================================
+       RESPONSIVE
+    ========================================== */
+
+    @media (max-width: 1100px) {
+
+      .pagina-ut {
+        grid-template-columns: 250px 1fr;
+      }
+
+      .indice-derecho {
+        display: none;
+      }
+
+    }
+
+    @media (max-width: 760px) {
+
+      .pagina-ut {
+        display: block;
+      }
+
+      .sidebar {
+        position: static;
+
+        width: 100%;
+        height: auto;
+
+        border-right: 0;
+        border-bottom: 1px solid var(--borde);
+      }
+
+      .contenido-ut {
+        padding: 28px 20px 60px;
+      }
+
+      .contenido-ut h1 {
+        font-size: 36px;
+      }
+
+      .navegacion-paginas {
+        grid-template-columns: 1fr;
+      }
+
+      .nav-siguiente {
+        align-items: flex-start;
+        text-align: left;
+      }
+
+    }
+
+  </style>
+
+</head>
+
+
+<body>
+
+  <header class="navbar">
+
+    <a class="inicio" href="../../../index.html">
+      <img
+        src="../../../img/profesora-castana.png?v=2"
+        alt=""
+        class="icono-profesora"
+      >
+      <span>Inicio</span>
+    </a>
+
+    <nav
+      id="menuModulos"
+      class="menu-modulos"
+      aria-label="Módulos formativos"
+    ></nav>
+
+    <button
+      id="botonTema"
+      class="boton-tema"
+      type="button"
+      aria-label="Cambiar entre modo claro y oscuro"
+      title="Cambiar tema"
+    >
+      ☀️
+    </button>
+
+  </header>
+
+
+  <div class="pagina-ut">
+
+    <aside class="sidebar">
+
+      <a class="sidebar-modulo" href="../../index.html">
+        Diseño de interfaces web
+      </a>
+
+      <div class="menu-desplegable">
+
+        <div class="menu-cabecera menu-cabecera-activa">
+
+          <a class="menu-titulo" href="../index.html">
+            UT1 - Fundamentos del diseño de interfaces web
+          </a>
+
+          <button
+            class="boton-desplegar"
+            type="button"
+            data-target="submenu-ut1"
+            aria-expanded="true"
+            aria-label="Mostrar u ocultar UT1"
+          >
+            ⌄
+          </button>
+
+        </div>
+
+        <div id="submenu-ut1" class="submenu submenu-abierto">
+
+          <div class="menu-desplegable menu-apartado">
+
+            <div class="menu-cabecera menu-cabecera-activa">
+
+              <a class="menu-titulo" href="index.html">
+                1.1 Introducción al diseño de interfaces web
+              </a>
+
+              <button
+                class="boton-desplegar"
+                type="button"
+                data-target="submenu-1-1"
+                aria-expanded="true"
+                aria-label="Mostrar u ocultar los subapartados del 1.1"
+              >
+                ⌄
+              </button>
+
+            </div>
+
+            <div
+              id="submenu-1-1"
+              class="submenu submenu-apartados submenu-abierto"
+            >
+              <a href="#que-es-interfaz">¿Qué es una interfaz web?</a>
+              <a href="#diseno-experiencia">Diseño de interfaces y experiencia de usuario</a>
+              <a href="#comunicacion-visual">La interfaz como sistema de comunicación visual</a>
+              <a href="#interaccion-persona-ordenador">Interacción persona-ordenador</a>
+              <a href="#resumen">Resumen</a>
+            </div>
+
+          </div>
+
+          <a class="enlace-apartado-simple" href="../1-2/index.html">
+            1.2 Principios de diseño visual
+          </a>
+
+          <a class="enlace-apartado-simple" href="../1-3/index.html">
+            1.3 Elementos del diseño gráfico
+          </a>
+
+          <a class="enlace-apartado-simple" href="../1-4/index.html">
+            1.4 Componentes de una interfaz web
+          </a>
+
+          <a class="enlace-apartado-simple" href="../1-5/index.html">
+            1.5 Diseño centrado en el usuario
+          </a>
+
+          <a class="enlace-apartado-simple" href="../actividades/index.html">
+            📝 Actividades de la UT1
+          </a>
+
+        </div>
+
+      </div>
+
+
+      <a class="sidebar-ut-cerrada" href="../../ut2/index.html"><span>UT2 - Color, tipografía, iconografía e identidad visual</span><span>›</span></a>
+      <a class="sidebar-ut-cerrada" href="../../ut3/index.html"><span>UT3 - Planificación, arquitectura y prototipado de interfaces</span><span>›</span></a>
+      <a class="sidebar-ut-cerrada" href="../../ut4/index.html"><span>UT4 - HTML: estructura y contenido de interfaces web</span><span>›</span></a>
+      <a class="sidebar-ut-cerrada" href="../../ut5/index.html"><span>UT5 - CSS: fundamentos y diseño visual</span><span>›</span></a>
+      <a class="sidebar-ut-cerrada" href="../../ut6/index.html"><span>UT6 - CSS: maquetación y diseño avanzado</span><span>›</span></a>
+      <a class="sidebar-ut-cerrada" href="../../ut7/index.html"><span>UT7 - Diseño web responsive</span><span>›</span></a>
+      <a class="sidebar-ut-cerrada" href="../../ut8/index.html"><span>UT8 - Recursos gráficos e imágenes para la web</span><span>›</span></a>
+      <a class="sidebar-ut-cerrada" href="../../ut9/index.html"><span>UT9 - Audio, vídeo, animaciones e interactividad</span><span>›</span></a>
+      <a class="sidebar-ut-cerrada" href="../../ut10/index.html"><span>UT10 - Accesibilidad web</span><span>›</span></a>
+      <a class="sidebar-ut-cerrada" href="../../ut11/index.html"><span>UT11 - Usabilidad y evaluación de interfaces web</span><span>›</span></a>
+
+    </aside>
+
+
+    <main class="contenido-ut">
+
+      <div class="migas">
+
+        <a
+          class="miga-inicio"
+          href="../../../index.html"
+          aria-label="Volver a la página principal"
+        >
+          🏠
+        </a>
+
+        <span class="miga-separador">›</span>
+
+        <a class="miga-modulo" href="../../index.html">
+          DIW
+        </a>
+
+        <span class="miga-separador">›</span>
+
+        <a class="miga-modulo" href="../index.html">
+          UT1
+        </a>
+
+        <span class="miga-separador">›</span>
+
+        <span class="miga-actual">
+          1.1
+        </span>
+
+      </div>
+
+
+      <h1>
+        1.1 Introducción al diseño de interfaces web
+      </h1>
+
+
+      <section class="apartado-ut">
+
+        <p>
+          Cuando utilizamos una página web o una aplicación, interactuamos
+          continuamente con botones, menús, enlaces, imágenes, formularios,
+          mensajes, iconos y otros elementos visuales. El conjunto de esos
+          elementos y la forma en que se organizan constituyen la
+          <strong>interfaz</strong> que permite a la persona usuaria
+          comunicarse con el sistema.
+        </p>
+
+        <p>
+          Diseñar una interfaz web no consiste únicamente en hacer que una
+          página resulte atractiva. Una buena interfaz debe ayudar a comprender
+          la información, indicar con claridad qué acciones pueden realizarse
+          y permitir que las personas alcancen sus objetivos de forma sencilla.
+        </p>
+
+        <div class="caja caja-importante">
+          <span class="caja-titulo">📌 Importante</span>
+          <p>
+            En diseño web, la apariencia es importante, pero
+            <strong>el objetivo principal de una interfaz es facilitar la
+            comunicación y la interacción entre la persona y el sistema</strong>.
+          </p>
+        </div>
+
+
+        <h2 id="que-es-interfaz">
+          ¿Qué es una interfaz web?
+        </h2>
+
+        <p>
+          Una <strong>interfaz web</strong> es el conjunto de elementos
+          visuales e interactivos mediante los que una persona consulta
+          información y realiza acciones en un sitio o una aplicación web.
+        </p>
+
+        <p>
+          Forman parte de una interfaz, entre otros elementos:
+        </p>
+
+        <ul>
+          <li>los menús y sistemas de navegación;</li>
+          <li>los botones y enlaces;</li>
+          <li>los textos, títulos e imágenes;</li>
+          <li>los formularios y campos de entrada;</li>
+          <li>los iconos;</li>
+          <li>los mensajes de información, confirmación o error;</li>
+          <li>la distribución de los contenidos en la pantalla.</li>
+        </ul>
+
+        <p>
+          Todos estos elementos deben funcionar de manera coordinada. Una
+          interfaz puede contener toda la información necesaria y, sin
+          embargo, resultar difícil de utilizar si la navegación no es clara,
+          los botones no se distinguen o la información aparece desordenada.
+        </p>
+
+        <div class="caja caja-ejemplo">
+          <span class="caja-titulo">💻 Ejemplo DAW</span>
+          <p>
+            Imagina una tienda online. La interfaz incluye el menú de
+            categorías, el buscador, las fichas de producto, el botón
+            <strong>Añadir al carrito</strong>, el carrito de compra y el
+            formulario de pago. Si cualquiera de estos elementos resulta
+            confuso, la persona usuaria puede abandonar la compra aunque la
+            aplicación funcione correctamente por dentro.
+          </p>
+        </div>
+
+
+        <h2 id="diseno-experiencia">
+          Diseño de interfaces y experiencia de usuario
+        </h2>
+
+        <p>
+          El <strong>diseño de interfaces</strong> se ocupa de decidir cómo
+          se presentan y se comportan los elementos con los que interactúa el
+          usuario: su posición, tamaño, jerarquía, color, tipografía,
+          consistencia y respuesta ante las acciones.
+        </p>
+
+        <p>
+          Está estrechamente relacionado con la
+          <strong>experiencia de usuario</strong> o <strong>UX</strong>
+          (<em>User Experience</em>), que analiza la experiencia global de
+          una persona al utilizar un producto o servicio.
+        </p>
+
+        <div class="tabla-responsive">
+          <table class="tabla-apuntes">
+            <thead>
+              <tr>
+                <th>Concepto</th>
+                <th>Pregunta principal</th>
+                <th>Ejemplo</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><strong>Diseño de interfaz (UI)</strong></td>
+                <td>¿Cómo se presenta y cómo se utiliza la interfaz?</td>
+                <td>Diseño de botones, menús, colores, tipografías y componentes.</td>
+              </tr>
+              <tr>
+                <td><strong>Experiencia de usuario (UX)</strong></td>
+                <td>¿Cómo es la experiencia completa de la persona al utilizar el producto?</td>
+                <td>Facilidad para localizar un producto, comprarlo y saber si el pedido se ha realizado correctamente.</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <div class="caja caja-atencion">
+          <span class="caja-titulo">⚠️ Atención</span>
+          <p>
+            <strong>UI y UX están relacionadas, pero no son exactamente lo
+            mismo.</strong> Una página puede ser visualmente atractiva y tener
+            una mala experiencia de usuario si resulta difícil navegar por
+            ella o completar una tarea.
+          </p>
+        </div>
+
+
+        <h2 id="comunicacion-visual">
+          La interfaz como sistema de comunicación visual
+        </h2>
+
+        <p>
+          Una interfaz comunica constantemente, incluso cuando no utiliza
+          palabras. El tamaño de un título, el color de un botón, la posición
+          de un elemento o un icono pueden indicar al usuario qué es
+          importante, qué puede pulsar o qué acción se espera que realice.
+        </p>
+
+        <p>
+          Por esta razón, el diseño web utiliza principios de
+          <strong>comunicación visual</strong>. El objetivo es organizar los
+          elementos de forma que la información pueda interpretarse con
+          rapidez y que las acciones disponibles resulten comprensibles.
+        </p>
+
+        <div class="tabla-responsive">
+          <table class="tabla-apuntes">
+            <thead>
+              <tr>
+                <th>Decisión de diseño</th>
+                <th>¿Qué puede comunicar?</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>Un título de mayor tamaño</td>
+                <td>Que esa información tiene mayor jerarquía.</td>
+              </tr>
+              <tr>
+                <td>Un botón visualmente destacado</td>
+                <td>Que representa una acción principal.</td>
+              </tr>
+              <tr>
+                <td>Elementos próximos entre sí</td>
+                <td>Que están relacionados.</td>
+              </tr>
+              <tr>
+                <td>Un icono de papelera</td>
+                <td>Que existe una acción relacionada con eliminar.</td>
+              </tr>
+              <tr>
+                <td>Un mensaje junto a un campo de formulario</td>
+                <td>Que existe información o un problema relacionado con ese campo.</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <p>
+          En los siguientes apartados estudiaremos con más detalle principios
+          como la jerarquía visual, el contraste, la alineación, la proximidad
+          y la repetición.
+        </p>
+
+
+        <h2 id="interaccion-persona-ordenador">
+          Interacción persona-ordenador
+        </h2>
+
+        <p>
+          La <strong>interacción persona-ordenador</strong> estudia cómo las
+          personas utilizan los sistemas informáticos y cómo deben diseñarse
+          esos sistemas para facilitar dicha interacción.
+        </p>
+
+        <p>
+          En una aplicación web, la interacción no se limita a hacer clic con
+          un ratón. Una persona puede utilizar:
+        </p>
+
+        <ul>
+          <li>ratón o panel táctil;</li>
+          <li>pantallas táctiles;</li>
+          <li>teclado;</li>
+          <li>lectores de pantalla y otras tecnologías de apoyo;</li>
+          <li>dispositivos con diferentes tamaños y resoluciones;</li>
+          <li>distintos navegadores y sistemas operativos.</li>
+        </ul>
+
+        <p>
+          Por tanto, una interfaz debe diseñarse teniendo en cuenta
+          <strong>quién la utilizará, para qué la utilizará y en qué
+          condiciones</strong>.
+        </p>
+
+        <div class="caja caja-ejemplo">
+          <span class="caja-titulo">💻 Ejemplo DAW</span>
+          <p>
+            Un botón muy pequeño puede resultar relativamente sencillo de
+            seleccionar con un ratón, pero difícil de pulsar en un teléfono
+            móvil. Del mismo modo, una opción que solo funciona al pasar el
+            ratón por encima puede generar problemas para usuarios de
+            pantallas táctiles o teclado.
+          </p>
+        </div>
+
+        <div class="actividad-reflexion">
+          <h3>💭 Piensa</h3>
+
+          <p>
+            Una página web utiliza texto gris claro sobre fondo blanco, botones
+            sin ningún elemento que los diferencie del resto del texto y un
+            menú que solo aparece cuando se pasa el ratón sobre una imagen.
+          </p>
+
+          <p>
+            Aunque la página pueda parecer moderna, ¿qué problemas de
+            interacción o comunicación visual observas?
+          </p>
+
+          <details class="solucion-desplegable">
+
+            <summary>
+              Ver una posible solución
+            </summary>
+
+            <div class="contenido-solucion">
+
+              <p>
+                El texto puede presentar un contraste insuficiente y resultar
+                difícil de leer. Los botones pueden no parecer interactivos,
+                por lo que el usuario puede no saber dónde pulsar.
+              </p>
+
+              <p>
+                Además, un menú que depende exclusivamente de pasar el ratón
+                sobre una imagen puede ser difícil o imposible de utilizar
+                mediante una pantalla táctil o únicamente con teclado.
+              </p>
+
+              <p>
+                La solución sería mejorar el contraste, diferenciar visualmente
+                los controles interactivos y diseñar una navegación que pueda
+                utilizarse con distintos dispositivos y formas de interacción.
+              </p>
+
+            </div>
+
+          </details>
+
+        </div>
+
+
+        <h2 id="resumen">
+          Resumen
+        </h2>
+
+        <ul>
+          <li>
+            Una interfaz web es el conjunto de elementos visuales e
+            interactivos mediante los que una persona utiliza un sitio o
+            aplicación web.
+          </li>
+          <li>
+            Diseñar una interfaz no consiste únicamente en mejorar su
+            apariencia: también debe facilitar la comprensión y la interacción.
+          </li>
+          <li>
+            El diseño de interfaz (UI) y la experiencia de usuario (UX) están
+            relacionados, pero representan conceptos diferentes.
+          </li>
+          <li>
+            La interfaz actúa como un sistema de comunicación visual.
+          </li>
+          <li>
+            El diseño debe tener en cuenta a los usuarios, sus objetivos y las
+            diferentes formas de interactuar con la aplicación.
+          </li>
+        </ul>
+
+      </section>
+
+
+      <nav class="navegacion-paginas">
+
+        <a class="nav-pagina nav-anterior" href="../index.html">
+          <span class="nav-etiqueta">Anterior</span>
+          <strong>‹ UT1 - Fundamentos del diseño de interfaces web</strong>
+        </a>
+
+        <a class="nav-pagina nav-siguiente" href="../1-2/index.html">
+          <span class="nav-etiqueta">Siguiente</span>
+          <strong>1.2 Principios de diseño visual ›</strong>
+        </a>
+
+      </nav>
+
+    </main>
+
+
+    <aside class="indice-derecho">
+
+      <h2>En este apartado</h2>
+
+      <ul>
+        <li><a href="#que-es-interfaz">¿Qué es una interfaz web?</a></li>
+        <li><a href="#diseno-experiencia">Diseño de interfaces y experiencia de usuario</a></li>
+        <li><a href="#comunicacion-visual">Comunicación visual</a></li>
+        <li><a href="#interaccion-persona-ordenador">Interacción persona-ordenador</a></li>
+        <li><a href="#resumen">Resumen</a></li>
+      </ul>
+
+    </aside>
+
+  </div>
+
+
+  <footer class="footer">
+    <p>
+      Material elaborado por
+      <strong>Eva Ballestero Cubeles</strong>
+      · Licencia
+      <span class="licencia">CC BY-NC-SA 4.0</span>
+
+      <a
+        class="enlace-licencia"
+        href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.es"
+        target="_blank"
+        rel="license noopener noreferrer"
+        aria-label="Licencia Creative Commons BY-NC-SA 4.0"
+      >
+        <img
+          class="icono-licencia"
+          src="../../../img/licencias/cc-by-nc-sa.png"
+          alt="Licencia Creative Commons BY-NC-SA 4.0"
+        >
+      </a>
+    </p>
+  </footer>
+
+
+  <script src="../../../js/modulos.js"></script>
+
+  <script>
+
+    const menuModulos =
+      document.getElementById("menuModulos");
+
+    const botonTema =
+      document.getElementById("botonTema");
+
+    const modulosActivos =
+      modulos.filter(modulo => modulo.activo === true);
+
+    modulosActivos.forEach(modulo => {
+
+      const enlace =
+        document.createElement("a");
+
+      enlace.href =
+        `../../../${modulo.carpeta}/index.html`;
+
+      enlace.textContent =
+        modulo.siglas;
+
+      enlace.title =
+        modulo.nombre;
+
+      if (modulo.siglas === "DIW") {
+        enlace.style.color =
+          "var(--verde-principal)";
+      }
+
+      menuModulos.appendChild(enlace);
+
+    });
+
+
+    const temaGuardado =
+      localStorage.getItem("tema");
+
+    if (temaGuardado === "oscuro") {
+      document.body.classList.add("modo-oscuro");
+      botonTema.textContent = "🌙";
+    }
+
+    botonTema.addEventListener("click", () => {
+
+      document.body.classList.toggle("modo-oscuro");
+
+      const estaOscuro =
+        document.body.classList.contains("modo-oscuro");
+
+      botonTema.textContent =
+        estaOscuro ? "🌙" : "☀️";
+
+      localStorage.setItem(
+        "tema",
+        estaOscuro ? "oscuro" : "claro"
+      );
+
+    });
+
+
+    const botonesDesplegar =
+      document.querySelectorAll(".boton-desplegar");
+
+    botonesDesplegar.forEach((boton) => {
+
+      boton.addEventListener("click", () => {
+
+        const idSubmenu =
+          boton.getAttribute("data-target");
+
+        const submenu =
+          document.getElementById(idSubmenu);
+
+        if (!submenu) {
+          return;
+        }
+
+        const estaAbierto =
+          submenu.classList.contains("submenu-abierto");
+
+        if (estaAbierto) {
+          submenu.classList.remove("submenu-abierto");
+          boton.textContent = "›";
+          boton.setAttribute("aria-expanded", "false");
+        } else {
+          submenu.classList.add("submenu-abierto");
+          boton.textContent = "⌄";
+          boton.setAttribute("aria-expanded", "true");
+        }
+
+      });
+
+    });
+
+  </script>
+
+</body>
+</html>
