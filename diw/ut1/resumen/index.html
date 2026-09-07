@@ -1,0 +1,1426 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+  <meta charset="UTF-8">
+
+  <meta
+    name="viewport"
+    content="width=device-width, initial-scale=1.0"
+  >
+
+  <meta
+    name="description"
+    content="Resumen de la UT1 - Fundamentos del diseño de interfaces web."
+  >
+
+  <title>Resumen UT1 - Fundamentos del diseño de interfaces web</title>
+
+  <link rel="icon" type="image/png" href="../../../img/favicon.png?v=5">
+  <link rel="stylesheet" href="../../../css/estilos.css">
+
+  <style>
+
+    /* ==========================================
+       ESTRUCTURA DE LA UT
+    ========================================== */
+
+    .pagina-ut {
+      display: grid;
+      grid-template-columns: 280px 1fr 260px;
+      min-height: calc(100vh - 68px);
+    }
+
+
+    /* ==========================================
+       COLUMNA IZQUIERDA
+    ========================================== */
+
+    .sidebar {
+      border-right: 1px solid var(--borde);
+      background-color: var(--fondo-pagina);
+
+      padding: 12px 10px 30px;
+
+      position: sticky;
+      top: 68px;
+
+      height: calc(100vh - 68px);
+      overflow-y: auto;
+    }
+
+    .sidebar-modulo {
+      display: block;
+      margin-bottom: 8px;
+      padding: 8px 14px;
+      color: #626873;
+      font-size: 17px;
+      font-weight: 700;
+      line-height: 1.3;
+      text-decoration: none;
+      border-radius: 6px;
+      transition:
+        color 0.2s ease,
+        background-color 0.2s ease;
+    }
+
+    .sidebar-modulo:hover {
+      color: var(--verde-principal);
+      background-color: #f3f4f6;
+    }
+
+    body.modo-oscuro .sidebar-modulo:hover {
+      background-color: #273244;
+    }
+
+    .sidebar-ut {
+      margin-bottom: 12px;
+      padding: 10px 14px;
+
+      background-color: #f1f1f1;
+      border-radius: 5px;
+
+      color: var(--verde-principal);
+
+      font-size: 17px;
+      font-weight: 700;
+      line-height: 1.35;
+    }
+    .sidebar-ut-activa {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+    }
+
+    .flecha-ut-abierta {
+      flex-shrink: 0;
+      font-size: 22px;
+      color: #777;
+    }
+
+    .sidebar-ut-cerrada {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      padding: 13px 14px;
+      color: #626873;
+      text-decoration: none;
+      font-size: 16px;
+      font-weight: 650;
+      line-height: 1.35;
+      border-radius: 6px;
+      transition:
+      background-color 0.2s ease,
+      color 0.2s ease;
+    }
+
+    .sidebar-ut-cerrada:hover {
+      background-color: #f3f4f6;
+      color: var(--verde-principal);
+    }
+
+    body.modo-oscuro .sidebar-ut-cerrada:hover {
+      background-color: #273244;
+    }
+
+    body.modo-oscuro .sidebar-ut {
+      background-color: #273244;
+      color: #5ed28a;
+    }
+
+    .lista-apartados {
+      list-style: none;
+      margin: 0;
+      padding: 0;
+    }
+
+    .enlace-apartado {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+
+      padding: 11px 14px;
+
+      color: #626873;
+
+      text-decoration: none;
+
+      font-size: 15px;
+      font-weight: 600;
+      line-height: 1.4;
+
+      border-radius: 6px;
+
+      transition:
+        background-color 0.2s ease,
+        color 0.2s ease;
+    }
+
+    .enlace-apartado:hover {
+      background-color: #f3f4f6;
+      color: var(--verde-principal);
+    }
+
+    body.modo-oscuro .enlace-apartado:hover {
+      background-color: #273244;
+    }
+
+    .flecha-apartado {
+      flex-shrink: 0;
+
+      color: #8b8b8b;
+
+      font-size: 22px;
+    }
+    /* ==========================================
+   MENÚ LATERAL DESPLEGABLE
+========================================== */
+
+.menu-desplegable {
+  width: 100%;
+}
+
+
+/* Cabecera de una UT o de un apartado */
+
+.menu-cabecera {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+
+  width: 100%;
+
+  border-radius: 6px;
+}
+
+
+/* UT en la que estamos actualmente */
+
+.menu-cabecera-activa {
+  background-color: #f1f1f1;
+}
+
+.menu-cabecera-activa > .menu-titulo {
+  color: var(--verde-principal);
+}
+
+
+/* Texto/enlace de la UT o apartado */
+
+.menu-titulo {
+  flex: 1;
+
+  display: block;
+
+  padding: 11px 8px 11px 14px;
+
+  color: #626873;
+
+  font-size: 16px;
+  font-weight: 650;
+  line-height: 1.4;
+
+  text-decoration: none;
+}
+
+.menu-titulo:hover {
+  color: var(--verde-principal);
+}
+
+
+/* Botón de la flecha */
+
+.boton-desplegar {
+  width: 36px;
+  height: 36px;
+
+  margin-right: 5px;
+  padding: 0;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  flex-shrink: 0;
+
+  border: 0;
+  border-radius: 6px;
+
+  background: transparent;
+
+  color: #777;
+
+  font-family: inherit;
+  font-size: 24px;
+  line-height: 1;
+
+  cursor: pointer;
+}
+
+.boton-desplegar:hover {
+  background-color: #e5e7eb;
+  color: var(--verde-principal);
+}
+
+
+/* ==========================================
+   CONTENIDO DESPLEGABLE
+========================================== */
+
+.submenu {
+  display: none;
+}
+
+.submenu.submenu-abierto {
+  display: block;
+}
+
+
+/* ==========================================
+   APARTADOS DE UNA UT
+========================================== */
+
+.menu-apartado {
+  margin-left: 14px;
+}
+
+.menu-apartado .menu-titulo {
+  padding-top: 9px;
+  padding-bottom: 9px;
+
+  font-size: 15px;
+  font-weight: 600;
+}
+
+
+/* Apartados que NO tienen subapartados */
+
+.enlace-apartado-simple {
+  display: block;
+
+  margin-left: 14px;
+  padding: 10px 14px;
+
+  color: #626873;
+
+  font-size: 15px;
+  font-weight: 600;
+  line-height: 1.4;
+
+  text-decoration: none;
+
+  border-radius: 6px;
+
+  transition:
+    background-color 0.2s ease,
+    color 0.2s ease;
+}
+
+.enlace-apartado-simple:hover {
+  background-color: #f3f4f6;
+  color: var(--verde-principal);
+}
+
+
+/* ==========================================
+   SUBAPARTADOS DE 1.1
+========================================== */
+
+.submenu-apartados {
+  margin: 2px 0 5px 28px;
+
+  border-left: 2px solid #e0e3e7;
+}
+
+.submenu-apartados a {
+  display: block;
+
+  padding: 7px 10px;
+
+  color: #777d87;
+
+  font-size: 14px;
+  font-weight: 500;
+  line-height: 1.35;
+
+  text-decoration: none;
+}
+
+.submenu-apartados a:hover {
+  color: var(--verde-principal);
+}
+
+
+/* ==========================================
+   MODO OSCURO DEL MENÚ
+========================================== */
+
+body.modo-oscuro .menu-cabecera-activa {
+  background-color: #273244;
+}
+
+body.modo-oscuro .boton-desplegar:hover {
+  background-color: #334155;
+}
+
+body.modo-oscuro .enlace-apartado-simple:hover {
+  background-color: #273244;
+}
+
+body.modo-oscuro .submenu-apartados {
+  border-left-color: #3a4659;
+}
+
+
+    /* ==========================================
+       ZONA CENTRAL
+    ========================================== */
+
+    .contenido-ut {
+      padding: 28px 34px 70px;
+
+      max-width: 1150px;
+      width: 100%;
+    }
+
+    .migas {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+
+      margin-bottom: 30px;
+
+      font-size: 14px;
+    }
+
+    .miga-inicio {
+      text-decoration: none;
+      font-size: 18px;
+    }
+
+    .miga-separador {
+      color: #999;
+      font-size: 22px;
+    }
+
+    .miga-modulo {
+      color: var(--texto-secundario);
+      text-decoration: none;
+    }
+
+    .miga-modulo:hover {
+      color: var(--verde-principal);
+    }
+
+    .miga-actual {
+      padding: 8px 14px;
+
+      background-color: #f3f3f3;
+      border-radius: 24px;
+
+      color: var(--verde-principal);
+    }
+
+    body.modo-oscuro .miga-actual {
+      background-color: #273244;
+    }
+
+    .contenido-ut h1 {
+      margin: 0 0 30px;
+
+      font-size: clamp(38px, 5vw, 58px);
+      line-height: 1.12;
+    }
+
+    .introduccion-ut {
+      max-width: 980px;
+
+      font-size: 19px;
+      line-height: 1.75;
+    }
+
+    .introduccion-ut p {
+      margin: 0 0 20px;
+    }
+    /* ==========================================
+     CONTENIDO DE LOS APARTADOS
+    ========================================== */
+
+    .apartado-ut {
+      margin-top: 55px;
+      scroll-margin-top: 95px;
+    }
+
+    .apartado-ut h2 {
+      margin: 0 0 24px;
+      font-size: 32px;
+      line-height: 1.2;
+    }
+
+    .apartado-ut h3 {
+      margin: 34px 0 16px;
+      font-size: 24px;
+      line-height: 1.3;
+    }
+
+    .apartado-ut p {
+      margin: 0 0 18px;
+      font-size: 18px;
+      line-height: 1.75;
+    }
+
+    .apartado-ut ul {
+      margin: 16px 0 24px;
+      padding-left: 28px;
+    }
+
+    .apartado-ut li {
+      margin-bottom: 10px;
+      font-size: 17px;
+      line-height: 1.6;
+    }
+
+
+    /* ==========================================
+     CAJAS DE LOS APUNTES
+    ========================================== */
+
+    .caja {
+      margin: 28px 0;
+      padding: 18px 20px;
+      border-left: 5px solid;
+      border-radius: 8px;
+      line-height: 1.65;
+    }
+
+    .caja p {
+      margin: 0;
+      font-size: 17px;
+    }
+
+    .caja-titulo {
+      display: block;
+      margin-bottom: 8px;
+      font-size: 17px;
+      font-weight: 700;
+    }
+
+    .caja-importante {
+      background-color: #eef8f1;
+      border-left-color: #2f9e5b;
+    }
+
+    .caja-atencion {
+      background-color: #fff7e8;
+      border-left-color: #e09b27;
+    }
+
+    .caja-ejemplo {
+      background-color: #eef5ff;
+      border-left-color: #3f7acb;
+    }
+
+    .caja-curiosidad {
+      background-color: #f7f1ff;
+      border-left-color: #8b5cc7;
+    }
+
+    body.modo-oscuro .caja-importante {
+      background-color: #20372a;
+    }
+
+    body.modo-oscuro .caja-atencion {
+      background-color: #3b3020;
+    }
+
+    body.modo-oscuro .caja-ejemplo {
+      background-color: #23344a;
+    }
+
+    body.modo-oscuro .caja-curiosidad {
+      background-color: #332944;
+    }
+
+
+    /* ==========================================
+      TABLAS
+    ========================================== */
+
+    .tabla-responsive {
+      width: 100%;
+      margin: 28px 0;
+      overflow-x: auto;
+    }
+
+    .tabla-apuntes {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 16px;
+    }
+
+    .tabla-apuntes th,
+    .tabla-apuntes td {
+      padding: 14px 16px;
+      border: 1px solid var(--borde);
+      text-align: left;
+      vertical-align: top;
+      line-height: 1.55;
+    }
+
+    .tabla-apuntes th {
+      background-color: #f1f3f5;
+      font-weight: 700;
+    }
+
+    body.modo-oscuro .tabla-apuntes th {
+      background-color: #273244;
+    }
+
+
+    /* ==========================================
+     ESQUEMA VISUAL
+    ========================================== */
+
+    .esquema-sostenibilidad {
+      max-width: 520px;
+      margin: 30px auto;
+      padding: 24px;
+      text-align: center;
+    }
+
+    .esquema-caja {
+      padding: 16px 20px;
+      background-color: var(--fondo-tarjeta);
+      border: 1px solid var(--borde);
+      border-radius: 10px;
+      font-size: 18px;
+      font-weight: 700;
+    }
+
+    .esquema-flecha {
+      margin: 8px 0;
+      color: var(--verde-principal);
+      font-size: 26px;
+      font-weight: 700;
+    }
+
+    .esquema-texto {
+      margin: 0 0 8px;
+      color: var(--texto-secundario);
+      font-size: 15px;
+    }
+
+
+    /* ==========================================
+     ACTIVIDAD DE REFLEXIÓN
+    ========================================== */
+
+    .actividad-reflexion {
+      margin: 32px 0;
+      padding: 22px 24px;
+      background-color: #f7f8fa;
+      border: 1px solid var(--borde);
+      border-radius: 10px;
+    }
+
+    .actividad-reflexion h3 {
+      margin: 0 0 12px;
+      color: var(--verde-principal);
+      font-size: 20px;
+    }
+
+    .actividad-reflexion p {
+      margin: 0;
+      font-size: 17px;
+      line-height: 1.65;
+    }
+
+    body.modo-oscuro .actividad-reflexion {
+      background-color: #232d3d;
+    }
+    /* ==========================================
+   SOLUCIÓN DESPLEGABLE
+========================================== */
+
+.solucion-desplegable {
+  margin-top: 20px;
+}
+
+.solucion-desplegable summary {
+  display: inline-block;
+
+  padding: 10px 16px;
+
+  background-color: #eef8f1;
+
+  border: 1px solid #b9dfc6;
+  border-radius: 7px;
+
+  color: var(--verde-principal);
+
+  font-size: 16px;
+  font-weight: 700;
+
+  cursor: pointer;
+  user-select: none;
+}
+
+.solucion-desplegable summary:hover {
+  background-color: #e2f3e7;
+}
+
+.contenido-solucion {
+  margin-top: 16px;
+
+  padding: 18px 20px;
+
+  background-color: var(--fondo-pagina);
+
+  border-left: 4px solid var(--verde-principal);
+  border-radius: 6px;
+}
+
+.contenido-solucion p {
+  margin: 0 0 12px;
+
+  font-size: 16px;
+  line-height: 1.65;
+}
+
+.contenido-solucion p:last-child {
+  margin-bottom: 0;
+}
+
+body.modo-oscuro .solucion-desplegable summary {
+  background-color: #20372a;
+  border-color: #315d40;
+}
+
+
+    /* ==========================================
+       COLUMNA DERECHA
+    ========================================== */
+
+    .indice-derecho {
+      padding: 28px 22px;
+
+      border-left: 1px solid var(--borde);
+
+      position: sticky;
+      top: 68px;
+
+      height: calc(100vh - 68px);
+    }
+
+    .indice-derecho h2 {
+      margin: 8px 0 20px;
+
+      font-size: 17px;
+      color: #555b65;
+    }
+
+    body.modo-oscuro .indice-derecho h2 {
+      color: #d1d5db;
+    }
+
+    .indice-derecho ul {
+      margin: 0;
+      padding-left: 18px;
+    }
+
+    .indice-derecho li {
+      margin-bottom: 12px;
+    }
+
+    .indice-derecho a {
+      color: var(--texto-secundario);
+
+      text-decoration: none;
+
+      font-size: 14px;
+      line-height: 1.4;
+    }
+
+    .indice-derecho a:hover {
+      color: var(--verde-principal);
+    }
+
+
+    /* ==========================================
+       NAVEGACIÓN ANTERIOR / SIGUIENTE
+    ========================================== */
+
+    .navegacion-paginas {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 20px;
+
+      margin-top: 50px;
+    }
+
+    .nav-pagina {
+      min-height: 100px;
+      padding: 18px 20px;
+
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+
+      border: 1px solid var(--borde);
+      border-radius: 8px;
+
+      text-decoration: none;
+
+      background-color: var(--fondo-tarjeta);
+    }
+
+    .nav-anterior {
+      align-items: flex-start;
+      text-align: left;
+    }
+
+    .nav-siguiente {
+      align-items: flex-end;
+      text-align: right;
+    }
+
+    .nav-etiqueta {
+      margin-bottom: 5px;
+
+      color: var(--texto-secundario);
+
+      font-size: 14px;
+    }
+
+    .nav-pagina strong {
+      color: var(--verde-principal);
+
+      font-size: 16px;
+      line-height: 1.4;
+    }
+
+    .nav-pagina:hover {
+      border-color: var(--verde-principal);
+    }
+
+
+    /* ==========================================
+       RESPONSIVE
+    ========================================== */
+
+    @media (max-width: 1100px) {
+
+      .pagina-ut {
+        grid-template-columns: 250px 1fr;
+      }
+
+      .indice-derecho {
+        display: none;
+      }
+
+    }
+
+    @media (max-width: 760px) {
+
+      .pagina-ut {
+        display: block;
+      }
+
+      .sidebar {
+        position: static;
+
+        width: 100%;
+        height: auto;
+
+        border-right: 0;
+        border-bottom: 1px solid var(--borde);
+      }
+
+      .contenido-ut {
+        padding: 28px 20px 60px;
+      }
+
+      .contenido-ut h1 {
+        font-size: 36px;
+      }
+
+      .navegacion-paginas {
+        grid-template-columns: 1fr;
+      }
+
+      .nav-siguiente {
+        align-items: flex-start;
+        text-align: left;
+      }
+
+    }
+
+  
+    /* ==========================================
+       EJEMPLOS VISUALES - ELEMENTOS DE DISEÑO
+    ========================================== */
+    .familia-elementos {
+      margin: 28px 0;
+      padding: 20px;
+      border: 1px solid var(--borde);
+      border-radius: 10px;
+      background-color: var(--fondo-tarjeta);
+    }
+    .rejilla-elementos {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 14px;
+      margin-top: 18px;
+    }
+    .tarjeta-elemento {
+      min-height: 145px;
+      padding: 16px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 12px;
+      border: 1px solid var(--borde);
+      border-radius: 8px;
+      text-align: center;
+      background-color: var(--fondo-pagina);
+    }
+    .figura-punto {
+      width: 18px; height: 18px;
+      border-radius: 50%;
+      background: var(--verde-principal);
+    }
+    .figura-linea {
+      width: 75px; height: 4px;
+      background: var(--verde-principal);
+      transform: rotate(-25deg);
+    }
+    .figura-plano {
+      width: 70px; height: 48px;
+      border: 3px solid var(--verde-principal);
+      transform: skew(-12deg);
+    }
+    .figura-volumen {
+      width: 58px; height: 58px;
+      border: 3px solid var(--verde-principal);
+      box-shadow: 9px -9px 0 -3px var(--fondo-pagina), 9px -9px 0 0 var(--verde-principal);
+    }
+    .muestras-forma {
+      display:flex; align-items:center; justify-content:center; gap:12px; min-height:55px;
+    }
+    .forma-circulo { width:42px; height:42px; border-radius:50%; background:var(--verde-principal); }
+    .forma-cuadrado { width:42px; height:42px; background:var(--verde-principal); }
+    .forma-triangulo {
+      width:0; height:0; border-left:24px solid transparent; border-right:24px solid transparent;
+      border-bottom:44px solid var(--verde-principal);
+    }
+    .muestra-textura {
+      width:76px; height:50px; border-radius:6px;
+      background: repeating-linear-gradient(45deg, #d9dde3 0, #d9dde3 5px, transparent 5px, transparent 10px);
+      border:1px solid var(--borde);
+    }
+    .muestra-direccion { font-size:38px; color:var(--verde-principal); letter-spacing:5px; }
+    .muestra-posicion {
+      position:relative; width:85px; height:60px; border:2px solid var(--borde);
+    }
+    .muestra-posicion::after {
+      content:""; position:absolute; width:24px; height:24px; border-radius:50%;
+      right:8px; bottom:8px; background:var(--verde-principal);
+    }
+    .muestra-espacio { display:flex; gap:28px; }
+    .muestra-espacio span { width:28px; height:28px; background:var(--verde-principal); border-radius:4px; }
+    .muestra-gravedad { font-size:40px; transform:rotate(18deg); color:var(--verde-principal); }
+    .ejemplo-iconos {
+      display:grid; grid-template-columns:repeat(3,1fr); gap:14px; margin:22px 0;
+    }
+    .ejemplo-icono {
+      padding:18px; border:1px solid var(--borde); border-radius:8px;
+      text-align:center; background:var(--fondo-tarjeta);
+    }
+    .ejemplo-icono .simbolo { display:block; margin-bottom:10px; font-size:36px; }
+
+    .muestra-medida { height:58px; display:flex; align-items:flex-end; justify-content:center; gap:8px; }
+    .muestra-medida span { display:inline-block; background:var(--verde-principal); border-radius:4px; }
+    .medida-pequena { width:18px; height:18px; }
+    .medida-mediana { width:32px; height:32px; }
+    .medida-grande { width:48px; height:48px; }
+    .muestra-color { display:flex; align-items:center; justify-content:center; gap:7px; min-height:58px; }
+    .muestra-color span { width:34px; height:34px; border-radius:50%; border:1px solid var(--borde); }
+    .muestra-color span:nth-child(1) { background:#2f855a; }
+    .muestra-color span:nth-child(2) { background:#3182ce; }
+    .muestra-color span:nth-child(3) { background:#d69e2e; }
+
+    @media (max-width: 900px) {
+      .rejilla-elementos { grid-template-columns:repeat(2,1fr); }
+    }
+    @media (max-width: 560px) {
+      .rejilla-elementos, .ejemplo-iconos { grid-template-columns:1fr; }
+    }
+
+  
+    /* ==========================================
+       EJEMPLOS VISUALES - COMPONENTES INTERFAZ
+    ========================================== */
+    .esquema-interfaz {
+      margin: 26px 0;
+      padding: 18px;
+      border: 1px solid var(--borde);
+      border-radius: 10px;
+      background: var(--fondo-tarjeta);
+    }
+
+    .maqueta-web {
+      display: grid;
+      grid-template-columns: 1fr 2.3fr 1fr;
+      grid-template-areas:
+        "header header header"
+        "nav nav nav"
+        "aside1 main aside2"
+        "footer footer footer";
+      gap: 8px;
+      max-width: 780px;
+      margin: 0 auto;
+    }
+
+    .zona-interfaz {
+      padding: 18px 12px;
+      border: 2px solid var(--verde-principal);
+      border-radius: 7px;
+      text-align: center;
+      font-weight: 700;
+      background: var(--fondo-pagina);
+    }
+
+    .zona-header { grid-area: header; }
+    .zona-nav { grid-area: nav; }
+    .zona-aside1 { grid-area: aside1; min-height: 150px; display:flex; align-items:center; justify-content:center; }
+    .zona-main { grid-area: main; min-height: 150px; display:flex; align-items:center; justify-content:center; }
+    .zona-aside2 { grid-area: aside2; min-height: 150px; display:flex; align-items:center; justify-content:center; }
+    .zona-footer { grid-area: footer; }
+
+    .rejilla-componentes {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 14px;
+      margin: 22px 0;
+    }
+
+    .tarjeta-componente {
+      padding: 18px;
+      border: 1px solid var(--borde);
+      border-radius: 9px;
+      background: var(--fondo-tarjeta);
+    }
+
+    .tarjeta-componente .icono-componente {
+      display: block;
+      font-size: 30px;
+      margin-bottom: 9px;
+    }
+
+    .tarjeta-componente strong {
+      display: block;
+      margin-bottom: 7px;
+    }
+
+    .mini-interfaz {
+      margin: 24px 0;
+      padding: 18px;
+      border: 1px solid var(--borde);
+      border-radius: 10px;
+      background: var(--fondo-tarjeta);
+    }
+
+    .mini-cabecera {
+      padding: 15px;
+      border-radius: 7px 7px 0 0;
+      background: var(--verde-principal);
+      color: white;
+      font-weight: 700;
+    }
+
+    .mini-nav {
+      display: flex;
+      gap: 14px;
+      flex-wrap: wrap;
+      padding: 11px 15px;
+      border: 1px solid var(--borde);
+      border-top: 0;
+      font-weight: 600;
+    }
+
+    .mini-cuerpo {
+      display: grid;
+      grid-template-columns: 1fr 2.2fr;
+      gap: 12px;
+      padding: 14px 0;
+    }
+
+    .mini-lateral, .mini-principal {
+      padding: 18px;
+      border: 1px solid var(--borde);
+      border-radius: 7px;
+    }
+
+    .mini-boton {
+      display: inline-block;
+      margin-top: 12px;
+      padding: 9px 14px;
+      border-radius: 6px;
+      background: var(--verde-principal);
+      color: white;
+      font-weight: 700;
+    }
+
+    .mini-pie {
+      padding: 12px 15px;
+      border: 1px solid var(--borde);
+      border-radius: 0 0 7px 7px;
+      text-align: center;
+    }
+
+    @media (max-width: 900px) {
+      .rejilla-componentes { grid-template-columns: repeat(2, 1fr); }
+    }
+
+    @media (max-width: 650px) {
+      .maqueta-web {
+        grid-template-columns: 1fr;
+        grid-template-areas:
+          "header"
+          "nav"
+          "main"
+          "aside1"
+          "aside2"
+          "footer";
+      }
+      .mini-cuerpo { grid-template-columns: 1fr; }
+      .rejilla-componentes { grid-template-columns: 1fr; }
+    }
+
+  
+    .comparacion-error {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 14px;
+      margin: 20px 0 28px;
+    }
+    .mensaje-error {
+      padding: 16px 18px;
+      border: 1px solid var(--borde);
+      border-radius: 8px;
+      background: var(--fondo-tarjeta);
+    }
+    .mensaje-error strong, .mensaje-error span { display: block; }
+    .mensaje-error strong { margin-bottom: 8px; }
+    @media (max-width: 650px) {
+      .comparacion-error { grid-template-columns: 1fr; }
+    }
+
+
+    /* ==========================================
+       RESUMEN DE LA UT1
+    ========================================== */
+    .mapa-resumen { margin: 28px 0; padding: 22px; border: 1px solid var(--borde); border-radius: 10px; background: var(--fondo-tarjeta); }
+    .mapa-nodo { padding: 17px; border: 2px solid var(--verde-principal); border-radius: 9px; text-align: center; background: var(--fondo-pagina); }
+    .mapa-nodo strong, .mapa-nodo span { display:block; }
+    .mapa-nodo span { margin-top:8px; font-size:15px; line-height:1.5; color:var(--texto-secundario); }
+    .mapa-principal { max-width: 720px; margin: 0 auto; font-weight: 800; }
+    .mapa-flecha { margin: 8px 0; text-align:center; color:var(--verde-principal); font-size:28px; font-weight:700; }
+    .mapa-columnas { display:grid; grid-template-columns:repeat(3,1fr); gap:14px; }
+    .rejilla-resumen { display:grid; grid-template-columns:repeat(3,1fr); gap:14px; margin:24px 0; }
+    .tarjeta-resumen { padding:18px; border:1px solid var(--borde); border-radius:9px; background:var(--fondo-tarjeta); }
+    .tarjeta-resumen > span { display:block; margin-bottom:8px; font-size:30px; }
+    .tarjeta-resumen > strong { display:block; margin-bottom:8px; font-size:17px; }
+    .tarjeta-resumen p { margin:0; font-size:15px; line-height:1.55; }
+    .lista-claves { display:grid; grid-template-columns:1fr 1fr; gap:12px; margin:24px 0; }
+    .lista-claves > div { padding:16px 18px; border:1px solid var(--borde); border-radius:8px; background:var(--fondo-tarjeta); }
+    .lista-claves strong, .lista-claves span { display:block; }
+    .lista-claves strong { margin-bottom:6px; color:var(--verde-principal); }
+    .lista-claves span { line-height:1.5; }
+    .resumen-final ul { margin:12px 0 0; padding-left:24px; }
+    .resumen-final li { margin-bottom:10px; }
+    @media (max-width: 900px) { .mapa-columnas, .rejilla-resumen { grid-template-columns:1fr; } .lista-claves { grid-template-columns:1fr; } }
+
+  </style>
+
+</head>
+
+
+<body>
+  <header class="navbar">
+    <a class="inicio" href="../../../index.html">
+      <img src="../../../img/profesora-castana.png?v=2" alt="" class="icono-profesora">
+      <span>Inicio</span>
+    </a>
+    <nav id="menuModulos" class="menu-modulos" aria-label="Módulos formativos"></nav>
+    <button id="botonTema" class="boton-tema" type="button"
+      aria-label="Cambiar entre modo claro y oscuro" title="Cambiar tema">☀️</button>
+  </header>
+
+  <div class="pagina-ut">
+    <aside class="sidebar">
+      <a class="sidebar-modulo" href="../../index.html">Diseño de interfaces web</a>
+
+      <div class="menu-desplegable">
+        <div class="menu-cabecera menu-cabecera-activa">
+          <a class="menu-titulo" href="../index.html">UT1 - Fundamentos del diseño de interfaces web</a>
+          <button class="boton-desplegar" type="button" data-target="submenu-ut1"
+            aria-expanded="true" aria-label="Mostrar u ocultar UT1">⌄</button>
+        </div>
+
+        <div id="submenu-ut1" class="submenu submenu-abierto">
+          <a class="enlace-apartado-simple" href="../1-1/index.html">1.1 Introducción al diseño de interfaces web</a>
+          <a class="enlace-apartado-simple" href="../1-2/index.html">1.2 Principios de diseño visual</a>
+          <a class="enlace-apartado-simple" href="../1-3/index.html">1.3 Elementos del diseño gráfico</a>
+          <a class="enlace-apartado-simple" href="../1-4/index.html">1.4 Componentes de una interfaz web</a>
+
+          <a class="enlace-apartado-simple" href="../1-5/index.html">1.5 Diseño centrado en el usuario</a>
+
+          <div class="menu-desplegable menu-apartado">
+            <div class="menu-cabecera menu-cabecera-activa">
+              <a class="menu-titulo" href="index.html">📝 Resumen de la UT1</a>
+              <button class="boton-desplegar" type="button" data-target="submenu-resumen"
+                aria-expanded="true" aria-label="Mostrar u ocultar el resumen de la UT1">⌄</button>
+            </div>
+            <div id="submenu-resumen" class="submenu submenu-apartados submenu-abierto">
+              <a href="#vision-global">Visión global</a>
+              <a href="#interfaz">1.1 Interfaz web</a>
+              <a href="#principios">1.2 Principios visuales</a>
+              <a href="#elementos">1.3 Elementos del diseño</a>
+              <a href="#componentes">1.4 Componentes</a>
+              <a href="#usuario">1.5 Usuario</a>
+              <a href="#ideas-clave">Ideas clave</a>
+            </div>
+          </div>
+          <a class="enlace-apartado-simple" href="../actividades/index.html">✏️ Actividades de la UT1</a>
+        </div>
+      </div>
+
+      <a class="sidebar-ut-cerrada" href="../../ut2/index.html"><span>UT2 - Color, tipografía, iconografía e identidad visual</span><span>›</span></a>
+      <a class="sidebar-ut-cerrada" href="../../ut3/index.html"><span>UT3 - Planificación, arquitectura y prototipado de interfaces</span><span>›</span></a>
+      <a class="sidebar-ut-cerrada" href="../../ut4/index.html"><span>UT4 - HTML: estructura y contenido de interfaces web</span><span>›</span></a>
+      <a class="sidebar-ut-cerrada" href="../../ut5/index.html"><span>UT5 - CSS: fundamentos y diseño visual</span><span>›</span></a>
+      <a class="sidebar-ut-cerrada" href="../../ut6/index.html"><span>UT6 - CSS: maquetación y diseño avanzado</span><span>›</span></a>
+      <a class="sidebar-ut-cerrada" href="../../ut7/index.html"><span>UT7 - Diseño web responsive</span><span>›</span></a>
+      <a class="sidebar-ut-cerrada" href="../../ut8/index.html"><span>UT8 - Recursos gráficos e imágenes para la web</span><span>›</span></a>
+      <a class="sidebar-ut-cerrada" href="../../ut9/index.html"><span>UT9 - Audio, vídeo, animaciones e interactividad</span><span>›</span></a>
+      <a class="sidebar-ut-cerrada" href="../../ut10/index.html"><span>UT10 - Accesibilidad web</span><span>›</span></a>
+      <a class="sidebar-ut-cerrada" href="../../ut11/index.html"><span>UT11 - Usabilidad y evaluación de interfaces web</span><span>›</span></a>
+    </aside>
+
+    <main class="contenido-ut">
+      <div class="migas">
+        <a class="miga-inicio" href="../../../index.html" aria-label="Volver a la página principal">🏠</a>
+        <span class="miga-separador">›</span>
+        <a class="miga-modulo" href="../../index.html">DIW</a>
+        <span class="miga-separador">›</span>
+        <a class="miga-modulo" href="../index.html">UT1</a>
+        <span class="miga-separador">›</span>
+        <span class="miga-actual">Resumen</span>
+      </div>
+
+      <h1>📝 Resumen de la UT1</h1>
+
+      <div class="introduccion-ut">
+        <p>
+          En esta unidad hemos establecido las bases del <strong>diseño de interfaces web</strong>. Antes de comenzar
+          a maquetar o aplicar estilos, es necesario comprender cómo se comunica una interfaz, cómo se organiza
+          visualmente y, sobre todo, cómo debe ayudar a las personas a alcanzar sus objetivos.
+        </p>
+        <p>
+          Este resumen reúne las ideas esenciales de los apartados 1.1 a 1.5 para que puedas utilizarlas como
+          <strong>guía rápida de repaso</strong>.
+        </p>
+      </div>
+
+      <section class="apartado-ut" id="vision-global">
+        <h2>Visión global de la unidad</h2>
+        <div class="mapa-resumen">
+          <div class="mapa-nodo mapa-principal">DISEÑO DE INTERFACES WEB</div>
+          <div class="mapa-flecha">↓</div>
+          <div class="mapa-columnas">
+            <div class="mapa-nodo"><strong>Comunicación e interacción</strong><span>Interfaz · UI · UX · HCI</span></div>
+            <div class="mapa-nodo"><strong>Diseño visual</strong><span>Jerarquía · contraste · alineación · proximidad · consistencia</span></div>
+            <div class="mapa-nodo"><strong>Usuario</strong><span>Objetivos · contexto · esfuerzo · memoria · errores · feedback</span></div>
+          </div>
+          <div class="mapa-flecha">↓</div>
+          <div class="mapa-nodo mapa-principal"><strong>ESTRUCTURA DE LA INTERFAZ</strong><span>Cabecera · navegación · contenido · zonas complementarias · pie · componentes</span></div>
+        </div>
+      </section>
+
+      <section class="apartado-ut" id="interfaz">
+        <h2>1.1 Introducción al diseño de interfaces web</h2>
+        <p>Una <strong>interfaz web</strong> es el conjunto de elementos mediante los que una persona recibe información e interactúa con una aplicación o sitio web.</p>
+        <div class="rejilla-resumen">
+          <div class="tarjeta-resumen"><span>🖥️</span><strong>UI</strong><p>Se centra en los elementos y en la presentación de la interfaz: controles, tipografía, colores, distribución y estados.</p></div>
+          <div class="tarjeta-resumen"><span>🙂</span><strong>UX</strong><p>Se refiere a la experiencia global que tiene la persona al utilizar el producto y alcanzar sus objetivos.</p></div>
+          <div class="tarjeta-resumen"><span>🤝</span><strong>HCI</strong><p>Estudia la interacción entre personas y sistemas informáticos para hacerla más comprensible, eficaz y satisfactoria.</p></div>
+        </div>
+        <div class="caja caja-importante"><span class="caja-titulo">📌 Recuerda</span><p>Una interfaz no es únicamente su apariencia. Debe <strong>comunicar, orientar y permitir actuar</strong>.</p></div>
+      </section>
+
+      <section class="apartado-ut" id="principios">
+        <h2>1.2 Principios de diseño visual</h2>
+        <p>Los principios visuales ayudan a organizar la información y a dirigir la atención del usuario. No son adornos: sirven para que la interfaz se entienda mejor.</p>
+        <div class="lista-claves">
+          <div><strong>Jerarquía visual</strong><span>Indica qué elementos tienen mayor importancia mediante tamaño, peso, color, posición y espacio.</span></div>
+          <div><strong>Contraste</strong><span>Permite diferenciar elementos y destacar información relevante.</span></div>
+          <div><strong>Alineación</strong><span>Crea orden utilizando referencias visuales comunes.</span></div>
+          <div><strong>Proximidad</strong><span>Agrupa visualmente los elementos que están relacionados.</span></div>
+          <div><strong>Repetición y consistencia</strong><span>Mantiene patrones reconocibles a lo largo de la interfaz.</span></div>
+          <div><strong>Espacio en blanco</strong><span>Separa, organiza y facilita la lectura; no tiene que ser literalmente blanco.</span></div>
+          <div><strong>Equilibrio visual</strong><span>Distribuye el peso visual de los elementos de forma estable y coherente.</span></div>
+        </div>
+      </section>
+
+      <section class="apartado-ut" id="elementos">
+        <h2>1.3 Elementos del diseño gráfico</h2>
+        <p>El lenguaje visual puede analizarse mediante cuatro grupos de elementos que se combinan continuamente en una interfaz.</p>
+        <div class="tabla-responsive"><table class="tabla-apuntes"><thead><tr><th>Grupo</th><th>Elementos</th><th>Idea principal</th></tr></thead><tbody>
+          <tr><td><strong>Conceptuales</strong></td><td>Punto, línea, plano y volumen</td><td>Son la base conceptual con la que construimos formas y estructuras.</td></tr>
+          <tr><td><strong>Visuales</strong></td><td>Forma, medida, color y textura</td><td>Determinan cómo percibimos visualmente los elementos.</td></tr>
+          <tr><td><strong>Relacionales</strong></td><td>Dirección, posición, espacio y gravedad</td><td>Describen cómo se relacionan los elementos dentro de la composición.</td></tr>
+          <tr><td><strong>Prácticos</strong></td><td>Representación, significado y función</td><td>Relacionan la apariencia con lo que comunica el elemento y para qué sirve.</td></tr>
+        </tbody></table></div>
+        <div class="caja caja-ejemplo"><span class="caja-titulo">💻 Ejemplo DAW</span><p>Un icono de papelera tiene una <strong>representación</strong> visual, transmite el <strong>significado</strong> de eliminar y puede cumplir la <strong>función</strong> de borrar un elemento al pulsarlo.</p></div>
+      </section>
+
+      <section class="apartado-ut" id="componentes">
+        <h2>1.4 Componentes de una interfaz web</h2>
+        <p>Una interfaz suele organizarse en zonas con funciones diferentes. La estructura concreta dependerá del objetivo del sitio, del contenido y del dispositivo.</p>
+        <div class="rejilla-resumen">
+          <div class="tarjeta-resumen"><span>🏷️</span><strong>Cabecera</strong><p>Identidad, marca y acciones globales.</p></div>
+          <div class="tarjeta-resumen"><span>🧭</span><strong>Navegación</strong><p>Permite desplazarse y comprender la organización del sitio.</p></div>
+          <div class="tarjeta-resumen"><span>📄</span><strong>Contenido principal</strong><p>Contiene la información o tarea central de la página.</p></div>
+          <div class="tarjeta-resumen"><span>📚</span><strong>Contenido complementario</strong><p>Aporta filtros, enlaces relacionados o información secundaria útil.</p></div>
+          <div class="tarjeta-resumen"><span>🔘</span><strong>Interacción y comunicación</strong><p>Botones, enlaces, formularios, menús, buscadores, mensajes y avisos.</p></div>
+          <div class="tarjeta-resumen"><span>🧾</span><strong>Pie de página</strong><p>Incluye información secundaria, legal, contacto y otros enlaces.</p></div>
+        </div>
+        <div class="caja caja-importante"><span class="caja-titulo">📌 HTML semántico</span><p>Elementos como <code>&lt;header&gt;</code>, <code>&lt;nav&gt;</code>, <code>&lt;main&gt;</code>, <code>&lt;aside&gt;</code> y <code>&lt;footer&gt;</code> ayudan a expresar la estructura del documento, aunque una zona visual no equivale siempre de forma automática a una etiqueta concreta.</p></div>
+      </section>
+
+      <section class="apartado-ut" id="usuario">
+        <h2>1.5 Diseño centrado en el usuario</h2>
+        <p>El diseño debe partir de las personas que utilizarán la interfaz, de lo que necesitan conseguir y del contexto en el que realizarán sus tareas.</p>
+        <div class="lista-claves">
+          <div><strong>Conocer al usuario</strong><span>Considerar objetivos, experiencia, dispositivo, contexto, frecuencia y necesidades.</span></div>
+          <div><strong>Reducir el esfuerzo</strong><span>Evitar pasos, repeticiones y decisiones innecesarias.</span></div>
+          <div><strong>Reconocimiento frente a recuerdo</strong><span>Mostrar opciones y ayudas para reducir la carga de memoria.</span></div>
+          <div><strong>Consistencia</strong><span>Mantener patrones y comportamientos predecibles.</span></div>
+          <div><strong>Prevención de errores</strong><span>Evitar errores cuando sea posible y ayudar a corregirlos cuando ocurran.</span></div>
+          <div><strong>Retroalimentación</strong><span>Comunicar el estado del sistema después de las acciones del usuario.</span></div>
+        </div>
+        <div class="caja caja-atencion"><span class="caja-titulo">⚠️ Atención</span><p>No debemos diseñar pensando únicamente en cómo utilizaríamos nosotros la aplicación. <strong>Quien desarrolla conoce el sistema; el usuario solo conoce lo que la interfaz le comunica.</strong></p></div>
+      </section>
+
+      <section class="apartado-ut" id="ideas-clave">
+        <h2>Ideas clave de la UT1</h2>
+        <div class="caja caja-importante resumen-final"><span class="caja-titulo">📌 Si tuvieras que recordar solo estas ideas…</span>
+          <ul>
+            <li>Una buena interfaz combina <strong>comunicación, organización visual e interacción</strong>.</li>
+            <li>UI y UX están relacionadas, pero <strong>no significan lo mismo</strong>.</li>
+            <li>Los principios visuales ayudan a establecer <strong>orden, jerarquía y relaciones</strong>.</li>
+            <li>Los elementos gráficos tienen apariencia, posición, significado y <strong>una función dentro de la interfaz</strong>.</li>
+            <li>Las zonas y componentes deben facilitar que el usuario entienda <strong>dónde está, qué información tiene y qué puede hacer</strong>.</li>
+            <li>Diseñar centrados en el usuario significa tomar decisiones según <strong>sus objetivos, capacidades y contexto</strong>, no según nuestros gustos personales.</li>
+            <li>Una interfaz debe intentar <strong>prevenir errores y ofrecer feedback claro</strong> sobre lo que está ocurriendo.</li>
+          </ul>
+        </div>
+      </section>
+
+      <nav class="navegacion-paginas">
+        <a class="nav-pagina nav-anterior" href="../1-5/index.html">
+          <span class="nav-etiqueta">Anterior</span>
+          <strong>‹ 1.5 Diseño centrado en el usuario</strong>
+        </a>
+        <a class="nav-pagina nav-siguiente" href="../actividades/index.html">
+          <span class="nav-etiqueta">Siguiente</span>
+          <strong>✏️ Actividades de la UT1 ›</strong>
+        </a>
+      </nav>
+
+    </main>
+
+    <aside class="indice-derecho">
+      <h2>Contenidos del resumen</h2>
+      <ul>
+        <li><a href="#vision-global">Visión global</a></li>
+        <li><a href="#interfaz">1.1 Interfaz web</a></li>
+        <li><a href="#principios">1.2 Principios visuales</a></li>
+        <li><a href="#elementos">1.3 Elementos del diseño</a></li>
+        <li><a href="#componentes">1.4 Componentes</a></li>
+        <li><a href="#usuario">1.5 Usuario</a></li>
+        <li><a href="#ideas-clave">Ideas clave</a></li>
+      </ul>
+    </aside>
+  </div>
+
+  <footer class="footer">
+    <p>
+      Material elaborado por <strong>Eva Ballestero Cubeles</strong> · Licencia
+      <span class="licencia">CC BY-NC-SA 4.0</span>
+      <a class="enlace-licencia"
+        href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.es"
+        target="_blank" rel="license noopener noreferrer"
+        aria-label="Licencia Creative Commons BY-NC-SA 4.0">
+        <img class="icono-licencia" src="../../../img/licencias/cc-by-nc-sa.png"
+          alt="Licencia Creative Commons BY-NC-SA 4.0">
+      </a>
+    </p>
+  </footer>
+
+  <script src="../../../js/modulos.js"></script>
+  <script>
+    const menuModulos = document.getElementById("menuModulos");
+    const botonTema = document.getElementById("botonTema");
+    const modulosActivos = modulos.filter(modulo => modulo.activo === true);
+
+    modulosActivos.forEach(modulo => {
+      const enlace = document.createElement("a");
+      enlace.href = `../../../${modulo.carpeta}/index.html`;
+      enlace.textContent = modulo.siglas;
+      enlace.title = modulo.nombre;
+      if (modulo.siglas === "DIW") {
+        enlace.style.color = "var(--verde-principal)";
+      }
+      menuModulos.appendChild(enlace);
+    });
+
+    const temaGuardado = localStorage.getItem("tema");
+    if (temaGuardado === "oscuro") {
+      document.body.classList.add("modo-oscuro");
+      botonTema.textContent = "🌙";
+    }
+
+    botonTema.addEventListener("click", () => {
+      document.body.classList.toggle("modo-oscuro");
+      const estaOscuro = document.body.classList.contains("modo-oscuro");
+      botonTema.textContent = estaOscuro ? "🌙" : "☀️";
+      localStorage.setItem("tema", estaOscuro ? "oscuro" : "claro");
+    });
+
+    const botonesDesplegar = document.querySelectorAll(".boton-desplegar");
+    botonesDesplegar.forEach((boton) => {
+      boton.addEventListener("click", () => {
+        const idSubmenu = boton.getAttribute("data-target");
+        const submenu = document.getElementById(idSubmenu);
+        if (!submenu) return;
+        const estaAbierto = submenu.classList.contains("submenu-abierto");
+        if (estaAbierto) {
+          submenu.classList.remove("submenu-abierto");
+          boton.textContent = "›";
+          boton.setAttribute("aria-expanded", "false");
+        } else {
+          submenu.classList.add("submenu-abierto");
+          boton.textContent = "⌄";
+          boton.setAttribute("aria-expanded", "true");
+        }
+      });
+    });
+  </script>
+</body>
+</html>
