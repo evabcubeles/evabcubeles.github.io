@@ -945,10 +945,25 @@ body.modo-oscuro .solucion-desplegable summary {
     }
 
     .legibilidad-card strong { display:block; margin-bottom: 12px; }
-    .texto-pequeno { font-size: 12px; line-height: 1.25; }
-    .texto-legible { font-size: 18px; line-height: 1.65; }
-    .texto-apretado { font-size: 18px; line-height: 1.05; }
-    .texto-espaciado { font-size: 18px; line-height: 1.65; letter-spacing: 0.02em; }
+.texto-pequeno {
+  font-size: 12px;
+  line-height: 1.5;
+}
+
+.texto-tamano-adecuado {
+  font-size: 18px;
+  line-height: 1.5;
+}
+
+.texto-apretado {
+  font-size: 17px;
+  line-height: 1.05;
+}
+
+.texto-interlineado-adecuado {
+  font-size: 17px;
+  line-height: 1.7;
+}
 
     .jerarquia-demo {
       margin: 24px 0;
@@ -1233,24 +1248,43 @@ body.modo-oscuro .solucion-desplegable summary {
   mientras que las demasiado cortas interrumpen continuamente el ritmo de lectura.
 </p>
 
-        <div class="legibilidad-grid">
-          <div class="legibilidad-card">
-            <strong>❌ Tamaño demasiado pequeño</strong>
-            <p class="texto-pequeno">Este texto obliga a realizar más esfuerzo visual y puede resultar incómodo en pantallas pequeñas.</p>
-          </div>
-          <div class="legibilidad-card">
-            <strong>✅ Tamaño y ritmo adecuados</strong>
-            <p class="texto-legible">Este texto utiliza un tamaño mayor y un interlineado suficiente para favorecer una lectura cómoda.</p>
-          </div>
-          <div class="legibilidad-card">
-            <strong>❌ Interlineado insuficiente</strong>
-            <p class="texto-apretado">Cuando las líneas están demasiado juntas el bloque de texto se percibe más denso y cuesta seguir la lectura.</p>
-          </div>
-          <div class="legibilidad-card">
-            <strong>✅ Interlineado adecuado</strong>
-            <p class="texto-espaciado">Un interlineado adecuado ayuda a separar visualmente las líneas sin perder continuidad.</p>
-          </div>
-        </div>
+<div class="legibilidad-grid">
+
+  <div class="legibilidad-card">
+    <strong>❌ Tamaño demasiado pequeño</strong>
+    <p class="texto-pequeno">
+      En una interfaz web, el texto debe poder leerse cómodamente sin que el usuario
+      tenga que acercarse a la pantalla o realizar un esfuerzo visual innecesario.
+    </p>
+  </div>
+
+  <div class="legibilidad-card">
+    <strong>✅ Tamaño adecuado</strong>
+    <p class="texto-tamano-adecuado">
+      En una interfaz web, el texto debe poder leerse cómodamente sin que el usuario
+      tenga que acercarse a la pantalla o realizar un esfuerzo visual innecesario.
+    </p>
+  </div>
+
+  <div class="legibilidad-card">
+    <strong>❌ Interlineado insuficiente</strong>
+    <p class="texto-apretado">
+      Cuando un bloque contiene varias líneas de texto, un interlineado demasiado
+      reducido hace que las líneas se acumulen visualmente y dificulta seguir la
+      lectura de una línea a la siguiente.
+    </p>
+  </div>
+
+  <div class="legibilidad-card">
+    <strong>✅ Interlineado adecuado</strong>
+    <p class="texto-interlineado-adecuado">
+      Cuando un bloque contiene varias líneas de texto, un interlineado adecuado
+      separa visualmente las líneas y facilita seguir la lectura de una línea
+      a la siguiente.
+    </p>
+  </div>
+
+</div>
 
         <div class="caja caja-importante">
           <span class="caja-titulo">📌 Idea clave</span>
