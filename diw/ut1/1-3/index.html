@@ -941,6 +941,18 @@ body.modo-oscuro .solucion-desplegable summary {
       text-align:center; background:var(--fondo-tarjeta);
     }
     .ejemplo-icono .simbolo { display:block; margin-bottom:10px; font-size:36px; }
+
+    .muestra-medida { height:58px; display:flex; align-items:flex-end; justify-content:center; gap:8px; }
+    .muestra-medida span { display:inline-block; background:var(--verde-principal); border-radius:4px; }
+    .medida-pequena { width:18px; height:18px; }
+    .medida-mediana { width:32px; height:32px; }
+    .medida-grande { width:48px; height:48px; }
+    .muestra-color { display:flex; align-items:center; justify-content:center; gap:7px; min-height:58px; }
+    .muestra-color span { width:34px; height:34px; border-radius:50%; border:1px solid var(--borde); }
+    .muestra-color span:nth-child(1) { background:#2f855a; }
+    .muestra-color span:nth-child(2) { background:#3182ce; }
+    .muestra-color span:nth-child(3) { background:#d69e2e; }
+
     @media (max-width: 900px) {
       .rejilla-elementos { grid-template-columns:repeat(2,1fr); }
     }
@@ -1149,10 +1161,31 @@ body.modo-oscuro .solucion-desplegable summary {
           predominan formas sencillas porque suelen reconocerse con rapidez.
         </p>
         <div class="familia-elementos">
-          <div class="muestras-forma">
-            <div class="forma-circulo" title="Círculo"></div>
-            <div class="forma-cuadrado" title="Cuadrado"></div>
-            <div class="forma-triangulo" title="Triángulo"></div>
+          <div class="rejilla-elementos">
+            <div class="tarjeta-elemento">
+              <div class="muestras-forma">
+                <div class="forma-circulo" title="Círculo"></div>
+                <div class="forma-cuadrado" title="Cuadrado"></div>
+                <div class="forma-triangulo" title="Triángulo"></div>
+              </div>
+              <strong>Forma</strong>
+              <span>Permite identificar y diferenciar los elementos.</span>
+            </div>
+            <div class="tarjeta-elemento">
+              <div class="muestra-medida"><span class="medida-pequena"></span><span class="medida-mediana"></span><span class="medida-grande"></span></div>
+              <strong>Medida</strong>
+              <span>El tamaño relativo puede establecer jerarquía visual.</span>
+            </div>
+            <div class="tarjeta-elemento">
+              <div class="muestra-color"><span></span><span></span><span></span></div>
+              <strong>Color</strong>
+              <span>Permite diferenciar, agrupar y destacar información.</span>
+            </div>
+            <div class="tarjeta-elemento">
+              <div class="muestra-textura"></div>
+              <strong>Textura</strong>
+              <span>Define o sugiere la apariencia superficial de una forma.</span>
+            </div>
           </div>
         </div>
 
@@ -1178,13 +1211,7 @@ body.modo-oscuro .solucion-desplegable summary {
           forma. En una interfaz puede ser realista o simplemente sugerida mediante
           patrones, degradados, imágenes o efectos gráficos.
         </p>
-        <div class="familia-elementos">
-          <div class="tarjeta-elemento">
-            <div class="muestra-textura"></div>
-            <strong>Textura visual</strong>
-            <span>Un patrón puede hacer que una superficie deje de percibirse como completamente plana.</span>
-          </div>
-        </div>
+
 
         <h2 id="relacion">Elementos de relación: dirección, posición, espacio y gravedad</h2>
         <p>
@@ -1275,19 +1302,19 @@ body.modo-oscuro .solucion-desplegable summary {
 
         <div class="ejemplo-iconos">
           <div class="ejemplo-icono">
-            <span class="simbolo">🔍</span>
+            <span class="simbolo">🗑️</span>
             <strong>Representación</strong>
-            <p>Una lupa representa un objeto reconocible.</p>
+            <p>Representa de forma simplificada una papelera.</p>
           </div>
           <div class="ejemplo-icono">
             <span class="simbolo">🗑️</span>
             <strong>Significado</strong>
-            <p>La papelera se asocia habitualmente con eliminar.</p>
+            <p>El usuario la interpreta convencionalmente como «eliminar».</p>
           </div>
           <div class="ejemplo-icono">
-            <span class="simbolo">🏠</span>
+            <span class="simbolo">🗑️</span>
             <strong>Función</strong>
-            <p>En una navegación puede permitir volver al inicio.</p>
+            <p>Al pulsarla, permite eliminar un elemento.</p>
           </div>
         </div>
 
