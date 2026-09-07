@@ -1101,6 +1101,25 @@ body.modo-oscuro .solucion-desplegable summary {
       .rejilla-componentes { grid-template-columns: 1fr; }
     }
 
+  
+    .comparacion-error {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 14px;
+      margin: 20px 0 28px;
+    }
+    .mensaje-error {
+      padding: 16px 18px;
+      border: 1px solid var(--borde);
+      border-radius: 8px;
+      background: var(--fondo-tarjeta);
+    }
+    .mensaje-error strong, .mensaje-error span { display: block; }
+    .mensaje-error strong { margin-bottom: 8px; }
+    @media (max-width: 650px) {
+      .comparacion-error { grid-template-columns: 1fr; }
+    }
+
   </style>
 
 </head>
@@ -1230,7 +1249,7 @@ body.modo-oscuro .solucion-desplegable summary {
         <div class="rejilla-componentes">
           <div class="tarjeta-componente"><span class="icono-componente">🎯</span><strong>Objetivos</strong><span>Qué necesita conseguir el usuario y cuáles son sus tareas principales.</span></div>
           <div class="tarjeta-componente"><span class="icono-componente">🧠</span><strong>Experiencia</strong><span>Qué conocimientos previos posee y cuánto conoce el tipo de aplicación.</span></div>
-          <div class="tarjeta-componente"><span class="icono-componente">📱</span><strong>Dispositivo</strong><span>Desde qué pantalla y mediante qué forma de interacción utilizará la interfaz.</span></div>
+          <div class="tarjeta-componente"><span class="icono-componente">📱</span><strong>Dispositivo</strong><span>Desde qué dispositivo accede, qué características tiene y mediante qué forma de interacción utiliza la interfaz.</span></div>
           <div class="tarjeta-componente"><span class="icono-componente">🌍</span><strong>Contexto</strong><span>Dónde y en qué circunstancias realizará la tarea.</span></div>
           <div class="tarjeta-componente"><span class="icono-componente">⏱️</span><strong>Frecuencia</strong><span>Si realizará la acción una sola vez o de manera habitual.</span></div>
           <div class="tarjeta-componente"><span class="icono-componente">🧩</span><strong>Necesidades</strong><span>Qué información, ayudas o condiciones necesita para completar la tarea.</span></div>
@@ -1320,6 +1339,17 @@ body.modo-oscuro .solucion-desplegable summary {
             Mensajes como <strong>«Error 17»</strong> o <strong>«Dato incorrecto»</strong> aportan poca ayuda.
             Es preferible indicar qué campo presenta el problema, por qué no es válido y qué debe hacer el usuario para corregirlo.
           </p>
+        </div>
+
+        <div class="comparacion-error" aria-label="Comparación entre un mensaje de error poco útil y uno útil">
+          <div class="mensaje-error mensaje-error-malo">
+            <strong>❌ Dato incorrecto</strong>
+            <span>No explica qué ha ocurrido ni cómo solucionarlo.</span>
+          </div>
+          <div class="mensaje-error mensaje-error-bueno">
+            <strong>⚠️ El correo electrónico no es válido</strong>
+            <span>Introduce una dirección con el formato <code>nombre@dominio.com</code>.</span>
+          </div>
         </div>
 
         <h2 id="feedback">Retroalimentación del sistema</h2>
