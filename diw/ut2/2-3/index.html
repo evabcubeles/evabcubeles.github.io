@@ -1193,7 +1193,7 @@ body.modo-oscuro .solucion-desplegable summary {
         <p>
           Una vez comprendido cómo se forma y se representa el color, el siguiente paso es aprender a <strong>combinarlo con criterio</strong>.
           En una interfaz web no elegimos cada color de manera aislada: construimos un conjunto coherente que debe facilitar la lectura,
-          distinguir acciones, comunicar estados y reforzar la identidad visual.
+          diferenciar acciones, comunicar estados y reforzar la identidad visual.
         </p>
         <p>
           En este apartado veremos cómo crear paletas, qué armonías pueden ayudarnos a relacionar colores, por qué el contraste es esencial
@@ -1214,8 +1214,8 @@ body.modo-oscuro .solucion-desplegable summary {
         <ul>
           <li><strong>Color principal:</strong> identifica la aplicación y suele utilizarse en acciones o elementos destacados.</li>
           <li><strong>Color secundario:</strong> complementa al principal y permite introducir variedad sin perder coherencia.</li>
-          <li><strong>Colores neutros:</strong> blancos, grises o tonos muy poco saturados empleados en fondos, bordes y textos.</li>
-          <li><strong>Colores funcionales o de estado:</strong> comunican situaciones como éxito, información, advertencia o error.</li>
+          <li><strong>Colores neutros:</strong> blancos, grises o tonos de baja saturación utilizados habitualmente en fondos, bordes, textos y superficies secundarias.</li>
+          <li><strong>Colores funcionales o de estado:</strong> comunican situaciones como éxito, información, advertencia o error, y deben utilizarse de forma consistente en toda la interfaz.</li>
         </ul>
 
         <div class="paleta-colores" aria-label="Ejemplo de paleta para una aplicación web">
@@ -1268,12 +1268,12 @@ body.modo-oscuro .solucion-desplegable summary {
         <h2 id="contraste-legibilidad">Contraste y legibilidad</h2>
         <p>
           El <strong>contraste</strong> es la diferencia visual entre dos elementos. En una interfaz resulta especialmente importante cuando colocamos
-          texto, iconos o controles sobre un fondo. Si ambos tienen una apariencia demasiado similar, distinguirlos exige más esfuerzo y la información puede llegar a ser ilegible.
+          texto, iconos o controles sobre un fondo. Si ambos tienen una apariencia demasiado similar, distinguirlos exige más esfuerzo y la información puede llegar a ser ilegible. El contraste depende siempre de la relación entre dos colores, no de un color considerado de forma aislada.
         </p>
 
         <div class="comparacion-contraste">
           <div class="ejemplo-contraste contraste-bajo"><strong>❌ Contraste insuficiente</strong><span>Este texto resulta difícil de distinguir del fondo.</span></div>
-          <div class="ejemplo-contraste contraste-alto"><strong>✅ Contraste claro</strong><span>Este texto se diferencia con claridad del fondo.</span></div>
+          <div class="ejemplo-contraste contraste-alto"><strong>✅ Contraste suficiente</strong><span>Este texto se diferencia con claridad del fondo.</span></div>
         </div>
 
         <p>El contraste también contribuye a la <strong>jerarquía visual</strong>. Un botón principal puede destacar frente a una acción secundaria, pero no debemos intentar conseguir esa jerarquía únicamente añadiendo colores cada vez más intensos.</p>
@@ -1292,7 +1292,7 @@ body.modo-oscuro .solucion-desplegable summary {
         <div class="estado-color">
           <div class="estado-demo">
             <strong>❌ Solo color</strong>
-            <p>El estado se diferencia únicamente mediante un tratamiento cromático.</p>
+            <p>El estado se comunica únicamente mediante un cambio de color.</p>
             <span class="indicador solo-color">Estado</span>
           </div>
           <div class="estado-demo">
@@ -1310,9 +1310,15 @@ body.modo-oscuro .solucion-desplegable summary {
         <p>En la <strong>UT10 — Accesibilidad web</strong> estudiaremos estos requisitos con mayor profundidad, incluyendo pautas y procedimientos para comprobar el contraste de los contenidos.</p>
 
         <h2 id="herramientas">Herramientas para crear y comprobar paletas</h2>
-        <p>
-          En un proyecto profesional no es necesario seleccionar y comprobar todos los colores de forma manual. Existen herramientas que ayudan a explorar combinaciones, construir paletas y verificar si el contraste entre un primer plano y un fondo es suficiente.
-        </p>
+<p>
+  Durante el diseño de una interfaz es habitual apoyarse en
+  <strong>herramientas específicas para explorar, ajustar y validar
+  combinaciones de color</strong>. Estas herramientas permiten crear paletas,
+  seleccionar colores y comprobar si el contraste entre un elemento y su
+  fondo es suficiente. Aunque facilitan el trabajo del diseñador y del
+  desarrollador, la decisión final sobre qué colores utilizar debe responder
+  siempre a las necesidades del proyecto.
+</p>
 
         <div class="herramientas-grid">
           <div class="herramienta-card"><strong>Generadores de paletas</strong><p>Permiten partir de uno o varios colores y obtener combinaciones relacionadas que podemos adaptar a la identidad del proyecto.</p></div>
