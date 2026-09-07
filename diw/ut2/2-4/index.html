@@ -981,19 +981,34 @@ body.modo-oscuro .solucion-desplegable summary {
       grid-template-columns: repeat(2, 1fr);
       gap: 18px;
       margin: 24px 0;
+      align-items: start;
     }
 
-    .combinacion-card {
-      padding: 22px;
-      border: 1px solid var(--borde);
-      border-radius: 10px;
-      background: var(--fondo-tarjeta);
-    }
-    .combinacion-card .titular-serif { font-family: Georgia, 'Times New Roman', serif; font-size: 28px; font-weight: 700; }
+.combinacion-card {
+  padding: 18px 22px;
+  border: 1px solid var(--borde);
+  border-radius: 10px;
+  background: var(--fondo-tarjeta);
+}
+.combinacion-card .titular-serif {
+  font-family: Georgia, 'Times New Roman', serif;
+  font-size: 28px;
+  font-weight: 700;
+  line-height: 1.2;
+  margin: 0 0 8px;
+}
     .combinacion-card .cuerpo-sans { font-family: Arial, Helvetica, sans-serif; font-size: 17px; line-height: 1.6; }
-    .combinacion-card .titular-sans { font-family: Arial, Helvetica, sans-serif; font-size: 28px; font-weight: 800; }
+.combinacion-card .titular-sans {
+  font-family: Arial, Helvetica, sans-serif;
+  font-size: 28px;
+  font-weight: 800;
+  line-height: 1.2;
+  margin: 0 0 8px;
+}
     .combinacion-card .cuerpo-serif { font-family: Georgia, 'Times New Roman', serif; font-size: 17px; line-height: 1.6; }
-
+.combinacion-card p {
+  margin-bottom: 0;
+}
     .fuentes-grid {
       display: grid;
       grid-template-columns: repeat(2, 1fr);
