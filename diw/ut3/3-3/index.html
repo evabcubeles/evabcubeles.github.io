@@ -1291,7 +1291,7 @@ body.modo-oscuro .solucion-desplegable summary {
         <div class="conceptos-web">
           <div class="concepto-web">
             <strong>📄 Página web</strong>
-            <p>Documento o vista concreta accesible mediante una dirección o dentro de una aplicación.</p>
+            <p>Documento web concreto que puede formar parte de un sitio web y que normalmente es accesible mediante una URL.</p>
           </div>
           <div class="concepto-web">
             <strong>🌐 Sitio web</strong>
@@ -1308,6 +1308,11 @@ body.modo-oscuro .solucion-desplegable summary {
           hablar de <strong>vistas</strong> o pantallas. A efectos de planificación, lo importante es identificar las unidades
           que el usuario podrá consultar y las relaciones existentes entre ellas.
         </p>
+        <p>
+  En una aplicación web, una <strong>vista</strong> no tiene por qué corresponder siempre
+  con un documento HTML independiente, ya que la interfaz puede actualizarse dinámicamente
+  sin cargar una página nueva.
+</p>
 
         <div class="caja caja-ejemplo">
           <span class="caja-titulo">💻 Ejemplo DAW</span>
@@ -1494,23 +1499,24 @@ enlaces relacionados</div>
           niveles y conexiones resulten comprensibles para las personas que participan en el proyecto.
         </p>
 
-        <div class="mapa-navegacion">
-          <div class="mapa-nivel">
-            <div class="mapa-nodo">Inicio</div>
-          </div>
-          <div class="mapa-flecha">↓</div>
-          <div class="mapa-nivel">
-            <div class="mapa-nodo">Asignaturas</div>
-            <div class="mapa-nodo">Entregas</div>
-            <div class="mapa-nodo">Mensajes</div>
-            <div class="mapa-nodo">Perfil</div>
-          </div>
-          <div class="mapa-flecha">↓</div>
-          <div class="mapa-nivel">
-            <div class="mapa-nodo">Detalle de asignatura</div>
-            <div class="mapa-nodo">Detalle de actividad</div>
-          </div>
-        </div>
+<div class="esquema-sostenibilidad">
+  <div class="esquema-caja">Inicio / Panel</div>
+
+  <div class="esquema-flecha">↓</div>
+
+  <div class="esquema-caja">
+    ├── Asignaturas<br>
+    │&nbsp;&nbsp;&nbsp;└── Detalle de asignatura<br>
+    │&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;└── Detalle de actividad<br><br>
+
+    ├── Entregas<br>
+    │&nbsp;&nbsp;&nbsp;└── Detalle de actividad<br><br>
+
+    ├── Mensajes<br><br>
+
+    └── Perfil
+  </div>
+</div>
 
         <p>
           Al revisar un mapa podemos comprobar, entre otras cuestiones, si existen páginas aisladas, si hay niveles
