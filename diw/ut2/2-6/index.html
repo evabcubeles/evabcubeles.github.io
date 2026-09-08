@@ -909,6 +909,9 @@ body.modo-oscuro .solucion-desplegable summary {
       gap: 18px;
       margin: 24px 0;
     }
+    .sistema-diseno-grid {
+      grid-template-columns: repeat(3, 1fr);
+    }
 
     .identidad-card,
     .coherencia-card,
@@ -1508,16 +1511,34 @@ body.modo-oscuro .solucion-desplegable summary {
           <div class="flujo-estilo-caja">Sistema de diseño</div>
         </div>
 
-        <div class="sistema-diseno-grid">
-          <div class="sistema-card">
-            <strong>Guía de estilo</strong>
-            <p>Define y documenta principalmente criterios visuales y normas de uso para mantener la identidad y la coherencia.</p>
-          </div>
-          <div class="sistema-card">
-            <strong>Sistema de diseño</strong>
-            <p>Amplía esa documentación con componentes, patrones y recursos reutilizables que ayudan a diseñar y desarrollar el producto.</p>
-          </div>
-        </div>
+<div class="sistema-diseno-grid">
+
+  <div class="sistema-card">
+    <strong>Decisiones visuales</strong>
+    <p>
+      Son las elecciones realizadas durante el diseño de la interfaz, como
+      los colores, las tipografías, los iconos, los espaciados o el aspecto
+      de los componentes.
+    </p>
+  </div>
+
+  <div class="sistema-card">
+    <strong>Guía de estilo</strong>
+    <p>
+      Define y documenta principalmente criterios visuales y normas de uso
+      para mantener la identidad y la coherencia.
+    </p>
+  </div>
+
+  <div class="sistema-card">
+    <strong>Sistema de diseño</strong>
+    <p>
+      Amplía esa documentación con componentes, patrones y recursos reutilizables
+      que ayudan a diseñar y desarrollar el producto.
+    </p>
+  </div>
+
+</div>
 
         <div class="caja caja-atencion">
           <span class="caja-titulo">⚠️ Atención</span>
