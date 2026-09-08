@@ -1,0 +1,1770 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+  <meta charset="UTF-8">
+
+  <meta
+    name="viewport"
+    content="width=device-width, initial-scale=1.0"
+  >
+
+  <meta
+    name="description"
+    content="Actividades de la UT3 - Planificación, arquitectura y prototipado de interfaces."
+  >
+
+  <title>Actividades UT3 - Planificación, arquitectura y prototipado de interfaces</title>
+
+  <link rel="icon" type="image/png" href="../../../img/favicon.png?v=5">
+  <link rel="stylesheet" href="../../../css/estilos.css">
+
+  <style>
+
+    /* ==========================================
+       ESTRUCTURA DE LA UT
+    ========================================== */
+
+    .pagina-ut {
+      display: grid;
+      grid-template-columns: 280px 1fr 260px;
+      min-height: calc(100vh - 68px);
+    }
+
+
+    /* ==========================================
+       COLUMNA IZQUIERDA
+    ========================================== */
+
+    .sidebar {
+      border-right: 1px solid var(--borde);
+      background-color: var(--fondo-pagina);
+
+      padding: 12px 10px 30px;
+
+      position: sticky;
+      top: 68px;
+
+      height: calc(100vh - 68px);
+      overflow-y: auto;
+    }
+
+    .sidebar-modulo {
+      display: block;
+      margin-bottom: 8px;
+      padding: 8px 14px;
+      color: #626873;
+      font-size: 17px;
+      font-weight: 700;
+      line-height: 1.3;
+      text-decoration: none;
+      border-radius: 6px;
+      transition:
+        color 0.2s ease,
+        background-color 0.2s ease;
+    }
+
+    .sidebar-modulo:hover {
+      color: var(--verde-principal);
+      background-color: #f3f4f6;
+    }
+
+    body.modo-oscuro .sidebar-modulo:hover {
+      background-color: #273244;
+    }
+
+    .sidebar-ut {
+      margin-bottom: 12px;
+      padding: 10px 14px;
+
+      background-color: #f1f1f1;
+      border-radius: 5px;
+
+      color: var(--verde-principal);
+
+      font-size: 17px;
+      font-weight: 700;
+      line-height: 1.35;
+    }
+    .sidebar-ut-activa {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+    }
+
+    .flecha-ut-abierta {
+      flex-shrink: 0;
+      font-size: 22px;
+      color: #777;
+    }
+
+    .sidebar-ut-cerrada {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      padding: 13px 14px;
+      color: #626873;
+      text-decoration: none;
+      font-size: 16px;
+      font-weight: 650;
+      line-height: 1.35;
+      border-radius: 6px;
+      transition:
+      background-color 0.2s ease,
+      color 0.2s ease;
+    }
+
+    .sidebar-ut-cerrada:hover {
+      background-color: #f3f4f6;
+      color: var(--verde-principal);
+    }
+
+    body.modo-oscuro .sidebar-ut-cerrada:hover {
+      background-color: #273244;
+    }
+
+    body.modo-oscuro .sidebar-ut {
+      background-color: #273244;
+      color: #5ed28a;
+    }
+
+    .lista-apartados {
+      list-style: none;
+      margin: 0;
+      padding: 0;
+    }
+
+    .enlace-apartado {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+
+      padding: 11px 14px;
+
+      color: #626873;
+
+      text-decoration: none;
+
+      font-size: 15px;
+      font-weight: 600;
+      line-height: 1.4;
+
+      border-radius: 6px;
+
+      transition:
+        background-color 0.2s ease,
+        color 0.2s ease;
+    }
+
+    .enlace-apartado:hover {
+      background-color: #f3f4f6;
+      color: var(--verde-principal);
+    }
+
+    body.modo-oscuro .enlace-apartado:hover {
+      background-color: #273244;
+    }
+
+    .flecha-apartado {
+      flex-shrink: 0;
+
+      color: #8b8b8b;
+
+      font-size: 22px;
+    }
+    /* ==========================================
+   MENÚ LATERAL DESPLEGABLE
+========================================== */
+
+.menu-desplegable {
+  width: 100%;
+}
+
+
+/* Cabecera de una UT o de un apartado */
+
+.menu-cabecera {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+
+  width: 100%;
+
+  border-radius: 6px;
+}
+
+
+/* UT en la que estamos actualmente */
+
+.menu-cabecera-activa {
+  background-color: #f1f1f1;
+}
+
+.menu-cabecera-activa > .menu-titulo {
+  color: var(--verde-principal);
+}
+
+
+/* Texto/enlace de la UT o apartado */
+
+.menu-titulo {
+  flex: 1;
+
+  display: block;
+
+  padding: 11px 8px 11px 14px;
+
+  color: #626873;
+
+  font-size: 16px;
+  font-weight: 650;
+  line-height: 1.4;
+
+  text-decoration: none;
+}
+
+.menu-titulo:hover {
+  color: var(--verde-principal);
+}
+
+
+/* Botón de la flecha */
+
+.boton-desplegar {
+  width: 36px;
+  height: 36px;
+
+  margin-right: 5px;
+  padding: 0;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  flex-shrink: 0;
+
+  border: 0;
+  border-radius: 6px;
+
+  background: transparent;
+
+  color: #777;
+
+  font-family: inherit;
+  font-size: 24px;
+  line-height: 1;
+
+  cursor: pointer;
+}
+
+.boton-desplegar:hover {
+  background-color: #e5e7eb;
+  color: var(--verde-principal);
+}
+
+
+/* ==========================================
+   CONTENIDO DESPLEGABLE
+========================================== */
+
+.submenu {
+  display: none;
+}
+
+.submenu.submenu-abierto {
+  display: block;
+}
+
+
+/* ==========================================
+   APARTADOS DE UNA UT
+========================================== */
+
+.menu-apartado {
+  margin-left: 14px;
+}
+
+.menu-apartado .menu-titulo {
+  padding-top: 9px;
+  padding-bottom: 9px;
+
+  font-size: 15px;
+  font-weight: 600;
+}
+
+
+/* Apartados que NO tienen subapartados */
+
+.enlace-apartado-simple {
+  display: block;
+
+  margin-left: 14px;
+  padding: 10px 14px;
+
+  color: #626873;
+
+  font-size: 15px;
+  font-weight: 600;
+  line-height: 1.4;
+
+  text-decoration: none;
+
+  border-radius: 6px;
+
+  transition:
+    background-color 0.2s ease,
+    color 0.2s ease;
+}
+
+.enlace-apartado-simple:hover {
+  background-color: #f3f4f6;
+  color: var(--verde-principal);
+}
+
+
+/* ==========================================
+   SUBAPARTADOS DE 1.1
+========================================== */
+
+.submenu-apartados {
+  margin: 2px 0 5px 28px;
+
+  border-left: 2px solid #e0e3e7;
+}
+
+.submenu-apartados a {
+  display: block;
+
+  padding: 7px 10px;
+
+  color: #777d87;
+
+  font-size: 14px;
+  font-weight: 500;
+  line-height: 1.35;
+
+  text-decoration: none;
+}
+
+.submenu-apartados a:hover {
+  color: var(--verde-principal);
+}
+
+
+/* ==========================================
+   MODO OSCURO DEL MENÚ
+========================================== */
+
+body.modo-oscuro .menu-cabecera-activa {
+  background-color: #273244;
+}
+
+body.modo-oscuro .boton-desplegar:hover {
+  background-color: #334155;
+}
+
+body.modo-oscuro .enlace-apartado-simple:hover {
+  background-color: #273244;
+}
+
+body.modo-oscuro .submenu-apartados {
+  border-left-color: #3a4659;
+}
+
+
+    /* ==========================================
+       ZONA CENTRAL
+    ========================================== */
+
+    .contenido-ut {
+      padding: 28px 34px 70px;
+
+      max-width: 1150px;
+      width: 100%;
+    }
+
+    .migas {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+
+      margin-bottom: 30px;
+
+      font-size: 14px;
+    }
+
+    .miga-inicio {
+      text-decoration: none;
+      font-size: 18px;
+    }
+
+    .miga-separador {
+      color: #999;
+      font-size: 22px;
+    }
+
+    .miga-modulo {
+      color: var(--texto-secundario);
+      text-decoration: none;
+    }
+
+    .miga-modulo:hover {
+      color: var(--verde-principal);
+    }
+
+    .miga-actual {
+      padding: 8px 14px;
+
+      background-color: #f3f3f3;
+      border-radius: 24px;
+
+      color: var(--verde-principal);
+    }
+
+    body.modo-oscuro .miga-actual {
+      background-color: #273244;
+    }
+
+    .contenido-ut h1 {
+      margin: 0 0 30px;
+
+      font-size: clamp(38px, 5vw, 58px);
+      line-height: 1.12;
+    }
+
+    .introduccion-ut {
+      max-width: 980px;
+
+      font-size: 19px;
+      line-height: 1.75;
+    }
+
+    .introduccion-ut p {
+      margin: 0 0 20px;
+    }
+    /* ==========================================
+     CONTENIDO DE LOS APARTADOS
+    ========================================== */
+
+    .apartado-ut {
+      margin-top: 55px;
+      scroll-margin-top: 95px;
+    }
+
+    .apartado-ut h2 {
+      margin: 0 0 24px;
+      font-size: 32px;
+      line-height: 1.2;
+    }
+
+    .apartado-ut h3 {
+      margin: 34px 0 16px;
+      font-size: 24px;
+      line-height: 1.3;
+    }
+
+    .apartado-ut p {
+      margin: 0 0 18px;
+      font-size: 18px;
+      line-height: 1.75;
+    }
+
+    .apartado-ut ul {
+      margin: 16px 0 24px;
+      padding-left: 28px;
+    }
+
+    .apartado-ut li {
+      margin-bottom: 10px;
+      font-size: 17px;
+      line-height: 1.6;
+    }
+
+
+    /* ==========================================
+     CAJAS DE LOS APUNTES
+    ========================================== */
+
+    .caja {
+      margin: 28px 0;
+      padding: 18px 20px;
+      border-left: 5px solid;
+      border-radius: 8px;
+      line-height: 1.65;
+    }
+
+    .caja p {
+      margin: 0;
+      font-size: 17px;
+    }
+
+    .caja-titulo {
+      display: block;
+      margin-bottom: 8px;
+      font-size: 17px;
+      font-weight: 700;
+    }
+
+    .caja-importante {
+      background-color: #eef8f1;
+      border-left-color: #2f9e5b;
+    }
+
+    .caja-atencion {
+      background-color: #fff7e8;
+      border-left-color: #e09b27;
+    }
+
+    .caja-ejemplo {
+      background-color: #eef5ff;
+      border-left-color: #3f7acb;
+    }
+
+    .caja-curiosidad {
+      background-color: #f7f1ff;
+      border-left-color: #8b5cc7;
+    }
+
+    body.modo-oscuro .caja-importante {
+      background-color: #20372a;
+    }
+
+    body.modo-oscuro .caja-atencion {
+      background-color: #3b3020;
+    }
+
+    body.modo-oscuro .caja-ejemplo {
+      background-color: #23344a;
+    }
+
+    body.modo-oscuro .caja-curiosidad {
+      background-color: #332944;
+    }
+
+
+    /* ==========================================
+      TABLAS
+    ========================================== */
+
+    .tabla-responsive {
+      width: 100%;
+      margin: 28px 0;
+      overflow-x: auto;
+    }
+
+    .tabla-apuntes {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 16px;
+    }
+
+    .tabla-apuntes th,
+    .tabla-apuntes td {
+      padding: 14px 16px;
+      border: 1px solid var(--borde);
+      text-align: left;
+      vertical-align: top;
+      line-height: 1.55;
+    }
+
+    .tabla-apuntes th {
+      background-color: #f1f3f5;
+      font-weight: 700;
+    }
+
+    body.modo-oscuro .tabla-apuntes th {
+      background-color: #273244;
+    }
+
+
+    /* ==========================================
+     ESQUEMA VISUAL
+    ========================================== */
+
+    .esquema-sostenibilidad {
+      max-width: 520px;
+      margin: 30px auto;
+      padding: 24px;
+      text-align: center;
+    }
+
+    .esquema-caja {
+      padding: 16px 20px;
+      background-color: var(--fondo-tarjeta);
+      border: 1px solid var(--borde);
+      border-radius: 10px;
+      font-size: 18px;
+      font-weight: 700;
+    }
+
+    .esquema-flecha {
+      margin: 8px 0;
+      color: var(--verde-principal);
+      font-size: 26px;
+      font-weight: 700;
+    }
+
+    .esquema-texto {
+      margin: 0 0 8px;
+      color: var(--texto-secundario);
+      font-size: 15px;
+    }
+
+
+    /* ==========================================
+     ACTIVIDAD DE REFLEXIÓN
+    ========================================== */
+
+    .actividad-reflexion {
+      margin: 32px 0;
+      padding: 22px 24px;
+      background-color: #f7f8fa;
+      border: 1px solid var(--borde);
+      border-radius: 10px;
+    }
+
+    .actividad-reflexion h3 {
+      margin: 0 0 12px;
+      color: var(--verde-principal);
+      font-size: 20px;
+    }
+
+    .actividad-reflexion p {
+      margin: 0;
+      font-size: 17px;
+      line-height: 1.65;
+    }
+
+    body.modo-oscuro .actividad-reflexion {
+      background-color: #232d3d;
+    }
+    /* ==========================================
+   SOLUCIÓN DESPLEGABLE
+========================================== */
+
+.solucion-desplegable {
+  margin-top: 20px;
+}
+
+.solucion-desplegable summary {
+  display: inline-block;
+
+  padding: 10px 16px;
+
+  background-color: #eef8f1;
+
+  border: 1px solid #b9dfc6;
+  border-radius: 7px;
+
+  color: var(--verde-principal);
+
+  font-size: 16px;
+  font-weight: 700;
+
+  cursor: pointer;
+  user-select: none;
+}
+
+.solucion-desplegable summary:hover {
+  background-color: #e2f3e7;
+}
+
+.contenido-solucion {
+  margin-top: 16px;
+
+  padding: 18px 20px;
+
+  background-color: var(--fondo-pagina);
+
+  border-left: 4px solid var(--verde-principal);
+  border-radius: 6px;
+}
+
+.contenido-solucion p {
+  margin: 0 0 12px;
+
+  font-size: 16px;
+  line-height: 1.65;
+}
+
+.contenido-solucion p:last-child {
+  margin-bottom: 0;
+}
+
+body.modo-oscuro .solucion-desplegable summary {
+  background-color: #20372a;
+  border-color: #315d40;
+}
+
+
+    /* ==========================================
+       COLUMNA DERECHA
+    ========================================== */
+
+    .indice-derecho {
+      padding: 28px 22px;
+
+      border-left: 1px solid var(--borde);
+
+      position: sticky;
+      top: 68px;
+
+      height: calc(100vh - 68px);
+    }
+
+    .indice-derecho h2 {
+      margin: 8px 0 20px;
+
+      font-size: 17px;
+      color: #555b65;
+    }
+
+    body.modo-oscuro .indice-derecho h2 {
+      color: #d1d5db;
+    }
+
+    .indice-derecho ul {
+      margin: 0;
+      padding-left: 18px;
+    }
+
+    .indice-derecho li {
+      margin-bottom: 12px;
+    }
+
+    .indice-derecho a {
+      color: var(--texto-secundario);
+
+      text-decoration: none;
+
+      font-size: 14px;
+      line-height: 1.4;
+    }
+
+    .indice-derecho a:hover {
+      color: var(--verde-principal);
+    }
+
+
+    /* ==========================================
+       NAVEGACIÓN ANTERIOR / SIGUIENTE
+    ========================================== */
+
+    .navegacion-paginas {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 20px;
+
+      margin-top: 50px;
+    }
+
+    .nav-pagina {
+      min-height: 100px;
+      padding: 18px 20px;
+
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+
+      border: 1px solid var(--borde);
+      border-radius: 8px;
+
+      text-decoration: none;
+
+      background-color: var(--fondo-tarjeta);
+    }
+
+    .nav-anterior {
+      align-items: flex-start;
+      text-align: left;
+    }
+
+    .nav-siguiente {
+      align-items: flex-end;
+      text-align: right;
+    }
+
+    .nav-etiqueta {
+      margin-bottom: 5px;
+
+      color: var(--texto-secundario);
+
+      font-size: 14px;
+    }
+
+    .nav-pagina strong {
+      color: var(--verde-principal);
+
+      font-size: 16px;
+      line-height: 1.4;
+    }
+
+    .nav-pagina:hover {
+      border-color: var(--verde-principal);
+    }
+
+
+    /* ==========================================
+       RESPONSIVE
+    ========================================== */
+
+    @media (max-width: 1100px) {
+
+      .pagina-ut {
+        grid-template-columns: 250px 1fr;
+      }
+
+      .indice-derecho {
+        display: none;
+      }
+
+    }
+
+    @media (max-width: 760px) {
+
+      .pagina-ut {
+        display: block;
+      }
+
+      .sidebar {
+        position: static;
+
+        width: 100%;
+        height: auto;
+
+        border-right: 0;
+        border-bottom: 1px solid var(--borde);
+      }
+
+      .contenido-ut {
+        padding: 28px 20px 60px;
+      }
+
+      .contenido-ut h1 {
+        font-size: 36px;
+      }
+
+      .navegacion-paginas {
+        grid-template-columns: 1fr;
+      }
+
+      .nav-siguiente {
+        align-items: flex-start;
+        text-align: left;
+      }
+
+    }
+
+  
+    /* ==========================================
+       EJEMPLOS VISUALES - ELEMENTOS DE DISEÑO
+    ========================================== */
+    .familia-elementos {
+      margin: 28px 0;
+      padding: 20px;
+      border: 1px solid var(--borde);
+      border-radius: 10px;
+      background-color: var(--fondo-tarjeta);
+    }
+    .rejilla-elementos {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 14px;
+      margin-top: 18px;
+    }
+    .tarjeta-elemento {
+      min-height: 145px;
+      padding: 16px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 12px;
+      border: 1px solid var(--borde);
+      border-radius: 8px;
+      text-align: center;
+      background-color: var(--fondo-pagina);
+    }
+    .figura-punto {
+      width: 18px; height: 18px;
+      border-radius: 50%;
+      background: var(--verde-principal);
+    }
+    .figura-linea {
+      width: 75px; height: 4px;
+      background: var(--verde-principal);
+      transform: rotate(-25deg);
+    }
+    .figura-plano {
+      width: 70px; height: 48px;
+      border: 3px solid var(--verde-principal);
+      transform: skew(-12deg);
+    }
+    .figura-volumen {
+      width: 58px; height: 58px;
+      border: 3px solid var(--verde-principal);
+      box-shadow: 9px -9px 0 -3px var(--fondo-pagina), 9px -9px 0 0 var(--verde-principal);
+    }
+    .muestras-forma {
+      display:flex; align-items:center; justify-content:center; gap:12px; min-height:55px;
+    }
+    .forma-circulo { width:42px; height:42px; border-radius:50%; background:var(--verde-principal); }
+    .forma-cuadrado { width:42px; height:42px; background:var(--verde-principal); }
+    .forma-triangulo {
+      width:0; height:0; border-left:24px solid transparent; border-right:24px solid transparent;
+      border-bottom:44px solid var(--verde-principal);
+    }
+    .muestra-textura {
+      width:76px; height:50px; border-radius:6px;
+      background: repeating-linear-gradient(45deg, #d9dde3 0, #d9dde3 5px, transparent 5px, transparent 10px);
+      border:1px solid var(--borde);
+    }
+    .muestra-direccion { font-size:38px; color:var(--verde-principal); letter-spacing:5px; }
+    .muestra-posicion {
+      position:relative; width:85px; height:60px; border:2px solid var(--borde);
+    }
+    .muestra-posicion::after {
+      content:""; position:absolute; width:24px; height:24px; border-radius:50%;
+      right:8px; bottom:8px; background:var(--verde-principal);
+    }
+    .muestra-espacio { display:flex; gap:28px; }
+    .muestra-espacio span { width:28px; height:28px; background:var(--verde-principal); border-radius:4px; }
+    .muestra-gravedad { font-size:40px; transform:rotate(18deg); color:var(--verde-principal); }
+    .ejemplo-iconos {
+      display:grid; grid-template-columns:repeat(3,1fr); gap:14px; margin:22px 0;
+    }
+    .ejemplo-icono {
+      padding:18px; border:1px solid var(--borde); border-radius:8px;
+      text-align:center; background:var(--fondo-tarjeta);
+    }
+    .ejemplo-icono .simbolo { display:block; margin-bottom:10px; font-size:36px; }
+
+    .muestra-medida { height:58px; display:flex; align-items:flex-end; justify-content:center; gap:8px; }
+    .muestra-medida span { display:inline-block; background:var(--verde-principal); border-radius:4px; }
+    .medida-pequena { width:18px; height:18px; }
+    .medida-mediana { width:32px; height:32px; }
+    .medida-grande { width:48px; height:48px; }
+    .muestra-color { display:flex; align-items:center; justify-content:center; gap:7px; min-height:58px; }
+    .muestra-color span { width:34px; height:34px; border-radius:50%; border:1px solid var(--borde); }
+    .muestra-color span:nth-child(1) { background:#2f855a; }
+    .muestra-color span:nth-child(2) { background:#3182ce; }
+    .muestra-color span:nth-child(3) { background:#d69e2e; }
+
+    @media (max-width: 900px) {
+      .rejilla-elementos { grid-template-columns:repeat(2,1fr); }
+    }
+    @media (max-width: 560px) {
+      .rejilla-elementos, .ejemplo-iconos { grid-template-columns:1fr; }
+    }
+
+  
+    /* ==========================================
+       EJEMPLOS VISUALES - COMPONENTES INTERFAZ
+    ========================================== */
+    .esquema-interfaz {
+      margin: 26px 0;
+      padding: 18px;
+      border: 1px solid var(--borde);
+      border-radius: 10px;
+      background: var(--fondo-tarjeta);
+    }
+
+    .maqueta-web {
+      display: grid;
+      grid-template-columns: 1fr 2.3fr 1fr;
+      grid-template-areas:
+        "header header header"
+        "nav nav nav"
+        "aside1 main aside2"
+        "footer footer footer";
+      gap: 8px;
+      max-width: 780px;
+      margin: 0 auto;
+    }
+
+    .zona-interfaz {
+      padding: 18px 12px;
+      border: 2px solid var(--verde-principal);
+      border-radius: 7px;
+      text-align: center;
+      font-weight: 700;
+      background: var(--fondo-pagina);
+    }
+
+    .zona-header { grid-area: header; }
+    .zona-nav { grid-area: nav; }
+    .zona-aside1 { grid-area: aside1; min-height: 150px; display:flex; align-items:center; justify-content:center; }
+    .zona-main { grid-area: main; min-height: 150px; display:flex; align-items:center; justify-content:center; }
+    .zona-aside2 { grid-area: aside2; min-height: 150px; display:flex; align-items:center; justify-content:center; }
+    .zona-footer { grid-area: footer; }
+
+    .rejilla-componentes {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 14px;
+      margin: 22px 0;
+    }
+
+    .tarjeta-componente {
+      padding: 18px;
+      border: 1px solid var(--borde);
+      border-radius: 9px;
+      background: var(--fondo-tarjeta);
+    }
+
+    .tarjeta-componente .icono-componente {
+      display: block;
+      font-size: 30px;
+      margin-bottom: 9px;
+    }
+
+    .tarjeta-componente strong {
+      display: block;
+      margin-bottom: 7px;
+    }
+
+    .mini-interfaz {
+      margin: 24px 0;
+      padding: 18px;
+      border: 1px solid var(--borde);
+      border-radius: 10px;
+      background: var(--fondo-tarjeta);
+    }
+
+    .mini-cabecera {
+      padding: 15px;
+      border-radius: 7px 7px 0 0;
+      background: var(--verde-principal);
+      color: white;
+      font-weight: 700;
+    }
+
+    .mini-nav {
+      display: flex;
+      gap: 14px;
+      flex-wrap: wrap;
+      padding: 11px 15px;
+      border: 1px solid var(--borde);
+      border-top: 0;
+      font-weight: 600;
+    }
+
+    .mini-cuerpo {
+      display: grid;
+      grid-template-columns: 1fr 2.2fr;
+      gap: 12px;
+      padding: 14px 0;
+    }
+
+    .mini-lateral, .mini-principal {
+      padding: 18px;
+      border: 1px solid var(--borde);
+      border-radius: 7px;
+    }
+
+    .mini-boton {
+      display: inline-block;
+      margin-top: 12px;
+      padding: 9px 14px;
+      border-radius: 6px;
+      background: var(--verde-principal);
+      color: white;
+      font-weight: 700;
+    }
+
+    .mini-pie {
+      padding: 12px 15px;
+      border: 1px solid var(--borde);
+      border-radius: 0 0 7px 7px;
+      text-align: center;
+    }
+
+    @media (max-width: 900px) {
+      .rejilla-componentes { grid-template-columns: repeat(2, 1fr); }
+    }
+
+    @media (max-width: 650px) {
+      .maqueta-web {
+        grid-template-columns: 1fr;
+        grid-template-areas:
+          "header"
+          "nav"
+          "main"
+          "aside1"
+          "aside2"
+          "footer";
+      }
+      .mini-cuerpo { grid-template-columns: 1fr; }
+      .rejilla-componentes { grid-template-columns: 1fr; }
+    }
+
+  
+    .comparacion-error {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 14px;
+      margin: 20px 0 28px;
+    }
+    .mensaje-error {
+      padding: 16px 18px;
+      border: 1px solid var(--borde);
+      border-radius: 8px;
+      background: var(--fondo-tarjeta);
+    }
+    .mensaje-error strong, .mensaje-error span { display: block; }
+    .mensaje-error strong { margin-bottom: 8px; }
+    @media (max-width: 650px) {
+      .comparacion-error { grid-template-columns: 1fr; }
+    }
+
+
+    /* ==========================================
+       RESUMEN DE LA UT1
+    ========================================== */
+    .mapa-resumen { margin: 28px 0; padding: 22px; border: 1px solid var(--borde); border-radius: 10px; background: var(--fondo-tarjeta); }
+    .mapa-nodo { padding: 17px; border: 2px solid var(--verde-principal); border-radius: 9px; text-align: center; background: var(--fondo-pagina); }
+    .mapa-nodo strong, .mapa-nodo span { display:block; }
+    .mapa-nodo span { margin-top:8px; font-size:15px; line-height:1.5; color:var(--texto-secundario); }
+    .mapa-principal { max-width: 720px; margin: 0 auto; font-weight: 800; }
+    .mapa-flecha { margin: 8px 0; text-align:center; color:var(--verde-principal); font-size:28px; font-weight:700; }
+    .mapa-columnas { display:grid; grid-template-columns:repeat(3,1fr); gap:14px; }
+    .rejilla-resumen { display:grid; grid-template-columns:repeat(3,1fr); gap:14px; margin:24px 0; }
+    .tarjeta-resumen { padding:18px; border:1px solid var(--borde); border-radius:9px; background:var(--fondo-tarjeta); }
+    .tarjeta-resumen > span { display:block; margin-bottom:8px; font-size:30px; }
+    .tarjeta-resumen > strong { display:block; margin-bottom:8px; font-size:17px; }
+    .tarjeta-resumen p { margin:0; font-size:15px; line-height:1.55; }
+    .lista-claves { display:grid; grid-template-columns:1fr 1fr; gap:12px; margin:24px 0; }
+    .lista-claves > div { padding:16px 18px; border:1px solid var(--borde); border-radius:8px; background:var(--fondo-tarjeta); }
+    .lista-claves strong, .lista-claves span { display:block; }
+    .lista-claves strong { margin-bottom:6px; color:var(--verde-principal); }
+    .lista-claves span { line-height:1.5; }
+    .resumen-final ul { margin:12px 0 0; padding-left:24px; }
+    .resumen-final li { margin-bottom:10px; }
+    @media (max-width: 900px) { .mapa-columnas, .rejilla-resumen { grid-template-columns:1fr; } .lista-claves { grid-template-columns:1fr; } }
+
+  
+
+    /* ==========================================
+       RETO FINAL Y AUTOEVALUACIÓN
+    ========================================== */
+
+    .escenario-reto {
+      margin: 30px 0;
+      padding: 24px;
+      background-color: var(--fondo-tarjeta);
+      border: 1px solid var(--borde);
+      border-radius: 12px;
+    }
+
+    .escenario-reto h3 { margin-top: 0; }
+
+    .maqueta-problematica {
+      margin: 28px 0;
+      padding: 18px;
+      border: 2px dashed #c94b4b;
+      border-radius: 12px;
+      background: #fffafa;
+    }
+
+    body.modo-oscuro .maqueta-problematica { background: #352727; }
+
+    .mala-cabecera {
+      padding: 14px 18px;
+      background: #ece2ff;
+      border: 3px solid #7b2cbf;
+      text-align: center;
+      font-size: 24px;
+      font-weight: 800;
+    }
+
+    .mala-nav {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin: 12px 0;
+      padding: 12px;
+      background: #fff4b8;
+      border: 1px solid #d8b84c;
+    }
+
+    .mala-nav span {
+      padding: 8px 10px;
+      background: #ffffff;
+      border: 1px solid #999;
+      border-radius: 2px;
+      font-size: 14px;
+    }
+
+    .mala-contenido {
+      display: grid;
+      grid-template-columns: 1fr 180px;
+      gap: 12px;
+    }
+
+    .mala-principal, .mala-lateral {
+      padding: 16px;
+      border: 1px solid #aaa;
+      background: #fff;
+      color: #222;
+    }
+
+    .mala-principal h4 {
+      margin: 0 0 10px;
+      font-size: 17px;
+      font-weight: 500;
+    }
+
+    .mala-principal p, .mala-lateral p { margin-bottom: 10px; font-size: 14px; line-height: 1.45; }
+
+    .mala-botones {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-top: 16px;
+    }
+
+    .mala-botones span {
+      display: inline-block;
+      padding: 8px 12px;
+      border: 1px solid #777;
+      border-radius: 3px;
+      font-size: 13px;
+    }
+
+    .mala-botones span:nth-child(1) { background: #dd3333; color: #fff; }
+    .mala-botones span:nth-child(2) { background: #e7e7e7; }
+    .mala-botones span:nth-child(3) { background: #38a169; color: #fff; font-weight: 700; }
+
+    .mala-error {
+      margin-top: 12px;
+      padding: 8px;
+      background: #eee;
+      border-left: 3px solid #777;
+      color: #555;
+      font-size: 13px;
+    }
+
+    .mala-pie {
+      margin-top: 12px;
+      padding: 10px;
+      background: #333;
+      color: #eee;
+      text-align: center;
+      font-size: 12px;
+    }
+
+    .lista-mision li { margin-bottom: 16px; }
+
+    .entrega-reto {
+      margin: 26px 0;
+      padding: 20px 22px;
+      background-color: #eef5ff;
+      border-left: 5px solid #3f7acb;
+      border-radius: 8px;
+    }
+
+    body.modo-oscuro .entrega-reto { background-color: #23344a; }
+
+    .pregunta-test {
+      margin: 28px 0;
+      padding: 22px 24px;
+      background-color: var(--fondo-tarjeta);
+      border: 1px solid var(--borde);
+      border-radius: 10px;
+    }
+
+    .pregunta-test > p { margin: 0 0 18px; font-size: 17px; line-height: 1.6; }
+
+    .pregunta-test label {
+      display: flex;
+      align-items: flex-start;
+      gap: 10px;
+      width: 100%;
+      box-sizing: border-box;
+      margin: 10px 0;
+      padding: 11px 14px;
+      border: 1px solid var(--borde);
+      border-radius: 7px;
+      font-size: 16px;
+      line-height: 1.5;
+      cursor: pointer;
+      transition: background-color .2s ease, border-color .2s ease;
+    }
+
+    .pregunta-test label:hover { background-color:#f3f7f4; border-color:#b9d8c3; }
+    body.modo-oscuro .pregunta-test label:hover { background-color:#273244; border-color:#3a4659; }
+    .pregunta-test input[type="radio"] { flex-shrink:0; margin:5px 0 0; accent-color:var(--verde-principal); cursor:pointer; }
+
+    #boton-corregir {
+      margin-top:18px; padding:13px 20px; border:0; border-radius:8px;
+      background-color:var(--verde-principal); color:#fff; font-family:inherit;
+      font-size:16px; font-weight:700; cursor:pointer;
+    }
+
+    #resultado-autoevaluacion { margin-top:22px; }
+    .mensaje-test { padding:16px 18px; border-radius:8px; font-size:16px; line-height:1.6; }
+    .mensaje-aviso { background-color:#fff7e8; border-left:5px solid #e09b27; }
+    .resultado-test { display:flex; align-items:center; flex-wrap:wrap; gap:14px; padding:18px 20px; background-color:#eef8f1; border-left:5px solid var(--verde-principal); border-radius:8px; }
+    .resultado-test strong { font-size:17px; }
+    .resultado-test span { font-size:16px; }
+    #boton-reintentar { padding:10px 16px; border:1px solid var(--verde-principal); border-radius:7px; background:#fff; color:var(--verde-principal); font-family:inherit; font-size:15px; font-weight:700; cursor:pointer; }
+    #boton-reintentar:hover { background:var(--verde-principal); color:#fff; }
+    .feedback-test { margin-top:16px; padding:14px 16px; border-radius:7px; font-size:16px; line-height:1.6; }
+    .feedback-test p { margin:6px 0 0; font-size:16px; }
+    .respuesta-correcta { background-color:#eef8f1 !important; border-color:#58b879 !important; }
+    .respuesta-incorrecta { background-color:#fff0f0 !important; border-color:#d96c6c !important; }
+    body.modo-oscuro .mensaje-aviso { background-color:#3b3020; }
+    body.modo-oscuro .resultado-test { background-color:#20372a; }
+    body.modo-oscuro #boton-reintentar { background-color:#273244; }
+    body.modo-oscuro .respuesta-correcta { background-color:#20372a !important; }
+    body.modo-oscuro .respuesta-incorrecta { background-color:#402626 !important; }
+
+    @media (max-width: 760px) {
+      .mala-contenido { grid-template-columns: 1fr; }
+    }
+
+  </style>
+
+</head>
+
+<body>
+  <header class="navbar">
+    <a class="inicio" href="../../../index.html">
+      <img src="../../../img/profesora-castana.png?v=2" alt="" class="icono-profesora">
+      <span>Inicio</span>
+    </a>
+    <nav id="menuModulos" class="menu-modulos" aria-label="Módulos formativos"></nav>
+    <button id="botonTema" class="boton-tema" type="button" aria-label="Cambiar entre modo claro y oscuro" title="Cambiar tema">☀️</button>
+  </header>
+
+  <div class="pagina-ut">
+    <aside class="sidebar">
+      <a class="sidebar-modulo" href="../../index.html">Diseño de interfaces web</a>
+
+      <a class="sidebar-ut-cerrada" href="../../ut1/index.html"><span>UT1 - Fundamentos del diseño de interfaces web</span><span>›</span></a>
+      <a class="sidebar-ut-cerrada" href="../../ut2/index.html"><span>UT2 - Color, tipografía, iconografía e identidad visual</span><span>›</span></a>
+
+      <div class="menu-desplegable">
+        <div class="menu-cabecera menu-cabecera-activa">
+          <a class="menu-titulo" href="../index.html">UT3 - Planificación, arquitectura y prototipado de interfaces</a>
+          <button class="boton-desplegar" type="button" data-target="submenu-ut3"
+            aria-expanded="true" aria-label="Mostrar u ocultar UT3">⌄</button>
+        </div>
+
+        <div id="submenu-ut3" class="submenu submenu-abierto">
+
+          <div class="menu-desplegable menu-apartado">
+            <div class="menu-cabecera">
+              <a class="menu-titulo" href="../3-1/index.html">3.1 Planificación de una interfaz web</a>
+              <button class="boton-desplegar" type="button" data-target="submenu-3-1"
+                aria-expanded="false" aria-label="Mostrar u ocultar los subapartados del 3.1">›</button>
+            </div>
+            <div id="submenu-3-1" class="submenu submenu-apartados">
+              <a href="../3-1/index.html#diseno-antes-programacion">El diseño antes de la programación</a>
+              <a href="../3-1/index.html#objetivos">Objetivos del sitio o aplicación</a>
+              <a href="../3-1/index.html#usuarios-necesidades">Usuarios y necesidades</a>
+              <a href="../3-1/index.html#requisitos">Requisitos de la interfaz</a>
+              <a href="../3-1/index.html#fases">Fases del proceso de diseño</a>
+            </div>
+          </div>
+
+          <div class="menu-desplegable menu-apartado">
+            <div class="menu-cabecera">
+              <a class="menu-titulo" href="../3-2/index.html">3.2 Arquitectura y organización de la información</a>
+              <button class="boton-desplegar" type="button" data-target="submenu-3-2"
+                aria-expanded="false" aria-label="Mostrar u ocultar los subapartados del 3.2">›</button>
+            </div>
+            <div id="submenu-3-2" class="submenu submenu-apartados">
+              <a href="../3-2/index.html#arquitectura-informacion">Qué es la arquitectura de la información</a>
+              <a href="../3-2/index.html#inventario-contenidos">Inventario y organización de contenidos</a>
+              <a href="../3-2/index.html#agrupacion-categorizacion">Agrupación y categorización</a>
+              <a href="../3-2/index.html#jerarquia-informacion">Jerarquía de la información</a>
+              <a href="../3-2/index.html#etiquetado-contenidos">Etiquetado de contenidos</a>
+            </div>
+          </div>
+
+          <div class="menu-desplegable menu-apartado">
+            <div class="menu-cabecera">
+              <a class="menu-titulo" href="../3-3/index.html">3.3 Estructura de un sitio web y mapa de navegación</a>
+              <button class="boton-desplegar" type="button" data-target="submenu-3-3"
+                aria-expanded="false" aria-label="Mostrar u ocultar los subapartados del 3.3">›</button>
+            </div>
+            <div id="submenu-3-3" class="submenu submenu-apartados">
+              <a href="../3-3/index.html#pagina-sitio-aplicacion">Página, sitio web y aplicación web</a>
+              <a href="../3-3/index.html#estructura-sitio">Estructura de un sitio web</a>
+              <a href="../3-3/index.html#relaciones-paginas">Relaciones entre páginas y vistas</a>
+              <a href="../3-3/index.html#tipos-estructura">Estructuras lineal, jerárquica, en red y combinada</a>
+              <a href="../3-3/index.html#mapa-navegacion">Mapa de navegación</a>
+              <a href="../3-3/index.html#ejemplo-aplicacion">Ejemplo aplicado a una aplicación web</a>
+            </div>
+          </div>
+
+          <div class="menu-desplegable menu-apartado">
+            <div class="menu-cabecera">
+              <a class="menu-titulo" href="../3-4/index.html">3.4 Sistemas de navegación</a>
+              <button class="boton-desplegar" type="button" data-target="submenu-3-4"
+                aria-expanded="false" aria-label="Mostrar u ocultar los subapartados del 3.4">›</button>
+            </div>
+            <div id="submenu-3-4" class="submenu submenu-apartados">
+              <a href="../3-4/index.html#sistema-navegacion">Qué es un sistema de navegación</a>
+              <a href="../3-4/index.html#principal-secundaria">Navegación principal y secundaria</a>
+              <a href="../3-4/index.html#contextual">Navegación contextual</a>
+              <a href="../3-4/index.html#migas-pan">Migas de pan</a>
+              <a href="../3-4/index.html#otros-elementos">Enlaces y otros elementos de navegación</a>
+              <a href="../3-4/index.html#orientacion-coherencia">Orientación y coherencia en la navegación</a>
+            </div>
+          </div>
+
+          <div class="menu-desplegable menu-apartado">
+            <div class="menu-cabecera">
+              <a class="menu-titulo" href="../3-5/index.html">3.5 Wireframes y prototipos</a>
+              <button class="boton-desplegar" type="button" data-target="submenu-3-5"
+                aria-expanded="false" aria-label="Mostrar u ocultar los subapartados del 3.5">›</button>
+            </div>
+            <div id="submenu-3-5" class="submenu submenu-apartados">
+              <a href="../3-5/index.html#boceto-prototipo">Del boceto al prototipo</a>
+              <a href="../3-5/index.html#sketch">Sketch o boceto</a>
+              <a href="../3-5/index.html#wireframe">Wireframe</a>
+              <a href="../3-5/index.html#prototipo">Prototipo</a>
+              <a href="../3-5/index.html#fidelidad">Niveles de fidelidad</a>
+              <a href="../3-5/index.html#wireframe-prototipo">Wireframe frente a prototipo</a>
+              <a href="../3-5/index.html#ventajas-prototipado">Ventajas del prototipado</a>
+              <a href="../3-5/index.html#ejemplo-daw">Ejemplo DAW: evolución de una interfaz</a>
+            </div>
+          </div>
+
+          <div class="menu-desplegable menu-apartado">
+            <div class="menu-cabecera">
+              <a class="menu-titulo" href="../3-6/index.html">3.6 Herramientas, plantillas y flujo de trabajo de prototipado</a>
+              <button class="boton-desplegar" type="button" data-target="submenu-3-6"
+                aria-expanded="false" aria-label="Mostrar u ocultar los subapartados del 3.6">›</button>
+            </div>
+            <div id="submenu-3-6" class="submenu submenu-apartados">
+              <a href="../3-6/index.html#herramientas-bocetos">Herramientas para bocetos y wireframes</a>
+              <a href="../3-6/index.html#herramientas-diseno-prototipado">Herramientas de diseño y prototipado</a>
+              <a href="../3-6/index.html#plantillas-recursos">Plantillas y recursos reutilizables</a>
+              <a href="../3-6/index.html#seleccion-herramientas-plantillas">Criterios para seleccionar herramientas y plantillas</a>
+              <a href="../3-6/index.html#colaboracion-documentacion">Trabajo colaborativo y documentación</a>
+              <a href="../3-6/index.html#flujo-trabajo">Flujo de trabajo completo</a>
+            </div>
+          </div>
+
+          <div class="menu-desplegable menu-apartado">
+            <div class="menu-cabecera">
+              <a class="menu-titulo" href="../resumen/index.html">✏️ Resumen de la UT3</a>
+              <button class="boton-desplegar" type="button" data-target="submenu-resumen"
+                aria-expanded="false" aria-label="Mostrar u ocultar el resumen de la UT3">›</button>
+            </div>
+            <div id="submenu-resumen" class="submenu submenu-apartados">
+              <a href="../resumen/index.html#vision-global">Visión global</a>
+              <a href="../resumen/index.html#planificacion">3.1 Planificación</a>
+              <a href="../resumen/index.html#arquitectura">3.2 Arquitectura de la información</a>
+              <a href="../resumen/index.html#estructura">3.3 Estructura y mapa de navegación</a>
+              <a href="../resumen/index.html#navegacion">3.4 Sistemas de navegación</a>
+              <a href="../resumen/index.html#prototipado">3.5 Wireframes y prototipos</a>
+              <a href="../resumen/index.html#herramientas">3.6 Herramientas y flujo de trabajo</a>
+              <a href="../resumen/index.html#ideas-clave">Ideas clave</a>
+            </div>
+          </div>
+
+          <div class="menu-desplegable menu-apartado">
+            <div class="menu-cabecera menu-cabecera-activa">
+              <a class="menu-titulo" href="index.html">📝 Actividades de la UT3</a>
+              <button class="boton-desplegar" type="button" data-target="submenu-actividades"
+                aria-expanded="true" aria-label="Mostrar u ocultar las actividades de la UT3">⌄</button>
+            </div>
+            <div id="submenu-actividades" class="submenu submenu-apartados submenu-abierto">
+              <a href="#reto-final">🧩 Reto final</a>
+              <a href="#autoevaluacion">✅ Autoevaluación</a>
+            </div>
+          </div>
+
+        </div>
+      </div>
+
+      <a class="sidebar-ut-cerrada" href="../../ut4/index.html"><span>UT4 - HTML: estructura y contenido de interfaces web</span><span>›</span></a>
+      <a class="sidebar-ut-cerrada" href="../../ut5/index.html"><span>UT5 - CSS: fundamentos y diseño visual</span><span>›</span></a>
+      <a class="sidebar-ut-cerrada" href="../../ut6/index.html"><span>UT6 - CSS: maquetación y diseño avanzado</span><span>›</span></a>
+      <a class="sidebar-ut-cerrada" href="../../ut7/index.html"><span>UT7 - Diseño web responsive</span><span>›</span></a>
+      <a class="sidebar-ut-cerrada" href="../../ut8/index.html"><span>UT8 - Recursos gráficos e imágenes para la web</span><span>›</span></a>
+      <a class="sidebar-ut-cerrada" href="../../ut9/index.html"><span>UT9 - Audio, vídeo, animaciones e interactividad</span><span>›</span></a>
+      <a class="sidebar-ut-cerrada" href="../../ut10/index.html"><span>UT10 - Accesibilidad web</span><span>›</span></a>
+      <a class="sidebar-ut-cerrada" href="../../ut11/index.html"><span>UT11 - Usabilidad y evaluación de interfaces web</span><span>›</span></a>
+    </aside>
+
+    <main class="contenido-ut">
+      <div class="migas">
+        <a class="miga-inicio" href="../../../index.html" aria-label="Volver a la página principal">🏠</a>
+        <span class="miga-separador">›</span>
+        <a class="miga-modulo" href="../../index.html">DIW</a>
+        <span class="miga-separador">›</span>
+        <a class="miga-modulo" href="../index.html">UT3</a>
+        <span class="miga-separador">›</span>
+        <span class="miga-actual">Actividades</span>
+      </div>
+
+      <h1>📝 Actividades de la UT3</h1>
+
+      <section class="apartado-ut">
+        <p>Para finalizar la UT3 vas a aplicar de forma conjunta los principales conceptos trabajados en los apartados 3.1 a 3.6.</p>
+        <p>Las actividades se dividen en dos partes: un <strong>reto final</strong>, basado en una situación profesional de planificación y prototipado de una aplicación web, y una <strong>autoevaluación</strong> para comprobar los contenidos esenciales de la unidad.</p>
+      </section>
+
+      <section id="reto-final" class="apartado-ut">
+        <h2>🧩 Reto final — Planifica y prototipa una aplicación web</h2>
+
+        <p>El equipo continúa trabajando en <strong>StudyFlow</strong>, la aplicación web para organizar tareas, fechas de entrega y materiales de estudio que utilizamos en la UT2.</p>
+
+        <p>Antes de comenzar la implementación con HTML, CSS y JavaScript, es necesario definir con claridad cómo se organizará la información, cómo se moverán los usuarios por la aplicación y cómo serán sus pantallas principales.</p>
+
+        <div class="escenario-reto">
+          <h3>El encargo</h3>
+          <p>Tu misión consiste en transformar las necesidades de StudyFlow en una propuesta de interfaz planificada y documentada, desde los requisitos iniciales hasta un prototipo que permita comprobar uno de sus recorridos principales.</p>
+
+          <div class="caja caja-importante">
+            <span class="caja-titulo">📌 Condición del proyecto</span>
+            <p>No debes empezar programando. El objetivo del reto es <strong>tomar y justificar decisiones de diseño antes de la implementación</strong>, de manera que el equipo pueda detectar problemas y validar la propuesta con un coste menor.</p>
+          </div>
+        </div>
+
+        <h3>Tu misión</h3>
+        <p>Elabora una propuesta de planificación y prototipado que incluya los siguientes apartados:</p>
+
+        <ol class="lista-mision">
+          <li><strong>Define el objetivo y los usuarios.</strong> Explica qué problema pretende resolver StudyFlow, identifica sus usuarios principales y describe al menos tres necesidades que debería cubrir la interfaz.</li>
+
+          <li><strong>Establece los requisitos de la interfaz.</strong> Formula al menos seis requisitos relevantes. Distingue, cuando corresponda, entre lo que el usuario necesita hacer y las condiciones que debería cumplir la interfaz para facilitar esas tareas.</li>
+
+          <li><strong>Organiza la información.</strong> Realiza un pequeño inventario de contenidos y funciones, agrúpalos en categorías comprensibles y propón etiquetas claras para las secciones principales.</li>
+
+          <li><strong>Diseña la arquitectura y el mapa de navegación.</strong> Representa las principales páginas o vistas de StudyFlow y las relaciones entre ellas. El mapa debe permitir comprender la estructura general de la aplicación y los recorridos posibles.</li>
+
+          <li><strong>Define el sistema de navegación.</strong> Indica qué elementos utilizarás para la navegación principal, secundaria o contextual. Decide también si son necesarias migas de pan, pestañas, buscador, paginación u otros mecanismos y justifica las decisiones más importantes.</li>
+
+          <li><strong>Crea los primeros bocetos y wireframes.</strong> Realiza al menos un boceto inicial y desarrolla después wireframes de <strong>tres pantallas relevantes</strong>. Deben mostrar la distribución aproximada de los contenidos, controles y zonas de navegación sin centrarse todavía en el acabado visual definitivo.</li>
+
+          <li><strong>Construye un prototipo.</strong> Conecta las pantallas necesarias para simular al menos un recorrido importante, por ejemplo: <em>consultar una asignatura → abrir una actividad → comprobar su fecha de entrega</em>. El prototipo debe permitir entender cómo podría funcionar ese recorrido.</li>
+
+          <li><strong>Selecciona las herramientas y recursos.</strong> Indica qué herramienta o herramientas has utilizado y explica por qué son adecuadas. Si utilizas una plantilla, un kit de interfaz o cualquier recurso reutilizable, identifica qué has aprovechado y qué has adaptado al proyecto.</li>
+
+          <li><strong>Documenta tus decisiones.</strong> Justifica al menos cuatro decisiones tomadas durante el proceso, relacionadas con la organización de la información, la estructura, la navegación, los wireframes, el nivel de fidelidad o el prototipado.</li>
+        </ol>
+
+        <div class="entrega-reto">
+          <strong>📦 Entrega del reto</strong>
+          <p>Presenta un <strong>documento o proyecto de diseño</strong> que incluya: objetivo y usuarios, requisitos, organización de contenidos, mapa de navegación, sistema de navegación, bocetos, wireframes, prototipo y justificación de las decisiones principales. Puedes utilizar herramientas como Figma, Penpot, Balsamiq u otras adecuadas al trabajo. <strong>No es necesario implementar todavía la aplicación con HTML, CSS o JavaScript.</strong></p>
+        </div>
+      </section>
+
+      <section id="autoevaluacion" class="apartado-ut">
+        <h2>✅ Autoevaluación de la UT3</h2>
+        <p>Responde las siguientes preguntas para comprobar qué contenidos de la UT3 has comprendido.</p>
+        <p>Cada pregunta tiene <strong>una única respuesta correcta</strong>.</p>
+
+        <div class="pregunta-test">
+          <p><strong>1. ¿Cuál es una de las principales ventajas de planificar una interfaz antes de comenzar a programarla?</strong></p>
+          <label><input type="radio" name="pregunta1" value="a"> a) Garantizar que nunca será necesario modificar el proyecto.</label>
+          <label><input type="radio" name="pregunta1" value="b"> b) Detectar y corregir decisiones problemáticas antes de invertir más tiempo en la implementación.</label>
+          <label><input type="radio" name="pregunta1" value="c"> c) Sustituir completamente las fases de desarrollo y evaluación.</label>
+          <label><input type="radio" name="pregunta1" value="d"> d) Elegir los colores definitivos antes de conocer a los usuarios.</label>
+        </div>
+
+        <div class="pregunta-test">
+          <p><strong>2. ¿Qué describe mejor la arquitectura de la información?</strong></p>
+          <label><input type="radio" name="pregunta2" value="a"> a) La elección de colores, tipografías e iconos de una interfaz.</label>
+          <label><input type="radio" name="pregunta2" value="b"> b) La organización, estructuración y etiquetado de los contenidos para facilitar su comprensión y localización.</label>
+          <label><input type="radio" name="pregunta2" value="c"> c) La escritura del código CSS que distribuye los elementos de una página.</label>
+          <label><input type="radio" name="pregunta2" value="d"> d) La optimización exclusiva de imágenes para reducir su tamaño.</label>
+        </div>
+
+        <div class="pregunta-test">
+          <p><strong>3. ¿Para qué puede utilizarse la técnica de card sorting durante la organización de contenidos?</strong></p>
+          <label><input type="radio" name="pregunta3" value="a"> a) Para conocer cómo agrupan y relacionan los usuarios determinados contenidos.</label>
+          <label><input type="radio" name="pregunta3" value="b"> b) Para comprobar automáticamente la sintaxis de HTML.</label>
+          <label><input type="radio" name="pregunta3" value="c"> c) Para seleccionar una paleta de colores accesible.</label>
+          <label><input type="radio" name="pregunta3" value="d"> d) Para convertir un wireframe en código JavaScript.</label>
+        </div>
+
+        <div class="pregunta-test">
+          <p><strong>4. ¿Qué representa principalmente un mapa de navegación?</strong></p>
+          <label><input type="radio" name="pregunta4" value="a"> a) Los estilos CSS aplicados a cada página.</label>
+          <label><input type="radio" name="pregunta4" value="b"> b) Las páginas o vistas principales y las relaciones de navegación existentes entre ellas.</label>
+          <label><input type="radio" name="pregunta4" value="c"> c) Únicamente el menú principal tal como aparecerá visualmente en pantalla.</label>
+          <label><input type="radio" name="pregunta4" value="d"> d) La lista de archivos que contiene el servidor web.</label>
+        </div>
+
+        <div class="pregunta-test">
+          <p><strong>5. ¿Cuál de las siguientes situaciones es un ejemplo de navegación contextual?</strong></p>
+          <label><input type="radio" name="pregunta5" value="a"> a) Un enlace «Ver actividades de esta asignatura» que aparece dentro de la ficha de una asignatura.</label>
+          <label><input type="radio" name="pregunta5" value="b"> b) El logotipo utilizado como identidad visual de la aplicación.</label>
+          <label><input type="radio" name="pregunta5" value="c"> c) El color de fondo del menú principal.</label>
+          <label><input type="radio" name="pregunta5" value="d"> d) El título que aparece en la pestaña del navegador.</label>
+        </div>
+
+        <div class="pregunta-test">
+          <p><strong>6. ¿Qué información deberían comunicar correctamente unas migas de pan?</strong></p>
+          <label><input type="radio" name="pregunta6" value="a"> a) La posición de la página o vista actual dentro de la jerarquía del sitio.</label>
+          <label><input type="radio" name="pregunta6" value="b"> b) Todas las páginas que el usuario ha visitado desde que abrió el navegador.</label>
+          <label><input type="radio" name="pregunta6" value="c"> c) Los colores utilizados en cada sección.</label>
+          <label><input type="radio" name="pregunta6" value="d"> d) El tiempo que el usuario ha permanecido en cada página.</label>
+        </div>
+
+        <div class="pregunta-test">
+          <p><strong>7. ¿Cuál es la finalidad principal de un wireframe?</strong></p>
+          <label><input type="radio" name="pregunta7" value="a"> a) Mostrar exclusivamente la identidad visual definitiva del producto.</label>
+          <label><input type="radio" name="pregunta7" value="b"> b) Representar la estructura, distribución aproximada y organización de los elementos de una interfaz.</label>
+          <label><input type="radio" name="pregunta7" value="c"> c) Sustituir el producto final completamente funcional.</label>
+          <label><input type="radio" name="pregunta7" value="d"> d) Definir únicamente las animaciones de la aplicación.</label>
+        </div>
+
+        <div class="pregunta-test">
+          <p><strong>8. ¿Qué diferencia didáctica resulta más útil entre un mockup y un prototipo?</strong></p>
+          <label><input type="radio" name="pregunta8" value="a"> a) El mockup se centra principalmente en la apariencia visual, mientras que el prototipo puede simular recorridos e interacciones.</label>
+          <label><input type="radio" name="pregunta8" value="b"> b) El mockup siempre contiene código y el prototipo nunca.</label>
+          <label><input type="radio" name="pregunta8" value="c"> c) El prototipo solo puede realizarse en papel.</label>
+          <label><input type="radio" name="pregunta8" value="d"> d) No existe ninguna diferencia posible entre ambos conceptos.</label>
+        </div>
+
+        <div class="pregunta-test">
+          <p><strong>9. ¿Cuál de estas afirmaciones sobre la fidelidad de un prototipo es correcta?</strong></p>
+          <label><input type="radio" name="pregunta9" value="a"> a) Todos los prototipos deben ser de alta fidelidad.</label>
+          <label><input type="radio" name="pregunta9" value="b"> b) Cuanta más fidelidad tenga un prototipo, mejor será siempre para cualquier fase.</label>
+          <label><input type="radio" name="pregunta9" value="c"> c) El nivel de fidelidad debe elegirse según el objetivo y el momento del proceso de diseño.</label>
+          <label><input type="radio" name="pregunta9" value="d"> d) Un wireframe es obligatoriamente un prototipo de fidelidad media.</label>
+        </div>
+
+        <div class="pregunta-test">
+          <p><strong>10. ¿Qué criterio es adecuado al seleccionar una herramienta o una plantilla para un proyecto de prototipado?</strong></p>
+          <label><input type="radio" name="pregunta10" value="a"> a) Elegir siempre la herramienta con mayor número de funciones, aunque el proyecto no las necesite.</label>
+          <label><input type="radio" name="pregunta10" value="b"> b) Valorar las necesidades del proyecto, la colaboración, el coste o licencia, la facilidad de uso y las posibilidades de exportación o reutilización.</label>
+          <label><input type="radio" name="pregunta10" value="c"> c) Utilizar cualquier plantilla sin comprobar si se adapta a los requisitos de la interfaz.</label>
+          <label><input type="radio" name="pregunta10" value="d"> d) Evitar documentar las decisiones para no limitar al equipo.</label>
+        </div>
+
+        <button id="boton-corregir" type="button">✅ Corregir autoevaluación</button>
+        <div id="resultado-autoevaluacion" hidden></div>
+      </section>
+
+      <nav class="navegacion-paginas">
+        <a class="nav-pagina nav-anterior" href="../resumen/index.html">
+          <span class="nav-etiqueta">Anterior</span>
+          <strong>‹ ✏️ Resumen de la UT3</strong>
+        </a>
+        <a class="nav-pagina nav-siguiente" href="../../ut4/index.html">
+          <span class="nav-etiqueta">Siguiente</span>
+          <strong>UT4 - HTML: estructura y contenido de interfaces web ›</strong>
+        </a>
+      </nav>
+    </main>
+
+    <aside class="indice-derecho">
+      <h2>Contenidos del apartado</h2>
+      <ul><li><a href="#reto-final">🧩 Reto final</a></li><li><a href="#autoevaluacion">✅ Autoevaluación</a></li></ul>
+    </aside>
+  </div>
+
+  <footer class="footer">
+    <p>Material elaborado por <strong>Eva Ballestero Cubeles</strong> · Licencia <span class="licencia">CC BY-NC-SA 4.0</span>
+      <a class="enlace-licencia" href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.es" target="_blank" rel="license noopener noreferrer" aria-label="Licencia Creative Commons BY-NC-SA 4.0">
+        <img class="icono-licencia" src="../../../img/licencias/cc-by-nc-sa.png" alt="Licencia Creative Commons BY-NC-SA 4.0">
+      </a>
+    </p>
+  </footer>
+
+  <script src="../../../js/modulos.js"></script>
+  <script>
+    const menuModulos = document.getElementById("menuModulos");
+    const botonTema = document.getElementById("botonTema");
+    const modulosActivos = modulos.filter(modulo => modulo.activo === true);
+    modulosActivos.forEach(modulo => {
+      const enlace = document.createElement("a");
+      enlace.href = `../../../${modulo.carpeta}/index.html`;
+      enlace.textContent = modulo.siglas;
+      enlace.title = modulo.nombre;
+      if (modulo.siglas === "DIW") enlace.style.color = "var(--verde-principal)";
+      menuModulos.appendChild(enlace);
+    });
+
+    const temaGuardado = localStorage.getItem("tema");
+    if (temaGuardado === "oscuro") { document.body.classList.add("modo-oscuro"); botonTema.textContent = "🌙"; }
+    botonTema.addEventListener("click", () => {
+      document.body.classList.toggle("modo-oscuro");
+      const estaOscuro = document.body.classList.contains("modo-oscuro");
+      botonTema.textContent = estaOscuro ? "🌙" : "☀️";
+      localStorage.setItem("tema", estaOscuro ? "oscuro" : "claro");
+    });
+
+    document.querySelectorAll(".boton-desplegar").forEach((boton) => {
+      boton.addEventListener("click", () => {
+        const submenu = document.getElementById(boton.getAttribute("data-target"));
+        if (!submenu) return;
+        submenu.classList.toggle("submenu-abierto");
+        const abierto = submenu.classList.contains("submenu-abierto");
+        boton.setAttribute("aria-expanded", abierto ? "true" : "false");
+        boton.textContent = abierto ? "⌄" : "›";
+      });
+    });
+
+    const respuestasCorrectas = {
+      pregunta1:"b", pregunta2:"b", pregunta3:"a", pregunta4:"b", pregunta5:"a",
+      pregunta6:"a", pregunta7:"b", pregunta8:"a", pregunta9:"c", pregunta10:"b"
+    };
+
+    const explicaciones = {
+      pregunta1:'Planificar permite analizar alternativas y detectar problemas antes de invertir más tiempo y recursos en la implementación.',
+      pregunta2:'La arquitectura de la información organiza, estructura y etiqueta contenidos para que los usuarios puedan comprenderlos y localizarlos con facilidad.',
+      pregunta3:'El card sorting ayuda a estudiar cómo las personas agrupan y relacionan contenidos, lo que puede orientar la creación de categorías y etiquetas.',
+      pregunta4:'Un mapa de navegación representa de forma esquemática las páginas o vistas principales de un sitio o aplicación y las relaciones existentes entre ellas.',
+      pregunta5:'La navegación contextual aparece vinculada al contenido o a la tarea que el usuario está realizando en ese momento y ofrece opciones relacionadas con ese contexto.',
+      pregunta6:'Las migas de pan muestran la posición de la página o vista actual dentro de una estructura jerárquica; no representan necesariamente el historial real de navegación del usuario.',
+      pregunta7:'Un wireframe representa el esqueleto estructural de una interfaz: qué elementos habrá, su posición y espacio aproximado y cómo se organizarán, sin desarrollar todavía el acabado visual definitivo.',
+      pregunta8:'Como distinción didáctica, el mockup se centra principalmente en una representación visual cercana al aspecto final, mientras que un prototipo puede incorporar o simular recorridos e interacciones.',
+      pregunta9:'La fidelidad debe responder al objetivo del prototipo y a la fase del proceso. Un prototipo puede ser de baja, media o alta fidelidad según lo que se necesite comprobar.',
+      pregunta10:'La elección de herramientas y plantillas debe responder a las necesidades reales del proyecto y puede considerar factores como colaboración, coste o licencia, facilidad de aprendizaje, exportación y reutilización.'
+    };
+
+    const botonCorregir = document.getElementById("boton-corregir");
+    const resultado = document.getElementById("resultado-autoevaluacion");
+
+    botonCorregir.addEventListener("click", function () {
+      let todasRespondidas = true;
+      for (let i=1; i<=10; i++) { if (!document.querySelector(`input[name="pregunta${i}"]:checked`)) todasRespondidas=false; }
+      if (!todasRespondidas) {
+        resultado.hidden=false;
+        resultado.innerHTML='<div class="mensaje-test mensaje-aviso">⚠️ Todavía tienes preguntas sin responder. Responde las 10 preguntas antes de corregir la autoevaluación.</div>';
+        return;
+      }
+
+      let aciertos=0;
+      for (let i=1; i<=10; i++) {
+        const nombre=`pregunta${i}`;
+        const seleccionada=document.querySelector(`input[name="${nombre}"]:checked`);
+        const contenedor=seleccionada.closest(".pregunta-test");
+        contenedor.querySelectorAll("label").forEach(label=>label.classList.remove("respuesta-correcta","respuesta-incorrecta"));
+        const correcta=contenedor.querySelector(`input[value="${respuestasCorrectas[nombre]}"]`);
+        correcta.closest("label").classList.add("respuesta-correcta");
+        const esCorrecta=seleccionada.value===respuestasCorrectas[nombre];
+        if (esCorrecta) aciertos++; else seleccionada.closest("label").classList.add("respuesta-incorrecta");
+        let feedback=contenedor.querySelector(".feedback-test");
+        if (!feedback) { feedback=document.createElement("div"); feedback.classList.add("feedback-test"); contenedor.appendChild(feedback); }
+        feedback.innerHTML = esCorrecta
+          ? `<strong>✅ Respuesta correcta.</strong><p>${explicaciones[nombre]}</p>`
+          : `<strong>❌ Respuesta incorrecta.</strong><p>La respuesta correcta es la opción <strong>${respuestasCorrectas[nombre].toUpperCase()}</strong>. ${explicaciones[nombre]}</p>`;
+      }
+
+      resultado.hidden=false;
+      resultado.innerHTML=`<div class="resultado-test"><strong>Has obtenido ${aciertos} de 10 respuestas correctas.</strong><span>Nota: ${aciertos}/10</span><button id="boton-reintentar" type="button">🔄 Reintentar</button></div>`;
+      document.getElementById("boton-reintentar").addEventListener("click", function() {
+        document.querySelectorAll('.pregunta-test input[type="radio"]').forEach(input=>input.checked=false);
+        document.querySelectorAll('.pregunta-test label').forEach(label=>label.classList.remove('respuesta-correcta','respuesta-incorrecta'));
+        document.querySelectorAll('.feedback-test').forEach(feedback=>feedback.remove());
+        resultado.hidden=true; resultado.innerHTML='';
+        document.getElementById('autoevaluacion').scrollIntoView({behavior:'smooth'});
+      });
+    });
+  </script>
+</body>
+</html>
