@@ -1149,6 +1149,35 @@ body.modo-oscuro .mapa-raiz,
 body.modo-oscuro .mapa-nodo {
   background-color: #273244;
 }
+    .mapa-distribucion {
+  position: relative;
+  margin-top: 16px;
+  padding-top: 26px;
+}
+
+.mapa-distribucion::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 12.5%;
+  right: 12.5%;
+  height: 2px;
+  background-color: var(--verde-principal);
+}
+
+.mapa-rama {
+  position: relative;
+}
+
+.mapa-rama::before {
+  content: "";
+  position: absolute;
+  top: -26px;
+  left: 50%;
+  width: 2px;
+  height: 26px;
+  background-color: var(--verde-principal);
+}
 
 @media (max-width: 850px) {
   .mapa-columnas {
@@ -1580,7 +1609,7 @@ enlaces relacionados</div>
 
   <div class="mapa-flecha">↓</div>
 
-  <div class="mapa-columnas">
+  <div class="mapa-columnas mapa-distribucion">
 
     <div class="mapa-rama">
       <div class="mapa-nodo">
