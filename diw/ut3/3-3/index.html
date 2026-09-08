@@ -1065,39 +1065,102 @@ body.modo-oscuro .solucion-desplegable summary {
       white-space: pre-line;
     }
 
-    .mapa-navegacion {
-      max-width: 760px;
-      margin: 28px auto;
-      padding: 22px;
-      border: 1px solid var(--borde);
-      border-radius: 10px;
-      background: var(--fondo-tarjeta);
-    }
+.mapa-navegacion {
+  max-width: 820px;
+  margin: 30px auto;
+  padding: 26px;
 
-    .mapa-nivel {
-      display: flex;
-      justify-content: center;
-      gap: 12px;
-      flex-wrap: wrap;
-      margin: 10px 0;
-    }
+  border: 1px solid var(--borde);
+  border-radius: 12px;
 
-    .mapa-nodo {
-      padding: 10px 14px;
-      border: 1px solid var(--borde);
-      border-radius: 7px;
-      background: var(--fondo-pagina);
-      font-size: 15px;
-      font-weight: 700;
-      text-align: center;
-    }
+  background-color: var(--fondo-tarjeta);
+}
 
-    .mapa-flecha {
-      text-align: center;
-      color: var(--verde-principal);
-      font-size: 24px;
-      font-weight: 700;
-    }
+.mapa-raiz {
+  max-width: 260px;
+  margin: 0 auto;
+
+  padding: 14px 18px;
+
+  border: 2px solid var(--verde-principal);
+  border-radius: 9px;
+
+  background-color: var(--fondo-pagina);
+
+  text-align: center;
+  font-size: 18px;
+  font-weight: 700;
+}
+
+.mapa-flecha {
+  margin: 10px 0;
+
+  text-align: center;
+
+  color: var(--verde-principal);
+
+  font-size: 26px;
+  font-weight: 700;
+}
+
+.mapa-columnas {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 16px;
+
+  align-items: start;
+}
+
+.mapa-rama {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+}
+
+.mapa-nodo {
+  width: 100%;
+  padding: 12px 10px;
+
+  border: 1px solid var(--borde);
+  border-radius: 8px;
+
+  background-color: var(--fondo-pagina);
+
+  text-align: center;
+
+  font-size: 15px;
+  font-weight: 700;
+  line-height: 1.35;
+}
+
+.mapa-nodo-secundario {
+  font-size: 14px;
+  font-weight: 600;
+}
+
+.mapa-conector {
+  color: var(--verde-principal);
+  font-size: 22px;
+  line-height: 1;
+}
+
+body.modo-oscuro .mapa-raiz,
+body.modo-oscuro .mapa-nodo {
+  background-color: #273244;
+}
+
+@media (max-width: 850px) {
+  .mapa-columnas {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 550px) {
+  .mapa-columnas {
+    grid-template-columns: 1fr;
+  }
+}
 
     @media (max-width: 850px) {
       .conceptos-web,
@@ -1509,23 +1572,63 @@ enlaces relacionados</div>
   </p>
 </div>
 
-<div class="esquema-sostenibilidad">
-  <div class="esquema-caja">Inicio / Panel</div>
+<div class="mapa-navegacion">
 
-  <div class="esquema-flecha">↓</div>
-
-  <div class="esquema-caja">
-    ├── Asignaturas<br>
-    │&nbsp;&nbsp;&nbsp;└── Detalle de asignatura<br>
-    │&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;└── Detalle de actividad<br><br>
-
-    ├── Entregas<br>
-    │&nbsp;&nbsp;&nbsp;└── Detalle de actividad<br><br>
-
-    ├── Mensajes<br><br>
-
-    └── Perfil
+  <div class="mapa-raiz">
+    Inicio / Panel
   </div>
+
+  <div class="mapa-flecha">↓</div>
+
+  <div class="mapa-columnas">
+
+    <div class="mapa-rama">
+      <div class="mapa-nodo">
+        Asignaturas
+      </div>
+
+      <div class="mapa-conector">↓</div>
+
+      <div class="mapa-nodo mapa-nodo-secundario">
+        Detalle de asignatura
+      </div>
+
+      <div class="mapa-conector">↓</div>
+
+      <div class="mapa-nodo mapa-nodo-secundario">
+        Detalle de actividad
+      </div>
+    </div>
+
+
+    <div class="mapa-rama">
+      <div class="mapa-nodo">
+        Entregas
+      </div>
+
+      <div class="mapa-conector">↓</div>
+
+      <div class="mapa-nodo mapa-nodo-secundario">
+        Detalle de actividad
+      </div>
+    </div>
+
+
+    <div class="mapa-rama">
+      <div class="mapa-nodo">
+        Mensajes
+      </div>
+    </div>
+
+
+    <div class="mapa-rama">
+      <div class="mapa-nodo">
+        Perfil
+      </div>
+    </div>
+
+  </div>
+
 </div>
 
         <p>
