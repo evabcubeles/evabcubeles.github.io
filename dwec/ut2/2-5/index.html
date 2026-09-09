@@ -1,0 +1,2443 @@
+<!DOCTYPE html>
+<html lang="es">
+  
+<head>
+  <meta charset="UTF-8">
+
+  <meta
+    name="viewport"
+    content="width=device-width, initial-scale=1.0"
+  >
+
+  <meta
+    name="description"
+    content="2.5 - Operadores en JavaScript."
+  >
+
+  <title>2.5 - Operadores en JavaScript</title>
+
+  <link rel="icon" type="image/png" href="../../../img/favicon.png?v=5">
+  <link rel="stylesheet" href="../../../css/estilos.css">
+
+  <style>
+
+    /* ==========================================
+       ESTRUCTURA DE LA UT
+    ========================================== */
+
+    .pagina-ut {
+      display: grid;
+      grid-template-columns: 280px 1fr 260px;
+      min-height: calc(100vh - 68px);
+    }
+
+
+    /* ==========================================
+       COLUMNA IZQUIERDA
+    ========================================== */
+
+    .sidebar {
+      border-right: 1px solid var(--borde);
+      background-color: var(--fondo-pagina);
+
+      padding: 12px 10px 30px;
+
+      position: sticky;
+      top: 68px;
+
+      height: calc(100vh - 68px);
+      overflow-y: auto;
+    }
+
+    .sidebar-modulo {
+      display: block;
+      margin-bottom: 8px;
+      padding: 8px 14px;
+
+      color: #626873;
+
+      font-size: 17px;
+      font-weight: 700;
+      line-height: 1.3;
+
+      text-decoration: none;
+      border-radius: 6px;
+
+      transition:
+        color 0.2s ease,
+        background-color 0.2s ease;
+    }
+
+    .sidebar-modulo:hover {
+      color: var(--verde-principal);
+      background-color: #f3f4f6;
+    }
+
+    body.modo-oscuro .sidebar-modulo:hover {
+      background-color: #273244;
+    }
+
+
+    /* ==========================================
+       MENÚ LATERAL DESPLEGABLE
+    ========================================== */
+
+    .menu-desplegable {
+      width: 100%;
+    }
+
+    .menu-cabecera {
+      display: flex;
+      align-items: center;
+      gap: 4px;
+
+      width: 100%;
+
+      border-radius: 6px;
+    }
+
+    .menu-cabecera-activa {
+      background-color: #f1f1f1;
+    }
+
+    .menu-cabecera-activa > .menu-titulo {
+      color: var(--verde-principal);
+    }
+
+    .menu-titulo {
+      flex: 1;
+
+      display: block;
+
+      padding: 11px 8px 11px 14px;
+
+      color: #626873;
+
+      font-size: 16px;
+      font-weight: 650;
+      line-height: 1.4;
+
+      text-decoration: none;
+    }
+
+    .menu-titulo:hover {
+      color: var(--verde-principal);
+    }
+
+    .boton-desplegar {
+      width: 36px;
+      height: 36px;
+
+      margin-right: 5px;
+      padding: 0;
+
+      display: flex;
+      align-items: center;
+      justify-content: center;
+
+      flex-shrink: 0;
+
+      border: 0;
+      border-radius: 6px;
+
+      background: transparent;
+
+      color: #777;
+
+      font-family: inherit;
+      font-size: 24px;
+      line-height: 1;
+
+      cursor: pointer;
+    }
+
+    .boton-desplegar:hover {
+      background-color: #e5e7eb;
+      color: var(--verde-principal);
+    }
+
+    .submenu {
+      display: none;
+    }
+
+    .submenu.submenu-abierto {
+      display: block;
+    }
+
+    .menu-apartado {
+      margin-left: 14px;
+    }
+
+    .menu-apartado .menu-titulo {
+      padding-top: 9px;
+      padding-bottom: 9px;
+
+      font-size: 15px;
+      font-weight: 600;
+    }
+
+    .enlace-apartado-simple {
+      display: block;
+
+      margin-left: 14px;
+      padding: 10px 14px;
+
+      color: #626873;
+
+      font-size: 15px;
+      font-weight: 600;
+      line-height: 1.4;
+
+      text-decoration: none;
+
+      border-radius: 6px;
+
+      transition:
+        background-color 0.2s ease,
+        color 0.2s ease;
+    }
+
+    .enlace-apartado-simple:hover {
+      background-color: #f3f4f6;
+      color: var(--verde-principal);
+    }
+
+    .submenu-apartados {
+      margin: 2px 0 5px 28px;
+
+      border-left: 2px solid #e0e3e7;
+    }
+
+    .submenu-apartados a {
+      display: block;
+
+      padding: 7px 10px;
+
+      color: #777d87;
+
+      font-size: 14px;
+      font-weight: 500;
+      line-height: 1.35;
+
+      text-decoration: none;
+    }
+
+    .submenu-apartados a:hover {
+      color: var(--verde-principal);
+    }
+
+    body.modo-oscuro .menu-cabecera-activa {
+      background-color: #273244;
+    }
+
+    body.modo-oscuro .boton-desplegar:hover {
+      background-color: #334155;
+    }
+
+    body.modo-oscuro .enlace-apartado-simple:hover {
+      background-color: #273244;
+    }
+
+    body.modo-oscuro .submenu-apartados {
+      border-left-color: #3a4659;
+    }
+
+
+    /* ==========================================
+       RESTO DE UT
+    ========================================== */
+
+    .sidebar-ut-cerrada {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+
+      padding: 13px 14px;
+
+      color: #626873;
+
+      text-decoration: none;
+
+      font-size: 16px;
+      font-weight: 650;
+      line-height: 1.35;
+
+      border-radius: 6px;
+
+      transition:
+        background-color 0.2s ease,
+        color 0.2s ease;
+    }
+
+    .sidebar-ut-cerrada:hover {
+      background-color: #f3f4f6;
+      color: var(--verde-principal);
+    }
+
+    body.modo-oscuro .sidebar-ut-cerrada:hover {
+      background-color: #273244;
+    }
+
+
+    /* ==========================================
+       ZONA CENTRAL
+    ========================================== */
+
+    .contenido-ut {
+      padding: 28px 34px 70px;
+
+      max-width: 1150px;
+      width: 100%;
+    }
+
+    .migas {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+
+      margin-bottom: 30px;
+
+      font-size: 14px;
+    }
+
+    .miga-inicio {
+      text-decoration: none;
+      font-size: 18px;
+    }
+
+    .miga-separador {
+      color: #999;
+      font-size: 22px;
+    }
+
+    .miga-modulo {
+      color: var(--texto-secundario);
+      text-decoration: none;
+    }
+
+    .miga-modulo:hover {
+      color: var(--verde-principal);
+    }
+
+    .miga-actual {
+      padding: 8px 14px;
+
+      background-color: #f3f3f3;
+      border-radius: 24px;
+
+      color: var(--verde-principal);
+    }
+
+    body.modo-oscuro .miga-actual {
+      background-color: #273244;
+    }
+
+    .contenido-ut h1 {
+      margin: 0 0 30px;
+
+      font-size: clamp(38px, 5vw, 58px);
+      line-height: 1.12;
+    }
+
+
+    /* ==========================================
+       CONTENIDO DE LOS APARTADOS
+    ========================================== */
+
+    .apartado-ut {
+      margin-top: 55px;
+      scroll-margin-top: 95px;
+    }
+
+    .apartado-ut h2 {
+      margin: 0 0 24px;
+
+      font-size: 32px;
+      line-height: 1.2;
+
+      scroll-margin-top: 95px;
+    }
+
+    .apartado-ut h3 {
+      margin: 34px 0 16px;
+
+      font-size: 24px;
+      line-height: 1.3;
+    }
+
+    .apartado-ut p {
+      margin: 0 0 18px;
+
+      font-size: 18px;
+      line-height: 1.75;
+    }
+
+    .apartado-ut ul {
+      margin: 16px 0 24px;
+      padding-left: 28px;
+    }
+
+    .apartado-ut li {
+      margin-bottom: 10px;
+
+      font-size: 17px;
+      line-height: 1.6;
+    }
+
+
+    /* ==========================================
+       CAJAS DE LOS APUNTES
+    ========================================== */
+
+    .caja {
+      margin: 28px 0;
+      padding: 18px 20px;
+
+      border-left: 5px solid;
+      border-radius: 8px;
+
+      line-height: 1.65;
+    }
+
+    .caja p {
+      margin: 0;
+
+      font-size: 17px;
+    }
+
+    .caja-titulo {
+      display: block;
+
+      margin-bottom: 8px;
+
+      font-size: 17px;
+      font-weight: 700;
+    }
+
+    .caja-importante {
+      background-color: #eef8f1;
+      border-left-color: #2f9e5b;
+    }
+
+    .caja-atencion {
+      background-color: #fff7e8;
+      border-left-color: #e09b27;
+    }
+
+    .caja-ejemplo {
+      background-color: #eef5ff;
+      border-left-color: #3f7acb;
+    }
+
+    .caja-curiosidad {
+      background-color: #f7f1ff;
+      border-left-color: #8b5cc7;
+    }
+
+    body.modo-oscuro .caja-importante {
+      background-color: #20372a;
+    }
+
+    body.modo-oscuro .caja-atencion {
+      background-color: #3b3020;
+    }
+
+    body.modo-oscuro .caja-ejemplo {
+      background-color: #23344a;
+    }
+
+    body.modo-oscuro .caja-curiosidad {
+      background-color: #332944;
+    }
+
+
+    /* ==========================================
+       TABLAS
+    ========================================== */
+
+    .tabla-responsive {
+      width: 100%;
+
+      margin: 28px 0;
+
+      overflow-x: auto;
+    }
+
+    .tabla-apuntes {
+      width: 100%;
+
+      border-collapse: collapse;
+
+      font-size: 16px;
+    }
+
+    .tabla-apuntes th,
+    .tabla-apuntes td {
+      padding: 14px 16px;
+
+      border: 1px solid var(--borde);
+
+      text-align: left;
+      vertical-align: top;
+
+      line-height: 1.55;
+    }
+
+    .tabla-apuntes th {
+      background-color: #f1f3f5;
+
+      font-weight: 700;
+    }
+
+    body.modo-oscuro .tabla-apuntes th {
+      background-color: #273244;
+    }
+
+
+    /* ==========================================
+       ESQUEMAS VISUALES
+    ========================================== */
+
+    .esquema-web {
+      max-width: 700px;
+
+      margin: 30px auto;
+    }
+
+    .esquema-fila {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 14px;
+
+      margin-top: 16px;
+    }
+
+    .esquema-caja {
+      padding: 18px 16px;
+
+      background-color: var(--fondo-tarjeta);
+
+      border: 1px solid var(--borde);
+      border-radius: 10px;
+
+      text-align: center;
+    }
+
+    .esquema-caja strong {
+      display: block;
+
+      margin-bottom: 5px;
+
+      color: var(--verde-principal);
+
+      font-size: 18px;
+    }
+
+    .esquema-caja span {
+      color: var(--texto-secundario);
+
+      font-size: 15px;
+      line-height: 1.45;
+    }
+
+
+    /* ==========================================
+       ACTIVIDAD DE REFLEXIÓN
+    ========================================== */
+
+    .actividad-reflexion {
+      margin: 32px 0;
+      padding: 22px 24px;
+
+      background-color: #f7f8fa;
+
+      border: 1px solid var(--borde);
+      border-radius: 10px;
+    }
+
+    .actividad-reflexion h3 {
+      margin: 0 0 12px;
+
+      color: var(--verde-principal);
+
+      font-size: 20px;
+    }
+
+    .actividad-reflexion p {
+      margin: 0 0 14px;
+
+      font-size: 17px;
+      line-height: 1.65;
+    }
+
+    body.modo-oscuro .actividad-reflexion {
+      background-color: #232d3d;
+    }
+
+
+    /* ==========================================
+       SOLUCIÓN DESPLEGABLE
+    ========================================== */
+
+    .solucion-desplegable {
+      margin-top: 20px;
+    }
+
+    .solucion-desplegable summary {
+      display: inline-block;
+
+      padding: 10px 16px;
+
+      background-color: #eef8f1;
+
+      border: 1px solid #b9dfc6;
+      border-radius: 7px;
+
+      color: var(--verde-principal);
+
+      font-size: 16px;
+      font-weight: 700;
+
+      cursor: pointer;
+      user-select: none;
+    }
+
+    .solucion-desplegable summary:hover {
+      background-color: #e2f3e7;
+    }
+
+    .contenido-solucion {
+      margin-top: 16px;
+      padding: 18px 20px;
+
+      background-color: var(--fondo-pagina);
+
+      border-left: 4px solid var(--verde-principal);
+      border-radius: 6px;
+    }
+
+    .contenido-solucion p {
+      margin: 0 0 12px;
+
+      font-size: 16px;
+      line-height: 1.65;
+    }
+
+    .contenido-solucion p:last-child {
+      margin-bottom: 0;
+    }
+
+    body.modo-oscuro .solucion-desplegable summary {
+      background-color: #20372a;
+      border-color: #315d40;
+    }
+
+
+    /* ==========================================
+       BLOQUES DE CÓDIGO DWEC
+    ========================================== */
+
+    .bloque-codigo {
+      margin: 28px 0;
+
+      border: 1px solid #3b3b3b;
+      border-radius: 9px;
+
+      overflow: hidden;
+
+      background-color: #1e1e1e;
+    }
+
+    .cabecera-codigo {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+
+      padding: 10px 14px;
+
+      background-color: #2b2b2b;
+
+      color: #f3f4f6;
+
+      font-size: 14px;
+    }
+
+    .lenguaje-codigo {
+      font-weight: 700;
+    }
+
+    .boton-copiar {
+      padding: 6px 11px;
+
+      border: 1px solid #5c5c5c;
+      border-radius: 6px;
+
+      background-color: #383838;
+
+      color: #f3f4f6;
+
+      font-family: inherit;
+      font-size: 13px;
+
+      cursor: pointer;
+
+      transition:
+        background-color 0.2s ease,
+        border-color 0.2s ease;
+    }
+
+    .boton-copiar:hover {
+      background-color: #484848;
+      border-color: #777;
+    }
+
+    .bloque-codigo pre {
+      margin: 0;
+      padding: 18px 20px;
+
+      overflow-x: auto;
+
+      tab-size: 2;
+    }
+
+    .bloque-codigo code {
+      color: #f5f5f5;
+
+      font-family:
+        Consolas,
+        "Courier New",
+        monospace;
+
+      font-size: 15px;
+      line-height: 1.6;
+
+      white-space: pre;
+    }
+
+
+    /* ==========================================
+       COLUMNA DERECHA
+    ========================================== */
+
+    .indice-derecho {
+      padding: 28px 22px 100px;
+
+      border-left: 1px solid var(--borde);
+
+      position: sticky;
+      top: 68px;
+
+      height: calc(100vh - 68px);
+
+      overflow-y: auto;
+
+      box-sizing: border-box;
+    }
+
+    .indice-derecho h2 {
+      margin: 8px 0 20px;
+
+      font-size: 17px;
+      color: #555b65;
+    }
+
+    body.modo-oscuro .indice-derecho h2 {
+      color: #d1d5db;
+    }
+
+    .indice-derecho ul {
+      margin: 0;
+      padding-left: 18px;
+    }
+
+    .indice-derecho li {
+      margin-bottom: 12px;
+    }
+
+    .indice-derecho a {
+      color: var(--texto-secundario);
+
+      text-decoration: none;
+
+      font-size: 14px;
+      line-height: 1.4;
+    }
+
+    .indice-derecho a:hover {
+      color: var(--verde-principal);
+    }
+
+
+    /* ==========================================
+       NAVEGACIÓN ANTERIOR / SIGUIENTE
+    ========================================== */
+
+    .navegacion-paginas {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 20px;
+
+      margin-top: 50px;
+    }
+
+    .nav-pagina {
+      min-height: 100px;
+      padding: 18px 20px;
+
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+
+      border: 1px solid var(--borde);
+      border-radius: 8px;
+
+      text-decoration: none;
+
+      background-color: var(--fondo-tarjeta);
+    }
+
+    .nav-anterior {
+      align-items: flex-start;
+      text-align: left;
+    }
+
+    .nav-siguiente {
+      align-items: flex-end;
+      text-align: right;
+    }
+
+    .nav-etiqueta {
+      margin-bottom: 5px;
+
+      color: var(--texto-secundario);
+
+      font-size: 14px;
+    }
+
+    .nav-pagina strong {
+      color: var(--verde-principal);
+
+      font-size: 16px;
+      line-height: 1.4;
+    }
+
+    .nav-pagina:hover {
+      border-color: var(--verde-principal);
+    }
+
+
+    /* ==========================================
+       RESPONSIVE
+    ========================================== */
+
+    @media (max-width: 1100px) {
+
+      .pagina-ut {
+        grid-template-columns: 250px 1fr;
+      }
+
+      .indice-derecho {
+        display: none;
+      }
+
+    }
+
+    @media (max-width: 760px) {
+
+      .pagina-ut {
+        display: block;
+      }
+
+      .sidebar {
+        position: static;
+
+        width: 100%;
+        height: auto;
+
+        border-right: 0;
+        border-bottom: 1px solid var(--borde);
+      }
+
+      .contenido-ut {
+        padding: 28px 20px 60px;
+      }
+
+      .contenido-ut h1 {
+        font-size: 36px;
+      }
+
+      .navegacion-paginas {
+        grid-template-columns: 1fr;
+      }
+
+      .nav-siguiente {
+        align-items: flex-start;
+        text-align: left;
+      }
+
+      .esquema-fila {
+        grid-template-columns: 1fr;
+      }
+
+    }
+
+  </style>
+
+</head>
+
+
+<body>
+
+<header class="navbar">
+
+    <a class="inicio" href="../../../index.html">
+
+      <img
+        src="../../../img/profesora-castana.png?v=2"
+        alt=""
+        class="icono-profesora"
+      >
+
+      <span>Inicio</span>
+
+    </a>
+
+    <nav
+      id="menuModulos"
+      class="menu-modulos"
+      aria-label="Módulos formativos"
+    ></nav>
+
+    <button
+      id="botonTema"
+      class="boton-tema"
+      type="button"
+      aria-label="Cambiar entre modo claro y oscuro"
+      title="Cambiar tema"
+    >
+      ☀️
+    </button>
+
+  </header>
+
+  <div class="pagina-ut">
+
+    <aside class="sidebar">
+
+      <a class="sidebar-modulo" href="../../index.html">
+        Desarrollo web en entorno cliente
+      </a>
+
+      <a class="sidebar-ut-cerrada" href="../../ut1/index.html">
+        <span>UT1 - Introducción al desarrollo web en entorno cliente</span>
+        <span>›</span>
+      </a>
+
+      <div class="menu-desplegable">
+        <div class="menu-cabecera menu-cabecera-activa">
+          <a class="menu-titulo" href="../index.html">
+            UT2 - Fundamentos de JavaScript: variables, tipos y operadores
+          </a>
+          <button class="boton-desplegar" type="button" data-target="submenu-ut2" aria-expanded="true">⌄</button>
+        </div>
+
+        <div id="submenu-ut2" class="submenu submenu-abierto">
+
+<!-- 2.1 -->
+
+<div class="menu-desplegable menu-apartado">
+
+  <div class="menu-cabecera">
+
+    <a class="menu-titulo" href="../2-1/index.html">
+      2.1 Sintaxis básica de JavaScript
+    </a>
+
+    <button
+      class="boton-desplegar"
+      type="button"
+      data-target="submenu-2-1"
+      aria-expanded="false"
+      aria-label="Mostrar u ocultar los subapartados del 2.1"
+    >
+      ›
+    </button>
+
+  </div>
+
+  <div id="submenu-2-1" class="submenu submenu-apartados">
+
+    <a href="../2-1/index.html#sentencias">
+      Instrucciones y sentencias
+    </a>
+
+    <a href="../2-1/index.html#punto-coma">
+      Uso del punto y coma
+    </a>
+
+    <a href="../2-1/index.html#bloques">
+      Bloques de código
+    </a>
+
+    <a href="../2-1/index.html#case-sensitive">
+      Mayúsculas y minúsculas
+    </a>
+
+    <a href="../2-1/index.html#identificadores">
+      Identificadores
+    </a>
+
+    <a href="../2-1/index.html#palabras-reservadas">
+      Palabras reservadas
+    </a>
+
+    <a href="../2-1/index.html#expresiones">
+      Expresiones básicas
+    </a>
+
+  </div>
+
+</div>
+
+
+<!-- 2.2 -->
+
+<div class="menu-desplegable menu-apartado">
+
+  <div class="menu-cabecera">
+
+    <a class="menu-titulo" href="../2-2/index.html">
+      2.2 Variables, constantes e identificadores
+    </a>
+
+    <button
+      class="boton-desplegar"
+      type="button"
+      data-target="submenu-2-2"
+      aria-expanded="false"
+      aria-label="Mostrar u ocultar los subapartados del 2.2"
+    >
+      ›
+    </button>
+
+  </div>
+
+  <div id="submenu-2-2" class="submenu submenu-apartados">
+
+    <a href="../2-2/index.html#variables">
+      Qué es una variable
+    </a>
+
+    <a href="../2-2/index.html#declarar">
+      Declarar variables con let
+    </a>
+
+    <a href="../2-2/index.html#inicializar">
+      Declaración, inicialización y reasignación
+    </a>
+
+    <a href="../2-2/index.html#const">
+      Constantes con const
+    </a>
+
+    <a href="../2-2/index.html#var">
+      La declaración tradicional var
+    </a>
+
+    <a href="../2-2/index.html#nombres">
+      Cómo nombrar variables
+    </a>
+
+    <a href="../2-2/index.html#errores">
+      Errores frecuentes
+    </a>
+
+  </div>
+
+</div>
+
+
+<!-- 2.3 -->
+
+<div class="menu-desplegable menu-apartado">
+
+  <div class="menu-cabecera">
+
+    <a class="menu-titulo" href="../2-3/index.html">
+      2.3 Tipos de datos en JavaScript
+    </a>
+
+    <button
+      class="boton-desplegar"
+      type="button"
+      data-target="submenu-2-3"
+      aria-expanded="false"
+      aria-label="Mostrar u ocultar los subapartados del 2.3"
+    >
+      ›
+    </button>
+
+  </div>
+
+  <div id="submenu-2-3" class="submenu submenu-apartados">
+    <a href="../2-3/index.html#tipos-primitivos">Tipos primitivos</a>
+    <a href="../2-3/index.html#string">String</a>
+    <a href="../2-3/index.html#number">Number</a>
+    <a href="../2-3/index.html#boolean">Boolean</a>
+    <a href="../2-3/index.html#undefined">Undefined</a>
+    <a href="../2-3/index.html#null">Null</a>
+    <a href="../2-3/index.html#otros-tipos">BigInt, Symbol y Object</a>
+    <a href="../2-3/index.html#typeof">El operador typeof</a>
+  </div>
+
+</div>
+
+
+<!-- 2.4 -->
+
+<div class="menu-desplegable menu-apartado">
+
+  <div class="menu-cabecera">
+
+    <a class="menu-titulo" href="../2-4/index.html">
+      2.4 Conversión de tipos
+    </a>
+
+    <button
+      class="boton-desplegar"
+      type="button"
+      data-target="submenu-2-4"
+      aria-expanded="false"
+      aria-label="Mostrar u ocultar los subapartados del 2.4"
+    >
+      ›
+    </button>
+
+  </div>
+
+  <div id="submenu-2-4" class="submenu submenu-apartados">
+    <a href="../2-4/index.html#conversion-explicita">Conversión explícita</a>
+    <a href="../2-4/index.html#number-string-boolean">Number(), String() y Boolean()</a>
+    <a href="../2-4/index.html#parseint-parsefloat">parseInt() y parseFloat()</a>
+    <a href="../2-4/index.html#coercion">Conversión implícita o coerción</a>
+    <a href="../2-4/index.html#casos-practicos">Casos prácticos de conversión</a>
+  </div>
+
+</div>
+
+
+<!-- 2.5 -->
+
+<div class="menu-desplegable menu-apartado">
+
+  <div class="menu-cabecera menu-cabecera-activa">
+
+    <a class="menu-titulo" href="index.html">
+      2.5 Operadores
+    </a>
+
+    <button
+      class="boton-desplegar"
+      type="button"
+      data-target="submenu-2-5"
+      aria-expanded="true"
+      aria-label="Mostrar u ocultar los subapartados del 2.5"
+    >
+      ⌄
+    </button>
+
+  </div>
+
+  <div id="submenu-2-5" class="submenu submenu-apartados submenu-abierto">
+
+    <a href="#aritmeticos">
+      Operadores aritméticos
+    </a>
+
+    <a href="#asignacion">
+      Operadores de asignación
+    </a>
+
+    <a href="#incremento-decremento">
+      Incremento y decremento
+    </a>
+
+    <a href="#comparacion">
+      Operadores de comparación
+    </a>
+
+    <a href="#igualdad-estricta">
+      Igualdad estricta: === y !==
+    </a>
+
+    <a href="#logicos">
+      Operadores lógicos
+    </a>
+
+    <a href="#ternario">
+      Introducción al operador ternario
+    </a>
+
+  </div>
+
+</div>
+
+
+<!-- 2.6 -->
+
+<div class="menu-desplegable menu-apartado">
+
+  <div class="menu-cabecera">
+
+    <a class="menu-titulo" href="../2-6/index.html">
+      2.6 Cadenas de texto y template literals
+    </a>
+
+    <button
+      class="boton-desplegar"
+      type="button"
+      data-target="submenu-2-6"
+      aria-expanded="false"
+    >
+      ›
+    </button>
+
+  </div>
+
+  <div id="submenu-2-6" class="submenu submenu-apartados">
+
+    <a href="../2-6/index.html#cadenas">
+      Cadenas de texto
+    </a>
+
+    <a href="../2-6/index.html#comillas">
+      Comillas simples y dobles
+    </a>
+
+    <a href="../2-6/index.html#escape">
+      Caracteres de escape
+    </a>
+
+    <a href="../2-6/index.html#concatenacion">
+      Concatenación con +
+    </a>
+
+    <a href="../2-6/index.html#template-literals">
+      Template literals
+    </a>
+
+    <a href="../2-6/index.html#interpolacion">
+      Interpolación con ${}
+    </a>
+
+  </div>
+
+</div>
+
+
+<!-- 2.7 -->
+
+<div class="menu-desplegable menu-apartado">
+
+  <div class="menu-cabecera">
+
+    <a class="menu-titulo" href="../2-7/index.html">
+      2.7 Números y objeto Math
+    </a>
+
+    <button
+      class="boton-desplegar"
+      type="button"
+      data-target="submenu-2-7"
+      aria-expanded="false"
+    >
+      ›
+    </button>
+
+  </div>
+
+  <div id="submenu-2-7" class="submenu submenu-apartados">
+
+    <a href="../2-7/index.html#numeros">
+      Números enteros y decimales
+    </a>
+
+    <a href="../2-7/index.html#nan-infinity">
+      NaN e Infinity
+    </a>
+
+    <a href="../2-7/index.html#tofixed">
+      toFixed()
+    </a>
+
+    <a href="../2-7/index.html#toprecision">
+      toPrecision()
+    </a>
+
+    <a href="../2-7/index.html#math">
+      El objeto Math
+    </a>
+
+    <a href="../2-7/index.html#redondeo">
+      round(), floor() y ceil()
+    </a>
+
+    <a href="../2-7/index.html#random">
+      Math.random()
+    </a>
+
+  </div>
+
+</div>
+
+
+<!-- 2.8 -->
+
+<div class="menu-desplegable menu-apartado">
+
+  <div class="menu-cabecera">
+
+    <a class="menu-titulo" href="../2-8/index.html">
+      2.8 Entrada y salida básica de datos
+    </a>
+
+    <button
+      class="boton-desplegar"
+      type="button"
+      data-target="submenu-2-8"
+      aria-expanded="false"
+    >
+      ›
+    </button>
+
+  </div>
+
+  <div id="submenu-2-8" class="submenu submenu-apartados">
+
+    <a href="../2-8/index.html#console-log">
+      Salida con console.log()
+    </a>
+
+    <a href="../2-8/index.html#alert">
+      Salida con alert()
+    </a>
+
+    <a href="../2-8/index.html#prompt">
+      Entrada con prompt()
+    </a>
+
+    <a href="../2-8/index.html#prompt-string">
+      prompt() devuelve texto
+    </a>
+
+    <a href="../2-8/index.html#entrada-conversion">
+      Conversión de datos introducidos
+    </a>
+
+  </div>
+
+</div>
+
+
+<!-- 2.9 -->
+
+<div class="menu-desplegable menu-apartado">
+
+  <div class="menu-cabecera">
+
+    <a class="menu-titulo" href="../2-9/index.html">
+      2.9 Comentarios y buenas prácticas
+    </a>
+
+    <button
+      class="boton-desplegar"
+      type="button"
+      data-target="submenu-2-9"
+      aria-expanded="false"
+    >
+      ›
+    </button>
+
+  </div>
+
+  <div id="submenu-2-9" class="submenu submenu-apartados">
+
+    <a href="../2-9/index.html#comentarios-linea">
+      Comentarios de una línea
+    </a>
+
+    <a href="../2-9/index.html#comentarios-bloque">
+      Comentarios de bloque
+    </a>
+
+    <a href="../2-9/index.html#cuando-comentar">
+      Cuándo comentar
+    </a>
+
+    <a href="../2-9/index.html#legibilidad">
+      Legibilidad del código
+    </a>
+
+    <a href="../2-9/index.html#nombres">
+      Nombres descriptivos
+    </a>
+
+    <a href="../2-9/index.html#indentacion">
+      Indentación y organización
+    </a>
+
+  </div>
+
+</div>
+
+
+<!-- 2.10 -->
+
+<div class="menu-desplegable menu-apartado">
+
+  <div class="menu-cabecera">
+
+    <a class="menu-titulo" href="../2-10/index.html">
+      2.10 Ámbito de las variables
+    </a>
+
+    <button
+      class="boton-desplegar"
+      type="button"
+      data-target="submenu-2-10"
+      aria-expanded="false"
+    >
+      ›
+    </button>
+
+  </div>
+
+  <div id="submenu-2-10" class="submenu submenu-apartados">
+
+    <a href="../2-10/index.html#scope">
+      Qué es el ámbito o scope
+    </a>
+
+    <a href="../2-10/index.html#global">
+      Ámbito global
+    </a>
+
+    <a href="../2-10/index.html#bloque">
+      Ámbito de bloque
+    </a>
+
+    <a href="../2-10/index.html#funcion">
+      Introducción al ámbito de función
+    </a>
+
+    <a href="../2-10/index.html#let-const">
+      Ámbito de let y const
+    </a>
+
+    <a href="../2-10/index.html#var">
+      Diferencias básicas con var
+    </a>
+
+  </div>
+
+</div>
+
+
+<!-- 2.11 -->
+
+<div class="menu-desplegable menu-apartado">
+
+  <div class="menu-cabecera">
+
+    <a class="menu-titulo" href="../2-11/index.html">
+      2.11 Prueba y depuración del código
+    </a>
+
+    <button
+      class="boton-desplegar"
+      type="button"
+      data-target="submenu-2-11"
+      aria-expanded="false"
+    >
+      ›
+    </button>
+
+  </div>
+
+  <div id="submenu-2-11" class="submenu submenu-apartados">
+
+    <a href="../2-11/index.html#console">
+      Uso de Console
+    </a>
+
+    <a href="../2-11/index.html#errores">
+      Mensajes de error
+    </a>
+
+    <a href="../2-11/index.html#syntaxerror">
+      SyntaxError
+    </a>
+
+    <a href="../2-11/index.html#referenceerror">
+      ReferenceError
+    </a>
+
+    <a href="../2-11/index.html#typeerror">
+      TypeError
+    </a>
+
+    <a href="../2-11/index.html#archivo-linea">
+      Archivo y línea del error
+    </a>
+
+    <a href="../2-11/index.html#sources">
+      Sources y breakpoints
+    </a>
+
+    <a href="../2-11/index.html#ciclo-depuracion">
+      Ciclo de depuración
+    </a>
+
+  </div>
+
+</div>          <a class="enlace-apartado-simple" href="../resumen/index.html">✏️ Resumen de la UT2</a>
+          <a class="enlace-apartado-simple" href="../actividades/index.html">📝 Actividades de la UT2</a>
+        </div>
+      </div>
+
+      <a class="sidebar-ut-cerrada" href="../../ut3/index.html"><span>UT3 - Estructuras de control en JavaScript</span><span>›</span></a>
+      <a class="sidebar-ut-cerrada" href="../../ut4/index.html"><span>UT4 - Arrays y estructuras de datos en JavaScript</span><span>›</span></a>
+      <a class="sidebar-ut-cerrada" href="../../ut5/index.html"><span>UT5 - Funciones en JavaScript</span><span>›</span></a>
+      <a class="sidebar-ut-cerrada" href="../../ut6/index.html"><span>UT6 - Objetos y Programación Orientada a Objetos en JavaScript</span><span>›</span></a>
+      <a class="sidebar-ut-cerrada" href="../../ut7/index.html"><span>UT7 - Objetos predefinidos y modelo del navegador (BOM)</span><span>›</span></a>
+      <a class="sidebar-ut-cerrada" href="../../ut8/index.html"><span>UT8 - Aplicaciones web interactivas: DOM, eventos y formularios</span><span>›</span></a>
+      <a class="sidebar-ut-cerrada" href="../../ut9/index.html"><span>UT9 - Comunicación asíncrona y peticiones al servidor</span><span>›</span></a>
+      <a class="sidebar-ut-cerrada" href="../../ut10/index.html"><span>UT10 - Introducción a React</span><span>›</span></a>
+    </aside>
+
+    <main class="contenido-ut">
+      <div class="migas">
+        <a class="miga-inicio" href="../../../index.html" aria-label="Volver a la página principal">🏠</a>
+        <span class="miga-separador">›</span>
+        <a class="miga-modulo" href="../../index.html">DWEC</a>
+        <span class="miga-separador">›</span>
+        <a class="miga-modulo" href="../index.html">UT2</a>
+        <span class="miga-separador">›</span>
+        <span class="miga-actual">2.5</span>
+      </div>
+
+      <h1>2.5 Operadores</h1>
+
+      <section class="apartado-ut">
+
+        <p>
+          En los apartados anteriores hemos aprendido a trabajar con variables, tipos de datos
+          y conversiones. El siguiente paso consiste en aprender a <strong>operar con esos
+          valores</strong>: realizar cálculos, asignar resultados, comparar datos o combinar
+          condiciones.
+        </p>
+
+        <p>
+          Para ello JavaScript utiliza <strong>operadores</strong>. Un operador es un símbolo
+          o conjunto de símbolos que indica qué operación debe realizarse sobre uno o varios
+          valores.
+        </p>
+
+        <div class="caja caja-importante">
+          <span class="caja-titulo">📌 Importante</span>
+          <p>
+            Los operadores trabajan sobre valores llamados <strong>operandos</strong>.
+            Por ejemplo, en <code>8 + 2</code>, los valores <code>8</code> y <code>2</code>
+            son los operandos y <code>+</code> es el operador.
+          </p>
+        </div>
+
+
+        <h2 id="aritmeticos">Operadores aritméticos</h2>
+
+        <p>
+          Los <strong>operadores aritméticos</strong> permiten realizar cálculos matemáticos
+          con valores numéricos.
+        </p>
+
+        <div class="tabla-responsive">
+          <table class="tabla-apuntes">
+            <thead>
+              <tr>
+                <th>Operador</th>
+                <th>Operación</th>
+                <th>Ejemplo</th>
+                <th>Resultado</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr><td><code>+</code></td><td>Suma</td><td><code>8 + 2</code></td><td><code>10</code></td></tr>
+              <tr><td><code>-</code></td><td>Resta</td><td><code>8 - 2</code></td><td><code>6</code></td></tr>
+              <tr><td><code>*</code></td><td>Multiplicación</td><td><code>8 * 2</code></td><td><code>16</code></td></tr>
+              <tr><td><code>/</code></td><td>División</td><td><code>8 / 2</code></td><td><code>4</code></td></tr>
+              <tr><td><code>%</code></td><td>Resto de la división</td><td><code>8 % 3</code></td><td><code>2</code></td></tr>
+              <tr><td><code>**</code></td><td>Potencia</td><td><code>2 ** 3</code></td><td><code>8</code></td></tr>
+            </tbody>
+          </table>
+        </div>
+
+        <div class="bloque-codigo">
+          <div class="cabecera-codigo">
+            <span class="lenguaje-codigo">JavaScript</span>
+            <button class="boton-copiar" type="button">📋 Copiar código</button>
+          </div>
+          <pre><code>const a = 10;
+const b = 3;
+
+console.log(a + b);
+console.log(a - b);
+console.log(a * b);
+console.log(a / b);
+console.log(a % b);
+console.log(a ** b);</code></pre>
+        </div>
+
+        <p>
+          El operador <code>%</code> devuelve el <strong>resto de una división</strong>.
+          Es especialmente útil, por ejemplo, para comprobar si un número es par:
+          si <code>numero % 2</code> produce <code>0</code>, el número es divisible entre 2.
+        </p>
+
+        <div class="caja caja-atencion">
+          <span class="caja-titulo">⚠️ Atención</span>
+          <p>
+            Como vimos en el apartado anterior, <code>+</code> también puede utilizarse para
+            concatenar cadenas. Por eso <code>5 + 2</code> produce <code>7</code>, mientras que
+            <code>"5" + 2</code> produce <code>"52"</code>.
+          </p>
+        </div>
+
+        <h3>Prioridad de las operaciones</h3>
+
+        <p>
+          Cuando una expresión contiene varios operadores, JavaScript aplica unas reglas de
+          <strong>precedencia</strong>. La multiplicación y la división se realizan antes que
+          la suma y la resta.
+        </p>
+
+        <div class="bloque-codigo">
+          <div class="cabecera-codigo">
+            <span class="lenguaje-codigo">JavaScript</span>
+            <button class="boton-copiar" type="button">📋 Copiar código</button>
+          </div>
+          <pre><code>console.log(2 + 3 * 4);
+console.log((2 + 3) * 4);</code></pre>
+        </div>
+
+        <p>El resultado será:</p>
+
+        <div class="bloque-codigo">
+          <div class="cabecera-codigo">
+            <span class="lenguaje-codigo">Console</span>
+            <button class="boton-copiar" type="button">📋 Copiar código</button>
+          </div>
+          <pre><code>14
+20</code></pre>
+        </div>
+
+        <div class="caja caja-importante">
+          <span class="caja-titulo">📌 Buena práctica</span>
+          <p>
+            Utiliza paréntesis cuando quieras dejar claro el orden de las operaciones.
+            Además de modificar la prioridad, hacen que las expresiones sean más fáciles
+            de leer.
+          </p>
+        </div>
+
+
+        <h2 id="asignacion">Operadores de asignación</h2>
+
+        <p>
+          El operador de asignación que ya conocemos es <code>=</code>. Se utiliza para
+          guardar un valor en una variable.
+        </p>
+
+        <div class="bloque-codigo">
+          <div class="cabecera-codigo">
+            <span class="lenguaje-codigo">JavaScript</span>
+            <button class="boton-copiar" type="button">📋 Copiar código</button>
+          </div>
+          <pre><code>let puntos = 10;
+
+puntos = 15;
+
+console.log(puntos);</code></pre>
+        </div>
+
+        <p>
+          JavaScript también dispone de <strong>operadores de asignación compuesta</strong>,
+          que permiten realizar una operación y guardar el resultado en la misma variable.
+        </p>
+
+        <div class="tabla-responsive">
+          <table class="tabla-apuntes">
+            <thead>
+              <tr>
+                <th>Operador</th>
+                <th>Equivale a</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr><td><code>x += 3</code></td><td><code>x = x + 3</code></td></tr>
+              <tr><td><code>x -= 3</code></td><td><code>x = x - 3</code></td></tr>
+              <tr><td><code>x *= 3</code></td><td><code>x = x * 3</code></td></tr>
+              <tr><td><code>x /= 3</code></td><td><code>x = x / 3</code></td></tr>
+              <tr><td><code>x %= 3</code></td><td><code>x = x % 3</code></td></tr>
+              <tr><td><code>x **= 3</code></td><td><code>x = x ** 3</code></td></tr>
+            </tbody>
+          </table>
+        </div>
+
+        <div class="bloque-codigo">
+          <div class="cabecera-codigo">
+            <span class="lenguaje-codigo">JavaScript</span>
+            <button class="boton-copiar" type="button">📋 Copiar código</button>
+          </div>
+          <pre><code>let saldo = 100;
+
+saldo += 25;
+console.log(saldo);
+
+saldo -= 10;
+console.log(saldo);</code></pre>
+        </div>
+
+        <div class="bloque-codigo">
+          <div class="cabecera-codigo">
+            <span class="lenguaje-codigo">Console</span>
+            <button class="boton-copiar" type="button">📋 Copiar código</button>
+          </div>
+          <pre><code>125
+115</code></pre>
+        </div>
+
+        <div class="caja caja-atencion">
+          <span class="caja-titulo">⚠️ Atención</span>
+          <p>
+            No confundas <code>=</code> con un operador de comparación.
+            <code>=</code> <strong>asigna un valor</strong>. Los operadores que permiten
+            comparar valores los veremos más adelante en este mismo apartado.
+          </p>
+        </div>
+
+
+        <h2 id="incremento-decremento">Incremento y decremento</h2>
+
+        <p>
+          Los operadores <code>++</code> y <code>--</code> permiten aumentar o disminuir
+          en una unidad el valor de una variable numérica.
+        </p>
+
+        <div class="bloque-codigo">
+          <div class="cabecera-codigo">
+            <span class="lenguaje-codigo">JavaScript</span>
+            <button class="boton-copiar" type="button">📋 Copiar código</button>
+          </div>
+          <pre><code>let contador = 5;
+
+contador++;
+console.log(contador);
+
+contador--;
+console.log(contador);</code></pre>
+        </div>
+
+        <p>El resultado será:</p>
+
+        <div class="bloque-codigo">
+          <div class="cabecera-codigo">
+            <span class="lenguaje-codigo">Console</span>
+            <button class="boton-copiar" type="button">📋 Copiar código</button>
+          </div>
+          <pre><code>6
+5</code></pre>
+        </div>
+
+        <p>
+          En estos ejemplos, <code>contador++</code> equivale a aumentar el valor en uno y
+          <code>contador--</code> a disminuirlo en uno.
+        </p>
+
+        <div class="caja caja-importante">
+          <span class="caja-titulo">📌 Importante</span>
+          <p>
+            <code>++</code> y <code>--</code> modifican el valor de la variable. Por ello deben
+            utilizarse con variables declaradas con <code>let</code>, no con una constante cuyo
+            valor no puede reasignarse.
+          </p>
+        </div>
+
+        <h3>Prefijo y sufijo</h3>
+
+        <p>
+          El operador puede escribirse antes o después de la variable:
+          <code>++contador</code> o <code>contador++</code>. En una instrucción aislada ambos
+          terminan incrementando la variable, pero cuando forman parte de una expresión
+          no producen exactamente el mismo resultado.
+        </p>
+
+        <div class="tabla-responsive">
+          <table class="tabla-apuntes">
+            <thead>
+              <tr>
+                <th>Forma</th>
+                <th>Comportamiento dentro de una expresión</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><code>++contador</code></td>
+                <td>Primero incrementa y después utiliza el nuevo valor.</td>
+              </tr>
+              <tr>
+                <td><code>contador++</code></td>
+                <td>Primero utiliza el valor actual y después incrementa.</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <div class="bloque-codigo">
+          <div class="cabecera-codigo">
+            <span class="lenguaje-codigo">JavaScript</span>
+            <button class="boton-copiar" type="button">📋 Copiar código</button>
+          </div>
+          <pre><code>let a = 5;
+let b = 5;
+
+console.log(++a);
+console.log(b++);
+
+console.log(a);
+console.log(b);</code></pre>
+        </div>
+
+        <div class="bloque-codigo">
+          <div class="cabecera-codigo">
+            <span class="lenguaje-codigo">Console</span>
+            <button class="boton-copiar" type="button">📋 Copiar código</button>
+          </div>
+          <pre><code>6
+5
+6
+6</code></pre>
+        </div>
+
+        <div class="caja caja-atencion">
+          <span class="caja-titulo">⚠️ Atención</span>
+          <p>
+            Cuando el prefijo y el sufijo puedan dificultar la lectura, es preferible separar
+            el incremento de otras operaciones. El código claro suele ser mejor que una
+            expresión innecesariamente compacta.
+          </p>
+        </div>
+
+
+        <h2 id="comparacion">Operadores de comparación</h2>
+
+        <p>
+          Los operadores de comparación permiten comparar dos valores. El resultado de una
+          comparación siempre es un valor booleano: <code>true</code> o <code>false</code>.
+        </p>
+
+        <div class="tabla-responsive">
+          <table class="tabla-apuntes">
+            <thead>
+              <tr>
+                <th>Operador</th>
+                <th>Significado</th>
+                <th>Ejemplo</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr><td><code>&gt;</code></td><td>Mayor que</td><td><code>10 &gt; 5</code> → <code>true</code></td></tr>
+              <tr><td><code>&lt;</code></td><td>Menor que</td><td><code>10 &lt; 5</code> → <code>false</code></td></tr>
+              <tr><td><code>&gt;=</code></td><td>Mayor o igual que</td><td><code>10 &gt;= 10</code> → <code>true</code></td></tr>
+              <tr><td><code>&lt;=</code></td><td>Menor o igual que</td><td><code>7 &lt;= 10</code> → <code>true</code></td></tr>
+            </tbody>
+          </table>
+        </div>
+
+        <div class="bloque-codigo">
+          <div class="cabecera-codigo">
+            <span class="lenguaje-codigo">JavaScript</span>
+            <button class="boton-copiar" type="button">📋 Copiar código</button>
+          </div>
+          <pre><code>const edad = 20;
+
+console.log(edad &gt; 18);
+console.log(edad &lt; 18);
+console.log(edad &gt;= 20);
+console.log(edad &lt;= 20);</code></pre>
+        </div>
+
+        <p>Obtendremos:</p>
+
+        <div class="bloque-codigo">
+          <div class="cabecera-codigo">
+            <span class="lenguaje-codigo">Console</span>
+            <button class="boton-copiar" type="button">📋 Copiar código</button>
+          </div>
+          <pre><code>true
+false
+true
+true</code></pre>
+        </div>
+
+        <div class="caja caja-ejemplo">
+          <span class="caja-titulo">💻 Ejemplo DAW</span>
+          <p>
+            En una aplicación web podemos comparar la edad de un usuario, el precio de un
+            producto, el número de elementos de un carrito o una puntuación. Estas comparaciones
+            serán fundamentales cuando estudiemos las estructuras condicionales en la UT3.
+          </p>
+        </div>
+
+
+        <h2 id="igualdad-estricta">Igualdad estricta: <code>===</code> y <code>!==</code></h2>
+
+        <p>
+          Para comprobar si dos valores son iguales utilizaremos principalmente
+          <code>===</code>, denominado <strong>operador de igualdad estricta</strong>.
+          Para comprobar si son distintos utilizaremos <code>!==</code>.
+        </p>
+
+        <div class="bloque-codigo">
+          <div class="cabecera-codigo">
+            <span class="lenguaje-codigo">JavaScript</span>
+            <button class="boton-copiar" type="button">📋 Copiar código</button>
+          </div>
+          <pre><code>console.log(5 === 5);
+console.log(5 === "5");
+console.log(5 !== "5");</code></pre>
+        </div>
+
+        <p>El resultado será:</p>
+
+        <div class="bloque-codigo">
+          <div class="cabecera-codigo">
+            <span class="lenguaje-codigo">Console</span>
+            <button class="boton-copiar" type="button">📋 Copiar código</button>
+          </div>
+          <pre><code>true
+false
+true</code></pre>
+        </div>
+
+        <p>
+          La igualdad estricta compara tanto el <strong>valor</strong> como el
+          <strong>tipo de dato</strong>. Por eso <code>5 === "5"</code> produce
+          <code>false</code>: uno es un número y el otro una cadena.
+        </p>
+
+        <h3><code>==</code> y <code>!=</code></h3>
+
+        <p>
+          JavaScript también dispone de los operadores <code>==</code> y <code>!=</code>.
+          Estos operadores permiten realizar conversiones implícitas antes de comparar.
+        </p>
+
+        <div class="bloque-codigo">
+          <div class="cabecera-codigo">
+            <span class="lenguaje-codigo">JavaScript</span>
+            <button class="boton-copiar" type="button">📋 Copiar código</button>
+          </div>
+          <pre><code>console.log(5 == "5");
+console.log(5 === "5");</code></pre>
+        </div>
+
+        <div class="bloque-codigo">
+          <div class="cabecera-codigo">
+            <span class="lenguaje-codigo">Console</span>
+            <button class="boton-copiar" type="button">📋 Copiar código</button>
+          </div>
+          <pre><code>true
+false</code></pre>
+        </div>
+
+        <div class="caja caja-importante">
+          <span class="caja-titulo">📌 Importante</span>
+          <p>
+            Como criterio general en nuestros programas utilizaremos <code>===</code> y
+            <code>!==</code>. Evitar conversiones implícitas durante la comparación hace
+            que el código sea más predecible y reduce errores.
+          </p>
+        </div>
+
+        <div class="caja caja-atencion">
+          <span class="caja-titulo">⚠️ Atención</span>
+          <p>
+            No confundas <code>=</code>, <code>==</code> y <code>===</code>:
+            <code>=</code> asigna un valor, <code>==</code> compara permitiendo coerción y
+            <code>===</code> compara sin convertir los tipos.
+          </p>
+        </div>
+
+
+        <h2 id="logicos">Operadores lógicos</h2>
+
+        <p>
+          Los operadores lógicos permiten combinar o negar condiciones. Los tres operadores
+          que utilizaremos con mayor frecuencia son <code>&amp;&amp;</code>, <code>||</code>
+          y <code>!</code>.
+        </p>
+
+        <div class="tabla-responsive">
+          <table class="tabla-apuntes">
+            <thead>
+              <tr>
+                <th>Operador</th>
+                <th>Nombre</th>
+                <th>Resultado básico</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><code>&amp;&amp;</code></td>
+                <td>AND (Y)</td>
+                <td>Es verdadero cuando se cumplen ambas condiciones.</td>
+              </tr>
+              <tr>
+                <td><code>||</code></td>
+                <td>OR (O)</td>
+                <td>Es verdadero cuando se cumple al menos una condición.</td>
+              </tr>
+              <tr>
+                <td><code>!</code></td>
+                <td>NOT (NO)</td>
+                <td>Invierte el valor lógico.</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <div class="bloque-codigo">
+          <div class="cabecera-codigo">
+            <span class="lenguaje-codigo">JavaScript</span>
+            <button class="boton-copiar" type="button">📋 Copiar código</button>
+          </div>
+          <pre><code>const edad = 20;
+const tieneEntrada = true;
+
+console.log(edad &gt;= 18 &amp;&amp; tieneEntrada);
+console.log(edad &lt; 18 || tieneEntrada);
+console.log(!tieneEntrada);</code></pre>
+        </div>
+
+        <p>El resultado será:</p>
+
+        <div class="bloque-codigo">
+          <div class="cabecera-codigo">
+            <span class="lenguaje-codigo">Console</span>
+            <button class="boton-copiar" type="button">📋 Copiar código</button>
+          </div>
+          <pre><code>true
+true
+false</code></pre>
+        </div>
+
+        <div class="caja caja-importante">
+          <span class="caja-titulo">📌 Importante</span>
+          <p>
+            En este apartado utilizamos los operadores lógicos con expresiones booleanas.
+            En JavaScript también pueden trabajar con otros tipos de valores debido a las
+            reglas de coerción, pero profundizaremos en su uso cuando estudiemos las
+            estructuras de control.
+          </p>
+        </div>
+
+
+        <h2 id="ternario">Introducción al operador ternario</h2>
+
+        <p>
+          El <strong>operador ternario</strong> permite elegir entre dos valores según se
+          cumpla o no una condición. Su estructura general es:
+        </p>
+
+        <div class="bloque-codigo">
+          <div class="cabecera-codigo">
+            <span class="lenguaje-codigo">JavaScript</span>
+            <button class="boton-copiar" type="button">📋 Copiar código</button>
+          </div>
+          <pre><code>condicion ? valorSiVerdadero : valorSiFalso</code></pre>
+        </div>
+
+        <p>
+          Por ejemplo, podemos utilizarlo para obtener un texto diferente dependiendo de
+          si una persona es mayor de edad:
+        </p>
+
+        <div class="bloque-codigo">
+          <div class="cabecera-codigo">
+            <span class="lenguaje-codigo">JavaScript</span>
+            <button class="boton-copiar" type="button">📋 Copiar código</button>
+          </div>
+          <pre><code>const edad = 20;
+const mensaje = edad &gt;= 18 ? "Mayor de edad" : "Menor de edad";
+
+console.log(mensaje);</code></pre>
+        </div>
+
+        <div class="bloque-codigo">
+          <div class="cabecera-codigo">
+            <span class="lenguaje-codigo">Console</span>
+            <button class="boton-copiar" type="button">📋 Copiar código</button>
+          </div>
+          <pre><code>Mayor de edad</code></pre>
+        </div>
+
+        <div class="caja caja-atencion">
+          <span class="caja-titulo">⚠️ Atención</span>
+          <p>
+            El operador ternario resulta útil para decisiones sencillas. Si la lógica es
+            compleja, suele ser más claro utilizar estructuras condicionales como
+            <code>if</code> y <code>else</code>, que estudiaremos en la UT3.
+          </p>
+        </div>
+
+
+        <div class="actividad-reflexion">
+          <h3>🧠 Comprueba lo aprendido</h3>
+
+          <p>
+            Antes de ejecutar el código, intenta predecir el resultado de cada expresión:
+          </p>
+
+          <div class="bloque-codigo">
+            <div class="cabecera-codigo">
+              <span class="lenguaje-codigo">JavaScript</span>
+              <button class="boton-copiar" type="button">📋 Copiar código</button>
+            </div>
+            <pre><code>10 + 5
+10 % 3
+2 ** 4
+5 === "5"
+5 == "5"
+8 &gt;= 8
+true &amp;&amp; false
+true || false
+!true
+20 &gt;= 18 ? "Sí" : "No"</code></pre>
+          </div>
+
+          <details class="solucion-desplegable">
+            <summary>Ver solución</summary>
+            <div class="contenido-solucion">
+              <p><code>10 + 5</code> → <code>15</code>.</p>
+              <p><code>10 % 3</code> → <code>1</code>.</p>
+              <p><code>2 ** 4</code> → <code>16</code>.</p>
+              <p><code>5 === "5"</code> → <code>false</code>.</p>
+              <p><code>5 == "5"</code> → <code>true</code>.</p>
+              <p><code>8 &gt;= 8</code> → <code>true</code>.</p>
+              <p><code>true &amp;&amp; false</code> → <code>false</code>.</p>
+              <p><code>true || false</code> → <code>true</code>.</p>
+              <p><code>!true</code> → <code>false</code>.</p>
+              <p><code>20 &gt;= 18 ? "Sí" : "No"</code> → <code>"Sí"</code>.</p>
+            </div>
+          </details>
+        </div>
+
+
+        <div class="actividad-reflexion">
+          <h3>💻 Prueba en Console</h3>
+
+          <p>
+            Copia el siguiente código en Console. Antes de ejecutarlo, intenta predecir
+            el valor final de cada variable y el resultado de las comparaciones.
+          </p>
+
+          <div class="bloque-codigo">
+            <div class="cabecera-codigo">
+              <span class="lenguaje-codigo">Console</span>
+              <button class="boton-copiar" type="button">📋 Copiar código</button>
+            </div>
+            <pre><code>let puntos = 10;
+
+puntos += 5;
+puntos *= 2;
+
+const minimo = 25;
+const alcanzaMinimo = puntos &gt;= minimo;
+const coincideExactamente = puntos === minimo;
+
+console.log(puntos);
+console.log(alcanzaMinimo);
+console.log(coincideExactamente);</code></pre>
+          </div>
+
+          <p>
+            Después modifica los valores de <code>puntos</code> y <code>minimo</code> y
+            comprueba cómo cambian los resultados.
+          </p>
+        </div>
+
+      </section>
+
+      <nav class="navegacion-paginas">
+        <a class="nav-pagina nav-anterior" href="../2-4/index.html">
+          <span class="nav-etiqueta">Anterior</span>
+          <strong>‹ 2.4 Conversión de tipos</strong>
+        </a>
+
+        <a class="nav-pagina nav-siguiente" href="../2-6/index.html">
+          <span class="nav-etiqueta">Siguiente</span>
+          <strong>2.6 Cadenas de texto y template literals ›</strong>
+        </a>
+      </nav>
+    </main>
+
+    <aside class="indice-derecho">
+      <h2>En este apartado</h2>
+      <ul>
+        <li><a href="#aritmeticos">Operadores aritméticos</a></li>
+        <li><a href="#asignacion">Operadores de asignación</a></li>
+        <li><a href="#incremento-decremento">Incremento y decremento</a></li>
+        <li><a href="#comparacion">Operadores de comparación</a></li>
+        <li><a href="#igualdad-estricta">Igualdad estricta: === y !==</a></li>
+        <li><a href="#logicos">Operadores lógicos</a></li>
+        <li><a href="#ternario">Introducción al operador ternario</a></li>
+      </ul>
+    </aside>
+
+  </div>
+
+<footer class="footer">
+
+    <p>
+
+      Material elaborado por
+      <strong>Eva Ballestero Cubeles</strong>
+
+      · Licencia
+
+      <span class="licencia">
+        CC BY-NC-SA 4.0
+      </span>
+
+      <a
+        class="enlace-licencia"
+        href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.es"
+        target="_blank"
+        rel="license noopener noreferrer"
+        aria-label="Licencia Creative Commons BY-NC-SA 4.0"
+      >
+
+        <img
+          class="icono-licencia"
+          src="../../../img/licencias/cc-by-nc-sa.png"
+          alt="Licencia Creative Commons BY-NC-SA 4.0"
+        >
+
+      </a>
+
+    </p>
+
+  </footer>
+
+
+  <!-- ==========================================
+       JAVASCRIPT COMÚN
+  ========================================== -->
+
+  <script src="../../../js/modulos.js"></script>
+
+  <script>
+
+    const menuModulos =
+      document.getElementById("menuModulos");
+
+    const botonTema =
+      document.getElementById("botonTema");
+
+    const modulosActivos =
+      modulos.filter(modulo => modulo.activo === true);
+
+
+    modulosActivos.forEach(modulo => {
+
+      const enlace =
+        document.createElement("a");
+
+      enlace.href =
+        `../../../${modulo.carpeta}/index.html`;
+
+      enlace.textContent =
+        modulo.siglas;
+
+      enlace.title =
+        modulo.nombre;
+
+      if (modulo.siglas === "DWEC") {
+
+        enlace.style.color =
+          "var(--verde-principal)";
+
+      }
+
+      menuModulos.appendChild(enlace);
+
+    });
+
+
+    /* ==========================================
+       MODO OSCURO
+    ========================================== */
+
+    const temaGuardado =
+      localStorage.getItem("tema");
+
+    if (temaGuardado === "oscuro") {
+
+      document.body.classList.add("modo-oscuro");
+
+      botonTema.textContent =
+        "🌙";
+
+    }
+
+    botonTema.addEventListener("click", () => {
+
+      document.body.classList.toggle("modo-oscuro");
+
+      const estaOscuro =
+        document.body.classList.contains("modo-oscuro");
+
+      botonTema.textContent =
+        estaOscuro ? "🌙" : "☀️";
+
+      localStorage.setItem(
+        "tema",
+        estaOscuro ? "oscuro" : "claro"
+      );
+
+    });
+
+
+    /* ==========================================
+       MENÚS DESPLEGABLES
+    ========================================== */
+
+    const botonesDesplegar =
+      document.querySelectorAll(".boton-desplegar");
+
+    botonesDesplegar.forEach((boton) => {
+
+      boton.addEventListener("click", () => {
+
+        const idSubmenu =
+          boton.getAttribute("data-target");
+
+        const submenu =
+          document.getElementById(idSubmenu);
+
+        if (!submenu) {
+          return;
+        }
+
+        const estaAbierto =
+          submenu.classList.contains("submenu-abierto");
+
+        if (estaAbierto) {
+
+          submenu.classList.remove("submenu-abierto");
+
+          boton.textContent =
+            "›";
+
+          boton.setAttribute(
+            "aria-expanded",
+            "false"
+          );
+
+        } else {
+
+          submenu.classList.add("submenu-abierto");
+
+          boton.textContent =
+            "⌄";
+
+          boton.setAttribute(
+            "aria-expanded",
+            "true"
+          );
+
+        }
+
+      });
+
+    });
+
+
+    /* ==========================================
+       COPIAR BLOQUES DE CÓDIGO
+    ========================================== */
+
+    document.addEventListener("click", async (evento) => {
+
+      const boton =
+        evento.target.closest(".boton-copiar");
+
+      if (!boton) {
+        return;
+      }
+
+      const bloque =
+        boton.closest(".bloque-codigo");
+
+      if (!bloque) {
+        return;
+      }
+
+      const codigo =
+        bloque.querySelector("code");
+
+      if (!codigo) {
+        return;
+      }
+
+      const textoOriginal =
+        boton.textContent;
+
+      try {
+
+        await navigator.clipboard.writeText(
+          codigo.textContent
+        );
+
+        boton.textContent =
+          "✔ Copiado";
+
+        setTimeout(() => {
+
+          boton.textContent =
+            textoOriginal;
+
+        }, 1600);
+
+      } catch (error) {
+
+        boton.textContent =
+          "Error al copiar";
+
+        setTimeout(() => {
+
+          boton.textContent =
+            textoOriginal;
+
+        }, 1600);
+
+      }
+
+    });
+
+  </script>
+
+</body>
+</html>
