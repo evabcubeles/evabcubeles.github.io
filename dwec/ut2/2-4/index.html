@@ -1654,6 +1654,15 @@ console.log(resultado);</code></pre>
           </div>
           <pre><code>NaN</code></pre>
         </div>
+        <div class="caja caja-atencion">
+  <span class="caja-titulo">⚠️ Atención</span>
+  <p>
+    Aunque <code>NaN</code> significa <em>Not a Number</em>, en JavaScript
+    pertenece al tipo <code>number</code>. Por eso
+    <code>typeof NaN</code> devuelve <code>"number"</code>.
+    Estudiaremos este valor con más detalle en el apartado 2.7.
+  </p>
+</div>
 
         <h3>Convertir a texto con <code>String()</code></h3>
 
@@ -1730,6 +1739,18 @@ console.log(Boolean("DWEC"));
 console.log(Boolean(0));
 console.log(Boolean(""));</code></pre>
         </div>
+        <p>El resultado será:</p>
+
+<div class="bloque-codigo">
+  <div class="cabecera-codigo">
+    <span class="lenguaje-codigo">Console</span>
+    <button class="boton-copiar" type="button">📋 Copiar código</button>
+  </div>
+  <pre><code>true
+true
+false
+false</code></pre>
+</div>
 
         <div class="caja caja-atencion">
           <span class="caja-titulo">⚠️ Atención</span>
@@ -1873,12 +1894,18 @@ console.log("5" * 2);</code></pre>
 10</code></pre>
         </div>
 
-        <p>
-          El operador <code>+</code> también se utiliza para concatenar cadenas. Por eso,
-          cuando uno de sus operandos es texto, puede producir una cadena. En cambio,
-          operadores como <code>-</code> o <code>*</code> intentan trabajar con valores
-          numéricos.
-        </p>
+<p>
+  El operador <code>+</code> tiene un comportamiento especial porque puede utilizarse
+  tanto para sumar números como para concatenar cadenas. Si uno de los operandos es una
+  cadena, JavaScript puede convertir el otro valor a texto y realizar una concatenación.
+  Por eso <code>"5" + 2</code> produce <code>"52"</code>.
+</p>
+
+<p>
+  En cambio, operadores como <code>-</code> o <code>*</code> trabajan con valores
+  numéricos, por lo que JavaScript intenta convertir la cadena <code>"5"</code> en el
+  número <code>5</code>.
+</p>
 
         <div class="caja caja-atencion">
           <span class="caja-titulo">⚠️ Atención</span>
