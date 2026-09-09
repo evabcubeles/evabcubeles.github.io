@@ -1,1 +1,2961 @@
+<!DOCTYPE html>
+<html lang="es">
+  
+<head>
+  <meta charset="UTF-8">
 
+  <meta
+    name="viewport"
+    content="width=device-width, initial-scale=1.0"
+  >
+
+  <meta
+    name="description"
+    content="1.4 - JavaScript y los lenguajes de programación en entorno cliente."
+  >
+
+  <title>1.4 - JavaScript y los lenguajes de programación en entorno cliente</title>
+
+  <link rel="icon" type="image/png" href="../../../img/favicon.png?v=5">
+  <link rel="stylesheet" href="../../../css/estilos.css">
+
+  <style>
+
+    /* ==========================================
+       ESTRUCTURA DE LA UT
+    ========================================== */
+
+    .pagina-ut {
+      display: grid;
+      grid-template-columns: 280px 1fr 260px;
+      min-height: calc(100vh - 68px);
+    }
+
+
+    /* ==========================================
+       COLUMNA IZQUIERDA
+    ========================================== */
+
+    .sidebar {
+      border-right: 1px solid var(--borde);
+      background-color: var(--fondo-pagina);
+
+      padding: 12px 10px 30px;
+
+      position: sticky;
+      top: 68px;
+
+      height: calc(100vh - 68px);
+      overflow-y: auto;
+    }
+
+    .sidebar-modulo {
+      display: block;
+      margin-bottom: 8px;
+      padding: 8px 14px;
+
+      color: #626873;
+
+      font-size: 17px;
+      font-weight: 700;
+      line-height: 1.3;
+
+      text-decoration: none;
+      border-radius: 6px;
+
+      transition:
+        color 0.2s ease,
+        background-color 0.2s ease;
+    }
+
+    .sidebar-modulo:hover {
+      color: var(--verde-principal);
+      background-color: #f3f4f6;
+    }
+
+    body.modo-oscuro .sidebar-modulo:hover {
+      background-color: #273244;
+    }
+
+
+    /* ==========================================
+       MENÚ LATERAL DESPLEGABLE
+    ========================================== */
+
+    .menu-desplegable {
+      width: 100%;
+    }
+
+    .menu-cabecera {
+      display: flex;
+      align-items: center;
+      gap: 4px;
+
+      width: 100%;
+
+      border-radius: 6px;
+    }
+
+    .menu-cabecera-activa {
+      background-color: #f1f1f1;
+    }
+
+    .menu-cabecera-activa > .menu-titulo {
+      color: var(--verde-principal);
+    }
+
+    .menu-titulo {
+      flex: 1;
+
+      display: block;
+
+      padding: 11px 8px 11px 14px;
+
+      color: #626873;
+
+      font-size: 16px;
+      font-weight: 650;
+      line-height: 1.4;
+
+      text-decoration: none;
+    }
+
+    .menu-titulo:hover {
+      color: var(--verde-principal);
+    }
+
+    .boton-desplegar {
+      width: 36px;
+      height: 36px;
+
+      margin-right: 5px;
+      padding: 0;
+
+      display: flex;
+      align-items: center;
+      justify-content: center;
+
+      flex-shrink: 0;
+
+      border: 0;
+      border-radius: 6px;
+
+      background: transparent;
+
+      color: #777;
+
+      font-family: inherit;
+      font-size: 24px;
+      line-height: 1;
+
+      cursor: pointer;
+    }
+
+    .boton-desplegar:hover {
+      background-color: #e5e7eb;
+      color: var(--verde-principal);
+    }
+
+    .submenu {
+      display: none;
+    }
+
+    .submenu.submenu-abierto {
+      display: block;
+    }
+
+    .menu-apartado {
+      margin-left: 14px;
+    }
+
+    .menu-apartado .menu-titulo {
+      padding-top: 9px;
+      padding-bottom: 9px;
+
+      font-size: 15px;
+      font-weight: 600;
+    }
+
+    .enlace-apartado-simple {
+      display: block;
+
+      margin-left: 14px;
+      padding: 10px 14px;
+
+      color: #626873;
+
+      font-size: 15px;
+      font-weight: 600;
+      line-height: 1.4;
+
+      text-decoration: none;
+
+      border-radius: 6px;
+
+      transition:
+        background-color 0.2s ease,
+        color 0.2s ease;
+    }
+
+    .enlace-apartado-simple:hover {
+      background-color: #f3f4f6;
+      color: var(--verde-principal);
+    }
+
+    .submenu-apartados {
+      margin: 2px 0 5px 28px;
+
+      border-left: 2px solid #e0e3e7;
+    }
+
+    .submenu-apartados a {
+      display: block;
+
+      padding: 7px 10px;
+
+      color: #777d87;
+
+      font-size: 14px;
+      font-weight: 500;
+      line-height: 1.35;
+
+      text-decoration: none;
+    }
+
+    .submenu-apartados a:hover {
+      color: var(--verde-principal);
+    }
+
+    body.modo-oscuro .menu-cabecera-activa {
+      background-color: #273244;
+    }
+
+    body.modo-oscuro .boton-desplegar:hover {
+      background-color: #334155;
+    }
+
+    body.modo-oscuro .enlace-apartado-simple:hover {
+      background-color: #273244;
+    }
+
+    body.modo-oscuro .submenu-apartados {
+      border-left-color: #3a4659;
+    }
+
+
+    /* ==========================================
+       RESTO DE UT
+    ========================================== */
+
+    .sidebar-ut-cerrada {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+
+      padding: 13px 14px;
+
+      color: #626873;
+
+      text-decoration: none;
+
+      font-size: 16px;
+      font-weight: 650;
+      line-height: 1.35;
+
+      border-radius: 6px;
+
+      transition:
+        background-color 0.2s ease,
+        color 0.2s ease;
+    }
+
+    .sidebar-ut-cerrada:hover {
+      background-color: #f3f4f6;
+      color: var(--verde-principal);
+    }
+
+    body.modo-oscuro .sidebar-ut-cerrada:hover {
+      background-color: #273244;
+    }
+
+
+    /* ==========================================
+       ZONA CENTRAL
+    ========================================== */
+
+    .contenido-ut {
+      padding: 28px 34px 70px;
+
+      max-width: 1150px;
+      width: 100%;
+    }
+
+    .migas {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+
+      margin-bottom: 30px;
+
+      font-size: 14px;
+    }
+
+    .miga-inicio {
+      text-decoration: none;
+      font-size: 18px;
+    }
+
+    .miga-separador {
+      color: #999;
+      font-size: 22px;
+    }
+
+    .miga-modulo {
+      color: var(--texto-secundario);
+      text-decoration: none;
+    }
+
+    .miga-modulo:hover {
+      color: var(--verde-principal);
+    }
+
+    .miga-actual {
+      padding: 8px 14px;
+
+      background-color: #f3f3f3;
+      border-radius: 24px;
+
+      color: var(--verde-principal);
+    }
+
+    body.modo-oscuro .miga-actual {
+      background-color: #273244;
+    }
+
+    .contenido-ut h1 {
+      margin: 0 0 30px;
+
+      font-size: clamp(38px, 5vw, 58px);
+      line-height: 1.12;
+    }
+
+
+    /* ==========================================
+       CONTENIDO DE LOS APARTADOS
+    ========================================== */
+
+    .apartado-ut {
+      margin-top: 55px;
+      scroll-margin-top: 95px;
+    }
+
+    .apartado-ut h2 {
+      margin: 0 0 24px;
+
+      font-size: 32px;
+      line-height: 1.2;
+
+      scroll-margin-top: 95px;
+    }
+
+    .apartado-ut h3 {
+      margin: 34px 0 16px;
+
+      font-size: 24px;
+      line-height: 1.3;
+    }
+
+    .apartado-ut p {
+      margin: 0 0 18px;
+
+      font-size: 18px;
+      line-height: 1.75;
+    }
+
+    .apartado-ut ul {
+      margin: 16px 0 24px;
+      padding-left: 28px;
+    }
+
+    .apartado-ut li {
+      margin-bottom: 10px;
+
+      font-size: 17px;
+      line-height: 1.6;
+    }
+
+
+    /* ==========================================
+       CAJAS DE LOS APUNTES
+    ========================================== */
+
+    .caja {
+      margin: 28px 0;
+      padding: 18px 20px;
+
+      border-left: 5px solid;
+      border-radius: 8px;
+
+      line-height: 1.65;
+    }
+
+    .caja p {
+      margin: 0;
+
+      font-size: 17px;
+    }
+
+    .caja-titulo {
+      display: block;
+
+      margin-bottom: 8px;
+
+      font-size: 17px;
+      font-weight: 700;
+    }
+
+    .caja-importante {
+      background-color: #eef8f1;
+      border-left-color: #2f9e5b;
+    }
+
+    .caja-atencion {
+      background-color: #fff7e8;
+      border-left-color: #e09b27;
+    }
+
+    .caja-ejemplo {
+      background-color: #eef5ff;
+      border-left-color: #3f7acb;
+    }
+
+    .caja-curiosidad {
+      background-color: #f7f1ff;
+      border-left-color: #8b5cc7;
+    }
+
+    body.modo-oscuro .caja-importante {
+      background-color: #20372a;
+    }
+
+    body.modo-oscuro .caja-atencion {
+      background-color: #3b3020;
+    }
+
+    body.modo-oscuro .caja-ejemplo {
+      background-color: #23344a;
+    }
+
+    body.modo-oscuro .caja-curiosidad {
+      background-color: #332944;
+    }
+
+
+    /* ==========================================
+       TABLAS
+    ========================================== */
+
+    .tabla-responsive {
+      width: 100%;
+
+      margin: 28px 0;
+
+      overflow-x: auto;
+    }
+
+    .tabla-apuntes {
+      width: 100%;
+
+      border-collapse: collapse;
+
+      font-size: 16px;
+    }
+
+    .tabla-apuntes th,
+    .tabla-apuntes td {
+      padding: 14px 16px;
+
+      border: 1px solid var(--borde);
+
+      text-align: left;
+      vertical-align: top;
+
+      line-height: 1.55;
+    }
+
+    .tabla-apuntes th {
+      background-color: #f1f3f5;
+
+      font-weight: 700;
+    }
+
+    body.modo-oscuro .tabla-apuntes th {
+      background-color: #273244;
+    }
+
+
+    /* ==========================================
+       ESQUEMAS VISUALES
+    ========================================== */
+
+    .esquema-web {
+      max-width: 700px;
+
+      margin: 30px auto;
+    }
+
+    .esquema-fila {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 14px;
+
+      margin-top: 16px;
+    }
+
+    .esquema-caja {
+      padding: 18px 16px;
+
+      background-color: var(--fondo-tarjeta);
+
+      border: 1px solid var(--borde);
+      border-radius: 10px;
+
+      text-align: center;
+    }
+
+    .esquema-caja strong {
+      display: block;
+
+      margin-bottom: 5px;
+
+      color: var(--verde-principal);
+
+      font-size: 18px;
+    }
+
+    .esquema-caja span {
+      color: var(--texto-secundario);
+
+      font-size: 15px;
+      line-height: 1.45;
+    }
+
+
+    /* ==========================================
+       ACTIVIDAD DE REFLEXIÓN
+    ========================================== */
+
+    .actividad-reflexion {
+      margin: 32px 0;
+      padding: 22px 24px;
+
+      background-color: #f7f8fa;
+
+      border: 1px solid var(--borde);
+      border-radius: 10px;
+    }
+
+    .actividad-reflexion h3 {
+      margin: 0 0 12px;
+
+      color: var(--verde-principal);
+
+      font-size: 20px;
+    }
+
+    .actividad-reflexion p {
+      margin: 0 0 14px;
+
+      font-size: 17px;
+      line-height: 1.65;
+    }
+
+    body.modo-oscuro .actividad-reflexion {
+      background-color: #232d3d;
+    }
+
+
+    /* ==========================================
+       SOLUCIÓN DESPLEGABLE
+    ========================================== */
+
+    .solucion-desplegable {
+      margin-top: 20px;
+    }
+
+    .solucion-desplegable summary {
+      display: inline-block;
+
+      padding: 10px 16px;
+
+      background-color: #eef8f1;
+
+      border: 1px solid #b9dfc6;
+      border-radius: 7px;
+
+      color: var(--verde-principal);
+
+      font-size: 16px;
+      font-weight: 700;
+
+      cursor: pointer;
+      user-select: none;
+    }
+
+    .solucion-desplegable summary:hover {
+      background-color: #e2f3e7;
+    }
+
+    .contenido-solucion {
+      margin-top: 16px;
+      padding: 18px 20px;
+
+      background-color: var(--fondo-pagina);
+
+      border-left: 4px solid var(--verde-principal);
+      border-radius: 6px;
+    }
+
+    .contenido-solucion p {
+      margin: 0 0 12px;
+
+      font-size: 16px;
+      line-height: 1.65;
+    }
+
+    .contenido-solucion p:last-child {
+      margin-bottom: 0;
+    }
+
+    body.modo-oscuro .solucion-desplegable summary {
+      background-color: #20372a;
+      border-color: #315d40;
+    }
+
+
+    /* ==========================================
+       BLOQUES DE CÓDIGO DWEC
+    ========================================== */
+
+    .bloque-codigo {
+      margin: 28px 0;
+
+      border: 1px solid #3b3b3b;
+      border-radius: 9px;
+
+      overflow: hidden;
+
+      background-color: #1e1e1e;
+    }
+
+    .cabecera-codigo {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+
+      padding: 10px 14px;
+
+      background-color: #2b2b2b;
+
+      color: #f3f4f6;
+
+      font-size: 14px;
+    }
+
+    .lenguaje-codigo {
+      font-weight: 700;
+    }
+
+    .boton-copiar {
+      padding: 6px 11px;
+
+      border: 1px solid #5c5c5c;
+      border-radius: 6px;
+
+      background-color: #383838;
+
+      color: #f3f4f6;
+
+      font-family: inherit;
+      font-size: 13px;
+
+      cursor: pointer;
+
+      transition:
+        background-color 0.2s ease,
+        border-color 0.2s ease;
+    }
+
+    .boton-copiar:hover {
+      background-color: #484848;
+      border-color: #777;
+    }
+
+    .bloque-codigo pre {
+      margin: 0;
+      padding: 18px 20px;
+
+      overflow-x: auto;
+
+      tab-size: 2;
+    }
+
+    .bloque-codigo code {
+      color: #f5f5f5;
+
+      font-family:
+        Consolas,
+        "Courier New",
+        monospace;
+
+      font-size: 15px;
+      line-height: 1.6;
+
+      white-space: pre;
+    }
+
+
+    /* ==========================================
+       COLUMNA DERECHA
+    ========================================== */
+
+    .indice-derecho {
+      padding: 28px 22px 100px;
+
+      border-left: 1px solid var(--borde);
+
+      position: sticky;
+      top: 68px;
+
+      height: calc(100vh - 68px);
+
+      overflow-y: auto;
+
+      box-sizing: border-box;
+    }
+
+    .indice-derecho h2 {
+      margin: 8px 0 20px;
+
+      font-size: 17px;
+      color: #555b65;
+    }
+
+    body.modo-oscuro .indice-derecho h2 {
+      color: #d1d5db;
+    }
+
+    .indice-derecho ul {
+      margin: 0;
+      padding-left: 18px;
+    }
+
+    .indice-derecho li {
+      margin-bottom: 12px;
+    }
+
+    .indice-derecho a {
+      color: var(--texto-secundario);
+
+      text-decoration: none;
+
+      font-size: 14px;
+      line-height: 1.4;
+    }
+
+    .indice-derecho a:hover {
+      color: var(--verde-principal);
+    }
+
+
+    /* ==========================================
+       NAVEGACIÓN ANTERIOR / SIGUIENTE
+    ========================================== */
+
+    .navegacion-paginas {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 20px;
+
+      margin-top: 50px;
+    }
+
+    .nav-pagina {
+      min-height: 100px;
+      padding: 18px 20px;
+
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+
+      border: 1px solid var(--borde);
+      border-radius: 8px;
+
+      text-decoration: none;
+
+      background-color: var(--fondo-tarjeta);
+    }
+
+    .nav-anterior {
+      align-items: flex-start;
+      text-align: left;
+    }
+
+    .nav-siguiente {
+      align-items: flex-end;
+      text-align: right;
+    }
+
+    .nav-etiqueta {
+      margin-bottom: 5px;
+
+      color: var(--texto-secundario);
+
+      font-size: 14px;
+    }
+
+    .nav-pagina strong {
+      color: var(--verde-principal);
+
+      font-size: 16px;
+      line-height: 1.4;
+    }
+
+    .nav-pagina:hover {
+      border-color: var(--verde-principal);
+    }
+
+
+    /* ==========================================
+       RESPONSIVE
+    ========================================== */
+
+    @media (max-width: 1100px) {
+
+      .pagina-ut {
+        grid-template-columns: 250px 1fr;
+      }
+
+      .indice-derecho {
+        display: none;
+      }
+
+    }
+
+    @media (max-width: 760px) {
+
+      .pagina-ut {
+        display: block;
+      }
+
+      .sidebar {
+        position: static;
+
+        width: 100%;
+        height: auto;
+
+        border-right: 0;
+        border-bottom: 1px solid var(--borde);
+      }
+
+      .contenido-ut {
+        padding: 28px 20px 60px;
+      }
+
+      .contenido-ut h1 {
+        font-size: 36px;
+      }
+
+      .navegacion-paginas {
+        grid-template-columns: 1fr;
+      }
+
+      .nav-siguiente {
+        align-items: flex-start;
+        text-align: left;
+      }
+
+      .esquema-fila {
+        grid-template-columns: 1fr;
+      }
+
+    }
+
+  </style>
+
+</head>
+
+
+<body>
+
+  <!-- ==========================================
+       BARRA SUPERIOR
+  ========================================== -->
+
+  <header class="navbar">
+
+    <a class="inicio" href="../../../index.html">
+
+      <img
+        src="../../../img/profesora-castana.png?v=2"
+        alt=""
+        class="icono-profesora"
+      >
+
+      <span>Inicio</span>
+
+    </a>
+
+    <nav
+      id="menuModulos"
+      class="menu-modulos"
+      aria-label="Módulos formativos"
+    ></nav>
+
+    <button
+      id="botonTema"
+      class="boton-tema"
+      type="button"
+      aria-label="Cambiar entre modo claro y oscuro"
+      title="Cambiar tema"
+    >
+      ☀️
+    </button>
+
+  </header>
+
+
+  <div class="pagina-ut">
+
+
+    <!-- ==========================================
+         MENÚ LATERAL
+    ========================================== -->
+
+    <aside class="sidebar">
+
+      <a class="sidebar-modulo" href="../../index.html">
+        Desarrollo web en entorno cliente
+      </a>
+
+
+      <!-- UT1 -->
+
+      <div class="menu-desplegable">
+
+        <div class="menu-cabecera menu-cabecera-activa">
+
+          <a class="menu-titulo" href="../index.html">
+            UT1 - Introducción al desarrollo web en entorno cliente
+          </a>
+
+          <button
+            class="boton-desplegar"
+            type="button"
+            data-target="submenu-ut1"
+            aria-expanded="true"
+            aria-label="Mostrar u ocultar UT1"
+          >
+            ⌄
+          </button>
+
+        </div>
+
+
+        <div id="submenu-ut1" class="submenu submenu-abierto">
+
+
+                  <!-- 1.1 -->
+
+          <div class="menu-desplegable menu-apartado">
+
+            <div class="menu-cabecera">
+
+              <a class="menu-titulo" href="../1-1/index.html">
+                1.1 Desarrollo web en entorno cliente
+              </a>
+
+              <button
+                class="boton-desplegar"
+                type="button"
+                data-target="submenu-1-1"
+                aria-expanded="false"
+                aria-label="Mostrar u ocultar los subapartados del 1.1"
+              >
+                ›
+              </button>
+
+            </div>
+
+            <div
+              id="submenu-1-1"
+              class="submenu submenu-apartados"
+            >
+
+              <a href="../1-1/index.html#que-es-desarrollo-web">
+                Qué es el desarrollo web
+              </a>
+
+              <a href="../1-1/index.html#frontend-backend">
+                Frontend y backend
+              </a>
+
+              <a href="../1-1/index.html#entorno-cliente">
+                Desarrollo en entorno cliente
+              </a>
+
+              <a href="../1-1/index.html#entorno-servidor">
+                Desarrollo en entorno servidor
+              </a>
+
+              <a href="../1-1/index.html#navegador-entorno-ejecucion">
+                El navegador como entorno de ejecución
+              </a>
+
+              <a href="../1-1/index.html#papel-javascript">
+                El papel de JavaScript en una aplicación web
+              </a>
+
+              <a href="../1-1/index.html#actividad-profesional">
+                El desarrollo web como actividad profesional
+              </a>
+
+            </div>
+
+          </div>
+
+
+  <!-- 1.2 -->
+
+          <div class="menu-desplegable menu-apartado">
+
+            <div class="menu-cabecera">
+
+              <a class="menu-titulo" href="../1-2/index.html">
+                1.2 Arquitectura cliente-servidor
+              </a>
+
+              <button
+                class="boton-desplegar"
+                type="button"
+                data-target="submenu-1-2"
+                aria-expanded="false"
+              >
+                ›
+              </button>
+
+            </div>
+
+            <div id="submenu-1-2" class="submenu submenu-apartados">
+
+              <a href="../1-2/index.html#arquitectura-cliente-servidor">
+                Qué es una arquitectura cliente-servidor
+              </a>
+
+              <a href="../1-2/index.html#cliente">
+                El cliente
+              </a>
+
+              <a href="../1-2/index.html#servidor">
+                El servidor
+              </a>
+
+              <a href="../1-2/index.html#peticion-respuesta">
+                Cómo se produce una petición y una respuesta
+              </a>
+
+              <a href="../1-2/index.html#recursos-servicios">
+                Recursos y servicios web
+              </a>
+
+              <a href="../1-2/index.html#ejemplo-aplicacion">
+                Ejemplo del funcionamiento de una aplicación web
+              </a>
+
+              <a href="../1-2/index.html#ventajas-cliente-servidor">
+                Ventajas de la arquitectura cliente-servidor
+              </a>
+
+            </div>
+
+          </div>
+
+
+          <!-- 1.3 -->
+
+          <div class="menu-desplegable menu-apartado">
+
+            <div class="menu-cabecera">
+
+              <a class="menu-titulo" href="../1-3/index.html">
+                1.3 Ejecución de código en cliente y servidor
+              </a>
+
+              <button
+                class="boton-desplegar"
+                type="button"
+                data-target="submenu-1-3"
+                aria-expanded="false"
+              >
+                ›
+              </button>
+
+            </div>
+
+            <div
+              id="submenu-1-3"
+              class="submenu submenu-apartados"
+            >
+
+              <a href="../1-3/index.html#ejecucion-cliente">
+                Ejecución de código en el cliente
+              </a>
+
+              <a href="../1-3/index.html#ejecucion-servidor">
+                Ejecución de código en el servidor
+              </a>
+
+              <a href="../1-3/index.html#diferencias">
+                Diferencias entre ejecución cliente y servidor
+              </a>
+
+              <a href="../1-3/index.html#ventajas-inconvenientes">
+                Ventajas e inconvenientes de ejecutar código en el cliente
+              </a>
+
+              <a href="../1-3/index.html#capacidades-navegador">
+                Capacidades del navegador
+              </a>
+
+              <a href="../1-3/index.html#limitaciones-navegador">
+                Limitaciones de la ejecución en el navegador
+              </a>
+
+              <a href="../1-3/index.html#compatibilidad">
+                Compatibilidad entre navegadores
+              </a>
+
+              <a href="../1-3/index.html#cliente-o-servidor">
+                Cuándo utilizar cliente y cuándo servidor
+              </a>
+
+            </div>
+
+          </div>
+
+
+          <!-- 1.4 -->
+
+          <div class="menu-desplegable menu-apartado">
+
+            <div class="menu-cabecera menu-cabecera-activa">
+
+              <a class="menu-titulo" href="index.html">
+                1.4 JavaScript y los lenguajes de programación en entorno cliente
+              </a>
+
+              <button
+                class="boton-desplegar"
+                type="button"
+                data-target="submenu-1-4"
+                aria-expanded="true"
+                aria-label="Mostrar u ocultar los subapartados del 1.4"
+              >
+                ⌄
+              </button>
+
+            </div>
+
+            <div
+              id="submenu-1-4"
+              class="submenu submenu-apartados submenu-abierto"
+            >
+
+              <a href="#lenguajes-web">
+                Lenguajes utilizados en el desarrollo web
+              </a>
+
+              <a href="#html-css-javascript">
+                HTML, CSS y JavaScript: funciones diferentes
+              </a>
+
+              <a href="#que-es-javascript">
+                Qué es JavaScript
+              </a>
+
+              <a href="#caracteristicas-javascript">
+                Características principales de JavaScript
+              </a>
+
+              <a href="#javascript-interpretado">
+                JavaScript como lenguaje interpretado
+              </a>
+
+              <a href="#ecmascript">
+                JavaScript y ECMAScript
+              </a>
+
+              <a href="#otras-tecnologias">
+                Otros lenguajes y tecnologías de entorno cliente
+              </a>
+
+              <a href="#frameworks-librerias">
+                Frameworks y librerías JavaScript
+              </a>
+
+            </div>
+
+          </div>
+
+
+          <!-- 1.5 -->
+
+          <div class="menu-desplegable menu-apartado">
+
+            <div class="menu-cabecera">
+
+              <a class="menu-titulo" href="../1-5/index.html">
+                1.5 Características de los lenguajes de script
+              </a>
+
+              <button
+                class="boton-desplegar"
+                type="button"
+                data-target="submenu-1-5"
+                aria-expanded="false"
+              >
+                ›
+              </button>
+
+            </div>
+
+            <div id="submenu-1-5" class="submenu submenu-apartados">
+
+              <a href="../1-5/index.html#que-es-script">
+                Qué es un script
+              </a>
+
+              <a href="../1-5/index.html#caracteristicas-script">
+                Características de los lenguajes de script
+              </a>
+
+              <a href="../1-5/index.html#interpretados-compilados">
+                Lenguajes interpretados y lenguajes compilados
+              </a>
+
+              <a href="../1-5/index.html#ventajas">
+                Ventajas de los lenguajes de script
+              </a>
+
+              <a href="../1-5/index.html#inconvenientes">
+                Inconvenientes y limitaciones
+              </a>
+
+              <a href="../1-5/index.html#javascript-script">
+                JavaScript como lenguaje de script
+              </a>
+
+              <a href="../1-5/index.html#programacion-tradicional">
+                Programación tradicional y programación mediante scripts
+              </a>
+
+            </div>
+
+          </div>
+
+
+          <!-- 1.6 -->
+
+          <div class="menu-desplegable menu-apartado">
+
+            <div class="menu-cabecera">
+
+              <a class="menu-titulo" href="../1-6/index.html">
+                1.6 Integración de JavaScript con HTML
+              </a>
+
+              <button
+                class="boton-desplegar"
+                type="button"
+                data-target="submenu-1-6"
+                aria-expanded="false"
+              >
+                ›
+              </button>
+
+            </div>
+
+            <div id="submenu-1-6" class="submenu submenu-apartados">
+
+              <a href="../1-6/index.html#javascript-html">
+                JavaScript dentro de una página HTML
+              </a>
+
+              <a href="../1-6/index.html#script">
+                El elemento &lt;script&gt;
+              </a>
+
+              <a href="../1-6/index.html#javascript-interno">
+                JavaScript interno
+              </a>
+
+              <a href="../1-6/index.html#javascript-externo">
+                JavaScript externo
+              </a>
+
+              <a href="../1-6/index.html#atributo-src">
+                El atributo src
+              </a>
+
+              <a href="../1-6/index.html#donde-colocar">
+                Dónde colocar el código JavaScript
+              </a>
+
+              <a href="../1-6/index.html#defer">
+                Carga de scripts y atributo defer
+              </a>
+
+              <a href="../1-6/index.html#separacion">
+                Separación entre HTML, CSS y JavaScript
+              </a>
+
+              <a href="../1-6/index.html#organizacion-archivos">
+                Buenas prácticas para organizar los archivos
+              </a>
+
+            </div>
+
+          </div>
+
+
+          <!-- 1.7 -->
+
+          <div class="menu-desplegable menu-apartado">
+
+            <div class="menu-cabecera">
+
+              <a class="menu-titulo" href="../1-7/index.html">
+                1.7 Herramientas para desarrollar con JavaScript
+              </a>
+
+              <button
+                class="boton-desplegar"
+                type="button"
+                data-target="submenu-1-7"
+                aria-expanded="false"
+              >
+                ›
+              </button>
+
+            </div>
+
+            <div id="submenu-1-7" class="submenu submenu-apartados">
+
+              <a href="../1-7/index.html#editor-codigo">
+                El editor de código
+              </a>
+
+              <a href="../1-7/index.html#vscode">
+                Visual Studio Code
+              </a>
+
+              <a href="../1-7/index.html#navegador">
+                El navegador web
+              </a>
+
+              <a href="../1-7/index.html#herramientas-desarrollo">
+                Herramientas de desarrollo del navegador
+              </a>
+
+              <a href="../1-7/index.html#consola">
+                La consola
+              </a>
+
+              <a href="../1-7/index.html#inspector">
+                El inspector de elementos
+              </a>
+
+              <a href="../1-7/index.html#sources">
+                La pestaña Sources
+              </a>
+
+              <a href="../1-7/index.html#deteccion-errores">
+                Detección de errores
+              </a>
+
+              <a href="../1-7/index.html#depuracion">
+                Depuración básica
+              </a>
+
+              <a href="../1-7/index.html#organizacion-proyecto">
+                Organización básica de un proyecto web
+              </a>
+
+              <a href="../1-7/index.html#git-github">
+                Control de versiones con Git y GitHub
+              </a>
+
+            </div>
+
+          </div>
+
+
+          <!-- 1.8 -->
+
+          <div class="menu-desplegable menu-apartado">
+
+            <div class="menu-cabecera">
+
+              <a class="menu-titulo" href="../1-8/index.html">
+                1.8 Primer programa en JavaScript
+              </a>
+
+              <button
+                class="boton-desplegar"
+                type="button"
+                data-target="submenu-1-8"
+                aria-expanded="false"
+              >
+                ›
+              </button>
+
+            </div>
+
+            <div id="submenu-1-8" class="submenu submenu-apartados">
+
+              <a href="../1-8/index.html#primer-programa">
+                Nuestro primer programa
+              </a>
+
+              <a href="../1-8/index.html#console-log">
+                console.log()
+              </a>
+
+              <a href="../1-8/index.html#mostrar-consola">
+                Mostrar información en la consola
+              </a>
+
+              <a href="../1-8/index.html#alert">
+                La función alert()
+              </a>
+
+              <a href="../1-8/index.html#ejecucion">
+                Ejecución del código paso a paso
+              </a>
+
+              <a href="../1-8/index.html#errores-sintaxis">
+                Errores de sintaxis
+              </a>
+
+              <a href="../1-8/index.html#errores-ejecucion">
+                Errores durante la ejecución
+              </a>
+
+              <a href="../1-8/index.html#mensajes-error">
+                Lectura de mensajes de error
+              </a>
+
+              <a href="../1-8/index.html#buenas-practicas">
+                Primeras buenas prácticas
+              </a>
+
+              <a href="../1-8/index.html#practica-guiada">
+                Primera práctica guiada
+              </a>
+
+            </div>
+
+          </div>
+
+
+          <!-- RESUMEN -->
+
+          <a
+            class="enlace-apartado-simple"
+            href="../resumen/index.html"
+          >
+            ✏️ Resumen de la UT1
+          </a>
+
+
+          <!-- ACTIVIDADES -->
+
+          <a
+            class="enlace-apartado-simple"
+            href="../actividades/index.html"
+          >
+            📝 Actividades de la UT1
+          </a>
+
+        </div>
+
+      </div>
+
+
+      <!-- RESTO DE UT -->
+
+      <a class="sidebar-ut-cerrada" href="../../ut2/index.html">
+        <span>UT2 - Fundamentos de JavaScript: variables, tipos y operadores</span>
+        <span>›</span>
+      </a>
+
+      <a class="sidebar-ut-cerrada" href="../../ut3/index.html">
+        <span>UT3 - Estructuras de control en JavaScript</span>
+        <span>›</span>
+      </a>
+
+      <a class="sidebar-ut-cerrada" href="../../ut4/index.html">
+        <span>UT4 - Arrays y estructuras de datos en JavaScript</span>
+        <span>›</span>
+      </a>
+
+      <a class="sidebar-ut-cerrada" href="../../ut5/index.html">
+        <span>UT5 - Funciones en JavaScript</span>
+        <span>›</span>
+      </a>
+
+      <a class="sidebar-ut-cerrada" href="../../ut6/index.html">
+        <span>UT6 - Objetos y Programación Orientada a Objetos en JavaScript</span>
+        <span>›</span>
+      </a>
+
+      <a class="sidebar-ut-cerrada" href="../../ut7/index.html">
+        <span>UT7 - Objetos predefinidos y modelo del navegador (BOM)</span>
+        <span>›</span>
+      </a>
+
+      <a class="sidebar-ut-cerrada" href="../../ut8/index.html">
+        <span>UT8 - Aplicaciones web interactivas: DOM, eventos y formularios</span>
+        <span>›</span>
+      </a>
+
+      <a class="sidebar-ut-cerrada" href="../../ut9/index.html">
+        <span>UT9 - Comunicación asíncrona y peticiones al servidor</span>
+        <span>›</span>
+      </a>
+
+      <a class="sidebar-ut-cerrada" href="../../ut10/index.html">
+        <span>UT10 - Introducción a React</span>
+        <span>›</span>
+      </a>
+
+    </aside>
+
+
+    <!-- ==========================================
+         CONTENIDO
+    ========================================== -->
+
+    <main class="contenido-ut">
+
+      <div class="migas">
+
+        <a
+          class="miga-inicio"
+          href="../../../index.html"
+          aria-label="Volver a la página principal"
+        >
+          🏠
+        </a>
+
+        <span class="miga-separador">›</span>
+
+        <a class="miga-modulo" href="../../index.html">
+          DWEC
+        </a>
+
+        <span class="miga-separador">›</span>
+
+        <a class="miga-modulo" href="../index.html">
+          UT1
+        </a>
+
+        <span class="miga-separador">›</span>
+
+        <span class="miga-actual">
+          1.4
+        </span>
+
+      </div>
+
+
+      <h1>
+        1.4 JavaScript y los lenguajes de programación en entorno cliente
+      </h1>
+
+
+      <section class="apartado-ut">
+
+        <p>
+          En los apartados anteriores hemos visto cómo funciona una aplicación web y
+          hemos distinguido entre el código que se ejecuta en el
+          <strong>cliente</strong> y el que se ejecuta en el
+          <strong>servidor</strong>.
+        </p>
+
+        <p>
+          Cuando trabajamos en el entorno cliente, el navegador debe interpretar
+          distintas tecnologías que colaboran para construir la página, darle
+          apariencia y permitir que el usuario interactúe con ella.
+        </p>
+
+        <p>
+          Entre estas tecnologías destacan tres fundamentales:
+          <strong>HTML, CSS y JavaScript</strong>.
+        </p>
+
+        <div class="caja caja-importante">
+
+          <span class="caja-titulo">
+            📌 Importante
+          </span>
+
+          <p>
+            HTML, CSS y JavaScript cumplen funciones diferentes. Una aplicación web
+            moderna suele utilizar las tres tecnologías conjuntamente:
+            <strong>HTML estructura el contenido, CSS controla su presentación y
+            JavaScript aporta comportamiento e interactividad</strong>.
+          </p>
+
+        </div>
+
+
+        <!-- ==========================================
+             LENGUAJES UTILIZADOS EN EL DESARROLLO WEB
+        ========================================== -->
+
+        <h2 id="lenguajes-web">
+          Lenguajes utilizados en el desarrollo web
+        </h2>
+
+        <p>
+          El desarrollo de una aplicación web requiere utilizar diferentes lenguajes y
+          tecnologías.
+        </p>
+
+        <p>
+          No existe un único lenguaje encargado de realizar todo el trabajo. Dependiendo
+          de la parte de la aplicación que estemos desarrollando, utilizaremos unas
+          tecnologías u otras.
+        </p>
+
+        <p>
+          En el <strong>entorno cliente</strong>, las tres tecnologías fundamentales
+          son:
+        </p>
+
+        <div class="tabla-responsive">
+
+          <table class="tabla-apuntes">
+
+            <thead>
+              <tr>
+                <th>Tecnología</th>
+                <th>Función principal</th>
+              </tr>
+            </thead>
+
+            <tbody>
+
+              <tr>
+                <td><strong>HTML</strong></td>
+                <td>Define la estructura y el contenido de la página.</td>
+              </tr>
+
+              <tr>
+                <td><strong>CSS</strong></td>
+                <td>Controla la presentación y el aspecto visual.</td>
+              </tr>
+
+              <tr>
+                <td><strong>JavaScript</strong></td>
+                <td>Añade comportamiento, lógica e interactividad.</td>
+              </tr>
+
+            </tbody>
+
+          </table>
+
+        </div>
+
+        <p>
+          En el <strong>entorno servidor</strong> podemos encontrar lenguajes y
+          tecnologías como Java, PHP, Python, C# o JavaScript mediante Node.js, entre
+          muchas otras.
+        </p>
+
+        <p>
+          Por tanto, una aplicación web puede combinar diferentes lenguajes.
+        </p>
+
+        <h3>Los lenguajes colaboran entre sí</h3>
+
+        <p>
+          Imaginemos una tienda online que muestra un producto.
+        </p>
+
+        <p>
+          HTML podría definir:
+          <strong>Producto → Nombre → Precio → Botón «Añadir al carrito»</strong>.
+        </p>
+
+        <p>
+          CSS podría determinar:
+          <strong>colores → tamaños → posiciones → tipografía → diseño</strong>.
+        </p>
+
+        <p>
+          Y JavaScript podría encargarse de:
+          <strong>clic en el botón → actualizar carrito → mostrar nuevo total</strong>.
+        </p>
+
+        <p>
+          Cada tecnología tiene, por tanto, una responsabilidad diferente.
+        </p>
+
+        <div class="caja caja-ejemplo">
+
+          <span class="caja-titulo">
+            💻 Ejemplo DAW
+          </span>
+
+          <p>
+            En una página de matrícula, HTML puede definir los campos del formulario,
+            CSS puede establecer su diseño y JavaScript puede comprobar inicialmente
+            si el usuario ha rellenado correctamente determinados datos antes de
+            enviarlos.
+          </p>
+
+        </div>
+
+
+        <!-- ==========================================
+             HTML, CSS Y JAVASCRIPT
+        ========================================== -->
+
+        <h2 id="html-css-javascript">
+          HTML, CSS y JavaScript: funciones diferentes
+        </h2>
+
+        <p>
+          Una de las primeras ideas que debemos comprender en desarrollo web es la
+          separación entre <strong>estructura, presentación y comportamiento</strong>.
+        </p>
+
+        <div class="esquema-web">
+          <div class="esquema-fila">
+
+            <div class="esquema-caja">
+              <strong>HTML</strong>
+              <span>Estructura y contenido</span>
+            </div>
+
+            <div class="esquema-caja">
+              <strong>CSS</strong>
+              <span>Presentación</span>
+            </div>
+
+            <div class="esquema-caja">
+              <strong>JavaScript</strong>
+              <span>Comportamiento</span>
+            </div>
+
+          </div>
+        </div>
+
+        <h3>HTML: estructura y contenido</h3>
+
+        <p>
+          <strong>HTML (HyperText Markup Language)</strong> es el lenguaje de marcado
+          utilizado para definir la estructura de los documentos web.
+        </p>
+
+        <p>
+          Permite indicar que determinado contenido representa, por ejemplo:
+        </p>
+
+        <ul>
+          <li>un título;</li>
+          <li>un párrafo;</li>
+          <li>una imagen;</li>
+          <li>un enlace;</li>
+          <li>una tabla;</li>
+          <li>una lista;</li>
+          <li>un formulario;</li>
+          <li>un botón.</li>
+        </ul>
+
+        <p>
+          HTML describe principalmente <strong>qué elementos contiene el documento y
+          qué significado estructural tienen</strong>.
+        </p>
+
+        <h3>CSS: presentación</h3>
+
+        <p>
+          <strong>CSS (Cascading Style Sheets)</strong> permite controlar la
+          presentación visual de los elementos definidos mediante HTML.
+        </p>
+
+        <p>
+          Con CSS podemos determinar, entre otras cosas:
+        </p>
+
+        <ul>
+          <li>colores;</li>
+          <li>tamaños;</li>
+          <li>márgenes;</li>
+          <li>fuentes;</li>
+          <li>bordes;</li>
+          <li>posiciones;</li>
+          <li>distribuciones;</li>
+          <li>diseños adaptados a diferentes tamaños de pantalla;</li>
+          <li>animaciones y transiciones visuales.</li>
+        </ul>
+
+        <h3>JavaScript: comportamiento</h3>
+
+        <p>
+          JavaScript permite incorporar <strong>lógica y comportamiento</strong> a la
+          aplicación.
+        </p>
+
+        <p>
+          Por ejemplo, puede:
+        </p>
+
+        <ul>
+          <li>responder a las acciones del usuario;</li>
+          <li>realizar cálculos;</li>
+          <li>comprobar datos;</li>
+          <li>mostrar u ocultar elementos;</li>
+          <li>modificar contenidos;</li>
+          <li>actualizar partes de una página;</li>
+          <li>almacenar información en el navegador;</li>
+          <li>solicitar datos a un servidor.</li>
+        </ul>
+
+        <div class="caja caja-importante">
+
+          <span class="caja-titulo">
+            📌 Importante
+          </span>
+
+          <p>
+            HTML y CSS <strong>no son lenguajes de programación</strong>. HTML es un
+            lenguaje de marcado y CSS es un lenguaje de hojas de estilo.
+            <strong>JavaScript sí es un lenguaje de programación</strong>.
+          </p>
+
+        </div>
+
+        <h3>Una forma sencilla de recordarlo</h3>
+
+        <p>
+          Podemos imaginar una página web como una casa:
+        </p>
+
+        <ul>
+          <li><strong>HTML → estructura de la casa:</strong> paredes, habitaciones, puertas...</li>
+          <li><strong>CSS → decoración:</strong> colores, tamaños, distribución visual...</li>
+          <li><strong>JavaScript → comportamiento:</strong> encender una luz al pulsar un interruptor, abrir automáticamente una puerta...</li>
+        </ul>
+
+        <p>
+          La comparación es simplificada, pero ayuda a distinguir las responsabilidades
+          de cada tecnología.
+        </p>
+
+
+        <!-- ==========================================
+             QUÉ ES JAVASCRIPT
+        ========================================== -->
+
+        <h2 id="que-es-javascript">
+          Qué es JavaScript
+        </h2>
+
+        <p>
+          <strong>JavaScript</strong> es un lenguaje de programación utilizado
+          principalmente para desarrollar aplicaciones web interactivas.
+        </p>
+
+        <p>
+          Fue creado originalmente para permitir que las páginas web pudieran ejecutar
+          programas directamente en el navegador.
+        </p>
+
+        <p>
+          Actualmente JavaScript es una de las tecnologías fundamentales del desarrollo
+          web y sus posibilidades van mucho más allá de las primeras páginas
+          interactivas.
+        </p>
+
+        <p>
+          Todos los navegadores modernos incorporan mecanismos capaces de ejecutar
+          JavaScript.
+        </p>
+
+        <p>
+          Cuando una página contiene código JavaScript, el navegador puede ejecutarlo
+          y utilizarlo para controlar parte del comportamiento de la aplicación.
+        </p>
+
+        <h3>JavaScript no es Java</h3>
+
+        <p>
+          Aunque sus nombres son parecidos, <strong>JavaScript y Java son lenguajes
+          diferentes</strong>.
+        </p>
+
+        <p>
+          Tienen características, entornos de ejecución, ecosistemas y usos diferentes.
+        </p>
+
+        <div class="caja caja-atencion">
+
+          <span class="caja-titulo">
+            ⚠️ Atención
+          </span>
+
+          <p>
+            <strong>JavaScript no es una versión de Java.</strong> Son dos lenguajes de
+            programación distintos. La similitud entre sus nombres es una causa
+            frecuente de confusión cuando se empieza a estudiar programación web.
+          </p>
+
+        </div>
+
+        <h3>JavaScript ya no se utiliza únicamente en el navegador</h3>
+
+        <p>
+          Aunque en DWEC estudiaremos principalmente JavaScript ejecutándose en el
+          cliente, actualmente también puede utilizarse en otros entornos.
+        </p>
+
+        <p>
+          Por ejemplo, <strong>Node.js</strong> permite ejecutar JavaScript fuera del
+          navegador y utilizarlo para desarrollar aplicaciones de servidor, herramientas
+          de desarrollo y otros tipos de programas.
+        </p>
+
+        <p>
+          Por eso debemos distinguir:
+          <strong>JavaScript → lenguaje de programación</strong> de
+          <strong>Navegador → uno de los entornos donde puede ejecutarse JavaScript</strong>.
+        </p>
+
+
+        <!-- ==========================================
+             CARACTERÍSTICAS DE JAVASCRIPT
+        ========================================== -->
+
+        <h2 id="caracteristicas-javascript">
+          Características principales de JavaScript
+        </h2>
+
+        <p>
+          JavaScript posee una serie de características que explican su importancia en
+          el desarrollo web.
+        </p>
+
+        <h3>Es un lenguaje de programación</h3>
+
+        <p>
+          JavaScript permite trabajar con:
+        </p>
+
+        <ul>
+          <li>datos;</li>
+          <li>variables;</li>
+          <li>operadores;</li>
+          <li>decisiones;</li>
+          <li>repeticiones;</li>
+          <li>funciones;</li>
+          <li>arrays;</li>
+          <li>objetos;</li>
+          <li>eventos;</li>
+          <li>operaciones asíncronas.</li>
+        </ul>
+
+        <p>
+          Iremos estudiando estos elementos progresivamente durante el módulo.
+        </p>
+
+        <h3>Es multiplataforma</h3>
+
+        <p>
+          Un mismo programa JavaScript puede ejecutarse en navegadores disponibles en
+          diferentes sistemas operativos. Esto permite desarrollar aplicaciones que
+          pueden utilizarse desde ordenadores, tablets o teléfonos móviles.
+        </p>
+
+        <h3>Está integrado en el ecosistema web</h3>
+
+        <p>
+          JavaScript trabaja directamente con muchas funcionalidades proporcionadas por
+          los navegadores. Esto permite crear aplicaciones capaces de responder a las
+          acciones del usuario y modificar dinámicamente la interfaz.
+        </p>
+
+        <h3>Es un lenguaje dinámico</h3>
+
+        <p>
+          JavaScript es un lenguaje <strong>dinámico</strong>. Algunas decisiones
+          relacionadas con los datos y su comportamiento se determinan durante la
+          ejecución del programa.
+        </p>
+
+        <p>
+          Más adelante veremos las consecuencias prácticas de esta característica
+          cuando estudiemos variables y tipos de datos.
+        </p>
+
+        <h3>Está basado en objetos</h3>
+
+        <p>
+          JavaScript permite trabajar ampliamente con objetos y también crear nuestros
+          propios objetos.
+        </p>
+
+        <p>
+          Estudiaremos esta característica con profundidad cuando lleguemos a la
+          programación orientada a objetos.
+        </p>
+
+        <h3>Soporta diferentes estilos de programación</h3>
+
+        <p>
+          JavaScript permite utilizar diferentes formas de organizar los programas,
+          entre ellas:
+        </p>
+
+        <ul>
+          <li>programación imperativa;</li>
+          <li>programación funcional;</li>
+          <li>programación orientada a objetos;</li>
+          <li>programación basada en eventos.</li>
+        </ul>
+
+        <p>
+          No necesitamos dominar todavía estos conceptos. Los iremos descubriendo
+          conforme avancemos.
+        </p>
+
+        <div class="caja caja-importante">
+
+          <span class="caja-titulo">
+            📌 Importante
+          </span>
+
+          <p>
+            JavaScript ha evolucionado enormemente desde sus primeras versiones.
+            Actualmente es un <strong>lenguaje de programación completo y de propósito
+            general</strong>, aunque su relación con la Web continúa siendo
+            especialmente importante.
+          </p>
+
+        </div>
+
+
+        <!-- ==========================================
+             JAVASCRIPT COMO LENGUAJE INTERPRETADO
+        ========================================== -->
+
+        <h2 id="javascript-interpretado">
+          JavaScript como lenguaje interpretado
+        </h2>
+
+        <p>
+          Tradicionalmente JavaScript se clasifica como un
+          <strong>lenguaje interpretado</strong> porque su código puede ser ejecutado
+          por un motor JavaScript sin que el programador tenga que generar previamente
+          un ejecutable independiente como ocurre en otros modelos de programación.
+        </p>
+
+        <p>
+          De forma simplificada podemos pensar:
+          <strong>Código JavaScript → Motor JavaScript → Ejecución</strong>.
+        </p>
+
+        <p>
+          Los navegadores incorporan motores especializados para ejecutar este código.
+        </p>
+
+        <div class="tabla-responsive">
+
+          <table class="tabla-apuntes">
+
+            <thead>
+              <tr>
+                <th>Navegador / entorno</th>
+                <th>Motor JavaScript</th>
+              </tr>
+            </thead>
+
+            <tbody>
+
+              <tr>
+                <td>Chrome</td>
+                <td>V8</td>
+              </tr>
+
+              <tr>
+                <td>Edge</td>
+                <td>V8</td>
+              </tr>
+
+              <tr>
+                <td>Firefox</td>
+                <td>SpiderMonkey</td>
+              </tr>
+
+              <tr>
+                <td>Safari</td>
+                <td>JavaScriptCore</td>
+              </tr>
+
+              <tr>
+                <td>Node.js</td>
+                <td>V8</td>
+              </tr>
+
+            </tbody>
+
+          </table>
+
+        </div>
+
+        <h3>¿Significa esto que JavaScript simplemente interpreta cada línea?</h3>
+
+        <p>
+          No exactamente.
+        </p>
+
+        <p>
+          Los motores JavaScript modernos utilizan técnicas mucho más sofisticadas para
+          conseguir un alto rendimiento. Entre ellas pueden utilizar
+          <strong>compilación JIT (Just-In-Time)</strong> y diferentes mecanismos de
+          optimización durante la ejecución.
+        </p>
+
+        <p>
+          Por eso, la separación clásica entre
+          <strong>lenguaje interpretado</strong> y <strong>lenguaje compilado</strong>
+          no siempre describe perfectamente cómo funcionan los lenguajes modernos.
+        </p>
+
+        <div class="caja caja-importante">
+
+          <span class="caja-titulo">
+            📌 Importante
+          </span>
+
+          <p>
+            A nivel introductorio podemos considerar JavaScript un lenguaje
+            interpretado, pero debemos saber que los motores modernos pueden
+            <strong>compilar y optimizar código internamente durante la ejecución</strong>.
+          </p>
+
+        </div>
+
+        <p>
+          Estudiaremos con más detalle las características de los lenguajes de script
+          en el apartado <strong>1.5</strong>.
+        </p>
+
+
+        <!-- ==========================================
+             JAVASCRIPT Y ECMASCRIPT
+        ========================================== -->
+
+        <h2 id="ecmascript">
+          JavaScript y ECMAScript
+        </h2>
+
+        <p>
+          Cuando estudiamos JavaScript aparece frecuentemente otro término:
+          <strong>ECMAScript</strong>.
+        </p>
+
+        <p>
+          Aunque están estrechamente relacionados, no significan exactamente lo mismo.
+        </p>
+
+        <p>
+          <strong>ECMAScript es la especificación que define las características
+          fundamentales que debe tener el lenguaje JavaScript.</strong>
+        </p>
+
+        <div class="esquema-web">
+          <div class="esquema-fila">
+
+            <div class="esquema-caja">
+              <strong>ECMAScript</strong>
+              <span>Especificación del lenguaje</span>
+            </div>
+
+            <div class="esquema-caja">
+              <strong>JavaScript</strong>
+              <span>Implementación basada en la especificación</span>
+            </div>
+
+            <div class="esquema-caja">
+              <strong>Navegador</strong>
+              <span>Ejecuta JavaScript mediante su motor</span>
+            </div>
+
+          </div>
+        </div>
+
+        <p>
+          La especificación establece cuestiones como:
+        </p>
+
+        <ul>
+          <li>sintaxis;</li>
+          <li>tipos de datos;</li>
+          <li>operadores;</li>
+          <li>estructuras del lenguaje;</li>
+          <li>funciones;</li>
+          <li>objetos estándar;</li>
+          <li>comportamiento de determinadas operaciones.</li>
+        </ul>
+
+        <h3>¿Por qué existe una especificación?</h3>
+
+        <p>
+          Porque JavaScript debe poder funcionar de manera coherente en diferentes
+          navegadores y entornos.
+        </p>
+
+        <p>
+          Si cada navegador implementara un lenguaje completamente diferente,
+          desarrollar aplicaciones web compatibles sería extremadamente complicado.
+        </p>
+
+        <p>
+          La existencia de un estándar permite que los fabricantes de navegadores
+          implementen un comportamiento común.
+        </p>
+
+        <h3>Versiones de ECMAScript</h3>
+
+        <p>
+          ECMAScript ha ido evolucionando mediante sucesivas versiones.
+        </p>
+
+        <p>
+          Una especialmente importante fue <strong>ECMAScript 2015</strong>, también
+          conocida como <strong>ES6</strong>, porque incorporó numerosas características
+          que forman parte del JavaScript moderno.
+        </p>
+
+        <p>
+          A partir de ahí, el estándar ha seguido evolucionando regularmente.
+        </p>
+
+        <p>
+          Durante el módulo utilizaremos <strong>JavaScript moderno</strong>, evitando
+          basarnos innecesariamente en formas antiguas de escribir código.
+        </p>
+
+        <div class="caja caja-atencion">
+
+          <span class="caja-titulo">
+            ⚠️ Atención
+          </span>
+
+          <p>
+            <strong>ECMAScript no es otro lenguaje que vayamos a estudiar además de
+            JavaScript.</strong> Cuando programemos en JavaScript estaremos utilizando
+            características definidas por la especificación ECMAScript.
+          </p>
+
+        </div>
+
+        <h3>ECMAScript no define todas las posibilidades del navegador</h3>
+
+        <p>
+          Hay otra diferencia importante.
+        </p>
+
+        <p>
+          ECMAScript define fundamentalmente el <strong>lenguaje JavaScript</strong>,
+          pero muchas funcionalidades que utilizamos al desarrollar aplicaciones web
+          son proporcionadas por el <strong>navegador mediante sus propias APIs</strong>.
+        </p>
+
+        <p>
+          Podemos distinguir:
+        </p>
+
+        <ul>
+          <li><strong>ECMAScript:</strong> variables, operadores, funciones, arrays, objetos...</li>
+          <li><strong>APIs del navegador:</strong> documento HTML, eventos, almacenamiento, temporizadores, comunicaciones...</li>
+        </ul>
+
+        <p>
+          Esta diferencia será cada vez más importante conforme avancemos en el módulo.
+        </p>
+
+
+        <!-- ==========================================
+             OTRAS TECNOLOGÍAS
+        ========================================== -->
+
+        <h2 id="otras-tecnologias">
+          Otros lenguajes y tecnologías de entorno cliente
+        </h2>
+
+        <p>
+          JavaScript es el lenguaje de programación fundamental del navegador, pero en
+          el desarrollo frontend actual también podemos encontrar otras tecnologías
+          relacionadas.
+        </p>
+
+        <h3>TypeScript</h3>
+
+        <p>
+          <strong>TypeScript</strong> es un lenguaje desarrollado como una extensión de
+          JavaScript.
+        </p>
+
+        <p>
+          Añade, entre otras características, un <strong>sistema de tipos estático</strong>
+          que permite detectar determinados errores durante el desarrollo.
+        </p>
+
+        <p>
+          El código TypeScript normalmente se transforma posteriormente en JavaScript
+          para que pueda ser ejecutado en los entornos de destino.
+        </p>
+
+        <p>
+          Podemos representarlo así:
+          <strong>TypeScript → transformación → JavaScript → navegador</strong>.
+        </p>
+
+        <p>
+          TypeScript se utiliza ampliamente en proyectos profesionales, especialmente
+          en aplicaciones grandes.
+        </p>
+
+        <div class="caja caja-importante">
+
+          <span class="caja-titulo">
+            📌 Importante
+          </span>
+
+          <p>
+            Los navegadores ejecutan JavaScript de forma nativa. Tecnologías como
+            TypeScript necesitan normalmente un proceso de transformación antes de que
+            el resultado pueda ejecutarse como JavaScript en el navegador.
+          </p>
+
+        </div>
+
+        <h3>WebAssembly</h3>
+
+        <p>
+          Otra tecnología que puede aparecer en aplicaciones web modernas es
+          <strong>WebAssembly (Wasm)</strong>.
+        </p>
+
+        <p>
+          Permite ejecutar en el navegador código en un formato diseñado para ofrecer
+          un rendimiento elevado y puede utilizarse junto con JavaScript.
+        </p>
+
+        <p>
+          Se emplea especialmente en determinados escenarios exigentes, como
+          aplicaciones gráficas, herramientas complejas, juegos o software que necesita
+          ejecutar cálculos intensivos.
+        </p>
+
+        <p>
+          No lo estudiaremos en profundidad en este módulo.
+        </p>
+
+        <h3>Herramientas que transforman código</h3>
+
+        <p>
+          El desarrollo frontend moderno también utiliza herramientas capaces de:
+        </p>
+
+        <ul>
+          <li>transformar código;</li>
+          <li>agrupar archivos;</li>
+          <li>optimizar recursos;</li>
+          <li>gestionar dependencias;</li>
+          <li>preparar una aplicación para su publicación.</li>
+        </ul>
+
+        <p>
+          Las iremos encontrando cuando avancemos hacia proyectos más complejos.
+        </p>
+
+        <div class="caja caja-atencion">
+
+          <span class="caja-titulo">
+            ⚠️ Atención
+          </span>
+
+          <p>
+            Que utilicemos TypeScript, React u otras herramientas no significa que
+            JavaScript desaparezca. En una aplicación web convencional, el navegador
+            acaba ejecutando <strong>JavaScript y las APIs web disponibles en ese
+            entorno</strong>.
+          </p>
+
+        </div>
+
+
+        <!-- ==========================================
+             FRAMEWORKS Y LIBRERÍAS
+        ========================================== -->
+
+        <h2 id="frameworks-librerias">
+          Frameworks y librerías JavaScript
+        </h2>
+
+        <p>
+          Cuando las aplicaciones web crecen, desarrollar toda su funcionalidad desde
+          cero puede resultar complejo.
+        </p>
+
+        <p>
+          Por este motivo existen <strong>librerías y frameworks</strong> que
+          proporcionan herramientas, componentes y estructuras reutilizables.
+        </p>
+
+        <h3>Qué es una librería</h3>
+
+        <p>
+          Una <strong>librería</strong> proporciona código ya desarrollado que podemos
+          utilizar desde nuestros programas para resolver determinadas tareas.
+        </p>
+
+        <p>
+          Nuestro código decide cuándo utilizar las funcionalidades de la librería.
+        </p>
+
+        <h3>Qué es un framework</h3>
+
+        <p>
+          Un <strong>framework</strong> proporciona una estructura más amplia para
+          desarrollar una aplicación.
+        </p>
+
+        <p>
+          Normalmente establece una determinada forma de organizar el proyecto y ofrece
+          mecanismos para construir sus diferentes partes.
+        </p>
+
+        <p>
+          La frontera entre ambos conceptos no siempre es completamente rígida, pero
+          esta distinción nos sirve como primera aproximación.
+        </p>
+
+        <h3>React</h3>
+
+        <p>
+          <strong>React</strong> es una biblioteca para construir interfaces de usuario
+          mediante componentes.
+        </p>
+
+        <p>
+          Permite dividir una interfaz en piezas reutilizables y actualizarla cuando
+          cambian los datos de la aplicación.
+        </p>
+
+        <p>
+          En este módulo dedicaremos la <strong>UT10</strong> a realizar una introducción
+          específica a React.
+        </p>
+
+        <h3>Angular</h3>
+
+        <p>
+          <strong>Angular</strong> es una plataforma y framework para desarrollar
+          aplicaciones web.
+        </p>
+
+        <p>
+          Proporciona una estructura amplia e integra numerosas herramientas para
+          organizar proyectos complejos.
+        </p>
+
+        <h3>Vue</h3>
+
+        <p>
+          <strong>Vue</strong> es un framework progresivo para construir interfaces de
+          usuario.
+        </p>
+
+        <p>
+          Puede utilizarse de forma gradual, desde pequeñas partes de una página hasta
+          aplicaciones completas.
+        </p>
+
+        <h3>¿Debemos aprender primero un framework?</h3>
+
+        <p>
+          Antes de trabajar con estas herramientas es fundamental comprender
+          correctamente <strong>JavaScript</strong>.
+        </p>
+
+        <p>
+          React, Angular y Vue utilizan conceptos que se apoyan en conocimientos del
+          propio lenguaje.
+        </p>
+
+        <p>
+          Por eso nuestro recorrido será:
+          <strong>JavaScript → DOM y eventos → asincronía → aplicaciones web → React</strong>.
+        </p>
+
+        <div class="caja caja-importante">
+
+          <span class="caja-titulo">
+            📌 Importante
+          </span>
+
+          <p>
+            Aprender un framework sin comprender JavaScript suele provocar que el
+            programador sepa repetir determinadas estructuras, pero tenga dificultades
+            para entender qué está ocurriendo realmente.
+          </p>
+
+        </div>
+
+        <div class="caja caja-ejemplo">
+
+          <span class="caja-titulo">
+            💻 Ejemplo DAW
+          </span>
+
+          <p>
+            Una tienda online podría desarrollar su interfaz utilizando React, Angular
+            o Vue. Sin embargo, detrás de componentes, eventos, funciones y peticiones
+            al servidor continúan existiendo conceptos fundamentales de JavaScript que
+            debemos dominar.
+          </p>
+
+        </div>
+
+
+        <!-- ==========================================
+             ACTIVIDAD DE REFLEXIÓN
+        ========================================== -->
+
+        <div class="actividad-reflexion">
+
+          <h3>
+            💭 Piensa
+          </h3>
+
+          <p>
+            Una empresa desarrolla una aplicación web y utiliza HTML para definir los
+            productos de una página, CSS para organizar las tarjetas y sus colores,
+            JavaScript para calcular el total del carrito, React para construir la
+            interfaz mediante componentes y una API para obtener del servidor la
+            información de los productos.
+          </p>
+
+          <p>
+            ¿Qué papel desempeña cada una de estas tecnologías?
+            ¿React sustituye a JavaScript?
+          </p>
+
+          <details class="solucion-desplegable">
+
+            <summary>
+              Ver una posible solución
+            </summary>
+
+            <div class="contenido-solucion">
+
+              <p>
+                HTML proporciona la <strong>estructura y el contenido</strong> de la
+                página.
+              </p>
+
+              <p>
+                CSS controla su <strong>presentación visual</strong>.
+              </p>
+
+              <p>
+                JavaScript aporta la <strong>lógica y el comportamiento</strong> de la
+                aplicación, por ejemplo, el cálculo del carrito.
+              </p>
+
+              <p>
+                React facilita la construcción de la
+                <strong>interfaz mediante componentes</strong>, pero
+                <strong>no sustituye a JavaScript</strong>. React se utiliza dentro del
+                ecosistema JavaScript y para trabajar correctamente con él necesitamos
+                conocer el lenguaje.
+              </p>
+
+              <p>
+                La API permite que el cliente se <strong>comunique con el servidor</strong>
+                para obtener los datos de los productos.
+              </p>
+
+            </div>
+
+          </details>
+
+        </div>
+
+      </section>
+
+
+      <!-- ==========================================
+           NAVEGACIÓN
+      ========================================== -->
+
+      <nav class="navegacion-paginas">
+
+        <a
+          class="nav-pagina nav-anterior"
+          href="../1-3/index.html"
+        >
+
+          <span class="nav-etiqueta">
+            Anterior
+          </span>
+
+          <strong>
+            ‹ 1.3 Ejecución de código en cliente y servidor
+          </strong>
+
+        </a>
+
+        <a
+          class="nav-pagina nav-siguiente"
+          href="../1-5/index.html"
+        >
+
+          <span class="nav-etiqueta">
+            Siguiente
+          </span>
+
+          <strong>
+            1.5 Características de los lenguajes de script ›
+          </strong>
+
+        </a>
+
+      </nav>
+
+    </main>
+
+
+    <!-- ==========================================
+         ÍNDICE DERECHO
+    ========================================== -->
+
+    <aside class="indice-derecho">
+
+      <h2>
+        Contenidos del apartado
+      </h2>
+
+      <ul>
+
+        <li>
+          <a href="#lenguajes-web">
+            Lenguajes utilizados en el desarrollo web
+          </a>
+        </li>
+
+        <li>
+          <a href="#html-css-javascript">
+            HTML, CSS y JavaScript: funciones diferentes
+          </a>
+        </li>
+
+        <li>
+          <a href="#que-es-javascript">
+            Qué es JavaScript
+          </a>
+        </li>
+
+        <li>
+          <a href="#caracteristicas-javascript">
+            Características principales de JavaScript
+          </a>
+        </li>
+
+        <li>
+          <a href="#javascript-interpretado">
+            JavaScript como lenguaje interpretado
+          </a>
+        </li>
+
+        <li>
+          <a href="#ecmascript">
+            JavaScript y ECMAScript
+          </a>
+        </li>
+
+        <li>
+          <a href="#otras-tecnologias">
+            Otros lenguajes y tecnologías de entorno cliente
+          </a>
+        </li>
+
+        <li>
+          <a href="#frameworks-librerias">
+            Frameworks y librerías JavaScript
+          </a>
+        </li>
+
+      </ul>
+
+    </aside>
+
+  </div>
+
+
+  <!-- ==========================================
+       PIE
+  ========================================== -->
+
+  <footer class="footer">
+
+    <p>
+
+      Material elaborado por
+      <strong>Eva Ballestero Cubeles</strong>
+
+      · Licencia
+
+      <span class="licencia">
+        CC BY-NC-SA 4.0
+      </span>
+
+      <a
+        class="enlace-licencia"
+        href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.es"
+        target="_blank"
+        rel="license noopener noreferrer"
+        aria-label="Licencia Creative Commons BY-NC-SA 4.0"
+      >
+
+        <img
+          class="icono-licencia"
+          src="../../../img/licencias/cc-by-nc-sa.png"
+          alt="Licencia Creative Commons BY-NC-SA 4.0"
+        >
+
+      </a>
+
+    </p>
+
+  </footer>
+
+
+  <!-- ==========================================
+       JAVASCRIPT COMÚN
+  ========================================== -->
+
+  <script src="../../../js/modulos.js"></script>
+
+  <script>
+
+    const menuModulos =
+      document.getElementById("menuModulos");
+
+    const botonTema =
+      document.getElementById("botonTema");
+
+    const modulosActivos =
+      modulos.filter(modulo => modulo.activo === true);
+
+
+    modulosActivos.forEach(modulo => {
+
+      const enlace =
+        document.createElement("a");
+
+      enlace.href =
+        `../../../${modulo.carpeta}/index.html`;
+
+      enlace.textContent =
+        modulo.siglas;
+
+      enlace.title =
+        modulo.nombre;
+
+      if (modulo.siglas === "DWEC") {
+
+        enlace.style.color =
+          "var(--verde-principal)";
+
+      }
+
+      menuModulos.appendChild(enlace);
+
+    });
+
+
+    /* ==========================================
+       MODO OSCURO
+    ========================================== */
+
+    const temaGuardado =
+      localStorage.getItem("tema");
+
+    if (temaGuardado === "oscuro") {
+
+      document.body.classList.add("modo-oscuro");
+
+      botonTema.textContent =
+        "🌙";
+
+    }
+
+    botonTema.addEventListener("click", () => {
+
+      document.body.classList.toggle("modo-oscuro");
+
+      const estaOscuro =
+        document.body.classList.contains("modo-oscuro");
+
+      botonTema.textContent =
+        estaOscuro ? "🌙" : "☀️";
+
+      localStorage.setItem(
+        "tema",
+        estaOscuro ? "oscuro" : "claro"
+      );
+
+    });
+
+
+    /* ==========================================
+       MENÚS DESPLEGABLES
+    ========================================== */
+
+    const botonesDesplegar =
+      document.querySelectorAll(".boton-desplegar");
+
+    botonesDesplegar.forEach((boton) => {
+
+      boton.addEventListener("click", () => {
+
+        const idSubmenu =
+          boton.getAttribute("data-target");
+
+        const submenu =
+          document.getElementById(idSubmenu);
+
+        if (!submenu) {
+          return;
+        }
+
+        const estaAbierto =
+          submenu.classList.contains("submenu-abierto");
+
+        if (estaAbierto) {
+
+          submenu.classList.remove("submenu-abierto");
+
+          boton.textContent =
+            "›";
+
+          boton.setAttribute(
+            "aria-expanded",
+            "false"
+          );
+
+        } else {
+
+          submenu.classList.add("submenu-abierto");
+
+          boton.textContent =
+            "⌄";
+
+          boton.setAttribute(
+            "aria-expanded",
+            "true"
+          );
+
+        }
+
+      });
+
+    });
+
+
+    /* ==========================================
+       COPIAR BLOQUES DE CÓDIGO
+    ========================================== */
+
+    document.addEventListener("click", async (evento) => {
+
+      const boton =
+        evento.target.closest(".boton-copiar");
+
+      if (!boton) {
+        return;
+      }
+
+      const bloque =
+        boton.closest(".bloque-codigo");
+
+      if (!bloque) {
+        return;
+      }
+
+      const codigo =
+        bloque.querySelector("code");
+
+      if (!codigo) {
+        return;
+      }
+
+      const textoOriginal =
+        boton.textContent;
+
+      try {
+
+        await navigator.clipboard.writeText(
+          codigo.textContent
+        );
+
+        boton.textContent =
+          "✔ Copiado";
+
+        setTimeout(() => {
+
+          boton.textContent =
+            textoOriginal;
+
+        }, 1600);
+
+      } catch (error) {
+
+        boton.textContent =
+          "Error al copiar";
+
+        setTimeout(() => {
+
+          boton.textContent =
+            textoOriginal;
+
+        }, 1600);
+
+      }
+
+    });
+
+  </script>
+
+</body>
+</html>
