@@ -1,1 +1,1702 @@
+<!DOCTYPE html>
+<html lang="es">
+  
+<head>
+  <meta charset="UTF-8">
 
+  <meta
+    name="viewport"
+    content="width=device-width, initial-scale=1.0"
+  >
+
+  <meta
+    name="description"
+    content="2.1 - Sintaxis básica de JavaScript."
+  >
+
+  <title>2.1 - Sintaxis básica de JavaScript</title>
+
+  <link rel="icon" type="image/png" href="../../../img/favicon.png?v=5">
+  <link rel="stylesheet" href="../../../css/estilos.css">
+
+  <style>
+
+    /* ==========================================
+       ESTRUCTURA DE LA UT
+    ========================================== */
+
+    .pagina-ut {
+      display: grid;
+      grid-template-columns: 280px 1fr 260px;
+      min-height: calc(100vh - 68px);
+    }
+
+
+    /* ==========================================
+       COLUMNA IZQUIERDA
+    ========================================== */
+
+    .sidebar {
+      border-right: 1px solid var(--borde);
+      background-color: var(--fondo-pagina);
+
+      padding: 12px 10px 30px;
+
+      position: sticky;
+      top: 68px;
+
+      height: calc(100vh - 68px);
+      overflow-y: auto;
+    }
+
+    .sidebar-modulo {
+      display: block;
+      margin-bottom: 8px;
+      padding: 8px 14px;
+
+      color: #626873;
+
+      font-size: 17px;
+      font-weight: 700;
+      line-height: 1.3;
+
+      text-decoration: none;
+      border-radius: 6px;
+
+      transition:
+        color 0.2s ease,
+        background-color 0.2s ease;
+    }
+
+    .sidebar-modulo:hover {
+      color: var(--verde-principal);
+      background-color: #f3f4f6;
+    }
+
+    body.modo-oscuro .sidebar-modulo:hover {
+      background-color: #273244;
+    }
+
+
+    /* ==========================================
+       MENÚ LATERAL DESPLEGABLE
+    ========================================== */
+
+    .menu-desplegable {
+      width: 100%;
+    }
+
+    .menu-cabecera {
+      display: flex;
+      align-items: center;
+      gap: 4px;
+
+      width: 100%;
+
+      border-radius: 6px;
+    }
+
+    .menu-cabecera-activa {
+      background-color: #f1f1f1;
+    }
+
+    .menu-cabecera-activa > .menu-titulo {
+      color: var(--verde-principal);
+    }
+
+    .menu-titulo {
+      flex: 1;
+
+      display: block;
+
+      padding: 11px 8px 11px 14px;
+
+      color: #626873;
+
+      font-size: 16px;
+      font-weight: 650;
+      line-height: 1.4;
+
+      text-decoration: none;
+    }
+
+    .menu-titulo:hover {
+      color: var(--verde-principal);
+    }
+
+    .boton-desplegar {
+      width: 36px;
+      height: 36px;
+
+      margin-right: 5px;
+      padding: 0;
+
+      display: flex;
+      align-items: center;
+      justify-content: center;
+
+      flex-shrink: 0;
+
+      border: 0;
+      border-radius: 6px;
+
+      background: transparent;
+
+      color: #777;
+
+      font-family: inherit;
+      font-size: 24px;
+      line-height: 1;
+
+      cursor: pointer;
+    }
+
+    .boton-desplegar:hover {
+      background-color: #e5e7eb;
+      color: var(--verde-principal);
+    }
+
+    .submenu {
+      display: none;
+    }
+
+    .submenu.submenu-abierto {
+      display: block;
+    }
+
+    .menu-apartado {
+      margin-left: 14px;
+    }
+
+    .menu-apartado .menu-titulo {
+      padding-top: 9px;
+      padding-bottom: 9px;
+
+      font-size: 15px;
+      font-weight: 600;
+    }
+
+    .enlace-apartado-simple {
+      display: block;
+
+      margin-left: 14px;
+      padding: 10px 14px;
+
+      color: #626873;
+
+      font-size: 15px;
+      font-weight: 600;
+      line-height: 1.4;
+
+      text-decoration: none;
+
+      border-radius: 6px;
+
+      transition:
+        background-color 0.2s ease,
+        color 0.2s ease;
+    }
+
+    .enlace-apartado-simple:hover {
+      background-color: #f3f4f6;
+      color: var(--verde-principal);
+    }
+
+    .submenu-apartados {
+      margin: 2px 0 5px 28px;
+
+      border-left: 2px solid #e0e3e7;
+    }
+
+    .submenu-apartados a {
+      display: block;
+
+      padding: 7px 10px;
+
+      color: #777d87;
+
+      font-size: 14px;
+      font-weight: 500;
+      line-height: 1.35;
+
+      text-decoration: none;
+    }
+
+    .submenu-apartados a:hover {
+      color: var(--verde-principal);
+    }
+
+    body.modo-oscuro .menu-cabecera-activa {
+      background-color: #273244;
+    }
+
+    body.modo-oscuro .boton-desplegar:hover {
+      background-color: #334155;
+    }
+
+    body.modo-oscuro .enlace-apartado-simple:hover {
+      background-color: #273244;
+    }
+
+    body.modo-oscuro .submenu-apartados {
+      border-left-color: #3a4659;
+    }
+
+
+    /* ==========================================
+       RESTO DE UT
+    ========================================== */
+
+    .sidebar-ut-cerrada {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+
+      padding: 13px 14px;
+
+      color: #626873;
+
+      text-decoration: none;
+
+      font-size: 16px;
+      font-weight: 650;
+      line-height: 1.35;
+
+      border-radius: 6px;
+
+      transition:
+        background-color 0.2s ease,
+        color 0.2s ease;
+    }
+
+    .sidebar-ut-cerrada:hover {
+      background-color: #f3f4f6;
+      color: var(--verde-principal);
+    }
+
+    body.modo-oscuro .sidebar-ut-cerrada:hover {
+      background-color: #273244;
+    }
+
+
+    /* ==========================================
+       ZONA CENTRAL
+    ========================================== */
+
+    .contenido-ut {
+      padding: 28px 34px 70px;
+
+      max-width: 1150px;
+      width: 100%;
+    }
+
+    .migas {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+
+      margin-bottom: 30px;
+
+      font-size: 14px;
+    }
+
+    .miga-inicio {
+      text-decoration: none;
+      font-size: 18px;
+    }
+
+    .miga-separador {
+      color: #999;
+      font-size: 22px;
+    }
+
+    .miga-modulo {
+      color: var(--texto-secundario);
+      text-decoration: none;
+    }
+
+    .miga-modulo:hover {
+      color: var(--verde-principal);
+    }
+
+    .miga-actual {
+      padding: 8px 14px;
+
+      background-color: #f3f3f3;
+      border-radius: 24px;
+
+      color: var(--verde-principal);
+    }
+
+    body.modo-oscuro .miga-actual {
+      background-color: #273244;
+    }
+
+    .contenido-ut h1 {
+      margin: 0 0 30px;
+
+      font-size: clamp(38px, 5vw, 58px);
+      line-height: 1.12;
+    }
+
+
+    /* ==========================================
+       CONTENIDO DE LOS APARTADOS
+    ========================================== */
+
+    .apartado-ut {
+      margin-top: 55px;
+      scroll-margin-top: 95px;
+    }
+
+    .apartado-ut h2 {
+      margin: 0 0 24px;
+
+      font-size: 32px;
+      line-height: 1.2;
+
+      scroll-margin-top: 95px;
+    }
+
+    .apartado-ut h3 {
+      margin: 34px 0 16px;
+
+      font-size: 24px;
+      line-height: 1.3;
+    }
+
+    .apartado-ut p {
+      margin: 0 0 18px;
+
+      font-size: 18px;
+      line-height: 1.75;
+    }
+
+    .apartado-ut ul {
+      margin: 16px 0 24px;
+      padding-left: 28px;
+    }
+
+    .apartado-ut li {
+      margin-bottom: 10px;
+
+      font-size: 17px;
+      line-height: 1.6;
+    }
+
+
+    /* ==========================================
+       CAJAS DE LOS APUNTES
+    ========================================== */
+
+    .caja {
+      margin: 28px 0;
+      padding: 18px 20px;
+
+      border-left: 5px solid;
+      border-radius: 8px;
+
+      line-height: 1.65;
+    }
+
+    .caja p {
+      margin: 0;
+
+      font-size: 17px;
+    }
+
+    .caja-titulo {
+      display: block;
+
+      margin-bottom: 8px;
+
+      font-size: 17px;
+      font-weight: 700;
+    }
+
+    .caja-importante {
+      background-color: #eef8f1;
+      border-left-color: #2f9e5b;
+    }
+
+    .caja-atencion {
+      background-color: #fff7e8;
+      border-left-color: #e09b27;
+    }
+
+    .caja-ejemplo {
+      background-color: #eef5ff;
+      border-left-color: #3f7acb;
+    }
+
+    .caja-curiosidad {
+      background-color: #f7f1ff;
+      border-left-color: #8b5cc7;
+    }
+
+    body.modo-oscuro .caja-importante {
+      background-color: #20372a;
+    }
+
+    body.modo-oscuro .caja-atencion {
+      background-color: #3b3020;
+    }
+
+    body.modo-oscuro .caja-ejemplo {
+      background-color: #23344a;
+    }
+
+    body.modo-oscuro .caja-curiosidad {
+      background-color: #332944;
+    }
+
+
+    /* ==========================================
+       TABLAS
+    ========================================== */
+
+    .tabla-responsive {
+      width: 100%;
+
+      margin: 28px 0;
+
+      overflow-x: auto;
+    }
+
+    .tabla-apuntes {
+      width: 100%;
+
+      border-collapse: collapse;
+
+      font-size: 16px;
+    }
+
+    .tabla-apuntes th,
+    .tabla-apuntes td {
+      padding: 14px 16px;
+
+      border: 1px solid var(--borde);
+
+      text-align: left;
+      vertical-align: top;
+
+      line-height: 1.55;
+    }
+
+    .tabla-apuntes th {
+      background-color: #f1f3f5;
+
+      font-weight: 700;
+    }
+
+    body.modo-oscuro .tabla-apuntes th {
+      background-color: #273244;
+    }
+
+
+    /* ==========================================
+       ESQUEMAS VISUALES
+    ========================================== */
+
+    .esquema-web {
+      max-width: 700px;
+
+      margin: 30px auto;
+    }
+
+    .esquema-fila {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 14px;
+
+      margin-top: 16px;
+    }
+
+    .esquema-caja {
+      padding: 18px 16px;
+
+      background-color: var(--fondo-tarjeta);
+
+      border: 1px solid var(--borde);
+      border-radius: 10px;
+
+      text-align: center;
+    }
+
+    .esquema-caja strong {
+      display: block;
+
+      margin-bottom: 5px;
+
+      color: var(--verde-principal);
+
+      font-size: 18px;
+    }
+
+    .esquema-caja span {
+      color: var(--texto-secundario);
+
+      font-size: 15px;
+      line-height: 1.45;
+    }
+
+
+    /* ==========================================
+       ACTIVIDAD DE REFLEXIÓN
+    ========================================== */
+
+    .actividad-reflexion {
+      margin: 32px 0;
+      padding: 22px 24px;
+
+      background-color: #f7f8fa;
+
+      border: 1px solid var(--borde);
+      border-radius: 10px;
+    }
+
+    .actividad-reflexion h3 {
+      margin: 0 0 12px;
+
+      color: var(--verde-principal);
+
+      font-size: 20px;
+    }
+
+    .actividad-reflexion p {
+      margin: 0 0 14px;
+
+      font-size: 17px;
+      line-height: 1.65;
+    }
+
+    body.modo-oscuro .actividad-reflexion {
+      background-color: #232d3d;
+    }
+
+
+    /* ==========================================
+       SOLUCIÓN DESPLEGABLE
+    ========================================== */
+
+    .solucion-desplegable {
+      margin-top: 20px;
+    }
+
+    .solucion-desplegable summary {
+      display: inline-block;
+
+      padding: 10px 16px;
+
+      background-color: #eef8f1;
+
+      border: 1px solid #b9dfc6;
+      border-radius: 7px;
+
+      color: var(--verde-principal);
+
+      font-size: 16px;
+      font-weight: 700;
+
+      cursor: pointer;
+      user-select: none;
+    }
+
+    .solucion-desplegable summary:hover {
+      background-color: #e2f3e7;
+    }
+
+    .contenido-solucion {
+      margin-top: 16px;
+      padding: 18px 20px;
+
+      background-color: var(--fondo-pagina);
+
+      border-left: 4px solid var(--verde-principal);
+      border-radius: 6px;
+    }
+
+    .contenido-solucion p {
+      margin: 0 0 12px;
+
+      font-size: 16px;
+      line-height: 1.65;
+    }
+
+    .contenido-solucion p:last-child {
+      margin-bottom: 0;
+    }
+
+    body.modo-oscuro .solucion-desplegable summary {
+      background-color: #20372a;
+      border-color: #315d40;
+    }
+
+
+    /* ==========================================
+       BLOQUES DE CÓDIGO DWEC
+    ========================================== */
+
+    .bloque-codigo {
+      margin: 28px 0;
+
+      border: 1px solid #3b3b3b;
+      border-radius: 9px;
+
+      overflow: hidden;
+
+      background-color: #1e1e1e;
+    }
+
+    .cabecera-codigo {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+
+      padding: 10px 14px;
+
+      background-color: #2b2b2b;
+
+      color: #f3f4f6;
+
+      font-size: 14px;
+    }
+
+    .lenguaje-codigo {
+      font-weight: 700;
+    }
+
+    .boton-copiar {
+      padding: 6px 11px;
+
+      border: 1px solid #5c5c5c;
+      border-radius: 6px;
+
+      background-color: #383838;
+
+      color: #f3f4f6;
+
+      font-family: inherit;
+      font-size: 13px;
+
+      cursor: pointer;
+
+      transition:
+        background-color 0.2s ease,
+        border-color 0.2s ease;
+    }
+
+    .boton-copiar:hover {
+      background-color: #484848;
+      border-color: #777;
+    }
+
+    .bloque-codigo pre {
+      margin: 0;
+      padding: 18px 20px;
+
+      overflow-x: auto;
+
+      tab-size: 2;
+    }
+
+    .bloque-codigo code {
+      color: #f5f5f5;
+
+      font-family:
+        Consolas,
+        "Courier New",
+        monospace;
+
+      font-size: 15px;
+      line-height: 1.6;
+
+      white-space: pre;
+    }
+
+
+    /* ==========================================
+       COLUMNA DERECHA
+    ========================================== */
+
+    .indice-derecho {
+      padding: 28px 22px 100px;
+
+      border-left: 1px solid var(--borde);
+
+      position: sticky;
+      top: 68px;
+
+      height: calc(100vh - 68px);
+
+      overflow-y: auto;
+
+      box-sizing: border-box;
+    }
+
+    .indice-derecho h2 {
+      margin: 8px 0 20px;
+
+      font-size: 17px;
+      color: #555b65;
+    }
+
+    body.modo-oscuro .indice-derecho h2 {
+      color: #d1d5db;
+    }
+
+    .indice-derecho ul {
+      margin: 0;
+      padding-left: 18px;
+    }
+
+    .indice-derecho li {
+      margin-bottom: 12px;
+    }
+
+    .indice-derecho a {
+      color: var(--texto-secundario);
+
+      text-decoration: none;
+
+      font-size: 14px;
+      line-height: 1.4;
+    }
+
+    .indice-derecho a:hover {
+      color: var(--verde-principal);
+    }
+
+
+    /* ==========================================
+       NAVEGACIÓN ANTERIOR / SIGUIENTE
+    ========================================== */
+
+    .navegacion-paginas {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 20px;
+
+      margin-top: 50px;
+    }
+
+    .nav-pagina {
+      min-height: 100px;
+      padding: 18px 20px;
+
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+
+      border: 1px solid var(--borde);
+      border-radius: 8px;
+
+      text-decoration: none;
+
+      background-color: var(--fondo-tarjeta);
+    }
+
+    .nav-anterior {
+      align-items: flex-start;
+      text-align: left;
+    }
+
+    .nav-siguiente {
+      align-items: flex-end;
+      text-align: right;
+    }
+
+    .nav-etiqueta {
+      margin-bottom: 5px;
+
+      color: var(--texto-secundario);
+
+      font-size: 14px;
+    }
+
+    .nav-pagina strong {
+      color: var(--verde-principal);
+
+      font-size: 16px;
+      line-height: 1.4;
+    }
+
+    .nav-pagina:hover {
+      border-color: var(--verde-principal);
+    }
+
+
+    /* ==========================================
+       RESPONSIVE
+    ========================================== */
+
+    @media (max-width: 1100px) {
+
+      .pagina-ut {
+        grid-template-columns: 250px 1fr;
+      }
+
+      .indice-derecho {
+        display: none;
+      }
+
+    }
+
+    @media (max-width: 760px) {
+
+      .pagina-ut {
+        display: block;
+      }
+
+      .sidebar {
+        position: static;
+
+        width: 100%;
+        height: auto;
+
+        border-right: 0;
+        border-bottom: 1px solid var(--borde);
+      }
+
+      .contenido-ut {
+        padding: 28px 20px 60px;
+      }
+
+      .contenido-ut h1 {
+        font-size: 36px;
+      }
+
+      .navegacion-paginas {
+        grid-template-columns: 1fr;
+      }
+
+      .nav-siguiente {
+        align-items: flex-start;
+        text-align: left;
+      }
+
+      .esquema-fila {
+        grid-template-columns: 1fr;
+      }
+
+    }
+
+  </style>
+
+</head>
+
+
+<body>
+
+<header class="navbar">
+
+    <a class="inicio" href="../../../index.html">
+
+      <img
+        src="../../../img/profesora-castana.png?v=2"
+        alt=""
+        class="icono-profesora"
+      >
+
+      <span>Inicio</span>
+
+    </a>
+
+    <nav
+      id="menuModulos"
+      class="menu-modulos"
+      aria-label="Módulos formativos"
+    ></nav>
+
+    <button
+      id="botonTema"
+      class="boton-tema"
+      type="button"
+      aria-label="Cambiar entre modo claro y oscuro"
+      title="Cambiar tema"
+    >
+      ☀️
+    </button>
+
+  </header>
+
+  <div class="pagina-ut">
+
+    <aside class="sidebar">
+
+      <a class="sidebar-modulo" href="../../index.html">
+        Desarrollo web en entorno cliente
+      </a>
+
+      <a class="sidebar-ut-cerrada" href="../../ut1/index.html">
+        <span>UT1 - Introducción al desarrollo web en entorno cliente</span>
+        <span>›</span>
+      </a>
+
+      <div class="menu-desplegable">
+        <div class="menu-cabecera menu-cabecera-activa">
+          <a class="menu-titulo" href="../index.html">
+            UT2 - Fundamentos de JavaScript: variables, tipos y operadores
+          </a>
+          <button class="boton-desplegar" type="button" data-target="submenu-ut2" aria-expanded="true">⌄</button>
+        </div>
+
+        <div id="submenu-ut2" class="submenu submenu-abierto">
+
+          <div class="menu-desplegable menu-apartado">
+            <div class="menu-cabecera menu-cabecera-activa">
+              <a class="menu-titulo" href="index.html">2.1 Sintaxis básica de JavaScript</a>
+              <button class="boton-desplegar" type="button" data-target="submenu-2-1" aria-expanded="true">⌄</button>
+            </div>
+            <div id="submenu-2-1" class="submenu submenu-apartados submenu-abierto">
+              <a href="#sentencias">Instrucciones y sentencias</a>
+              <a href="#punto-coma">Uso del punto y coma</a>
+              <a href="#bloques">Bloques de código</a>
+              <a href="#case-sensitive">Mayúsculas y minúsculas</a>
+              <a href="#identificadores">Identificadores</a>
+              <a href="#palabras-reservadas">Palabras reservadas</a>
+              <a href="#expresiones">Expresiones básicas</a>
+            </div>
+          </div>
+          <a class="enlace-apartado-simple" href="../2-2/index.html">2.2 Variables, constantes e identificadores</a>
+          <a class="enlace-apartado-simple" href="../2-3/index.html">2.3 Tipos de datos en JavaScript</a>
+          <a class="enlace-apartado-simple" href="../2-4/index.html">2.4 Conversión de tipos</a>
+          <a class="enlace-apartado-simple" href="../2-5/index.html">2.5 Operadores</a>
+          <a class="enlace-apartado-simple" href="../2-6/index.html">2.6 Cadenas de texto y template literals</a>
+          <a class="enlace-apartado-simple" href="../2-7/index.html">2.7 Números y objeto Math</a>
+          <a class="enlace-apartado-simple" href="../2-8/index.html">2.8 Entrada y salida básica de datos</a>
+          <a class="enlace-apartado-simple" href="../2-9/index.html">2.9 Comentarios y buenas prácticas</a>
+          <a class="enlace-apartado-simple" href="../2-10/index.html">2.10 Ámbito de las variables</a>
+          <a class="enlace-apartado-simple" href="../2-11/index.html">2.11 Prueba y depuración del código</a>
+          <a class="enlace-apartado-simple" href="../resumen/index.html">✏️ Resumen de la UT2</a>
+          <a class="enlace-apartado-simple" href="../actividades/index.html">📝 Actividades de la UT2</a>
+        </div>
+      </div>
+
+      <a class="sidebar-ut-cerrada" href="../../ut3/index.html"><span>UT3 - Estructuras de control en JavaScript</span><span>›</span></a>
+      <a class="sidebar-ut-cerrada" href="../../ut4/index.html"><span>UT4 - Arrays y estructuras de datos en JavaScript</span><span>›</span></a>
+      <a class="sidebar-ut-cerrada" href="../../ut5/index.html"><span>UT5 - Funciones en JavaScript</span><span>›</span></a>
+      <a class="sidebar-ut-cerrada" href="../../ut6/index.html"><span>UT6 - Objetos y Programación Orientada a Objetos en JavaScript</span><span>›</span></a>
+      <a class="sidebar-ut-cerrada" href="../../ut7/index.html"><span>UT7 - Objetos predefinidos y modelo del navegador (BOM)</span><span>›</span></a>
+      <a class="sidebar-ut-cerrada" href="../../ut8/index.html"><span>UT8 - Aplicaciones web interactivas: DOM, eventos y formularios</span><span>›</span></a>
+      <a class="sidebar-ut-cerrada" href="../../ut9/index.html"><span>UT9 - Comunicación asíncrona y peticiones al servidor</span><span>›</span></a>
+      <a class="sidebar-ut-cerrada" href="../../ut10/index.html"><span>UT10 - Introducción a React</span><span>›</span></a>
+    </aside>
+
+    <main class="contenido-ut">
+      <div class="migas">
+        <a class="miga-inicio" href="../../../index.html" aria-label="Volver a la página principal">🏠</a>
+        <span class="miga-separador">›</span>
+        <a class="miga-modulo" href="../../index.html">DWEC</a>
+        <span class="miga-separador">›</span>
+        <a class="miga-modulo" href="../index.html">UT2</a>
+        <span class="miga-separador">›</span>
+        <span class="miga-actual">2.1</span>
+      </div>
+
+      <h1>2.1 Sintaxis básica de JavaScript</h1>
+
+      <section class="apartado-ut">
+        <p>
+          En la unidad anterior aprendimos cómo se integra JavaScript en una página HTML
+          y ejecutamos nuestros primeros programas utilizando <code>console.log()</code>
+          y <code>alert()</code>. A partir de ahora comenzaremos a estudiar
+          <strong>cómo se escribe realmente un programa en JavaScript</strong>.
+        </p>
+
+        <p>
+          Como cualquier lenguaje de programación, JavaScript posee una
+          <strong>sintaxis</strong>: un conjunto de reglas que indican cómo debemos escribir
+          las instrucciones para que el motor JavaScript pueda interpretarlas y ejecutarlas.
+        </p>
+
+        <div class="caja caja-importante">
+          <span class="caja-titulo">📌 Importante</span>
+          <p>
+            La <strong>sintaxis</strong> establece las reglas que debemos seguir al escribir
+            el código. Si una instrucción no respeta esas reglas, JavaScript no podrá
+            interpretarla correctamente y se producirá un <strong>error de sintaxis</strong>.
+          </p>
+        </div>
+
+        <p>
+          En este apartado estudiaremos las reglas básicas necesarias para empezar a leer
+          y escribir código. Las variables, los tipos de datos y los operadores se
+          desarrollarán con detalle en los apartados siguientes.
+        </p>
+
+        <h2 id="sentencias">Instrucciones y sentencias</h2>
+
+        <p>
+          Un programa JavaScript está formado por <strong>instrucciones</strong> que indican
+          qué debe hacer el programa. También utilizamos habitualmente el término
+          <strong>sentencia</strong> para referirnos a una instrucción completa del lenguaje.
+        </p>
+
+        <p>Por ejemplo:</p>
+
+        <div class="bloque-codigo">
+          <div class="cabecera-codigo">
+            <span class="lenguaje-codigo">JavaScript</span>
+            <button class="boton-copiar" type="button">📋 Copiar código</button>
+          </div>
+          <pre><code>console.log("Hola desde JavaScript");</code></pre>
+        </div>
+
+        <p>
+          Esta sentencia llama a <code>console.log()</code> y muestra el texto
+          <strong>Hola desde JavaScript</strong> en la consola del navegador.
+        </p>
+
+        <p>
+          Un programa puede contener muchas sentencias. De forma general, JavaScript las
+          ejecuta siguiendo el orden en el que aparecen:
+        </p>
+
+        <div class="bloque-codigo">
+          <div class="cabecera-codigo">
+            <span class="lenguaje-codigo">JavaScript</span>
+            <button class="boton-copiar" type="button">📋 Copiar código</button>
+          </div>
+          <pre><code>console.log("Primera instrucción");
+console.log("Segunda instrucción");
+console.log("Tercera instrucción");</code></pre>
+        </div>
+
+        <p>En Console veremos:</p>
+
+        <div class="bloque-codigo">
+          <div class="cabecera-codigo">
+            <span class="lenguaje-codigo">Console</span>
+            <button class="boton-copiar" type="button">📋 Copiar código</button>
+          </div>
+          <pre><code>Primera instrucción
+Segunda instrucción
+Tercera instrucción</code></pre>
+        </div>
+
+        <div class="caja caja-ejemplo">
+          <span class="caja-titulo">💻 Ejemplo DAW</span>
+          <p>
+            Durante esta unidad utilizaremos con frecuencia <code>console.log()</code>
+            para comprobar resultados. Además de ser útil mientras aprendemos, la consola
+            es una herramienta fundamental para localizar y analizar errores.
+          </p>
+        </div>
+
+
+        <h2 id="punto-coma">Uso del punto y coma</h2>
+
+        <p>
+          En nuestros ejemplos verás que las sentencias suelen terminar con un
+          <strong>punto y coma (<code>;</code>)</strong>.
+        </p>
+
+        <div class="bloque-codigo">
+          <div class="cabecera-codigo">
+            <span class="lenguaje-codigo">JavaScript</span>
+            <button class="boton-copiar" type="button">📋 Copiar código</button>
+          </div>
+          <pre><code>console.log("Hola");
+console.log("Adiós");</code></pre>
+        </div>
+
+        <p>
+          El punto y coma marca el final de una sentencia. Sin embargo,
+          <strong>JavaScript no exige escribirlo al final de todas las sentencias</strong>.
+          El lenguaje dispone de un mecanismo denominado
+          <strong>inserción automática de punto y coma</strong>
+          (<em>Automatic Semicolon Insertion</em>, ASI).
+        </p>
+
+        <div class="bloque-codigo">
+          <div class="cabecera-codigo">
+            <span class="lenguaje-codigo">JavaScript</span>
+            <button class="boton-copiar" type="button">📋 Copiar código</button>
+          </div>
+          <pre><code>console.log("Hola")
+console.log("Adiós")</code></pre>
+        </div>
+
+        <p>Este código también funciona.</p>
+
+        <div class="caja caja-importante">
+          <span class="caja-titulo">📌 Importante</span>
+          <p>
+            En nuestros apuntes y ejercicios utilizaremos <strong>punto y coma al final
+            de las sentencias</strong>. No porque siempre sea obligatorio, sino para
+            mantener un criterio uniforme y evitar determinados casos ambiguos.
+          </p>
+        </div>
+
+        <div class="caja caja-atencion">
+          <span class="caja-titulo">⚠️ Atención</span>
+          <p>
+            La regla «todas las instrucciones JavaScript deben terminar obligatoriamente
+            en punto y coma» no es exacta. JavaScript permite omitirlo en muchos casos
+            gracias a ASI.
+          </p>
+        </div>
+
+
+        <h2 id="bloques">Bloques de código</h2>
+
+        <p>
+          Algunas construcciones de JavaScript agrupan varias sentencias dentro de un
+          <strong>bloque de código</strong>. Los bloques se delimitan mediante llaves
+          <code>{</code> y <code>}</code>.
+        </p>
+
+        <div class="bloque-codigo">
+          <div class="cabecera-codigo">
+            <span class="lenguaje-codigo">JavaScript</span>
+            <button class="boton-copiar" type="button">📋 Copiar código</button>
+          </div>
+          <pre><code>{
+  console.log("Primera instrucción del bloque");
+  console.log("Segunda instrucción del bloque");
+}</code></pre>
+        </div>
+
+        <p>
+          Más adelante encontraremos bloques continuamente al estudiar estructuras de
+          control, funciones y otros elementos del lenguaje.
+        </p>
+
+        <p>
+          Observa que las instrucciones del interior aparecen
+          <strong>indentadas</strong>. La indentación no crea el bloque —lo hacen las
+          llaves—, pero permite reconocer visualmente qué instrucciones pertenecen a él.
+        </p>
+
+        <div class="caja caja-importante">
+          <span class="caja-titulo">📌 Importante</span>
+          <p>
+            Las llaves <code>{ }</code> delimitan el bloque. La
+            <strong>indentación</strong> hace que su estructura sea mucho más fácil de
+            leer y será una norma de trabajo durante todo el módulo.
+          </p>
+        </div>
+
+
+        <h2 id="case-sensitive">Mayúsculas y minúsculas</h2>
+
+        <p>
+          JavaScript es un lenguaje <strong>case-sensitive</strong>: distingue entre
+          letras mayúsculas y minúsculas.
+        </p>
+
+        <p>Por ejemplo, estos nombres son diferentes:</p>
+
+        <div class="bloque-codigo">
+          <div class="cabecera-codigo">
+            <span class="lenguaje-codigo">JavaScript</span>
+            <button class="boton-copiar" type="button">📋 Copiar código</button>
+          </div>
+          <pre><code>nombre
+Nombre
+NOMBRE</code></pre>
+        </div>
+
+        <p>Lo mismo sucede con los nombres que utilizamos al escribir instrucciones:</p>
+
+        <div class="bloque-codigo">
+          <div class="cabecera-codigo">
+            <span class="lenguaje-codigo">JavaScript</span>
+            <button class="boton-copiar" type="button">📋 Copiar código</button>
+          </div>
+          <pre><code>console.log("Correcto");
+Console.log("Incorrecto");</code></pre>
+        </div>
+
+        <p>
+          La primera instrucción utiliza correctamente <code>console</code>. La segunda
+          intenta utilizar <code>Console</code>, que es un identificador diferente, y
+          producirá un error en este contexto.
+        </p>
+
+        <div class="caja caja-atencion">
+          <span class="caja-titulo">⚠️ Atención</span>
+          <p>
+            Un simple cambio de mayúscula por minúscula puede provocar un error. Si
+            JavaScript indica que un nombre no existe, comprueba también cómo están
+            escritas sus mayúsculas y minúsculas.
+          </p>
+        </div>
+
+
+        <h2 id="identificadores">Identificadores</h2>
+
+        <p>
+          Un <strong>identificador</strong> es el nombre que utilizamos para reconocer
+          elementos de nuestro programa. Más adelante los utilizaremos para nombrar
+          variables, constantes, funciones y otros elementos.
+        </p>
+
+        <p>Como reglas básicas:</p>
+
+        <ul>
+          <li>pueden contener letras, números, el guion bajo <code>_</code> y el símbolo <code>$</code>;</li>
+          <li>no pueden comenzar por un número;</li>
+          <li>no pueden contener espacios;</li>
+          <li>no podemos utilizar una palabra reservada como identificador;</li>
+          <li>JavaScript distingue mayúsculas y minúsculas.</li>
+        </ul>
+
+        <div class="tabla-responsive">
+          <table class="tabla-apuntes">
+            <thead>
+              <tr><th>Identificador</th><th>¿Válido?</th><th>Motivo</th></tr>
+            </thead>
+            <tbody>
+              <tr><td><code>edad</code></td><td>Sí</td><td>Está formado por letras.</td></tr>
+              <tr><td><code>notaFinal</code></td><td>Sí</td><td>Es válido y descriptivo.</td></tr>
+              <tr><td><code>usuario2</code></td><td>Sí</td><td>Puede contener números si no aparecen al principio.</td></tr>
+              <tr><td><code>_contador</code></td><td>Sí</td><td>Puede comenzar por guion bajo.</td></tr>
+              <tr><td><code>$precio</code></td><td>Sí</td><td>El símbolo $ está permitido.</td></tr>
+              <tr><td><code>2usuario</code></td><td>No</td><td>No puede comenzar por un número.</td></tr>
+              <tr><td><code>nota final</code></td><td>No</td><td>Los espacios no están permitidos.</td></tr>
+              <tr><td><code>const</code></td><td>No</td><td>Es una palabra reservada.</td></tr>
+            </tbody>
+          </table>
+        </div>
+
+        <div class="caja caja-ejemplo">
+          <span class="caja-titulo">💻 Ejemplo DAW</span>
+          <p>
+            Aunque <code>x</code> puede ser un identificador válido, en un proyecto suele
+            ser preferible utilizar nombres que expliquen qué representa el dato, como
+            <code>precioProducto</code>, <code>nombreUsuario</code> o
+            <code>numeroAlumnos</code>. Lo veremos con detalle en 2.2.
+          </p>
+        </div>
+
+
+        <h2 id="palabras-reservadas">Palabras reservadas</h2>
+
+        <p>
+          JavaScript utiliza determinadas palabras con un significado especial. Se
+          denominan <strong>palabras reservadas</strong> y forman parte de la sintaxis del
+          lenguaje.
+        </p>
+
+        <p>Algunos ejemplos que iremos encontrando durante el módulo son:</p>
+
+        <div class="tabla-responsive">
+          <table class="tabla-apuntes">
+            <thead>
+              <tr><th>Palabra</th><th>La utilizaremos para...</th></tr>
+            </thead>
+            <tbody>
+              <tr><td><code>let</code></td><td>Declarar variables.</td></tr>
+              <tr><td><code>const</code></td><td>Declarar referencias que no se reasignan.</td></tr>
+              <tr><td><code>var</code></td><td>Declarar variables con la sintaxis tradicional.</td></tr>
+              <tr><td><code>if</code> / <code>else</code></td><td>Tomar decisiones.</td></tr>
+              <tr><td><code>for</code> / <code>while</code></td><td>Realizar repeticiones.</td></tr>
+              <tr><td><code>function</code></td><td>Definir funciones.</td></tr>
+              <tr><td><code>return</code></td><td>Devolver un resultado desde una función.</td></tr>
+              <tr><td><code>class</code></td><td>Definir clases.</td></tr>
+              <tr><td><code>new</code></td><td>Crear instancias de objetos.</td></tr>
+              <tr><td><code>try</code> / <code>catch</code></td><td>Gestionar errores mediante excepciones.</td></tr>
+            </tbody>
+          </table>
+        </div>
+
+        <p>
+          No es necesario memorizar ahora todas estas palabras. Las iremos estudiando
+          cuando aparezcan en las unidades correspondientes.
+        </p>
+
+        <div class="caja caja-atencion">
+          <span class="caja-titulo">⚠️ Atención</span>
+          <p>
+            Una palabra reservada no puede utilizarse libremente como nombre de una
+            variable, función u otro identificador. Por ejemplo, no podemos llamar
+            <code>const</code> a una variable.
+          </p>
+        </div>
+
+
+        <h2 id="expresiones">Expresiones básicas</h2>
+
+        <p>
+          En JavaScript utilizaremos constantemente <strong>expresiones</strong>. Una
+          expresión es una combinación de valores, identificadores y operadores que
+          JavaScript puede evaluar para obtener un resultado.
+        </p>
+
+        <p>Podemos probar expresiones sencillas directamente en Console:</p>
+
+        <div class="bloque-codigo">
+          <div class="cabecera-codigo">
+            <span class="lenguaje-codigo">Console</span>
+            <button class="boton-copiar" type="button">📋 Copiar código</button>
+          </div>
+          <pre><code>2 + 3
+10 - 4
+5 * 2
+20 / 4</code></pre>
+        </div>
+
+        <p>JavaScript devuelve, respectivamente:</p>
+
+        <div class="bloque-codigo">
+          <div class="cabecera-codigo">
+            <span class="lenguaje-codigo">Resultado</span>
+            <button class="boton-copiar" type="button">📋 Copiar código</button>
+          </div>
+          <pre><code>5
+6
+10
+5</code></pre>
+        </div>
+
+        <p>También podemos evaluar texto:</p>
+
+        <div class="bloque-codigo">
+          <div class="cabecera-codigo">
+            <span class="lenguaje-codigo">Console</span>
+            <button class="boton-copiar" type="button">📋 Copiar código</button>
+          </div>
+          <pre><code>"Desarrollo Web en Entorno Cliente"
+"Hola" + " " + "DAW"</code></pre>
+        </div>
+
+        <p>
+          La segunda expresión produce <strong>Hola DAW</strong>. Los operadores y las
+          cadenas de texto se estudiarán con detalle en 2.5 y 2.6.
+        </p>
+
+        <div class="caja caja-importante">
+          <span class="caja-titulo">📌 Importante</span>
+          <p>
+            Una <strong>sentencia</strong> indica una acción que debe realizar el programa.
+            Una <strong>expresión</strong> produce un valor al ser evaluada. Las expresiones
+            pueden formar parte de sentencias más amplias.
+          </p>
+        </div>
+
+
+        <div class="actividad-reflexion">
+          <h3>🧠 Comprueba lo aprendido</h3>
+          <p>
+            Indica cuáles de los siguientes identificadores son válidos en JavaScript y
+            explica el motivo:
+          </p>
+
+          <div class="bloque-codigo">
+            <div class="cabecera-codigo">
+              <span class="lenguaje-codigo">Identificadores</span>
+              <button class="boton-copiar" type="button">📋 Copiar código</button>
+            </div>
+            <pre><code>nombreAlumno
+2nota
+precio_final
+nombre usuario
+$descuento
+const
+NotaFinal</code></pre>
+          </div>
+
+          <details class="solucion-desplegable">
+            <summary>Ver solución</summary>
+            <div class="contenido-solucion">
+              <p><strong>nombreAlumno</strong> → válido.</p>
+              <p><strong>2nota</strong> → no válido: comienza por un número.</p>
+              <p><strong>precio_final</strong> → válido.</p>
+              <p><strong>nombre usuario</strong> → no válido: contiene un espacio.</p>
+              <p><strong>$descuento</strong> → válido.</p>
+              <p><strong>const</strong> → no válido: es una palabra reservada.</p>
+              <p><strong>NotaFinal</strong> → válido. Recuerda que <code>NotaFinal</code> y <code>notaFinal</code> son identificadores diferentes.</p>
+            </div>
+          </details>
+        </div>
+
+        <div class="actividad-reflexion">
+          <h3>💻 Prueba en Console</h3>
+          <p>
+            Abre las herramientas de desarrollo y entra en <strong>Console</strong>.
+            Escribe manualmente estas expresiones, una a una:
+          </p>
+
+          <div class="bloque-codigo">
+            <div class="cabecera-codigo">
+              <span class="lenguaje-codigo">Console</span>
+              <button class="boton-copiar" type="button">📋 Copiar código</button>
+            </div>
+            <pre><code>8 + 2
+10 * 3
+"Hola" + " " + "mundo"</code></pre>
+          </div>
+
+          <p>
+            Observa el resultado. El objetivo todavía no es aprender todos los operadores,
+            sino comprobar que <strong>Console permite evaluar expresiones directamente</strong>.
+          </p>
+        </div>
+
+      </section>
+
+      <nav class="navegacion-paginas">
+        <a class="nav-pagina nav-anterior" href="../index.html">
+          <span class="nav-etiqueta">Anterior</span>
+          <strong>‹ UT2 - Fundamentos de JavaScript</strong>
+        </a>
+
+        <a class="nav-pagina nav-siguiente" href="../2-2/index.html">
+          <span class="nav-etiqueta">Siguiente</span>
+          <strong>2.2 Variables, constantes e identificadores ›</strong>
+        </a>
+      </nav>
+    </main>
+
+    <aside class="indice-derecho">
+      <h2>En este apartado</h2>
+      <ul>
+        <li><a href="#sentencias">Instrucciones y sentencias</a></li>
+        <li><a href="#punto-coma">Uso del punto y coma</a></li>
+        <li><a href="#bloques">Bloques de código</a></li>
+        <li><a href="#case-sensitive">Mayúsculas y minúsculas</a></li>
+        <li><a href="#identificadores">Identificadores</a></li>
+        <li><a href="#palabras-reservadas">Palabras reservadas</a></li>
+        <li><a href="#expresiones">Expresiones básicas</a></li>
+      </ul>
+    </aside>
+
+  </div>
+
+<footer class="footer">
+
+    <p>
+
+      Material elaborado por
+      <strong>Eva Ballestero Cubeles</strong>
+
+      · Licencia
+
+      <span class="licencia">
+        CC BY-NC-SA 4.0
+      </span>
+
+      <a
+        class="enlace-licencia"
+        href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.es"
+        target="_blank"
+        rel="license noopener noreferrer"
+        aria-label="Licencia Creative Commons BY-NC-SA 4.0"
+      >
+
+        <img
+          class="icono-licencia"
+          src="../../../img/licencias/cc-by-nc-sa.png"
+          alt="Licencia Creative Commons BY-NC-SA 4.0"
+        >
+
+      </a>
+
+    </p>
+
+  </footer>
+
+
+  <!-- ==========================================
+       JAVASCRIPT COMÚN
+  ========================================== -->
+
+  <script src="../../../js/modulos.js"></script>
+
+  <script>
+
+    const menuModulos =
+      document.getElementById("menuModulos");
+
+    const botonTema =
+      document.getElementById("botonTema");
+
+    const modulosActivos =
+      modulos.filter(modulo => modulo.activo === true);
+
+
+    modulosActivos.forEach(modulo => {
+
+      const enlace =
+        document.createElement("a");
+
+      enlace.href =
+        `../../../${modulo.carpeta}/index.html`;
+
+      enlace.textContent =
+        modulo.siglas;
+
+      enlace.title =
+        modulo.nombre;
+
+      if (modulo.siglas === "DWEC") {
+
+        enlace.style.color =
+          "var(--verde-principal)";
+
+      }
+
+      menuModulos.appendChild(enlace);
+
+    });
+
+
+    /* ==========================================
+       MODO OSCURO
+    ========================================== */
+
+    const temaGuardado =
+      localStorage.getItem("tema");
+
+    if (temaGuardado === "oscuro") {
+
+      document.body.classList.add("modo-oscuro");
+
+      botonTema.textContent =
+        "🌙";
+
+    }
+
+    botonTema.addEventListener("click", () => {
+
+      document.body.classList.toggle("modo-oscuro");
+
+      const estaOscuro =
+        document.body.classList.contains("modo-oscuro");
+
+      botonTema.textContent =
+        estaOscuro ? "🌙" : "☀️";
+
+      localStorage.setItem(
+        "tema",
+        estaOscuro ? "oscuro" : "claro"
+      );
+
+    });
+
+
+    /* ==========================================
+       MENÚS DESPLEGABLES
+    ========================================== */
+
+    const botonesDesplegar =
+      document.querySelectorAll(".boton-desplegar");
+
+    botonesDesplegar.forEach((boton) => {
+
+      boton.addEventListener("click", () => {
+
+        const idSubmenu =
+          boton.getAttribute("data-target");
+
+        const submenu =
+          document.getElementById(idSubmenu);
+
+        if (!submenu) {
+          return;
+        }
+
+        const estaAbierto =
+          submenu.classList.contains("submenu-abierto");
+
+        if (estaAbierto) {
+
+          submenu.classList.remove("submenu-abierto");
+
+          boton.textContent =
+            "›";
+
+          boton.setAttribute(
+            "aria-expanded",
+            "false"
+          );
+
+        } else {
+
+          submenu.classList.add("submenu-abierto");
+
+          boton.textContent =
+            "⌄";
+
+          boton.setAttribute(
+            "aria-expanded",
+            "true"
+          );
+
+        }
+
+      });
+
+    });
+
+
+    /* ==========================================
+       COPIAR BLOQUES DE CÓDIGO
+    ========================================== */
+
+    document.addEventListener("click", async (evento) => {
+
+      const boton =
+        evento.target.closest(".boton-copiar");
+
+      if (!boton) {
+        return;
+      }
+
+      const bloque =
+        boton.closest(".bloque-codigo");
+
+      if (!bloque) {
+        return;
+      }
+
+      const codigo =
+        bloque.querySelector("code");
+
+      if (!codigo) {
+        return;
+      }
+
+      const textoOriginal =
+        boton.textContent;
+
+      try {
+
+        await navigator.clipboard.writeText(
+          codigo.textContent
+        );
+
+        boton.textContent =
+          "✔ Copiado";
+
+        setTimeout(() => {
+
+          boton.textContent =
+            textoOriginal;
+
+        }, 1600);
+
+      } catch (error) {
+
+        boton.textContent =
+          "Error al copiar";
+
+        setTimeout(() => {
+
+          boton.textContent =
+            textoOriginal;
+
+        }, 1600);
+
+      }
+
+    });
+
+  </script>
+
+</body>
+</html>
