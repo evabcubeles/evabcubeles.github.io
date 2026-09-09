@@ -1282,7 +1282,6 @@
                 type="button"
                 data-target="submenu-1-6"
                 aria-expanded="true"
-                aria-label="Mostrar u ocultar los subapartados del 1.6"
               >
                 ⌄
               </button>
