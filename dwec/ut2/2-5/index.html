@@ -1604,6 +1604,13 @@ console.log(a ** b);</code></pre>
           Es especialmente útil, por ejemplo, para comprobar si un número es par:
           si <code>numero % 2</code> produce <code>0</code>, el número es divisible entre 2.
         </p>
+        <div class="caja caja-atencion">
+  <span class="caja-titulo">⚠️ Atención</span>
+  <p>
+    El operador <code>%</code> no calcula un porcentaje. Devuelve el
+    <strong>resto de una división</strong>.
+  </p>
+</div>
 
         <div class="caja caja-atencion">
           <span class="caja-titulo">⚠️ Atención</span>
@@ -1782,6 +1789,11 @@ console.log(contador);</code></pre>
           terminan incrementando la variable, pero cuando forman parte de una expresión
           no producen exactamente el mismo resultado.
         </p>
+        <p>
+  Si el incremento aparece solo en una línea, como <code>contador++;</code>,
+  no suele importar que usemos prefijo o sufijo. La diferencia aparece cuando
+  el resultado de la expresión se utiliza inmediatamente.
+</p>
 
         <div class="tabla-responsive">
           <table class="tabla-apuntes">
@@ -1970,6 +1982,11 @@ false</code></pre>
             que el código sea más predecible y reduce errores.
           </p>
         </div>
+        <p>
+  En estos apuntes utilizaremos normalmente <code>===</code> y
+  <code>!==</code>, salvo que estemos estudiando expresamente el
+  comportamiento de la coerción de tipos.
+</p>
 
         <div class="caja caja-atencion">
           <span class="caja-titulo">⚠️ Atención</span>
@@ -2148,10 +2165,10 @@ true || false
         <div class="actividad-reflexion">
           <h3>💻 Prueba en Console</h3>
 
-          <p>
-            Copia el siguiente código en Console. Antes de ejecutarlo, intenta predecir
-            el valor final de cada variable y el resultado de las comparaciones.
-          </p>
+<p>
+  Copia el siguiente código en Console. Antes de ejecutarlo, intenta predecir
+  el valor final de <code>puntos</code> y el resultado de las comparaciones.
+</p>
 
           <div class="bloque-codigo">
             <div class="cabecera-codigo">
