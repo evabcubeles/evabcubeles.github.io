@@ -1,1 +1,1656 @@
+<!DOCTYPE html>
+<html lang="es">
 
+<head>
+  <meta charset="UTF-8">
+
+  <meta
+    name="viewport"
+    content="width=device-width, initial-scale=1.0"
+  >
+
+  <meta
+    name="description"
+    content="UT1 - Introducción al desarrollo web en entorno cliente."
+  >
+
+  <title>UT1 - Introducción al desarrollo web en entorno cliente</title>
+
+  <link rel="icon" type="image/png" href="../../img/favicon.png?v=5">
+
+  <link rel="stylesheet" href="../../css/estilos.css">
+
+  <style>
+
+    /* ==========================================
+       ESTRUCTURA DE LA UT
+    ========================================== */
+
+    .pagina-ut {
+      display: grid;
+      grid-template-columns: 280px 1fr 260px;
+      min-height: calc(100vh - 68px);
+    }
+
+
+    /* ==========================================
+       COLUMNA IZQUIERDA
+    ========================================== */
+
+    .sidebar {
+      border-right: 1px solid var(--borde);
+      background-color: var(--fondo-pagina);
+
+      padding: 12px 10px 30px;
+
+      position: sticky;
+      top: 68px;
+
+      height: calc(100vh - 68px);
+      overflow-y: auto;
+    }
+
+    .sidebar-modulo {
+      display: block;
+      margin-bottom: 8px;
+      padding: 8px 14px;
+
+      color: #626873;
+
+      font-size: 17px;
+      font-weight: 700;
+      line-height: 1.3;
+
+      text-decoration: none;
+
+      border-radius: 6px;
+
+      transition:
+        color 0.2s ease,
+        background-color 0.2s ease;
+    }
+
+    .sidebar-modulo:hover {
+      color: var(--verde-principal);
+      background-color: #f3f4f6;
+    }
+
+    body.modo-oscuro .sidebar-modulo:hover {
+      background-color: #273244;
+    }
+
+
+    /* ==========================================
+       MENÚ LATERAL DESPLEGABLE
+    ========================================== */
+
+    .menu-desplegable {
+      width: 100%;
+    }
+
+    .menu-cabecera {
+      display: flex;
+      align-items: center;
+      gap: 4px;
+
+      width: 100%;
+
+      border-radius: 6px;
+    }
+
+    .menu-cabecera-activa {
+      background-color: #f1f1f1;
+    }
+
+    .menu-cabecera-activa > .menu-titulo {
+      color: var(--verde-principal);
+    }
+
+    .menu-titulo {
+      flex: 1;
+
+      display: block;
+
+      padding: 11px 8px 11px 14px;
+
+      color: #626873;
+
+      font-size: 16px;
+      font-weight: 650;
+      line-height: 1.4;
+
+      text-decoration: none;
+    }
+
+    .menu-titulo:hover {
+      color: var(--verde-principal);
+    }
+
+    .boton-desplegar {
+      width: 36px;
+      height: 36px;
+
+      margin-right: 5px;
+      padding: 0;
+
+      display: flex;
+      align-items: center;
+      justify-content: center;
+
+      flex-shrink: 0;
+
+      border: 0;
+      border-radius: 6px;
+
+      background: transparent;
+
+      color: #777;
+
+      font-family: inherit;
+      font-size: 24px;
+      line-height: 1;
+
+      cursor: pointer;
+    }
+
+    .boton-desplegar:hover {
+      background-color: #e5e7eb;
+      color: var(--verde-principal);
+    }
+
+    .submenu {
+      display: none;
+    }
+
+    .submenu.submenu-abierto {
+      display: block;
+    }
+
+    .menu-apartado {
+      margin-left: 14px;
+    }
+
+    .menu-apartado .menu-titulo {
+      padding-top: 9px;
+      padding-bottom: 9px;
+
+      font-size: 15px;
+      font-weight: 600;
+    }
+
+    .submenu-apartados {
+      margin: 2px 0 5px 28px;
+
+      border-left: 2px solid #e0e3e7;
+    }
+
+    .submenu-apartados a {
+      display: block;
+
+      padding: 7px 10px;
+
+      color: #777d87;
+
+      font-size: 14px;
+      font-weight: 500;
+      line-height: 1.35;
+
+      text-decoration: none;
+    }
+
+    .submenu-apartados a:hover {
+      color: var(--verde-principal);
+    }
+
+    .enlace-apartado-simple {
+      display: block;
+
+      margin-left: 14px;
+      padding: 10px 14px;
+
+      color: #626873;
+
+      font-size: 15px;
+      font-weight: 600;
+      line-height: 1.4;
+
+      text-decoration: none;
+
+      border-radius: 6px;
+
+      transition:
+        background-color 0.2s ease,
+        color 0.2s ease;
+    }
+
+    .enlace-apartado-simple:hover {
+      background-color: #f3f4f6;
+      color: var(--verde-principal);
+    }
+
+    body.modo-oscuro .menu-cabecera-activa {
+      background-color: #273244;
+    }
+
+    body.modo-oscuro .boton-desplegar:hover {
+      background-color: #334155;
+    }
+
+    body.modo-oscuro .enlace-apartado-simple:hover {
+      background-color: #273244;
+    }
+
+    body.modo-oscuro .submenu-apartados {
+      border-left-color: #3a4659;
+    }
+
+
+    /* ==========================================
+       RESTO DE UT
+    ========================================== */
+
+    .sidebar-ut-cerrada {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+
+      padding: 13px 14px;
+
+      color: #626873;
+
+      text-decoration: none;
+
+      font-size: 16px;
+      font-weight: 650;
+      line-height: 1.35;
+
+      border-radius: 6px;
+
+      transition:
+        background-color 0.2s ease,
+        color 0.2s ease;
+    }
+
+    .sidebar-ut-cerrada:hover {
+      background-color: #f3f4f6;
+      color: var(--verde-principal);
+    }
+
+    body.modo-oscuro .sidebar-ut-cerrada:hover {
+      background-color: #273244;
+    }
+
+
+    /* ==========================================
+       ZONA CENTRAL
+    ========================================== */
+
+    .contenido-ut {
+      padding: 28px 34px 70px;
+
+      max-width: 1150px;
+      width: 100%;
+    }
+
+    .migas {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+
+      margin-bottom: 30px;
+
+      font-size: 14px;
+    }
+
+    .miga-inicio {
+      text-decoration: none;
+      font-size: 18px;
+    }
+
+    .miga-separador {
+      color: #999;
+      font-size: 22px;
+    }
+
+    .miga-modulo {
+      color: var(--texto-secundario);
+
+      text-decoration: none;
+    }
+
+    .miga-modulo:hover {
+      color: var(--verde-principal);
+    }
+
+    .miga-actual {
+      padding: 8px 14px;
+
+      background-color: #f3f3f3;
+      border-radius: 24px;
+
+      color: var(--verde-principal);
+    }
+
+    body.modo-oscuro .miga-actual {
+      background-color: #273244;
+    }
+
+    .contenido-ut h1 {
+      margin: 0 0 30px;
+
+      font-size: clamp(38px, 5vw, 58px);
+      line-height: 1.12;
+    }
+
+    .introduccion-ut {
+      max-width: 980px;
+
+      font-size: 19px;
+      line-height: 1.75;
+    }
+
+    .introduccion-ut p {
+      margin: 0 0 20px;
+    }
+
+
+    /* ==========================================
+       BLOQUES DE CÓDIGO
+       Preparados para utilizar en los apartados
+    ========================================== */
+
+    .bloque-codigo {
+      margin: 28px 0;
+
+      border: 1px solid var(--borde);
+      border-radius: 8px;
+
+      overflow: hidden;
+
+      background-color: #1e1e1e;
+    }
+
+    .cabecera-codigo {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+
+      padding: 10px 14px;
+
+      background-color: #2b2b2b;
+
+      color: #f3f4f6;
+
+      font-size: 14px;
+    }
+
+    .lenguaje-codigo {
+      font-weight: 700;
+    }
+
+    .boton-copiar {
+      padding: 6px 10px;
+
+      border: 1px solid #555;
+      border-radius: 6px;
+
+      background-color: #383838;
+
+      color: #f3f4f6;
+
+      font-family: inherit;
+      font-size: 13px;
+
+      cursor: pointer;
+    }
+
+    .boton-copiar:hover {
+      background-color: #484848;
+    }
+
+    .bloque-codigo pre {
+      margin: 0;
+      padding: 18px 20px;
+
+      overflow-x: auto;
+    }
+
+    .bloque-codigo code {
+      color: #f5f5f5;
+
+      font-family:
+        Consolas,
+        "Courier New",
+        monospace;
+
+      font-size: 15px;
+      line-height: 1.6;
+    }
+
+
+    /* ==========================================
+       COLUMNA DERECHA
+    ========================================== */
+
+    .indice-derecho {
+      padding: 28px 22px 100px;
+
+      border-left: 1px solid var(--borde);
+
+      position: sticky;
+      top: 68px;
+
+      height: calc(100vh - 68px);
+
+      overflow-y: auto;
+
+      box-sizing: border-box;
+    }
+
+    .indice-derecho h2 {
+      margin: 8px 0 20px;
+
+      font-size: 17px;
+      color: #555b65;
+    }
+
+    body.modo-oscuro .indice-derecho h2 {
+      color: #d1d5db;
+    }
+
+    .indice-derecho ul {
+      margin: 0;
+      padding-left: 18px;
+    }
+
+    .indice-derecho li {
+      margin-bottom: 12px;
+    }
+
+    .indice-derecho a {
+      color: var(--texto-secundario);
+
+      text-decoration: none;
+
+      font-size: 14px;
+      line-height: 1.4;
+    }
+
+    .indice-derecho a:hover {
+      color: var(--verde-principal);
+    }
+
+
+    /* ==========================================
+       NAVEGACIÓN ANTERIOR / SIGUIENTE
+    ========================================== */
+
+    .navegacion-paginas {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 20px;
+
+      margin-top: 50px;
+    }
+
+    .nav-pagina {
+      min-height: 100px;
+      padding: 18px 20px;
+
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+
+      border: 1px solid var(--borde);
+      border-radius: 8px;
+
+      text-decoration: none;
+
+      background-color: var(--fondo-tarjeta);
+    }
+
+    .nav-anterior {
+      align-items: flex-start;
+      text-align: left;
+    }
+
+    .nav-siguiente {
+      align-items: flex-end;
+      text-align: right;
+    }
+
+    .nav-etiqueta {
+      margin-bottom: 5px;
+
+      color: var(--texto-secundario);
+
+      font-size: 14px;
+    }
+
+    .nav-pagina strong {
+      color: var(--verde-principal);
+
+      font-size: 16px;
+      line-height: 1.4;
+    }
+
+    .nav-pagina:hover {
+      border-color: var(--verde-principal);
+    }
+
+
+    /* ==========================================
+       RESPONSIVE
+    ========================================== */
+
+    @media (max-width: 1100px) {
+
+      .pagina-ut {
+        grid-template-columns: 250px 1fr;
+      }
+
+      .indice-derecho {
+        display: none;
+      }
+
+    }
+
+    @media (max-width: 760px) {
+
+      .pagina-ut {
+        display: block;
+      }
+
+      .sidebar {
+        position: static;
+
+        width: 100%;
+        height: auto;
+
+        border-right: 0;
+        border-bottom: 1px solid var(--borde);
+      }
+
+      .contenido-ut {
+        padding: 28px 20px 60px;
+      }
+
+      .contenido-ut h1 {
+        font-size: 36px;
+      }
+
+      .navegacion-paginas {
+        grid-template-columns: 1fr;
+      }
+
+      .nav-siguiente {
+        align-items: flex-start;
+        text-align: left;
+      }
+
+    }
+
+  </style>
+
+</head>
+
+
+<body>
+
+  <!-- ==========================================
+       BARRA SUPERIOR
+  ========================================== -->
+
+  <header class="navbar">
+
+    <a class="inicio" href="../../index.html">
+
+      <img
+        src="../../img/profesora-castana.png?v=2"
+        alt=""
+        class="icono-profesora"
+      >
+
+      <span>Inicio</span>
+
+    </a>
+
+    <nav
+      id="menuModulos"
+      class="menu-modulos"
+      aria-label="Módulos formativos"
+    ></nav>
+
+    <button
+      id="botonTema"
+      class="boton-tema"
+      type="button"
+      aria-label="Cambiar entre modo claro y oscuro"
+      title="Cambiar tema"
+    >
+      ☀️
+    </button>
+
+  </header>
+
+
+  <div class="pagina-ut">
+
+
+    <!-- ==========================================
+         COLUMNA IZQUIERDA
+    ========================================== -->
+
+    <aside class="sidebar">
+
+      <a class="sidebar-modulo" href="../index.html">
+        Desarrollo web en entorno cliente
+      </a>
+
+
+      <!-- UT1 ACTIVA -->
+
+      <div class="menu-desplegable">
+
+        <div class="menu-cabecera menu-cabecera-activa">
+
+          <a class="menu-titulo" href="index.html">
+            UT1 - Introducción al desarrollo web en entorno cliente
+          </a>
+
+          <button
+            class="boton-desplegar"
+            type="button"
+            data-target="submenu-ut1"
+            aria-expanded="true"
+            aria-label="Mostrar u ocultar UT1"
+          >
+            ⌄
+          </button>
+
+        </div>
+
+
+        <div id="submenu-ut1" class="submenu submenu-abierto">
+
+
+          <!-- ==========================================
+               1.1
+          ========================================== -->
+
+          <div class="menu-desplegable menu-apartado">
+
+            <div class="menu-cabecera">
+
+              <a class="menu-titulo" href="1-1/index.html">
+                1.1 Desarrollo web en entorno cliente
+              </a>
+
+              <button
+                class="boton-desplegar"
+                type="button"
+                data-target="submenu-1-1"
+                aria-expanded="false"
+                aria-label="Mostrar u ocultar los subapartados del 1.1"
+              >
+                ›
+              </button>
+
+            </div>
+
+            <div id="submenu-1-1" class="submenu submenu-apartados">
+
+              <a href="1-1/index.html#que-es-desarrollo-web">
+                Qué es el desarrollo web
+              </a>
+
+              <a href="1-1/index.html#frontend-backend">
+                Frontend y backend
+              </a>
+
+              <a href="1-1/index.html#entorno-cliente">
+                Desarrollo en entorno cliente
+              </a>
+
+              <a href="1-1/index.html#entorno-servidor">
+                Desarrollo en entorno servidor
+              </a>
+
+              <a href="1-1/index.html#navegador-entorno-ejecucion">
+                El navegador como entorno de ejecución
+              </a>
+
+              <a href="1-1/index.html#papel-javascript">
+                El papel de JavaScript en una aplicación web
+              </a>
+
+            </div>
+
+          </div>
+
+
+          <!-- ==========================================
+               1.2
+          ========================================== -->
+
+          <div class="menu-desplegable menu-apartado">
+
+            <div class="menu-cabecera">
+
+              <a class="menu-titulo" href="1-2/index.html">
+                1.2 Arquitectura cliente-servidor
+              </a>
+
+              <button
+                class="boton-desplegar"
+                type="button"
+                data-target="submenu-1-2"
+                aria-expanded="false"
+                aria-label="Mostrar u ocultar los subapartados del 1.2"
+              >
+                ›
+              </button>
+
+            </div>
+
+            <div id="submenu-1-2" class="submenu submenu-apartados">
+
+              <a href="1-2/index.html#arquitectura-cliente-servidor">
+                Qué es una arquitectura cliente-servidor
+              </a>
+
+              <a href="1-2/index.html#cliente">
+                El cliente
+              </a>
+
+              <a href="1-2/index.html#servidor">
+                El servidor
+              </a>
+
+              <a href="1-2/index.html#peticion-respuesta">
+                Cómo se produce una petición y una respuesta
+              </a>
+
+              <a href="1-2/index.html#recursos-servicios">
+                Recursos y servicios web
+              </a>
+
+              <a href="1-2/index.html#ejemplo-aplicacion">
+                Ejemplo del funcionamiento de una aplicación web
+              </a>
+
+              <a href="1-2/index.html#ventajas-cliente-servidor">
+                Ventajas de la arquitectura cliente-servidor
+              </a>
+
+            </div>
+
+          </div>
+
+
+          <!-- ==========================================
+               1.3
+          ========================================== -->
+
+          <div class="menu-desplegable menu-apartado">
+
+            <div class="menu-cabecera">
+
+              <a class="menu-titulo" href="1-3/index.html">
+                1.3 Ejecución de código en cliente y servidor
+              </a>
+
+              <button
+                class="boton-desplegar"
+                type="button"
+                data-target="submenu-1-3"
+                aria-expanded="false"
+                aria-label="Mostrar u ocultar los subapartados del 1.3"
+              >
+                ›
+              </button>
+
+            </div>
+
+            <div id="submenu-1-3" class="submenu submenu-apartados">
+
+              <a href="1-3/index.html#ejecucion-cliente">
+                Ejecución de código en el cliente
+              </a>
+
+              <a href="1-3/index.html#ejecucion-servidor">
+                Ejecución de código en el servidor
+              </a>
+
+              <a href="1-3/index.html#diferencias">
+                Diferencias entre ejecución cliente y servidor
+              </a>
+
+              <a href="1-3/index.html#ventajas-inconvenientes">
+                Ventajas e inconvenientes de ejecutar código en el cliente
+              </a>
+
+              <a href="1-3/index.html#capacidades-navegador">
+                Capacidades del navegador
+              </a>
+
+              <a href="1-3/index.html#limitaciones-navegador">
+                Limitaciones de la ejecución en el navegador
+              </a>
+
+              <a href="1-3/index.html#compatibilidad">
+                Compatibilidad entre navegadores
+              </a>
+
+              <a href="1-3/index.html#cliente-o-servidor">
+                Cuándo utilizar cliente y cuándo servidor
+              </a>
+
+            </div>
+
+          </div>
+
+
+          <!-- ==========================================
+               1.4
+          ========================================== -->
+
+          <div class="menu-desplegable menu-apartado">
+
+            <div class="menu-cabecera">
+
+              <a class="menu-titulo" href="1-4/index.html">
+                1.4 JavaScript y los lenguajes de programación en entorno cliente
+              </a>
+
+              <button
+                class="boton-desplegar"
+                type="button"
+                data-target="submenu-1-4"
+                aria-expanded="false"
+                aria-label="Mostrar u ocultar los subapartados del 1.4"
+              >
+                ›
+              </button>
+
+            </div>
+
+            <div id="submenu-1-4" class="submenu submenu-apartados">
+
+              <a href="1-4/index.html#lenguajes-web">
+                Lenguajes utilizados en el desarrollo web
+              </a>
+
+              <a href="1-4/index.html#html-css-javascript">
+                HTML, CSS y JavaScript: funciones diferentes
+              </a>
+
+              <a href="1-4/index.html#que-es-javascript">
+                Qué es JavaScript
+              </a>
+
+              <a href="1-4/index.html#caracteristicas-javascript">
+                Características principales de JavaScript
+              </a>
+
+              <a href="1-4/index.html#javascript-interpretado">
+                JavaScript como lenguaje interpretado
+              </a>
+
+              <a href="1-4/index.html#ecmascript">
+                JavaScript y ECMAScript
+              </a>
+
+              <a href="1-4/index.html#otras-tecnologias">
+                Otros lenguajes y tecnologías de entorno cliente
+              </a>
+
+              <a href="1-4/index.html#frameworks-librerias">
+                Frameworks y librerías JavaScript
+              </a>
+
+            </div>
+
+          </div>
+
+
+          <!-- ==========================================
+               1.5
+          ========================================== -->
+
+          <div class="menu-desplegable menu-apartado">
+
+            <div class="menu-cabecera">
+
+              <a class="menu-titulo" href="1-5/index.html">
+                1.5 Características de los lenguajes de script
+              </a>
+
+              <button
+                class="boton-desplegar"
+                type="button"
+                data-target="submenu-1-5"
+                aria-expanded="false"
+                aria-label="Mostrar u ocultar los subapartados del 1.5"
+              >
+                ›
+              </button>
+
+            </div>
+
+            <div id="submenu-1-5" class="submenu submenu-apartados">
+
+              <a href="1-5/index.html#que-es-script">
+                Qué es un script
+              </a>
+
+              <a href="1-5/index.html#caracteristicas-script">
+                Características de los lenguajes de script
+              </a>
+
+              <a href="1-5/index.html#interpretados-compilados">
+                Lenguajes interpretados y lenguajes compilados
+              </a>
+
+              <a href="1-5/index.html#ventajas">
+                Ventajas de los lenguajes de script
+              </a>
+
+              <a href="1-5/index.html#inconvenientes">
+                Inconvenientes y limitaciones
+              </a>
+
+              <a href="1-5/index.html#javascript-script">
+                JavaScript como lenguaje de script
+              </a>
+
+              <a href="1-5/index.html#programacion-tradicional">
+                Programación tradicional y programación mediante scripts
+              </a>
+
+            </div>
+
+          </div>
+
+
+          <!-- ==========================================
+               1.6
+          ========================================== -->
+
+          <div class="menu-desplegable menu-apartado">
+
+            <div class="menu-cabecera">
+
+              <a class="menu-titulo" href="1-6/index.html">
+                1.6 Integración de JavaScript con HTML
+              </a>
+
+              <button
+                class="boton-desplegar"
+                type="button"
+                data-target="submenu-1-6"
+                aria-expanded="false"
+                aria-label="Mostrar u ocultar los subapartados del 1.6"
+              >
+                ›
+              </button>
+
+            </div>
+
+            <div id="submenu-1-6" class="submenu submenu-apartados">
+
+              <a href="1-6/index.html#javascript-html">
+                JavaScript dentro de una página HTML
+              </a>
+
+              <a href="1-6/index.html#script">
+                El elemento &lt;script&gt;
+              </a>
+
+              <a href="1-6/index.html#javascript-interno">
+                JavaScript interno
+              </a>
+
+              <a href="1-6/index.html#javascript-externo">
+                JavaScript externo
+              </a>
+
+              <a href="1-6/index.html#atributo-src">
+                El atributo src
+              </a>
+
+              <a href="1-6/index.html#donde-colocar">
+                Dónde colocar el código JavaScript
+              </a>
+
+              <a href="1-6/index.html#defer">
+                Carga de scripts y atributo defer
+              </a>
+
+              <a href="1-6/index.html#separacion">
+                Separación entre HTML, CSS y JavaScript
+              </a>
+
+              <a href="1-6/index.html#organizacion-archivos">
+                Buenas prácticas para organizar los archivos
+              </a>
+
+            </div>
+
+          </div>
+
+
+          <!-- ==========================================
+               1.7
+          ========================================== -->
+
+          <div class="menu-desplegable menu-apartado">
+
+            <div class="menu-cabecera">
+
+              <a class="menu-titulo" href="1-7/index.html">
+                1.7 Herramientas para desarrollar con JavaScript
+              </a>
+
+              <button
+                class="boton-desplegar"
+                type="button"
+                data-target="submenu-1-7"
+                aria-expanded="false"
+                aria-label="Mostrar u ocultar los subapartados del 1.7"
+              >
+                ›
+              </button>
+
+            </div>
+
+            <div id="submenu-1-7" class="submenu submenu-apartados">
+
+              <a href="1-7/index.html#editor-codigo">
+                El editor de código
+              </a>
+
+              <a href="1-7/index.html#vscode">
+                Visual Studio Code
+              </a>
+
+              <a href="1-7/index.html#navegador">
+                El navegador web
+              </a>
+
+              <a href="1-7/index.html#herramientas-desarrollo">
+                Herramientas de desarrollo del navegador
+              </a>
+
+              <a href="1-7/index.html#consola">
+                La consola
+              </a>
+
+              <a href="1-7/index.html#inspector">
+                El inspector de elementos
+              </a>
+
+              <a href="1-7/index.html#sources">
+                La pestaña Sources
+              </a>
+
+              <a href="1-7/index.html#deteccion-errores">
+                Detección de errores
+              </a>
+
+              <a href="1-7/index.html#depuracion">
+                Depuración básica
+              </a>
+
+              <a href="1-7/index.html#organizacion-proyecto">
+                Organización básica de un proyecto web
+              </a>
+
+              <a href="1-7/index.html#git-github">
+                Control de versiones con Git y GitHub
+              </a>
+
+            </div>
+
+          </div>
+
+
+          <!-- ==========================================
+               1.8
+          ========================================== -->
+
+          <div class="menu-desplegable menu-apartado">
+
+            <div class="menu-cabecera">
+
+              <a class="menu-titulo" href="1-8/index.html">
+                1.8 Primer programa en JavaScript
+              </a>
+
+              <button
+                class="boton-desplegar"
+                type="button"
+                data-target="submenu-1-8"
+                aria-expanded="false"
+                aria-label="Mostrar u ocultar los subapartados del 1.8"
+              >
+                ›
+              </button>
+
+            </div>
+
+            <div id="submenu-1-8" class="submenu submenu-apartados">
+
+              <a href="1-8/index.html#primer-programa">
+                Nuestro primer programa
+              </a>
+
+              <a href="1-8/index.html#console-log">
+                console.log()
+              </a>
+
+              <a href="1-8/index.html#mostrar-consola">
+                Mostrar información en la consola
+              </a>
+
+              <a href="1-8/index.html#alert">
+                La función alert()
+              </a>
+
+              <a href="1-8/index.html#ejecucion">
+                Ejecución del código paso a paso
+              </a>
+
+              <a href="1-8/index.html#errores-sintaxis">
+                Errores de sintaxis
+              </a>
+
+              <a href="1-8/index.html#errores-ejecucion">
+                Errores durante la ejecución
+              </a>
+
+              <a href="1-8/index.html#mensajes-error">
+                Lectura de mensajes de error
+              </a>
+
+              <a href="1-8/index.html#buenas-practicas">
+                Primeras buenas prácticas
+              </a>
+
+              <a href="1-8/index.html#practica-guiada">
+                Primera práctica guiada
+              </a>
+
+            </div>
+
+          </div>
+
+
+          <!-- RESUMEN Y ACTIVIDADES -->
+
+          <a class="enlace-apartado-simple" href="resumen/index.html">
+            ✏️ Resumen de la UT1
+          </a>
+
+          <a class="enlace-apartado-simple" href="actividades/index.html">
+            📝 Actividades de la UT1
+          </a>
+
+        </div>
+
+      </div>
+
+
+      <!-- ==========================================
+           RESTO DE UT
+      ========================================== -->
+
+      <a class="sidebar-ut-cerrada" href="../ut2/index.html">
+        <span>UT2 - Fundamentos de JavaScript: variables, tipos y operadores</span>
+        <span>›</span>
+      </a>
+
+      <a class="sidebar-ut-cerrada" href="../ut3/index.html">
+        <span>UT3 - Estructuras de control en JavaScript</span>
+        <span>›</span>
+      </a>
+
+      <a class="sidebar-ut-cerrada" href="../ut4/index.html">
+        <span>UT4 - Arrays y estructuras de datos en JavaScript</span>
+        <span>›</span>
+      </a>
+
+      <a class="sidebar-ut-cerrada" href="../ut5/index.html">
+        <span>UT5 - Funciones en JavaScript</span>
+        <span>›</span>
+      </a>
+
+      <a class="sidebar-ut-cerrada" href="../ut6/index.html">
+        <span>UT6 - Objetos y Programación Orientada a Objetos en JavaScript</span>
+        <span>›</span>
+      </a>
+
+      <a class="sidebar-ut-cerrada" href="../ut7/index.html">
+        <span>UT7 - Objetos predefinidos y modelo del navegador (BOM)</span>
+        <span>›</span>
+      </a>
+
+      <a class="sidebar-ut-cerrada" href="../ut8/index.html">
+        <span>UT8 - Aplicaciones web interactivas: DOM, eventos y formularios</span>
+        <span>›</span>
+      </a>
+
+      <a class="sidebar-ut-cerrada" href="../ut9/index.html">
+        <span>UT9 - Comunicación asíncrona y peticiones al servidor</span>
+        <span>›</span>
+      </a>
+
+      <a class="sidebar-ut-cerrada" href="../ut10/index.html">
+        <span>UT10 - Introducción a React</span>
+        <span>›</span>
+      </a>
+
+    </aside>
+
+
+    <!-- ==========================================
+         ZONA CENTRAL
+    ========================================== -->
+
+    <main class="contenido-ut">
+
+      <div class="migas">
+
+        <a
+          class="miga-inicio"
+          href="../../index.html"
+          aria-label="Volver a la página principal"
+        >
+          🏠
+        </a>
+
+        <span class="miga-separador">›</span>
+
+        <a class="miga-modulo" href="../index.html">
+          DWEC
+        </a>
+
+        <span class="miga-separador">›</span>
+
+        <span class="miga-actual">
+          UT1
+        </span>
+
+      </div>
+
+
+      <h1>
+        UT1 - Introducción al desarrollo web en entorno cliente
+      </h1>
+
+
+      <div class="introduccion-ut">
+
+        <p>
+          En esta unidad comenzaremos estudiando cómo funcionan las aplicaciones
+          web y qué papel desempeña el navegador dentro de una arquitectura
+          cliente-servidor.
+        </p>
+
+        <p>
+          Analizaremos las diferencias entre la ejecución de código en el cliente
+          y en el servidor, conoceremos las principales tecnologías utilizadas en
+          el desarrollo web y situaremos JavaScript como el lenguaje fundamental
+          para programar el comportamiento de las páginas web en el navegador.
+        </p>
+
+        <p>
+          También aprenderemos cómo se integra JavaScript con HTML, qué herramientas
+          utilizaremos durante el curso y cómo ejecutar nuestros primeros programas,
+          utilizando la consola del navegador para comprobar su funcionamiento y
+          detectar posibles errores.
+        </p>
+
+        <p>
+          Esta unidad servirá como base para las siguientes, en las que comenzaremos
+          a estudiar progresivamente la sintaxis de JavaScript y a desarrollar
+          aplicaciones web cada vez más interactivas.
+        </p>
+
+      </div>
+
+
+      <!-- ==========================================
+           NAVEGACIÓN
+      ========================================== -->
+
+      <nav class="navegacion-paginas">
+
+        <a class="nav-pagina nav-anterior" href="../index.html">
+
+          <span class="nav-etiqueta">
+            Anterior
+          </span>
+
+          <strong>
+            ‹ Desarrollo web en entorno cliente
+          </strong>
+
+        </a>
+
+        <a class="nav-pagina nav-siguiente" href="1-1/index.html">
+
+          <span class="nav-etiqueta">
+            Siguiente
+          </span>
+
+          <strong>
+            1.1 Desarrollo web en entorno cliente ›
+          </strong>
+
+        </a>
+
+      </nav>
+
+    </main>
+
+
+    <!-- ==========================================
+         COLUMNA DERECHA
+    ========================================== -->
+
+    <aside class="indice-derecho">
+
+      <h2>Contenidos de la UT1</h2>
+
+      <ul>
+
+        <li>
+          <a href="1-1/index.html">
+            1.1 Desarrollo web en entorno cliente
+          </a>
+        </li>
+
+        <li>
+          <a href="1-2/index.html">
+            1.2 Arquitectura cliente-servidor
+          </a>
+        </li>
+
+        <li>
+          <a href="1-3/index.html">
+            1.3 Ejecución de código en cliente y servidor
+          </a>
+        </li>
+
+        <li>
+          <a href="1-4/index.html">
+            1.4 JavaScript y los lenguajes de programación en entorno cliente
+          </a>
+        </li>
+
+        <li>
+          <a href="1-5/index.html">
+            1.5 Características de los lenguajes de script
+          </a>
+        </li>
+
+        <li>
+          <a href="1-6/index.html">
+            1.6 Integración de JavaScript con HTML
+          </a>
+        </li>
+
+        <li>
+          <a href="1-7/index.html">
+            1.7 Herramientas para desarrollar con JavaScript
+          </a>
+        </li>
+
+        <li>
+          <a href="1-8/index.html">
+            1.8 Primer programa en JavaScript
+          </a>
+        </li>
+
+        <li>
+          <a href="resumen/index.html">
+            ✏️ Resumen de la UT1
+          </a>
+        </li>
+
+        <li>
+          <a href="actividades/index.html">
+            📝 Actividades de la UT1
+          </a>
+        </li>
+
+      </ul>
+
+    </aside>
+
+  </div>
+
+
+  <!-- ==========================================
+       PIE DE PÁGINA
+  ========================================== -->
+
+  <footer class="footer">
+
+    <p>
+
+      Material elaborado por
+      <strong>Eva Ballestero Cubeles</strong>
+
+      - Licencia
+
+      <span class="licencia">
+        CC BY-NC-SA 4.0
+      </span>
+
+      <a
+        class="enlace-licencia"
+        href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.es"
+        target="_blank"
+        rel="license noopener noreferrer"
+        aria-label="Licencia Creative Commons BY-NC-SA 4.0"
+      >
+
+        <img
+          class="icono-licencia"
+          src="../../img/licencias/cc-by-nc-sa.png"
+          alt="Licencia Creative Commons BY-NC-SA 4.0"
+        >
+
+      </a>
+
+    </p>
+
+  </footer>
+
+
+  <!-- ==========================================
+       JAVASCRIPT COMÚN
+  ========================================== -->
+
+  <script src="../../js/modulos.js"></script>
+
+  <script>
+
+    const menuModulos =
+      document.getElementById("menuModulos");
+
+    const botonTema =
+      document.getElementById("botonTema");
+
+    const modulosActivos =
+      modulos.filter(modulo => modulo.activo === true);
+
+
+    modulosActivos.forEach(modulo => {
+
+      const enlace =
+        document.createElement("a");
+
+      enlace.href =
+        `../../${modulo.carpeta}/index.html`;
+
+      enlace.textContent =
+        modulo.siglas;
+
+      enlace.title =
+        modulo.nombre;
+
+      if (modulo.siglas === "DWEC") {
+
+        enlace.style.color =
+          "var(--verde-principal)";
+
+      }
+
+      menuModulos.appendChild(enlace);
+
+    });
+
+
+    /* ==========================================
+       MODO OSCURO
+    ========================================== */
+
+    const temaGuardado =
+      localStorage.getItem("tema");
+
+    if (temaGuardado === "oscuro") {
+
+      document.body.classList.add("modo-oscuro");
+
+      botonTema.textContent = "🌙";
+
+    }
+
+    botonTema.addEventListener("click", () => {
+
+      document.body.classList.toggle("modo-oscuro");
+
+      const estaOscuro =
+        document.body.classList.contains("modo-oscuro");
+
+      botonTema.textContent =
+        estaOscuro ? "🌙" : "☀️";
+
+      localStorage.setItem(
+        "tema",
+        estaOscuro ? "oscuro" : "claro"
+      );
+
+    });
+
+
+    /* ==========================================
+       MENÚS DESPLEGABLES
+    ========================================== */
+
+    const botonesDesplegar =
+      document.querySelectorAll(".boton-desplegar");
+
+    botonesDesplegar.forEach((boton) => {
+
+      boton.addEventListener("click", () => {
+
+        const idSubmenu =
+          boton.getAttribute("data-target");
+
+        const submenu =
+          document.getElementById(idSubmenu);
+
+        if (!submenu) {
+          return;
+        }
+
+        const estaAbierto =
+          submenu.classList.contains("submenu-abierto");
+
+        if (estaAbierto) {
+
+          submenu.classList.remove("submenu-abierto");
+
+          boton.textContent = "›";
+
+          boton.setAttribute(
+            "aria-expanded",
+            "false"
+          );
+
+        } else {
+
+          submenu.classList.add("submenu-abierto");
+
+          boton.textContent = "⌄";
+
+          boton.setAttribute(
+            "aria-expanded",
+            "true"
+          );
+
+        }
+
+      });
+
+    });
+
+
+    /* ==========================================
+       COPIAR CÓDIGO
+       Se utilizará en las páginas de contenidos
+    ========================================== */
+
+    document.addEventListener("click", async (evento) => {
+
+      const boton =
+        evento.target.closest(".boton-copiar");
+
+      if (!boton) {
+        return;
+      }
+
+      const bloque =
+        boton.closest(".bloque-codigo");
+
+      const codigo =
+        bloque.querySelector("code");
+
+      try {
+
+        await navigator.clipboard.writeText(
+          codigo.innerText
+        );
+
+        const textoOriginal =
+          boton.textContent;
+
+        boton.textContent =
+          "✔ Copiado";
+
+        setTimeout(() => {
+
+          boton.textContent =
+            textoOriginal;
+
+        }, 1600);
+
+      } catch (error) {
+
+        boton.textContent =
+          "Error al copiar";
+
+      }
+
+    });
+
+  </script>
+
+</body>
+</html>
