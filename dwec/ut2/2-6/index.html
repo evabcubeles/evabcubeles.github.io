@@ -1458,7 +1458,12 @@
         <p>En los apartados anteriores hemos trabajado con distintos tipos de datos y hemos aprendido a operar con ellos. Uno de los tipos que utilizaremos con mayor frecuencia en una aplicación web es el <strong>texto</strong>: nombres de usuarios, mensajes, títulos, direcciones, descripciones o cualquier información que queramos mostrar en la interfaz.</p>
         <p>En JavaScript, los textos se representan mediante <strong>cadenas de caracteres</strong> o <em>strings</em>. En este apartado aprenderemos a escribirlas correctamente, a incluir caracteres especiales, a unir varios textos y a construir cadenas de forma más cómoda mediante <strong>template literals</strong>.</p>
 
-        <div class="caja caja-importante"><span class="caja-titulo">📌 Importante</span><p>Una cadena de texto debe escribirse entre comillas. JavaScript permite utilizar comillas dobles, comillas simples y, en los <em>template literals</em>, acentos graves (<code>`</code>).</p></div>
+        <div class="caja caja-importante"><span class="caja-titulo">📌 Importante</span><p>
+  Una cadena de texto debe escribirse entre algún tipo de delimitador.
+  JavaScript permite utilizar comillas dobles (<code>"</code>), comillas simples
+  (<code>'</code>) o, en los <em>template literals</em>, acentos graves o
+  <em>backticks</em> (<code>`</code>).
+</p></div>
 
         <h2 id="cadenas">Cadenas de texto</h2>
         <p>Una <strong>cadena de texto</strong> es una secuencia de caracteres. Puede contener letras, números, espacios, signos de puntuación y otros símbolos.</p>
@@ -1490,13 +1495,55 @@ console.log(mensaje2);</code></pre></div>
 
         <h2 id="escape">Caracteres de escape</h2>
         <p>En algunas situaciones necesitamos incluir dentro de una cadena caracteres que tienen un significado especial. Para ello podemos utilizar el carácter de escape <code>\</code>.</p>
-        <div class="tabla-responsive"><table class="tabla-apuntes"><thead><tr><th>Secuencia</th><th>Significado</th></tr></thead><tbody><tr><td><code>
-</code></td><td>Salto de línea</td></tr><tr><td><code>	</code></td><td>Tabulación</td></tr><tr><td><code>"</code></td><td>Comilla doble</td></tr><tr><td><code>'</code></td><td>Comilla simple</td></tr><tr><td><code>\</code></td><td>Barra invertida</td></tr></tbody></table></div>
-        <div class="bloque-codigo"><div class="cabecera-codigo"><span class="lenguaje-codigo">JavaScript</span><button class="boton-copiar" type="button">📋 Copiar código</button></div><pre><code>console.log("Primera línea
-Segunda línea");
-console.log("Nombre:	Lucía");
-console.log("Ella dijo: "Hola"");
-console.log("C:\proyectos\dwec");</code></pre></div>
+        <div class="tabla-responsive">
+  <table class="tabla-apuntes">
+    <thead>
+      <tr>
+        <th>Secuencia</th>
+        <th>Significado</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><code>\n</code></td>
+        <td>Salto de línea</td>
+      </tr>
+      <tr>
+        <td><code>\t</code></td>
+        <td>Tabulación</td>
+      </tr>
+      <tr>
+        <td><code>\"</code></td>
+        <td>Comilla doble</td>
+      </tr>
+      <tr>
+        <td><code>\'</code></td>
+        <td>Comilla simple</td>
+      </tr>
+      <tr>
+        <td><code>\\</code></td>
+        <td>Barra invertida</td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+        <div class="bloque-codigo"><div class="cabecera-codigo"><span class="lenguaje-codigo">JavaScript</span><button class="boton-copiar" type="button">📋 Copiar código</button></div><pre><code>console.log("Primera línea\nSegunda línea");
+console.log("Nombre:\tLucía");
+console.log("Ella dijo: \"Hola\"");
+console.log("C:\\proyectos\\dwec");</code></pre></div>
+        <p>El resultado será:</p>
+
+<div class="bloque-codigo">
+  <div class="cabecera-codigo">
+    <span class="lenguaje-codigo">Console</span>
+    <button class="boton-copiar" type="button">📋 Copiar código</button>
+  </div>
+  <pre><code>Primera línea
+Segunda línea
+Nombre:	Lucía
+Ella dijo: "Hola"
+C:\proyectos\dwec</code></pre>
+</div>
         <div class="caja caja-importante"><span class="caja-titulo">📌 Importante</span><p>La barra invertida <code>\</code> indica que el carácter siguiente debe interpretarse de una forma especial. No debemos confundirla con la barra normal <code>/</code>.</p></div>
 
         <h2 id="concatenacion">Concatenación con <code>+</code></h2>
