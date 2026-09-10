@@ -1,0 +1,2214 @@
+<!DOCTYPE html>
+<html lang="es">
+  
+<head>
+  <meta charset="UTF-8">
+
+  <meta
+    name="viewport"
+    content="width=device-width, initial-scale=1.0"
+  >
+
+  <meta
+    name="description"
+    content="2.7 - Números y objeto Math en JavaScript."
+  >
+
+  <title>2.7 - Números y objeto Math en JavaScript</title>
+
+  <link rel="icon" type="image/png" href="../../../img/favicon.png?v=5">
+  <link rel="stylesheet" href="../../../css/estilos.css">
+
+  <style>
+
+    /* ==========================================
+       ESTRUCTURA DE LA UT
+    ========================================== */
+
+    .pagina-ut {
+      display: grid;
+      grid-template-columns: 280px 1fr 260px;
+      min-height: calc(100vh - 68px);
+    }
+
+
+    /* ==========================================
+       COLUMNA IZQUIERDA
+    ========================================== */
+
+    .sidebar {
+      border-right: 1px solid var(--borde);
+      background-color: var(--fondo-pagina);
+
+      padding: 12px 10px 30px;
+
+      position: sticky;
+      top: 68px;
+
+      height: calc(100vh - 68px);
+      overflow-y: auto;
+    }
+
+    .sidebar-modulo {
+      display: block;
+      margin-bottom: 8px;
+      padding: 8px 14px;
+
+      color: #626873;
+
+      font-size: 17px;
+      font-weight: 700;
+      line-height: 1.3;
+
+      text-decoration: none;
+      border-radius: 6px;
+
+      transition:
+        color 0.2s ease,
+        background-color 0.2s ease;
+    }
+
+    .sidebar-modulo:hover {
+      color: var(--verde-principal);
+      background-color: #f3f4f6;
+    }
+
+    body.modo-oscuro .sidebar-modulo:hover {
+      background-color: #273244;
+    }
+
+
+    /* ==========================================
+       MENÚ LATERAL DESPLEGABLE
+    ========================================== */
+
+    .menu-desplegable {
+      width: 100%;
+    }
+
+    .menu-cabecera {
+      display: flex;
+      align-items: center;
+      gap: 4px;
+
+      width: 100%;
+
+      border-radius: 6px;
+    }
+
+    .menu-cabecera-activa {
+      background-color: #f1f1f1;
+    }
+
+    .menu-cabecera-activa > .menu-titulo {
+      color: var(--verde-principal);
+    }
+
+    .menu-titulo {
+      flex: 1;
+
+      display: block;
+
+      padding: 11px 8px 11px 14px;
+
+      color: #626873;
+
+      font-size: 16px;
+      font-weight: 650;
+      line-height: 1.4;
+
+      text-decoration: none;
+    }
+
+    .menu-titulo:hover {
+      color: var(--verde-principal);
+    }
+
+    .boton-desplegar {
+      width: 36px;
+      height: 36px;
+
+      margin-right: 5px;
+      padding: 0;
+
+      display: flex;
+      align-items: center;
+      justify-content: center;
+
+      flex-shrink: 0;
+
+      border: 0;
+      border-radius: 6px;
+
+      background: transparent;
+
+      color: #777;
+
+      font-family: inherit;
+      font-size: 24px;
+      line-height: 1;
+
+      cursor: pointer;
+    }
+
+    .boton-desplegar:hover {
+      background-color: #e5e7eb;
+      color: var(--verde-principal);
+    }
+
+    .submenu {
+      display: none;
+    }
+
+    .submenu.submenu-abierto {
+      display: block;
+    }
+
+    .menu-apartado {
+      margin-left: 14px;
+    }
+
+    .menu-apartado .menu-titulo {
+      padding-top: 9px;
+      padding-bottom: 9px;
+
+      font-size: 15px;
+      font-weight: 600;
+    }
+
+    .enlace-apartado-simple {
+      display: block;
+
+      margin-left: 14px;
+      padding: 10px 14px;
+
+      color: #626873;
+
+      font-size: 15px;
+      font-weight: 600;
+      line-height: 1.4;
+
+      text-decoration: none;
+
+      border-radius: 6px;
+
+      transition:
+        background-color 0.2s ease,
+        color 0.2s ease;
+    }
+
+    .enlace-apartado-simple:hover {
+      background-color: #f3f4f6;
+      color: var(--verde-principal);
+    }
+
+    .submenu-apartados {
+      margin: 2px 0 5px 28px;
+
+      border-left: 2px solid #e0e3e7;
+    }
+
+    .submenu-apartados a {
+      display: block;
+
+      padding: 7px 10px;
+
+      color: #777d87;
+
+      font-size: 14px;
+      font-weight: 500;
+      line-height: 1.35;
+
+      text-decoration: none;
+    }
+
+    .submenu-apartados a:hover {
+      color: var(--verde-principal);
+    }
+
+    body.modo-oscuro .menu-cabecera-activa {
+      background-color: #273244;
+    }
+
+    body.modo-oscuro .boton-desplegar:hover {
+      background-color: #334155;
+    }
+
+    body.modo-oscuro .enlace-apartado-simple:hover {
+      background-color: #273244;
+    }
+
+    body.modo-oscuro .submenu-apartados {
+      border-left-color: #3a4659;
+    }
+
+
+    /* ==========================================
+       RESTO DE UT
+    ========================================== */
+
+    .sidebar-ut-cerrada {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+
+      padding: 13px 14px;
+
+      color: #626873;
+
+      text-decoration: none;
+
+      font-size: 16px;
+      font-weight: 650;
+      line-height: 1.35;
+
+      border-radius: 6px;
+
+      transition:
+        background-color 0.2s ease,
+        color 0.2s ease;
+    }
+
+    .sidebar-ut-cerrada:hover {
+      background-color: #f3f4f6;
+      color: var(--verde-principal);
+    }
+
+    body.modo-oscuro .sidebar-ut-cerrada:hover {
+      background-color: #273244;
+    }
+
+
+    /* ==========================================
+       ZONA CENTRAL
+    ========================================== */
+
+    .contenido-ut {
+      padding: 28px 34px 70px;
+
+      max-width: 1150px;
+      width: 100%;
+    }
+
+    .migas {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+
+      margin-bottom: 30px;
+
+      font-size: 14px;
+    }
+
+    .miga-inicio {
+      text-decoration: none;
+      font-size: 18px;
+    }
+
+    .miga-separador {
+      color: #999;
+      font-size: 22px;
+    }
+
+    .miga-modulo {
+      color: var(--texto-secundario);
+      text-decoration: none;
+    }
+
+    .miga-modulo:hover {
+      color: var(--verde-principal);
+    }
+
+    .miga-actual {
+      padding: 8px 14px;
+
+      background-color: #f3f3f3;
+      border-radius: 24px;
+
+      color: var(--verde-principal);
+    }
+
+    body.modo-oscuro .miga-actual {
+      background-color: #273244;
+    }
+
+    .contenido-ut h1 {
+      margin: 0 0 30px;
+
+      font-size: clamp(38px, 5vw, 58px);
+      line-height: 1.12;
+    }
+
+
+    /* ==========================================
+       CONTENIDO DE LOS APARTADOS
+    ========================================== */
+
+    .apartado-ut {
+      margin-top: 55px;
+      scroll-margin-top: 95px;
+    }
+
+    .apartado-ut h2 {
+      margin: 0 0 24px;
+
+      font-size: 32px;
+      line-height: 1.2;
+
+      scroll-margin-top: 95px;
+    }
+
+    .apartado-ut h3 {
+      margin: 34px 0 16px;
+
+      font-size: 24px;
+      line-height: 1.3;
+    }
+
+    .apartado-ut p {
+      margin: 0 0 18px;
+
+      font-size: 18px;
+      line-height: 1.75;
+    }
+
+    .apartado-ut ul {
+      margin: 16px 0 24px;
+      padding-left: 28px;
+    }
+
+    .apartado-ut li {
+      margin-bottom: 10px;
+
+      font-size: 17px;
+      line-height: 1.6;
+    }
+
+
+    /* ==========================================
+       CAJAS DE LOS APUNTES
+    ========================================== */
+
+    .caja {
+      margin: 28px 0;
+      padding: 18px 20px;
+
+      border-left: 5px solid;
+      border-radius: 8px;
+
+      line-height: 1.65;
+    }
+
+    .caja p {
+      margin: 0;
+
+      font-size: 17px;
+    }
+
+    .caja-titulo {
+      display: block;
+
+      margin-bottom: 8px;
+
+      font-size: 17px;
+      font-weight: 700;
+    }
+
+    .caja-importante {
+      background-color: #eef8f1;
+      border-left-color: #2f9e5b;
+    }
+
+    .caja-atencion {
+      background-color: #fff7e8;
+      border-left-color: #e09b27;
+    }
+
+    .caja-ejemplo {
+      background-color: #eef5ff;
+      border-left-color: #3f7acb;
+    }
+
+    .caja-curiosidad {
+      background-color: #f7f1ff;
+      border-left-color: #8b5cc7;
+    }
+
+    body.modo-oscuro .caja-importante {
+      background-color: #20372a;
+    }
+
+    body.modo-oscuro .caja-atencion {
+      background-color: #3b3020;
+    }
+
+    body.modo-oscuro .caja-ejemplo {
+      background-color: #23344a;
+    }
+
+    body.modo-oscuro .caja-curiosidad {
+      background-color: #332944;
+    }
+
+
+    /* ==========================================
+       TABLAS
+    ========================================== */
+
+    .tabla-responsive {
+      width: 100%;
+
+      margin: 28px 0;
+
+      overflow-x: auto;
+    }
+
+    .tabla-apuntes {
+      width: 100%;
+
+      border-collapse: collapse;
+
+      font-size: 16px;
+    }
+
+    .tabla-apuntes th,
+    .tabla-apuntes td {
+      padding: 14px 16px;
+
+      border: 1px solid var(--borde);
+
+      text-align: left;
+      vertical-align: top;
+
+      line-height: 1.55;
+    }
+
+    .tabla-apuntes th {
+      background-color: #f1f3f5;
+
+      font-weight: 700;
+    }
+
+    body.modo-oscuro .tabla-apuntes th {
+      background-color: #273244;
+    }
+
+
+    /* ==========================================
+       ESQUEMAS VISUALES
+    ========================================== */
+
+    .esquema-web {
+      max-width: 700px;
+
+      margin: 30px auto;
+    }
+
+    .esquema-fila {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 14px;
+
+      margin-top: 16px;
+    }
+
+    .esquema-caja {
+      padding: 18px 16px;
+
+      background-color: var(--fondo-tarjeta);
+
+      border: 1px solid var(--borde);
+      border-radius: 10px;
+
+      text-align: center;
+    }
+
+    .esquema-caja strong {
+      display: block;
+
+      margin-bottom: 5px;
+
+      color: var(--verde-principal);
+
+      font-size: 18px;
+    }
+
+    .esquema-caja span {
+      color: var(--texto-secundario);
+
+      font-size: 15px;
+      line-height: 1.45;
+    }
+
+
+    /* ==========================================
+       ACTIVIDAD DE REFLEXIÓN
+    ========================================== */
+
+    .actividad-reflexion {
+      margin: 32px 0;
+      padding: 22px 24px;
+
+      background-color: #f7f8fa;
+
+      border: 1px solid var(--borde);
+      border-radius: 10px;
+    }
+
+    .actividad-reflexion h3 {
+      margin: 0 0 12px;
+
+      color: var(--verde-principal);
+
+      font-size: 20px;
+    }
+
+    .actividad-reflexion p {
+      margin: 0 0 14px;
+
+      font-size: 17px;
+      line-height: 1.65;
+    }
+
+    body.modo-oscuro .actividad-reflexion {
+      background-color: #232d3d;
+    }
+
+
+    /* ==========================================
+       SOLUCIÓN DESPLEGABLE
+    ========================================== */
+
+    .solucion-desplegable {
+      margin-top: 20px;
+    }
+
+    .solucion-desplegable summary {
+      display: inline-block;
+
+      padding: 10px 16px;
+
+      background-color: #eef8f1;
+
+      border: 1px solid #b9dfc6;
+      border-radius: 7px;
+
+      color: var(--verde-principal);
+
+      font-size: 16px;
+      font-weight: 700;
+
+      cursor: pointer;
+      user-select: none;
+    }
+
+    .solucion-desplegable summary:hover {
+      background-color: #e2f3e7;
+    }
+
+    .contenido-solucion {
+      margin-top: 16px;
+      padding: 18px 20px;
+
+      background-color: var(--fondo-pagina);
+
+      border-left: 4px solid var(--verde-principal);
+      border-radius: 6px;
+    }
+
+    .contenido-solucion p {
+      margin: 0 0 12px;
+
+      font-size: 16px;
+      line-height: 1.65;
+    }
+
+    .contenido-solucion p:last-child {
+      margin-bottom: 0;
+    }
+
+    body.modo-oscuro .solucion-desplegable summary {
+      background-color: #20372a;
+      border-color: #315d40;
+    }
+
+
+    /* ==========================================
+       BLOQUES DE CÓDIGO DWEC
+    ========================================== */
+
+    .bloque-codigo {
+      margin: 28px 0;
+
+      border: 1px solid #3b3b3b;
+      border-radius: 9px;
+
+      overflow: hidden;
+
+      background-color: #1e1e1e;
+    }
+
+    .cabecera-codigo {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+
+      padding: 10px 14px;
+
+      background-color: #2b2b2b;
+
+      color: #f3f4f6;
+
+      font-size: 14px;
+    }
+
+    .lenguaje-codigo {
+      font-weight: 700;
+    }
+
+    .boton-copiar {
+      padding: 6px 11px;
+
+      border: 1px solid #5c5c5c;
+      border-radius: 6px;
+
+      background-color: #383838;
+
+      color: #f3f4f6;
+
+      font-family: inherit;
+      font-size: 13px;
+
+      cursor: pointer;
+
+      transition:
+        background-color 0.2s ease,
+        border-color 0.2s ease;
+    }
+
+    .boton-copiar:hover {
+      background-color: #484848;
+      border-color: #777;
+    }
+
+    .bloque-codigo pre {
+      margin: 0;
+      padding: 18px 20px;
+
+      overflow-x: auto;
+
+      tab-size: 2;
+    }
+
+    .bloque-codigo code {
+      color: #f5f5f5;
+
+      font-family:
+        Consolas,
+        "Courier New",
+        monospace;
+
+      font-size: 15px;
+      line-height: 1.6;
+
+      white-space: pre;
+    }
+
+
+    /* ==========================================
+       COLUMNA DERECHA
+    ========================================== */
+
+    .indice-derecho {
+      padding: 28px 22px 100px;
+
+      border-left: 1px solid var(--borde);
+
+      position: sticky;
+      top: 68px;
+
+      height: calc(100vh - 68px);
+
+      overflow-y: auto;
+
+      box-sizing: border-box;
+    }
+
+    .indice-derecho h2 {
+      margin: 8px 0 20px;
+
+      font-size: 17px;
+      color: #555b65;
+    }
+
+    body.modo-oscuro .indice-derecho h2 {
+      color: #d1d5db;
+    }
+
+    .indice-derecho ul {
+      margin: 0;
+      padding-left: 18px;
+    }
+
+    .indice-derecho li {
+      margin-bottom: 12px;
+    }
+
+    .indice-derecho a {
+      color: var(--texto-secundario);
+
+      text-decoration: none;
+
+      font-size: 14px;
+      line-height: 1.4;
+    }
+
+    .indice-derecho a:hover {
+      color: var(--verde-principal);
+    }
+
+
+    /* ==========================================
+       NAVEGACIÓN ANTERIOR / SIGUIENTE
+    ========================================== */
+
+    .navegacion-paginas {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 20px;
+
+      margin-top: 50px;
+    }
+
+    .nav-pagina {
+      min-height: 100px;
+      padding: 18px 20px;
+
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+
+      border: 1px solid var(--borde);
+      border-radius: 8px;
+
+      text-decoration: none;
+
+      background-color: var(--fondo-tarjeta);
+    }
+
+    .nav-anterior {
+      align-items: flex-start;
+      text-align: left;
+    }
+
+    .nav-siguiente {
+      align-items: flex-end;
+      text-align: right;
+    }
+
+    .nav-etiqueta {
+      margin-bottom: 5px;
+
+      color: var(--texto-secundario);
+
+      font-size: 14px;
+    }
+
+    .nav-pagina strong {
+      color: var(--verde-principal);
+
+      font-size: 16px;
+      line-height: 1.4;
+    }
+
+    .nav-pagina:hover {
+      border-color: var(--verde-principal);
+    }
+
+
+    /* ==========================================
+       RESPONSIVE
+    ========================================== */
+
+    @media (max-width: 1100px) {
+
+      .pagina-ut {
+        grid-template-columns: 250px 1fr;
+      }
+
+      .indice-derecho {
+        display: none;
+      }
+
+    }
+
+    @media (max-width: 760px) {
+
+      .pagina-ut {
+        display: block;
+      }
+
+      .sidebar {
+        position: static;
+
+        width: 100%;
+        height: auto;
+
+        border-right: 0;
+        border-bottom: 1px solid var(--borde);
+      }
+
+      .contenido-ut {
+        padding: 28px 20px 60px;
+      }
+
+      .contenido-ut h1 {
+        font-size: 36px;
+      }
+
+      .navegacion-paginas {
+        grid-template-columns: 1fr;
+      }
+
+      .nav-siguiente {
+        align-items: flex-start;
+        text-align: left;
+      }
+
+      .esquema-fila {
+        grid-template-columns: 1fr;
+      }
+
+    }
+
+  </style>
+
+</head>
+
+
+<body>
+
+<header class="navbar">
+
+    <a class="inicio" href="../../../index.html">
+
+      <img
+        src="../../../img/profesora-castana.png?v=2"
+        alt=""
+        class="icono-profesora"
+      >
+
+      <span>Inicio</span>
+
+    </a>
+
+    <nav
+      id="menuModulos"
+      class="menu-modulos"
+      aria-label="Módulos formativos"
+    ></nav>
+
+    <button
+      id="botonTema"
+      class="boton-tema"
+      type="button"
+      aria-label="Cambiar entre modo claro y oscuro"
+      title="Cambiar tema"
+    >
+      ☀️
+    </button>
+
+  </header>
+
+  <div class="pagina-ut">
+
+    <aside class="sidebar">
+
+      <a class="sidebar-modulo" href="../../index.html">
+        Desarrollo web en entorno cliente
+      </a>
+
+      <a class="sidebar-ut-cerrada" href="../../ut1/index.html">
+        <span>UT1 - Introducción al desarrollo web en entorno cliente</span>
+        <span>›</span>
+      </a>
+
+      <div class="menu-desplegable">
+        <div class="menu-cabecera menu-cabecera-activa">
+          <a class="menu-titulo" href="../index.html">
+            UT2 - Fundamentos de JavaScript: variables, tipos y operadores
+          </a>
+          <button class="boton-desplegar" type="button" data-target="submenu-ut2" aria-expanded="true">⌄</button>
+        </div>
+
+        <div id="submenu-ut2" class="submenu submenu-abierto">
+
+<!-- 2.1 -->
+
+<div class="menu-desplegable menu-apartado">
+
+  <div class="menu-cabecera">
+
+    <a class="menu-titulo" href="../2-1/index.html">
+      2.1 Sintaxis básica de JavaScript
+    </a>
+
+    <button
+      class="boton-desplegar"
+      type="button"
+      data-target="submenu-2-1"
+      aria-expanded="false"
+      aria-label="Mostrar u ocultar los subapartados del 2.1"
+    >
+      ›
+    </button>
+
+  </div>
+
+  <div id="submenu-2-1" class="submenu submenu-apartados">
+
+    <a href="../2-1/index.html#sentencias">
+      Instrucciones y sentencias
+    </a>
+
+    <a href="../2-1/index.html#punto-coma">
+      Uso del punto y coma
+    </a>
+
+    <a href="../2-1/index.html#bloques">
+      Bloques de código
+    </a>
+
+    <a href="../2-1/index.html#case-sensitive">
+      Mayúsculas y minúsculas
+    </a>
+
+    <a href="../2-1/index.html#identificadores">
+      Identificadores
+    </a>
+
+    <a href="../2-1/index.html#palabras-reservadas">
+      Palabras reservadas
+    </a>
+
+    <a href="../2-1/index.html#expresiones">
+      Expresiones básicas
+    </a>
+
+  </div>
+
+</div>
+
+
+<!-- 2.2 -->
+
+<div class="menu-desplegable menu-apartado">
+
+  <div class="menu-cabecera">
+
+    <a class="menu-titulo" href="../2-2/index.html">
+      2.2 Variables, constantes e identificadores
+    </a>
+
+    <button
+      class="boton-desplegar"
+      type="button"
+      data-target="submenu-2-2"
+      aria-expanded="false"
+      aria-label="Mostrar u ocultar los subapartados del 2.2"
+    >
+      ›
+    </button>
+
+  </div>
+
+  <div id="submenu-2-2" class="submenu submenu-apartados">
+
+    <a href="../2-2/index.html#variables">
+      Qué es una variable
+    </a>
+
+    <a href="../2-2/index.html#declarar">
+      Declarar variables con let
+    </a>
+
+    <a href="../2-2/index.html#inicializar">
+      Declaración, inicialización y reasignación
+    </a>
+
+    <a href="../2-2/index.html#const">
+      Constantes con const
+    </a>
+
+    <a href="../2-2/index.html#var">
+      La declaración tradicional var
+    </a>
+
+    <a href="../2-2/index.html#nombres">
+      Cómo nombrar variables
+    </a>
+
+    <a href="../2-2/index.html#errores">
+      Errores frecuentes
+    </a>
+
+  </div>
+
+</div>
+
+
+<!-- 2.3 -->
+
+<div class="menu-desplegable menu-apartado">
+
+  <div class="menu-cabecera">
+
+    <a class="menu-titulo" href="../2-3/index.html">
+      2.3 Tipos de datos en JavaScript
+    </a>
+
+    <button
+      class="boton-desplegar"
+      type="button"
+      data-target="submenu-2-3"
+      aria-expanded="false"
+      aria-label="Mostrar u ocultar los subapartados del 2.3"
+    >
+      ›
+    </button>
+
+  </div>
+
+  <div id="submenu-2-3" class="submenu submenu-apartados">
+    <a href="../2-3/index.html#tipos-primitivos">Tipos primitivos</a>
+    <a href="../2-3/index.html#string">String</a>
+    <a href="../2-3/index.html#number">Number</a>
+    <a href="../2-3/index.html#boolean">Boolean</a>
+    <a href="../2-3/index.html#undefined">Undefined</a>
+    <a href="../2-3/index.html#null">Null</a>
+    <a href="../2-3/index.html#otros-tipos">BigInt, Symbol y Object</a>
+    <a href="../2-3/index.html#typeof">El operador typeof</a>
+  </div>
+
+</div>
+
+
+<!-- 2.4 -->
+
+<div class="menu-desplegable menu-apartado">
+
+  <div class="menu-cabecera">
+
+    <a class="menu-titulo" href="../2-4/index.html">
+      2.4 Conversión de tipos
+    </a>
+
+    <button
+      class="boton-desplegar"
+      type="button"
+      data-target="submenu-2-4"
+      aria-expanded="false"
+      aria-label="Mostrar u ocultar los subapartados del 2.4"
+    >
+      ›
+    </button>
+
+  </div>
+
+  <div id="submenu-2-4" class="submenu submenu-apartados">
+    <a href="../2-4/index.html#conversion-explicita">Conversión explícita</a>
+    <a href="../2-4/index.html#number-string-boolean">Number(), String() y Boolean()</a>
+    <a href="../2-4/index.html#parseint-parsefloat">parseInt() y parseFloat()</a>
+    <a href="../2-4/index.html#coercion">Conversión implícita o coerción</a>
+    <a href="../2-4/index.html#casos-practicos">Casos prácticos de conversión</a>
+  </div>
+
+</div>
+
+
+<!-- 2.5 -->
+<div class="menu-desplegable menu-apartado">
+  <div class="menu-cabecera">
+    <a class="menu-titulo" href="../2-5/index.html">2.5 Operadores</a>
+    <button class="boton-desplegar" type="button" data-target="submenu-2-5" aria-expanded="false" aria-label="Mostrar u ocultar los subapartados del 2.5">›</button>
+  </div>
+  <div id="submenu-2-5" class="submenu submenu-apartados">
+    <a href="../2-5/index.html#aritmeticos">Operadores aritméticos</a>
+    <a href="../2-5/index.html#asignacion">Operadores de asignación</a>
+    <a href="../2-5/index.html#incremento-decremento">Incremento y decremento</a>
+    <a href="../2-5/index.html#comparacion">Operadores de comparación</a>
+    <a href="../2-5/index.html#igualdad-estricta">Igualdad estricta: === y !==</a>
+    <a href="../2-5/index.html#logicos">Operadores lógicos</a>
+    <a href="../2-5/index.html#ternario">Introducción al operador ternario</a>
+  </div>
+</div>
+
+<!-- 2.6 -->
+<div class="menu-desplegable menu-apartado">
+  <div class="menu-cabecera">
+    <a class="menu-titulo" href="../2-6/index.html">2.6 Cadenas de texto y template literals</a>
+    <button class="boton-desplegar" type="button" data-target="submenu-2-6" aria-expanded="false" aria-label="Mostrar u ocultar los subapartados del 2.6">›</button>
+  </div>
+  <div id="submenu-2-6" class="submenu submenu-apartados">
+    <a href="../2-6/index.html#cadenas">Cadenas de texto</a>
+    <a href="../2-6/index.html#comillas">Comillas simples y dobles</a>
+    <a href="../2-6/index.html#escape">Caracteres de escape</a>
+    <a href="../2-6/index.html#concatenacion">Concatenación con +</a>
+    <a href="../2-6/index.html#template-literals">Template literals</a>
+    <a href="../2-6/index.html#interpolacion">Interpolación con ${}</a>
+  </div>
+</div>
+
+<!-- 2.7 -->
+<div class="menu-desplegable menu-apartado">
+  <div class="menu-cabecera menu-cabecera-activa">
+    <a class="menu-titulo" href="index.html">2.7 Números y objeto Math</a>
+    <button class="boton-desplegar" type="button" data-target="submenu-2-7" aria-expanded="true" aria-label="Mostrar u ocultar los subapartados del 2.7">⌄</button>
+  </div>
+
+  <div id="submenu-2-7" class="submenu submenu-apartados submenu-abierto">
+    <a href="#numeros">Números enteros y decimales</a>
+    <a href="#nan-infinity">NaN e Infinity</a>
+    <a href="#tofixed">toFixed()</a>
+    <a href="#toprecision">toPrecision()</a>
+    <a href="#math">El objeto Math</a>
+    <a href="#redondeo">round(), floor() y ceil()</a>
+    <a href="#random">Math.random()</a>
+  </div>
+</div>
+
+
+<!-- 2.8 -->
+
+<div class="menu-desplegable menu-apartado">
+
+  <div class="menu-cabecera">
+
+    <a class="menu-titulo" href="../2-8/index.html">
+      2.8 Entrada y salida básica de datos
+    </a>
+
+    <button
+      class="boton-desplegar"
+      type="button"
+      data-target="submenu-2-8"
+      aria-expanded="false"
+    >
+      ›
+    </button>
+
+  </div>
+
+  <div id="submenu-2-8" class="submenu submenu-apartados">
+
+    <a href="../2-8/index.html#console-log">
+      Salida con console.log()
+    </a>
+
+    <a href="../2-8/index.html#alert">
+      Salida con alert()
+    </a>
+
+    <a href="../2-8/index.html#prompt">
+      Entrada con prompt()
+    </a>
+
+    <a href="../2-8/index.html#prompt-string">
+      prompt() devuelve texto
+    </a>
+
+    <a href="../2-8/index.html#entrada-conversion">
+      Conversión de datos introducidos
+    </a>
+
+  </div>
+
+</div>
+
+
+<!-- 2.9 -->
+
+<div class="menu-desplegable menu-apartado">
+
+  <div class="menu-cabecera">
+
+    <a class="menu-titulo" href="../2-9/index.html">
+      2.9 Comentarios y buenas prácticas
+    </a>
+
+    <button
+      class="boton-desplegar"
+      type="button"
+      data-target="submenu-2-9"
+      aria-expanded="false"
+    >
+      ›
+    </button>
+
+  </div>
+
+  <div id="submenu-2-9" class="submenu submenu-apartados">
+
+    <a href="../2-9/index.html#comentarios-linea">
+      Comentarios de una línea
+    </a>
+
+    <a href="../2-9/index.html#comentarios-bloque">
+      Comentarios de bloque
+    </a>
+
+    <a href="../2-9/index.html#cuando-comentar">
+      Cuándo comentar
+    </a>
+
+    <a href="../2-9/index.html#legibilidad">
+      Legibilidad del código
+    </a>
+
+    <a href="../2-9/index.html#nombres">
+      Nombres descriptivos
+    </a>
+
+    <a href="../2-9/index.html#indentacion">
+      Indentación y organización
+    </a>
+
+  </div>
+
+</div>
+
+
+<!-- 2.10 -->
+
+<div class="menu-desplegable menu-apartado">
+
+  <div class="menu-cabecera">
+
+    <a class="menu-titulo" href="../2-10/index.html">
+      2.10 Ámbito de las variables
+    </a>
+
+    <button
+      class="boton-desplegar"
+      type="button"
+      data-target="submenu-2-10"
+      aria-expanded="false"
+    >
+      ›
+    </button>
+
+  </div>
+
+  <div id="submenu-2-10" class="submenu submenu-apartados">
+
+    <a href="../2-10/index.html#scope">
+      Qué es el ámbito o scope
+    </a>
+
+    <a href="../2-10/index.html#global">
+      Ámbito global
+    </a>
+
+    <a href="../2-10/index.html#bloque">
+      Ámbito de bloque
+    </a>
+
+    <a href="../2-10/index.html#funcion">
+      Introducción al ámbito de función
+    </a>
+
+    <a href="../2-10/index.html#let-const">
+      Ámbito de let y const
+    </a>
+
+    <a href="../2-10/index.html#var">
+      Diferencias básicas con var
+    </a>
+
+  </div>
+
+</div>
+
+
+<!-- 2.11 -->
+
+<div class="menu-desplegable menu-apartado">
+
+  <div class="menu-cabecera">
+
+    <a class="menu-titulo" href="../2-11/index.html">
+      2.11 Prueba y depuración del código
+    </a>
+
+    <button
+      class="boton-desplegar"
+      type="button"
+      data-target="submenu-2-11"
+      aria-expanded="false"
+    >
+      ›
+    </button>
+
+  </div>
+
+  <div id="submenu-2-11" class="submenu submenu-apartados">
+
+    <a href="../2-11/index.html#console">
+      Uso de Console
+    </a>
+
+    <a href="../2-11/index.html#errores">
+      Mensajes de error
+    </a>
+
+    <a href="../2-11/index.html#syntaxerror">
+      SyntaxError
+    </a>
+
+    <a href="../2-11/index.html#referenceerror">
+      ReferenceError
+    </a>
+
+    <a href="../2-11/index.html#typeerror">
+      TypeError
+    </a>
+
+    <a href="../2-11/index.html#archivo-linea">
+      Archivo y línea del error
+    </a>
+
+    <a href="../2-11/index.html#sources">
+      Sources y breakpoints
+    </a>
+
+    <a href="../2-11/index.html#ciclo-depuracion">
+      Ciclo de depuración
+    </a>
+
+  </div>
+
+</div>          <a class="enlace-apartado-simple" href="../resumen/index.html">✏️ Resumen de la UT2</a>
+          <a class="enlace-apartado-simple" href="../actividades/index.html">📝 Actividades de la UT2</a>
+        </div>
+      </div>
+
+      <a class="sidebar-ut-cerrada" href="../../ut3/index.html"><span>UT3 - Estructuras de control en JavaScript</span><span>›</span></a>
+      <a class="sidebar-ut-cerrada" href="../../ut4/index.html"><span>UT4 - Arrays y estructuras de datos en JavaScript</span><span>›</span></a>
+      <a class="sidebar-ut-cerrada" href="../../ut5/index.html"><span>UT5 - Funciones en JavaScript</span><span>›</span></a>
+      <a class="sidebar-ut-cerrada" href="../../ut6/index.html"><span>UT6 - Objetos y Programación Orientada a Objetos en JavaScript</span><span>›</span></a>
+      <a class="sidebar-ut-cerrada" href="../../ut7/index.html"><span>UT7 - Objetos predefinidos y modelo del navegador (BOM)</span><span>›</span></a>
+      <a class="sidebar-ut-cerrada" href="../../ut8/index.html"><span>UT8 - Aplicaciones web interactivas: DOM, eventos y formularios</span><span>›</span></a>
+      <a class="sidebar-ut-cerrada" href="../../ut9/index.html"><span>UT9 - Comunicación asíncrona y peticiones al servidor</span><span>›</span></a>
+      <a class="sidebar-ut-cerrada" href="../../ut10/index.html"><span>UT10 - Introducción a React</span><span>›</span></a>
+    </aside>
+
+    <main class="contenido-ut">
+      <div class="migas">
+        <a class="miga-inicio" href="../../../index.html" aria-label="Volver a la página principal">🏠</a>
+        <span class="miga-separador">›</span>
+        <a class="miga-modulo" href="../../index.html">DWEC</a>
+        <span class="miga-separador">›</span>
+        <a class="miga-modulo" href="../index.html">UT2</a>
+        <span class="miga-separador">›</span>
+        <span class="miga-actual">2.7</span>
+      </div>
+
+      <h1>2.7 Números y objeto Math</h1>
+
+      <section class="apartado-ut">
+
+        <p>
+          En JavaScript utilizamos números continuamente: precios, cantidades, edades, notas,
+          coordenadas, porcentajes o resultados de cálculos. En este apartado profundizaremos
+          en el tipo <code>number</code> y veremos algunas herramientas útiles para trabajar con
+          valores numéricos.
+        </p>
+
+        <p>
+          También conoceremos <code>NaN</code> e <code>Infinity</code>, aprenderemos a mostrar
+          números con una determinada precisión y utilizaremos el objeto <code>Math</code>
+          para realizar operaciones matemáticas frecuentes.
+        </p>
+
+        <div class="caja caja-importante">
+          <span class="caja-titulo">📌 Importante</span>
+          <p>
+            JavaScript utiliza el tipo <code>number</code> tanto para números enteros como para
+            números decimales. No existen tipos separados como <code>int</code> y
+            <code>float</code> para estos valores.
+          </p>
+        </div>
+
+
+        <h2 id="numeros">Números enteros y decimales</h2>
+
+        <p>
+          Podemos escribir directamente números enteros y decimales en nuestro código. Los
+          decimales se escriben utilizando un <strong>punto</strong> como separador decimal.
+        </p>
+
+        <div class="bloque-codigo">
+          <div class="cabecera-codigo">
+            <span class="lenguaje-codigo">JavaScript</span>
+            <button class="boton-copiar" type="button">📋 Copiar código</button>
+          </div>
+          <pre><code>const edad = 20;
+const precio = 19.95;
+const temperatura = -3.5;
+
+console.log(edad);
+console.log(precio);
+console.log(temperatura);</code></pre>
+        </div>
+
+        <div class="caja caja-atencion">
+          <span class="caja-titulo">⚠️ Atención</span>
+          <p>
+            En JavaScript los decimales se escriben con punto. Por ejemplo,
+            <code>19.95</code> es correcto, mientras que <code>19,95</code> no representa
+            un número decimal.
+          </p>
+        </div>
+
+        <p>
+          También podemos utilizar notación científica cuando trabajamos con números muy
+          grandes o muy pequeños:
+        </p>
+
+        <div class="bloque-codigo">
+          <div class="cabecera-codigo">
+            <span class="lenguaje-codigo">JavaScript</span>
+            <button class="boton-copiar" type="button">📋 Copiar código</button>
+          </div>
+          <pre><code>const distancia = 3e8;
+const cantidadPequena = 2.5e-4;
+
+console.log(distancia);
+console.log(cantidadPequena);</code></pre>
+        </div>
+
+        <p>El resultado será:</p>
+
+        <div class="bloque-codigo">
+          <div class="cabecera-codigo">
+            <span class="lenguaje-codigo">Console</span>
+            <button class="boton-copiar" type="button">📋 Copiar código</button>
+          </div>
+          <pre><code>300000000
+0.00025</code></pre>
+        </div>
+
+
+        <h2 id="nan-infinity">NaN e Infinity</h2>
+
+        <p>
+          JavaScript dispone de algunos valores numéricos especiales. Uno de ellos es
+          <code>NaN</code>, abreviatura de <em>Not a Number</em>. Aparece cuando intentamos
+          obtener un resultado numérico a partir de un valor que no puede convertirse
+          correctamente en número.
+        </p>
+
+        <div class="bloque-codigo">
+          <div class="cabecera-codigo">
+            <span class="lenguaje-codigo">JavaScript</span>
+            <button class="boton-copiar" type="button">📋 Copiar código</button>
+          </div>
+          <pre><code>const resultado = Number("hola");
+
+console.log(resultado);
+console.log(typeof resultado);</code></pre>
+        </div>
+
+        <p>El resultado será:</p>
+
+        <div class="bloque-codigo">
+          <div class="cabecera-codigo">
+            <span class="lenguaje-codigo">Console</span>
+            <button class="boton-copiar" type="button">📋 Copiar código</button>
+          </div>
+          <pre><code>NaN
+number</code></pre>
+        </div>
+
+        <div class="caja caja-importante">
+          <span class="caja-titulo">📌 Importante</span>
+          <p>
+            Aunque su nombre significa <em>Not a Number</em>, <code>NaN</code> pertenece al
+            tipo <code>number</code>. Por eso <code>typeof NaN</code> devuelve
+            <code>"number"</code>.
+          </p>
+        </div>
+
+        <p>
+          Otro valor especial es <code>Infinity</code>, que representa un valor infinito.
+          Puede aparecer, por ejemplo, al dividir un número distinto de cero entre
+          <code>0</code>.
+        </p>
+
+        <div class="bloque-codigo">
+          <div class="cabecera-codigo">
+            <span class="lenguaje-codigo">JavaScript</span>
+            <button class="boton-copiar" type="button">📋 Copiar código</button>
+          </div>
+          <pre><code>console.log(10 / 0);
+console.log(-10 / 0);</code></pre>
+        </div>
+
+        <div class="bloque-codigo">
+          <div class="cabecera-codigo">
+            <span class="lenguaje-codigo">Console</span>
+            <button class="boton-copiar" type="button">📋 Copiar código</button>
+          </div>
+          <pre><code>Infinity
+-Infinity</code></pre>
+        </div>
+
+        <div class="caja caja-atencion">
+          <span class="caja-titulo">⚠️ Atención</span>
+          <p>
+            Que una operación produzca <code>NaN</code> o <code>Infinity</code> normalmente
+            indica que debemos revisar los datos o el cálculo realizado.
+          </p>
+        </div>
+
+
+        <h2 id="tofixed"><code>toFixed()</code></h2>
+
+        <p>
+          El método <code>toFixed()</code> permite representar un número utilizando un número
+          determinado de cifras decimales. Indicamos entre paréntesis cuántos decimales
+          queremos mostrar.
+        </p>
+
+        <div class="bloque-codigo">
+          <div class="cabecera-codigo">
+            <span class="lenguaje-codigo">JavaScript</span>
+            <button class="boton-copiar" type="button">📋 Copiar código</button>
+          </div>
+          <pre><code>const precio = 19.9567;
+
+console.log(precio.toFixed(2));
+console.log(precio.toFixed(3));</code></pre>
+        </div>
+
+        <div class="bloque-codigo">
+          <div class="cabecera-codigo">
+            <span class="lenguaje-codigo">Console</span>
+            <button class="boton-copiar" type="button">📋 Copiar código</button>
+          </div>
+          <pre><code>19.96
+19.957</code></pre>
+        </div>
+
+        <div class="caja caja-importante">
+          <span class="caja-titulo">📌 Importante</span>
+          <p>
+            <code>toFixed()</code> devuelve una <strong>cadena de texto</strong>, no un número.
+            Es muy útil cuando queremos preparar un valor para mostrarlo al usuario, por ejemplo
+            un precio con dos decimales.
+          </p>
+        </div>
+
+        <div class="caja caja-ejemplo">
+          <span class="caja-titulo">💻 Ejemplo DAW</span>
+          <p>
+            Si un producto cuesta <code>12.5</code> euros, podemos mostrar
+            <code>12.50 €</code> utilizando <code>precio.toFixed(2)</code>.
+          </p>
+        </div>
+
+
+        <h2 id="toprecision"><code>toPrecision()</code></h2>
+
+        <p>
+          El método <code>toPrecision()</code> permite indicar el número total de
+          <strong>cifras significativas</strong> que queremos utilizar para representar
+          un número.
+        </p>
+
+        <div class="bloque-codigo">
+          <div class="cabecera-codigo">
+            <span class="lenguaje-codigo">JavaScript</span>
+            <button class="boton-copiar" type="button">📋 Copiar código</button>
+          </div>
+          <pre><code>const numero = 123.456;
+
+console.log(numero.toPrecision(4));
+console.log(numero.toPrecision(6));</code></pre>
+        </div>
+
+        <div class="bloque-codigo">
+          <div class="cabecera-codigo">
+            <span class="lenguaje-codigo">Console</span>
+            <button class="boton-copiar" type="button">📋 Copiar código</button>
+          </div>
+          <pre><code>123.5
+123.456</code></pre>
+        </div>
+
+        <p>
+          La diferencia principal es que <code>toFixed()</code> controla el número de
+          <strong>decimales</strong>, mientras que <code>toPrecision()</code> controla el
+          número total de <strong>cifras significativas</strong>.
+        </p>
+
+        <div class="tabla-responsive">
+          <table class="tabla-apuntes">
+            <thead>
+              <tr>
+                <th>Método</th>
+                <th>Controla</th>
+                <th>Ejemplo con 123.456</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><code>toFixed(2)</code></td>
+                <td>Número de decimales</td>
+                <td><code>"123.46"</code></td>
+              </tr>
+              <tr>
+                <td><code>toPrecision(4)</code></td>
+                <td>Número total de cifras significativas</td>
+                <td><code>"123.5"</code></td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <div class="caja caja-atencion">
+          <span class="caja-titulo">⚠️ Atención</span>
+          <p>
+            Igual que <code>toFixed()</code>, <code>toPrecision()</code> devuelve una
+            cadena de texto.
+          </p>
+        </div>
+
+
+        <h2 id="math">El objeto <code>Math</code></h2>
+
+        <p>
+          JavaScript incorpora el objeto predefinido <code>Math</code>, que agrupa
+          propiedades y métodos útiles para realizar operaciones matemáticas.
+        </p>
+
+        <p>
+          No necesitamos crear un objeto <code>Math</code>. Utilizamos directamente su
+          nombre seguido de un punto y de la propiedad o método que queramos emplear.
+        </p>
+
+        <div class="bloque-codigo">
+          <div class="cabecera-codigo">
+            <span class="lenguaje-codigo">JavaScript</span>
+            <button class="boton-copiar" type="button">📋 Copiar código</button>
+          </div>
+          <pre><code>console.log(Math.PI);
+console.log(Math.sqrt(25));
+console.log(Math.abs(-8));
+console.log(Math.max(4, 12, 7));
+console.log(Math.min(4, 12, 7));</code></pre>
+        </div>
+
+        <div class="bloque-codigo">
+          <div class="cabecera-codigo">
+            <span class="lenguaje-codigo">Console</span>
+            <button class="boton-copiar" type="button">📋 Copiar código</button>
+          </div>
+          <pre><code>3.141592653589793
+5
+8
+12
+4</code></pre>
+        </div>
+
+        <div class="tabla-responsive">
+          <table class="tabla-apuntes">
+            <thead>
+              <tr>
+                <th>Elemento</th>
+                <th>Utilidad</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr><td><code>Math.PI</code></td><td>Valor aproximado de π.</td></tr>
+              <tr><td><code>Math.sqrt(x)</code></td><td>Raíz cuadrada de un número.</td></tr>
+              <tr><td><code>Math.abs(x)</code></td><td>Valor absoluto.</td></tr>
+              <tr><td><code>Math.max(...)</code></td><td>Mayor de varios valores.</td></tr>
+              <tr><td><code>Math.min(...)</code></td><td>Menor de varios valores.</td></tr>
+            </tbody>
+          </table>
+        </div>
+
+        <div class="caja caja-importante">
+          <span class="caja-titulo">📌 Importante</span>
+          <p>
+            En este apartado utilizamos <code>Math</code> de forma práctica para trabajar
+            con números. Más adelante, en la UT7, estudiaremos con más detalle los
+            <strong>objetos predefinidos de JavaScript</strong>.
+          </p>
+        </div>
+
+
+        <h2 id="redondeo"><code>round()</code>, <code>floor()</code> y <code>ceil()</code></h2>
+
+        <p>
+          El objeto <code>Math</code> dispone de varios métodos para redondear números.
+          Los tres más habituales son <code>Math.round()</code>, <code>Math.floor()</code>
+          y <code>Math.ceil()</code>.
+        </p>
+
+        <div class="tabla-responsive">
+          <table class="tabla-apuntes">
+            <thead>
+              <tr>
+                <th>Método</th>
+                <th>Comportamiento</th>
+                <th>Ejemplo</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><code>Math.round()</code></td>
+                <td>Redondea al entero más cercano.</td>
+                <td><code>Math.round(4.6)</code> → <code>5</code></td>
+              </tr>
+              <tr>
+                <td><code>Math.floor()</code></td>
+                <td>Redondea hacia abajo.</td>
+                <td><code>Math.floor(4.9)</code> → <code>4</code></td>
+              </tr>
+              <tr>
+                <td><code>Math.ceil()</code></td>
+                <td>Redondea hacia arriba.</td>
+                <td><code>Math.ceil(4.1)</code> → <code>5</code></td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <div class="bloque-codigo">
+          <div class="cabecera-codigo">
+            <span class="lenguaje-codigo">JavaScript</span>
+            <button class="boton-copiar" type="button">📋 Copiar código</button>
+          </div>
+          <pre><code>const numero = 7.6;
+
+console.log(Math.round(numero));
+console.log(Math.floor(numero));
+console.log(Math.ceil(numero));</code></pre>
+        </div>
+
+        <div class="bloque-codigo">
+          <div class="cabecera-codigo">
+            <span class="lenguaje-codigo">Console</span>
+            <button class="boton-copiar" type="button">📋 Copiar código</button>
+          </div>
+          <pre><code>8
+7
+8</code></pre>
+        </div>
+
+        <div class="caja caja-atencion">
+          <span class="caja-titulo">⚠️ Atención</span>
+          <p>
+            Con números negativos, “hacia abajo” y “hacia arriba” se refieren a su posición
+            en la recta numérica. Por ejemplo, <code>Math.floor(-4.2)</code> devuelve
+            <code>-5</code> y <code>Math.ceil(-4.2)</code> devuelve <code>-4</code>.
+          </p>
+        </div>
+
+
+        <h2 id="random"><code>Math.random()</code></h2>
+
+        <p>
+          El método <code>Math.random()</code> genera un número decimal pseudoaleatorio
+          comprendido entre <code>0</code>, incluido, y <code>1</code>, excluido.
+        </p>
+
+        <div class="bloque-codigo">
+          <div class="cabecera-codigo">
+            <span class="lenguaje-codigo">JavaScript</span>
+            <button class="boton-copiar" type="button">📋 Copiar código</button>
+          </div>
+          <pre><code>console.log(Math.random());</code></pre>
+        </div>
+
+        <p>
+          Cada ejecución puede producir un valor diferente, por ejemplo
+          <code>0.347281...</code>.
+        </p>
+
+        <div class="caja caja-importante">
+          <span class="caja-titulo">📌 Importante</span>
+          <p>
+            <code>Math.random()</code> cumple <code>0 &lt;= resultado &lt; 1</code>.
+            Puede devolver <code>0</code>, pero nunca <code>1</code>.
+          </p>
+        </div>
+
+        <p>
+          Si queremos obtener un número entero aleatorio entre <code>1</code> y
+          <code>10</code>, podemos combinar <code>Math.random()</code> con
+          <code>Math.floor()</code>:
+        </p>
+
+        <div class="bloque-codigo">
+          <div class="cabecera-codigo">
+            <span class="lenguaje-codigo">JavaScript</span>
+            <button class="boton-copiar" type="button">📋 Copiar código</button>
+          </div>
+          <pre><code>const numeroAleatorio = Math.floor(Math.random() * 10) + 1;
+
+console.log(numeroAleatorio);</code></pre>
+        </div>
+
+        <p>
+          Primero <code>Math.random() * 10</code> produce un valor entre <code>0</code> y
+          casi <code>10</code>. Después <code>Math.floor()</code> obtiene un entero entre
+          <code>0</code> y <code>9</code>, y finalmente sumamos <code>1</code> para obtener
+          un valor entre <code>1</code> y <code>10</code>.
+        </p>
+
+        <div class="caja caja-ejemplo">
+          <span class="caja-titulo">💻 Ejemplo DAW</span>
+          <p>
+            Los números aleatorios pueden utilizarse para elegir preguntas al azar,
+            seleccionar elementos de una lista o crear pequeños juegos. Para usos de
+            seguridad, contraseñas o criptografía no debemos utilizar <code>Math.random()</code>.
+          </p>
+        </div>
+
+
+        <div class="actividad-reflexion">
+          <h3>🧠 Comprueba lo aprendido</h3>
+          <p>Antes de ejecutar el código, intenta predecir el resultado de cada expresión:</p>
+
+          <div class="bloque-codigo">
+            <div class="cabecera-codigo">
+              <span class="lenguaje-codigo">JavaScript</span>
+              <button class="boton-copiar" type="button">📋 Copiar código</button>
+            </div>
+            <pre><code>const numero = 12.678;
+
+console.log(numero.toFixed(2));
+console.log(numero.toPrecision(3));
+console.log(Math.round(4.7));
+console.log(Math.floor(4.7));
+console.log(Math.ceil(4.2));
+console.log(Math.sqrt(81));
+console.log(Math.abs(-15));</code></pre>
+          </div>
+
+          <details class="solucion-desplegable">
+            <summary>Ver solución</summary>
+
+            <div class="contenido-solucion">
+              <p><strong>12.68</strong> — resultado de <code>numero.toFixed(2)</code>.</p>
+              <p><strong>12.7</strong> — resultado de <code>numero.toPrecision(3)</code>.</p>
+              <p><strong>5</strong> — resultado de <code>Math.round(4.7)</code>.</p>
+              <p><strong>4</strong> — resultado de <code>Math.floor(4.7)</code>.</p>
+              <p><strong>5</strong> — resultado de <code>Math.ceil(4.2)</code>.</p>
+              <p><strong>9</strong> — resultado de <code>Math.sqrt(81)</code>.</p>
+              <p><strong>15</strong> — resultado de <code>Math.abs(-15)</code>.</p>
+            </div>
+          </details>
+        </div>
+
+
+        <div class="actividad-reflexion">
+          <h3>💻 Prueba en Console</h3>
+
+          <p>
+            Copia el siguiente código en Console. Ejecútalo varias veces y observa cómo cambia
+            el número aleatorio. Después modifica el código para generar un número entero entre
+            <code>1</code> y <code>20</code>.
+          </p>
+
+          <div class="bloque-codigo">
+            <div class="cabecera-codigo">
+              <span class="lenguaje-codigo">Console</span>
+              <button class="boton-copiar" type="button">📋 Copiar código</button>
+            </div>
+            <pre><code>const minimo = 1;
+const maximo = 10;
+
+const numeroAleatorio =
+  Math.floor(Math.random() * (maximo - minimo + 1)) + minimo;
+
+console.log(numeroAleatorio);</code></pre>
+          </div>
+
+          <div class="caja caja-importante">
+            <span class="caja-titulo">📌 Reto</span>
+            <p>
+              Cambia los valores de <code>minimo</code> y <code>maximo</code> y comprueba que
+              el programa siempre genera un entero dentro del intervalo indicado.
+            </p>
+          </div>
+        </div>
+
+      </section>
+
+      <nav class="navegacion-paginas">
+        <a class="nav-pagina nav-anterior" href="../2-6/index.html">
+          <span class="nav-etiqueta">Anterior</span>
+          <strong>‹ 2.6 Cadenas de texto y template literals</strong>
+        </a>
+
+        <a class="nav-pagina nav-siguiente" href="../2-8/index.html">
+          <span class="nav-etiqueta">Siguiente</span>
+          <strong>2.8 Entrada y salida básica de datos ›</strong>
+        </a>
+      </nav>
+    </main>
+
+    <aside class="indice-derecho">
+      <h2>En esta página</h2>
+      <ul>
+        <li><a href="#numeros">Números enteros y decimales</a></li>
+        <li><a href="#nan-infinity">NaN e Infinity</a></li>
+        <li><a href="#tofixed">toFixed()</a></li>
+        <li><a href="#toprecision">toPrecision()</a></li>
+        <li><a href="#math">El objeto Math</a></li>
+        <li><a href="#redondeo">round(), floor() y ceil()</a></li>
+        <li><a href="#random">Math.random()</a></li>
+      </ul>
+    </aside>
+
+  </div>
+
+<footer class="footer">
+
+    <p>
+
+      Material elaborado por
+      <strong>Eva Ballestero Cubeles</strong>
+
+      · Licencia
+
+      <span class="licencia">
+        CC BY-NC-SA 4.0
+      </span>
+
+      <a
+        class="enlace-licencia"
+        href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.es"
+        target="_blank"
+        rel="license noopener noreferrer"
+        aria-label="Licencia Creative Commons BY-NC-SA 4.0"
+      >
+
+        <img
+          class="icono-licencia"
+          src="../../../img/licencias/cc-by-nc-sa.png"
+          alt="Licencia Creative Commons BY-NC-SA 4.0"
+        >
+
+      </a>
+
+    </p>
+
+  </footer>
+
+
+  <!-- ==========================================
+       JAVASCRIPT COMÚN
+  ========================================== -->
+
+  <script src="../../../js/modulos.js"></script>
+
+  <script>
+
+    const menuModulos =
+      document.getElementById("menuModulos");
+
+    const botonTema =
+      document.getElementById("botonTema");
+
+    const modulosActivos =
+      modulos.filter(modulo => modulo.activo === true);
+
+
+    modulosActivos.forEach(modulo => {
+
+      const enlace =
+        document.createElement("a");
+
+      enlace.href =
+        `../../../${modulo.carpeta}/index.html`;
+
+      enlace.textContent =
+        modulo.siglas;
+
+      enlace.title =
+        modulo.nombre;
+
+      if (modulo.siglas === "DWEC") {
+
+        enlace.style.color =
+          "var(--verde-principal)";
+
+      }
+
+      menuModulos.appendChild(enlace);
+
+    });
+
+
+    /* ==========================================
+       MODO OSCURO
+    ========================================== */
+
+    const temaGuardado =
+      localStorage.getItem("tema");
+
+    if (temaGuardado === "oscuro") {
+
+      document.body.classList.add("modo-oscuro");
+
+      botonTema.textContent =
+        "🌙";
+
+    }
+
+    botonTema.addEventListener("click", () => {
+
+      document.body.classList.toggle("modo-oscuro");
+
+      const estaOscuro =
+        document.body.classList.contains("modo-oscuro");
+
+      botonTema.textContent =
+        estaOscuro ? "🌙" : "☀️";
+
+      localStorage.setItem(
+        "tema",
+        estaOscuro ? "oscuro" : "claro"
+      );
+
+    });
+
+
+    /* ==========================================
+       MENÚS DESPLEGABLES
+    ========================================== */
+
+    const botonesDesplegar =
+      document.querySelectorAll(".boton-desplegar");
+
+    botonesDesplegar.forEach((boton) => {
+
+      boton.addEventListener("click", () => {
+
+        const idSubmenu =
+          boton.getAttribute("data-target");
+
+        const submenu =
+          document.getElementById(idSubmenu);
+
+        if (!submenu) {
+          return;
+        }
+
+        const estaAbierto =
+          submenu.classList.contains("submenu-abierto");
+
+        if (estaAbierto) {
+
+          submenu.classList.remove("submenu-abierto");
+
+          boton.textContent =
+            "›";
+
+          boton.setAttribute(
+            "aria-expanded",
+            "false"
+          );
+
+        } else {
+
+          submenu.classList.add("submenu-abierto");
+
+          boton.textContent =
+            "⌄";
+
+          boton.setAttribute(
+            "aria-expanded",
+            "true"
+          );
+
+        }
+
+      });
+
+    });
+
+
+    /* ==========================================
+       COPIAR BLOQUES DE CÓDIGO
+    ========================================== */
+
+    document.addEventListener("click", async (evento) => {
+
+      const boton =
+        evento.target.closest(".boton-copiar");
+
+      if (!boton) {
+        return;
+      }
+
+      const bloque =
+        boton.closest(".bloque-codigo");
+
+      if (!bloque) {
+        return;
+      }
+
+      const codigo =
+        bloque.querySelector("code");
+
+      if (!codigo) {
+        return;
+      }
+
+      const textoOriginal =
+        boton.textContent;
+
+      try {
+
+        await navigator.clipboard.writeText(
+          codigo.textContent
+        );
+
+        boton.textContent =
+          "✔ Copiado";
+
+        setTimeout(() => {
+
+          boton.textContent =
+            textoOriginal;
+
+        }, 1600);
+
+      } catch (error) {
+
+        boton.textContent =
+          "Error al copiar";
+
+        setTimeout(() => {
+
+          boton.textContent =
+            textoOriginal;
+
+        }, 1600);
+
+      }
+
+    });
+
+  </script>
+
+</body>
+</html>
