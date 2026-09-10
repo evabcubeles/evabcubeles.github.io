@@ -1704,29 +1704,20 @@ console.log(mensaje);</code></pre>
     <thead>
       <tr>
         <th>Declaración</th>
-        <th>Ámbito de bloque</th>
-        <th>Si se declara dentro de una función</th>
-        <th>Uso recomendado</th>
+        <th>¿Tiene ámbito de bloque?</th>
+        <th>¿Puede reasignarse?</th>
       </tr>
     </thead>
     <tbody>
       <tr>
         <td><code>let</code></td>
         <td>Sí</td>
-        <td>Solo es accesible dentro de su ámbito</td>
-        <td>Cuando el valor necesita cambiar</td>
+        <td>Sí</td>
       </tr>
       <tr>
         <td><code>const</code></td>
         <td>Sí</td>
-        <td>Solo es accesible dentro de su ámbito</td>
-        <td>Cuando no necesitamos reasignar el valor</td>
-      </tr>
-      <tr>
-        <td><code>var</code></td>
         <td>No</td>
-        <td>Queda limitada a la función</td>
-        <td>Principalmente para reconocer código antiguo</td>
       </tr>
     </tbody>
   </table>
@@ -1795,39 +1786,38 @@ console.log(ciudad);</code></pre>
 ejemplo();</code></pre>
         </div>
 
-        <div class="tabla-responsive">
-          <table class="tabla-apuntes">
-            <thead>
-              <tr>
-                <th>Declaración</th>
-                <th>Ámbito de bloque</th>
-                <th>Ámbito de función</th>
-                <th>Uso recomendado</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr>
-                <td><code>let</code></td>
-                <td>Sí</td>
-                <td>Sí</td>
-                <td>Cuando el valor necesita cambiar</td>
-              </tr>
-              <tr>
-                <td><code>const</code></td>
-                <td>Sí</td>
-                <td>Sí</td>
-                <td>Cuando no necesitamos reasignar el valor</td>
-              </tr>
-              <tr>
-                <td><code>var</code></td>
-                <td>No</td>
-                <td>Sí</td>
-                <td>Principalmente para reconocer código antiguo</td>
-              </tr>
-            </tbody>
-          </table>
-        </div>
-
+<div class="tabla-responsive">
+  <table class="tabla-apuntes">
+    <thead>
+      <tr>
+        <th>Declaración</th>
+        <th>Ámbito de bloque</th>
+        <th>Si se declara dentro de una función</th>
+        <th>Uso recomendado</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><code>let</code></td>
+        <td>Sí</td>
+        <td>Solo es accesible dentro de su ámbito</td>
+        <td>Cuando el valor necesita cambiar</td>
+      </tr>
+      <tr>
+        <td><code>const</code></td>
+        <td>Sí</td>
+        <td>Solo es accesible dentro de su ámbito</td>
+        <td>Cuando no necesitamos reasignar el valor</td>
+      </tr>
+      <tr>
+        <td><code>var</code></td>
+        <td>No</td>
+        <td>Queda limitada a la función</td>
+        <td>Principalmente para reconocer código antiguo</td>
+      </tr>
+    </tbody>
+  </table>
+</div>
         <div class="caja caja-atencion">
           <span class="caja-titulo">⚠️ Atención</span>
           <p>
