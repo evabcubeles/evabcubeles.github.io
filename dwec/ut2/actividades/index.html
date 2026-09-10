@@ -1728,13 +1728,19 @@ const ciudad = "Teruel"
 console.log(Ciudad);</code></pre>
           </div>
 
-          <ol>
-            <li>Localiza todos los problemas que encuentres.</li>
-            <li>Indica cuáles afectan a las reglas de los identificadores.</li>
-            <li>Indica cuál demuestra que JavaScript distingue entre mayúsculas y minúsculas.</li>
-            <li>Reescribe el fragmento utilizando nombres válidos y descriptivos.</li>
-            <li>Decide si mantendrías <code>const</code> o <code>let</code> en cada variable y justifica la respuesta.</li>
-          </ol>
+<ol>
+  <li>
+    Localiza todos los errores que encuentres. Indica también si la ausencia del punto y coma
+    después de <code>"Teruel"</code> constituye realmente un error en JavaScript.
+  </li>
+  <li>Indica cuáles afectan a las reglas de los identificadores.</li>
+  <li>Indica cuál demuestra que JavaScript distingue entre mayúsculas y minúsculas.</li>
+  <li>Reescribe el fragmento utilizando nombres válidos y descriptivos.</li>
+  <li>
+    Decide si mantendrías <code>const</code> o <code>let</code> en cada variable
+    y justifica la respuesta.
+  </li>
+</ol>
         </div>
 
         <div class="tarjeta-actividad">
@@ -1896,12 +1902,18 @@ const centro = "IES Ejemplo";</code></pre>
           </ul>
 
           <p>Después:</p>
-          <ol>
-            <li>Convierte precio y cantidad a valores numéricos.</li>
-            <li>Calcula el importe total.</li>
-            <li>Muestra en Console una frase utilizando un template literal.</li>
-            <li>Muestra también el tipo de los valores antes y después de convertirlos.</li>
-          </ol>
+<ol>
+  <li>
+    Guarda los valores introducidos mediante <code>prompt()</code> y crea a partir de ellos
+    valores numéricos para el precio y la cantidad.
+  </li>
+  <li>Calcula el importe total.</li>
+  <li>Muestra en Console una frase utilizando un template literal.</li>
+  <li>
+    Utiliza <code>typeof</code> para mostrar en Console el tipo de los datos recibidos
+    mediante <code>prompt()</code> y el tipo de los valores después de convertirlos.
+  </li>
+</ol>
 
           <div class="caja caja-atencion">
             <span class="caja-titulo">⚠️ Para esta actividad</span>
@@ -2097,11 +2109,13 @@ console.log(`Total: ${total} €`);</code></pre>
             <strong>Corrige el identificador erróneo.</strong>
             Recuerda que JavaScript distingue entre mayúsculas y minúsculas.
           </li>
-          <li>
-            <strong>Controla los tipos.</strong>
-            Convierte explícitamente el precio y la cantidad obtenidos mediante <code>prompt()</code>
-            antes de utilizarlos en los cálculos.
-          </li>
+<li>
+  <strong>Controla los tipos.</strong>
+  Comprueba primero con <code>typeof</code> qué tipo devuelve <code>prompt()</code>.
+  Observa que la multiplicación puede llegar a funcionar debido a la
+  <strong>coerción implícita</strong> de JavaScript. Después, convierte explícitamente
+  el precio y la cantidad a valores numéricos antes de utilizarlos en los cálculos.
+</li>
           <li>
             <strong>Mejora la salida.</strong>
             Muestra subtotal, IVA y total con dos decimales.
