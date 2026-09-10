@@ -1533,14 +1533,15 @@ console.log(typeof resultado);</code></pre>
 number</code></pre>
         </div>
 
-        <div class="caja caja-importante">
-          <span class="caja-titulo">📌 Importante</span>
-          <p>
-            Aunque su nombre significa <em>Not a Number</em>, <code>NaN</code> pertenece al
-            tipo <code>number</code>. Por eso <code>typeof NaN</code> devuelve
-            <code>"number"</code>.
-          </p>
-        </div>
+<div class="caja caja-importante">
+  <span class="caja-titulo">📌 Importante</span>
+  <p>
+    Aunque su nombre significa <em>Not a Number</em>, en JavaScript
+    <code>NaN</code> es un <strong>valor especial del tipo
+    <code>number</code></strong>. Por eso <code>typeof NaN</code>
+    devuelve <code>"number"</code>.
+  </p>
+</div>
         <p>
   Para comprobar si un valor es realmente <code>NaN</code> podemos utilizar
   <code>Number.isNaN()</code>:
