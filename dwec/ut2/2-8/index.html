@@ -1,0 +1,2055 @@
+<!DOCTYPE html>
+<html lang="es">
+  
+<head>
+  <meta charset="UTF-8">
+
+  <meta
+    name="viewport"
+    content="width=device-width, initial-scale=1.0"
+  >
+
+  <meta
+    name="description"
+    content="2.8 - Entrada y salida básica de datos en JavaScript."
+  >
+
+  <title>2.8 - Entrada y salida básica de datos en JavaScript</title>
+
+  <link rel="icon" type="image/png" href="../../../img/favicon.png?v=5">
+  <link rel="stylesheet" href="../../../css/estilos.css">
+
+  <style>
+
+    /* ==========================================
+       ESTRUCTURA DE LA UT
+    ========================================== */
+
+    .pagina-ut {
+      display: grid;
+      grid-template-columns: 280px 1fr 260px;
+      min-height: calc(100vh - 68px);
+    }
+
+
+    /* ==========================================
+       COLUMNA IZQUIERDA
+    ========================================== */
+
+    .sidebar {
+      border-right: 1px solid var(--borde);
+      background-color: var(--fondo-pagina);
+
+      padding: 12px 10px 30px;
+
+      position: sticky;
+      top: 68px;
+
+      height: calc(100vh - 68px);
+      overflow-y: auto;
+    }
+
+    .sidebar-modulo {
+      display: block;
+      margin-bottom: 8px;
+      padding: 8px 14px;
+
+      color: #626873;
+
+      font-size: 17px;
+      font-weight: 700;
+      line-height: 1.3;
+
+      text-decoration: none;
+      border-radius: 6px;
+
+      transition:
+        color 0.2s ease,
+        background-color 0.2s ease;
+    }
+
+    .sidebar-modulo:hover {
+      color: var(--verde-principal);
+      background-color: #f3f4f6;
+    }
+
+    body.modo-oscuro .sidebar-modulo:hover {
+      background-color: #273244;
+    }
+
+
+    /* ==========================================
+       MENÚ LATERAL DESPLEGABLE
+    ========================================== */
+
+    .menu-desplegable {
+      width: 100%;
+    }
+
+    .menu-cabecera {
+      display: flex;
+      align-items: center;
+      gap: 4px;
+
+      width: 100%;
+
+      border-radius: 6px;
+    }
+
+    .menu-cabecera-activa {
+      background-color: #f1f1f1;
+    }
+
+    .menu-cabecera-activa > .menu-titulo {
+      color: var(--verde-principal);
+    }
+
+    .menu-titulo {
+      flex: 1;
+
+      display: block;
+
+      padding: 11px 8px 11px 14px;
+
+      color: #626873;
+
+      font-size: 16px;
+      font-weight: 650;
+      line-height: 1.4;
+
+      text-decoration: none;
+    }
+
+    .menu-titulo:hover {
+      color: var(--verde-principal);
+    }
+
+    .boton-desplegar {
+      width: 36px;
+      height: 36px;
+
+      margin-right: 5px;
+      padding: 0;
+
+      display: flex;
+      align-items: center;
+      justify-content: center;
+
+      flex-shrink: 0;
+
+      border: 0;
+      border-radius: 6px;
+
+      background: transparent;
+
+      color: #777;
+
+      font-family: inherit;
+      font-size: 24px;
+      line-height: 1;
+
+      cursor: pointer;
+    }
+
+    .boton-desplegar:hover {
+      background-color: #e5e7eb;
+      color: var(--verde-principal);
+    }
+
+    .submenu {
+      display: none;
+    }
+
+    .submenu.submenu-abierto {
+      display: block;
+    }
+
+    .menu-apartado {
+      margin-left: 14px;
+    }
+
+    .menu-apartado .menu-titulo {
+      padding-top: 9px;
+      padding-bottom: 9px;
+
+      font-size: 15px;
+      font-weight: 600;
+    }
+
+    .enlace-apartado-simple {
+      display: block;
+
+      margin-left: 14px;
+      padding: 10px 14px;
+
+      color: #626873;
+
+      font-size: 15px;
+      font-weight: 600;
+      line-height: 1.4;
+
+      text-decoration: none;
+
+      border-radius: 6px;
+
+      transition:
+        background-color 0.2s ease,
+        color 0.2s ease;
+    }
+
+    .enlace-apartado-simple:hover {
+      background-color: #f3f4f6;
+      color: var(--verde-principal);
+    }
+
+    .submenu-apartados {
+      margin: 2px 0 5px 28px;
+
+      border-left: 2px solid #e0e3e7;
+    }
+
+    .submenu-apartados a {
+      display: block;
+
+      padding: 7px 10px;
+
+      color: #777d87;
+
+      font-size: 14px;
+      font-weight: 500;
+      line-height: 1.35;
+
+      text-decoration: none;
+    }
+
+    .submenu-apartados a:hover {
+      color: var(--verde-principal);
+    }
+
+    body.modo-oscuro .menu-cabecera-activa {
+      background-color: #273244;
+    }
+
+    body.modo-oscuro .boton-desplegar:hover {
+      background-color: #334155;
+    }
+
+    body.modo-oscuro .enlace-apartado-simple:hover {
+      background-color: #273244;
+    }
+
+    body.modo-oscuro .submenu-apartados {
+      border-left-color: #3a4659;
+    }
+
+
+    /* ==========================================
+       RESTO DE UT
+    ========================================== */
+
+    .sidebar-ut-cerrada {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+
+      padding: 13px 14px;
+
+      color: #626873;
+
+      text-decoration: none;
+
+      font-size: 16px;
+      font-weight: 650;
+      line-height: 1.35;
+
+      border-radius: 6px;
+
+      transition:
+        background-color 0.2s ease,
+        color 0.2s ease;
+    }
+
+    .sidebar-ut-cerrada:hover {
+      background-color: #f3f4f6;
+      color: var(--verde-principal);
+    }
+
+    body.modo-oscuro .sidebar-ut-cerrada:hover {
+      background-color: #273244;
+    }
+
+
+    /* ==========================================
+       ZONA CENTRAL
+    ========================================== */
+
+    .contenido-ut {
+      padding: 28px 34px 70px;
+
+      max-width: 1150px;
+      width: 100%;
+    }
+
+    .migas {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+
+      margin-bottom: 30px;
+
+      font-size: 14px;
+    }
+
+    .miga-inicio {
+      text-decoration: none;
+      font-size: 18px;
+    }
+
+    .miga-separador {
+      color: #999;
+      font-size: 22px;
+    }
+
+    .miga-modulo {
+      color: var(--texto-secundario);
+      text-decoration: none;
+    }
+
+    .miga-modulo:hover {
+      color: var(--verde-principal);
+    }
+
+    .miga-actual {
+      padding: 8px 14px;
+
+      background-color: #f3f3f3;
+      border-radius: 24px;
+
+      color: var(--verde-principal);
+    }
+
+    body.modo-oscuro .miga-actual {
+      background-color: #273244;
+    }
+
+    .contenido-ut h1 {
+      margin: 0 0 30px;
+
+      font-size: clamp(38px, 5vw, 58px);
+      line-height: 1.12;
+    }
+
+
+    /* ==========================================
+       CONTENIDO DE LOS APARTADOS
+    ========================================== */
+
+    .apartado-ut {
+      margin-top: 55px;
+      scroll-margin-top: 95px;
+    }
+
+    .apartado-ut h2 {
+      margin: 0 0 24px;
+
+      font-size: 32px;
+      line-height: 1.2;
+
+      scroll-margin-top: 95px;
+    }
+
+    .apartado-ut h3 {
+      margin: 34px 0 16px;
+
+      font-size: 24px;
+      line-height: 1.3;
+    }
+
+    .apartado-ut p {
+      margin: 0 0 18px;
+
+      font-size: 18px;
+      line-height: 1.75;
+    }
+
+    .apartado-ut ul {
+      margin: 16px 0 24px;
+      padding-left: 28px;
+    }
+
+    .apartado-ut li {
+      margin-bottom: 10px;
+
+      font-size: 17px;
+      line-height: 1.6;
+    }
+
+
+    /* ==========================================
+       CAJAS DE LOS APUNTES
+    ========================================== */
+
+    .caja {
+      margin: 28px 0;
+      padding: 18px 20px;
+
+      border-left: 5px solid;
+      border-radius: 8px;
+
+      line-height: 1.65;
+    }
+
+    .caja p {
+      margin: 0;
+
+      font-size: 17px;
+    }
+
+    .caja-titulo {
+      display: block;
+
+      margin-bottom: 8px;
+
+      font-size: 17px;
+      font-weight: 700;
+    }
+
+    .caja-importante {
+      background-color: #eef8f1;
+      border-left-color: #2f9e5b;
+    }
+
+    .caja-atencion {
+      background-color: #fff7e8;
+      border-left-color: #e09b27;
+    }
+
+    .caja-ejemplo {
+      background-color: #eef5ff;
+      border-left-color: #3f7acb;
+    }
+
+    .caja-curiosidad {
+      background-color: #f7f1ff;
+      border-left-color: #8b5cc7;
+    }
+
+    body.modo-oscuro .caja-importante {
+      background-color: #20372a;
+    }
+
+    body.modo-oscuro .caja-atencion {
+      background-color: #3b3020;
+    }
+
+    body.modo-oscuro .caja-ejemplo {
+      background-color: #23344a;
+    }
+
+    body.modo-oscuro .caja-curiosidad {
+      background-color: #332944;
+    }
+
+
+    /* ==========================================
+       TABLAS
+    ========================================== */
+
+    .tabla-responsive {
+      width: 100%;
+
+      margin: 28px 0;
+
+      overflow-x: auto;
+    }
+
+    .tabla-apuntes {
+      width: 100%;
+
+      border-collapse: collapse;
+
+      font-size: 16px;
+    }
+
+    .tabla-apuntes th,
+    .tabla-apuntes td {
+      padding: 14px 16px;
+
+      border: 1px solid var(--borde);
+
+      text-align: left;
+      vertical-align: top;
+
+      line-height: 1.55;
+    }
+
+    .tabla-apuntes th {
+      background-color: #f1f3f5;
+
+      font-weight: 700;
+    }
+
+    body.modo-oscuro .tabla-apuntes th {
+      background-color: #273244;
+    }
+
+
+    /* ==========================================
+       ESQUEMAS VISUALES
+    ========================================== */
+
+    .esquema-web {
+      max-width: 700px;
+
+      margin: 30px auto;
+    }
+
+    .esquema-fila {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 14px;
+
+      margin-top: 16px;
+    }
+
+    .esquema-caja {
+      padding: 18px 16px;
+
+      background-color: var(--fondo-tarjeta);
+
+      border: 1px solid var(--borde);
+      border-radius: 10px;
+
+      text-align: center;
+    }
+
+    .esquema-caja strong {
+      display: block;
+
+      margin-bottom: 5px;
+
+      color: var(--verde-principal);
+
+      font-size: 18px;
+    }
+
+    .esquema-caja span {
+      color: var(--texto-secundario);
+
+      font-size: 15px;
+      line-height: 1.45;
+    }
+
+
+    /* ==========================================
+       ACTIVIDAD DE REFLEXIÓN
+    ========================================== */
+
+    .actividad-reflexion {
+      margin: 32px 0;
+      padding: 22px 24px;
+
+      background-color: #f7f8fa;
+
+      border: 1px solid var(--borde);
+      border-radius: 10px;
+    }
+
+    .actividad-reflexion h3 {
+      margin: 0 0 12px;
+
+      color: var(--verde-principal);
+
+      font-size: 20px;
+    }
+
+    .actividad-reflexion p {
+      margin: 0 0 14px;
+
+      font-size: 17px;
+      line-height: 1.65;
+    }
+
+    body.modo-oscuro .actividad-reflexion {
+      background-color: #232d3d;
+    }
+
+
+    /* ==========================================
+       SOLUCIÓN DESPLEGABLE
+    ========================================== */
+
+    .solucion-desplegable {
+      margin-top: 20px;
+    }
+
+    .solucion-desplegable summary {
+      display: inline-block;
+
+      padding: 10px 16px;
+
+      background-color: #eef8f1;
+
+      border: 1px solid #b9dfc6;
+      border-radius: 7px;
+
+      color: var(--verde-principal);
+
+      font-size: 16px;
+      font-weight: 700;
+
+      cursor: pointer;
+      user-select: none;
+    }
+
+    .solucion-desplegable summary:hover {
+      background-color: #e2f3e7;
+    }
+
+    .contenido-solucion {
+      margin-top: 16px;
+      padding: 18px 20px;
+
+      background-color: var(--fondo-pagina);
+
+      border-left: 4px solid var(--verde-principal);
+      border-radius: 6px;
+    }
+
+    .contenido-solucion p {
+      margin: 0 0 12px;
+
+      font-size: 16px;
+      line-height: 1.65;
+    }
+
+    .contenido-solucion p:last-child {
+      margin-bottom: 0;
+    }
+
+    body.modo-oscuro .solucion-desplegable summary {
+      background-color: #20372a;
+      border-color: #315d40;
+    }
+
+
+    /* ==========================================
+       BLOQUES DE CÓDIGO DWEC
+    ========================================== */
+
+    .bloque-codigo {
+      margin: 28px 0;
+
+      border: 1px solid #3b3b3b;
+      border-radius: 9px;
+
+      overflow: hidden;
+
+      background-color: #1e1e1e;
+    }
+
+    .cabecera-codigo {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+
+      padding: 10px 14px;
+
+      background-color: #2b2b2b;
+
+      color: #f3f4f6;
+
+      font-size: 14px;
+    }
+
+    .lenguaje-codigo {
+      font-weight: 700;
+    }
+
+    .boton-copiar {
+      padding: 6px 11px;
+
+      border: 1px solid #5c5c5c;
+      border-radius: 6px;
+
+      background-color: #383838;
+
+      color: #f3f4f6;
+
+      font-family: inherit;
+      font-size: 13px;
+
+      cursor: pointer;
+
+      transition:
+        background-color 0.2s ease,
+        border-color 0.2s ease;
+    }
+
+    .boton-copiar:hover {
+      background-color: #484848;
+      border-color: #777;
+    }
+
+    .bloque-codigo pre {
+      margin: 0;
+      padding: 18px 20px;
+
+      overflow-x: auto;
+
+      tab-size: 2;
+    }
+
+    .bloque-codigo code {
+      color: #f5f5f5;
+
+      font-family:
+        Consolas,
+        "Courier New",
+        monospace;
+
+      font-size: 15px;
+      line-height: 1.6;
+
+      white-space: pre;
+    }
+
+
+    /* ==========================================
+       COLUMNA DERECHA
+    ========================================== */
+
+    .indice-derecho {
+      padding: 28px 22px 100px;
+
+      border-left: 1px solid var(--borde);
+
+      position: sticky;
+      top: 68px;
+
+      height: calc(100vh - 68px);
+
+      overflow-y: auto;
+
+      box-sizing: border-box;
+    }
+
+    .indice-derecho h2 {
+      margin: 8px 0 20px;
+
+      font-size: 17px;
+      color: #555b65;
+    }
+
+    body.modo-oscuro .indice-derecho h2 {
+      color: #d1d5db;
+    }
+
+    .indice-derecho ul {
+      margin: 0;
+      padding-left: 18px;
+    }
+
+    .indice-derecho li {
+      margin-bottom: 12px;
+    }
+
+    .indice-derecho a {
+      color: var(--texto-secundario);
+
+      text-decoration: none;
+
+      font-size: 14px;
+      line-height: 1.4;
+    }
+
+    .indice-derecho a:hover {
+      color: var(--verde-principal);
+    }
+
+
+    /* ==========================================
+       NAVEGACIÓN ANTERIOR / SIGUIENTE
+    ========================================== */
+
+    .navegacion-paginas {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 20px;
+
+      margin-top: 50px;
+    }
+
+    .nav-pagina {
+      min-height: 100px;
+      padding: 18px 20px;
+
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+
+      border: 1px solid var(--borde);
+      border-radius: 8px;
+
+      text-decoration: none;
+
+      background-color: var(--fondo-tarjeta);
+    }
+
+    .nav-anterior {
+      align-items: flex-start;
+      text-align: left;
+    }
+
+    .nav-siguiente {
+      align-items: flex-end;
+      text-align: right;
+    }
+
+    .nav-etiqueta {
+      margin-bottom: 5px;
+
+      color: var(--texto-secundario);
+
+      font-size: 14px;
+    }
+
+    .nav-pagina strong {
+      color: var(--verde-principal);
+
+      font-size: 16px;
+      line-height: 1.4;
+    }
+
+    .nav-pagina:hover {
+      border-color: var(--verde-principal);
+    }
+
+
+    /* ==========================================
+       RESPONSIVE
+    ========================================== */
+
+    @media (max-width: 1100px) {
+
+      .pagina-ut {
+        grid-template-columns: 250px 1fr;
+      }
+
+      .indice-derecho {
+        display: none;
+      }
+
+    }
+
+    @media (max-width: 760px) {
+
+      .pagina-ut {
+        display: block;
+      }
+
+      .sidebar {
+        position: static;
+
+        width: 100%;
+        height: auto;
+
+        border-right: 0;
+        border-bottom: 1px solid var(--borde);
+      }
+
+      .contenido-ut {
+        padding: 28px 20px 60px;
+      }
+
+      .contenido-ut h1 {
+        font-size: 36px;
+      }
+
+      .navegacion-paginas {
+        grid-template-columns: 1fr;
+      }
+
+      .nav-siguiente {
+        align-items: flex-start;
+        text-align: left;
+      }
+
+      .esquema-fila {
+        grid-template-columns: 1fr;
+      }
+
+    }
+
+  </style>
+
+</head>
+
+
+<body>
+
+<header class="navbar">
+
+    <a class="inicio" href="../../../index.html">
+
+      <img
+        src="../../../img/profesora-castana.png?v=2"
+        alt=""
+        class="icono-profesora"
+      >
+
+      <span>Inicio</span>
+
+    </a>
+
+    <nav
+      id="menuModulos"
+      class="menu-modulos"
+      aria-label="Módulos formativos"
+    ></nav>
+
+    <button
+      id="botonTema"
+      class="boton-tema"
+      type="button"
+      aria-label="Cambiar entre modo claro y oscuro"
+      title="Cambiar tema"
+    >
+      ☀️
+    </button>
+
+  </header>
+
+  <div class="pagina-ut">
+
+    <aside class="sidebar">
+
+      <a class="sidebar-modulo" href="../../index.html">
+        Desarrollo web en entorno cliente
+      </a>
+
+      <a class="sidebar-ut-cerrada" href="../../ut1/index.html">
+        <span>UT1 - Introducción al desarrollo web en entorno cliente</span>
+        <span>›</span>
+      </a>
+
+      <div class="menu-desplegable">
+        <div class="menu-cabecera menu-cabecera-activa">
+          <a class="menu-titulo" href="../index.html">
+            UT2 - Fundamentos de JavaScript: variables, tipos y operadores
+          </a>
+          <button class="boton-desplegar" type="button" data-target="submenu-ut2" aria-expanded="true">⌄</button>
+        </div>
+
+        <div id="submenu-ut2" class="submenu submenu-abierto">
+
+<!-- 2.1 -->
+
+<div class="menu-desplegable menu-apartado">
+
+  <div class="menu-cabecera">
+
+    <a class="menu-titulo" href="../2-1/index.html">
+      2.1 Sintaxis básica de JavaScript
+    </a>
+
+    <button
+      class="boton-desplegar"
+      type="button"
+      data-target="submenu-2-1"
+      aria-expanded="false"
+      aria-label="Mostrar u ocultar los subapartados del 2.1"
+    >
+      ›
+    </button>
+
+  </div>
+
+  <div id="submenu-2-1" class="submenu submenu-apartados">
+
+    <a href="../2-1/index.html#sentencias">
+      Instrucciones y sentencias
+    </a>
+
+    <a href="../2-1/index.html#punto-coma">
+      Uso del punto y coma
+    </a>
+
+    <a href="../2-1/index.html#bloques">
+      Bloques de código
+    </a>
+
+    <a href="../2-1/index.html#case-sensitive">
+      Mayúsculas y minúsculas
+    </a>
+
+    <a href="../2-1/index.html#identificadores">
+      Identificadores
+    </a>
+
+    <a href="../2-1/index.html#palabras-reservadas">
+      Palabras reservadas
+    </a>
+
+    <a href="../2-1/index.html#expresiones">
+      Expresiones básicas
+    </a>
+
+  </div>
+
+</div>
+
+
+<!-- 2.2 -->
+
+<div class="menu-desplegable menu-apartado">
+
+  <div class="menu-cabecera">
+
+    <a class="menu-titulo" href="../2-2/index.html">
+      2.2 Variables, constantes e identificadores
+    </a>
+
+    <button
+      class="boton-desplegar"
+      type="button"
+      data-target="submenu-2-2"
+      aria-expanded="false"
+      aria-label="Mostrar u ocultar los subapartados del 2.2"
+    >
+      ›
+    </button>
+
+  </div>
+
+  <div id="submenu-2-2" class="submenu submenu-apartados">
+
+    <a href="../2-2/index.html#variables">
+      Qué es una variable
+    </a>
+
+    <a href="../2-2/index.html#declarar">
+      Declarar variables con let
+    </a>
+
+    <a href="../2-2/index.html#inicializar">
+      Declaración, inicialización y reasignación
+    </a>
+
+    <a href="../2-2/index.html#const">
+      Constantes con const
+    </a>
+
+    <a href="../2-2/index.html#var">
+      La declaración tradicional var
+    </a>
+
+    <a href="../2-2/index.html#nombres">
+      Cómo nombrar variables
+    </a>
+
+    <a href="../2-2/index.html#errores">
+      Errores frecuentes
+    </a>
+
+  </div>
+
+</div>
+
+
+<!-- 2.3 -->
+
+<div class="menu-desplegable menu-apartado">
+
+  <div class="menu-cabecera">
+
+    <a class="menu-titulo" href="../2-3/index.html">
+      2.3 Tipos de datos en JavaScript
+    </a>
+
+    <button
+      class="boton-desplegar"
+      type="button"
+      data-target="submenu-2-3"
+      aria-expanded="false"
+      aria-label="Mostrar u ocultar los subapartados del 2.3"
+    >
+      ›
+    </button>
+
+  </div>
+
+  <div id="submenu-2-3" class="submenu submenu-apartados">
+    <a href="../2-3/index.html#tipos-primitivos">Tipos primitivos</a>
+    <a href="../2-3/index.html#string">String</a>
+    <a href="../2-3/index.html#number">Number</a>
+    <a href="../2-3/index.html#boolean">Boolean</a>
+    <a href="../2-3/index.html#undefined">Undefined</a>
+    <a href="../2-3/index.html#null">Null</a>
+    <a href="../2-3/index.html#otros-tipos">BigInt, Symbol y Object</a>
+    <a href="../2-3/index.html#typeof">El operador typeof</a>
+  </div>
+
+</div>
+
+
+<!-- 2.4 -->
+
+<div class="menu-desplegable menu-apartado">
+
+  <div class="menu-cabecera">
+
+    <a class="menu-titulo" href="../2-4/index.html">
+      2.4 Conversión de tipos
+    </a>
+
+    <button
+      class="boton-desplegar"
+      type="button"
+      data-target="submenu-2-4"
+      aria-expanded="false"
+      aria-label="Mostrar u ocultar los subapartados del 2.4"
+    >
+      ›
+    </button>
+
+  </div>
+
+  <div id="submenu-2-4" class="submenu submenu-apartados">
+    <a href="../2-4/index.html#conversion-explicita">Conversión explícita</a>
+    <a href="../2-4/index.html#number-string-boolean">Number(), String() y Boolean()</a>
+    <a href="../2-4/index.html#parseint-parsefloat">parseInt() y parseFloat()</a>
+    <a href="../2-4/index.html#coercion">Conversión implícita o coerción</a>
+    <a href="../2-4/index.html#casos-practicos">Casos prácticos de conversión</a>
+  </div>
+
+</div>
+
+
+<!-- 2.5 -->
+<div class="menu-desplegable menu-apartado">
+  <div class="menu-cabecera">
+    <a class="menu-titulo" href="../2-5/index.html">2.5 Operadores</a>
+    <button class="boton-desplegar" type="button" data-target="submenu-2-5" aria-expanded="false" aria-label="Mostrar u ocultar los subapartados del 2.5">›</button>
+  </div>
+  <div id="submenu-2-5" class="submenu submenu-apartados">
+    <a href="../2-5/index.html#aritmeticos">Operadores aritméticos</a>
+    <a href="../2-5/index.html#asignacion">Operadores de asignación</a>
+    <a href="../2-5/index.html#incremento-decremento">Incremento y decremento</a>
+    <a href="../2-5/index.html#comparacion">Operadores de comparación</a>
+    <a href="../2-5/index.html#igualdad-estricta">Igualdad estricta: === y !==</a>
+    <a href="../2-5/index.html#logicos">Operadores lógicos</a>
+    <a href="../2-5/index.html#ternario">Introducción al operador ternario</a>
+  </div>
+</div>
+
+<!-- 2.6 -->
+<div class="menu-desplegable menu-apartado">
+  <div class="menu-cabecera">
+    <a class="menu-titulo" href="../2-6/index.html">2.6 Cadenas de texto y template literals</a>
+    <button class="boton-desplegar" type="button" data-target="submenu-2-6" aria-expanded="false" aria-label="Mostrar u ocultar los subapartados del 2.6">›</button>
+  </div>
+  <div id="submenu-2-6" class="submenu submenu-apartados">
+    <a href="../2-6/index.html#cadenas">Cadenas de texto</a>
+    <a href="../2-6/index.html#comillas">Comillas simples y dobles</a>
+    <a href="../2-6/index.html#escape">Caracteres de escape</a>
+    <a href="../2-6/index.html#concatenacion">Concatenación con +</a>
+    <a href="../2-6/index.html#template-literals">Template literals</a>
+    <a href="../2-6/index.html#interpolacion">Interpolación con ${}</a>
+  </div>
+</div>
+
+<!-- 2.7 -->
+<div class="menu-desplegable menu-apartado">
+  <div class="menu-cabecera">
+    <a class="menu-titulo" href="../2-7/index.html">2.7 Números y objeto Math</a>
+    <button class="boton-desplegar" type="button" data-target="submenu-2-7" aria-expanded="false" aria-label="Mostrar u ocultar los subapartados del 2.7">›</button>
+  </div>
+
+  <div id="submenu-2-7" class="submenu submenu-apartados">
+    <a href="../2-7/index.html#numeros">Números enteros y decimales</a>
+    <a href="../2-7/index.html#nan-infinity">NaN e Infinity</a>
+    <a href="../2-7/index.html#tofixed">toFixed()</a>
+    <a href="../2-7/index.html#toprecision">toPrecision()</a>
+    <a href="../2-7/index.html#math">El objeto Math</a>
+    <a href="../2-7/index.html#redondeo">round(), floor() y ceil()</a>
+    <a href="../2-7/index.html#random">Math.random()</a>
+  </div>
+</div>
+
+
+<!-- 2.8 -->
+
+<div class="menu-desplegable menu-apartado">
+
+  <div class="menu-cabecera menu-cabecera-activa">
+
+    <a class="menu-titulo" href="index.html">
+      2.8 Entrada y salida básica de datos
+    </a>
+
+    <button
+      class="boton-desplegar"
+      type="button"
+      data-target="submenu-2-8"
+      aria-expanded="true"
+      aria-label="Mostrar u ocultar los subapartados del 2.8"
+    >
+      ⌄
+    </button>
+
+  </div>
+
+  <div id="submenu-2-8" class="submenu submenu-apartados submenu-abierto">
+
+    <a href="#console-log">
+      Salida con console.log()
+    </a>
+
+    <a href="#alert">
+      Salida con alert()
+    </a>
+
+    <a href="#prompt">
+      Entrada con prompt()
+    </a>
+
+    <a href="#prompt-string">
+      prompt() devuelve texto
+    </a>
+
+    <a href="#entrada-conversion">
+      Conversión de datos introducidos
+    </a>
+
+  </div>
+
+</div>
+
+
+<!-- 2.9 -->
+
+<div class="menu-desplegable menu-apartado">
+
+  <div class="menu-cabecera">
+
+    <a class="menu-titulo" href="../2-9/index.html">
+      2.9 Comentarios y buenas prácticas
+    </a>
+
+    <button
+      class="boton-desplegar"
+      type="button"
+      data-target="submenu-2-9"
+      aria-expanded="false"
+    >
+      ›
+    </button>
+
+  </div>
+
+  <div id="submenu-2-9" class="submenu submenu-apartados">
+
+    <a href="../2-9/index.html#comentarios-linea">
+      Comentarios de una línea
+    </a>
+
+    <a href="../2-9/index.html#comentarios-bloque">
+      Comentarios de bloque
+    </a>
+
+    <a href="../2-9/index.html#cuando-comentar">
+      Cuándo comentar
+    </a>
+
+    <a href="../2-9/index.html#legibilidad">
+      Legibilidad del código
+    </a>
+
+    <a href="../2-9/index.html#nombres">
+      Nombres descriptivos
+    </a>
+
+    <a href="../2-9/index.html#indentacion">
+      Indentación y organización
+    </a>
+
+  </div>
+
+</div>
+
+
+<!-- 2.10 -->
+
+<div class="menu-desplegable menu-apartado">
+
+  <div class="menu-cabecera">
+
+    <a class="menu-titulo" href="../2-10/index.html">
+      2.10 Ámbito de las variables
+    </a>
+
+    <button
+      class="boton-desplegar"
+      type="button"
+      data-target="submenu-2-10"
+      aria-expanded="false"
+    >
+      ›
+    </button>
+
+  </div>
+
+  <div id="submenu-2-10" class="submenu submenu-apartados">
+
+    <a href="../2-10/index.html#scope">
+      Qué es el ámbito o scope
+    </a>
+
+    <a href="../2-10/index.html#global">
+      Ámbito global
+    </a>
+
+    <a href="../2-10/index.html#bloque">
+      Ámbito de bloque
+    </a>
+
+    <a href="../2-10/index.html#funcion">
+      Introducción al ámbito de función
+    </a>
+
+    <a href="../2-10/index.html#let-const">
+      Ámbito de let y const
+    </a>
+
+    <a href="../2-10/index.html#var">
+      Diferencias básicas con var
+    </a>
+
+  </div>
+
+</div>
+
+
+<!-- 2.11 -->
+
+<div class="menu-desplegable menu-apartado">
+
+  <div class="menu-cabecera">
+
+    <a class="menu-titulo" href="../2-11/index.html">
+      2.11 Prueba y depuración del código
+    </a>
+
+    <button
+      class="boton-desplegar"
+      type="button"
+      data-target="submenu-2-11"
+      aria-expanded="false"
+    >
+      ›
+    </button>
+
+  </div>
+
+  <div id="submenu-2-11" class="submenu submenu-apartados">
+
+    <a href="../2-11/index.html#console">
+      Uso de Console
+    </a>
+
+    <a href="../2-11/index.html#errores">
+      Mensajes de error
+    </a>
+
+    <a href="../2-11/index.html#syntaxerror">
+      SyntaxError
+    </a>
+
+    <a href="../2-11/index.html#referenceerror">
+      ReferenceError
+    </a>
+
+    <a href="../2-11/index.html#typeerror">
+      TypeError
+    </a>
+
+    <a href="../2-11/index.html#archivo-linea">
+      Archivo y línea del error
+    </a>
+
+    <a href="../2-11/index.html#sources">
+      Sources y breakpoints
+    </a>
+
+    <a href="../2-11/index.html#ciclo-depuracion">
+      Ciclo de depuración
+    </a>
+
+  </div>
+
+</div>          <a class="enlace-apartado-simple" href="../resumen/index.html">✏️ Resumen de la UT2</a>
+          <a class="enlace-apartado-simple" href="../actividades/index.html">📝 Actividades de la UT2</a>
+        </div>
+      </div>
+
+      <a class="sidebar-ut-cerrada" href="../../ut3/index.html"><span>UT3 - Estructuras de control en JavaScript</span><span>›</span></a>
+      <a class="sidebar-ut-cerrada" href="../../ut4/index.html"><span>UT4 - Arrays y estructuras de datos en JavaScript</span><span>›</span></a>
+      <a class="sidebar-ut-cerrada" href="../../ut5/index.html"><span>UT5 - Funciones en JavaScript</span><span>›</span></a>
+      <a class="sidebar-ut-cerrada" href="../../ut6/index.html"><span>UT6 - Objetos y Programación Orientada a Objetos en JavaScript</span><span>›</span></a>
+      <a class="sidebar-ut-cerrada" href="../../ut7/index.html"><span>UT7 - Objetos predefinidos y modelo del navegador (BOM)</span><span>›</span></a>
+      <a class="sidebar-ut-cerrada" href="../../ut8/index.html"><span>UT8 - Aplicaciones web interactivas: DOM, eventos y formularios</span><span>›</span></a>
+      <a class="sidebar-ut-cerrada" href="../../ut9/index.html"><span>UT9 - Comunicación asíncrona y peticiones al servidor</span><span>›</span></a>
+      <a class="sidebar-ut-cerrada" href="../../ut10/index.html"><span>UT10 - Introducción a React</span><span>›</span></a>
+    </aside>
+
+    <main class="contenido-ut">
+      <div class="migas">
+        <a class="miga-inicio" href="../../../index.html" aria-label="Volver a la página principal">🏠</a>
+        <span class="miga-separador">›</span>
+        <a class="miga-modulo" href="../../index.html">DWEC</a>
+        <span class="miga-separador">›</span>
+        <a class="miga-modulo" href="../index.html">UT2</a>
+        <span class="miga-separador">›</span>
+        <span class="miga-actual">2.8</span>
+      </div>
+
+      <h1>2.8 Entrada y salida básica de datos</h1>
+
+      <section class="apartado-ut">
+
+        <p>
+          Hasta ahora hemos utilizado valores escritos directamente en el código y hemos mostrado
+          resultados principalmente mediante <code>console.log()</code>. Sin embargo, muchos
+          programas necesitan <strong>recibir datos del usuario</strong> y mostrarle información
+          como respuesta.
+        </p>
+
+        <p>
+          En este apartado utilizaremos herramientas sencillas del navegador para practicar la
+          entrada y salida de datos: <code>console.log()</code>, <code>alert()</code> y
+          <code>prompt()</code>. También veremos un aspecto especialmente importante:
+          <code>prompt()</code> devuelve texto, por lo que en muchas ocasiones tendremos que
+          convertir el dato antes de realizar cálculos.
+        </p>
+
+        <div class="caja caja-importante">
+          <span class="caja-titulo">📌 Importante</span>
+          <p>
+            En este apartado utilizaremos <code>alert()</code> y <code>prompt()</code> como
+            herramientas sencillas para practicar la entrada y salida de datos. Más adelante,
+            en la UT7, estudiaremos con mayor detalle la interacción con el navegador y sus
+            objetos predefinidos.
+          </p>
+        </div>
+
+
+        <h2 id="console-log">Salida con <code>console.log()</code></h2>
+
+        <p>
+          El método <code>console.log()</code> permite mostrar información en la
+          <strong>Console de las herramientas de desarrollo del navegador</strong>. Ya lo hemos
+          utilizado en apartados anteriores para comprobar valores y resultados.
+        </p>
+
+        <div class="bloque-codigo">
+          <div class="cabecera-codigo">
+            <span class="lenguaje-codigo">JavaScript</span>
+            <button class="boton-copiar" type="button">📋 Copiar código</button>
+          </div>
+          <pre><code>const nombre = "Lucía";
+const edad = 20;
+
+console.log(nombre);
+console.log(edad);
+console.log(`Hola, ${nombre}. Tienes ${edad} años.`);</code></pre>
+        </div>
+
+        <p>El resultado será:</p>
+
+        <div class="bloque-codigo">
+          <div class="cabecera-codigo">
+            <span class="lenguaje-codigo">Console</span>
+            <button class="boton-copiar" type="button">📋 Copiar código</button>
+          </div>
+          <pre><code>Lucía
+20
+Hola, Lucía. Tienes 20 años.</code></pre>
+        </div>
+
+        <div class="caja caja-ejemplo">
+          <span class="caja-titulo">💻 Ejemplo DAW</span>
+          <p>
+            Durante el desarrollo de una aplicación web, <code>console.log()</code> resulta muy
+            útil para comprobar el contenido de variables, seguir la ejecución del programa y
+            localizar errores. El usuario final normalmente no ve estos mensajes.
+          </p>
+        </div>
+
+
+        <h2 id="alert">Salida con <code>alert()</code></h2>
+
+        <p>
+          La función <code>alert()</code> muestra un <strong>cuadro de diálogo</strong> en el
+          navegador con un mensaje y un botón para cerrarlo.
+        </p>
+
+        <div class="bloque-codigo">
+          <div class="cabecera-codigo">
+            <span class="lenguaje-codigo">JavaScript</span>
+            <button class="boton-copiar" type="button">📋 Copiar código</button>
+          </div>
+          <pre><code>alert("Bienvenido a la aplicación");</code></pre>
+        </div>
+
+        <p>
+          También podemos construir el mensaje utilizando variables o template literals:
+        </p>
+
+        <div class="bloque-codigo">
+          <div class="cabecera-codigo">
+            <span class="lenguaje-codigo">JavaScript</span>
+            <button class="boton-copiar" type="button">📋 Copiar código</button>
+          </div>
+          <pre><code>const usuario = "Ana";
+
+alert(`Hola, ${usuario}`);</code></pre>
+        </div>
+
+        <div class="caja caja-atencion">
+          <span class="caja-titulo">⚠️ Atención</span>
+          <p>
+            <code>alert()</code> interrumpe temporalmente la interacción con la página hasta que
+            el usuario cierra el cuadro de diálogo. Por ello es útil para ejemplos sencillos,
+            pero en aplicaciones web modernas no debemos abusar de este tipo de ventanas.
+          </p>
+        </div>
+
+
+        <h2 id="prompt">Entrada con <code>prompt()</code></h2>
+
+        <p>
+          La función <code>prompt()</code> muestra un cuadro de diálogo que permite al usuario
+          <strong>introducir un dato mediante el teclado</strong>. El valor introducido puede
+          guardarse en una variable para utilizarlo después.
+        </p>
+
+        <div class="bloque-codigo">
+          <div class="cabecera-codigo">
+            <span class="lenguaje-codigo">JavaScript</span>
+            <button class="boton-copiar" type="button">📋 Copiar código</button>
+          </div>
+          <pre><code>const nombre = prompt("¿Cómo te llamas?");
+
+console.log(nombre);</code></pre>
+        </div>
+
+        <p>
+          Podemos combinar la entrada y la salida de datos:
+        </p>
+
+        <div class="bloque-codigo">
+          <div class="cabecera-codigo">
+            <span class="lenguaje-codigo">JavaScript</span>
+            <button class="boton-copiar" type="button">📋 Copiar código</button>
+          </div>
+          <pre><code>const nombre = prompt("¿Cómo te llamas?");
+
+alert(`Hola, ${nombre}`);
+console.log(`El usuario se llama ${nombre}`);</code></pre>
+        </div>
+
+        <div class="caja caja-importante">
+          <span class="caja-titulo">📌 Importante</span>
+          <p>
+            Si el usuario pulsa <strong>Cancelar</strong> en un <code>prompt()</code>, el resultado
+            es el valor <code>null</code>. Más adelante aprenderemos a controlar este tipo de
+            situaciones mediante estructuras condicionales.
+          </p>
+        </div>
+
+
+        <h2 id="prompt-string"><code>prompt()</code> devuelve texto</h2>
+
+        <p>
+          Aunque el usuario escriba un número, <code>prompt()</code> devuelve normalmente el dato
+          como una <strong>cadena de texto</strong>. Este comportamiento es fundamental cuando
+          queremos realizar operaciones matemáticas.
+        </p>
+
+        <div class="bloque-codigo">
+          <div class="cabecera-codigo">
+            <span class="lenguaje-codigo">JavaScript</span>
+            <button class="boton-copiar" type="button">📋 Copiar código</button>
+          </div>
+          <pre><code>const edad = prompt("Introduce tu edad:");
+
+console.log(edad);
+console.log(typeof edad);</code></pre>
+        </div>
+
+        <p>
+          Si el usuario introduce <code>20</code>, en Console veremos:
+        </p>
+
+        <div class="bloque-codigo">
+          <div class="cabecera-codigo">
+            <span class="lenguaje-codigo">Console</span>
+            <button class="boton-copiar" type="button">📋 Copiar código</button>
+          </div>
+          <pre><code>20
+string</code></pre>
+        </div>
+
+        <p>
+          Esto puede producir resultados inesperados si utilizamos directamente el dato en una
+          operación:
+        </p>
+
+        <div class="bloque-codigo">
+          <div class="cabecera-codigo">
+            <span class="lenguaje-codigo">JavaScript</span>
+            <button class="boton-copiar" type="button">📋 Copiar código</button>
+          </div>
+          <pre><code>const edad = prompt("Introduce tu edad:");
+
+console.log(edad + 1);</code></pre>
+        </div>
+
+        <p>
+          Si el usuario introduce <code>20</code>, el resultado será:
+        </p>
+
+        <div class="bloque-codigo">
+          <div class="cabecera-codigo">
+            <span class="lenguaje-codigo">Console</span>
+            <button class="boton-copiar" type="button">📋 Copiar código</button>
+          </div>
+          <pre><code>201</code></pre>
+        </div>
+
+        <div class="caja caja-atencion">
+          <span class="caja-titulo">⚠️ Atención</span>
+          <p>
+            El resultado es <code>201</code> porque <code>edad</code> contiene la cadena
+            <code>"20"</code>. Al utilizar el operador <code>+</code> con una cadena,
+            JavaScript realiza una concatenación en lugar de una suma numérica.
+          </p>
+        </div>
+
+
+        <h2 id="entrada-conversion">Conversión de datos introducidos</h2>
+
+        <p>
+          Cuando esperamos que el usuario introduzca un número, podemos convertir el resultado
+          de <code>prompt()</code> utilizando las funciones estudiadas en el apartado 2.4.
+          Una opción habitual es utilizar <code>Number()</code>.
+        </p>
+
+        <div class="bloque-codigo">
+          <div class="cabecera-codigo">
+            <span class="lenguaje-codigo">JavaScript</span>
+            <button class="boton-copiar" type="button">📋 Copiar código</button>
+          </div>
+          <pre><code>const edad = Number(prompt("Introduce tu edad:"));
+
+console.log(edad);
+console.log(typeof edad);
+console.log(edad + 1);</code></pre>
+        </div>
+
+        <p>
+          Si el usuario introduce <code>20</code>, el resultado será:
+        </p>
+
+        <div class="bloque-codigo">
+          <div class="cabecera-codigo">
+            <span class="lenguaje-codigo">Console</span>
+            <button class="boton-copiar" type="button">📋 Copiar código</button>
+          </div>
+          <pre><code>20
+number
+21</code></pre>
+        </div>
+
+        <p>
+          También podemos guardar primero el texto introducido y realizar después la conversión.
+          Esta forma permite observar con claridad cada paso:
+        </p>
+
+        <div class="bloque-codigo">
+          <div class="cabecera-codigo">
+            <span class="lenguaje-codigo">JavaScript</span>
+            <button class="boton-copiar" type="button">📋 Copiar código</button>
+          </div>
+          <pre><code>const datoIntroducido = prompt("Introduce un precio:");
+const precio = Number(datoIntroducido);
+
+console.log(datoIntroducido);
+console.log(typeof datoIntroducido);
+
+console.log(precio);
+console.log(typeof precio);</code></pre>
+        </div>
+
+        <div class="caja caja-atencion">
+          <span class="caja-titulo">⚠️ Atención</span>
+          <p>
+            Si el texto introducido no puede convertirse correctamente en un número,
+            <code>Number()</code> puede producir <code>NaN</code>. Ya hemos visto en el apartado
+            2.7 cómo reconocer este valor mediante <code>Number.isNaN()</code>.
+          </p>
+        </div>
+
+        <div class="caja caja-ejemplo">
+          <span class="caja-titulo">💻 Ejemplo DAW</span>
+          <p>
+            Imagina una página que pide el precio y la cantidad de un producto. Antes de calcular
+            el total necesitamos convertir los datos introducidos en números.
+          </p>
+        </div>
+
+        <div class="bloque-codigo">
+          <div class="cabecera-codigo">
+            <span class="lenguaje-codigo">JavaScript</span>
+            <button class="boton-copiar" type="button">📋 Copiar código</button>
+          </div>
+          <pre><code>const precio = Number(prompt("Introduce el precio del producto:"));
+const cantidad = Number(prompt("Introduce la cantidad:"));
+
+const total = precio * cantidad;
+
+alert(`El importe total es ${total.toFixed(2)} €`);</code></pre>
+        </div>
+
+
+        <div class="actividad-reflexion">
+          <h3>🧠 Comprueba lo aprendido</h3>
+
+          <p>
+            Supón que el usuario introduce <strong>10</strong> en los dos cuadros de diálogo.
+            Antes de ejecutar el código, intenta predecir el resultado de cada
+            <code>console.log()</code>:
+          </p>
+
+          <div class="bloque-codigo">
+            <div class="cabecera-codigo">
+              <span class="lenguaje-codigo">JavaScript</span>
+              <button class="boton-copiar" type="button">📋 Copiar código</button>
+            </div>
+            <pre><code>const dato1 = prompt("Introduce un número:");
+const dato2 = Number(prompt("Introduce otro número:"));
+
+console.log(typeof dato1);
+console.log(typeof dato2);
+console.log(dato1 + 5);
+console.log(dato2 + 5);</code></pre>
+          </div>
+
+          <details class="solucion-desplegable">
+            <summary>Ver solución</summary>
+            <div class="contenido-solucion">
+              <p><strong>Primera instrucción:</strong> muestra <code>string</code>.</p>
+              <p><strong>Segunda instrucción:</strong> muestra <code>number</code>.</p>
+              <p><strong>Tercera instrucción:</strong> muestra <code>105</code>, porque <code>dato1</code> contiene texto.</p>
+              <p><strong>Cuarta instrucción:</strong> muestra <code>15</code>, porque <code>dato2</code> se ha convertido en número.</p>
+            </div>
+          </details>
+        </div>
+
+
+        <div class="actividad-reflexion">
+          <h3>💻 Prueba en el navegador</h3>
+
+          <p>
+            Crea un archivo HTML enlazado con un archivo JavaScript y escribe el siguiente código.
+            Introduce distintos valores y observa el resultado:
+          </p>
+
+          <div class="bloque-codigo">
+            <div class="cabecera-codigo">
+              <span class="lenguaje-codigo">JavaScript</span>
+              <button class="boton-copiar" type="button">📋 Copiar código</button>
+            </div>
+            <pre><code>const nombre = prompt("Introduce tu nombre:");
+const edad = Number(prompt("Introduce tu edad:"));
+
+console.log(`Nombre: ${nombre}`);
+console.log(`Edad: ${edad}`);
+
+alert(`Hola, ${nombre}. El año que viene tendrás ${edad + 1} años.`);</code></pre>
+          </div>
+
+          <div class="caja caja-importante">
+            <span class="caja-titulo">📌 Reto</span>
+            <p>
+              Modifica el programa para pedir también una nota numérica y mostrar en Console
+              el nombre, la edad y la nota introducida. Comprueba con <code>typeof</code> qué
+              tipo tiene cada dato después de realizar las conversiones necesarias.
+            </p>
+          </div>
+        </div>
+
+      </section>
+
+      <nav class="navegacion-paginas" aria-label="Navegación entre apartados">
+        <a class="nav-pagina nav-anterior" href="../2-7/index.html">
+          <span class="nav-etiqueta">Anterior</span>
+          <strong>‹ 2.7 Números y objeto Math</strong>
+        </a>
+
+        <a class="nav-pagina nav-siguiente" href="../2-9/index.html">
+          <span class="nav-etiqueta">Siguiente</span>
+          <strong>2.9 Comentarios y buenas prácticas ›</strong>
+        </a>
+      </nav>
+    </main>
+
+    <aside class="indice-derecho">
+      <h2>En esta página</h2>
+      <ul>
+        <li><a href="#console-log">Salida con console.log()</a></li>
+        <li><a href="#alert">Salida con alert()</a></li>
+        <li><a href="#prompt">Entrada con prompt()</a></li>
+        <li><a href="#prompt-string">prompt() devuelve texto</a></li>
+        <li><a href="#entrada-conversion">Conversión de datos introducidos</a></li>
+      </ul>
+    </aside>
+
+  </div>
+
+<footer class="footer">
+
+    <p>
+
+      Material elaborado por
+      <strong>Eva Ballestero Cubeles</strong>
+
+      · Licencia
+
+      <span class="licencia">
+        CC BY-NC-SA 4.0
+      </span>
+
+      <a
+        class="enlace-licencia"
+        href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.es"
+        target="_blank"
+        rel="license noopener noreferrer"
+        aria-label="Licencia Creative Commons BY-NC-SA 4.0"
+      >
+
+        <img
+          class="icono-licencia"
+          src="../../../img/licencias/cc-by-nc-sa.png"
+          alt="Licencia Creative Commons BY-NC-SA 4.0"
+        >
+
+      </a>
+
+    </p>
+
+  </footer>
+
+
+  <!-- ==========================================
+       JAVASCRIPT COMÚN
+  ========================================== -->
+
+  <script src="../../../js/modulos.js"></script>
+
+  <script>
+
+    const menuModulos =
+      document.getElementById("menuModulos");
+
+    const botonTema =
+      document.getElementById("botonTema");
+
+    const modulosActivos =
+      modulos.filter(modulo => modulo.activo === true);
+
+
+    modulosActivos.forEach(modulo => {
+
+      const enlace =
+        document.createElement("a");
+
+      enlace.href =
+        `../../../${modulo.carpeta}/index.html`;
+
+      enlace.textContent =
+        modulo.siglas;
+
+      enlace.title =
+        modulo.nombre;
+
+      if (modulo.siglas === "DWEC") {
+
+        enlace.style.color =
+          "var(--verde-principal)";
+
+      }
+
+      menuModulos.appendChild(enlace);
+
+    });
+
+
+    /* ==========================================
+       MODO OSCURO
+    ========================================== */
+
+    const temaGuardado =
+      localStorage.getItem("tema");
+
+    if (temaGuardado === "oscuro") {
+
+      document.body.classList.add("modo-oscuro");
+
+      botonTema.textContent =
+        "🌙";
+
+    }
+
+    botonTema.addEventListener("click", () => {
+
+      document.body.classList.toggle("modo-oscuro");
+
+      const estaOscuro =
+        document.body.classList.contains("modo-oscuro");
+
+      botonTema.textContent =
+        estaOscuro ? "🌙" : "☀️";
+
+      localStorage.setItem(
+        "tema",
+        estaOscuro ? "oscuro" : "claro"
+      );
+
+    });
+
+
+    /* ==========================================
+       MENÚS DESPLEGABLES
+    ========================================== */
+
+    const botonesDesplegar =
+      document.querySelectorAll(".boton-desplegar");
+
+    botonesDesplegar.forEach((boton) => {
+
+      boton.addEventListener("click", () => {
+
+        const idSubmenu =
+          boton.getAttribute("data-target");
+
+        const submenu =
+          document.getElementById(idSubmenu);
+
+        if (!submenu) {
+          return;
+        }
+
+        const estaAbierto =
+          submenu.classList.contains("submenu-abierto");
+
+        if (estaAbierto) {
+
+          submenu.classList.remove("submenu-abierto");
+
+          boton.textContent =
+            "›";
+
+          boton.setAttribute(
+            "aria-expanded",
+            "false"
+          );
+
+        } else {
+
+          submenu.classList.add("submenu-abierto");
+
+          boton.textContent =
+            "⌄";
+
+          boton.setAttribute(
+            "aria-expanded",
+            "true"
+          );
+
+        }
+
+      });
+
+    });
+
+
+    /* ==========================================
+       COPIAR BLOQUES DE CÓDIGO
+    ========================================== */
+
+    document.addEventListener("click", async (evento) => {
+
+      const boton =
+        evento.target.closest(".boton-copiar");
+
+      if (!boton) {
+        return;
+      }
+
+      const bloque =
+        boton.closest(".bloque-codigo");
+
+      if (!bloque) {
+        return;
+      }
+
+      const codigo =
+        bloque.querySelector("code");
+
+      if (!codigo) {
+        return;
+      }
+
+      const textoOriginal =
+        boton.textContent;
+
+      try {
+
+        await navigator.clipboard.writeText(
+          codigo.textContent
+        );
+
+        boton.textContent =
+          "✔ Copiado";
+
+        setTimeout(() => {
+
+          boton.textContent =
+            textoOriginal;
+
+        }, 1600);
+
+      } catch (error) {
+
+        boton.textContent =
+          "Error al copiar";
+
+        setTimeout(() => {
+
+          boton.textContent =
+            textoOriginal;
+
+        }, 1600);
+
+      }
+
+    });
+
+  </script>
+
+</body>
+</html>
