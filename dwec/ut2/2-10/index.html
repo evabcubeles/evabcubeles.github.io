@@ -1475,11 +1475,15 @@
 
         <h2 id="global">Ámbito global</h2>
 
-        <p>
-          Una variable declarada en la parte principal del script, fuera de bloques y funciones,
-          tiene <strong>ámbito global dentro de ese script</strong>. Esto significa que puede
-          utilizarse desde distintas partes del código que se encuentren dentro de su ámbito.
-        </p>
+<p>
+  En los ejemplos de esta unidad, una variable declarada en la parte principal del
+  script, fuera de bloques y funciones, tendrá un <strong>ámbito más amplio</strong>
+  y podrá utilizarse desde otras partes de ese código.
+</p>
+
+<p>
+  Habitualmente nos referiremos a este caso como <strong>ámbito global</strong>.
+</p>
 
         <div class="bloque-codigo">
           <div class="cabecera-codigo">
@@ -1695,29 +1699,38 @@ console.log(mensaje);</code></pre>
           <code>limite</code>.
         </p>
 
-        <div class="tabla-responsive">
-          <table class="tabla-apuntes">
-            <thead>
-              <tr>
-                <th>Declaración</th>
-                <th>¿Tiene ámbito de bloque?</th>
-                <th>¿Puede reasignarse?</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr>
-                <td><code>let</code></td>
-                <td>Sí</td>
-                <td>Sí</td>
-              </tr>
-              <tr>
-                <td><code>const</code></td>
-                <td>Sí</td>
-                <td>No</td>
-              </tr>
-            </tbody>
-          </table>
-        </div>
+<div class="tabla-responsive">
+  <table class="tabla-apuntes">
+    <thead>
+      <tr>
+        <th>Declaración</th>
+        <th>Ámbito de bloque</th>
+        <th>Si se declara dentro de una función</th>
+        <th>Uso recomendado</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><code>let</code></td>
+        <td>Sí</td>
+        <td>Solo es accesible dentro de su ámbito</td>
+        <td>Cuando el valor necesita cambiar</td>
+      </tr>
+      <tr>
+        <td><code>const</code></td>
+        <td>Sí</td>
+        <td>Solo es accesible dentro de su ámbito</td>
+        <td>Cuando no necesitamos reasignar el valor</td>
+      </tr>
+      <tr>
+        <td><code>var</code></td>
+        <td>No</td>
+        <td>Queda limitada a la función</td>
+        <td>Principalmente para reconocer código antiguo</td>
+      </tr>
+    </tbody>
+  </table>
+</div>
 
         <div class="caja caja-importante">
           <span class="caja-titulo">📌 Recuerda</span>
@@ -1887,12 +1900,12 @@ console.log(modulo);</code></pre>
               <span class="lenguaje-codigo">JavaScript</span>
               <button class="boton-copiar" type="button">📋 Copiar código</button>
             </div>
-            <pre><code>{
-  let numero = 10;
-  console.log(numero);
+<pre><code>{
+  let numeroLet = 10;
+  console.log(numeroLet);
 }
 
-console.log(numero);</code></pre>
+console.log(numeroLet);</code></pre>
           </div>
 
           <div class="bloque-codigo">
@@ -1900,21 +1913,21 @@ console.log(numero);</code></pre>
               <span class="lenguaje-codigo">JavaScript</span>
               <button class="boton-copiar" type="button">📋 Copiar código</button>
             </div>
-            <pre><code>{
-  var numero = 10;
-  console.log(numero);
+<pre><code>{
+  var numeroVar = 10;
+  console.log(numeroVar);
 }
 
-console.log(numero);</code></pre>
+console.log(numeroVar);</code></pre>
           </div>
 
           <div class="caja caja-importante">
             <span class="caja-titulo">📌 Reto</span>
-            <p>
-              Compara ambos resultados y explica con tus propias palabras por qué el primer
-              ejemplo produce un error fuera del bloque y el segundo permite seguir utilizando
-              la variable.
-            </p>
+<p>
+  Compara ambos resultados y explica con tus propias palabras por qué
+  <code>numeroLet</code> deja de estar disponible fuera del bloque mientras que
+  <code>numeroVar</code> continúa siendo accesible.
+</p>
           </div>
         </div>
 
