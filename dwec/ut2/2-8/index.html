@@ -1573,11 +1573,17 @@ console.log(`El usuario se llama ${nombre}`);</code></pre>
 
         <h2 id="prompt-string"><code>prompt()</code> devuelve texto</h2>
 
-        <p>
-          Aunque el usuario escriba un número, <code>prompt()</code> devuelve normalmente el dato
-          como una <strong>cadena de texto</strong>. Este comportamiento es fundamental cuando
-          queremos realizar operaciones matemáticas.
-        </p>
+<p>
+  Si el usuario introduce un valor y pulsa <strong>Aceptar</strong>,
+  <code>prompt()</code> devuelve ese dato como una <strong>cadena de texto</strong>,
+  aunque haya escrito un número. Si pulsa <strong>Cancelar</strong>, devuelve
+  <code>null</code>.
+</p>
+
+<p>
+  Este comportamiento es fundamental cuando queremos realizar operaciones matemáticas,
+  ya que puede ser necesario convertir el dato antes de utilizarlo en un cálculo.
+</p>
 
         <div class="bloque-codigo">
           <div class="cabecera-codigo">
@@ -1673,6 +1679,17 @@ console.log(edad + 1);</code></pre>
 number
 21</code></pre>
         </div>
+        <div class="caja caja-atencion">
+  <span class="caja-titulo">⚠️ Atención</span>
+  <p>
+    Al escribir <code>Number(prompt(...))</code> realizamos la entrada y la
+    conversión en una sola instrucción. Si el usuario pulsa
+    <strong>Cancelar</strong>, <code>prompt()</code> devuelve
+    <code>null</code> y <code>Number(null)</code> produce
+    <code>0</code>. Más adelante aprenderemos a comprobar primero el dato
+    introducido antes de convertirlo.
+  </p>
+</div>
 
         <p>
           También podemos guardar primero el texto introducido y realizar después la conversión.
