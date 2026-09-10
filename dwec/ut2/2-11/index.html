@@ -1616,10 +1616,10 @@ console.log(precioFinal);</code></pre>
 
         <h2 id="typeerror"><code>TypeError</code></h2>
 
-        <p>
-          Un <code>TypeError</code> aparece cuando intentamos realizar una operación que no es
-          válida para el tipo de valor con el que estamos trabajando.
-        </p>
+<p>
+  Un <code>TypeError</code> aparece cuando intentamos realizar una operación o utilizar
+  una propiedad o método que no es válido para el valor con el que estamos trabajando.
+</p>
 
         <div class="bloque-codigo">
           <div class="cabecera-codigo">
@@ -1696,10 +1696,12 @@ edad.toUpperCase();</code></pre>
           para analizar qué está ocurriendo.
         </p>
 
-        <p>
-          Un <strong>breakpoint</strong> o punto de interrupción es una marca que colocamos en una
-          línea de código para que la ejecución se detenga justo antes de ejecutarla.
-        </p>
+<p>
+  Un <strong>breakpoint</strong> o punto de interrupción es una marca que colocamos en una
+  línea de código para detener temporalmente la ejecución del programa cuando se alcanza
+  ese punto. De esta forma podemos observar los valores de las variables y continuar la
+  ejecución paso a paso.
+</p>
 
         <p>Para crear un breakpoint de forma básica:</p>
 
@@ -1878,6 +1880,39 @@ console.log(`Total: ${total} €`);</code></pre>
               <code>subtotal</code> y <code>descuento</code> antes de continuar la ejecución.
             </p>
           </div>
+          <details class="solucion-desplegable">
+  <summary>Ver solución</summary>
+
+  <div class="contenido-solucion">
+
+    <p>
+      El problema está en el nombre <code>descuneto</code>. La variable declarada
+      anteriormente se llama <code>descuento</code>.
+    </p>
+
+    <p>
+      La instrucción correcta es:
+    </p>
+
+    <div class="bloque-codigo">
+      <div class="cabecera-codigo">
+        <span class="lenguaje-codigo">JavaScript</span>
+        <button class="boton-copiar" type="button">
+          📋 Copiar código
+        </button>
+      </div>
+
+      <pre><code>const total = subtotal - descuento;</code></pre>
+    </div>
+
+    <p>
+      Antes de corregirlo, la Console mostrará un
+      <code>ReferenceError</code> porque JavaScript intenta encontrar una variable
+      llamada <code>descuneto</code> que no ha sido declarada.
+    </p>
+
+  </div>
+</details>
         </div>
 
       </section>
