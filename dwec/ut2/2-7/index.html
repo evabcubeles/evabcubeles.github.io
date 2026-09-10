@@ -1503,12 +1503,13 @@ console.log(cantidadPequena);</code></pre>
 
         <h2 id="nan-infinity">NaN e Infinity</h2>
 
-        <p>
-          JavaScript dispone de algunos valores numéricos especiales. Uno de ellos es
-          <code>NaN</code>, abreviatura de <em>Not a Number</em>. Aparece cuando intentamos
-          obtener un resultado numérico a partir de un valor que no puede convertirse
-          correctamente en número.
-        </p>
+<p>
+  JavaScript dispone de algunos valores numéricos especiales. Uno de ellos es
+  <code>NaN</code>, abreviatura de <em>Not a Number</em>. Representa el resultado
+  de una operación numérica que no produce un valor numérico válido. Puede aparecer,
+  por ejemplo, cuando intentamos convertir en número una cadena que no contiene
+  un valor numérico.
+</p>
 
         <div class="bloque-codigo">
           <div class="cabecera-codigo">
@@ -1540,6 +1541,41 @@ number</code></pre>
             <code>"number"</code>.
           </p>
         </div>
+        <p>
+  Para comprobar si un valor es realmente <code>NaN</code> podemos utilizar
+  <code>Number.isNaN()</code>:
+</p>
+
+<div class="bloque-codigo">
+  <div class="cabecera-codigo">
+    <span class="lenguaje-codigo">JavaScript</span>
+    <button class="boton-copiar" type="button">📋 Copiar código</button>
+  </div>
+  <pre><code>const resultado = Number("hola");
+
+console.log(Number.isNaN(resultado));</code></pre>
+</div>
+
+<p>El resultado será:</p>
+
+<div class="bloque-codigo">
+  <div class="cabecera-codigo">
+    <span class="lenguaje-codigo">Console</span>
+    <button class="boton-copiar" type="button">📋 Copiar código</button>
+  </div>
+  <pre><code>true</code></pre>
+</div>
+
+<div class="caja caja-atencion">
+  <span class="caja-titulo">⚠️ Atención</span>
+  <p>
+    No debemos comprobar <code>NaN</code> utilizando
+    <code>resultado === NaN</code>, ya que <code>NaN</code> tiene una
+    característica especial: no es igual ni siquiera a sí mismo.
+    Para realizar esta comprobación utilizaremos
+    <code>Number.isNaN()</code>.
+  </p>
+</div>
 
         <p>
           Otro valor especial es <code>Infinity</code>, que representa un valor infinito.
@@ -1870,6 +1906,25 @@ console.log(numeroAleatorio);</code></pre>
           <code>0</code> y <code>9</code>, y finalmente sumamos <code>1</code> para obtener
           un valor entre <code>1</code> y <code>10</code>.
         </p>
+        <p>
+  Si queremos generar un número entero entre un valor mínimo y un valor máximo,
+  ambos incluidos, podemos utilizar la siguiente expresión:
+</p>
+
+<div class="bloque-codigo">
+  <div class="cabecera-codigo">
+    <span class="lenguaje-codigo">JavaScript</span>
+    <button class="boton-copiar" type="button">📋 Copiar código</button>
+  </div>
+  <pre><code>Math.floor(Math.random() * (maximo - minimo + 1)) + minimo;</code></pre>
+</div>
+        <div class="caja caja-importante">
+  <span class="caja-titulo">📌 Importante</span>
+  <p>
+    La expresión anterior genera un número entero comprendido entre
+    <code>minimo</code> y <code>maximo</code>, incluyendo ambos extremos.
+  </p>
+</div>
 
         <div class="caja caja-ejemplo">
           <span class="caja-titulo">💻 Ejemplo DAW</span>
