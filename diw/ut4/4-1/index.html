@@ -1457,6 +1457,23 @@ body.modo-oscuro .solucion-desplegable summary {
             </tbody>
           </table>
         </div>
+                <p>
+          Los elementos HTML pueden contener otros elementos. Cuando esto ocurre,
+          decimos que están <strong>anidados</strong>. Las etiquetas deben organizarse
+          respetando esa jerarquía: el elemento que se abre dentro de otro debe cerrarse
+          antes que el elemento que lo contiene.
+        </p>
+
+        <div class="codigo-ejemplo">
+          <div class="codigo-cabecera">
+            <span>HTML</span>
+            <button class="boton-copiar" type="button">Copiar</button>
+          </div>
+          <pre><code>&lt;section&gt;
+  &lt;h2&gt;Próximas entregas&lt;/h2&gt;
+  &lt;p&gt;Consulta tus actividades pendientes.&lt;/p&gt;
+&lt;/section&gt;</code></pre>
+        </div>
 
         <p>
           Los atributos se escriben normalmente en la etiqueta de apertura y suelen adoptar la forma
@@ -1529,14 +1546,18 @@ body.modo-oscuro .solucion-desplegable summary {
               </tr>
             </thead>
             <tbody>
-              <tr>
-                <td><code>&lt;!DOCTYPE html&gt;</code></td>
-                <td>Indica que el documento utiliza HTML moderno.</td>
-              </tr>
+<tr>
+  <td><code>&lt;!DOCTYPE html&gt;</code></td>
+  <td>Indica al navegador que el documento debe interpretarse utilizando el modo estándar de HTML.</td>
+</tr>
               <tr>
                 <td><code>&lt;html&gt;</code></td>
                 <td>Es el elemento raíz que contiene el documento HTML.</td>
               </tr>
+              <tr>
+  <td><code>lang="es"</code></td>
+  <td>Indica que el idioma principal del contenido del documento es español.</td>
+</tr>
               <tr>
                 <td><code>&lt;head&gt;</code></td>
                 <td>Contiene metadatos e información sobre el documento que no forma parte del contenido principal visible.</td>
