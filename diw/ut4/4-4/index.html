@@ -1508,14 +1508,25 @@ body.modo-oscuro .solucion-desplegable summary {
             comunicar la información necesaria de forma breve y adecuada al contexto.
           </p>
         </div>
+        <div class="caja caja-ejemplo">
+  <span class="caja-titulo">💻 Ejemplo DAW</span>
+  <p>
+    Si una imagen muestra que un proyecto está completado al 75 %, un texto como
+    <code>alt="gráfico circular verde"</code> describe su apariencia, pero no transmite
+    la información importante. Sería más adecuado utilizar
+    <code>alt="El proyecto está completado al 75 %"</code>.
+  </p>
+</div>
 
         <h3>Anchura y altura</h3>
 
-        <p>
-          Los atributos <code>width</code> y <code>height</code> permiten indicar las dimensiones
-          intrínsecas de la imagen en píxeles. Cuando conocemos sus dimensiones, incluir ambos valores
-          ayuda al navegador a reservar el espacio necesario antes de que el recurso termine de cargarse.
-        </p>
+<p>
+  Los atributos <code>width</code> y <code>height</code> permiten indicar las dimensiones
+  de la imagen mediante valores numéricos expresados en píxeles CSS. Cuando conocemos la
+  relación de aspecto y las dimensiones del recurso, incluir ambos valores permite al
+  navegador reservar el espacio correspondiente antes de que la imagen termine de cargarse,
+  reduciendo los cambios inesperados en la distribución de la página.
+</p>
 
         <div class="codigo-ejemplo">
           <div class="codigo-cabecera">
@@ -1599,6 +1610,15 @@ body.modo-oscuro .solucion-desplegable summary {
           Aunque el valor esté vacío, el atributo <code>alt</code> se mantiene. De este modo indicamos
           que la imagen no aporta información textual necesaria.
         </p>
+        <div class="caja caja-importante">
+  <span class="caja-titulo">📌 Importante</span>
+  <p>
+    <code>alt=""</code> no es lo mismo que omitir el atributo <code>alt</code>.
+    El valor vacío indica expresamente que la imagen no necesita una alternativa textual
+    porque es decorativa. En las imágenes que requieren una alternativa textual debemos
+    proporcionar un <code>alt</code> adecuado.
+  </p>
+</div>
 
         <h3>Imagen utilizada como enlace</h3>
 
