@@ -1535,6 +1535,33 @@ body.modo-oscuro .solucion-desplegable summary {
   &lt;li&gt;Implementar la interfaz&lt;/li&gt;
 &lt;/ol&gt;</code></pre>
         </div>
+                <h3>Listas de descripción</h3>
+
+        <p>
+          Las <strong>listas de descripción</strong> permiten representar grupos formados
+          por términos y sus correspondientes descripciones. Se construyen mediante
+          <code>&lt;dl&gt;</code>, utilizando <code>&lt;dt&gt;</code> para cada término
+          y <code>&lt;dd&gt;</code> para su descripción.
+        </p>
+
+        <div class="codigo-ejemplo">
+          <div class="codigo-cabecera">
+            <span>HTML</span>
+            <button class="boton-copiar" type="button">Copiar</button>
+          </div>
+          <pre><code>&lt;dl&gt;
+  &lt;dt&gt;HTML&lt;/dt&gt;
+  &lt;dd&gt;Lenguaje de marcado utilizado para estructurar el contenido.&lt;/dd&gt;
+
+  &lt;dt&gt;CSS&lt;/dt&gt;
+  &lt;dd&gt;Lenguaje utilizado para definir la presentación de una página web.&lt;/dd&gt;
+&lt;/dl&gt;</code></pre>
+        </div>
+
+        <p>
+          Son especialmente útiles para glosarios, definiciones o conjuntos de conceptos
+          acompañados de una explicación.
+        </p>
 
         <p>
           Las listas también pueden anidarse cuando un elemento necesita contener una segunda lista.
@@ -1621,9 +1648,10 @@ body {
         <div class="caja caja-atencion">
           <span class="caja-titulo">⚠️ Atención</span>
           <p>
-            Algunos elementos utilizados históricamente para dar formato visual al texto han
-            quedado obsoletos o no deben utilizarse con ese propósito. La apariencia del contenido
-            debe controlarse mediante CSS.
+            Algunos elementos utilizados históricamente para controlar la apariencia del texto,
+            como <code>&lt;font&gt;</code> o <code>&lt;center&gt;</code>, están obsoletos y no
+            deben utilizarse. La presentación del contenido —color, tamaño, alineación,
+            tipografía, etc.— debe controlarse mediante CSS.
           </p>
         </div>
 
