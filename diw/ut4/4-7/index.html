@@ -1366,7 +1366,13 @@ body.modo-oscuro .solucion-desplegable summary {
         <div class="caja caja-atencion"><span class="caja-titulo">⚠️ Atención</span><p>No debemos sustituir automáticamente cada <code>&lt;div&gt;</code> por un <code>&lt;section&gt;</code>. Si el bloque solo existe para aplicar estilos o facilitar la maquetación y no constituye una sección temática, un contenedor genérico puede ser más adecuado.</p></div>
 
         <h2 id="article">&lt;article&gt;</h2>
-        <p><code>&lt;article&gt;</code> representa contenido que forma una <strong>unidad independiente o autocontenida</strong> dentro del documento. Puede utilizarse, por ejemplo, para una noticia, una publicación, una entrada de blog, una reseña o una tarjeta de contenido que tenga sentido por sí misma.</p>
+<p>
+  <code>&lt;article&gt;</code> representa contenido que forma una
+  <strong>unidad independiente o autocontenida</strong> dentro del documento y que podría
+  tener sentido por sí mismo fuera del contexto inmediato de la página. Puede utilizarse,
+  por ejemplo, para una noticia, una publicación, una entrada de blog, una reseña o una
+  tarjeta de contenido con identidad propia.
+</p>
         <div class="codigo-ejemplo"><div class="codigo-cabecera"><span>HTML</span><button class="boton-copiar" type="button">Copiar</button></div><pre><code>&lt;article&gt;
   &lt;h2&gt;Proyecto de interfaz responsive&lt;/h2&gt;
   &lt;p&gt;Diseña y desarrolla la interfaz propuesta para el proyecto.&lt;/p&gt;
@@ -1393,7 +1399,50 @@ body.modo-oscuro .solucion-desplegable summary {
 
         <h2 id="div-semantica">&lt;div&gt; y elementos semánticos</h2>
         <p>El elemento <code>&lt;div&gt;</code> es un contenedor genérico. <strong>No está obsoleto ni es incorrecto utilizarlo</strong>: resulta adecuado cuando necesitamos agrupar elementos y no existe un elemento semántico que describa mejor la función de ese grupo.</p>
-        <div class="tabla-responsive"><table class="tabla-apuntes"><thead><tr><th>Situación</th><th>Elemento orientativo</th></tr></thead><tbody><tr><td>Navegación principal</td><td><code>&lt;nav&gt;</code></td></tr><tr><td>Contenido principal de la página</td><td><code>&lt;main&gt;</code></td></tr><tr><td>Sección temática</td><td><code>&lt;section&gt;</code></td></tr><tr><td>Pieza de contenido autocontenida</td><td><code>&lt;article&gt;</code></td></tr><tr><td>Contenido complementario</td><td><code>&lt;aside&gt;</code></td></tr><tr><td>Agrupación sin significado específico</td><td><code>&lt;div&gt;</code></td></tr></tbody></table></div>
+    <div class="tabla-responsive">
+  <table class="tabla-apuntes">
+    <thead>
+      <tr>
+        <th>Situación</th>
+        <th>Elemento orientativo</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>Contenido introductorio o de cabecera</td>
+        <td><code>&lt;header&gt;</code></td>
+      </tr>
+      <tr>
+        <td>Navegación principal</td>
+        <td><code>&lt;nav&gt;</code></td>
+      </tr>
+      <tr>
+        <td>Contenido principal de la página</td>
+        <td><code>&lt;main&gt;</code></td>
+      </tr>
+      <tr>
+        <td>Sección temática</td>
+        <td><code>&lt;section&gt;</code></td>
+      </tr>
+      <tr>
+        <td>Pieza de contenido autocontenida</td>
+        <td><code>&lt;article&gt;</code></td>
+      </tr>
+      <tr>
+        <td>Contenido complementario</td>
+        <td><code>&lt;aside&gt;</code></td>
+      </tr>
+      <tr>
+        <td>Pie de una página o sección</td>
+        <td><code>&lt;footer&gt;</code></td>
+      </tr>
+      <tr>
+        <td>Agrupación sin significado específico</td>
+        <td><code>&lt;div&gt;</code></td>
+      </tr>
+    </tbody>
+  </table>
+</div>
         <div class="caja caja-importante"><span class="caja-titulo">📌 Idea clave</span><p>No se trata de eliminar los <code>&lt;div&gt;</code>, sino de <strong>utilizar un elemento más específico cuando su significado corresponde realmente al contenido</strong>.</p></div>
 
         <h2 id="elegir-elemento">Cómo elegir el elemento adecuado</h2>
@@ -1443,6 +1492,27 @@ body.modo-oscuro .solucion-desplegable summary {
           <h3>💭 Piensa</h3>
           <p>Un alumno crea toda una página utilizando únicamente elementos <code>&lt;div&gt;</code>: uno para la cabecera, otro para el menú, otro para el contenido principal y otro para el pie. La página se visualiza correctamente después de aplicar CSS.</p>
           <p>¿Es suficiente que visualmente funcione? ¿Qué elementos HTML podrían expresar mejor la función de esos bloques?</p>
+          <details class="solucion-desplegable">
+  <summary>Ver una posible solución</summary>
+
+  <div class="contenido-solucion">
+    <p>
+      Que la página se visualice correctamente no significa que su estructura HTML
+      exprese adecuadamente la función de cada bloque. Aunque
+      <code>&lt;div&gt;</code> es válido como contenedor genérico, en este caso
+      existen elementos semánticos más específicos.
+    </p>
+
+    <p>
+      Podríamos utilizar <code>&lt;header&gt;</code> para la cabecera,
+      <code>&lt;nav&gt;</code> para el menú de navegación,
+      <code>&lt;main&gt;</code> para el contenido principal y
+      <code>&lt;footer&gt;</code> para el pie. Los
+      <code>&lt;div&gt;</code> seguirían siendo apropiados para agrupaciones
+      que no tengan un significado semántico específico.
+    </p>
+  </div>
+</details>
           <details class="solucion-desplegable"><summary>Ver solución</summary><div class="contenido-solucion"><p>La página puede verse correctamente, pero su estructura no expresa con claridad la función de cada zona. Si el contenido lo permite, podrían utilizarse <code>&lt;header&gt;</code> para la cabecera, <code>&lt;nav&gt;</code> para la navegación, <code>&lt;main&gt;</code> para el contenido principal y <code>&lt;footer&gt;</code> para el pie.</p><p>Los <code>&lt;div&gt;</code> seguirían siendo apropiados para agrupaciones que no tengan un significado semántico más específico.</p></div></details>
         </div>
       </section>
