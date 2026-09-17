@@ -1449,6 +1449,13 @@ body.modo-oscuro .solucion-desplegable summary {
                 <td>Archivo situado en la misma carpeta que la página actual.</td>
               </tr>
               <tr>
+  <td><code>./actividades.html</code></td>
+  <td>
+    <code>.</code> representa el directorio actual. En este caso, el archivo
+    se encuentra en la misma carpeta que la página actual.
+  </td>
+</tr>
+              <tr>
                 <td><code>materiales/tema1.html</code></td>
                 <td>Archivo situado dentro de la carpeta <code>materiales</code>.</td>
               </tr>
@@ -1459,6 +1466,12 @@ body.modo-oscuro .solucion-desplegable summary {
             </tbody>
           </table>
         </div>
+        <p>
+  En muchos casos, <code>actividades.html</code> y
+  <code>./actividades.html</code> hacen referencia al mismo recurso.
+  El prefijo <code>./</code> indica de forma explícita que partimos
+  del directorio actual.
+</p>
 
         <div class="caja caja-ejemplo">
           <span class="caja-titulo">💻 Ejemplo DAW</span>
@@ -1542,6 +1555,46 @@ body.modo-oscuro .solucion-desplegable summary {
           que abra una aplicación compatible para redactar un correo o realizar una llamada,
           respectivamente.
         </p>
+        <h3>Enlaces de descarga</h3>
+
+<p>
+  El atributo <code>download</code> permite indicar que un recurso enlazado está
+  destinado a descargarse en lugar de utilizarse como una navegación convencional.
+</p>
+
+<div class="codigo-ejemplo">
+  <div class="codigo-cabecera">
+    <span>HTML</span>
+    <button class="boton-copiar" type="button">Copiar</button>
+  </div>
+  <pre><code>&lt;a href="documentos/guia.pdf" download&gt;
+  Descargar guía en PDF
+&lt;/a&gt;</code></pre>
+</div>
+
+<p>
+  También podemos proponer un nombre para el archivo descargado asignando un valor
+  al atributo <code>download</code>.
+</p>
+
+<div class="codigo-ejemplo">
+  <div class="codigo-cabecera">
+    <span>HTML</span>
+    <button class="boton-copiar" type="button">Copiar</button>
+  </div>
+  <pre><code>&lt;a href="documentos/guia.pdf" download="guia-diw.pdf"&gt;
+  Descargar guía de DIW
+&lt;/a&gt;</code></pre>
+</div>
+
+<div class="caja caja-importante">
+  <span class="caja-titulo">📌 Importante</span>
+  <p>
+    El comportamiento de <code>download</code> puede depender del origen del recurso
+    y de las políticas del navegador. No debemos asumir que cualquier recurso externo
+    podrá descargarse de esta forma.
+  </p>
+</div>
 
         <h3>Abrir un enlace en otra pestaña</h3>
 
@@ -1555,10 +1608,22 @@ body.modo-oscuro .solucion-desplegable summary {
             <span>HTML</span>
             <button class="boton-copiar" type="button">Copiar</button>
           </div>
-          <pre><code>&lt;a href="https://developer.mozilla.org/" target="_blank"&gt;
+<pre><code>&lt;a
+  href="https://developer.mozilla.org/"
+  target="_blank"
+  rel="noopener"
+&gt;
   Abrir MDN Web Docs
 &lt;/a&gt;</code></pre>
         </div>
+        <p>
+  Cuando utilizamos <code>target="_blank"</code>, es habitual acompañarlo de
+  <code>rel="noopener"</code> para impedir que la nueva página obtenga acceso
+  a la página que abrió el enlace mediante <code>window.opener</code>.
+  Los navegadores modernos ya aplican esta protección de forma implícita a
+  <code>_blank</code>, pero escribir <code>noopener</code> hace explícita
+  la intención.
+</p>
 
         <div class="caja caja-importante">
           <span class="caja-titulo">📌 Importante</span>
