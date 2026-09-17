@@ -1322,7 +1322,12 @@ body.modo-oscuro .solucion-desplegable summary {
 
         <h2 id="figure-figcaption">&lt;figure&gt; y &lt;figcaption&gt;</h2>
         <p>En el apartado 4.4 vimos que <code>&lt;figure&gt;</code> y <code>&lt;figcaption&gt;</code> pueden utilizarse para asociar una imagen con su leyenda. Sin repetir lo ya estudiado, conviene ampliar una idea: <code>&lt;figure&gt;</code> no está limitado exclusivamente a las imágenes.</p>
-        <p><code>&lt;figure&gt;</code> representa contenido autocontenido relacionado con el contenido principal y puede incluir una leyenda mediante <code>&lt;figcaption&gt;</code>. Puede contener, por ejemplo, una imagen, un diagrama, un fragmento de código o una ilustración.</p>
+       <p>
+  <code>&lt;figure&gt;</code> representa contenido autocontenido al que se hace referencia
+  como una unidad dentro del documento y puede incluir una leyenda mediante
+  <code>&lt;figcaption&gt;</code>. Puede contener, por ejemplo, una imagen, un diagrama,
+  un fragmento de código o una ilustración.
+</p>
 
         <div class="codigo-ejemplo"><div class="codigo-cabecera"><span>HTML</span><button class="boton-copiar" type="button">Copiar</button></div><pre><code>&lt;figure&gt;
   &lt;pre&gt;&lt;code&gt;const modulo = "DIW";
@@ -1389,7 +1394,13 @@ console.log(modulo);&lt;/code&gt;&lt;/pre&gt;
               <tr><th>Elemento</th><th>Uso principal</th></tr>
             </thead>
             <tbody>
-              <tr><td><code>&lt;address&gt;</code></td><td>Información de contacto de una persona u organización relacionada con el contenido o con su autoría.</td></tr>
+            <tr>
+  <td><code>&lt;address&gt;</code></td>
+  <td>
+    Información de contacto de la persona u organización responsable
+    del contenido o de la sección correspondiente.
+  </td>
+</tr>
               <tr><td><code>&lt;blockquote&gt;</code></td><td>Cita extensa procedente de otra fuente.</td></tr>
               <tr><td><code>&lt;q&gt;</code></td><td>Cita breve integrada dentro de un texto.</td></tr>
               <tr><td><code>&lt;cite&gt;</code></td><td>Título de una obra o creación citada.</td></tr>
@@ -1410,6 +1421,36 @@ console.log(modulo);&lt;/code&gt;&lt;/pre&gt;
 &lt;/blockquote&gt;</code></pre></div>
 
         <p>El atributo <code>cite</code> puede indicar la fuente de una cita mediante una URL, pero esa dirección no se muestra automáticamente como un enlace visible. Si queremos que la persona usuaria pueda acceder a la fuente, debemos proporcionar también un enlace en el contenido.</p>
+        <h3>Otros tipos de citas</h3>
+
+<p>
+  Para una cita breve integrada dentro de un párrafo podemos utilizar
+  <code>&lt;q&gt;</code>. Por su parte, <code>&lt;cite&gt;</code> permite
+  identificar el título de una obra o creación.
+</p>
+
+<div class="codigo-ejemplo">
+  <div class="codigo-cabecera">
+    <span>HTML</span>
+    <button class="boton-copiar" type="button">Copiar</button>
+  </div>
+  <pre><code>&lt;p&gt;
+  Como indica la guía,
+  &lt;q&gt;la interfaz debe mantener una estructura coherente&lt;/q&gt;.
+&lt;/p&gt;
+
+&lt;p&gt;
+  Estamos consultando &lt;cite&gt;Diseño de interfaces web&lt;/cite&gt;.
+&lt;/p&gt;</code></pre>
+</div>
+        <div class="caja caja-importante">
+  <span class="caja-titulo">📌 Importante</span>
+  <p>
+    <code>&lt;cite&gt;</code> identifica el título de una obra o creación;
+    no se utiliza para marcar el nombre de la persona autora.
+  </p>
+</div>
+        
 
         <div class="caja caja-atencion"><span class="caja-titulo">⚠️ Atención</span><p>HTML no dispone de un elemento <code>&lt;email&gt;</code>. Para solicitar una dirección de correo electrónico en un formulario se utiliza <code>&lt;input type="email"&gt;</code>, como vimos en el apartado 4.6.</p></div>
 
