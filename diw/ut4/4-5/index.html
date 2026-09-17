@@ -1410,6 +1410,11 @@ body.modo-oscuro .solucion-desplegable summary {
   &lt;/tr&gt;
 &lt;/table&gt;</code></pre>
         </div>
+        <p>
+  En este primer ejemplo utilizamos únicamente celdas de datos para observar la
+  estructura básica de una tabla. A continuación veremos que algunas celdas pueden
+  actuar como encabezados y deben representarse mediante <code>&lt;th&gt;</code>.
+</p>
 
         <div class="tabla-responsive">
           <table class="tabla-apuntes">
@@ -1662,10 +1667,10 @@ body.modo-oscuro .solucion-desplegable summary {
   &lt;tr&gt;
     &lt;th colspan="2"&gt;Horario del lunes&lt;/th&gt;
   &lt;/tr&gt;
-  &lt;tr&gt;
-    &lt;th&gt;Hora&lt;/th&gt;
-    &lt;th&gt;Módulo&lt;/th&gt;
-  &lt;/tr&gt;
+&lt;tr&gt;
+  &lt;th scope="col"&gt;Hora&lt;/th&gt;
+  &lt;th scope="col"&gt;Módulo&lt;/th&gt;
+&lt;/tr&gt;
   &lt;tr&gt;
     &lt;td&gt;08:30 - 09:25&lt;/td&gt;
     &lt;td&gt;DIW&lt;/td&gt;
@@ -1681,10 +1686,10 @@ body.modo-oscuro .solucion-desplegable summary {
             <button class="boton-copiar" type="button">Copiar</button>
           </div>
           <pre><code>&lt;table&gt;
-  &lt;tr&gt;
-    &lt;th&gt;Módulo&lt;/th&gt;
-    &lt;th&gt;Actividad&lt;/th&gt;
-  &lt;/tr&gt;
+&lt;tr&gt;
+  &lt;th scope="col"&gt;Módulo&lt;/th&gt;
+  &lt;th scope="col"&gt;Actividad&lt;/th&gt;
+&lt;/tr&gt;
   &lt;tr&gt;
     &lt;th rowspan="2"&gt;DIW&lt;/th&gt;
     &lt;td&gt;Diseño del prototipo&lt;/td&gt;
@@ -1702,6 +1707,11 @@ body.modo-oscuro .solucion-desplegable summary {
             de <code>colspan</code> y <code>rowspan</code> puede hacer que una tabla sea más difícil de
             interpretar y mantener.
           </p>
+            <p>
+    Siempre que sea posible, es preferible utilizar una estructura sencilla. Si una tabla necesita
+    numerosas combinaciones de filas y columnas para poder representar la información, conviene
+    valorar si los datos pueden organizarse de una forma más clara.
+  </p>
         </div>
 
         <h2 id="buenas-practicas-tablas">Buenas prácticas en el uso de tablas</h2>
