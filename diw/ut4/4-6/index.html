@@ -1427,6 +1427,7 @@ body.modo-oscuro .solucion-desplegable summary {
               <tr><td><code>number</code></td><td>Valores numéricos</td><td>Número de unidades</td></tr>
               <tr><td><code>date</code></td><td>Fecha</td><td>Fecha de entrega</td></tr>
               <tr><td><code>time</code></td><td>Hora</td><td>Hora de una cita</td></tr>
+              <tr><td><code>search</code></td><td>Términos de búsqueda</td><td>Buscador de productos o contenidos</td></tr>
               <tr><td><code>url</code></td><td>Dirección web</td><td>URL de un proyecto</td></tr>
             </tbody>
           </table>
@@ -1651,7 +1652,7 @@ body.modo-oscuro .solucion-desplegable summary {
               <tr><td><code>placeholder</code></td><td>Muestra una pista breve dentro de determinados campos.</td></tr>
               <tr><td><code>autocomplete</code></td><td>Permite proporcionar indicaciones sobre el autocompletado del campo.</td></tr>
               <tr><td><code>disabled</code></td><td>Desactiva un control y evita su interacción y envío.</td></tr>
-              <tr><td><code>readonly</code></td><td>Impide modificar determinados controles, pero conserva su valor para el envío.</td></tr>
+<tr><td><code>readonly</code></td><td>Impide modificar el valor de los controles compatibles, pero permite que su valor se envíe con el formulario.</td></tr>
             </tbody>
           </table>
         </div>
@@ -1664,6 +1665,10 @@ body.modo-oscuro .solucion-desplegable summary {
           Con <code>method="post"</code>, los datos se incluyen en el cuerpo de la petición y suele utilizarse
           para operaciones que envían información para ser procesada o que pueden producir cambios.
         </p>
+        <p>
+  La elección entre GET y POST depende de la finalidad de la petición. No debemos elegir
+  POST simplemente porque queramos que los datos no aparezcan en la URL.
+</p>
 
         <div class="caja caja-atencion">
           <span class="caja-titulo">⚠️ Atención</span>
