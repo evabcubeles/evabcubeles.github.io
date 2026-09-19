@@ -1,0 +1,1853 @@
+<!DOCTYPE html>
+<html lang="es">
+  
+<head>
+  <meta charset="UTF-8">
+
+  <meta
+    name="viewport"
+    content="width=device-width, initial-scale=1.0"
+  >
+
+  <meta
+    name="description"
+    content="5.1 - Introducción a CSS."
+  >
+
+  <title>5.1 - Introducción a CSS</title>
+
+  <link rel="icon" type="image/png" href="../../../img/favicon.png?v=5">
+  <link rel="stylesheet" href="../../../css/estilos.css">
+
+  <style>
+
+    /* ==========================================
+       ESTRUCTURA DE LA UT
+    ========================================== */
+
+    .pagina-ut {
+      display: grid;
+      grid-template-columns: 280px 1fr 260px;
+      min-height: calc(100vh - 68px);
+    }
+
+
+    /* ==========================================
+       COLUMNA IZQUIERDA
+    ========================================== */
+
+    .sidebar {
+      border-right: 1px solid var(--borde);
+      background-color: var(--fondo-pagina);
+
+      padding: 12px 10px 30px;
+
+      position: sticky;
+      top: 68px;
+
+      height: calc(100vh - 68px);
+      overflow-y: auto;
+    }
+
+    .sidebar-modulo {
+      display: block;
+      margin-bottom: 8px;
+      padding: 8px 14px;
+      color: #626873;
+      font-size: 17px;
+      font-weight: 700;
+      line-height: 1.3;
+      text-decoration: none;
+      border-radius: 6px;
+      transition:
+        color 0.2s ease,
+        background-color 0.2s ease;
+    }
+
+    .sidebar-modulo:hover {
+      color: var(--verde-principal);
+      background-color: #f3f4f6;
+    }
+
+    body.modo-oscuro .sidebar-modulo:hover {
+      background-color: #273244;
+    }
+
+    .sidebar-ut {
+      margin-bottom: 12px;
+      padding: 10px 14px;
+
+      background-color: #f1f1f1;
+      border-radius: 5px;
+
+      color: var(--verde-principal);
+
+      font-size: 17px;
+      font-weight: 700;
+      line-height: 1.35;
+    }
+    .sidebar-ut-activa {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+    }
+
+    .flecha-ut-abierta {
+      flex-shrink: 0;
+      font-size: 22px;
+      color: #777;
+    }
+
+    .sidebar-ut-cerrada {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      padding: 13px 14px;
+      color: #626873;
+      text-decoration: none;
+      font-size: 16px;
+      font-weight: 650;
+      line-height: 1.35;
+      border-radius: 6px;
+      transition:
+      background-color 0.2s ease,
+      color 0.2s ease;
+    }
+
+    .sidebar-ut-cerrada:hover {
+      background-color: #f3f4f6;
+      color: var(--verde-principal);
+    }
+
+    body.modo-oscuro .sidebar-ut-cerrada:hover {
+      background-color: #273244;
+    }
+
+    body.modo-oscuro .sidebar-ut {
+      background-color: #273244;
+      color: #5ed28a;
+    }
+
+    .lista-apartados {
+      list-style: none;
+      margin: 0;
+      padding: 0;
+    }
+
+    .enlace-apartado {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+
+      padding: 11px 14px;
+
+      color: #626873;
+
+      text-decoration: none;
+
+      font-size: 15px;
+      font-weight: 600;
+      line-height: 1.4;
+
+      border-radius: 6px;
+
+      transition:
+        background-color 0.2s ease,
+        color 0.2s ease;
+    }
+
+    .enlace-apartado:hover {
+      background-color: #f3f4f6;
+      color: var(--verde-principal);
+    }
+
+    body.modo-oscuro .enlace-apartado:hover {
+      background-color: #273244;
+    }
+
+    .flecha-apartado {
+      flex-shrink: 0;
+
+      color: #8b8b8b;
+
+      font-size: 22px;
+    }
+    /* ==========================================
+   MENÚ LATERAL DESPLEGABLE
+========================================== */
+
+.menu-desplegable {
+  width: 100%;
+}
+
+
+/* Cabecera de una UT o de un apartado */
+
+.menu-cabecera {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+
+  width: 100%;
+
+  border-radius: 6px;
+}
+
+
+/* UT en la que estamos actualmente */
+
+.menu-cabecera-activa {
+  background-color: #f1f1f1;
+}
+
+.menu-cabecera-activa > .menu-titulo {
+  color: var(--verde-principal);
+}
+
+
+/* Texto/enlace de la UT o apartado */
+
+.menu-titulo {
+  flex: 1;
+
+  display: block;
+
+  padding: 11px 8px 11px 14px;
+
+  color: #626873;
+
+  font-size: 16px;
+  font-weight: 650;
+  line-height: 1.4;
+
+  text-decoration: none;
+}
+
+.menu-titulo:hover {
+  color: var(--verde-principal);
+}
+
+
+/* Botón de la flecha */
+
+.boton-desplegar {
+  width: 36px;
+  height: 36px;
+
+  margin-right: 5px;
+  padding: 0;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  flex-shrink: 0;
+
+  border: 0;
+  border-radius: 6px;
+
+  background: transparent;
+
+  color: #777;
+
+  font-family: inherit;
+  font-size: 24px;
+  line-height: 1;
+
+  cursor: pointer;
+}
+
+.boton-desplegar:hover {
+  background-color: #e5e7eb;
+  color: var(--verde-principal);
+}
+
+
+/* ==========================================
+   CONTENIDO DESPLEGABLE
+========================================== */
+
+.submenu {
+  display: none;
+}
+
+.submenu.submenu-abierto {
+  display: block;
+}
+
+
+/* ==========================================
+   APARTADOS DE UNA UT
+========================================== */
+
+.menu-apartado {
+  margin-left: 14px;
+}
+
+.menu-apartado .menu-titulo {
+  padding-top: 9px;
+  padding-bottom: 9px;
+
+  font-size: 15px;
+  font-weight: 600;
+}
+
+
+/* Apartados que NO tienen subapartados */
+
+.enlace-apartado-simple {
+  display: block;
+
+  margin-left: 14px;
+  padding: 10px 14px;
+
+  color: #626873;
+
+  font-size: 15px;
+  font-weight: 600;
+  line-height: 1.4;
+
+  text-decoration: none;
+
+  border-radius: 6px;
+
+  transition:
+    background-color 0.2s ease,
+    color 0.2s ease;
+}
+
+.enlace-apartado-simple:hover {
+  background-color: #f3f4f6;
+  color: var(--verde-principal);
+}
+
+
+/* ==========================================
+   SUBAPARTADOS DE 1.1
+========================================== */
+
+.submenu-apartados {
+  margin: 2px 0 5px 28px;
+
+  border-left: 2px solid #e0e3e7;
+}
+
+.submenu-apartados a {
+  display: block;
+
+  padding: 7px 10px;
+
+  color: #777d87;
+
+  font-size: 14px;
+  font-weight: 500;
+  line-height: 1.35;
+
+  text-decoration: none;
+}
+
+.submenu-apartados a:hover {
+  color: var(--verde-principal);
+}
+
+
+/* ==========================================
+   MODO OSCURO DEL MENÚ
+========================================== */
+
+body.modo-oscuro .menu-cabecera-activa {
+  background-color: #273244;
+}
+
+body.modo-oscuro .boton-desplegar:hover {
+  background-color: #334155;
+}
+
+body.modo-oscuro .enlace-apartado-simple:hover {
+  background-color: #273244;
+}
+
+body.modo-oscuro .submenu-apartados {
+  border-left-color: #3a4659;
+}
+
+
+    /* ==========================================
+       ZONA CENTRAL
+    ========================================== */
+
+    .contenido-ut {
+      padding: 28px 34px 70px;
+
+      max-width: 1150px;
+      width: 100%;
+    }
+
+    .migas {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+
+      margin-bottom: 30px;
+
+      font-size: 14px;
+    }
+
+    .miga-inicio {
+      text-decoration: none;
+      font-size: 18px;
+    }
+
+    .miga-separador {
+      color: #999;
+      font-size: 22px;
+    }
+
+    .miga-modulo {
+      color: var(--texto-secundario);
+      text-decoration: none;
+    }
+
+    .miga-modulo:hover {
+      color: var(--verde-principal);
+    }
+
+    .miga-actual {
+      padding: 8px 14px;
+
+      background-color: #f3f3f3;
+      border-radius: 24px;
+
+      color: var(--verde-principal);
+    }
+
+    body.modo-oscuro .miga-actual {
+      background-color: #273244;
+    }
+
+    .contenido-ut h1 {
+      margin: 0 0 30px;
+
+      font-size: clamp(38px, 5vw, 58px);
+      line-height: 1.12;
+    }
+
+    .introduccion-ut {
+      max-width: 980px;
+
+      font-size: 19px;
+      line-height: 1.75;
+    }
+
+    .introduccion-ut p {
+      margin: 0 0 20px;
+    }
+    /* ==========================================
+     CONTENIDO DE LOS APARTADOS
+    ========================================== */
+
+    .apartado-ut {
+      margin-top: 55px;
+      scroll-margin-top: 95px;
+    }
+
+    .apartado-ut h2 {
+      margin: 0 0 24px;
+      font-size: 32px;
+      line-height: 1.2;
+    }
+
+    .apartado-ut h3 {
+      margin: 34px 0 16px;
+      font-size: 24px;
+      line-height: 1.3;
+    }
+
+    .apartado-ut p {
+      margin: 0 0 18px;
+      font-size: 18px;
+      line-height: 1.75;
+    }
+
+    .apartado-ut ul {
+      margin: 16px 0 24px;
+      padding-left: 28px;
+    }
+
+    .apartado-ut li {
+      margin-bottom: 10px;
+      font-size: 17px;
+      line-height: 1.6;
+    }
+
+
+    /* ==========================================
+     CAJAS DE LOS APUNTES
+    ========================================== */
+
+    .caja {
+      margin: 28px 0;
+      padding: 18px 20px;
+      border-left: 5px solid;
+      border-radius: 8px;
+      line-height: 1.65;
+    }
+
+    .caja p {
+      margin: 0;
+      font-size: 17px;
+    }
+
+    .caja-titulo {
+      display: block;
+      margin-bottom: 8px;
+      font-size: 17px;
+      font-weight: 700;
+    }
+
+    .caja-importante {
+      background-color: #eef8f1;
+      border-left-color: #2f9e5b;
+    }
+
+    .caja-atencion {
+      background-color: #fff7e8;
+      border-left-color: #e09b27;
+    }
+
+    .caja-ejemplo {
+      background-color: #eef5ff;
+      border-left-color: #3f7acb;
+    }
+
+    .caja-curiosidad {
+      background-color: #f7f1ff;
+      border-left-color: #8b5cc7;
+    }
+
+    body.modo-oscuro .caja-importante {
+      background-color: #20372a;
+    }
+
+    body.modo-oscuro .caja-atencion {
+      background-color: #3b3020;
+    }
+
+    body.modo-oscuro .caja-ejemplo {
+      background-color: #23344a;
+    }
+
+    body.modo-oscuro .caja-curiosidad {
+      background-color: #332944;
+    }
+
+
+    /* ==========================================
+      TABLAS
+    ========================================== */
+
+    .tabla-responsive {
+      width: 100%;
+      margin: 28px 0;
+      overflow-x: auto;
+    }
+
+    .tabla-apuntes {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 16px;
+    }
+
+    .tabla-apuntes th,
+    .tabla-apuntes td {
+      padding: 14px 16px;
+      border: 1px solid var(--borde);
+      text-align: left;
+      vertical-align: top;
+      line-height: 1.55;
+    }
+
+    .tabla-apuntes th {
+      background-color: #f1f3f5;
+      font-weight: 700;
+    }
+
+    body.modo-oscuro .tabla-apuntes th {
+      background-color: #273244;
+    }
+
+
+    /* ==========================================
+     ESQUEMA VISUAL
+    ========================================== */
+
+    .esquema-sostenibilidad {
+      max-width: 520px;
+      margin: 30px auto;
+      padding: 24px;
+      text-align: center;
+    }
+
+    .esquema-caja {
+      padding: 16px 20px;
+      background-color: var(--fondo-tarjeta);
+      border: 1px solid var(--borde);
+      border-radius: 10px;
+      font-size: 18px;
+      font-weight: 700;
+    }
+
+    .esquema-flecha {
+      margin: 8px 0;
+      color: var(--verde-principal);
+      font-size: 26px;
+      font-weight: 700;
+    }
+
+    .esquema-texto {
+      margin: 0 0 8px;
+      color: var(--texto-secundario);
+      font-size: 15px;
+    }
+
+
+    /* ==========================================
+     ACTIVIDAD DE REFLEXIÓN
+    ========================================== */
+
+    .actividad-reflexion {
+      margin: 32px 0;
+      padding: 22px 24px;
+      background-color: #f7f8fa;
+      border: 1px solid var(--borde);
+      border-radius: 10px;
+    }
+
+    .actividad-reflexion h3 {
+      margin: 0 0 12px;
+      color: var(--verde-principal);
+      font-size: 20px;
+    }
+
+    .actividad-reflexion p {
+      margin: 0;
+      font-size: 17px;
+      line-height: 1.65;
+    }
+
+    body.modo-oscuro .actividad-reflexion {
+      background-color: #232d3d;
+    }
+    /* ==========================================
+   SOLUCIÓN DESPLEGABLE
+========================================== */
+
+.solucion-desplegable {
+  margin-top: 20px;
+}
+
+.solucion-desplegable summary {
+  display: inline-block;
+
+  padding: 10px 16px;
+
+  background-color: #eef8f1;
+
+  border: 1px solid #b9dfc6;
+  border-radius: 7px;
+
+  color: var(--verde-principal);
+
+  font-size: 16px;
+  font-weight: 700;
+
+  cursor: pointer;
+  user-select: none;
+}
+
+.solucion-desplegable summary:hover {
+  background-color: #e2f3e7;
+}
+
+.contenido-solucion {
+  margin-top: 16px;
+
+  padding: 18px 20px;
+
+  background-color: var(--fondo-pagina);
+
+  border-left: 4px solid var(--verde-principal);
+  border-radius: 6px;
+}
+
+.contenido-solucion p {
+  margin: 0 0 12px;
+
+  font-size: 16px;
+  line-height: 1.65;
+}
+
+.contenido-solucion p:last-child {
+  margin-bottom: 0;
+}
+
+body.modo-oscuro .solucion-desplegable summary {
+  background-color: #20372a;
+  border-color: #315d40;
+}
+
+
+    /* ==========================================
+       COLUMNA DERECHA
+    ========================================== */
+
+    .indice-derecho {
+      padding: 28px 22px;
+
+      border-left: 1px solid var(--borde);
+
+      position: sticky;
+      top: 68px;
+
+      height: calc(100vh - 68px);
+    }
+
+    .indice-derecho h2 {
+      margin: 8px 0 20px;
+
+      font-size: 17px;
+      color: #555b65;
+    }
+
+    body.modo-oscuro .indice-derecho h2 {
+      color: #d1d5db;
+    }
+
+    .indice-derecho ul {
+      margin: 0;
+      padding-left: 18px;
+    }
+
+    .indice-derecho li {
+      margin-bottom: 12px;
+    }
+
+    .indice-derecho a {
+      color: var(--texto-secundario);
+
+      text-decoration: none;
+
+      font-size: 14px;
+      line-height: 1.4;
+    }
+
+    .indice-derecho a:hover {
+      color: var(--verde-principal);
+    }
+
+
+    /* ==========================================
+       NAVEGACIÓN ANTERIOR / SIGUIENTE
+    ========================================== */
+
+    .navegacion-paginas {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 20px;
+
+      margin-top: 50px;
+    }
+
+    .nav-pagina {
+      min-height: 100px;
+      padding: 18px 20px;
+
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+
+      border: 1px solid var(--borde);
+      border-radius: 8px;
+
+      text-decoration: none;
+
+      background-color: var(--fondo-tarjeta);
+    }
+
+    .nav-anterior {
+      align-items: flex-start;
+      text-align: left;
+    }
+
+    .nav-siguiente {
+      align-items: flex-end;
+      text-align: right;
+    }
+
+    .nav-etiqueta {
+      margin-bottom: 5px;
+
+      color: var(--texto-secundario);
+
+      font-size: 14px;
+    }
+
+    .nav-pagina strong {
+      color: var(--verde-principal);
+
+      font-size: 16px;
+      line-height: 1.4;
+    }
+
+    .nav-pagina:hover {
+      border-color: var(--verde-principal);
+    }
+
+
+    /* ==========================================
+       RESPONSIVE
+    ========================================== */
+
+    @media (max-width: 1100px) {
+
+      .pagina-ut {
+        grid-template-columns: 250px 1fr;
+      }
+
+      .indice-derecho {
+        display: none;
+      }
+
+    }
+
+    @media (max-width: 760px) {
+
+      .pagina-ut {
+        display: block;
+      }
+
+      .sidebar {
+        position: static;
+
+        width: 100%;
+        height: auto;
+
+        border-right: 0;
+        border-bottom: 1px solid var(--borde);
+      }
+
+      .contenido-ut {
+        padding: 28px 20px 60px;
+      }
+
+      .contenido-ut h1 {
+        font-size: 36px;
+      }
+
+      .navegacion-paginas {
+        grid-template-columns: 1fr;
+      }
+
+      .nav-siguiente {
+        align-items: flex-start;
+        text-align: left;
+      }
+
+    }
+
+
+    /* ==========================================
+       EJEMPLOS VISUALES - PLANIFICACIÓN
+    ========================================== */
+
+    .flujo-planificacion {
+      display: grid;
+      grid-template-columns: repeat(5, 1fr);
+      gap: 10px;
+      margin: 26px 0 30px;
+    }
+
+    .paso-planificacion {
+      position: relative;
+      padding: 18px 14px;
+      border: 1px solid var(--borde);
+      border-radius: 9px;
+      background: var(--fondo-tarjeta);
+      text-align: center;
+    }
+
+    .paso-planificacion .numero {
+      display: flex;
+      width: 34px;
+      height: 34px;
+      margin: 0 auto 10px;
+      align-items: center;
+      justify-content: center;
+      border-radius: 50%;
+      background: #eef8f1;
+      color: var(--verde-principal);
+      font-weight: 800;
+    }
+
+    body.modo-oscuro .paso-planificacion .numero {
+      background: #20372a;
+    }
+
+    .paso-planificacion strong {
+      display: block;
+      margin-bottom: 6px;
+      font-size: 16px;
+    }
+
+    .paso-planificacion span {
+      font-size: 14px;
+      line-height: 1.45;
+      color: var(--texto-secundario);
+    }
+
+    .tarjetas-planificacion {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 14px;
+      margin: 24px 0 30px;
+    }
+
+    .tarjeta-planificacion {
+      padding: 18px;
+      border: 1px solid var(--borde);
+      border-radius: 9px;
+      background: var(--fondo-tarjeta);
+    }
+
+    .tarjeta-planificacion strong {
+      display: block;
+      margin-bottom: 8px;
+      font-size: 17px;
+    }
+
+    .tarjeta-planificacion p {
+      margin: 0;
+      font-size: 16px;
+      line-height: 1.55;
+    }
+
+    .comparacion-planificacion {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 16px;
+      margin: 24px 0 30px;
+    }
+
+    .caso-planificacion {
+      padding: 20px;
+      border: 1px solid var(--borde);
+      border-radius: 10px;
+      background: var(--fondo-tarjeta);
+    }
+
+    .caso-planificacion h3 {
+      margin-top: 0;
+      font-size: 20px;
+    }
+
+    .caso-planificacion ul {
+      margin-bottom: 0;
+    }
+
+    .fases-diseno {
+      display: grid;
+      grid-template-columns: repeat(5, 1fr);
+      gap: 12px;
+      margin: 26px 0 30px;
+    }
+
+    .fase-diseno {
+      padding: 18px 14px;
+      border-top: 4px solid var(--verde-principal);
+      border-radius: 8px;
+      background: var(--fondo-tarjeta);
+      box-shadow: 0 1px 4px rgba(0, 0, 0, 0.06);
+    }
+
+    .fase-diseno strong {
+      display: block;
+      margin-bottom: 8px;
+      font-size: 16px;
+    }
+
+    .fase-diseno span {
+      color: var(--texto-secundario);
+      font-size: 14px;
+      line-height: 1.45;
+    }
+
+    @media (max-width: 950px) {
+      .flujo-planificacion,
+      .fases-diseno {
+        grid-template-columns: repeat(2, 1fr);
+      }
+
+      .tarjetas-planificacion {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    @media (max-width: 650px) {
+      .flujo-planificacion,
+      .fases-diseno,
+      .comparacion-planificacion {
+        grid-template-columns: 1fr;
+      }
+    }
+
+
+    /* ==========================================
+       EJEMPLOS VISUALES - HTML
+    ========================================== */
+
+    .trio-web {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 14px;
+      margin: 24px 0 30px;
+    }
+
+    .tarjeta-web {
+      padding: 20px;
+      border: 1px solid var(--borde);
+      border-radius: 9px;
+      background: var(--fondo-tarjeta);
+    }
+
+    .tarjeta-web strong {
+      display: block;
+      margin-bottom: 8px;
+      font-size: 18px;
+    }
+
+    .tarjeta-web p {
+      margin: 0;
+      font-size: 16px;
+      line-height: 1.55;
+    }
+
+    .codigo-ejemplo {
+      margin: 24px 0 30px;
+      border: 1px solid var(--borde);
+      border-radius: 9px;
+      overflow: hidden;
+      background: #172033;
+    }
+
+    .codigo-cabecera {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      padding: 10px 14px;
+      background: #202b3d;
+      color: #e5e7eb;
+      font-size: 14px;
+      font-weight: 700;
+    }
+
+    .boton-copiar {
+      padding: 6px 10px;
+      border: 1px solid #526078;
+      border-radius: 6px;
+      background: transparent;
+      color: #e5e7eb;
+      font: inherit;
+      cursor: pointer;
+    }
+
+    .boton-copiar:hover {
+      background: #2d3a50;
+    }
+
+    .codigo-ejemplo pre {
+      margin: 0;
+      padding: 18px;
+      overflow-x: auto;
+    }
+
+    .codigo-ejemplo code {
+      color: #f3f4f6;
+      font-family: Consolas, "Courier New", monospace;
+      font-size: 15px;
+      line-height: 1.65;
+    }
+
+    .anatomia-elemento {
+      margin: 26px 0 30px;
+      padding: 22px;
+      border: 1px solid var(--borde);
+      border-radius: 10px;
+      background: var(--fondo-tarjeta);
+      text-align: center;
+    }
+
+    .anatomia-elemento code {
+      font-family: Consolas, "Courier New", monospace;
+      font-size: clamp(16px, 2vw, 20px);
+      color: var(--verde-principal);
+      overflow-wrap: anywhere;
+    }
+
+    .anatomia-elemento p {
+      margin: 14px 0 0;
+      color: var(--texto-secundario);
+      font-size: 16px;
+    }
+
+    @media (max-width: 800px) {
+      .trio-web {
+        grid-template-columns: 1fr;
+      }
+    }
+
+  </style>
+
+</head>
+
+
+<body>
+
+  <header class="navbar">
+    <a class="inicio" href="../../../index.html">
+      <img src="../../../img/profesora-castana.png?v=2" alt="" class="icono-profesora">
+      <span>Inicio</span>
+    </a>
+    <nav id="menuModulos" class="menu-modulos" aria-label="Módulos formativos"></nav>
+    <button id="botonTema" class="boton-tema" type="button"
+      aria-label="Cambiar entre modo claro y oscuro" title="Cambiar tema">☀️</button>
+  </header>
+
+  <div class="pagina-ut">
+    <aside class="sidebar">
+      <a class="sidebar-modulo" href="../../index.html">Diseño de interfaces web</a>
+
+      <a class="sidebar-ut-cerrada" href="../../ut1/index.html"><span>UT1 - Fundamentos del diseño de interfaces web</span><span>›</span></a>
+      <a class="sidebar-ut-cerrada" href="../../ut2/index.html"><span>UT2 - Color, tipografía, iconografía e identidad visual</span><span>›</span></a>
+
+<a class="sidebar-ut-cerrada" href="../../ut3/index.html"><span>UT3 - Planificación, arquitectura y prototipado de interfaces</span><span>›</span></a>
+
+      <a class="sidebar-ut-cerrada" href="../../ut4/index.html"><span>UT4 - HTML: estructura y contenido de interfaces web</span><span>›</span></a>
+
+      <!-- UT5 ACTIVA -->
+      <div class="menu-desplegable">
+        <div class="menu-cabecera menu-cabecera-activa">
+          <a class="menu-titulo" href="../index.html">UT5 - CSS: fundamentos y diseño visual</a>
+          <button class="boton-desplegar" type="button" data-target="submenu-ut5" aria-expanded="true" aria-label="Mostrar u ocultar UT5">⌄</button>
+        </div>
+        <div id="submenu-ut5" class="submenu submenu-abierto">
+          <div class="menu-desplegable menu-apartado">
+            <div class="menu-cabecera menu-cabecera-activa">
+              <a class="menu-titulo" href="index.html">5.1 Introducción a CSS</a>
+              <button class="boton-desplegar" type="button" data-target="submenu-5-1" aria-expanded="true" aria-label="Mostrar u ocultar los subapartados del 5.1">⌄</button>
+            </div>
+            <div id="submenu-5-1" class="submenu submenu-apartados submenu-abierto">
+              <a href="#papel-css">El papel de CSS en una interfaz web</a>
+              <a href="#reglas-css">Reglas CSS: selector y declaración</a>
+              <a href="#propiedades-valores">Propiedades y valores</a>
+              <a href="#incorporar-css">Formas de incorporar CSS</a>
+              <a href="#organizacion-css">Organización básica de una hoja de estilos</a>
+            </div>
+          </div>
+          <div class="menu-desplegable menu-apartado">
+            <div class="menu-cabecera">
+              <a class="menu-titulo" href="../5-2/index.html">5.2 Selectores CSS</a>
+              <button class="boton-desplegar" type="button" data-target="submenu-5-2" aria-expanded="false" aria-label="Mostrar u ocultar los subapartados del 5.2">›</button>
+            </div>
+            <div id="submenu-5-2" class="submenu submenu-apartados">
+              <a href="../5-2/index.html#selector-universal">Selector universal</a>
+              <a href="../5-2/index.html#selector-tipo">Selector de tipo o etiqueta</a>
+              <a href="../5-2/index.html#selector-clase">Selector de clase</a>
+              <a href="../5-2/index.html#selector-id">Selector de identificador</a>
+              <a href="../5-2/index.html#agrupacion-selectores">Agrupación de selectores</a>
+              <a href="../5-2/index.html#combinadores">Combinadores y relaciones entre elementos</a>
+            </div>
+          </div>
+          <div class="menu-desplegable menu-apartado">
+            <div class="menu-cabecera">
+              <a class="menu-titulo" href="../5-3/index.html">5.3 Pseudoclases y pseudoelementos</a>
+              <button class="boton-desplegar" type="button" data-target="submenu-5-3" aria-expanded="false" aria-label="Mostrar u ocultar los subapartados del 5.3">›</button>
+            </div>
+            <div id="submenu-5-3" class="submenu submenu-apartados">
+              <a href="../5-3/index.html#pseudoclases">Qué son las pseudoclases</a>
+              <a href="../5-3/index.html#estados-interaccion">Estados e interacción</a>
+              <a href="../5-3/index.html#pseudoclases-estructurales">Pseudoclases estructurales</a>
+              <a href="../5-3/index.html#pseudoelementos">Qué son los pseudoelementos</a>
+              <a href="../5-3/index.html#before-after">::before y ::after</a>
+              <a href="../5-3/index.html#otros-pseudoelementos">Otros pseudoelementos útiles</a>
+            </div>
+          </div>
+          <div class="menu-desplegable menu-apartado">
+            <div class="menu-cabecera">
+              <a class="menu-titulo" href="../5-4/index.html">5.4 Cascada, especificidad y herencia</a>
+              <button class="boton-desplegar" type="button" data-target="submenu-5-4" aria-expanded="false" aria-label="Mostrar u ocultar los subapartados del 5.4">›</button>
+            </div>
+            <div id="submenu-5-4" class="submenu submenu-apartados">
+              <a href="../5-4/index.html#cascada">La cascada en CSS</a>
+              <a href="../5-4/index.html#especificidad">Especificidad de los selectores</a>
+              <a href="../5-4/index.html#orden-declaraciones">Orden de las declaraciones</a>
+              <a href="../5-4/index.html#herencia">Herencia de propiedades</a>
+              <a href="../5-4/index.html#important">Uso de !important</a>
+            </div>
+          </div>
+          <div class="menu-desplegable menu-apartado">
+            <div class="menu-cabecera">
+              <a class="menu-titulo" href="../5-5/index.html">5.5 Unidades y valores en CSS</a>
+              <button class="boton-desplegar" type="button" data-target="submenu-5-5" aria-expanded="false" aria-label="Mostrar u ocultar los subapartados del 5.5">›</button>
+            </div>
+            <div id="submenu-5-5" class="submenu submenu-apartados">
+              <a href="../5-5/index.html#valores-css">Valores en CSS</a>
+              <a href="../5-5/index.html#unidades-absolutas">Unidades absolutas</a>
+              <a href="../5-5/index.html#unidades-relativas">Unidades relativas</a>
+              <a href="../5-5/index.html#porcentajes">Porcentajes</a>
+              <a href="../5-5/index.html#funciones-valores">Funciones y valores útiles</a>
+            </div>
+          </div>
+          <div class="menu-desplegable menu-apartado">
+            <div class="menu-cabecera">
+              <a class="menu-titulo" href="../5-6/index.html">5.6 Colores en CSS</a>
+              <button class="boton-desplegar" type="button" data-target="submenu-5-6" aria-expanded="false" aria-label="Mostrar u ocultar los subapartados del 5.6">›</button>
+            </div>
+            <div id="submenu-5-6" class="submenu submenu-apartados">
+              <a href="../5-6/index.html#propiedad-color">La propiedad color</a>
+              <a href="../5-6/index.html#nombres-color">Nombres de color</a>
+              <a href="../5-6/index.html#hexadecimal">Notación hexadecimal</a>
+              <a href="../5-6/index.html#rgb">RGB y transparencia</a>
+              <a href="../5-6/index.html#hsl">HSL</a>
+              <a href="../5-6/index.html#buenas-practicas-color">Buenas prácticas en el uso del color</a>
+            </div>
+          </div>
+          <div class="menu-desplegable menu-apartado">
+            <div class="menu-cabecera">
+              <a class="menu-titulo" href="../5-7/index.html">5.7 Tipografía y texto</a>
+              <button class="boton-desplegar" type="button" data-target="submenu-5-7" aria-expanded="false" aria-label="Mostrar u ocultar los subapartados del 5.7">›</button>
+            </div>
+            <div id="submenu-5-7" class="submenu submenu-apartados">
+              <a href="../5-7/index.html#font-family">Familias tipográficas</a>
+              <a href="../5-7/index.html#font-size">Tamaño de fuente</a>
+              <a href="../5-7/index.html#font-style-weight">Estilo y grosor</a>
+              <a href="../5-7/index.html#line-height">Interlineado</a>
+              <a href="../5-7/index.html#alineacion-texto">Alineación del texto</a>
+              <a href="../5-7/index.html#decoracion-texto">Decoración y otras propiedades de texto</a>
+            </div>
+          </div>
+          <div class="menu-desplegable menu-apartado">
+            <div class="menu-cabecera">
+              <a class="menu-titulo" href="../5-8/index.html">5.8 Fondos</a>
+              <button class="boton-desplegar" type="button" data-target="submenu-5-8" aria-expanded="false" aria-label="Mostrar u ocultar los subapartados del 5.8">›</button>
+            </div>
+            <div id="submenu-5-8" class="submenu submenu-apartados">
+              <a href="../5-8/index.html#background-color">Color de fondo</a>
+              <a href="../5-8/index.html#background-image">Imágenes de fondo</a>
+              <a href="../5-8/index.html#background-repeat">Repetición de fondos</a>
+              <a href="../5-8/index.html#background-position">Posición del fondo</a>
+              <a href="../5-8/index.html#background-size">Tamaño del fondo</a>
+              <a href="../5-8/index.html#background-shorthand">Propiedad abreviada background</a>
+            </div>
+          </div>
+          <div class="menu-desplegable menu-apartado">
+            <div class="menu-cabecera">
+              <a class="menu-titulo" href="../5-9/index.html">5.9 El modelo de caja</a>
+              <button class="boton-desplegar" type="button" data-target="submenu-5-9" aria-expanded="false" aria-label="Mostrar u ocultar los subapartados del 5.9">›</button>
+            </div>
+            <div id="submenu-5-9" class="submenu submenu-apartados">
+              <a href="../5-9/index.html#box-model">Concepto de modelo de caja</a>
+              <a href="../5-9/index.html#content">Área de contenido</a>
+              <a href="../5-9/index.html#padding">Relleno: padding</a>
+              <a href="../5-9/index.html#border">Borde: border</a>
+              <a href="../5-9/index.html#margin">Margen: margin</a>
+              <a href="../5-9/index.html#box-sizing">box-sizing</a>
+            </div>
+          </div>
+          <div class="menu-desplegable menu-apartado">
+            <div class="menu-cabecera">
+              <a class="menu-titulo" href="../5-10/index.html">5.10 Bordes, esquinas y sombras</a>
+              <button class="boton-desplegar" type="button" data-target="submenu-5-10" aria-expanded="false" aria-label="Mostrar u ocultar los subapartados del 5.10">›</button>
+            </div>
+            <div id="submenu-5-10" class="submenu submenu-apartados">
+              <a href="../5-10/index.html#bordes">Propiedades de los bordes</a>
+              <a href="../5-10/index.html#border-radius">Esquinas redondeadas</a>
+              <a href="../5-10/index.html#box-shadow">Sombras de caja</a>
+              <a href="../5-10/index.html#text-shadow">Sombras de texto</a>
+              <a href="../5-10/index.html#buenas-practicas-efectos">Buenas prácticas visuales</a>
+            </div>
+          </div>
+          <a class="enlace-apartado-simple" href="../resumen/index.html">✏️ Resumen de la UT5</a>
+          <a class="enlace-apartado-simple" href="../actividades/index.html">📝 Actividades de la UT5</a>
+        </div>
+      </div>
+
+      <a class="sidebar-ut-cerrada" href="../../ut6/index.html"><span>UT6 - CSS: maquetación y diseño avanzado</span><span>›</span></a>
+      <a class="sidebar-ut-cerrada" href="../../ut7/index.html"><span>UT7 - Diseño web responsive</span><span>›</span></a>
+      <a class="sidebar-ut-cerrada" href="../../ut8/index.html"><span>UT8 - Recursos gráficos e imágenes para la web</span><span>›</span></a>
+      <a class="sidebar-ut-cerrada" href="../../ut9/index.html"><span>UT9 - Audio, vídeo, animaciones e interactividad</span><span>›</span></a>
+      <a class="sidebar-ut-cerrada" href="../../ut10/index.html"><span>UT10 - Accesibilidad web</span><span>›</span></a>
+      <a class="sidebar-ut-cerrada" href="../../ut11/index.html"><span>UT11 - Usabilidad y evaluación de interfaces web</span><span>›</span></a>
+    </aside>
+
+    <main class="contenido-ut">
+      <div class="migas">
+        <a class="miga-inicio" href="../../../index.html" aria-label="Volver a la página principal">🏠</a>
+        <span class="miga-separador">›</span>
+        <a class="miga-modulo" href="../../index.html">DIW</a>
+        <span class="miga-separador">›</span>
+        <a class="miga-modulo" href="../index.html">UT5</a>
+        <span class="miga-separador">›</span>
+        <span class="miga-actual">5.1</span>
+      </div>
+
+      <h1>5.1 Introducción a CSS</h1>
+
+      <section class="apartado-ut">
+        <p>
+          En la UT4 hemos utilizado HTML para definir la <strong>estructura y el significado
+          del contenido</strong> de una interfaz web. Sin embargo, una misma estructura puede
+          presentarse de muchas formas diferentes. Para controlar su apariencia utilizamos
+          <strong>CSS (Cascading Style Sheets)</strong>, o <strong>Hojas de Estilo en Cascada</strong>.
+        </p>
+
+        <p>
+          CSS permite definir, entre otros aspectos, colores, tipografías, tamaños, espacios,
+          fondos, bordes y muchas otras características visuales. De esta forma podemos mantener
+          separado el contenido de su presentación y aplicar un diseño coherente a toda la interfaz.
+        </p>
+
+        <div class="caja caja-importante">
+          <span class="caja-titulo">📌 Importante</span>
+          <p>
+            HTML describe <strong>qué es y cómo se organiza el contenido</strong>; CSS define
+            principalmente <strong>cómo se presenta visualmente</strong>. Esta separación facilita
+            el mantenimiento y la reutilización de los estilos.
+          </p>
+        </div>
+
+        <h2 id="papel-css">El papel de CSS en una interfaz web</h2>
+
+        <p>
+          Los navegadores aplican unos estilos predeterminados a los elementos HTML. Por eso, incluso
+          una página sin una hoja de estilos propia muestra encabezados con distintos tamaños, enlaces
+          diferenciados o listas con viñetas. CSS permite sustituir o complementar esos estilos para
+          construir la apariencia que hemos definido para nuestra interfaz.
+        </p>
+
+        <p>
+          Mediante CSS podemos establecer una presentación común para muchos elementos y modificarla
+          desde un único lugar. Esto resulta especialmente útil en sitios formados por varias páginas,
+          donde interesa conservar la misma identidad visual.
+        </p>
+
+        <div class="trio-web">
+          <div class="tarjeta-web">
+            <strong>🧱 HTML</strong>
+            <p>Define la estructura y el significado del contenido.</p>
+          </div>
+          <div class="tarjeta-web">
+            <strong>🎨 CSS</strong>
+            <p>Define la presentación visual de los elementos de la interfaz.</p>
+          </div>
+          <div class="tarjeta-web">
+            <strong>⚙️ JavaScript</strong>
+            <p>Permite programar comportamiento e interacción dinámica.</p>
+          </div>
+        </div>
+
+        <div class="caja caja-ejemplo">
+          <span class="caja-titulo">💻 Ejemplo DAW</span>
+          <p>
+            En StudyFlow, HTML puede identificar el nombre de una asignatura como encabezado y sus
+            actividades como una lista. CSS puede decidir la tipografía, los colores, los espacios
+            y el aspecto visual de esos elementos sin modificar su significado en HTML.
+          </p>
+        </div>
+
+        <h2 id="reglas-css">Reglas CSS: selector y declaración</h2>
+
+        <p>
+          Los estilos se expresan mediante <strong>reglas CSS</strong>. Una regla indica qué elementos
+          queremos seleccionar y qué características de su presentación deseamos modificar.
+        </p>
+
+        <div class="codigo-ejemplo">
+          <div class="codigo-cabecera">
+            <span>CSS</span>
+            <button class="boton-copiar" type="button">Copiar</button>
+          </div>
+          <pre><code>p {
+  color: #2f4858;
+  font-size: 18px;
+}</code></pre>
+        </div>
+
+        <div class="anatomia-elemento">
+          <code>p { color: #2f4858; }</code>
+          <p>Selector + bloque de declaraciones → propiedad + valor</p>
+        </div>
+
+        <div class="tabla-responsive">
+          <table class="tabla-apuntes">
+            <thead>
+              <tr>
+                <th>Parte</th>
+                <th>Función</th>
+                <th>Ejemplo</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><strong>Selector</strong></td>
+                <td>Indica qué elemento o conjunto de elementos se desea seleccionar.</td>
+                <td><code>p</code></td>
+              </tr>
+              <tr>
+                <td><strong>Bloque de declaraciones</strong></td>
+                <td>Contiene las declaraciones que se aplicarán a los elementos seleccionados.</td>
+                <td><code>{ color: #2f4858; font-size: 18px; }</code></td>
+              </tr>
+              <tr>
+                <td><strong>Declaración</strong></td>
+                <td>Asocia una propiedad CSS con un valor.</td>
+                <td><code>color: #2f4858;</code></td>
+              </tr>
+              <tr>
+                <td><strong>Propiedad</strong></td>
+                <td>Indica la característica que queremos definir.</td>
+                <td><code>color</code></td>
+              </tr>
+              <tr>
+                <td><strong>Valor</strong></td>
+                <td>Indica el valor asignado a la propiedad.</td>
+                <td><code>#2f4858</code></td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <p>
+          El selector se escribe antes de las llaves. Dentro de ellas se incluyen una o varias
+          declaraciones. Cada declaración utiliza dos puntos para separar la propiedad de su valor
+          y normalmente termina con un punto y coma.
+        </p>
+
+        <div class="caja caja-atencion">
+          <span class="caja-titulo">⚠️ Atención</span>
+          <p>
+            No confundas <strong>selector</strong> con <strong>propiedad</strong>. El selector indica
+            sobre qué elementos actuará la regla; la propiedad indica qué característica queremos
+            modificar.
+          </p>
+        </div>
+
+        <h2 id="propiedades-valores">Propiedades y valores</h2>
+
+        <p>
+          CSS dispone de numerosas propiedades. Cada una admite determinados tipos de valores según
+          la característica que controla. Algunas reciben colores, otras longitudes, palabras clave,
+          números, imágenes o combinaciones de varios valores.
+        </p>
+
+        <div class="codigo-ejemplo">
+          <div class="codigo-cabecera">
+            <span>CSS</span>
+            <button class="boton-copiar" type="button">Copiar</button>
+          </div>
+          <pre><code>h1 {
+  color: #1f6f43;
+  font-size: 36px;
+  text-align: center;
+}
+
+.aviso {
+  background-color: #fff7e8;
+  padding: 16px;
+}</code></pre>
+        </div>
+
+        <p>
+          En este ejemplo, <code>color</code>, <code>font-size</code>, <code>text-align</code>,
+          <code>background-color</code> y <code>padding</code> son propiedades. Sus valores indican
+          respectivamente un color, un tamaño, una alineación, un color de fondo y un espacio interior.
+          Estudiaremos estas propiedades con mayor detalle a lo largo de la unidad.
+        </p>
+
+        <div class="caja caja-importante">
+          <span class="caja-titulo">📌 Idea clave</span>
+          <p>
+            Una declaración CSS sigue la forma <code>propiedad: valor;</code>. Una regla puede contener
+            varias declaraciones y todas ellas se aplican a los elementos que coincidan con su selector,
+            salvo que intervengan otros mecanismos de CSS que estudiaremos más adelante, como la cascada
+            y la especificidad.
+          </p>
+        </div>
+
+        <h2 id="incorporar-css">Formas de incorporar CSS</h2>
+
+        <p>
+          Existen varias formas de asociar estilos CSS con un documento HTML. Las tres más habituales
+          son los <strong>estilos en línea</strong>, las <strong>hojas de estilo internas</strong> y las
+          <strong>hojas de estilo externas</strong>.
+        </p>
+
+        <h3>Estilos en línea</h3>
+
+        <p>
+          Se escriben directamente en el atributo <code>style</code> de un elemento HTML.
+        </p>
+
+        <div class="codigo-ejemplo">
+          <div class="codigo-cabecera">
+            <span>HTML</span>
+            <button class="boton-copiar" type="button">Copiar</button>
+          </div>
+          <pre><code>&lt;p style="color: #1f6f43;"&gt;Actividad disponible&lt;/p&gt;</code></pre>
+        </div>
+
+        <p>
+          Esta técnica puede resultar útil en situaciones muy concretas, pero mezcla estructura y
+          presentación y dificulta reutilizar los estilos. Por ello no suele ser la opción adecuada
+          para organizar el diseño general de un sitio web.
+        </p>
+
+        <h3>Hoja de estilo interna</h3>
+
+        <p>
+          Las reglas CSS se escriben dentro de un elemento <code>&lt;style&gt;</code>, normalmente
+          situado en el <code>&lt;head&gt;</code> del documento.
+        </p>
+
+        <div class="codigo-ejemplo">
+          <div class="codigo-cabecera">
+            <span>HTML + CSS</span>
+            <button class="boton-copiar" type="button">Copiar</button>
+          </div>
+          <pre><code>&lt;head&gt;
+  &lt;style&gt;
+    p {
+      color: #1f6f43;
+    }
+  &lt;/style&gt;
+&lt;/head&gt;</code></pre>
+        </div>
+
+        <p>
+          Los estilos quedan separados del contenido visible, pero siguen perteneciendo a un único
+          documento HTML. Puede ser útil para ejemplos pequeños o páginas aisladas.
+        </p>
+
+        <h3>Hoja de estilo externa</h3>
+
+        <p>
+          Las reglas se guardan en un archivo independiente con extensión <code>.css</code> y el
+          documento HTML lo enlaza mediante el elemento <code>&lt;link&gt;</code>.
+        </p>
+
+        <div class="codigo-ejemplo">
+          <div class="codigo-cabecera">
+            <span>HTML</span>
+            <button class="boton-copiar" type="button">Copiar</button>
+          </div>
+          <pre><code>&lt;head&gt;
+  &lt;link rel="stylesheet" href="css/estilos.css"&gt;
+&lt;/head&gt;</code></pre>
+        </div>
+
+        <div class="codigo-ejemplo">
+          <div class="codigo-cabecera">
+            <span>css/estilos.css</span>
+            <button class="boton-copiar" type="button">Copiar</button>
+          </div>
+          <pre><code>p {
+  color: #1f6f43;
+}</code></pre>
+        </div>
+
+        <p>
+          Esta opción permite reutilizar la misma hoja de estilos en diferentes documentos HTML,
+          centralizar los cambios de diseño y mantener mejor separadas la estructura y la presentación.
+          Será la forma que utilizaremos habitualmente en los ejemplos y proyectos del módulo.
+        </p>
+
+        <div class="tabla-responsive">
+          <table class="tabla-apuntes">
+            <thead>
+              <tr>
+                <th>Forma</th>
+                <th>Dónde se escribe CSS</th>
+                <th>Uso habitual</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><strong>En línea</strong></td>
+                <td>En el atributo <code>style</code> del elemento.</td>
+                <td>Casos puntuales; poco recomendable para organizar un sitio completo.</td>
+              </tr>
+              <tr>
+                <td><strong>Interna</strong></td>
+                <td>En un elemento <code>&lt;style&gt;</code> del documento.</td>
+                <td>Ejemplos o páginas aisladas.</td>
+              </tr>
+              <tr>
+                <td><strong>Externa</strong></td>
+                <td>En un archivo <code>.css</code> enlazado con <code>&lt;link&gt;</code>.</td>
+                <td>Proyectos y sitios con estilos reutilizables.</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <h2 id="organizacion-css">Organización básica de una hoja de estilos</h2>
+
+        <p>
+          A medida que una interfaz crece, también aumenta el número de reglas CSS. Por eso conviene
+          mantener desde el principio una organización clara y un formato consistente.
+        </p>
+
+        <div class="codigo-ejemplo">
+          <div class="codigo-cabecera">
+            <span>CSS organizado</span>
+            <button class="boton-copiar" type="button">Copiar</button>
+          </div>
+          <pre><code>/* Encabezados */
+
+h1 {
+  color: #1f6f43;
+  font-size: 36px;
+}
+
+
+/* Avisos */
+
+.aviso {
+  padding: 16px;
+  background-color: #fff7e8;
+}</code></pre>
+        </div>
+
+        <p>
+          Es recomendable utilizar una indentación uniforme, separar visualmente los grupos de reglas,
+          emplear nombres de clases comprensibles y añadir comentarios cuando realmente ayuden a
+          entender la organización de la hoja de estilos.
+        </p>
+
+        <p>
+          Los comentarios CSS se escriben entre <code>/*</code> y <code>*/</code>. El navegador los
+          ignora al aplicar los estilos, pero pueden facilitar la lectura y el mantenimiento del código.
+        </p>
+
+        <div class="caja caja-atencion">
+          <span class="caja-titulo">⚠️ Atención</span>
+          <p>
+            Evita utilizar nombres de clase ligados únicamente a una apariencia concreta, como
+            <code>.texto-rojo</code>, cuando la clase representa en realidad una función o componente.
+            Nombres como <code>.aviso</code> o <code>.mensaje-error</code> suelen expresar mejor su propósito.
+          </p>
+        </div>
+
+        <div class="caja caja-ejemplo">
+          <span class="caja-titulo">💻 Ejemplo DAW</span>
+          <p>
+            En StudyFlow podemos guardar los estilos generales en <code>css/estilos.css</code> y
+            enlazar esa misma hoja desde las distintas páginas del proyecto. Si modificamos allí el
+            aspecto de las tarjetas de actividades, el cambio podrá aplicarse de forma coherente en
+            todas las páginas que utilicen esos estilos.
+          </p>
+        </div>
+
+        <div class="actividad-reflexion">
+          <h3>💭 Piensa</h3>
+          <p>
+            Un proyecto contiene seis páginas HTML. En cada una se han repetido los mismos estilos
+            dentro de atributos <code>style</code>. Ahora el equipo quiere cambiar el color y el tamaño
+            de todos los títulos del sitio.
+          </p>
+          <p>
+            ¿Qué problema plantea esta organización? ¿Cómo reorganizarías los estilos para facilitar
+            el mantenimiento del proyecto?
+          </p>
+
+          <details class="solucion-desplegable">
+            <summary>Ver una posible solución</summary>
+            <div class="contenido-solucion">
+              <p>
+                Los estilos están repetidos y cualquier cambio debe realizarse en numerosos lugares,
+                lo que aumenta el trabajo y el riesgo de introducir inconsistencias.
+              </p>
+              <p>
+                Una solución adecuada sería trasladar las reglas comunes a una
+                <strong>hoja de estilo externa</strong> y enlazarla desde las distintas páginas HTML.
+                Así, una modificación realizada en el archivo CSS común puede afectar a todas las
+                páginas que utilicen esa hoja de estilos.
+              </p>
+            </div>
+          </details>
+        </div>
+      </section>
+
+      <nav class="navegacion-paginas">
+        <a class="nav-pagina nav-anterior" href="../index.html">
+          <span class="nav-etiqueta">Anterior</span>
+          <strong>‹ UT5 - CSS: fundamentos y diseño visual</strong>
+        </a>
+        <a class="nav-pagina nav-siguiente" href="../5-2/index.html">
+          <span class="nav-etiqueta">Siguiente</span>
+          <strong>5.2 Selectores CSS ›</strong>
+        </a>
+      </nav>
+    </main>
+
+    <aside class="indice-derecho">
+      <h2>Contenidos del apartado</h2>
+      <ul>
+        <li><a href="#papel-css">El papel de CSS en una interfaz web</a></li>
+        <li><a href="#reglas-css">Reglas CSS: selector y declaración</a></li>
+        <li><a href="#propiedades-valores">Propiedades y valores</a></li>
+        <li><a href="#incorporar-css">Formas de incorporar CSS</a></li>
+        <li><a href="#organizacion-css">Organización básica de una hoja de estilos</a></li>
+      </ul>
+    </aside>
+  </div>
+
+  <footer class="footer">
+    <p>
+      Material elaborado por <strong>Eva Ballestero Cubeles</strong> · Licencia
+      <span class="licencia">CC BY-NC-SA 4.0</span>
+      <a class="enlace-licencia" href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.es"
+        target="_blank" rel="license noopener noreferrer" aria-label="Licencia Creative Commons BY-NC-SA 4.0">
+        <img class="icono-licencia" src="../../../img/licencias/cc-by-nc-sa.png" alt="Licencia Creative Commons BY-NC-SA 4.0">
+      </a>
+    </p>
+  </footer>
+
+  <script src="../../../js/modulos.js"></script>
+
+  <script>
+
+    const menuModulos =
+      document.getElementById("menuModulos");
+
+    const botonTema =
+      document.getElementById("botonTema");
+
+    const modulosActivos =
+      modulos.filter(modulo => modulo.activo === true);
+
+    modulosActivos.forEach(modulo => {
+
+      const enlace =
+        document.createElement("a");
+
+      enlace.href =
+        `../../../${modulo.carpeta}/index.html`;
+
+      enlace.textContent =
+        modulo.siglas;
+
+      enlace.title =
+        modulo.nombre;
+
+      if (modulo.siglas === "DIW") {
+        enlace.style.color =
+          "var(--verde-principal)";
+      }
+
+      menuModulos.appendChild(enlace);
+
+    });
+
+
+    const temaGuardado =
+      localStorage.getItem("tema");
+
+    if (temaGuardado === "oscuro") {
+      document.body.classList.add("modo-oscuro");
+      botonTema.textContent = "🌙";
+    }
+
+    botonTema.addEventListener("click", () => {
+
+      document.body.classList.toggle("modo-oscuro");
+
+      const estaOscuro =
+        document.body.classList.contains("modo-oscuro");
+
+      botonTema.textContent =
+        estaOscuro ? "🌙" : "☀️";
+
+      localStorage.setItem(
+        "tema",
+        estaOscuro ? "oscuro" : "claro"
+      );
+
+    });
+
+
+    const botonesDesplegar =
+      document.querySelectorAll(".boton-desplegar");
+
+    botonesDesplegar.forEach((boton) => {
+
+      boton.addEventListener("click", () => {
+
+        const idSubmenu =
+          boton.getAttribute("data-target");
+
+        const submenu =
+          document.getElementById(idSubmenu);
+
+        if (!submenu) {
+          return;
+        }
+
+        const estaAbierto =
+          submenu.classList.contains("submenu-abierto");
+
+        if (estaAbierto) {
+          submenu.classList.remove("submenu-abierto");
+          boton.textContent = "›";
+          boton.setAttribute("aria-expanded", "false");
+        } else {
+          submenu.classList.add("submenu-abierto");
+          boton.textContent = "⌄";
+          boton.setAttribute("aria-expanded", "true");
+        }
+
+      });
+
+    });
+
+
+    document.querySelectorAll(".boton-copiar").forEach((boton) => {
+      boton.addEventListener("click", async () => {
+        const bloque = boton.closest(".codigo-ejemplo");
+        const codigo = bloque ? bloque.querySelector("code") : null;
+
+        if (!codigo) {
+          return;
+        }
+
+        try {
+          await navigator.clipboard.writeText(codigo.textContent);
+          const textoOriginal = boton.textContent;
+          boton.textContent = "Copiado ✓";
+
+          setTimeout(() => {
+            boton.textContent = textoOriginal;
+          }, 1500);
+        } catch (error) {
+          boton.textContent = "No se pudo copiar";
+        }
+      });
+    });
+
+  </script>
+
+</body>
+</html>
