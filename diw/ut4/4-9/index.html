@@ -1,0 +1,1590 @@
+<!DOCTYPE html>
+<html lang="es">
+  
+<head>
+  <meta charset="UTF-8">
+
+  <meta
+    name="viewport"
+    content="width=device-width, initial-scale=1.0"
+  >
+
+  <meta
+    name="description"
+    content="4.9 - Buenas prácticas y validación del HTML."
+  >
+
+  <title>4.9 - Buenas prácticas y validación del HTML</title>
+
+  <link rel="icon" type="image/png" href="../../../img/favicon.png?v=5">
+  <link rel="stylesheet" href="../../../css/estilos.css">
+
+  <style>
+
+    /* ==========================================
+       ESTRUCTURA DE LA UT
+    ========================================== */
+
+    .pagina-ut {
+      display: grid;
+      grid-template-columns: 280px 1fr 260px;
+      min-height: calc(100vh - 68px);
+    }
+
+
+    /* ==========================================
+       COLUMNA IZQUIERDA
+    ========================================== */
+
+    .sidebar {
+      border-right: 1px solid var(--borde);
+      background-color: var(--fondo-pagina);
+
+      padding: 12px 10px 30px;
+
+      position: sticky;
+      top: 68px;
+
+      height: calc(100vh - 68px);
+      overflow-y: auto;
+    }
+
+    .sidebar-modulo {
+      display: block;
+      margin-bottom: 8px;
+      padding: 8px 14px;
+      color: #626873;
+      font-size: 17px;
+      font-weight: 700;
+      line-height: 1.3;
+      text-decoration: none;
+      border-radius: 6px;
+      transition:
+        color 0.2s ease,
+        background-color 0.2s ease;
+    }
+
+    .sidebar-modulo:hover {
+      color: var(--verde-principal);
+      background-color: #f3f4f6;
+    }
+
+    body.modo-oscuro .sidebar-modulo:hover {
+      background-color: #273244;
+    }
+
+    .sidebar-ut {
+      margin-bottom: 12px;
+      padding: 10px 14px;
+
+      background-color: #f1f1f1;
+      border-radius: 5px;
+
+      color: var(--verde-principal);
+
+      font-size: 17px;
+      font-weight: 700;
+      line-height: 1.35;
+    }
+    .sidebar-ut-activa {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+    }
+
+    .flecha-ut-abierta {
+      flex-shrink: 0;
+      font-size: 22px;
+      color: #777;
+    }
+
+    .sidebar-ut-cerrada {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      padding: 13px 14px;
+      color: #626873;
+      text-decoration: none;
+      font-size: 16px;
+      font-weight: 650;
+      line-height: 1.35;
+      border-radius: 6px;
+      transition:
+      background-color 0.2s ease,
+      color 0.2s ease;
+    }
+
+    .sidebar-ut-cerrada:hover {
+      background-color: #f3f4f6;
+      color: var(--verde-principal);
+    }
+
+    body.modo-oscuro .sidebar-ut-cerrada:hover {
+      background-color: #273244;
+    }
+
+    body.modo-oscuro .sidebar-ut {
+      background-color: #273244;
+      color: #5ed28a;
+    }
+
+    .lista-apartados {
+      list-style: none;
+      margin: 0;
+      padding: 0;
+    }
+
+    .enlace-apartado {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+
+      padding: 11px 14px;
+
+      color: #626873;
+
+      text-decoration: none;
+
+      font-size: 15px;
+      font-weight: 600;
+      line-height: 1.4;
+
+      border-radius: 6px;
+
+      transition:
+        background-color 0.2s ease,
+        color 0.2s ease;
+    }
+
+    .enlace-apartado:hover {
+      background-color: #f3f4f6;
+      color: var(--verde-principal);
+    }
+
+    body.modo-oscuro .enlace-apartado:hover {
+      background-color: #273244;
+    }
+
+    .flecha-apartado {
+      flex-shrink: 0;
+
+      color: #8b8b8b;
+
+      font-size: 22px;
+    }
+    /* ==========================================
+   MENÚ LATERAL DESPLEGABLE
+========================================== */
+
+.menu-desplegable {
+  width: 100%;
+}
+
+
+/* Cabecera de una UT o de un apartado */
+
+.menu-cabecera {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+
+  width: 100%;
+
+  border-radius: 6px;
+}
+
+
+/* UT en la que estamos actualmente */
+
+.menu-cabecera-activa {
+  background-color: #f1f1f1;
+}
+
+.menu-cabecera-activa > .menu-titulo {
+  color: var(--verde-principal);
+}
+
+
+/* Texto/enlace de la UT o apartado */
+
+.menu-titulo {
+  flex: 1;
+
+  display: block;
+
+  padding: 11px 8px 11px 14px;
+
+  color: #626873;
+
+  font-size: 16px;
+  font-weight: 650;
+  line-height: 1.4;
+
+  text-decoration: none;
+}
+
+.menu-titulo:hover {
+  color: var(--verde-principal);
+}
+
+
+/* Botón de la flecha */
+
+.boton-desplegar {
+  width: 36px;
+  height: 36px;
+
+  margin-right: 5px;
+  padding: 0;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  flex-shrink: 0;
+
+  border: 0;
+  border-radius: 6px;
+
+  background: transparent;
+
+  color: #777;
+
+  font-family: inherit;
+  font-size: 24px;
+  line-height: 1;
+
+  cursor: pointer;
+}
+
+.boton-desplegar:hover {
+  background-color: #e5e7eb;
+  color: var(--verde-principal);
+}
+
+
+/* ==========================================
+   CONTENIDO DESPLEGABLE
+========================================== */
+
+.submenu {
+  display: none;
+}
+
+.submenu.submenu-abierto {
+  display: block;
+}
+
+
+/* ==========================================
+   APARTADOS DE UNA UT
+========================================== */
+
+.menu-apartado {
+  margin-left: 14px;
+}
+
+.menu-apartado .menu-titulo {
+  padding-top: 9px;
+  padding-bottom: 9px;
+
+  font-size: 15px;
+  font-weight: 600;
+}
+
+
+/* Apartados que NO tienen subapartados */
+
+.enlace-apartado-simple {
+  display: block;
+
+  margin-left: 14px;
+  padding: 10px 14px;
+
+  color: #626873;
+
+  font-size: 15px;
+  font-weight: 600;
+  line-height: 1.4;
+
+  text-decoration: none;
+
+  border-radius: 6px;
+
+  transition:
+    background-color 0.2s ease,
+    color 0.2s ease;
+}
+
+.enlace-apartado-simple:hover {
+  background-color: #f3f4f6;
+  color: var(--verde-principal);
+}
+
+
+/* ==========================================
+   SUBAPARTADOS DE 1.1
+========================================== */
+
+.submenu-apartados {
+  margin: 2px 0 5px 28px;
+
+  border-left: 2px solid #e0e3e7;
+}
+
+.submenu-apartados a {
+  display: block;
+
+  padding: 7px 10px;
+
+  color: #777d87;
+
+  font-size: 14px;
+  font-weight: 500;
+  line-height: 1.35;
+
+  text-decoration: none;
+}
+
+.submenu-apartados a:hover {
+  color: var(--verde-principal);
+}
+
+
+/* ==========================================
+   MODO OSCURO DEL MENÚ
+========================================== */
+
+body.modo-oscuro .menu-cabecera-activa {
+  background-color: #273244;
+}
+
+body.modo-oscuro .boton-desplegar:hover {
+  background-color: #334155;
+}
+
+body.modo-oscuro .enlace-apartado-simple:hover {
+  background-color: #273244;
+}
+
+body.modo-oscuro .submenu-apartados {
+  border-left-color: #3a4659;
+}
+
+
+    /* ==========================================
+       ZONA CENTRAL
+    ========================================== */
+
+    .contenido-ut {
+      padding: 28px 34px 70px;
+
+      max-width: 1150px;
+      width: 100%;
+    }
+
+    .migas {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+
+      margin-bottom: 30px;
+
+      font-size: 14px;
+    }
+
+    .miga-inicio {
+      text-decoration: none;
+      font-size: 18px;
+    }
+
+    .miga-separador {
+      color: #999;
+      font-size: 22px;
+    }
+
+    .miga-modulo {
+      color: var(--texto-secundario);
+      text-decoration: none;
+    }
+
+    .miga-modulo:hover {
+      color: var(--verde-principal);
+    }
+
+    .miga-actual {
+      padding: 8px 14px;
+
+      background-color: #f3f3f3;
+      border-radius: 24px;
+
+      color: var(--verde-principal);
+    }
+
+    body.modo-oscuro .miga-actual {
+      background-color: #273244;
+    }
+
+    .contenido-ut h1 {
+      margin: 0 0 30px;
+
+      font-size: clamp(38px, 5vw, 58px);
+      line-height: 1.12;
+    }
+
+    .introduccion-ut {
+      max-width: 980px;
+
+      font-size: 19px;
+      line-height: 1.75;
+    }
+
+    .introduccion-ut p {
+      margin: 0 0 20px;
+    }
+    /* ==========================================
+     CONTENIDO DE LOS APARTADOS
+    ========================================== */
+
+    .apartado-ut {
+      margin-top: 55px;
+      scroll-margin-top: 95px;
+    }
+
+    .apartado-ut h2 {
+      margin: 0 0 24px;
+      font-size: 32px;
+      line-height: 1.2;
+    }
+
+    .apartado-ut h3 {
+      margin: 34px 0 16px;
+      font-size: 24px;
+      line-height: 1.3;
+    }
+
+    .apartado-ut p {
+      margin: 0 0 18px;
+      font-size: 18px;
+      line-height: 1.75;
+    }
+
+    .apartado-ut ul {
+      margin: 16px 0 24px;
+      padding-left: 28px;
+    }
+
+    .apartado-ut li {
+      margin-bottom: 10px;
+      font-size: 17px;
+      line-height: 1.6;
+    }
+
+
+    /* ==========================================
+     CAJAS DE LOS APUNTES
+    ========================================== */
+
+    .caja {
+      margin: 28px 0;
+      padding: 18px 20px;
+      border-left: 5px solid;
+      border-radius: 8px;
+      line-height: 1.65;
+    }
+
+    .caja p {
+      margin: 0;
+      font-size: 17px;
+    }
+
+    .caja-titulo {
+      display: block;
+      margin-bottom: 8px;
+      font-size: 17px;
+      font-weight: 700;
+    }
+
+    .caja-importante {
+      background-color: #eef8f1;
+      border-left-color: #2f9e5b;
+    }
+
+    .caja-atencion {
+      background-color: #fff7e8;
+      border-left-color: #e09b27;
+    }
+
+    .caja-ejemplo {
+      background-color: #eef5ff;
+      border-left-color: #3f7acb;
+    }
+
+    .caja-curiosidad {
+      background-color: #f7f1ff;
+      border-left-color: #8b5cc7;
+    }
+
+    body.modo-oscuro .caja-importante {
+      background-color: #20372a;
+    }
+
+    body.modo-oscuro .caja-atencion {
+      background-color: #3b3020;
+    }
+
+    body.modo-oscuro .caja-ejemplo {
+      background-color: #23344a;
+    }
+
+    body.modo-oscuro .caja-curiosidad {
+      background-color: #332944;
+    }
+
+
+    /* ==========================================
+      TABLAS
+    ========================================== */
+
+    .tabla-responsive {
+      width: 100%;
+      margin: 28px 0;
+      overflow-x: auto;
+    }
+
+    .tabla-apuntes {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 16px;
+    }
+
+    .tabla-apuntes th,
+    .tabla-apuntes td {
+      padding: 14px 16px;
+      border: 1px solid var(--borde);
+      text-align: left;
+      vertical-align: top;
+      line-height: 1.55;
+    }
+
+    .tabla-apuntes th {
+      background-color: #f1f3f5;
+      font-weight: 700;
+    }
+
+    body.modo-oscuro .tabla-apuntes th {
+      background-color: #273244;
+    }
+
+
+    /* ==========================================
+     ESQUEMA VISUAL
+    ========================================== */
+
+    .esquema-sostenibilidad {
+      max-width: 520px;
+      margin: 30px auto;
+      padding: 24px;
+      text-align: center;
+    }
+
+    .esquema-caja {
+      padding: 16px 20px;
+      background-color: var(--fondo-tarjeta);
+      border: 1px solid var(--borde);
+      border-radius: 10px;
+      font-size: 18px;
+      font-weight: 700;
+    }
+
+    .esquema-flecha {
+      margin: 8px 0;
+      color: var(--verde-principal);
+      font-size: 26px;
+      font-weight: 700;
+    }
+
+    .esquema-texto {
+      margin: 0 0 8px;
+      color: var(--texto-secundario);
+      font-size: 15px;
+    }
+
+
+    /* ==========================================
+     ACTIVIDAD DE REFLEXIÓN
+    ========================================== */
+
+    .actividad-reflexion {
+      margin: 32px 0;
+      padding: 22px 24px;
+      background-color: #f7f8fa;
+      border: 1px solid var(--borde);
+      border-radius: 10px;
+    }
+
+    .actividad-reflexion h3 {
+      margin: 0 0 12px;
+      color: var(--verde-principal);
+      font-size: 20px;
+    }
+
+    .actividad-reflexion p {
+      margin: 0;
+      font-size: 17px;
+      line-height: 1.65;
+    }
+
+    body.modo-oscuro .actividad-reflexion {
+      background-color: #232d3d;
+    }
+    /* ==========================================
+   SOLUCIÓN DESPLEGABLE
+========================================== */
+
+.solucion-desplegable {
+  margin-top: 20px;
+}
+
+.solucion-desplegable summary {
+  display: inline-block;
+
+  padding: 10px 16px;
+
+  background-color: #eef8f1;
+
+  border: 1px solid #b9dfc6;
+  border-radius: 7px;
+
+  color: var(--verde-principal);
+
+  font-size: 16px;
+  font-weight: 700;
+
+  cursor: pointer;
+  user-select: none;
+}
+
+.solucion-desplegable summary:hover {
+  background-color: #e2f3e7;
+}
+
+.contenido-solucion {
+  margin-top: 16px;
+
+  padding: 18px 20px;
+
+  background-color: var(--fondo-pagina);
+
+  border-left: 4px solid var(--verde-principal);
+  border-radius: 6px;
+}
+
+.contenido-solucion p {
+  margin: 0 0 12px;
+
+  font-size: 16px;
+  line-height: 1.65;
+}
+
+.contenido-solucion p:last-child {
+  margin-bottom: 0;
+}
+
+body.modo-oscuro .solucion-desplegable summary {
+  background-color: #20372a;
+  border-color: #315d40;
+}
+
+
+    /* ==========================================
+       COLUMNA DERECHA
+    ========================================== */
+
+    .indice-derecho {
+      padding: 28px 22px;
+
+      border-left: 1px solid var(--borde);
+
+      position: sticky;
+      top: 68px;
+
+      height: calc(100vh - 68px);
+    }
+
+    .indice-derecho h2 {
+      margin: 8px 0 20px;
+
+      font-size: 17px;
+      color: #555b65;
+    }
+
+    body.modo-oscuro .indice-derecho h2 {
+      color: #d1d5db;
+    }
+
+    .indice-derecho ul {
+      margin: 0;
+      padding-left: 18px;
+    }
+
+    .indice-derecho li {
+      margin-bottom: 12px;
+    }
+
+    .indice-derecho a {
+      color: var(--texto-secundario);
+
+      text-decoration: none;
+
+      font-size: 14px;
+      line-height: 1.4;
+    }
+
+    .indice-derecho a:hover {
+      color: var(--verde-principal);
+    }
+
+
+    /* ==========================================
+       NAVEGACIÓN ANTERIOR / SIGUIENTE
+    ========================================== */
+
+    .navegacion-paginas {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 20px;
+
+      margin-top: 50px;
+    }
+
+    .nav-pagina {
+      min-height: 100px;
+      padding: 18px 20px;
+
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+
+      border: 1px solid var(--borde);
+      border-radius: 8px;
+
+      text-decoration: none;
+
+      background-color: var(--fondo-tarjeta);
+    }
+
+    .nav-anterior {
+      align-items: flex-start;
+      text-align: left;
+    }
+
+    .nav-siguiente {
+      align-items: flex-end;
+      text-align: right;
+    }
+
+    .nav-etiqueta {
+      margin-bottom: 5px;
+
+      color: var(--texto-secundario);
+
+      font-size: 14px;
+    }
+
+    .nav-pagina strong {
+      color: var(--verde-principal);
+
+      font-size: 16px;
+      line-height: 1.4;
+    }
+
+    .nav-pagina:hover {
+      border-color: var(--verde-principal);
+    }
+
+
+    /* ==========================================
+       RESPONSIVE
+    ========================================== */
+
+    @media (max-width: 1100px) {
+
+      .pagina-ut {
+        grid-template-columns: 250px 1fr;
+      }
+
+      .indice-derecho {
+        display: none;
+      }
+
+    }
+
+    @media (max-width: 760px) {
+
+      .pagina-ut {
+        display: block;
+      }
+
+      .sidebar {
+        position: static;
+
+        width: 100%;
+        height: auto;
+
+        border-right: 0;
+        border-bottom: 1px solid var(--borde);
+      }
+
+      .contenido-ut {
+        padding: 28px 20px 60px;
+      }
+
+      .contenido-ut h1 {
+        font-size: 36px;
+      }
+
+      .navegacion-paginas {
+        grid-template-columns: 1fr;
+      }
+
+      .nav-siguiente {
+        align-items: flex-start;
+        text-align: left;
+      }
+
+    }
+
+
+    /* ==========================================
+       EJEMPLOS VISUALES - PLANIFICACIÓN
+    ========================================== */
+
+    .flujo-planificacion {
+      display: grid;
+      grid-template-columns: repeat(5, 1fr);
+      gap: 10px;
+      margin: 26px 0 30px;
+    }
+
+    .paso-planificacion {
+      position: relative;
+      padding: 18px 14px;
+      border: 1px solid var(--borde);
+      border-radius: 9px;
+      background: var(--fondo-tarjeta);
+      text-align: center;
+    }
+
+    .paso-planificacion .numero {
+      display: flex;
+      width: 34px;
+      height: 34px;
+      margin: 0 auto 10px;
+      align-items: center;
+      justify-content: center;
+      border-radius: 50%;
+      background: #eef8f1;
+      color: var(--verde-principal);
+      font-weight: 800;
+    }
+
+    body.modo-oscuro .paso-planificacion .numero {
+      background: #20372a;
+    }
+
+    .paso-planificacion strong {
+      display: block;
+      margin-bottom: 6px;
+      font-size: 16px;
+    }
+
+    .paso-planificacion span {
+      font-size: 14px;
+      line-height: 1.45;
+      color: var(--texto-secundario);
+    }
+
+    .tarjetas-planificacion {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 14px;
+      margin: 24px 0 30px;
+    }
+
+    .tarjeta-planificacion {
+      padding: 18px;
+      border: 1px solid var(--borde);
+      border-radius: 9px;
+      background: var(--fondo-tarjeta);
+    }
+
+    .tarjeta-planificacion strong {
+      display: block;
+      margin-bottom: 8px;
+      font-size: 17px;
+    }
+
+    .tarjeta-planificacion p {
+      margin: 0;
+      font-size: 16px;
+      line-height: 1.55;
+    }
+
+    .comparacion-planificacion {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 16px;
+      margin: 24px 0 30px;
+    }
+
+    .caso-planificacion {
+      padding: 20px;
+      border: 1px solid var(--borde);
+      border-radius: 10px;
+      background: var(--fondo-tarjeta);
+    }
+
+    .caso-planificacion h3 {
+      margin-top: 0;
+      font-size: 20px;
+    }
+
+    .caso-planificacion ul {
+      margin-bottom: 0;
+    }
+
+    .fases-diseno {
+      display: grid;
+      grid-template-columns: repeat(5, 1fr);
+      gap: 12px;
+      margin: 26px 0 30px;
+    }
+
+    .fase-diseno {
+      padding: 18px 14px;
+      border-top: 4px solid var(--verde-principal);
+      border-radius: 8px;
+      background: var(--fondo-tarjeta);
+      box-shadow: 0 1px 4px rgba(0, 0, 0, 0.06);
+    }
+
+    .fase-diseno strong {
+      display: block;
+      margin-bottom: 8px;
+      font-size: 16px;
+    }
+
+    .fase-diseno span {
+      color: var(--texto-secundario);
+      font-size: 14px;
+      line-height: 1.45;
+    }
+
+    @media (max-width: 950px) {
+      .flujo-planificacion,
+      .fases-diseno {
+        grid-template-columns: repeat(2, 1fr);
+      }
+
+      .tarjetas-planificacion {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    @media (max-width: 650px) {
+      .flujo-planificacion,
+      .fases-diseno,
+      .comparacion-planificacion {
+        grid-template-columns: 1fr;
+      }
+    }
+
+
+    /* ==========================================
+       EJEMPLOS VISUALES - HTML
+    ========================================== */
+
+    .trio-web {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 14px;
+      margin: 24px 0 30px;
+    }
+
+    .tarjeta-web {
+      padding: 20px;
+      border: 1px solid var(--borde);
+      border-radius: 9px;
+      background: var(--fondo-tarjeta);
+    }
+
+    .tarjeta-web strong {
+      display: block;
+      margin-bottom: 8px;
+      font-size: 18px;
+    }
+
+    .tarjeta-web p {
+      margin: 0;
+      font-size: 16px;
+      line-height: 1.55;
+    }
+
+    .codigo-ejemplo {
+      margin: 24px 0 30px;
+      border: 1px solid var(--borde);
+      border-radius: 9px;
+      overflow: hidden;
+      background: #172033;
+    }
+
+    .codigo-cabecera {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      padding: 10px 14px;
+      background: #202b3d;
+      color: #e5e7eb;
+      font-size: 14px;
+      font-weight: 700;
+    }
+
+    .boton-copiar {
+      padding: 6px 10px;
+      border: 1px solid #526078;
+      border-radius: 6px;
+      background: transparent;
+      color: #e5e7eb;
+      font: inherit;
+      cursor: pointer;
+    }
+
+    .boton-copiar:hover {
+      background: #2d3a50;
+    }
+
+    .codigo-ejemplo pre {
+      margin: 0;
+      padding: 18px;
+      overflow-x: auto;
+    }
+
+    .codigo-ejemplo code {
+      color: #f3f4f6;
+      font-family: Consolas, "Courier New", monospace;
+      font-size: 15px;
+      line-height: 1.65;
+    }
+
+    .anatomia-elemento {
+      margin: 26px 0 30px;
+      padding: 22px;
+      border: 1px solid var(--borde);
+      border-radius: 10px;
+      background: var(--fondo-tarjeta);
+      text-align: center;
+    }
+
+    .anatomia-elemento code {
+      font-family: Consolas, "Courier New", monospace;
+      font-size: clamp(16px, 2vw, 20px);
+      color: var(--verde-principal);
+      overflow-wrap: anywhere;
+    }
+
+    .anatomia-elemento p {
+      margin: 14px 0 0;
+      color: var(--texto-secundario);
+      font-size: 16px;
+    }
+
+    @media (max-width: 800px) {
+      .trio-web {
+        grid-template-columns: 1fr;
+      }
+    }
+
+  </style>
+
+</head>
+
+
+<body>
+
+  <header class="navbar">
+    <a class="inicio" href="../../../index.html">
+      <img src="../../../img/profesora-castana.png?v=2" alt="" class="icono-profesora">
+      <span>Inicio</span>
+    </a>
+    <nav id="menuModulos" class="menu-modulos" aria-label="Módulos formativos"></nav>
+    <button id="botonTema" class="boton-tema" type="button"
+      aria-label="Cambiar entre modo claro y oscuro" title="Cambiar tema">☀️</button>
+  </header>
+
+  <div class="pagina-ut">
+    <aside class="sidebar">
+      <a class="sidebar-modulo" href="../../index.html">Diseño de interfaces web</a>
+
+      <a class="sidebar-ut-cerrada" href="../../ut1/index.html"><span>UT1 - Fundamentos del diseño de interfaces web</span><span>›</span></a>
+      <a class="sidebar-ut-cerrada" href="../../ut2/index.html"><span>UT2 - Color, tipografía, iconografía e identidad visual</span><span>›</span></a>
+
+<a class="sidebar-ut-cerrada" href="../../ut3/index.html"><span>UT3 - Planificación, arquitectura y prototipado de interfaces</span><span>›</span></a>
+
+      <!-- UT4 ACTIVA -->
+      <div class="menu-desplegable">
+        <div class="menu-cabecera menu-cabecera-activa">
+          <a class="menu-titulo" href="../index.html">UT4 - HTML: estructura y contenido de interfaces web</a>
+          <button class="boton-desplegar" type="button" data-target="submenu-ut4" aria-expanded="true" aria-label="Mostrar u ocultar UT4">⌄</button>
+        </div>
+
+        <div id="submenu-ut4" class="submenu submenu-abierto">
+
+          <div class="menu-desplegable menu-apartado">
+            <div class="menu-cabecera">
+              <a class="menu-titulo" href="../4-1/index.html">4.1 HTML y la estructura de una interfaz web</a>
+              <button class="boton-desplegar" type="button" data-target="submenu-4-1" aria-expanded="false" aria-label="Mostrar u ocultar los subapartados del 4.1">›</button>
+            </div>
+            <div id="submenu-4-1" class="submenu submenu-apartados">
+              <a href="../4-1/index.html#papel-html">El papel de HTML en una interfaz web</a>
+              <a href="../4-1/index.html#html-css-javascript">HTML, CSS y JavaScript</a>
+              <a href="../4-1/index.html#elementos-etiquetas-atributos">Elementos, etiquetas y atributos</a>
+              <a href="../4-1/index.html#estructura-documento">Estructura básica de un documento HTML</a>
+              <a href="../4-1/index.html#organizacion-indentacion">Organización e indentación del código</a>
+            </div>
+          </div>
+
+          <div class="menu-desplegable menu-apartado">
+            <div class="menu-cabecera">
+              <a class="menu-titulo" href="../4-2/index.html">4.2 Texto y organización del contenido</a>
+              <button class="boton-desplegar" type="button" data-target="submenu-4-2" aria-expanded="false" aria-label="Mostrar u ocultar los subapartados del 4.2">›</button>
+            </div>
+            <div id="submenu-4-2" class="submenu submenu-apartados">
+              <a href="../4-2/index.html#encabezados">Encabezados</a>
+              <a href="../4-2/index.html#parrafos-saltos">Párrafos y saltos de línea</a>
+              <a href="../4-2/index.html#enfasis-importancia">Énfasis e importancia del contenido</a>
+              <a href="../4-2/index.html#listas">Listas ordenadas y no ordenadas</a>
+              <a href="../4-2/index.html#otros-elementos-texto">Otros elementos de texto</a>
+              <a href="../4-2/index.html#jerarquia-contenido">Estructura y jerarquía del contenido</a>
+            </div>
+          </div>
+
+          <div class="menu-desplegable menu-apartado">
+            <div class="menu-cabecera">
+              <a class="menu-titulo" href="../4-3/index.html">4.3 Enlaces y navegación mediante HTML</a>
+              <button class="boton-desplegar" type="button" data-target="submenu-4-3" aria-expanded="false" aria-label="Mostrar u ocultar los subapartados del 4.3">›</button>
+            </div>
+            <div id="submenu-4-3" class="submenu submenu-apartados">
+              <a href="../4-3/index.html#elemento-a">El elemento &lt;a&gt;</a>
+              <a href="../4-3/index.html#rutas">Rutas absolutas y relativas</a>
+              <a href="../4-3/index.html#enlaces-internos">Enlaces internos dentro de una página</a>
+              <a href="../4-3/index.html#otros-recursos">Enlaces a otros recursos</a>
+              <a href="../4-3/index.html#navegacion-interfaz">Enlaces y navegación de una interfaz</a>
+            </div>
+          </div>
+
+          <div class="menu-desplegable menu-apartado">
+            <div class="menu-cabecera">
+              <a class="menu-titulo" href="../4-4/index.html">4.4 Imágenes y contenido gráfico en HTML</a>
+              <button class="boton-desplegar" type="button" data-target="submenu-4-4" aria-expanded="false" aria-label="Mostrar u ocultar los subapartados del 4.4">›</button>
+            </div>
+            <div id="submenu-4-4" class="submenu submenu-apartados">
+              <a href="../4-4/index.html#elemento-img">El elemento &lt;img&gt;</a>
+              <a href="../4-4/index.html#rutas-recursos">Rutas y recursos gráficos</a>
+              <a href="../4-4/index.html#src-alt">Los atributos src y alt</a>
+              <a href="../4-4/index.html#significado-decorativas">Imágenes con significado e imágenes decorativas</a>
+              <a href="../4-4/index.html#figure-figcaption">&lt;figure&gt; y &lt;figcaption&gt;</a>
+              <a href="../4-4/index.html#buenas-practicas-imagenes">Buenas prácticas al incorporar imágenes</a>
+            </div>
+          </div>
+
+          <div class="menu-desplegable menu-apartado">
+            <div class="menu-cabecera menu-cabecera-activa">
+              <a class="menu-titulo" href="index.html">4.5 Tablas HTML</a>
+              <button class="boton-desplegar" type="button" data-target="submenu-4-5" aria-expanded="true" aria-label="Mostrar u ocultar los subapartados del 4.5">⌄</button>
+            </div>
+            <div id="submenu-4-5" class="submenu submenu-apartados submenu-abierto">
+              <a href="#cuando-tabla">Cuándo utilizar una tabla</a>
+              <a href="#estructura-tabla">Estructura básica de una tabla</a>
+              <a href="#filas-celdas-encabezados">Filas, celdas y encabezados</a>
+              <a href="#organizacion-tabla">Organización: thead, tbody y tfoot</a>
+              <a href="#caption">Título de una tabla con caption</a>
+              <a href="#combinacion-celdas">Combinación de celdas</a>
+              <a href="#buenas-practicas-tablas">Buenas prácticas en el uso de tablas</a>
+            </div>
+          </div>
+
+          <div class="menu-desplegable menu-apartado">
+            <div class="menu-cabecera">
+              <a class="menu-titulo" href="../4-6/index.html">4.6 Formularios HTML</a>
+              <button class="boton-desplegar" type="button" data-target="submenu-4-6" aria-expanded="false" aria-label="Mostrar u ocultar los subapartados del 4.6">›</button>
+            </div>
+            <div id="submenu-4-6" class="submenu submenu-apartados">
+              <a href="../4-6/index.html#elemento-form">El elemento &lt;form&gt;</a>
+              <a href="../4-6/index.html#etiquetas-controles">Etiquetas y asociación con los controles</a>
+              <a href="../4-6/index.html#input">Campos de entrada con &lt;input&gt;</a>
+              <a href="../4-6/index.html#checkbox-radio">Casillas de verificación y botones de opción</a>
+              <a href="../4-6/index.html#select">Listas desplegables</a>
+              <a href="../4-6/index.html#textarea">Áreas de texto</a>
+              <a href="../4-6/index.html#botones">Botones</a>
+              <a href="../4-6/index.html#archivos">Selección de archivos</a>
+              <a href="../4-6/index.html#agrupacion-campos">Agrupación de campos</a>
+              <a href="../4-6/index.html#atributos-formularios">Atributos básicos de los formularios</a>
+            </div>
+          </div>
+
+          <div class="menu-desplegable menu-apartado">
+            <div class="menu-cabecera">
+              <a class="menu-titulo" href="../4-7/index.html">4.7 HTML semántico y estructura de una página</a>
+              <button class="boton-desplegar" type="button" data-target="submenu-4-7" aria-expanded="false" aria-label="Mostrar u ocultar los subapartados del 4.7">›</button>
+            </div>
+            <div id="submenu-4-7" class="submenu submenu-apartados">
+              <a href="../4-7/index.html#html-semantico">Qué significa HTML semántico</a>
+              <a href="../4-7/index.html#header">&lt;header&gt;</a>
+              <a href="../4-7/index.html#nav">&lt;nav&gt;</a>
+              <a href="../4-7/index.html#main">&lt;main&gt;</a>
+              <a href="../4-7/index.html#section">&lt;section&gt;</a>
+              <a href="../4-7/index.html#article">&lt;article&gt;</a>
+              <a href="../4-7/index.html#aside">&lt;aside&gt;</a>
+              <a href="../4-7/index.html#footer">&lt;footer&gt;</a>
+              <a href="../4-7/index.html#div-semantica">&lt;div&gt; y elementos semánticos</a>
+              <a href="../4-7/index.html#elegir-elemento">Cómo elegir el elemento adecuado</a>
+            </div>
+          </div>
+
+          <div class="menu-desplegable menu-apartado">
+            <div class="menu-cabecera">
+              <a class="menu-titulo" href="../4-8/index.html">4.8 Otros elementos semánticos y de contenido</a>
+              <button class="boton-desplegar" type="button" data-target="submenu-4-8" aria-expanded="false" aria-label="Mostrar u ocultar los subapartados del 4.8">›</button>
+            </div>
+            <div id="submenu-4-8" class="submenu submenu-apartados">
+              <a href="../4-8/index.html#figure-figcaption">&lt;figure&gt; y &lt;figcaption&gt;</a>
+              <a href="../4-8/index.html#details-summary">&lt;details&gt; y &lt;summary&gt;</a>
+              <a href="../4-8/index.html#time">&lt;time&gt;</a>
+              <a href="../4-8/index.html#mark">&lt;mark&gt;</a>
+              <a href="../4-8/index.html#otros-elementos">Otros elementos semánticos útiles</a>
+            </div>
+          </div>
+
+          <div class="menu-desplegable menu-apartado">
+            <div class="menu-cabecera menu-cabecera-activa">
+              <a class="menu-titulo" href="index.html">4.9 Buenas prácticas y validación del HTML</a>
+              <button class="boton-desplegar" type="button" data-target="submenu-4-9" aria-expanded="true" aria-label="Mostrar u ocultar los subapartados del 4.9">⌄</button>
+            </div>
+            <div id="submenu-4-9" class="submenu submenu-apartados submenu-abierto">
+              <a href="#html-valido">Código HTML válido y bien estructurado</a>
+              <a href="#indentacion-legibilidad">Indentación y legibilidad</a>
+              <a href="#contenido-presentacion">Separación entre contenido y presentación</a>
+              <a href="#uso-semantico">Uso adecuado de elementos semánticos</a>
+              <a href="#errores-frecuentes">Errores frecuentes</a>
+              <a href="#validacion-documento">Validación del documento HTML</a>
+            </div>
+          </div>
+
+          <a class="enlace-apartado-simple" href="../resumen/index.html">✏️ Resumen de la UT4</a>
+          <a class="enlace-apartado-simple" href="../actividades/index.html">📝 Actividades de la UT4</a>
+        </div>
+      </div>
+
+
+
+      <a class="sidebar-ut-cerrada" href="../../ut5/index.html"><span>UT5 - CSS: fundamentos y diseño visual</span><span>›</span></a>
+      <a class="sidebar-ut-cerrada" href="../../ut6/index.html"><span>UT6 - CSS: maquetación y diseño avanzado</span><span>›</span></a>
+      <a class="sidebar-ut-cerrada" href="../../ut7/index.html"><span>UT7 - Diseño web responsive</span><span>›</span></a>
+      <a class="sidebar-ut-cerrada" href="../../ut8/index.html"><span>UT8 - Recursos gráficos e imágenes para la web</span><span>›</span></a>
+      <a class="sidebar-ut-cerrada" href="../../ut9/index.html"><span>UT9 - Audio, vídeo, animaciones e interactividad</span><span>›</span></a>
+      <a class="sidebar-ut-cerrada" href="../../ut10/index.html"><span>UT10 - Accesibilidad web</span><span>›</span></a>
+      <a class="sidebar-ut-cerrada" href="../../ut11/index.html"><span>UT11 - Usabilidad y evaluación de interfaces web</span><span>›</span></a>
+    </aside>
+
+    <main class="contenido-ut">
+      <div class="migas">
+        <a class="miga-inicio" href="../../../index.html" aria-label="Volver a la página principal">🏠</a>
+        <span class="miga-separador">›</span>
+        <a class="miga-modulo" href="../../index.html">DIW</a>
+        <span class="miga-separador">›</span>
+        <a class="miga-modulo" href="../index.html">UT4</a>
+        <span class="miga-separador">›</span>
+        <span class="miga-actual">4.9</span>
+      </div>
+
+      <h1>4.9 Buenas prácticas y validación del HTML</h1>
+
+      <section class="apartado-ut">
+        <p>Escribir HTML no consiste únicamente en conseguir que una página se muestre en el navegador. Un documento puede visualizarse aparentemente bien y, sin embargo, contener errores de estructura, elementos mal utilizados o código difícil de mantener.</p>
+        <p>Por ello, al desarrollar una interfaz debemos procurar que el código sea <strong>válido, legible, semántico y coherente</strong>. Además, existen herramientas que permiten comprobar automáticamente parte de estos aspectos y detectar errores antes de publicar una página.</p>
+
+        <div class="caja caja-importante"><span class="caja-titulo">📌 Importante</span><p>Que el navegador muestre una página no significa que su HTML sea correcto. Los navegadores intentan interpretar incluso documentos con errores, por lo que debemos revisar y validar nuestro código.</p></div>
+
+        <h2 id="html-valido">Código HTML válido y bien estructurado</h2>
+        <p>Un documento HTML bien estructurado respeta las reglas del lenguaje y utiliza correctamente sus elementos y atributos. Esto implica, entre otros aspectos, mantener una estructura básica adecuada, anidar correctamente los elementos y evitar construcciones no permitidas.</p>
+
+        <div class="codigo-ejemplo"><div class="codigo-cabecera"><span>HTML · Estructura correcta</span><button class="boton-copiar" type="button">Copiar</button></div><pre><code>&lt;article&gt;
+  &lt;h2&gt;Proyecto de interfaz&lt;/h2&gt;
+  &lt;p&gt;Diseña una interfaz para la aplicación propuesta.&lt;/p&gt;
+&lt;/article&gt;</code></pre></div>
+
+        <p>El anidamiento debe reflejar correctamente qué elementos están contenidos dentro de otros. Las etiquetas deben cerrarse en el orden adecuado.</p>
+
+        <div class="codigo-ejemplo"><div class="codigo-cabecera"><span>HTML · Anidamiento incorrecto</span><button class="boton-copiar" type="button">Copiar</button></div><pre><code>&lt;p&gt;Consulta la &lt;strong&gt;fecha de entrega&lt;/p&gt;&lt;/strong&gt;</code></pre></div>
+
+        <div class="codigo-ejemplo"><div class="codigo-cabecera"><span>HTML · Anidamiento correcto</span><button class="boton-copiar" type="button">Copiar</button></div><pre><code>&lt;p&gt;Consulta la &lt;strong&gt;fecha de entrega&lt;/strong&gt;.&lt;/p&gt;</code></pre></div>
+
+        <p>También debemos respetar las restricciones propias de cada elemento. Por ejemplo, los valores de <code>id</code> deben ser únicos dentro del documento y determinados elementos solo admiten ciertos contenidos o atributos.</p>
+
+        <div class="caja caja-atencion"><span class="caja-titulo">⚠️ Atención</span><p>No debemos corregir el HTML únicamente hasta que «se vea bien». Una estructura incorrecta puede provocar comportamientos inesperados y dificultar el mantenimiento del proyecto.</p></div>
+
+        <h2 id="indentacion-legibilidad">Indentación y legibilidad</h2>
+        <p>La indentación consiste en desplazar visualmente el código para mostrar la relación entre elementos padre e hijos. El navegador no necesita una indentación concreta para interpretar HTML, pero las personas sí se benefician de un código ordenado y consistente.</p>
+
+        <div class="codigo-ejemplo"><div class="codigo-cabecera"><span>HTML · Código difícil de leer</span><button class="boton-copiar" type="button">Copiar</button></div><pre><code>&lt;main&gt;&lt;section&gt;&lt;h2&gt;Entregas&lt;/h2&gt;&lt;p&gt;Consulta tus actividades.&lt;/p&gt;&lt;/section&gt;&lt;/main&gt;</code></pre></div>
+
+        <div class="codigo-ejemplo"><div class="codigo-cabecera"><span>HTML · Código indentado</span><button class="boton-copiar" type="button">Copiar</button></div><pre><code>&lt;main&gt;
+  &lt;section&gt;
+    &lt;h2&gt;Entregas&lt;/h2&gt;
+    &lt;p&gt;Consulta tus actividades.&lt;/p&gt;
+  &lt;/section&gt;
+&lt;/main&gt;</code></pre></div>
+
+        <p>Además de indentar, conviene mantener un criterio uniforme: utilizar nombres claros para clases e identificadores, separar bloques cuando facilite la lectura y evitar cambios arbitrarios de formato dentro del mismo proyecto.</p>
+
+        <div class="caja caja-ejemplo"><span class="caja-titulo">💻 Ejemplo DAW</span><p>En un proyecto desarrollado por varias personas, una estructura y un formato coherentes permiten localizar errores, revisar cambios y comprender con mayor rapidez el código escrito por otros miembros del equipo.</p></div>
+
+        <h2 id="contenido-presentacion">Separación entre contenido y presentación</h2>
+        <p>HTML debe describir principalmente la <strong>estructura y el significado del contenido</strong>, mientras que CSS se encarga de su presentación visual. Mantener esta separación hace que el código sea más claro, reutilizable y fácil de mantener.</p>
+        <p>Por ejemplo, no debemos elegir una etiqueta porque el navegador la muestre con un determinado aspecto. Si queremos modificar colores, tamaños, márgenes, posiciones o distribuciones, utilizaremos CSS.</p>
+
+        <div class="codigo-ejemplo"><div class="codigo-cabecera"><span>HTML · Separación de responsabilidades</span><button class="boton-copiar" type="button">Copiar</button></div><pre><code>&lt;!-- Evitar como práctica general --&gt;
+&lt;p style="color: green; font-size: 22px;"&gt;Entrega completada&lt;/p&gt;
+
+&lt;!-- Preferible --&gt;
+&lt;p class="estado-completado"&gt;Entrega completada&lt;/p&gt;</code></pre></div>
+
+        <p>La clase describe el propósito del elemento y permite trasladar las reglas visuales a la hoja de estilos. Estudiaremos con detalle CSS en las siguientes unidades.</p>
+
+        <div class="caja caja-atencion"><span class="caja-titulo">⚠️ Atención</span><p>El atributo <code>style</code> es válido, pero incluir de forma generalizada estilos en línea mezcla contenido y presentación y dificulta el mantenimiento. En un proyecto organizado, normalmente preferiremos hojas de estilo CSS.</p></div>
+
+        <h2 id="uso-semantico">Uso adecuado de elementos semánticos</h2>
+        <p>La semántica también forma parte de la calidad del código. Debemos seleccionar los elementos según la función real del contenido y no únicamente según su apariencia predeterminada.</p>
+
+        <div class="tabla-responsive"><table class="tabla-apuntes"><thead><tr><th>Situación</th><th>Elección adecuada</th></tr></thead><tbody>
+          <tr><td>Título de una sección</td><td>Utilizar un encabezado adecuado, como <code>&lt;h2&gt;</code>, en lugar de un párrafo grande mediante estilos.</td></tr>
+          <tr><td>Navegación principal</td><td>Utilizar <code>&lt;nav&gt;</code> cuando el bloque constituye una sección importante de navegación.</td></tr>
+          <tr><td>Botón que ejecuta una acción</td><td>Utilizar <code>&lt;button&gt;</code> en lugar de convertir un <code>&lt;div&gt;</code> en un control mediante JavaScript.</td></tr>
+          <tr><td>Lista de elementos</td><td>Utilizar <code>&lt;ul&gt;</code> u <code>&lt;ol&gt;</code> cuando el contenido representa realmente una lista.</td></tr>
+          <tr><td>Datos tabulares</td><td>Utilizar una tabla cuando existe una relación tabular entre los datos, no una sucesión de contenedores creada únicamente para imitar filas y columnas.</td></tr>
+        </tbody></table></div>
+
+        <div class="caja caja-importante"><span class="caja-titulo">📌 Idea clave</span><p>Un HTML de calidad no intenta utilizar etiquetas «más modernas» por sistema. Utiliza el elemento que describe correctamente cada contenido y recurre a elementos genéricos cuando no existe otro más apropiado.</p></div>
+
+        <h2 id="errores-frecuentes">Errores frecuentes</h2>
+        <p>Durante el desarrollo de una página es habitual cometer pequeños errores. Algunos pueden detectarse visualmente, pero otros pasan desapercibidos porque el navegador intenta recuperarse de ellos al interpretar el documento.</p>
+
+        <div class="tabla-responsive"><table class="tabla-apuntes"><thead><tr><th>Error</th><th>Problema</th><th>Qué revisar</th></tr></thead><tbody>
+          <tr><td>Etiquetas mal anidadas</td><td>La estructura del documento no representa correctamente la relación entre los elementos.</td><td>Orden de apertura y cierre.</td></tr>
+          <tr><td><code>id</code> duplicados</td><td>Dos elementos comparten un identificador que debe ser único.</td><td>Asignar un valor de <code>id</code> diferente a cada elemento.</td></tr>
+          <tr><td>Atributos necesarios ausentes</td><td>El elemento puede quedar incompleto o perder información necesaria.</td><td>Por ejemplo, revisar el atributo <code>alt</code> de las imágenes.</td></tr>
+          <tr><td>Elementos utilizados por su apariencia</td><td>Se pierde significado semántico.</td><td>Elegir el elemento según la función del contenido.</td></tr>
+          <tr><td>Enlaces o rutas incorrectas</td><td>El recurso no puede localizarse.</td><td>Comprobar rutas relativas, nombres de archivo y estructura de carpetas.</td></tr>
+          <tr><td>Contenido y presentación mezclados</td><td>El código resulta más difícil de mantener.</td><td>Trasladar la presentación a CSS cuando corresponda.</td></tr>
+        </tbody></table></div>
+
+        <h3>Elementos obsoletos y técnicas antiguas</h3>
+        <p>HTML ha evolucionado y algunas técnicas utilizadas en versiones antiguas dejaron de formar parte del HTML actual. Es importante reconocerlas cuando aparecen en materiales antiguos, pero <strong>no debemos utilizarlas como solución para proyectos nuevos</strong>.</p>
+        <p>Un ejemplo son <code>&lt;frameset&gt;</code> y <code>&lt;frame&gt;</code>, que antiguamente permitían dividir la ventana del navegador en diferentes documentos. Estos elementos son obsoletos y no forman parte del HTML actual. La estructura y distribución visual de una página moderna se realiza mediante HTML semántico y CSS.</p>
+
+        <div class="caja caja-atencion"><span class="caja-titulo">⚠️ Atención</span><p><code>&lt;iframe&gt;</code> es diferente de los antiguos <code>&lt;frame&gt;</code> y <code>&lt;frameset&gt;</code>. <code>&lt;iframe&gt;</code> sigue existiendo y permite incrustar otro documento o recurso dentro de una página cuando existe una razón concreta para hacerlo. No debe confundirse con la antigua maquetación mediante marcos.</p></div>
+
+        <h2 id="validacion-documento">Validación del documento HTML</h2>
+        <p>La validación consiste en comprobar si el documento cumple las reglas sintácticas y estructurales aplicables al HTML actual. Un validador analiza el código y señala errores, advertencias o construcciones que conviene revisar.</p>
+        <p>Una herramienta de referencia es el <strong>Nu Html Checker</strong>, que permite comprobar documentos HTML y detectar problemas relacionados con el marcado.</p>
+
+        <div class="caja caja-ejemplo"><span class="caja-titulo">💻 Procedimiento de comprobación</span><p>Durante el desarrollo podemos validar periódicamente nuestras páginas, revisar los mensajes obtenidos, corregir los errores y volver a ejecutar la comprobación. Este proceso resulta especialmente útil antes de entregar o publicar un proyecto.</p></div>
+
+        <div class="caja caja-importante"><span class="caja-titulo">📌 Importante</span><p>La validación automática es una ayuda, no una garantía de calidad total. Que un documento no presente errores de validación no significa que su interfaz sea necesariamente accesible, usable o adecuada para sus usuarios. Estos aspectos se estudiarán específicamente en las unidades correspondientes.</p></div>
+
+        <h3>¿Cómo interpretar los resultados?</h3>
+        <p>Los mensajes de un validador deben leerse con atención. Un error puede provocar otros mensajes posteriores, por lo que conviene empezar por los primeros problemas detectados, corregirlos y volver a validar.</p>
+        <ul>
+          <li><strong>Error:</strong> indica un problema que debe revisarse y corregirse.</li>
+          <li><strong>Advertencia:</strong> señala una situación que merece atención aunque no siempre impida que el documento sea procesado.</li>
+          <li><strong>Información:</strong> puede aportar contexto adicional sobre el documento o sobre determinadas prácticas.</li>
+        </ul>
+
+        <div class="caja caja-ejemplo"><span class="caja-titulo">💻 Ejemplo DAW</span><p>Antes de entregar una interfaz de StudyFlow, el equipo valida sus páginas HTML. Si aparecen errores de anidamiento, identificadores duplicados o atributos incorrectos, los corrige y vuelve a validar. Después realiza por separado las comprobaciones de accesibilidad, usabilidad y funcionamiento previstas para el proyecto.</p></div>
+
+        <div class="caja caja-importante"><span class="caja-titulo">📌 Idea clave</span><p>El objetivo no es conseguir únicamente que el validador «se ponga en verde», sino utilizar la validación como parte de un proceso de desarrollo basado en <strong>código correcto, comprensible, semántico y mantenible</strong>.</p></div>
+
+        <div class="actividad-reflexion">
+          <h3>💭 Piensa</h3>
+          <p>Un alumno entrega una página que se visualiza correctamente en su navegador. Sin embargo, ha utilizado varios <code>id</code> repetidos, algunas etiquetas están mal anidadas, gran parte de la presentación está escrita mediante atributos <code>style</code> y no ha validado el documento.</p>
+          <p>¿Considerarías suficiente comprobar únicamente que la página «se ve bien»? ¿Qué pasos debería realizar antes de dar el HTML por terminado?</p>
+          <details class="solucion-desplegable">
+            <summary>Ver una posible solución</summary>
+            <div class="contenido-solucion">
+              <p>No. Primero debería revisar la estructura del documento y corregir el anidamiento y los identificadores duplicados. También convendría separar la presentación del contenido trasladando los estilos a CSS cuando corresponda.</p>
+              <p>Después debería validar el documento, interpretar los mensajes obtenidos, corregir los problemas detectados y volver a validar. Finalmente, deberá realizar otras comprobaciones específicas —como accesibilidad, usabilidad y funcionamiento— que no quedan garantizadas por una validación HTML correcta.</p>
+            </div>
+          </details>
+        </div>
+      </section>
+
+      <nav class="navegacion-paginas">
+        <a class="nav-pagina nav-anterior" href="../4-8/index.html"><span class="nav-etiqueta">Anterior</span><strong>‹ 4.8 Otros elementos semánticos y de contenido</strong></a>
+        <a class="nav-pagina nav-siguiente" href="../resumen/index.html"><span class="nav-etiqueta">Siguiente</span><strong>✏️ Resumen de la UT4 ›</strong></a>
+      </nav>
+    </main>
+
+    <aside class="indice-derecho">
+      <h2>Contenidos del apartado</h2>
+      <ul>
+        <li><a href="#html-valido">Código HTML válido y bien estructurado</a></li>
+        <li><a href="#indentacion-legibilidad">Indentación y legibilidad</a></li>
+        <li><a href="#contenido-presentacion">Separación entre contenido y presentación</a></li>
+        <li><a href="#uso-semantico">Uso adecuado de elementos semánticos</a></li>
+        <li><a href="#errores-frecuentes">Errores frecuentes</a></li>
+        <li><a href="#validacion-documento">Validación del documento HTML</a></li>
+      </ul>
+    </aside>
+  </div>
+
+  <footer class="footer">
+    <p>
+      Material elaborado por <strong>Eva Ballestero Cubeles</strong> · Licencia
+      <span class="licencia">CC BY-NC-SA 4.0</span>
+      <a class="enlace-licencia" href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.es"
+        target="_blank" rel="license noopener noreferrer" aria-label="Licencia Creative Commons BY-NC-SA 4.0">
+        <img class="icono-licencia" src="../../../img/licencias/cc-by-nc-sa.png" alt="Licencia Creative Commons BY-NC-SA 4.0">
+      </a>
+    </p>
+  </footer>
+
+  <script src="../../../js/modulos.js"></script>
+
+  <script>
+
+    const menuModulos =
+      document.getElementById("menuModulos");
+
+    const botonTema =
+      document.getElementById("botonTema");
+
+    const modulosActivos =
+      modulos.filter(modulo => modulo.activo === true);
+
+    modulosActivos.forEach(modulo => {
+
+      const enlace =
+        document.createElement("a");
+
+      enlace.href =
+        `../../../${modulo.carpeta}/index.html`;
+
+      enlace.textContent =
+        modulo.siglas;
+
+      enlace.title =
+        modulo.nombre;
+
+      if (modulo.siglas === "DIW") {
+        enlace.style.color =
+          "var(--verde-principal)";
+      }
+
+      menuModulos.appendChild(enlace);
+
+    });
+
+
+    const temaGuardado =
+      localStorage.getItem("tema");
+
+    if (temaGuardado === "oscuro") {
+      document.body.classList.add("modo-oscuro");
+      botonTema.textContent = "🌙";
+    }
+
+    botonTema.addEventListener("click", () => {
+
+      document.body.classList.toggle("modo-oscuro");
+
+      const estaOscuro =
+        document.body.classList.contains("modo-oscuro");
+
+      botonTema.textContent =
+        estaOscuro ? "🌙" : "☀️";
+
+      localStorage.setItem(
+        "tema",
+        estaOscuro ? "oscuro" : "claro"
+      );
+
+    });
+
+
+    const botonesDesplegar =
+      document.querySelectorAll(".boton-desplegar");
+
+    botonesDesplegar.forEach((boton) => {
+
+      boton.addEventListener("click", () => {
+
+        const idSubmenu =
+          boton.getAttribute("data-target");
+
+        const submenu =
+          document.getElementById(idSubmenu);
+
+        if (!submenu) {
+          return;
+        }
+
+        const estaAbierto =
+          submenu.classList.contains("submenu-abierto");
+
+        if (estaAbierto) {
+          submenu.classList.remove("submenu-abierto");
+          boton.textContent = "›";
+          boton.setAttribute("aria-expanded", "false");
+        } else {
+          submenu.classList.add("submenu-abierto");
+          boton.textContent = "⌄";
+          boton.setAttribute("aria-expanded", "true");
+        }
+
+      });
+
+    });
+
+
+    document.querySelectorAll(".boton-copiar").forEach((boton) => {
+      boton.addEventListener("click", async () => {
+        const bloque = boton.closest(".codigo-ejemplo");
+        const codigo = bloque ? bloque.querySelector("code") : null;
+
+        if (!codigo) {
+          return;
+        }
+
+        try {
+          await navigator.clipboard.writeText(codigo.textContent);
+          const textoOriginal = boton.textContent;
+          boton.textContent = "Copiado ✓";
+
+          setTimeout(() => {
+            boton.textContent = textoOriginal;
+          }, 1500);
+        } catch (error) {
+          boton.textContent = "No se pudo copiar";
+        }
+      });
+    });
+
+  </script>
+
+</body>
+</html>
