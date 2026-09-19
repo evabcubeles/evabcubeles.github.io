@@ -1400,6 +1400,14 @@ body.modo-oscuro .solucion-desplegable summary {
             </tbody>
           </table>
         </div>
+        <div class="caja caja-importante">
+  <span class="caja-titulo">📌 Importante</span>
+  <p>
+    Los estilos en línea tienen una prioridad propia dentro de los estilos normales
+    del autor y no se representan mediante los tres componentes
+    <strong>ID – clase – tipo</strong> que utilizaremos para comparar selectores.
+  </p>
+</div>
 
         <p>
           Una forma didáctica de representar la especificidad de un selector es mediante tres componentes:
@@ -1461,21 +1469,34 @@ body.modo-oscuro .solucion-desplegable summary {
           en el orden de la cascada.
         </p>
 
-        <div class="codigo-ejemplo">
-          <div class="codigo-cabecera"><span>CSS</span><button class="boton-copiar" type="button">Copiar</button></div>
-          <pre><code>.tarjeta {
-  border-color: #d8dde3;
+<div class="codigo-ejemplo">
+  <div class="codigo-cabecera">
+    <span>HTML</span>
+    <button class="boton-copiar" type="button">Copiar</button>
+  </div>
+  <pre><code>&lt;p class="aviso mensaje"&gt;Entrega pendiente.&lt;/p&gt;</code></pre>
+</div>
+
+<div class="codigo-ejemplo">
+  <div class="codigo-cabecera">
+    <span>CSS</span>
+    <button class="boton-copiar" type="button">Copiar</button>
+  </div>
+  <pre><code>.aviso {
+  color: #1f6f43;
 }
 
-.tarjeta {
-  border-color: #1f6f43;
+.mensaje {
+  color: #b42318;
 }</code></pre>
-        </div>
+</div>
 
-        <p>
-          Ambas reglas utilizan exactamente el mismo selector, por lo que tienen la misma especificidad.
-          En este caso el borde será <code>#1f6f43</code> porque esa declaración aparece después.
-        </p>
+<p>
+  Los dos selectores tienen la misma especificidad (<code>0-1-0</code>) porque ambos
+  contienen una única clase. Como las dos reglas modifican la misma propiedad y tienen
+  la misma especificidad, el orden resuelve el empate. En este caso se aplicará
+  <code>#b42318</code> porque la regla <code>.mensaje</code> aparece después.
+</p>
 
         <p>
           El orden también importa cuando utilizamos varias hojas de estilo. Si las declaraciones llegan
@@ -1527,6 +1548,15 @@ body.modo-oscuro .solucion-desplegable summary {
           elementos, no se heredan de forma predeterminada. Por ejemplo, asignar un
           <code>border</code> al elemento padre no hace que todos sus hijos reciban ese mismo borde.
         </p>
+        <div class="caja caja-importante">
+  <span class="caja-titulo">📌 Idea clave</span>
+  <p>
+    No todas las propiedades CSS se heredan. Propiedades como <code>color</code> y
+    <code>font-family</code> suelen heredarse, mientras que propiedades como
+    <code>margin</code>, <code>padding</code>, <code>border</code>,
+    <code>width</code> o <code>height</code> no se heredan de forma predeterminada.
+  </p>
+</div>
 
         <div class="tabla-responsive">
           <table class="tabla-apuntes">
