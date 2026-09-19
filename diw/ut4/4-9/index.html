@@ -1397,11 +1397,31 @@ body.modo-oscuro .solucion-desplegable summary {
         <p>HTML ha evolucionado y algunas técnicas utilizadas en versiones antiguas dejaron de formar parte del HTML actual. Es importante reconocerlas cuando aparecen en materiales antiguos, pero <strong>no debemos utilizarlas como solución para proyectos nuevos</strong>.</p>
         <p>Un ejemplo son <code>&lt;frameset&gt;</code> y <code>&lt;frame&gt;</code>, que antiguamente permitían dividir la ventana del navegador en diferentes documentos. Estos elementos son obsoletos y no forman parte del HTML actual. La estructura y distribución visual de una página moderna se realiza mediante HTML semántico y CSS.</p>
 
-        <div class="caja caja-atencion"><span class="caja-titulo">⚠️ Atención</span><p><code>&lt;iframe&gt;</code> es diferente de los antiguos <code>&lt;frame&gt;</code> y <code>&lt;frameset&gt;</code>. <code>&lt;iframe&gt;</code> sigue existiendo y permite incrustar otro documento o recurso dentro de una página cuando existe una razón concreta para hacerlo. No debe confundirse con la antigua maquetación mediante marcos.</p></div>
-
+ <div class="caja caja-atencion">
+  <span class="caja-titulo">⚠️ Atención</span>
+  <p>
+    <code>&lt;iframe&gt;</code> es diferente de los antiguos
+    <code>&lt;frame&gt;</code> y <code>&lt;frameset&gt;</code>.
+    <code>&lt;iframe&gt;</code> sigue formando parte de HTML y permite
+    incrustar otro documento HTML o determinados contenidos externos
+    dentro de una página. No debe confundirse con la antigua maquetación
+    mediante marcos.
+  </p>
+</div>
         <h2 id="validacion-documento">Validación del documento HTML</h2>
         <p>La validación consiste en comprobar si el documento cumple las reglas sintácticas y estructurales aplicables al HTML actual. Un validador analiza el código y señala errores, advertencias o construcciones que conviene revisar.</p>
-        <p>Una herramienta de referencia es el <strong>Nu Html Checker</strong>, que permite comprobar documentos HTML y detectar problemas relacionados con el marcado.</p>
+       <p>
+  Una herramienta de referencia es el
+  <a
+    href="https://validator.w3.org/nu/"
+    target="_blank"
+    rel="noopener noreferrer"
+  >
+    <strong>Nu Html Checker</strong>
+  </a>,
+  que permite comprobar documentos HTML y detectar problemas relacionados
+  con el marcado.
+</p>
 
         <div class="caja caja-ejemplo"><span class="caja-titulo">💻 Procedimiento de comprobación</span><p>Durante el desarrollo podemos validar periódicamente nuestras páginas, revisar los mensajes obtenidos, corregir los errores y volver a ejecutar la comprobación. Este proceso resulta especialmente útil antes de entregar o publicar un proyecto.</p></div>
 
