@@ -1430,8 +1430,10 @@ body.modo-oscuro .solucion-desplegable summary {
             <tbody>
               <tr><td><code>em</code></td><td>Depende del tamaño de fuente correspondiente al elemento; su referencia exacta depende de la propiedad.</td><td><code>padding: 1em;</code></td></tr>
               <tr><td><code>rem</code></td><td>Tamaño de fuente del elemento raíz (<code>html</code>).</td><td><code>font-size: 1.25rem;</code></td></tr>
-              <tr><td><code>vw</code></td><td>1% del ancho del viewport.</td><td><code>width: 50vw;</code></td></tr>
-              <tr><td><code>vh</code></td><td>1% de la altura del viewport.</td><td><code>min-height: 100vh;</code></td></tr>
+<tr><td><code>vw</code></td><td>1% del ancho del viewport.</td><td><code>width: 50vw;</code></td></tr>
+<tr><td><code>vh</code></td><td>1% de la altura del viewport.</td><td><code>min-height: 100vh;</code></td></tr>
+<tr><td><code>vmin</code></td><td>1% de la dimensión menor del viewport.</td><td><code>font-size: 3vmin;</code></td></tr>
+<tr><td><code>vmax</code></td><td>1% de la dimensión mayor del viewport.</td><td><code>width: 50vmax;</code></td></tr>
             </tbody>
           </table>
         </div>
@@ -1477,18 +1479,26 @@ body.modo-oscuro .solucion-desplegable summary {
           </p>
         </div>
 
-        <h3><code>vw</code> y <code>vh</code></h3>
+<h3>Unidades relativas al viewport</h3>
 
-        <p>
-          Las unidades <code>vw</code> y <code>vh</code> se calculan a partir del <strong>viewport</strong>,
-          es decir, del área de visualización utilizada por el navegador. Por ejemplo, <code>50vw</code>
-          representa la mitad del ancho del viewport.
-        </p>
+<p>
+  Las unidades <code>vw</code>, <code>vh</code>, <code>vmin</code> y <code>vmax</code>
+  se calculan a partir del <strong>viewport</strong>, es decir, del área de visualización
+  utilizada por el navegador.
+</p>
 
-        <p>
-          Estas unidades permiten relacionar determinadas dimensiones con el espacio disponible. Las
-          utilizaremos con más contexto cuando estudiemos el diseño web responsive en la UT7.
-        </p>
+<ul>
+  <li><code>1vw</code> representa el 1% del ancho del viewport.</li>
+  <li><code>1vh</code> representa el 1% de la altura del viewport.</li>
+  <li><code>1vmin</code> representa el 1% de la dimensión menor del viewport.</li>
+  <li><code>1vmax</code> representa el 1% de la dimensión mayor del viewport.</li>
+</ul>
+
+<p>
+  Por ejemplo, <code>50vw</code> representa la mitad del ancho del viewport. Estas
+  unidades permiten relacionar determinadas dimensiones con el espacio disponible.
+  Las utilizaremos con más contexto cuando estudiemos el diseño web responsive en la UT7.
+</p>
 
         <div class="caja caja-atencion">
           <span class="caja-titulo">⚠️ Atención</span>
@@ -1595,23 +1605,33 @@ body.modo-oscuro .solucion-desplegable summary {
           expresiones, mientras que <code>clamp()</code> permite limitar un valor entre un mínimo y un máximo.
         </p>
 
-        <div class="codigo-ejemplo">
-          <div class="codigo-cabecera"><span>CSS</span><button class="boton-copiar" type="button">Copiar</button></div>
-          <pre><code>.panel {
+<div class="codigo-ejemplo">
+  <div class="codigo-cabecera"><span>CSS</span><button class="boton-copiar" type="button">Copiar</button></div>
+  <pre><code>.panel {
   width: min(90%, 1000px);
+}
+
+.contenido {
+  width: max(60%, 500px);
 }
 
 .titulo {
   font-size: clamp(1.75rem, 4vw, 3rem);
 }</code></pre>
-        </div>
+</div>
 
-        <p>
-          En el primer ejemplo, CSS utiliza el menor de los valores indicados. En el segundo,
-          <code>clamp()</code> establece un tamaño mínimo de <code>1.75rem</code>, un valor preferido de
-          <code>4vw</code> y un máximo de <code>3rem</code>. Más adelante veremos cómo este tipo de valores
-          puede resultar útil en interfaces adaptables.
-        </p>
+<p>
+  En el primer ejemplo, <code>min()</code> utiliza el menor de los valores indicados.
+  En el segundo, <code>max()</code> utiliza el mayor. Por último,
+  <code>clamp()</code> establece un valor comprendido entre un mínimo y un máximo:
+  el navegador intentará utilizar el valor preferido de <code>4vw</code>, pero sin
+  bajar de <code>1.75rem</code> ni superar <code>3rem</code>.
+</p>
+
+<p>
+  Más adelante veremos cómo este tipo de funciones puede resultar especialmente útil
+  para crear interfaces adaptables.
+</p>
 
         <div class="caja caja-ejemplo">
           <span class="caja-titulo">💻 Ejemplo DAW</span>
