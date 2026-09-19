@@ -1167,6 +1167,7 @@ body.modo-oscuro .solucion-desplegable summary {
               <a href="#selector-tipo">Selector de tipo o etiqueta</a>
               <a href="#selector-clase">Selector de clase</a>
               <a href="#selector-id">Selector de identificador</a>
+              <a href="#selectores-atributo">Selectores de atributo</a>
               <a href="#agrupacion-selectores">Agrupación de selectores</a>
               <a href="#combinadores">Combinadores y relaciones entre elementos</a>
             </div>
@@ -1479,6 +1480,102 @@ p {
             especificidad de los selectores se estudiará en el apartado 5.4.
           </p>
         </div>
+        <h2 id="selectores-atributo">Selectores de atributo</h2>
+
+<p>
+  Los <strong>selectores de atributo</strong> permiten seleccionar elementos HTML
+  según la presencia de un determinado atributo o según el valor que tenga dicho
+  atributo.
+</p>
+
+<p>
+  Para seleccionar todos los elementos que poseen un atributo concreto, escribimos
+  el nombre del atributo entre corchetes.
+</p>
+
+<div class="codigo-ejemplo">
+  <div class="codigo-cabecera">
+    <span>CSS</span>
+    <button class="boton-copiar" type="button">Copiar</button>
+  </div>
+  <pre><code>[required] {
+  border: 1px solid #1f6f43;
+}</code></pre>
+</div>
+
+<p>
+  En este ejemplo se seleccionan todos los elementos HTML que tengan el atributo
+  <code>required</code>, independientemente del tipo de elemento del que se trate.
+</p>
+
+<p>
+  También podemos seleccionar elementos cuyo atributo tenga un valor determinado.
+</p>
+
+<div class="codigo-ejemplo">
+  <div class="codigo-cabecera">
+    <span>CSS</span>
+    <button class="boton-copiar" type="button">Copiar</button>
+  </div>
+  <pre><code>input[type="email"] {
+  border: 1px solid #1f6f43;
+}
+
+a[target="_blank"] {
+  font-weight: bold;
+}</code></pre>
+</div>
+
+<p>
+  El primer selector selecciona los elementos <code>&lt;input&gt;</code> cuyo
+  atributo <code>type</code> tenga exactamente el valor <code>email</code>. El
+  segundo selecciona los enlaces cuyo atributo <code>target</code> tenga el valor
+  <code>_blank</code>.
+</p>
+
+<div class="tabla-responsive">
+  <table class="tabla-apuntes">
+    <thead>
+      <tr>
+        <th>Selector</th>
+        <th>Selecciona</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><code>[required]</code></td>
+        <td>Elementos que tienen el atributo <code>required</code>.</td>
+      </tr>
+      <tr>
+        <td><code>input[type="email"]</code></td>
+        <td>Elementos <code>input</code> cuyo atributo <code>type</code> vale <code>email</code>.</td>
+      </tr>
+      <tr>
+        <td><code>a[target="_blank"]</code></td>
+        <td>Enlaces cuyo atributo <code>target</code> vale <code>_blank</code>.</td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<div class="caja caja-ejemplo">
+  <span class="caja-titulo">💻 Ejemplo DAW</span>
+  <p>
+    En un formulario de StudyFlow podríamos utilizar
+    <code>input[type="email"]</code> para aplicar un estilo específico al campo
+    donde el usuario introduce su correo electrónico, sin necesidad de añadirle
+    una clase adicional.
+  </p>
+</div>
+
+<div class="caja caja-importante">
+  <span class="caja-titulo">📌 Idea clave</span>
+  <p>
+    Los selectores de atributo permiten aprovechar la información que ya contiene
+    el HTML para seleccionar elementos de forma precisa, sin tener que añadir
+    siempre nuevas clases o identificadores.
+  </p>
+</div>
 
         <h2 id="agrupacion-selectores">Agrupación de selectores</h2>
 
@@ -1673,6 +1770,7 @@ h2 ~ p {
         <li><a href="#selector-tipo">Selector de tipo o etiqueta</a></li>
         <li><a href="#selector-clase">Selector de clase</a></li>
         <li><a href="#selector-id">Selector de identificador</a></li>
+        <a href="#selectores-atributo">Selectores de atributo</a>
         <li><a href="#agrupacion-selectores">Agrupación de selectores</a></li>
         <li><a href="#combinadores">Combinadores y relaciones entre elementos</a></li>
       </ul>
