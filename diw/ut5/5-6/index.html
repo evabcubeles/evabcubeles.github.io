@@ -1359,6 +1359,29 @@ body.modo-oscuro .solucion-desplegable summary {
           un color a un elemento contenedor, sus descendientes pueden heredarlo cuando no tengan otro valor
           aplicable para esa propiedad.
         </p>
+        <h3>El valor <code>currentColor</code></h3>
+
+<p>
+  CSS dispone del valor especial <code>currentColor</code>, que representa el valor calculado
+  de la propiedad <code>color</code> del propio elemento. Esto permite reutilizar el color
+  del texto en otras propiedades sin tener que repetirlo.
+</p>
+
+<div class="codigo-ejemplo">
+  <div class="codigo-cabecera">
+    <span>CSS</span>
+    <button class="boton-copiar" type="button">Copiar</button>
+  </div>
+  <pre><code>.aviso {
+  color: #b42318;
+  border: 2px solid currentColor;
+}</code></pre>
+</div>
+
+<p>
+  En este ejemplo, tanto el texto como el borde utilizarán el mismo color. Si posteriormente
+  cambia el valor de <code>color</code>, el borde cambiará automáticamente con él.
+</p>
 
         <div class="caja caja-ejemplo">
           <span class="caja-titulo">💻 Ejemplo DAW</span>
@@ -1460,6 +1483,30 @@ body.modo-oscuro .solucion-desplegable summary {
             <code>#336699</code>.
           </p>
         </div>
+        <h3>Transparencia en hexadecimal</h3>
+
+<p>
+  La notación hexadecimal también puede incorporar un <strong>canal alfa</strong> para
+  representar transparencia. En este caso se utiliza el formato <code>#RRGGBBAA</code>,
+  donde los dos últimos dígitos corresponden al nivel de opacidad.
+</p>
+
+<div class="codigo-ejemplo">
+  <div class="codigo-cabecera">
+    <span>CSS</span>
+    <button class="boton-copiar" type="button">Copiar</button>
+  </div>
+  <pre><code>.superposicion {
+  background-color: #00000080;
+}</code></pre>
+</div>
+
+<p>
+  También existe la forma abreviada <code>#RGBA</code>. Por ejemplo,
+  <code>#00000080</code> representa un negro parcialmente transparente.
+  Para trabajar con transparencia de una forma más fácil de interpretar, también podemos
+  utilizar el canal alfa de <code>rgb()</code>, que veremos a continuación.
+</p>
 
         <h2 id="rgb">RGB y transparencia</h2>
 
