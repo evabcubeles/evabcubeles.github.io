@@ -1359,6 +1359,37 @@ h1 {
   font-weight: 400;
 }</code></pre></div>
         <p>En muchas familias tipográficas, <code>400</code> corresponde al grosor normal y <code>700</code> al negrita. Sin embargo, no todas las fuentes disponen de todos los grosores posibles, por lo que el navegador puede utilizar el valor disponible más adecuado.</p>
+        <h3>La propiedad abreviada <code>font</code></h3>
+
+<p>
+  CSS dispone también de la propiedad abreviada <code>font</code>, que permite establecer
+  varias propiedades tipográficas en una única declaración.
+</p>
+
+<div class="codigo-ejemplo">
+  <div class="codigo-cabecera">
+    <span>CSS</span>
+    <button class="boton-copiar" type="button">Copiar</button>
+  </div>
+  <pre><code>.mensaje {
+  font: italic 700 1rem/1.6 Arial, sans-serif;
+}</code></pre>
+</div>
+
+<p>
+  En este ejemplo se indican, en una sola declaración, el estilo, el grosor, el tamaño,
+  la altura de línea y la familia tipográfica. Aunque puede resultar útil para escribir
+  reglas más compactas, es importante comprender primero las propiedades individuales.
+</p>
+
+<div class="caja caja-atencion">
+  <span class="caja-titulo">⚠️ Atención</span>
+  <p>
+    Al utilizar la propiedad abreviada <code>font</code>, algunas propiedades tipográficas
+    que no se indiquen explícitamente pueden restablecerse a sus valores iniciales. Por ello,
+    no debe utilizarse únicamente para modificar una propiedad aislada.
+  </p>
+</div>
         <div class="caja caja-atencion"><span class="caja-titulo">⚠️ Atención</span><p>No debemos utilizar únicamente cambios de tamaño o grosor para sustituir la estructura semántica del HTML. Un encabezado debe seguir siendo un elemento <code>&lt;h1&gt;</code>, <code>&lt;h2&gt;</code>, etc., aunque CSS permita dar a cualquier texto una apariencia similar.</p></div>
 
         <h2 id="line-height">Interlineado</h2>
@@ -1399,6 +1430,11 @@ a:hover {
         <tr><td><code>letter-spacing</code></td><td>Modifica el espacio entre caracteres.</td><td><code>0.05em</code></td></tr>
         <tr><td><code>word-spacing</code></td><td>Modifica el espacio entre palabras.</td><td><code>0.2em</code></td></tr>
         <tr><td><code>white-space</code></td><td>Controla cómo se tratan los espacios y saltos de línea.</td><td><code>nowrap</code></td></tr>
+          <tr>
+  <td><code>overflow-wrap</code></td>
+  <td>Permite dividir palabras o cadenas largas cuando podrían desbordar su contenedor.</td>
+  <td><code>break-word</code></td>
+</tr>
         </tbody></table></div>
         <div class="codigo-ejemplo"><div class="codigo-cabecera"><span>CSS</span><button class="boton-copiar" type="button">Copiar</button></div><pre><code>.etiqueta {
   text-transform: uppercase;
@@ -1409,7 +1445,12 @@ a:hover {
 }
 .codigo-corto {
   white-space: nowrap;
-}</code></pre></div>
+}
+.enlace-largo {
+  overflow-wrap: break-word;
+}
+        
+        </code></pre></div>
         <div class="caja caja-ejemplo"><span class="caja-titulo">💻 Ejemplo DAW</span><p>En StudyFlow podemos definir una escala coherente para títulos, textos y etiquetas, mantener un interlineado legible y reservar transformaciones como las mayúsculas para componentes concretos. Estas decisiones deben corresponderse con la guía de estilo definida para la interfaz.</p></div>
         <div class="actividad-reflexion"><h3>💭 Piensa</h3><p>En StudyFlow se ha aplicado <code>font-size: 14px</code>, <code>font-weight: 700</code> y <code>text-transform: uppercase</code> a todos los textos de la aplicación para que “destaquen más”. ¿Por qué esta decisión puede perjudicar la jerarquía visual y la legibilidad?</p>
         <details class="solucion-desplegable"><summary>Ver solución</summary><div class="contenido-solucion"><p>Si todos los textos tienen prácticamente la misma apariencia, desaparecen las diferencias visuales que permiten reconocer títulos, contenido principal, información secundaria o etiquetas. Además, el uso generalizado de negrita y mayúsculas puede dificultar la lectura. Lo adecuado es establecer una jerarquía tipográfica coherente y reservar esos recursos para los elementos que realmente los necesitan.</p></div></details></div>
