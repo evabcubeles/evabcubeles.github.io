@@ -1381,7 +1381,15 @@ body.modo-oscuro .solucion-desplegable summary {
         <h2 id="padding">Relleno: <code>padding</code></h2>
 
         <p>El <code>padding</code> es el <strong>espacio interior</strong> situado entre el contenido y el borde del elemento. Aumentarlo separa visualmente el contenido de los límites de la caja.</p>
-
+<div class="caja caja-importante">
+  <span class="caja-titulo">📌 Importante</span>
+  <p>
+    El <code>padding</code> forma parte del interior visible de la caja. Por defecto,
+    el fondo del elemento se extiende también por el área de relleno. El
+    <code>margin</code>, en cambio, queda fuera del borde y no muestra el fondo
+    del elemento.
+  </p>
+</div>
         <div class="codigo-ejemplo">
           <div class="codigo-cabecera"><span>CSS</span><button class="boton-copiar" type="button">Copiar</button></div>
           <pre><code>.tarjeta {
@@ -1512,6 +1520,15 @@ body.modo-oscuro .solucion-desplegable summary {
           <code>300 + 20 + 20 + 2 + 2 = 344px</code>
           <p>contenido + padding izquierdo y derecho + borde izquierdo y derecho</p>
         </div>
+        <div class="caja caja-importante">
+  <span class="caja-titulo">📌 Cálculo del ancho de una caja</span>
+  <p>
+    Con <code>box-sizing: content-box</code>, el ancho exterior de una caja,
+    sin contar los márgenes, se obtiene sumando:
+    <strong>width + padding izquierdo + padding derecho + borde izquierdo +
+    borde derecho</strong>.
+  </p>
+</div>
 
         <h3><code>border-box</code></h3>
 
