@@ -1438,6 +1438,48 @@ body.modo-oscuro .solucion-desplegable summary {
   background-position: right 1rem top 1rem;
 }</code></pre>
         </div>
+        <h3>Desplazamiento del fondo</h3>
+
+<p>
+  La propiedad <code>background-attachment</code> permite controlar cómo se comporta
+  la imagen de fondo cuando se desplaza la página.
+</p>
+
+<div class="tabla-responsive">
+  <table class="tabla-apuntes">
+    <thead>
+      <tr>
+        <th>Valor</th>
+        <th>Comportamiento</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><code>scroll</code></td>
+        <td>El fondo se desplaza junto con el elemento. Es el valor inicial.</td>
+      </tr>
+      <tr>
+        <td><code>fixed</code></td>
+        <td>El fondo permanece fijo respecto al área de visualización.</td>
+      </tr>
+      <tr>
+        <td><code>local</code></td>
+        <td>El fondo se desplaza con el contenido del propio elemento cuando este tiene desplazamiento.</td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<div class="codigo-ejemplo">
+  <div class="codigo-cabecera">
+    <span>CSS</span>
+    <button class="boton-copiar" type="button">Copiar</button>
+  </div>
+  <pre><code>.cabecera {
+  background-image: url("../img/fondo.jpg");
+  background-attachment: fixed;
+}</code></pre>
+</div>
 
         <h2 id="background-size">Tamaño del fondo</h2>
 
@@ -1476,6 +1518,16 @@ body.modo-oscuro .solucion-desplegable summary {
           <span class="caja-titulo">💻 Ejemplo DAW</span>
           <p>Para una cabecera visual de StudyFlow podríamos utilizar <code>background-position: center</code> y <code>background-size: cover</code>. Después deberíamos comprobar que las zonas importantes de la imagen siguen siendo adecuadas en distintos tamaños de pantalla; el tratamiento responsive se estudiará con más detalle en la UT7.</p>
         </div>
+        <div class="caja caja-atencion">
+  <span class="caja-titulo">⚠️ Atención</span>
+  <p>
+    Si colocamos texto sobre una imagen de fondo, debemos comprobar que exista
+    suficiente contraste entre ambos. Una imagen con muchas variaciones de
+    luminosidad puede hacer que el texto sea legible en unas zonas y difícil
+    de leer en otras. Este aspecto se estudiará con mayor profundidad en la
+    unidad dedicada a accesibilidad web.
+  </p>
+</div>
 
         <h2 id="background-shorthand">Propiedad abreviada <code>background</code></h2>
 
