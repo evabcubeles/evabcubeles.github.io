@@ -1,0 +1,1664 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+  <meta charset="UTF-8">
+
+  <meta
+    name="viewport"
+    content="width=device-width, initial-scale=1.0"
+  >
+
+  <meta
+    name="description"
+    content="Resumen de la UT5 - CSS: fundamentos y diseño visual."
+  >
+
+  <title>Resumen UT5 - CSS: fundamentos y diseño visual</title>
+
+  <link rel="icon" type="image/png" href="../../../img/favicon.png?v=5">
+  <link rel="stylesheet" href="../../../css/estilos.css">
+
+  <style>
+
+    /* ==========================================
+       ESTRUCTURA DE LA UT
+    ========================================== */
+
+    .pagina-ut {
+      display: grid;
+      grid-template-columns: 280px 1fr 260px;
+      min-height: calc(100vh - 68px);
+    }
+
+
+    /* ==========================================
+       COLUMNA IZQUIERDA
+    ========================================== */
+
+    .sidebar {
+      border-right: 1px solid var(--borde);
+      background-color: var(--fondo-pagina);
+
+      padding: 12px 10px 30px;
+
+      position: sticky;
+      top: 68px;
+
+      height: calc(100vh - 68px);
+      overflow-y: auto;
+    }
+
+    .sidebar-modulo {
+      display: block;
+      margin-bottom: 8px;
+      padding: 8px 14px;
+      color: #626873;
+      font-size: 17px;
+      font-weight: 700;
+      line-height: 1.3;
+      text-decoration: none;
+      border-radius: 6px;
+      transition:
+        color 0.2s ease,
+        background-color 0.2s ease;
+    }
+
+    .sidebar-modulo:hover {
+      color: var(--verde-principal);
+      background-color: #f3f4f6;
+    }
+
+    body.modo-oscuro .sidebar-modulo:hover {
+      background-color: #273244;
+    }
+
+    .sidebar-ut {
+      margin-bottom: 12px;
+      padding: 10px 14px;
+
+      background-color: #f1f1f1;
+      border-radius: 5px;
+
+      color: var(--verde-principal);
+
+      font-size: 17px;
+      font-weight: 700;
+      line-height: 1.35;
+    }
+    .sidebar-ut-activa {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+    }
+
+    .flecha-ut-abierta {
+      flex-shrink: 0;
+      font-size: 22px;
+      color: #777;
+    }
+
+    .sidebar-ut-cerrada {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      padding: 13px 14px;
+      color: #626873;
+      text-decoration: none;
+      font-size: 16px;
+      font-weight: 650;
+      line-height: 1.35;
+      border-radius: 6px;
+      transition:
+      background-color 0.2s ease,
+      color 0.2s ease;
+    }
+
+    .sidebar-ut-cerrada:hover {
+      background-color: #f3f4f6;
+      color: var(--verde-principal);
+    }
+
+    body.modo-oscuro .sidebar-ut-cerrada:hover {
+      background-color: #273244;
+    }
+
+    body.modo-oscuro .sidebar-ut {
+      background-color: #273244;
+      color: #5ed28a;
+    }
+
+    .lista-apartados {
+      list-style: none;
+      margin: 0;
+      padding: 0;
+    }
+
+    .enlace-apartado {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+
+      padding: 11px 14px;
+
+      color: #626873;
+
+      text-decoration: none;
+
+      font-size: 15px;
+      font-weight: 600;
+      line-height: 1.4;
+
+      border-radius: 6px;
+
+      transition:
+        background-color 0.2s ease,
+        color 0.2s ease;
+    }
+
+    .enlace-apartado:hover {
+      background-color: #f3f4f6;
+      color: var(--verde-principal);
+    }
+
+    body.modo-oscuro .enlace-apartado:hover {
+      background-color: #273244;
+    }
+
+    .flecha-apartado {
+      flex-shrink: 0;
+
+      color: #8b8b8b;
+
+      font-size: 22px;
+    }
+    /* ==========================================
+   MENÚ LATERAL DESPLEGABLE
+========================================== */
+
+.menu-desplegable {
+  width: 100%;
+}
+
+
+/* Cabecera de una UT o de un apartado */
+
+.menu-cabecera {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+
+  width: 100%;
+
+  border-radius: 6px;
+}
+
+
+/* UT en la que estamos actualmente */
+
+.menu-cabecera-activa {
+  background-color: #f1f1f1;
+}
+
+.menu-cabecera-activa > .menu-titulo {
+  color: var(--verde-principal);
+}
+
+
+/* Texto/enlace de la UT o apartado */
+
+.menu-titulo {
+  flex: 1;
+
+  display: block;
+
+  padding: 11px 8px 11px 14px;
+
+  color: #626873;
+
+  font-size: 16px;
+  font-weight: 650;
+  line-height: 1.4;
+
+  text-decoration: none;
+}
+
+.menu-titulo:hover {
+  color: var(--verde-principal);
+}
+
+
+/* Botón de la flecha */
+
+.boton-desplegar {
+  width: 36px;
+  height: 36px;
+
+  margin-right: 5px;
+  padding: 0;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  flex-shrink: 0;
+
+  border: 0;
+  border-radius: 6px;
+
+  background: transparent;
+
+  color: #777;
+
+  font-family: inherit;
+  font-size: 24px;
+  line-height: 1;
+
+  cursor: pointer;
+}
+
+.boton-desplegar:hover {
+  background-color: #e5e7eb;
+  color: var(--verde-principal);
+}
+
+
+/* ==========================================
+   CONTENIDO DESPLEGABLE
+========================================== */
+
+.submenu {
+  display: none;
+}
+
+.submenu.submenu-abierto {
+  display: block;
+}
+
+
+/* ==========================================
+   APARTADOS DE UNA UT
+========================================== */
+
+.menu-apartado {
+  margin-left: 14px;
+}
+
+.menu-apartado .menu-titulo {
+  padding-top: 9px;
+  padding-bottom: 9px;
+
+  font-size: 15px;
+  font-weight: 600;
+}
+
+
+/* Apartados que NO tienen subapartados */
+
+.enlace-apartado-simple {
+  display: block;
+
+  margin-left: 14px;
+  padding: 10px 14px;
+
+  color: #626873;
+
+  font-size: 15px;
+  font-weight: 600;
+  line-height: 1.4;
+
+  text-decoration: none;
+
+  border-radius: 6px;
+
+  transition:
+    background-color 0.2s ease,
+    color 0.2s ease;
+}
+
+.enlace-apartado-simple:hover {
+  background-color: #f3f4f6;
+  color: var(--verde-principal);
+}
+
+
+/* ==========================================
+   SUBAPARTADOS DE 1.1
+========================================== */
+
+.submenu-apartados {
+  margin: 2px 0 5px 28px;
+
+  border-left: 2px solid #e0e3e7;
+}
+
+.submenu-apartados a {
+  display: block;
+
+  padding: 7px 10px;
+
+  color: #777d87;
+
+  font-size: 14px;
+  font-weight: 500;
+  line-height: 1.35;
+
+  text-decoration: none;
+}
+
+.submenu-apartados a:hover {
+  color: var(--verde-principal);
+}
+
+
+/* ==========================================
+   MODO OSCURO DEL MENÚ
+========================================== */
+
+body.modo-oscuro .menu-cabecera-activa {
+  background-color: #273244;
+}
+
+body.modo-oscuro .boton-desplegar:hover {
+  background-color: #334155;
+}
+
+body.modo-oscuro .enlace-apartado-simple:hover {
+  background-color: #273244;
+}
+
+body.modo-oscuro .submenu-apartados {
+  border-left-color: #3a4659;
+}
+
+
+    /* ==========================================
+       ZONA CENTRAL
+    ========================================== */
+
+    .contenido-ut {
+      padding: 28px 34px 70px;
+
+      max-width: 1150px;
+      width: 100%;
+    }
+
+    .migas {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+
+      margin-bottom: 30px;
+
+      font-size: 14px;
+    }
+
+    .miga-inicio {
+      text-decoration: none;
+      font-size: 18px;
+    }
+
+    .miga-separador {
+      color: #999;
+      font-size: 22px;
+    }
+
+    .miga-modulo {
+      color: var(--texto-secundario);
+      text-decoration: none;
+    }
+
+    .miga-modulo:hover {
+      color: var(--verde-principal);
+    }
+
+    .miga-actual {
+      padding: 8px 14px;
+
+      background-color: #f3f3f3;
+      border-radius: 24px;
+
+      color: var(--verde-principal);
+    }
+
+    body.modo-oscuro .miga-actual {
+      background-color: #273244;
+    }
+
+    .contenido-ut h1 {
+      margin: 0 0 30px;
+
+      font-size: clamp(38px, 5vw, 58px);
+      line-height: 1.12;
+    }
+
+    .introduccion-ut {
+      max-width: 980px;
+
+      font-size: 19px;
+      line-height: 1.75;
+    }
+
+    .introduccion-ut p {
+      margin: 0 0 20px;
+    }
+    /* ==========================================
+     CONTENIDO DE LOS APARTADOS
+    ========================================== */
+
+    .apartado-ut {
+      margin-top: 55px;
+      scroll-margin-top: 95px;
+    }
+
+    .apartado-ut h2 {
+      margin: 0 0 24px;
+      font-size: 32px;
+      line-height: 1.2;
+    }
+
+    .apartado-ut h3 {
+      margin: 34px 0 16px;
+      font-size: 24px;
+      line-height: 1.3;
+    }
+
+    .apartado-ut p {
+      margin: 0 0 18px;
+      font-size: 18px;
+      line-height: 1.75;
+    }
+
+    .apartado-ut ul {
+      margin: 16px 0 24px;
+      padding-left: 28px;
+    }
+
+    .apartado-ut li {
+      margin-bottom: 10px;
+      font-size: 17px;
+      line-height: 1.6;
+    }
+
+
+    /* ==========================================
+     CAJAS DE LOS APUNTES
+    ========================================== */
+
+    .caja {
+      margin: 28px 0;
+      padding: 18px 20px;
+      border-left: 5px solid;
+      border-radius: 8px;
+      line-height: 1.65;
+    }
+
+    .caja p {
+      margin: 0;
+      font-size: 17px;
+    }
+
+    .caja-titulo {
+      display: block;
+      margin-bottom: 8px;
+      font-size: 17px;
+      font-weight: 700;
+    }
+
+    .caja-importante {
+      background-color: #eef8f1;
+      border-left-color: #2f9e5b;
+    }
+
+    .caja-atencion {
+      background-color: #fff7e8;
+      border-left-color: #e09b27;
+    }
+
+    .caja-ejemplo {
+      background-color: #eef5ff;
+      border-left-color: #3f7acb;
+    }
+
+    .caja-curiosidad {
+      background-color: #f7f1ff;
+      border-left-color: #8b5cc7;
+    }
+
+    body.modo-oscuro .caja-importante {
+      background-color: #20372a;
+    }
+
+    body.modo-oscuro .caja-atencion {
+      background-color: #3b3020;
+    }
+
+    body.modo-oscuro .caja-ejemplo {
+      background-color: #23344a;
+    }
+
+    body.modo-oscuro .caja-curiosidad {
+      background-color: #332944;
+    }
+
+
+    /* ==========================================
+      TABLAS
+    ========================================== */
+
+    .tabla-responsive {
+      width: 100%;
+      margin: 28px 0;
+      overflow-x: auto;
+    }
+
+    .tabla-apuntes {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 16px;
+    }
+
+    .tabla-apuntes th,
+    .tabla-apuntes td {
+      padding: 14px 16px;
+      border: 1px solid var(--borde);
+      text-align: left;
+      vertical-align: top;
+      line-height: 1.55;
+    }
+
+    .tabla-apuntes th {
+      background-color: #f1f3f5;
+      font-weight: 700;
+    }
+    .tabla-apuntes th:first-child,
+    .tabla-apuntes td:first-child {
+       width: 170px;
+      white-space: nowrap;
+    }
+
+    body.modo-oscuro .tabla-apuntes th {
+      background-color: #273244;
+    }
+
+
+    /* ==========================================
+     ESQUEMA VISUAL
+    ========================================== */
+
+    .esquema-sostenibilidad {
+      max-width: 520px;
+      margin: 30px auto;
+      padding: 24px;
+      text-align: center;
+    }
+
+    .esquema-caja {
+      padding: 16px 20px;
+      background-color: var(--fondo-tarjeta);
+      border: 1px solid var(--borde);
+      border-radius: 10px;
+      font-size: 18px;
+      font-weight: 700;
+    }
+
+    .esquema-flecha {
+      margin: 8px 0;
+      color: var(--verde-principal);
+      font-size: 26px;
+      font-weight: 700;
+    }
+
+    .esquema-texto {
+      margin: 0 0 8px;
+      color: var(--texto-secundario);
+      font-size: 15px;
+    }
+
+
+    /* ==========================================
+     ACTIVIDAD DE REFLEXIÓN
+    ========================================== */
+
+    .actividad-reflexion {
+      margin: 32px 0;
+      padding: 22px 24px;
+      background-color: #f7f8fa;
+      border: 1px solid var(--borde);
+      border-radius: 10px;
+    }
+
+    .actividad-reflexion h3 {
+      margin: 0 0 12px;
+      color: var(--verde-principal);
+      font-size: 20px;
+    }
+
+    .actividad-reflexion p {
+      margin: 0;
+      font-size: 17px;
+      line-height: 1.65;
+    }
+
+    body.modo-oscuro .actividad-reflexion {
+      background-color: #232d3d;
+    }
+    /* ==========================================
+   SOLUCIÓN DESPLEGABLE
+========================================== */
+
+.solucion-desplegable {
+  margin-top: 20px;
+}
+
+.solucion-desplegable summary {
+  display: inline-block;
+
+  padding: 10px 16px;
+
+  background-color: #eef8f1;
+
+  border: 1px solid #b9dfc6;
+  border-radius: 7px;
+
+  color: var(--verde-principal);
+
+  font-size: 16px;
+  font-weight: 700;
+
+  cursor: pointer;
+  user-select: none;
+}
+
+.solucion-desplegable summary:hover {
+  background-color: #e2f3e7;
+}
+
+.contenido-solucion {
+  margin-top: 16px;
+
+  padding: 18px 20px;
+
+  background-color: var(--fondo-pagina);
+
+  border-left: 4px solid var(--verde-principal);
+  border-radius: 6px;
+}
+
+.contenido-solucion p {
+  margin: 0 0 12px;
+
+  font-size: 16px;
+  line-height: 1.65;
+}
+
+.contenido-solucion p:last-child {
+  margin-bottom: 0;
+}
+
+body.modo-oscuro .solucion-desplegable summary {
+  background-color: #20372a;
+  border-color: #315d40;
+}
+
+
+    /* ==========================================
+       COLUMNA DERECHA
+    ========================================== */
+
+    .indice-derecho {
+      padding: 28px 22px;
+
+      border-left: 1px solid var(--borde);
+
+      position: sticky;
+      top: 68px;
+
+      height: calc(100vh - 68px);
+    }
+
+    .indice-derecho h2 {
+      margin: 8px 0 20px;
+
+      font-size: 17px;
+      color: #555b65;
+    }
+
+    body.modo-oscuro .indice-derecho h2 {
+      color: #d1d5db;
+    }
+
+    .indice-derecho ul {
+      margin: 0;
+      padding-left: 18px;
+    }
+
+    .indice-derecho li {
+      margin-bottom: 12px;
+    }
+
+    .indice-derecho a {
+      color: var(--texto-secundario);
+
+      text-decoration: none;
+
+      font-size: 14px;
+      line-height: 1.4;
+    }
+
+    .indice-derecho a:hover {
+      color: var(--verde-principal);
+    }
+
+
+    /* ==========================================
+       NAVEGACIÓN ANTERIOR / SIGUIENTE
+    ========================================== */
+
+    .navegacion-paginas {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 20px;
+
+      margin-top: 50px;
+    }
+
+    .nav-pagina {
+      min-height: 100px;
+      padding: 18px 20px;
+
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+
+      border: 1px solid var(--borde);
+      border-radius: 8px;
+
+      text-decoration: none;
+
+      background-color: var(--fondo-tarjeta);
+    }
+
+    .nav-anterior {
+      align-items: flex-start;
+      text-align: left;
+    }
+
+    .nav-siguiente {
+      align-items: flex-end;
+      text-align: right;
+    }
+
+    .nav-etiqueta {
+      margin-bottom: 5px;
+
+      color: var(--texto-secundario);
+
+      font-size: 14px;
+    }
+
+    .nav-pagina strong {
+      color: var(--verde-principal);
+
+      font-size: 16px;
+      line-height: 1.4;
+    }
+
+    .nav-pagina:hover {
+      border-color: var(--verde-principal);
+    }
+
+
+    /* ==========================================
+       RESPONSIVE
+    ========================================== */
+
+    @media (max-width: 1100px) {
+
+      .pagina-ut {
+        grid-template-columns: 250px 1fr;
+      }
+
+      .indice-derecho {
+        display: none;
+      }
+
+    }
+
+    @media (max-width: 760px) {
+
+      .pagina-ut {
+        display: block;
+      }
+
+      .sidebar {
+        position: static;
+
+        width: 100%;
+        height: auto;
+
+        border-right: 0;
+        border-bottom: 1px solid var(--borde);
+      }
+
+      .contenido-ut {
+        padding: 28px 20px 60px;
+      }
+
+      .contenido-ut h1 {
+        font-size: 36px;
+      }
+
+      .navegacion-paginas {
+        grid-template-columns: 1fr;
+      }
+
+      .nav-siguiente {
+        align-items: flex-start;
+        text-align: left;
+      }
+
+    }
+
+  
+    /* ==========================================
+       EJEMPLOS VISUALES - ELEMENTOS DE DISEÑO
+    ========================================== */
+    .familia-elementos {
+      margin: 28px 0;
+      padding: 20px;
+      border: 1px solid var(--borde);
+      border-radius: 10px;
+      background-color: var(--fondo-tarjeta);
+    }
+    .rejilla-elementos {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 14px;
+      margin-top: 18px;
+    }
+    .tarjeta-elemento {
+      min-height: 145px;
+      padding: 16px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 12px;
+      border: 1px solid var(--borde);
+      border-radius: 8px;
+      text-align: center;
+      background-color: var(--fondo-pagina);
+    }
+    .figura-punto {
+      width: 18px; height: 18px;
+      border-radius: 50%;
+      background: var(--verde-principal);
+    }
+    .figura-linea {
+      width: 75px; height: 4px;
+      background: var(--verde-principal);
+      transform: rotate(-25deg);
+    }
+    .figura-plano {
+      width: 70px; height: 48px;
+      border: 3px solid var(--verde-principal);
+      transform: skew(-12deg);
+    }
+    .figura-volumen {
+      width: 58px; height: 58px;
+      border: 3px solid var(--verde-principal);
+      box-shadow: 9px -9px 0 -3px var(--fondo-pagina), 9px -9px 0 0 var(--verde-principal);
+    }
+    .muestras-forma {
+      display:flex; align-items:center; justify-content:center; gap:12px; min-height:55px;
+    }
+    .forma-circulo { width:42px; height:42px; border-radius:50%; background:var(--verde-principal); }
+    .forma-cuadrado { width:42px; height:42px; background:var(--verde-principal); }
+    .forma-triangulo {
+      width:0; height:0; border-left:24px solid transparent; border-right:24px solid transparent;
+      border-bottom:44px solid var(--verde-principal);
+    }
+    .muestra-textura {
+      width:76px; height:50px; border-radius:6px;
+      background: repeating-linear-gradient(45deg, #d9dde3 0, #d9dde3 5px, transparent 5px, transparent 10px);
+      border:1px solid var(--borde);
+    }
+    .muestra-direccion { font-size:38px; color:var(--verde-principal); letter-spacing:5px; }
+    .muestra-posicion {
+      position:relative; width:85px; height:60px; border:2px solid var(--borde);
+    }
+    .muestra-posicion::after {
+      content:""; position:absolute; width:24px; height:24px; border-radius:50%;
+      right:8px; bottom:8px; background:var(--verde-principal);
+    }
+    .muestra-espacio { display:flex; gap:28px; }
+    .muestra-espacio span { width:28px; height:28px; background:var(--verde-principal); border-radius:4px; }
+    .muestra-gravedad { font-size:40px; transform:rotate(18deg); color:var(--verde-principal); }
+    .ejemplo-iconos {
+      display:grid; grid-template-columns:repeat(3,1fr); gap:14px; margin:22px 0;
+    }
+    .ejemplo-icono {
+      padding:18px; border:1px solid var(--borde); border-radius:8px;
+      text-align:center; background:var(--fondo-tarjeta);
+    }
+    .ejemplo-icono .simbolo { display:block; margin-bottom:10px; font-size:36px; }
+
+    .muestra-medida { height:58px; display:flex; align-items:flex-end; justify-content:center; gap:8px; }
+    .muestra-medida span { display:inline-block; background:var(--verde-principal); border-radius:4px; }
+    .medida-pequena { width:18px; height:18px; }
+    .medida-mediana { width:32px; height:32px; }
+    .medida-grande { width:48px; height:48px; }
+    .muestra-color { display:flex; align-items:center; justify-content:center; gap:7px; min-height:58px; }
+    .muestra-color span { width:34px; height:34px; border-radius:50%; border:1px solid var(--borde); }
+    .muestra-color span:nth-child(1) { background:#2f855a; }
+    .muestra-color span:nth-child(2) { background:#3182ce; }
+    .muestra-color span:nth-child(3) { background:#d69e2e; }
+
+    @media (max-width: 900px) {
+      .rejilla-elementos { grid-template-columns:repeat(2,1fr); }
+    }
+    @media (max-width: 560px) {
+      .rejilla-elementos, .ejemplo-iconos { grid-template-columns:1fr; }
+    }
+
+  
+    /* ==========================================
+       EJEMPLOS VISUALES - COMPONENTES INTERFAZ
+    ========================================== */
+    .esquema-interfaz {
+      margin: 26px 0;
+      padding: 18px;
+      border: 1px solid var(--borde);
+      border-radius: 10px;
+      background: var(--fondo-tarjeta);
+    }
+
+    .maqueta-web {
+      display: grid;
+      grid-template-columns: 1fr 2.3fr 1fr;
+      grid-template-areas:
+        "header header header"
+        "nav nav nav"
+        "aside1 main aside2"
+        "footer footer footer";
+      gap: 8px;
+      max-width: 780px;
+      margin: 0 auto;
+    }
+
+    .zona-interfaz {
+      padding: 18px 12px;
+      border: 2px solid var(--verde-principal);
+      border-radius: 7px;
+      text-align: center;
+      font-weight: 700;
+      background: var(--fondo-pagina);
+    }
+
+    .zona-header { grid-area: header; }
+    .zona-nav { grid-area: nav; }
+    .zona-aside1 { grid-area: aside1; min-height: 150px; display:flex; align-items:center; justify-content:center; }
+    .zona-main { grid-area: main; min-height: 150px; display:flex; align-items:center; justify-content:center; }
+    .zona-aside2 { grid-area: aside2; min-height: 150px; display:flex; align-items:center; justify-content:center; }
+    .zona-footer { grid-area: footer; }
+
+    .rejilla-componentes {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 14px;
+      margin: 22px 0;
+    }
+
+    .tarjeta-componente {
+      padding: 18px;
+      border: 1px solid var(--borde);
+      border-radius: 9px;
+      background: var(--fondo-tarjeta);
+    }
+
+    .tarjeta-componente .icono-componente {
+      display: block;
+      font-size: 30px;
+      margin-bottom: 9px;
+    }
+
+    .tarjeta-componente strong {
+      display: block;
+      margin-bottom: 7px;
+    }
+
+    .mini-interfaz {
+      margin: 24px 0;
+      padding: 18px;
+      border: 1px solid var(--borde);
+      border-radius: 10px;
+      background: var(--fondo-tarjeta);
+    }
+
+    .mini-cabecera {
+      padding: 15px;
+      border-radius: 7px 7px 0 0;
+      background: var(--verde-principal);
+      color: white;
+      font-weight: 700;
+    }
+
+    .mini-nav {
+      display: flex;
+      gap: 14px;
+      flex-wrap: wrap;
+      padding: 11px 15px;
+      border: 1px solid var(--borde);
+      border-top: 0;
+      font-weight: 600;
+    }
+
+    .mini-cuerpo {
+      display: grid;
+      grid-template-columns: 1fr 2.2fr;
+      gap: 12px;
+      padding: 14px 0;
+    }
+
+    .mini-lateral, .mini-principal {
+      padding: 18px;
+      border: 1px solid var(--borde);
+      border-radius: 7px;
+    }
+
+    .mini-boton {
+      display: inline-block;
+      margin-top: 12px;
+      padding: 9px 14px;
+      border-radius: 6px;
+      background: var(--verde-principal);
+      color: white;
+      font-weight: 700;
+    }
+
+    .mini-pie {
+      padding: 12px 15px;
+      border: 1px solid var(--borde);
+      border-radius: 0 0 7px 7px;
+      text-align: center;
+    }
+
+    @media (max-width: 900px) {
+      .rejilla-componentes { grid-template-columns: repeat(2, 1fr); }
+    }
+
+    @media (max-width: 650px) {
+      .maqueta-web {
+        grid-template-columns: 1fr;
+        grid-template-areas:
+          "header"
+          "nav"
+          "main"
+          "aside1"
+          "aside2"
+          "footer";
+      }
+      .mini-cuerpo { grid-template-columns: 1fr; }
+      .rejilla-componentes { grid-template-columns: 1fr; }
+    }
+
+  
+    .comparacion-error {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 14px;
+      margin: 20px 0 28px;
+    }
+    .mensaje-error {
+      padding: 16px 18px;
+      border: 1px solid var(--borde);
+      border-radius: 8px;
+      background: var(--fondo-tarjeta);
+    }
+    .mensaje-error strong, .mensaje-error span { display: block; }
+    .mensaje-error strong { margin-bottom: 8px; }
+    @media (max-width: 650px) {
+      .comparacion-error { grid-template-columns: 1fr; }
+    }
+
+
+    /* ==========================================
+       RESUMEN DE LA UT5
+    ========================================== */
+    .mapa-resumen { margin: 28px 0; padding: 22px; border: 1px solid var(--borde); border-radius: 10px; background: var(--fondo-tarjeta); }
+    .mapa-nodo { padding: 17px; border: 2px solid var(--verde-principal); border-radius: 9px; text-align: center; background: var(--fondo-pagina); }
+    .mapa-nodo strong, .mapa-nodo span { display:block; }
+    .mapa-nodo span { margin-top:8px; font-size:15px; line-height:1.5; color:var(--texto-secundario); }
+    .mapa-principal { max-width: 720px; margin: 0 auto; font-weight: 800; }
+    .mapa-flecha { margin: 8px 0; text-align:center; color:var(--verde-principal); font-size:28px; font-weight:700; }
+    .mapa-columnas { display:grid; grid-template-columns:repeat(3,1fr); gap:14px; }
+    .rejilla-resumen { display:grid; grid-template-columns:repeat(3,1fr); gap:14px; margin:24px 0; }
+    .tarjeta-resumen { padding:18px; border:1px solid var(--borde); border-radius:9px; background:var(--fondo-tarjeta); }
+    .tarjeta-resumen > span { display:block; margin-bottom:8px; font-size:30px; }
+    .tarjeta-resumen > strong { display:block; margin-bottom:8px; font-size:17px; }
+    .tarjeta-resumen p { margin:0; font-size:15px; line-height:1.55; }
+    .lista-claves { display:grid; grid-template-columns:1fr 1fr; gap:12px; margin:24px 0; }
+    .lista-claves > div { padding:16px 18px; border:1px solid var(--borde); border-radius:8px; background:var(--fondo-tarjeta); }
+    .lista-claves strong, .lista-claves span { display:block; }
+    .lista-claves strong { margin-bottom:6px; color:var(--verde-principal); }
+    .lista-claves span { line-height:1.5; }
+    .resumen-final ul { margin:12px 0 0; padding-left:24px; }
+    .resumen-final li { margin-bottom:10px; }
+    @media (max-width: 900px) { .mapa-columnas, .rejilla-resumen { grid-template-columns:1fr; } .lista-claves { grid-template-columns:1fr; } }
+
+  </style>
+
+</head>
+
+
+<body>
+  <header class="navbar">
+    <a class="inicio" href="../../../index.html">
+      <img src="../../../img/profesora-castana.png?v=2" alt="" class="icono-profesora">
+      <span>Inicio</span>
+    </a>
+    <nav id="menuModulos" class="menu-modulos" aria-label="Módulos formativos"></nav>
+    <button id="botonTema" class="boton-tema" type="button"
+      aria-label="Cambiar entre modo claro y oscuro" title="Cambiar tema">☀️</button>
+  </header>
+
+  <div class="pagina-ut">
+    <aside class="sidebar">
+      <a class="sidebar-modulo" href="../../index.html">Diseño de interfaces web</a>
+
+      <a class="sidebar-ut-cerrada" href="../../ut1/index.html"><span>UT1 - Fundamentos del diseño de interfaces web</span><span>›</span></a>
+      <a class="sidebar-ut-cerrada" href="../../ut2/index.html"><span>UT2 - Color, tipografía, iconografía e identidad visual</span><span>›</span></a>
+      <a class="sidebar-ut-cerrada" href="../../ut3/index.html"><span>UT3 - Planificación, arquitectura y prototipado de interfaces</span><span>›</span></a>
+      <a class="sidebar-ut-cerrada" href="../../ut4/index.html"><span>UT4 - HTML: estructura y contenido de interfaces web</span><span>›</span></a>
+
+      <div class="menu-desplegable">
+        <div class="menu-cabecera menu-cabecera-activa">
+          <a class="menu-titulo" href="../index.html">UT5 - CSS: fundamentos y diseño visual</a>
+          <button class="boton-desplegar" type="button" data-target="submenu-ut5" aria-expanded="true" aria-label="Mostrar u ocultar UT5">⌄</button>
+        </div>
+
+        <div id="submenu-ut5" class="submenu submenu-abierto">
+
+          <div class="menu-desplegable menu-apartado">
+            <div class="menu-cabecera">
+              <a class="menu-titulo" href="../5-1/index.html">5.1 Introducción a CSS</a>
+              <button class="boton-desplegar" type="button" data-target="submenu-5-1" aria-expanded="false" aria-label="Mostrar u ocultar los subapartados del 5.1">›</button>
+            </div>
+            <div id="submenu-5-1" class="submenu submenu-apartados">
+              <a href="../5-1/index.html#papel-css">El papel de CSS en una interfaz web</a>
+              <a href="../5-1/index.html#reglas-css">Reglas CSS: selector y declaración</a>
+              <a href="../5-1/index.html#propiedades-valores">Propiedades y valores</a>
+              <a href="../5-1/index.html#incorporar-css">Formas de incorporar CSS</a>
+              <a href="../5-1/index.html#estilos-alternativos">Hojas de estilo alternativas</a>
+              <a href="../5-1/index.html#organizacion-css">Organización básica de una hoja de estilos</a>
+            </div>
+          </div>
+
+          <div class="menu-desplegable menu-apartado">
+            <div class="menu-cabecera">
+              <a class="menu-titulo" href="../5-2/index.html">5.2 Selectores CSS</a>
+              <button class="boton-desplegar" type="button" data-target="submenu-5-2" aria-expanded="false" aria-label="Mostrar u ocultar los subapartados del 5.2">›</button>
+            </div>
+            <div id="submenu-5-2" class="submenu submenu-apartados">
+              <a href="../5-2/index.html#selector-universal">Selector universal</a>
+              <a href="../5-2/index.html#selector-tipo">Selector de tipo o etiqueta</a>
+              <a href="../5-2/index.html#selector-clase">Selector de clase</a>
+              <a href="../5-2/index.html#selector-id">Selector de identificador</a>
+              <a href="../5-2/index.html#selectores-atributo">Selectores de atributo</a>
+              <a href="../5-2/index.html#agrupacion">Agrupación de selectores</a>
+              <a href="../5-2/index.html#combinadores">Combinadores y relaciones</a>
+            </div>
+          </div>
+
+          <div class="menu-desplegable menu-apartado">
+            <div class="menu-cabecera">
+              <a class="menu-titulo" href="../5-3/index.html">5.3 Pseudoclases y pseudoelementos</a>
+              <button class="boton-desplegar" type="button" data-target="submenu-5-3" aria-expanded="false" aria-label="Mostrar u ocultar los subapartados del 5.3">›</button>
+            </div>
+            <div id="submenu-5-3" class="submenu submenu-apartados">
+              <a href="../5-3/index.html#pseudoclases">Qué son las pseudoclases</a>
+              <a href="../5-3/index.html#estados">Estados e interacción</a>
+              <a href="../5-3/index.html#estructurales">Pseudoclases estructurales</a>
+              <a href="../5-3/index.html#pseudoelementos">Qué son los pseudoelementos</a>
+              <a href="../5-3/index.html#before-after">::before y ::after</a>
+              <a href="../5-3/index.html#otros-pseudoelementos">Otros pseudoelementos útiles</a>
+            </div>
+          </div>
+
+          <div class="menu-desplegable menu-apartado">
+            <div class="menu-cabecera">
+              <a class="menu-titulo" href="../5-4/index.html">5.4 Cascada, especificidad y herencia</a>
+              <button class="boton-desplegar" type="button" data-target="submenu-5-4" aria-expanded="false" aria-label="Mostrar u ocultar los subapartados del 5.4">›</button>
+            </div>
+            <div id="submenu-5-4" class="submenu submenu-apartados">
+              <a href="../5-4/index.html#cascada">La cascada en CSS</a>
+              <a href="../5-4/index.html#especificidad">Especificidad de los selectores</a>
+              <a href="../5-4/index.html#orden">Orden de las declaraciones</a>
+              <a href="../5-4/index.html#herencia">Herencia de propiedades</a>
+              <a href="../5-4/index.html#important">Uso de !important</a>
+            </div>
+          </div>
+
+          <div class="menu-desplegable menu-apartado">
+            <div class="menu-cabecera">
+              <a class="menu-titulo" href="../5-5/index.html">5.5 Unidades y valores en CSS</a>
+              <button class="boton-desplegar" type="button" data-target="submenu-5-5" aria-expanded="false" aria-label="Mostrar u ocultar los subapartados del 5.5">›</button>
+            </div>
+            <div id="submenu-5-5" class="submenu submenu-apartados">
+              <a href="../5-5/index.html#valores-css">Valores en CSS</a>
+              <a href="../5-5/index.html#unidades-absolutas">Unidades absolutas</a>
+              <a href="../5-5/index.html#unidades-relativas">Unidades relativas</a>
+              <a href="../5-5/index.html#porcentajes">Porcentajes</a>
+              <a href="../5-5/index.html#funciones-valores">Funciones y valores útiles</a>
+            </div>
+          </div>
+
+          <div class="menu-desplegable menu-apartado">
+            <div class="menu-cabecera">
+              <a class="menu-titulo" href="../5-6/index.html">5.6 Colores en CSS</a>
+              <button class="boton-desplegar" type="button" data-target="submenu-5-6" aria-expanded="false" aria-label="Mostrar u ocultar los subapartados del 5.6">›</button>
+            </div>
+            <div id="submenu-5-6" class="submenu submenu-apartados">
+              <a href="../5-6/index.html#color">La propiedad color</a>
+              <a href="../5-6/index.html#nombres-color">Nombres de color</a>
+              <a href="../5-6/index.html#hexadecimal">Notación hexadecimal</a>
+              <a href="../5-6/index.html#rgb">RGB y transparencia</a>
+              <a href="../5-6/index.html#hsl">HSL</a>
+              <a href="../5-6/index.html#buenas-practicas-color">Buenas prácticas en el uso del color</a>
+            </div>
+          </div>
+
+          <div class="menu-desplegable menu-apartado">
+            <div class="menu-cabecera">
+              <a class="menu-titulo" href="../5-7/index.html">5.7 Tipografía y texto</a>
+              <button class="boton-desplegar" type="button" data-target="submenu-5-7" aria-expanded="false" aria-label="Mostrar u ocultar los subapartados del 5.7">›</button>
+            </div>
+            <div id="submenu-5-7" class="submenu submenu-apartados">
+              <a href="../5-7/index.html#font-family">Familias tipográficas</a>
+              <a href="../5-7/index.html#font-size">Tamaño de fuente</a>
+              <a href="../5-7/index.html#font-style-weight">Estilo y grosor</a>
+              <a href="../5-7/index.html#line-height">Interlineado</a>
+              <a href="../5-7/index.html#text-align">Alineación del texto</a>
+              <a href="../5-7/index.html#otras-propiedades-texto">Decoración y otras propiedades de texto</a>
+            </div>
+          </div>
+
+          <div class="menu-desplegable menu-apartado">
+            <div class="menu-cabecera">
+              <a class="menu-titulo" href="../5-8/index.html">5.8 Fondos</a>
+              <button class="boton-desplegar" type="button" data-target="submenu-5-8" aria-expanded="false" aria-label="Mostrar u ocultar los subapartados del 5.8">›</button>
+            </div>
+            <div id="submenu-5-8" class="submenu submenu-apartados">
+              <a href="../5-8/index.html#background-color">Color de fondo</a>
+              <a href="../5-8/index.html#background-image">Imágenes de fondo</a>
+              <a href="../5-8/index.html#background-repeat">Repetición de fondos</a>
+              <a href="../5-8/index.html#background-position">Posición del fondo</a>
+              <a href="../5-8/index.html#background-size">Tamaño del fondo</a>
+              <a href="../5-8/index.html#background-shorthand">Propiedad abreviada background</a>
+            </div>
+          </div>
+
+          <div class="menu-desplegable menu-apartado">
+            <div class="menu-cabecera">
+              <a class="menu-titulo" href="../5-9/index.html">5.9 El modelo de caja</a>
+              <button class="boton-desplegar" type="button" data-target="submenu-5-9" aria-expanded="false" aria-label="Mostrar u ocultar los subapartados del 5.9">›</button>
+            </div>
+            <div id="submenu-5-9" class="submenu submenu-apartados">
+              <a href="../5-9/index.html#box-model">Concepto de modelo de caja</a>
+              <a href="../5-9/index.html#content">Área de contenido</a>
+              <a href="../5-9/index.html#padding">Relleno: padding</a>
+              <a href="../5-9/index.html#border">Borde: border</a>
+              <a href="../5-9/index.html#margin">Margen: margin</a>
+              <a href="../5-9/index.html#box-sizing">box-sizing</a>
+            </div>
+          </div>
+
+          <div class="menu-desplegable menu-apartado">
+            <div class="menu-cabecera">
+              <a class="menu-titulo" href="../5-10/index.html">5.10 Bordes, esquinas y sombras</a>
+              <button class="boton-desplegar" type="button" data-target="submenu-5-10" aria-expanded="false" aria-label="Mostrar u ocultar los subapartados del 5.10">›</button>
+            </div>
+            <div id="submenu-5-10" class="submenu submenu-apartados">
+              <a href="../5-10/index.html#bordes">Propiedades de los bordes</a>
+              <a href="../5-10/index.html#border-radius">Esquinas redondeadas</a>
+              <a href="../5-10/index.html#box-shadow">Sombras de caja</a>
+              <a href="../5-10/index.html#text-shadow">Sombras de texto</a>
+              <a href="../5-10/index.html#buenas-practicas-efectos">Buenas prácticas visuales</a>
+            </div>
+          </div>
+
+          <div class="menu-desplegable menu-apartado">
+            <div class="menu-cabecera menu-cabecera-activa">
+              <a class="menu-titulo" href="index.html">✏️ Resumen de la UT5</a>
+              <button class="boton-desplegar" type="button" data-target="submenu-resumen" aria-expanded="true" aria-label="Mostrar u ocultar el resumen de la UT5">⌄</button>
+            </div>
+            <div id="submenu-resumen" class="submenu submenu-apartados submenu-abierto">
+              <a href="#vision-global">Visión global</a>
+              <a href="#introduccion-css">5.1 Introducción a CSS</a>
+              <a href="#selectores">5.2 Selectores CSS</a>
+              <a href="#pseudo">5.3 Pseudoclases y pseudoelementos</a>
+              <a href="#cascada">5.4 Cascada, especificidad y herencia</a>
+              <a href="#unidades">5.5 Unidades y valores</a>
+              <a href="#colores">5.6 Colores</a>
+              <a href="#tipografia">5.7 Tipografía y texto</a>
+              <a href="#fondos">5.8 Fondos</a>
+              <a href="#modelo-caja">5.9 Modelo de caja</a>
+              <a href="#efectos">5.10 Bordes, esquinas y sombras</a>
+              <a href="#validacion-css">Validación de CSS</a>
+              <a href="#ideas-clave">Ideas clave</a>
+            </div>
+          </div>
+
+          <a class="enlace-apartado-simple" href="../actividades/index.html">📝 Actividades de la UT5</a>
+        </div>
+      </div>
+
+      <a class="sidebar-ut-cerrada" href="../../ut6/index.html"><span>UT6 - CSS: maquetación y diseño avanzado</span><span>›</span></a>
+      <a class="sidebar-ut-cerrada" href="../../ut7/index.html"><span>UT7 - Diseño web responsive</span><span>›</span></a>
+      <a class="sidebar-ut-cerrada" href="../../ut8/index.html"><span>UT8 - Recursos gráficos e imágenes para la web</span><span>›</span></a>
+      <a class="sidebar-ut-cerrada" href="../../ut9/index.html"><span>UT9 - Audio, vídeo, animaciones e interactividad</span><span>›</span></a>
+      <a class="sidebar-ut-cerrada" href="../../ut10/index.html"><span>UT10 - Accesibilidad web</span><span>›</span></a>
+      <a class="sidebar-ut-cerrada" href="../../ut11/index.html"><span>UT11 - Usabilidad y evaluación de interfaces web</span><span>›</span></a>
+    </aside>
+
+    <main class="contenido-ut">
+      <div class="migas">
+        <a class="miga-inicio" href="../../../index.html" aria-label="Volver a la página principal">🏠</a>
+        <span class="miga-separador">›</span>
+        <a class="miga-modulo" href="../../index.html">DIW</a>
+        <span class="miga-separador">›</span>
+        <a class="miga-modulo" href="../index.html">UT5</a>
+        <span class="miga-separador">›</span>
+        <span class="miga-actual">Resumen</span>
+      </div>
+
+      <h1>✏️ Resumen de la UT5</h1>
+
+      <div class="introduccion-ut">
+        <p>En esta unidad hemos estudiado cómo <strong>definir la presentación visual de una interfaz web mediante CSS</strong>, separando el contenido y la estructura HTML de las decisiones de diseño.</p>
+        <p>Este resumen reúne las ideas esenciales de los apartados 5.1 a 5.10 para utilizarlo como <strong>guía rápida de repaso</strong> de reglas, selectores, cascada, unidades, color, tipografía, fondos, modelo de caja y efectos visuales. Al final incorporamos también la <strong>validación de CSS</strong> como parte del proceso de revisión del código.</p>
+      </div>
+
+      <section class="apartado-ut" id="vision-global">
+        <h2>Visión global de la unidad</h2>
+        <div class="mapa-resumen">
+          <div class="mapa-nodo mapa-principal">PRESENTACIÓN VISUAL DE UNA INTERFAZ WEB CON CSS</div>
+          <div class="mapa-flecha">↓</div>
+          <div class="mapa-columnas">
+            <div class="mapa-nodo"><strong>Seleccionar</strong><span>Selectores · pseudoclases · pseudoelementos</span></div>
+            <div class="mapa-nodo"><strong>Resolver estilos</strong><span>Cascada · especificidad · orden · herencia</span></div>
+            <div class="mapa-nodo"><strong>Definir valores</strong><span>Unidades · porcentajes · funciones</span></div>
+          </div>
+          <div class="mapa-flecha">↓</div>
+          <div class="mapa-columnas">
+            <div class="mapa-nodo"><strong>Diseñar</strong><span>Color · tipografía · texto · fondos</span></div>
+            <div class="mapa-nodo"><strong>Dimensionar</strong><span>Contenido · padding · border · margin · box-sizing</span></div>
+            <div class="mapa-nodo"><strong>Refinar y revisar</strong><span>Bordes · radios · sombras · validación</span></div>
+          </div>
+        </div>
+      </section>
+
+      <section class="apartado-ut" id="introduccion-css">
+        <h2>5.1 Introducción a CSS</h2>
+        <p>CSS controla principalmente la presentación visual de los elementos HTML. Una regla CSS combina un <strong>selector</strong> con un bloque de <strong>declaraciones</strong>, y cada declaración relaciona una propiedad con un valor.</p>
+        <div class="lista-claves">
+          <div><strong>En línea</strong><span>El CSS se escribe en el atributo <code>style</code> del elemento. Es útil en casos puntuales, pero dificulta la reutilización y el mantenimiento.</span></div>
+          <div><strong>Hoja interna</strong><span>Las reglas se incluyen en un elemento <code>&lt;style&gt;</code> del documento HTML.</span></div>
+          <div><strong>Hoja externa</strong><span>Las reglas se guardan en un archivo <code>.css</code> enlazado mediante <code>&lt;link rel="stylesheet"&gt;</code>. Es la opción habitual para proyectos con estilos reutilizables.</span></div>
+          <div><strong>Hoja alternativa</strong><span><code>rel="alternate stylesheet"</code> permite declarar una presentación alternativa. En la web actual, los cambios de tema suelen implementarse mediante otros mecanismos cuando se necesita una selección controlada por la aplicación.</span></div>
+        </div>
+        <div class="caja caja-importante"><span class="caja-titulo">📌 Recuerda</span><p>Separar HTML y CSS permite mantener la <strong>estructura y el contenido independientes de su presentación</strong> y facilita aplicar cambios coherentes en todo el sitio.</p></div>
+      </section>
+
+      <section class="apartado-ut" id="selectores">
+        <h2>5.2 Selectores CSS</h2>
+        <p>Los selectores determinan qué elementos recibirán una regla. Elegirlos correctamente permite aplicar estilos con precisión sin llenar el HTML de reglas repetidas.</p>
+        <div class="rejilla-resumen">
+          <div class="tarjeta-resumen"><span>*️⃣</span><strong>Universal</strong><p><code>*</code> selecciona todos los elementos dentro de su ámbito.</p></div>
+          <div class="tarjeta-resumen"><span>🏷️</span><strong>Tipo</strong><p><code>p</code>, <code>h1</code> o <code>button</code> seleccionan elementos por su nombre de etiqueta.</p></div>
+          <div class="tarjeta-resumen"><span>🔹</span><strong>Clase</strong><p><code>.aviso</code> selecciona los elementos que comparten una clase y favorece la reutilización.</p></div>
+          <div class="tarjeta-resumen"><span>#️⃣</span><strong>ID</strong><p><code>#cabecera</code> selecciona el elemento que posee ese identificador.</p></div>
+          <div class="tarjeta-resumen"><span>🔎</span><strong>Atributo</strong><p><code>[required]</code> o <code>input[type="email"]</code> seleccionan según la presencia o el valor de atributos.</p></div>
+          <div class="tarjeta-resumen"><span>🔗</span><strong>Combinadores</strong><p>Permiten seleccionar elementos según relaciones de descendencia, hijos o hermanos.</p></div>
+        </div>
+      </section>
+
+      <section class="apartado-ut" id="pseudo">
+        <h2>5.3 Pseudoclases y pseudoelementos</h2>
+        <p>Las pseudoclases permiten seleccionar elementos según un <strong>estado o condición</strong>; los pseudoelementos permiten aplicar estilos a una <strong>parte o abstracción del elemento</strong>.</p>
+        <div class="lista-claves">
+          <div><strong>Estados</strong><span><code>:hover</code>, <code>:active</code>, <code>:focus</code>, <code>:focus-visible</code>, <code>:checked</code> o <code>:disabled</code>.</span></div>
+          <div><strong>Estructura</strong><span>Pseudoclases estructurales permiten seleccionar elementos según su posición o relación dentro del documento.</span></div>
+          <div><strong><code>::before</code> y <code>::after</code></strong><span>Crean pseudoelementos asociados al elemento seleccionado y pueden incorporar contenido generado con CSS.</span></div>
+          <div><strong>Otros pseudoelementos</strong><span><code>::first-letter</code>, <code>::first-line</code>, <code>::selection</code>, <code>::placeholder</code> o <code>::marker</code> permiten actuar sobre partes concretas.</span></div>
+        </div>
+        <div class="caja caja-atencion"><span class="caja-titulo">⚠️ Atención</span><p>Los efectos de interacción no deben depender únicamente del ratón. Estados como <code>:focus</code> y <code>:focus-visible</code> son importantes para que el foco del teclado pueda percibirse.</p></div>
+      </section>
+
+      <section class="apartado-ut" id="cascada">
+        <h2>5.4 Cascada, especificidad y herencia</h2>
+        <p>Cuando varias declaraciones pueden afectar a un mismo elemento y propiedad, CSS debe determinar cuál se aplica. Para comprender el resultado hay que distinguir <strong>cascada, especificidad, orden e herencia</strong>.</p>
+        <div class="lista-claves">
+          <div><strong>Cascada</strong><span>Es el mecanismo general mediante el que CSS resuelve las declaraciones que compiten entre sí.</span></div>
+          <div><strong>Especificidad</strong><span>Compara el peso de los selectores. Un identificador tiene mayor especificidad que una clase, y una clase mayor que un selector de tipo.</span></div>
+          <div><strong>Orden</strong><span>Cuando las declaraciones comparadas tienen la misma prioridad, el orden puede decidir cuál prevalece.</span></div>
+          <div><strong>Herencia</strong><span>Algunas propiedades pueden transmitir su valor desde un elemento antecesor a sus descendientes.</span></div>
+        </div>
+        <div class="caja caja-atencion"><span class="caja-titulo">⚠️ <code>!important</code></span><p>No debe utilizarse como solución habitual para resolver conflictos. Un uso excesivo hace más difícil comprender y mantener la cascada.</p></div>
+      </section>
+
+      <section class="apartado-ut" id="unidades">
+        <h2>5.5 Unidades y valores en CSS</h2>
+        <p>Las propiedades CSS aceptan distintos tipos de valores. Elegir una unidad adecuada depende de qué estamos midiendo y de cómo queremos que ese valor se relacione con el resto de la interfaz.</p>
+        <div class="lista-claves">
+          <div><strong>Absolutas</strong><span><code>px</code> es una unidad muy utilizada para determinadas medidas en pantalla.</span></div>
+          <div><strong>Relativas</strong><span><code>em</code>, <code>rem</code>, <code>vw</code> y <code>vh</code> dependen de otras referencias y permiten expresar relaciones entre tamaños.</span></div>
+          <div><strong>Porcentajes</strong><span><code>%</code> expresa un valor relativo a una referencia que depende de la propiedad y del contexto.</span></div>
+          <div><strong>Funciones</strong><span><code>calc()</code>, <code>min()</code>, <code>max()</code> y <code>clamp()</code> permiten calcular o limitar valores.</span></div>
+        </div>
+        <div class="caja caja-importante"><span class="caja-titulo">📌 Recuerda</span><p>No existe una única unidad correcta para todo el sitio. Debemos elegirla según el <strong>tipo de propiedad, la referencia que necesitamos y el comportamiento deseado</strong>.</p></div>
+      </section>
+
+      <section class="apartado-ut" id="colores">
+        <h2>5.6 Colores en CSS</h2>
+        <p>CSS permite expresar colores mediante distintos formatos y reutilizarlos de forma coherente para aplicar la paleta definida en la guía de estilo.</p>
+        <div class="rejilla-resumen">
+          <div class="tarjeta-resumen"><span>🔤</span><strong>Nombres</strong><p>Palabras clave como <code>black</code>, <code>white</code> o <code>red</code>.</p></div>
+          <div class="tarjeta-resumen"><span>#️⃣</span><strong>Hexadecimal</strong><p>Valores como <code>#1f6f43</code> representan componentes de color mediante notación hexadecimal.</p></div>
+          <div class="tarjeta-resumen"><span>🎨</span><strong>RGB</strong><p><code>rgb()</code> expresa los componentes rojo, verde y azul y puede incorporar transparencia.</p></div>
+          <div class="tarjeta-resumen"><span>🌈</span><strong>HSL</strong><p><code>hsl()</code> representa el color mediante matiz, saturación y luminosidad.</p></div>
+          <div class="tarjeta-resumen"><span>🔁</span><strong><code>currentColor</code></strong><p>Permite reutilizar en otras propiedades el valor calculado de <code>color</code>.</p></div>
+          <div class="tarjeta-resumen"><span>🧩</span><strong>Variables CSS</strong><p>Las propiedades personalizadas permiten centralizar valores de la identidad visual y reutilizarlos.</p></div>
+        </div>
+        <div class="caja caja-importante"><span class="caja-titulo">📌 Diseño coherente</span><p>La elección de colores no debe hacerse de forma aislada en cada regla. Conviene aplicar una <strong>paleta coherente y reutilizable</strong> y conservar suficiente contraste entre contenido y fondo.</p></div>
+      </section>
+
+      <section class="apartado-ut" id="tipografia">
+        <h2>5.7 Tipografía y texto</h2>
+        <p>Las propiedades tipográficas permiten trasladar a CSS las decisiones de jerarquía y legibilidad definidas durante el diseño de la interfaz.</p>
+        <div class="lista-claves">
+          <div><strong>Familia</strong><span><code>font-family</code> establece una lista ordenada de familias tipográficas alternativas.</span></div>
+          <div><strong>Tamaño</strong><span><code>font-size</code> controla el tamaño del texto.</span></div>
+          <div><strong>Estilo y grosor</strong><span><code>font-style</code> y <code>font-weight</code> modifican características de la fuente.</span></div>
+          <div><strong>Interlineado</strong><span><code>line-height</code> controla la separación entre líneas de texto.</span></div>
+          <div><strong>Alineación</strong><span><code>text-align</code> controla la alineación; valores lógicos como <code>start</code> y <code>end</code> se adaptan a la dirección de escritura.</span></div>
+          <div><strong>Otras propiedades</strong><span><code>text-decoration</code>, <code>text-transform</code>, espaciado, sangría, espacios en blanco y ajuste de palabras completan el tratamiento textual.</span></div>
+        </div>
+      </section>
+
+      <section class="apartado-ut" id="fondos">
+        <h2>5.8 Fondos</h2>
+        <p>El fondo forma parte de la presentación del elemento y puede combinar colores e imágenes sin introducir contenido estructural adicional en HTML.</p>
+        <div class="lista-claves">
+          <div><strong><code>background-color</code></strong><span>Define el color de fondo.</span></div>
+          <div><strong><code>background-image</code></strong><span>Permite utilizar una o varias imágenes de fondo mediante <code>url()</code> u otros valores admitidos.</span></div>
+          <div><strong>Repetición y posición</strong><span><code>background-repeat</code> y <code>background-position</code> controlan cómo se distribuye y sitúa la imagen.</span></div>
+          <div><strong>Tamaño</strong><span><code>background-size</code> permite definir dimensiones y utilizar valores como <code>cover</code> o <code>contain</code>.</span></div>
+        </div>
+        <div class="caja caja-atencion"><span class="caja-titulo">⚠️ Propiedad abreviada</span><p><code>background</code> permite combinar varias propiedades de fondo, pero al utilizar una propiedad abreviada podemos reinicializar valores que no se hayan especificado expresamente.</p></div>
+      </section>
+
+      <section class="apartado-ut" id="modelo-caja">
+        <h2>5.9 El modelo de caja</h2>
+        <p>CSS representa los elementos mediante cajas formadas por distintas áreas. Comprender este modelo es esencial para controlar correctamente dimensiones y espacios.</p>
+        <div class="mapa-resumen">
+          <div class="mapa-nodo mapa-principal">MARGEN → BORDE → PADDING → CONTENIDO</div>
+        </div>
+        <div class="lista-claves">
+          <div><strong>Content</strong><span>Área en la que se encuentra el contenido del elemento.</span></div>
+          <div><strong>Padding</strong><span>Espacio interior situado entre el contenido y el borde.</span></div>
+          <div><strong>Border</strong><span>Delimita la caja alrededor del contenido y el relleno.</span></div>
+          <div><strong>Margin</strong><span>Espacio exterior que separa la caja de otros elementos.</span></div>
+        </div>
+        <div class="caja caja-importante"><span class="caja-titulo">📌 <code>box-sizing</code></span><p>Con <code>content-box</code>, <code>width</code> se refiere al área de contenido y el padding y el borde se añaden a esa anchura. Con <code>border-box</code>, la anchura declarada incluye contenido, padding y borde, lo que suele facilitar el control de las dimensiones.</p></div>
+      </section>
+
+      <section class="apartado-ut" id="efectos">
+        <h2>5.10 Bordes, esquinas y sombras</h2>
+        <p>Bordes, radios y sombras permiten reforzar la jerarquía visual y la identidad de los componentes, siempre que se utilicen de forma coherente y no dificulten la lectura.</p>
+        <div class="rejilla-resumen">
+          <div class="tarjeta-resumen"><span>▣</span><strong>Bordes</strong><p><code>border-width</code>, <code>border-style</code> y <code>border-color</code> controlan sus características; <code>border</code> permite abreviarlas.</p></div>
+          <div class="tarjeta-resumen"><span>◯</span><strong>Esquinas</strong><p><code>border-radius</code> redondea las esquinas y admite valores distintos para cada una.</p></div>
+          <div class="tarjeta-resumen"><span>🌫️</span><strong>Sombras de caja</strong><p><code>box-shadow</code> utiliza desplazamientos y puede añadir desenfoque, expansión, color e <code>inset</code>.</p></div>
+          <div class="tarjeta-resumen"><span>🔤</span><strong>Sombras de texto</strong><p><code>text-shadow</code> aplica sombras al texto; no dispone del valor de expansión de <code>box-shadow</code>.</p></div>
+          <div class="tarjeta-resumen"><span>⌖</span><strong><code>outline</code></strong><p>Se dibuja alrededor del elemento sin modificar sus dimensiones y resulta especialmente útil para representar el foco.</p></div>
+          <div class="tarjeta-resumen"><span>🎯</span><strong>Coherencia</strong><p>Radios, bordes y sombras deben seguir criterios comunes de la guía de estilo y responder a una función visual.</p></div>
+        </div>
+      </section>
+
+      <section class="apartado-ut" id="validacion-css">
+        <h2>Validación y revisión del CSS</h2>
+        <p>Además de comprobar visualmente una interfaz en el navegador, conviene revisar que la hoja de estilos está correctamente escrita. Un <strong>validador CSS</strong> analiza el código conforme a las reglas del lenguaje y puede ayudar a localizar errores de sintaxis o declaraciones incorrectas.</p>
+        <div class="lista-claves">
+          <div><strong>Validar</strong><span>Podemos utilizar un servicio de validación CSS para analizar una hoja de estilos o el CSS asociado a un documento.</span></div>
+          <div><strong>Interpretar</strong><span>Hay que distinguir entre errores que deben corregirse y avisos que requieren analizar su contexto antes de decidir qué hacer.</span></div>
+          <div><strong>Corregir</strong><span>Tras localizar un problema, se modifica el código y se vuelve a ejecutar la validación para comprobar el resultado.</span></div>
+          <div><strong>Comprobar</strong><span>La validación no sustituye las pruebas visuales, de compatibilidad, accesibilidad o usabilidad.</span></div>
+        </div>
+        <div class="caja caja-importante">
+          <span class="caja-titulo">📌 Flujo de trabajo recomendado</span>
+          <p><strong>Escribir → probar en el navegador → validar → corregir → volver a probar.</strong> La validación forma parte de la revisión técnica del CSS, pero una hoja válida no garantiza por sí sola que el diseño sea adecuado.</p>
+        </div>
+      </section>
+
+      <section class="apartado-ut" id="ideas-clave">
+        <h2>Ideas clave de la UT5</h2>
+        <div class="caja caja-importante resumen-final">
+          <span class="caja-titulo">📌 Si tuvieras que recordar solo estas ideas…</span>
+          <ul>
+            <li><strong>CSS define principalmente la presentación visual</strong> de los elementos HTML y permite separar estructura y diseño.</li>
+            <li>Una regla CSS combina un <strong>selector</strong> con declaraciones formadas por propiedades y valores.</li>
+            <li>Las <strong>clases</strong> son fundamentales para crear estilos reutilizables; los selectores también pueden basarse en etiquetas, identificadores, atributos y relaciones entre elementos.</li>
+            <li>Las <strong>pseudoclases</strong> seleccionan según estados o condiciones y los <strong>pseudoelementos</strong> permiten actuar sobre partes o abstracciones de un elemento.</li>
+            <li>Para entender por qué se aplica un estilo debemos distinguir <strong>cascada, especificidad, orden e herencia</strong>; <code>!important</code> no debe convertirse en una solución habitual.</li>
+            <li>Las unidades y funciones CSS permiten expresar tamaños y relaciones de forma adecuada al contexto.</li>
+            <li>Color y tipografía deben aplicar de forma coherente las decisiones de la <strong>guía de estilo</strong>.</li>
+            <li>Los fondos forman parte de la presentación; las imágenes que aportan contenido significativo deben incorporarse mediante HTML cuando corresponda.</li>
+            <li>El <strong>modelo de caja</strong> está formado por contenido, padding, borde y margen; <code>box-sizing: border-box</code> facilita habitualmente el control de dimensiones.</li>
+            <li>Bordes, radios y sombras deben reforzar la jerarquía y la identidad visual sin introducir ruido innecesario.</li>
+            <li>Una hoja CSS debe ser <strong>legible, coherente, mantenible y validada</strong>; validar ayuda a detectar problemas, pero no garantiza por sí solo un buen diseño, accesibilidad o usabilidad.</li>
+          </ul>
+        </div>
+      </section>
+
+      <nav class="navegacion-paginas">
+        <a class="nav-pagina nav-anterior" href="../5-10/index.html">
+          <span class="nav-etiqueta">Anterior</span>
+          <strong>‹ 5.10 Bordes, esquinas y sombras</strong>
+        </a>
+        <a class="nav-pagina nav-siguiente" href="../actividades/index.html">
+          <span class="nav-etiqueta">Siguiente</span>
+          <strong>📝 Actividades de la UT5 ›</strong>
+        </a>
+      </nav>
+    </main>
+
+    <aside class="indice-derecho">
+      <h2>Contenidos del resumen</h2>
+      <ul>
+        <li><a href="#vision-global">Visión global</a></li>
+        <li><a href="#introduccion-css">5.1 Introducción a CSS</a></li>
+        <li><a href="#selectores">5.2 Selectores CSS</a></li>
+        <li><a href="#pseudo">5.3 Pseudoclases y pseudoelementos</a></li>
+        <li><a href="#cascada">5.4 Cascada, especificidad y herencia</a></li>
+        <li><a href="#unidades">5.5 Unidades y valores</a></li>
+        <li><a href="#colores">5.6 Colores</a></li>
+        <li><a href="#tipografia">5.7 Tipografía y texto</a></li>
+        <li><a href="#fondos">5.8 Fondos</a></li>
+        <li><a href="#modelo-caja">5.9 Modelo de caja</a></li>
+        <li><a href="#efectos">5.10 Bordes, esquinas y sombras</a></li>
+        <li><a href="#validacion-css">Validación de CSS</a></li>
+        <li><a href="#ideas-clave">Ideas clave</a></li>
+      </ul>
+    </aside>
+  </div>
+
+  <footer class="footer">
+    <p>
+      Material elaborado por <strong>Eva Ballestero Cubeles</strong> · Licencia
+      <span class="licencia">CC BY-NC-SA 4.0</span>
+      <a class="enlace-licencia"
+        href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.es"
+        target="_blank" rel="license noopener noreferrer"
+        aria-label="Licencia Creative Commons BY-NC-SA 4.0">
+        <img class="icono-licencia" src="../../../img/licencias/cc-by-nc-sa.png"
+          alt="Licencia Creative Commons BY-NC-SA 4.0">
+      </a>
+    </p>
+  </footer>
+
+  <script src="../../../js/modulos.js"></script>
+  <script>
+    const menuModulos = document.getElementById("menuModulos");
+    const botonTema = document.getElementById("botonTema");
+    const modulosActivos = modulos.filter(modulo => modulo.activo === true);
+
+    modulosActivos.forEach(modulo => {
+      const enlace = document.createElement("a");
+      enlace.href = `../../../${modulo.carpeta}/index.html`;
+      enlace.textContent = modulo.siglas;
+      enlace.title = modulo.nombre;
+      if (modulo.siglas === "DIW") {
+        enlace.style.color = "var(--verde-principal)";
+      }
+      menuModulos.appendChild(enlace);
+    });
+
+    const temaGuardado = localStorage.getItem("tema");
+    if (temaGuardado === "oscuro") {
+      document.body.classList.add("modo-oscuro");
+      botonTema.textContent = "🌙";
+    }
+
+    botonTema.addEventListener("click", () => {
+      document.body.classList.toggle("modo-oscuro");
+      const estaOscuro = document.body.classList.contains("modo-oscuro");
+      botonTema.textContent = estaOscuro ? "🌙" : "☀️";
+      localStorage.setItem("tema", estaOscuro ? "oscuro" : "claro");
+    });
+
+    const botonesDesplegar = document.querySelectorAll(".boton-desplegar");
+    botonesDesplegar.forEach((boton) => {
+      boton.addEventListener("click", () => {
+        const idSubmenu = boton.getAttribute("data-target");
+        const submenu = document.getElementById(idSubmenu);
+        if (!submenu) return;
+        const estaAbierto = submenu.classList.contains("submenu-abierto");
+        if (estaAbierto) {
+          submenu.classList.remove("submenu-abierto");
+          boton.textContent = "›";
+          boton.setAttribute("aria-expanded", "false");
+        } else {
+          submenu.classList.add("submenu-abierto");
+          boton.textContent = "⌄";
+          boton.setAttribute("aria-expanded", "true");
+        }
+      });
+    });
+  </script>
+</body>
+</html>
