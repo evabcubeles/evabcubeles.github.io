@@ -1369,6 +1369,12 @@ body.modo-oscuro .solucion-desplegable summary {
         <h2 id="box-shadow">Sombras de caja</h2>
         <p>La propiedad <code>box-shadow</code> permite aplicar una o varias sombras a la caja de un elemento. Una sintaxis habitual es:</p>
         <div class="anatomia-elemento"><code>box-shadow: desplazamiento-x desplazamiento-y desenfoque expansión color;</code></div>
+        <p>
+  Los dos desplazamientos son los valores de longitud necesarios para definir
+  la posición de la sombra. El desenfoque y la expansión son opcionales.
+  También pueden añadirse un color y la palabra clave <code>inset</code>
+  para crear una sombra interior.
+</p>
         <div class="tabla-responsive"><table class="tabla-apuntes"><thead><tr><th>Valor</th><th>Función</th></tr></thead><tbody>
           <tr><td>Desplazamiento horizontal</td><td>Mueve la sombra hacia la derecha con valores positivos y hacia la izquierda con negativos.</td></tr>
           <tr><td>Desplazamiento vertical</td><td>Mueve la sombra hacia abajo con valores positivos y hacia arriba con negativos.</td></tr>
@@ -1417,6 +1423,14 @@ body.modo-oscuro .solucion-desplegable summary {
 
         <h3>Bordes y foco de teclado</h3>
         <p>El contorno de foco que muestra el navegador al navegar con el teclado es importante para saber qué elemento está activo. La propiedad <code>outline</code> no forma parte del borde ni ocupa espacio en el modelo de caja.</p>
+        <div class="caja caja-importante">
+  <span class="caja-titulo">📌 <code>border</code> frente a <code>outline</code></span>
+  <p>
+    A diferencia de <code>border</code>, <code>outline</code> se dibuja alrededor
+    del elemento sin modificar sus dimensiones. Por ello resulta especialmente
+    útil para mostrar el foco de los elementos interactivos.
+  </p>
+</div>
         <div class="codigo-ejemplo"><div class="codigo-cabecera"><span>CSS</span><button class="boton-copiar" type="button">Copiar</button></div><pre><code>.boton:focus-visible {
   outline: 3px solid #1f6f43;
   outline-offset: 3px;
