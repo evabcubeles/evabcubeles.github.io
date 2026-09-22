@@ -1154,6 +1154,7 @@ body.modo-oscuro .solucion-desplegable summary {
               <a href="#reglas-css">Reglas CSS: selector y declaración</a>
               <a href="#propiedades-valores">Propiedades y valores</a>
               <a href="#incorporar-css">Formas de incorporar CSS</a>
+              <a href="#estilos-alternativos">Hojas de estilo alternativas</a>
               <a href="#organizacion-css">Organización básica de una hoja de estilos</a>
             </div>
           </div>
@@ -1573,6 +1574,68 @@ body.modo-oscuro .solucion-desplegable summary {
           centralizar los cambios de diseño y mantener mejor separadas la estructura y la presentación.
           Será la forma que utilizaremos habitualmente en los ejemplos y proyectos del módulo.
         </p>
+        <h3 id="estilos-alternativos">Hojas de estilo alternativas</h3>
+
+<p>
+  Un mismo documento HTML puede disponer de <strong>varias hojas de estilo</strong>
+  que permitan presentar su contenido con apariencias diferentes. Estas se conocen
+  como <strong>hojas de estilo alternativas</strong>.
+</p>
+
+<p>
+  En HTML podemos indicar una hoja de estilo principal mediante
+  <code>rel="stylesheet"</code> y declarar otras como alternativas utilizando
+  <code>rel="alternate stylesheet"</code> y el atributo <code>title</code>.
+</p>
+
+<div class="codigo-ejemplo">
+  <div class="codigo-cabecera">
+    <span>HTML</span>
+    <button class="boton-copiar" type="button">Copiar</button>
+  </div>
+  <pre><code>&lt;link rel="stylesheet" href="css/estilos.css"&gt;
+
+&lt;link
+  rel="alternate stylesheet"
+  href="css/alto-contraste.css"
+  title="Alto contraste"
+&gt;</code></pre>
+</div>
+
+<p>
+  En este ejemplo, <code>estilos.css</code> contiene la presentación principal
+  del sitio, mientras que <code>alto-contraste.css</code> define una presentación
+  alternativa.
+</p>
+
+<div class="caja caja-importante">
+  <span class="caja-titulo">📌 Importante</span>
+  <p>
+    Las hojas de estilo alternativas permiten separar el contenido de sus distintas
+    presentaciones. El documento HTML puede mantenerse igual mientras cambia la
+    apariencia aplicada mediante CSS.
+  </p>
+</div>
+
+<div class="caja caja-atencion">
+  <span class="caja-titulo">⚠️ En la web actual</span>
+  <p>
+    Aunque HTML permite declarar hojas de estilo alternativas, los navegadores
+    actuales no siempre ofrecen al usuario una interfaz para seleccionarlas.
+    Por ello, en aplicaciones web modernas es habitual implementar cambios de tema
+    mediante clases o atributos en el documento, propiedades personalizadas de CSS
+    y, cuando es necesario, JavaScript.
+  </p>
+</div>
+
+<div class="caja caja-ejemplo">
+  <span class="caja-titulo">💻 Ejemplo DAW</span>
+  <p>
+    StudyFlow podría disponer de una presentación principal y otra de alto contraste.
+    Ambas mantendrían la misma estructura HTML y el mismo contenido, pero aplicarían
+    diferentes decisiones visuales mediante CSS.
+  </p>
+</div>
 
         <div class="tabla-responsive">
           <table class="tabla-apuntes">
@@ -1710,6 +1773,7 @@ h1 {
         <li><a href="#reglas-css">Reglas CSS: selector y declaración</a></li>
         <li><a href="#propiedades-valores">Propiedades y valores</a></li>
         <li><a href="#incorporar-css">Formas de incorporar CSS</a></li>
+        <li><a href="#estilos-alternativos">Hojas de estilo alternativas</a></li>
         <li><a href="#organizacion-css">Organización básica de una hoja de estilos</a></li>
       </ul>
     </aside>
