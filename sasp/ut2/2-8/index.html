@@ -1,0 +1,1475 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+  <meta charset="UTF-8">
+
+  <meta
+    name="viewport"
+    content="width=device-width, initial-scale=1.0"
+  >
+
+  <meta
+    name="description"
+    content="2.8 - Medidas para reducir los impactos ambientales."
+  >
+
+  <title>2.8 - Medidas para reducir los impactos ambientales</title>
+
+  <link rel="icon" type="image/png" href="../../../img/favicon.png?v=5">
+  <link rel="stylesheet" href="../../../css/estilos.css">
+
+  <style>
+
+    /* ==========================================
+       ESTRUCTURA DE LA UT
+    ========================================== */
+
+    .pagina-ut {
+      display: grid;
+      grid-template-columns: 280px 1fr 260px;
+      min-height: calc(100vh - 68px);
+    }
+
+
+    /* ==========================================
+       COLUMNA IZQUIERDA
+    ========================================== */
+
+    .sidebar {
+      border-right: 1px solid var(--borde);
+      background-color: var(--fondo-pagina);
+
+      padding: 12px 10px 30px;
+
+      position: sticky;
+      top: 68px;
+
+      height: calc(100vh - 68px);
+      overflow-y: auto;
+    }
+
+    .sidebar-modulo {
+      display: block;
+      margin-bottom: 8px;
+      padding: 8px 14px;
+      color: #626873;
+      font-size: 17px;
+      font-weight: 700;
+      line-height: 1.3;
+      text-decoration: none;
+      border-radius: 6px;
+      transition:
+        color 0.2s ease,
+        background-color 0.2s ease;
+    }
+
+    .sidebar-modulo:hover {
+      color: var(--verde-principal);
+      background-color: #f3f4f6;
+    }
+
+    body.modo-oscuro .sidebar-modulo:hover {
+      background-color: #273244;
+    }
+
+    .sidebar-ut {
+      margin-bottom: 12px;
+      padding: 10px 14px;
+
+      background-color: #f1f1f1;
+      border-radius: 5px;
+
+      color: var(--verde-principal);
+
+      font-size: 17px;
+      font-weight: 700;
+      line-height: 1.35;
+    }
+    .sidebar-ut-activa {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+    }
+
+    .flecha-ut-abierta {
+      flex-shrink: 0;
+      font-size: 22px;
+      color: #777;
+    }
+
+    .sidebar-ut-cerrada {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      padding: 13px 14px;
+      color: #626873;
+      text-decoration: none;
+      font-size: 16px;
+      font-weight: 650;
+      line-height: 1.35;
+      border-radius: 6px;
+      transition:
+      background-color 0.2s ease,
+      color 0.2s ease;
+    }
+
+    .sidebar-ut-cerrada:hover {
+      background-color: #f3f4f6;
+      color: var(--verde-principal);
+    }
+
+    body.modo-oscuro .sidebar-ut-cerrada:hover {
+      background-color: #273244;
+    }
+
+    body.modo-oscuro .sidebar-ut {
+      background-color: #273244;
+      color: #5ed28a;
+    }
+
+    .lista-apartados {
+      list-style: none;
+      margin: 0;
+      padding: 0;
+    }
+
+    .enlace-apartado {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+
+      padding: 11px 14px;
+
+      color: #626873;
+
+      text-decoration: none;
+
+      font-size: 15px;
+      font-weight: 600;
+      line-height: 1.4;
+
+      border-radius: 6px;
+
+      transition:
+        background-color 0.2s ease,
+        color 0.2s ease;
+    }
+
+    .enlace-apartado:hover {
+      background-color: #f3f4f6;
+      color: var(--verde-principal);
+    }
+
+    body.modo-oscuro .enlace-apartado:hover {
+      background-color: #273244;
+    }
+
+    .flecha-apartado {
+      flex-shrink: 0;
+
+      color: #8b8b8b;
+
+      font-size: 22px;
+    }
+    /* ==========================================
+   MENÚ LATERAL DESPLEGABLE
+========================================== */
+
+.menu-desplegable {
+  width: 100%;
+}
+
+
+/* Cabecera de una UT o de un apartado */
+
+.menu-cabecera {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+
+  width: 100%;
+
+  border-radius: 6px;
+}
+
+
+/* UT en la que estamos actualmente */
+
+.menu-cabecera-activa {
+  background-color: #f1f1f1;
+}
+
+.menu-cabecera-activa > .menu-titulo {
+  color: var(--verde-principal);
+}
+
+
+/* Texto/enlace de la UT o apartado */
+
+.menu-titulo {
+  flex: 1;
+
+  display: block;
+
+  padding: 11px 8px 11px 14px;
+
+  color: #626873;
+
+  font-size: 16px;
+  font-weight: 650;
+  line-height: 1.4;
+
+  text-decoration: none;
+}
+
+.menu-titulo:hover {
+  color: var(--verde-principal);
+}
+
+
+/* Botón de la flecha */
+
+.boton-desplegar {
+  width: 36px;
+  height: 36px;
+
+  margin-right: 5px;
+  padding: 0;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  flex-shrink: 0;
+
+  border: 0;
+  border-radius: 6px;
+
+  background: transparent;
+
+  color: #777;
+
+  font-family: inherit;
+  font-size: 24px;
+  line-height: 1;
+
+  cursor: pointer;
+}
+
+.boton-desplegar:hover {
+  background-color: #e5e7eb;
+  color: var(--verde-principal);
+}
+
+
+/* ==========================================
+   CONTENIDO DESPLEGABLE
+========================================== */
+
+.submenu {
+  display: none;
+}
+
+.submenu.submenu-abierto {
+  display: block;
+}
+
+
+/* ==========================================
+   APARTADOS DE UNA UT
+========================================== */
+
+.menu-apartado {
+  margin-left: 14px;
+}
+
+.menu-apartado .menu-titulo {
+  padding-top: 9px;
+  padding-bottom: 9px;
+
+  font-size: 15px;
+  font-weight: 600;
+}
+
+
+/* Apartados que NO tienen subapartados */
+
+.enlace-apartado-simple {
+  display: block;
+
+  margin-left: 14px;
+  padding: 10px 14px;
+
+  color: #626873;
+
+  font-size: 15px;
+  font-weight: 600;
+  line-height: 1.4;
+
+  text-decoration: none;
+
+  border-radius: 6px;
+
+  transition:
+    background-color 0.2s ease,
+    color 0.2s ease;
+}
+
+.enlace-apartado-simple:hover {
+  background-color: #f3f4f6;
+  color: var(--verde-principal);
+}
+
+
+/* ==========================================
+   SUBAPARTADOS DE LOS APARTADOS
+========================================== */
+
+.submenu-apartados {
+  margin: 2px 0 5px 28px;
+
+  border-left: 2px solid #e0e3e7;
+}
+
+.submenu-apartados a {
+  display: block;
+
+  padding: 7px 10px;
+
+  color: #777d87;
+
+  font-size: 14px;
+  font-weight: 500;
+  line-height: 1.35;
+
+  text-decoration: none;
+}
+
+.submenu-apartados a:hover {
+  color: var(--verde-principal);
+}
+
+
+/* ==========================================
+   MODO OSCURO DEL MENÚ
+========================================== */
+
+body.modo-oscuro .menu-cabecera-activa {
+  background-color: #273244;
+}
+
+body.modo-oscuro .boton-desplegar:hover {
+  background-color: #334155;
+}
+
+body.modo-oscuro .enlace-apartado-simple:hover {
+  background-color: #273244;
+}
+
+body.modo-oscuro .submenu-apartados {
+  border-left-color: #3a4659;
+}
+
+
+    /* ==========================================
+       ZONA CENTRAL
+    ========================================== */
+
+    .contenido-ut {
+      padding: 28px 34px 70px;
+
+      max-width: 1150px;
+      width: 100%;
+    }
+
+    .migas {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+
+      margin-bottom: 30px;
+
+      font-size: 14px;
+    }
+
+    .miga-inicio {
+      text-decoration: none;
+      font-size: 18px;
+    }
+
+    .miga-separador {
+      color: #999;
+      font-size: 22px;
+    }
+
+    .miga-modulo {
+      color: var(--texto-secundario);
+      text-decoration: none;
+    }
+
+    .miga-modulo:hover {
+      color: var(--verde-principal);
+    }
+
+    .miga-actual {
+      padding: 8px 14px;
+
+      background-color: #f3f3f3;
+      border-radius: 24px;
+
+      color: var(--verde-principal);
+    }
+
+    body.modo-oscuro .miga-actual {
+      background-color: #273244;
+    }
+
+    .contenido-ut h1 {
+      margin: 0 0 30px;
+
+      font-size: clamp(38px, 5vw, 58px);
+      line-height: 1.12;
+    }
+
+    .introduccion-ut {
+      max-width: 980px;
+
+      font-size: 19px;
+      line-height: 1.75;
+    }
+
+    .introduccion-ut p {
+      margin: 0 0 20px;
+    }
+    /* ==========================================
+     CONTENIDO DE LOS APARTADOS
+    ========================================== */
+
+    .apartado-ut {
+      margin-top: 55px;
+      scroll-margin-top: 95px;
+    }
+
+    .apartado-ut h2 {
+      margin: 0 0 24px;
+      font-size: 32px;
+      line-height: 1.2;
+    }
+
+    .apartado-ut h3 {
+      margin: 34px 0 16px;
+      font-size: 24px;
+      line-height: 1.3;
+    }
+
+    .apartado-ut p {
+      margin: 0 0 18px;
+      font-size: 18px;
+      line-height: 1.75;
+    }
+
+    .apartado-ut ul {
+      margin: 16px 0 24px;
+      padding-left: 28px;
+    }
+
+    .apartado-ut li {
+      margin-bottom: 10px;
+      font-size: 17px;
+      line-height: 1.6;
+    }
+
+
+    /* ==========================================
+     CAJAS DE LOS APUNTES
+    ========================================== */
+
+    .caja {
+      margin: 28px 0;
+      padding: 18px 20px;
+      border-left: 5px solid;
+      border-radius: 8px;
+      line-height: 1.65;
+    }
+
+    .caja p {
+      margin: 0;
+      font-size: 17px;
+    }
+
+    .caja-titulo {
+      display: block;
+      margin-bottom: 8px;
+      font-size: 17px;
+      font-weight: 700;
+    }
+
+    .caja-importante {
+      background-color: #eef8f1;
+      border-left-color: #2f9e5b;
+    }
+
+    .caja-atencion {
+      background-color: #fff7e8;
+      border-left-color: #e09b27;
+    }
+
+    .caja-ejemplo {
+      background-color: #eef5ff;
+      border-left-color: #3f7acb;
+    }
+
+    .caja-curiosidad {
+      background-color: #f7f1ff;
+      border-left-color: #8b5cc7;
+    }
+
+    body.modo-oscuro .caja-importante {
+      background-color: #20372a;
+    }
+
+    body.modo-oscuro .caja-atencion {
+      background-color: #3b3020;
+    }
+
+    body.modo-oscuro .caja-ejemplo {
+      background-color: #23344a;
+    }
+
+    body.modo-oscuro .caja-curiosidad {
+      background-color: #332944;
+    }
+
+
+    /* ==========================================
+      TABLAS
+    ========================================== */
+
+    .tabla-responsive {
+      width: 100%;
+      margin: 28px 0;
+      overflow-x: auto;
+    }
+
+    .tabla-apuntes {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 16px;
+    }
+
+    .tabla-apuntes th,
+    .tabla-apuntes td {
+      padding: 14px 16px;
+      border: 1px solid var(--borde);
+      text-align: left;
+      vertical-align: top;
+      line-height: 1.55;
+    }
+
+    .tabla-apuntes th {
+      background-color: #f1f3f5;
+      font-weight: 700;
+    }
+
+    body.modo-oscuro .tabla-apuntes th {
+      background-color: #273244;
+    }
+
+
+    /* ==========================================
+     ESQUEMA VISUAL
+    ========================================== */
+
+    .esquema-sostenibilidad {
+      max-width: 520px;
+      margin: 30px auto;
+      padding: 24px;
+      text-align: center;
+    }
+
+    .esquema-caja {
+      padding: 16px 20px;
+      background-color: var(--fondo-tarjeta);
+      border: 1px solid var(--borde);
+      border-radius: 10px;
+      font-size: 18px;
+      font-weight: 700;
+    }
+
+    .esquema-flecha {
+      margin: 8px 0;
+      color: var(--verde-principal);
+      font-size: 26px;
+      font-weight: 700;
+    }
+
+    .esquema-texto {
+      margin: 0 0 8px;
+      color: var(--texto-secundario);
+      font-size: 15px;
+    }
+
+
+    /* ==========================================
+     ACTIVIDAD DE REFLEXIÓN
+    ========================================== */
+
+    .actividad-reflexion {
+      margin: 32px 0;
+      padding: 22px 24px;
+      background-color: #f7f8fa;
+      border: 1px solid var(--borde);
+      border-radius: 10px;
+    }
+
+    .actividad-reflexion h3 {
+      margin: 0 0 12px;
+      color: var(--verde-principal);
+      font-size: 20px;
+    }
+
+    .actividad-reflexion p {
+      margin: 0;
+      font-size: 17px;
+      line-height: 1.65;
+    }
+
+    body.modo-oscuro .actividad-reflexion {
+      background-color: #232d3d;
+    }
+    /* ==========================================
+   SOLUCIÓN DESPLEGABLE
+========================================== */
+
+.solucion-desplegable {
+  margin-top: 20px;
+}
+
+.solucion-desplegable summary {
+  display: inline-block;
+
+  padding: 10px 16px;
+
+  background-color: #eef8f1;
+
+  border: 1px solid #b9dfc6;
+  border-radius: 7px;
+
+  color: var(--verde-principal);
+
+  font-size: 16px;
+  font-weight: 700;
+
+  cursor: pointer;
+  user-select: none;
+}
+
+.solucion-desplegable summary:hover {
+  background-color: #e2f3e7;
+}
+
+.contenido-solucion {
+  margin-top: 16px;
+
+  padding: 18px 20px;
+
+  background-color: var(--fondo-pagina);
+
+  border-left: 4px solid var(--verde-principal);
+  border-radius: 6px;
+}
+
+.contenido-solucion p {
+  margin: 0 0 12px;
+
+  font-size: 16px;
+  line-height: 1.65;
+}
+
+.contenido-solucion p:last-child {
+  margin-bottom: 0;
+}
+
+body.modo-oscuro .solucion-desplegable summary {
+  background-color: #20372a;
+  border-color: #315d40;
+}
+
+
+    /* ==========================================
+       COLUMNA DERECHA
+    ========================================== */
+
+    .indice-derecho {
+      padding: 28px 22px 100px;
+
+      border-left: 1px solid var(--borde);
+
+      position: sticky;
+      top: 68px;
+
+      height: calc(100vh - 68px);
+      overflow-y: auto;
+      box-sizing: border-box;
+    }
+
+    .indice-derecho h2 {
+      margin: 8px 0 20px;
+
+      font-size: 17px;
+      color: #555b65;
+    }
+
+    body.modo-oscuro .indice-derecho h2 {
+      color: #d1d5db;
+    }
+
+    .indice-derecho ul {
+      margin: 0;
+      padding-left: 18px;
+    }
+
+    .indice-derecho li {
+      margin-bottom: 12px;
+    }
+
+    .indice-derecho a {
+      color: var(--texto-secundario);
+
+      text-decoration: none;
+
+      font-size: 14px;
+      line-height: 1.4;
+    }
+
+    .indice-derecho a:hover {
+      color: var(--verde-principal);
+    }
+
+
+    /* ==========================================
+       NAVEGACIÓN ANTERIOR / SIGUIENTE
+    ========================================== */
+
+    .navegacion-paginas {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 20px;
+
+      margin-top: 50px;
+    }
+
+    .nav-pagina {
+      min-height: 100px;
+      padding: 18px 20px;
+
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+
+      border: 1px solid var(--borde);
+      border-radius: 8px;
+
+      text-decoration: none;
+
+      background-color: var(--fondo-tarjeta);
+    }
+
+    .nav-anterior {
+      align-items: flex-start;
+      text-align: left;
+    }
+
+    .nav-siguiente {
+      align-items: flex-end;
+      text-align: right;
+    }
+
+    .nav-etiqueta {
+      margin-bottom: 5px;
+
+      color: var(--texto-secundario);
+
+      font-size: 14px;
+    }
+
+    .nav-pagina strong {
+      color: var(--verde-principal);
+
+      font-size: 16px;
+      line-height: 1.4;
+    }
+
+    .nav-pagina:hover {
+      border-color: var(--verde-principal);
+    }
+
+
+    /* ==========================================
+       RESPONSIVE
+    ========================================== */
+
+    @media (max-width: 1100px) {
+
+      .pagina-ut {
+        grid-template-columns: 250px 1fr;
+      }
+
+      .indice-derecho {
+        display: none;
+      }
+
+    }
+
+    @media (max-width: 760px) {
+
+      .pagina-ut {
+        display: block;
+      }
+
+      .sidebar {
+        position: static;
+
+        width: 100%;
+        height: auto;
+
+        border-right: 0;
+        border-bottom: 1px solid var(--borde);
+      }
+
+      .contenido-ut {
+        padding: 28px 20px 60px;
+      }
+
+      .contenido-ut h1 {
+        font-size: 36px;
+      }
+
+      .navegacion-paginas {
+        grid-template-columns: 1fr;
+      }
+
+      .nav-siguiente {
+        align-items: flex-start;
+        text-align: left;
+      }
+
+    }
+
+  </style>
+
+</head>
+
+
+<body>
+
+  <!-- ==========================================
+       BARRA SUPERIOR
+  ========================================== -->
+
+  <header class="navbar">
+
+    <a class="inicio" href="../../../index.html">
+
+      <img
+        src="../../../img/profesora-castana.png?v=2"
+        alt=""
+        class="icono-profesora"
+      >
+
+      <span>Inicio</span>
+
+    </a>
+
+    <nav
+      id="menuModulos"
+      class="menu-modulos"
+      aria-label="Módulos formativos"
+    ></nav>
+
+    <button
+      id="botonTema"
+      class="boton-tema"
+      type="button"
+      aria-label="Cambiar entre modo claro y oscuro"
+      title="Cambiar tema"
+    >
+      ☀️
+    </button>
+
+  </header>
+
+
+  <!-- ==========================================
+       ESTRUCTURA PRINCIPAL
+  ========================================== -->
+
+  <div class="pagina-ut">
+
+
+    <!-- ==========================================
+         COLUMNA IZQUIERDA
+    ========================================== -->
+
+<aside class="sidebar">
+
+  <a class="sidebar-modulo" href="../../index.html">
+    Sostenibilidad aplicada al sistema productivo
+  </a>
+
+  <a class="sidebar-ut-cerrada" href="../../ut1/index.html">
+    <span>UT1 - Sostenibilidad, desarrollo sostenible y criterios ASG</span>
+    <span>›</span>
+  </a>
+
+  <div class="menu-desplegable">
+    <div class="menu-cabecera menu-cabecera-activa">
+      <a class="menu-titulo" href="../index.html">
+        UT2 - Retos ambientales y sociales
+      </a>
+      <button class="boton-desplegar" type="button" data-target="submenu-ut2"
+        aria-expanded="true" aria-label="Mostrar u ocultar los apartados de la UT2">⌄</button>
+    </div>
+
+    <div id="submenu-ut2" class="submenu submenu-abierto">
+
+      <div class="menu-desplegable menu-apartado">
+        <div class="menu-cabecera">
+          <a class="menu-titulo" href="../2-1/index.html">2.1 Principales retos ambientales y sociales</a>
+          <button class="boton-desplegar" type="button" data-target="submenu-2-1"
+            aria-expanded="false" aria-label="Mostrar u ocultar los subapartados del 2.1">›</button>
+        </div>
+        <div id="submenu-2-1" class="submenu submenu-apartados">
+          <a href="../2-1/index.html#que-son-retos">¿Qué entendemos por retos ambientales y sociales?</a>
+          <a href="../2-1/index.html#crisis-ambiental">La crisis ambiental</a>
+          <a href="../2-1/index.html#relacion-retos">Relación entre los retos ambientales y sociales</a>
+        </div>
+      </div>
+
+      <div class="menu-desplegable menu-apartado">
+        <div class="menu-cabecera">
+          <a class="menu-titulo" href="../2-2/index.html">2.2 Cambio climático</a>
+          <button class="boton-desplegar" type="button" data-target="submenu-2-2"
+            aria-expanded="false" aria-label="Mostrar u ocultar los subapartados del 2.2">›</button>
+        </div>
+        <div id="submenu-2-2" class="submenu submenu-apartados">
+          <a href="../2-2/index.html#tiempo-clima">Tiempo meteorológico y clima</a>
+          <a href="../2-2/index.html#que-es-cambio-climatico">¿Qué es el cambio climático?</a>
+          <a href="../2-2/index.html#causas">Causas del cambio climático</a>
+          <a href="../2-2/index.html#consecuencias">Consecuencias del cambio climático</a>
+          <a href="../2-2/index.html#respuesta">Respuesta frente al cambio climático</a>
+        </div>
+      </div>
+
+      <div class="menu-desplegable menu-apartado">
+        <div class="menu-cabecera">
+          <a class="menu-titulo" href="../2-3/index.html">2.3 Presión sobre los recursos naturales</a>
+          <button class="boton-desplegar" type="button" data-target="submenu-2-3"
+            aria-expanded="false" aria-label="Mostrar u ocultar los subapartados del 2.3">›</button>
+        </div>
+        <div id="submenu-2-3" class="submenu submenu-apartados">
+          <a href="../2-3/index.html#poblacion-recursos">Crecimiento de la población y consumo de recursos</a>
+          <a href="../2-3/index.html#sobreexplotacion">Escasez y sobreexplotación de recursos</a>
+          <a href="../2-3/index.html#agua">Consumo y disponibilidad de agua</a>
+          <a href="../2-3/index.html#uso-sostenible">Uso sostenible de los recursos</a>
+        </div>
+      </div>
+
+      <div class="menu-desplegable menu-apartado">
+        <div class="menu-cabecera">
+          <a class="menu-titulo" href="../2-4/index.html">2.4 Contaminación y generación de residuos</a>
+          <button class="boton-desplegar" type="button" data-target="submenu-2-4"
+            aria-expanded="false" aria-label="Mostrar u ocultar los subapartados del 2.4">›</button>
+        </div>
+        <div id="submenu-2-4" class="submenu submenu-apartados">
+          <a href="../2-4/index.html#contaminacion">¿Qué es la contaminación?</a>
+          <a href="../2-4/index.html#tipos-contaminacion">Principales tipos de contaminación</a>
+          <a href="../2-4/index.html#residuos">Generación y gestión de residuos</a>
+          <a href="../2-4/index.html#residuos-electronicos">Residuos electrónicos</a>
+        </div>
+      </div>
+
+      <div class="menu-desplegable menu-apartado">
+        <div class="menu-cabecera">
+          <a class="menu-titulo" href="../2-5/index.html">2.5 Deforestación y pérdida de biodiversidad</a>
+          <button class="boton-desplegar" type="button" data-target="submenu-2-5"
+            aria-expanded="false" aria-label="Mostrar u ocultar los subapartados del 2.5">›</button>
+        </div>
+        <div id="submenu-2-5" class="submenu submenu-apartados">
+          <a href="../2-5/index.html#deforestacion">Deforestación</a>
+          <a href="../2-5/index.html#causas-deforestacion">Causas de la deforestación</a>
+          <a href="../2-5/index.html#biodiversidad">Pérdida de biodiversidad</a>
+          <a href="../2-5/index.html#consecuencias-ecosistemas">Consecuencias para las personas y los ecosistemas</a>
+        </div>
+      </div>
+
+      <div class="menu-desplegable menu-apartado">
+        <div class="menu-cabecera">
+          <a class="menu-titulo" href="../2-6/index.html">2.6 Impacto de los retos ambientales y sociales</a>
+          <button class="boton-desplegar" type="button" data-target="submenu-2-6"
+            aria-expanded="false" aria-label="Mostrar u ocultar los subapartados del 2.6">›</button>
+        </div>
+        <div id="submenu-2-6" class="submenu submenu-apartados">
+          <a href="../2-6/index.html#impacto-personas">Impacto sobre las personas</a>
+          <a href="../2-6/index.html#desigualdad-vulnerabilidad">Desigualdad y vulnerabilidad</a>
+          <a href="../2-6/index.html#impacto-sectores">Impacto sobre los sectores productivos</a>
+          <a href="../2-6/index.html#riesgos-empresas">Riesgos para las empresas</a>
+        </div>
+      </div>
+
+      <div class="menu-desplegable menu-apartado">
+        <div class="menu-cabecera">
+          <a class="menu-titulo" href="../2-7/index.html">2.7 Retos ambientales en el sector tecnológico</a>
+          <button class="boton-desplegar" type="button" data-target="submenu-2-7"
+            aria-expanded="false" aria-label="Mostrar u ocultar los subapartados del 2.7">⌄</button>
+        </div>
+        <div id="submenu-2-7" class="submenu submenu-apartados">
+          <a href="../2-7/index.html#huella-tecnologia">Huella ambiental de la tecnología</a>
+          <a href="../2-7/index.html#centros-datos">Consumo energético y centros de datos</a>
+          <a href="../2-7/index.html#dispositivos">Fabricación y vida útil de los dispositivos</a>
+          <a href="../2-7/index.html#raee">Residuos electrónicos</a>
+          <a href="../2-7/index.html#servicios-digitales">Servicios digitales y sostenibilidad</a>
+        </div>
+      </div>
+
+      <div class="menu-desplegable menu-apartado">
+        <div class="menu-cabecera">
+          <a class="menu-titulo" href="index.html">2.8 Medidas para reducir los impactos ambientales</a>
+          <button class="boton-desplegar" type="button" data-target="submenu-2-8"
+            aria-expanded="true" aria-label="Mostrar u ocultar los subapartados del 2.8">›</button>
+        </div>
+        <div id="submenu-2-8" class="submenu submenu-apartados submenu-abierto">
+          <a href="#eficiencia-energetica">Eficiencia energética</a>
+          <a href="#gestion-residuos">Gestión sostenible de los residuos</a>
+          <a href="#conservacion-recursos">Conservación y uso eficiente de los recursos</a>
+          <a href="#control-contaminacion">Reducción y control de la contaminación</a>
+          <a href="#movilidad-sostenible">Movilidad sostenible</a>
+          <a href="#innovacion-tecnologica">Innovación tecnológica</a>
+          <a href="#educacion-ambiental">Educación y sensibilización ambiental</a>
+        </div>
+      </div>
+
+      <div class="menu-desplegable menu-apartado">
+        <div class="menu-cabecera">
+          <a class="menu-titulo" href="../2-9/index.html">2.9 Trabajo transversal y alianzas para afrontar los retos</a>
+          <button class="boton-desplegar" type="button" data-target="submenu-2-9"
+            aria-expanded="false" aria-label="Mostrar u ocultar los subapartados del 2.9">›</button>
+        </div>
+        <div id="submenu-2-9" class="submenu submenu-apartados">
+          <a href="../2-9/index.html#necesidad-alianzas">¿Por qué son necesarias las alianzas?</a>
+          <a href="../2-9/index.html#actores">Principales actores implicados</a>
+          <a href="../2-9/index.html#trabajo-coordinado">Trabajo transversal y coordinado</a>
+          <a href="../2-9/index.html#alianzas-tecnologia">Alianzas aplicadas al sector tecnológico</a>
+        </div>
+      </div>
+
+      <a class="enlace-apartado-simple" href="../actividades/index.html">
+        📝 Actividades de la UT2
+      </a>
+
+    </div>
+  </div>
+
+  <a class="sidebar-ut-cerrada" href="../../ut3/index.html">
+    <span>UT3 - Sostenibilidad en el desempeño profesional y personal</span><span>›</span>
+  </a>
+  <a class="sidebar-ut-cerrada" href="../../ut4/index.html">
+    <span>UT4 - Economía circular, ciclo de vida y ecodiseño</span><span>›</span>
+  </a>
+  <a class="sidebar-ut-cerrada" href="../../ut5/index.html">
+    <span>UT5 - Sostenibilidad aplicada al sector informático</span><span>›</span>
+  </a>
+  <a class="sidebar-ut-cerrada" href="../../ut6/index.html">
+    <span>UT6 - Plan de sostenibilidad de una empresa</span><span>›</span>
+  </a>
+
+</aside>
+
+
+    <!-- ==========================================
+         ZONA CENTRAL
+    ========================================== -->
+
+    <main class="contenido-ut">
+  <div class="migas">
+    <a class="miga-inicio" href="../../../index.html" aria-label="Volver a la página principal">🏠</a>
+    <span class="miga-separador">›</span><a class="miga-modulo" href="../../index.html">SASP</a>
+    <span class="miga-separador">›</span><a class="miga-modulo" href="../index.html">UT2</a>
+    <span class="miga-separador">›</span><span class="miga-actual">2.8</span>
+  </div>
+
+  <h1>2.8 Medidas para reducir los impactos ambientales</h1>
+
+  <section class="apartado-ut">
+    <p>Identificar los retos ambientales y conocer sus consecuencias es solo una parte del problema. El siguiente paso consiste en adoptar <strong>medidas y acciones que permitan prevenir, reducir o corregir sus impactos</strong>.</p>
+    <p>Estas medidas pueden aplicarse tanto por las administraciones públicas como por las empresas y la ciudadanía. Algunas actúan directamente sobre el consumo de energía y recursos, mientras que otras mejoran la gestión de los residuos, reducen la contaminación o favorecen cambios tecnológicos y de comportamiento.</p>
+
+    <div class="caja caja-importante"><span class="caja-titulo">📌 Importante</span><p>La sostenibilidad no consiste únicamente en corregir los daños una vez que se han producido. Siempre que sea posible, es preferible <strong>prevenir el impacto y reducirlo desde el origen</strong>.</p></div>
+
+    <h2 id="eficiencia-energetica">Eficiencia energética</h2>
+    <p>La <strong>eficiencia energética</strong> consiste en obtener un determinado resultado utilizando la menor cantidad de energía posible, sin reducir innecesariamente la calidad del servicio prestado.</p>
+    <p>Entre las medidas que pueden mejorar la eficiencia energética se encuentran:</p>
+    <ul>
+      <li>realizar <strong>auditorías energéticas</strong> para conocer dónde y cómo se consume la energía;</li>
+      <li>mejorar el aislamiento de los edificios;</li>
+      <li>utilizar iluminación LED y equipos energéticamente eficientes;</li>
+      <li>ajustar el consumo a las necesidades reales y evitar consumos innecesarios;</li>
+      <li>optimizar procesos industriales y recuperar energía cuando sea posible;</li>
+      <li>y utilizar sistemas de automatización y control que permitan gestionar mejor el consumo.</li>
+    </ul>
+    <div class="caja caja-ejemplo"><span class="caja-titulo">💻 Ejemplo DAW</span><p>En una empresa tecnológica, dimensionar correctamente los servidores y apagar o reducir los recursos que no se necesitan puede mejorar la eficiencia. También puede valorarse la eficiencia energética de los centros de datos y el origen de la electricidad utilizada por los proveedores.</p></div>
+
+    <h2 id="gestion-residuos">Gestión sostenible de los residuos</h2>
+    <p>Una gestión sostenible de los residuos busca, en primer lugar, <strong>reducir su generación</strong> y, cuando se producen, aprovechar los materiales siempre que sea posible.</p>
+    <p>Entre las principales acciones se encuentran:</p>
+    <ul>
+      <li><strong>reducir</strong> el consumo de productos y materiales innecesarios;</li>
+      <li><strong>reutilizar</strong> productos que todavía pueden seguir utilizándose;</li>
+      <li><strong>reciclar</strong> los materiales que pueden incorporarse de nuevo a procesos productivos;</li>
+      <li>separar correctamente los diferentes tipos de residuos;</li>
+      <li>realizar un tratamiento específico de residuos peligrosos como determinados productos químicos, baterías o residuos electrónicos;</li>
+      <li>y favorecer modelos relacionados con la <strong>economía circular</strong>.</li>
+    </ul>
+    <div class="caja caja-atencion"><span class="caja-titulo">⚠️ Atención</span><p>Reciclar es importante, pero no debe ser la primera opción. Evitar generar el residuo y reutilizar un producto que todavía es útil puede reducir la necesidad de consumir nuevas materias primas.</p></div>
+
+    <h2 id="conservacion-recursos">Conservación y uso eficiente de los recursos</h2>
+    <p>La conservación de los recursos naturales pretende evitar su sobreexplotación y mantener los ecosistemas de los que dependen. Para ello es necesario combinar la protección del medio natural con un <strong>uso eficiente y responsable de los recursos</strong>.</p>
+    <p>Algunas actuaciones son:</p>
+    <ul>
+      <li>proteger y restaurar ecosistemas y favorecer la reforestación;</li>
+      <li>utilizar el agua de forma eficiente y promover su reutilización cuando sea posible;</li>
+      <li>gestionar de forma sostenible el suelo, los bosques y los recursos pesqueros;</li>
+      <li>reducir el consumo innecesario de materias primas;</li>
+      <li>prolongar la vida útil de productos y equipos;</li>
+      <li>y fomentar la cooperación para proteger recursos y ecosistemas compartidos.</li>
+    </ul>
+    <div class="caja caja-ejemplo"><span class="caja-titulo">💻 Ejemplo DAW</span><p>En el sector informático, prolongar la vida útil de ordenadores y servidores, reutilizar equipos y ajustar los recursos cloud a las necesidades reales permite reducir la demanda de materias primas y evitar consumos innecesarios.</p></div>
+
+    <h2 id="control-contaminacion">Reducción y control de la contaminación</h2>
+    <p>Para reducir la contaminación es necesario actuar tanto sobre sus <strong>causas</strong> como sobre las emisiones, vertidos o residuos que pueden llegar al medioambiente.</p>
+    <p>Las principales medidas incluyen:</p>
+    <ul>
+      <li>establecer y cumplir normas que limiten las emisiones y los vertidos;</li>
+      <li>utilizar tecnologías y sistemas de control que reduzcan los contaminantes;</li>
+      <li>realizar mediciones y seguimiento de las emisiones;</li>
+      <li>gestionar correctamente los residuos;</li>
+      <li>favorecer el uso de energías más limpias y renovables;</li>
+      <li>y promover formas de transporte con menor impacto ambiental.</li>
+    </ul>
+    <div class="caja caja-importante"><span class="caja-titulo">📌 Importante</span><p>Medir los impactos permite comprobar si las medidas adoptadas funcionan. Los indicadores, auditorías y sistemas de seguimiento ayudan a detectar desviaciones y a establecer nuevas mejoras.</p></div>
+
+    <h2 id="movilidad-sostenible">Movilidad sostenible</h2>
+    <p>La <strong>movilidad sostenible</strong> busca satisfacer las necesidades de desplazamiento reduciendo el consumo de energía, las emisiones, el ruido y otros impactos asociados al transporte.</p>
+    <p>Entre las posibles medidas se encuentran:</p>
+    <ul>
+      <li>favorecer el transporte público;</li>
+      <li>facilitar los desplazamientos a pie o en bicicleta cuando sean viables;</li>
+      <li>promover el uso compartido de vehículos;</li>
+      <li>incorporar vehículos de bajas emisiones o eléctricos cuando resulten adecuados;</li>
+      <li>aplicar medidas de gestión del tráfico y del acceso a determinadas zonas;</li>
+      <li>y utilizar el teletrabajo o fórmulas de trabajo flexible cuando permitan reducir desplazamientos innecesarios.</li>
+    </ul>
+    <div class="caja caja-ejemplo"><span class="caja-titulo">💻 Ejemplo DAW</span><p>Una empresa de desarrollo web puede facilitar reuniones en línea o teletrabajo en determinadas tareas para evitar algunos desplazamientos. La medida debe organizarse teniendo en cuenta también las necesidades del servicio y las condiciones de las personas trabajadoras.</p></div>
+
+    <h2 id="innovacion-tecnologica">Innovación tecnológica</h2>
+    <p>La <strong>innovación tecnológica</strong> puede contribuir a resolver o reducir problemas ambientales mediante el desarrollo de productos, procesos y servicios más eficientes.</p>
+    <p>La investigación y el desarrollo pueden favorecer avances en energías renovables, eficiencia energética, gestión de residuos, aprovechamiento de recursos y control de la contaminación. También pueden aparecer nuevas empresas y modelos de negocio orientados a ofrecer soluciones sostenibles.</p>
+    <p>Tecnologías como la <strong>inteligencia artificial (IA)</strong> o el <strong>Internet de las cosas (IoT)</strong> pueden utilizarse para recoger datos, automatizar procesos y optimizar determinados consumos. Sin embargo, su utilización también requiere recursos, por lo que debe valorarse si la solución tecnológica aporta una mejora real.</p>
+    <div class="caja caja-ejemplo"><span class="caja-titulo">💻 Ejemplo DAW</span><p>Una aplicación puede mostrar datos de consumo energético de un edificio y generar avisos cuando detecta consumos anómalos. La tecnología facilita así la toma de decisiones, pero debe diseñarse evitando almacenar o procesar información que no sea necesaria para cumplir su función.</p></div>
+
+    <h2 id="educacion-ambiental">Educación y sensibilización ambiental</h2>
+    <p>Las soluciones técnicas y las normas son importantes, pero su eficacia también depende de que las personas conozcan los problemas ambientales y comprendan cómo sus decisiones pueden contribuir a reducirlos.</p>
+    <p>La <strong>educación y sensibilización ambiental</strong> pretende proporcionar conocimientos, fomentar actitudes responsables y facilitar cambios de comportamiento. Puede desarrollarse mediante:</p>
+    <ul>
+      <li>programas educativos y actividades formativas;</li>
+      <li>talleres y cursos sobre sostenibilidad;</li>
+      <li>campañas de información y sensibilización;</li>
+      <li>uso de páginas web y redes sociales para divulgar buenas prácticas;</li>
+      <li>actividades de voluntariado;</li>
+      <li>y formación ambiental dentro de las empresas.</li>
+    </ul>
+    <div class="caja caja-importante"><span class="caja-titulo">📌 Importante</span><p>Las medidas ambientales son más eficaces cuando combinan tecnología, organización y participación de las personas. No existe una única solución aplicable a todos los problemas.</p></div>
+
+    <div class="actividad-reflexion">
+      <h3>💭 Piensa</h3>
+      <p>Una empresa tecnológica detecta que consume más electricidad de la necesaria, sustituye ordenadores que todavía funcionan, genera residuos electrónicos sin un procedimiento claro, sus trabajadores realizan numerosos desplazamientos para reuniones breves y no existe ninguna formación interna sobre sostenibilidad.</p>
+      <p>Propón al menos <strong>cinco medidas</strong> para reducir estos impactos e indica a cuál de los ámbitos estudiados en este apartado pertenece cada una.</p>
+      <details class="solucion-desplegable">
+        <summary>Ver una posible solución</summary>
+        <div class="contenido-solucion">
+          <p>Algunas medidas podrían ser: revisar el consumo de los equipos y servidores para mejorar la eficiencia energética; prolongar la vida útil de los ordenadores mediante mantenimiento y actualización; establecer un procedimiento de reutilización y gestión de RAEE; sustituir algunas reuniones presenciales por reuniones en línea cuando resulte adecuado; y realizar formación periódica sobre sostenibilidad para la plantilla.</p>
+          <p>Estas medidas corresponden, respectivamente, a eficiencia energética, conservación de recursos y gestión de residuos, movilidad sostenible y educación y sensibilización ambiental. También podrían proponerse soluciones relacionadas con innovación tecnológica o control de la contaminación si estuvieran justificadas.</p>
+        </div>
+      </details>
+    </div>
+  </section>
+
+  <nav class="navegacion-paginas">
+    <a class="nav-pagina nav-anterior" href="../2-7/index.html">
+      <span class="nav-etiqueta">Anterior</span>
+      <strong>‹ 2.7 Retos ambientales en el sector tecnológico</strong>
+    </a>
+    <a class="nav-pagina nav-siguiente" href="../2-9/index.html">
+      <span class="nav-etiqueta">Siguiente</span>
+      <strong>2.9 Trabajo transversal y alianzas para afrontar los retos ›</strong>
+    </a>
+  </nav>
+</main>
+
+
+    <!-- ==========================================
+         COLUMNA DERECHA
+    ========================================== -->
+
+<aside class="indice-derecho">
+  <h2>Contenidos del apartado</h2>
+  <ul>
+    <li><a href="#eficiencia-energetica">Eficiencia energética</a></li>
+    <li><a href="#gestion-residuos">Gestión sostenible de los residuos</a></li>
+    <li><a href="#conservacion-recursos">Conservación y uso eficiente de los recursos</a></li>
+    <li><a href="#control-contaminacion">Reducción y control de la contaminación</a></li>
+    <li><a href="#movilidad-sostenible">Movilidad sostenible</a></li>
+    <li><a href="#innovacion-tecnologica">Innovación tecnológica</a></li>
+    <li><a href="#educacion-ambiental">Educación y sensibilización ambiental</a></li>
+  </ul>
+</aside>
+
+  </div>
+
+
+  <!-- ==========================================
+       FOOTER
+  ========================================== -->
+
+  <footer class="footer">
+
+    <p>
+
+      Material elaborado por
+
+      <strong>Eva Ballestero Cubeles</strong>
+
+      · Licencia
+
+      <span class="licencia">
+        CC BY-NC-SA 4.0
+      </span>
+
+      <a
+        class="enlace-licencia"
+        href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.es"
+        target="_blank"
+        rel="license noopener noreferrer"
+        aria-label="Licencia Creative Commons BY-NC-SA 4.0"
+      >
+
+        <img
+          class="icono-licencia"
+          src="../../../img/licencias/cc-by-nc-sa.png"
+          alt="Licencia Creative Commons BY-NC-SA 4.0"
+        >
+
+      </a>
+
+    </p>
+
+  </footer>
+
+
+  <!-- ==========================================
+       JAVASCRIPT
+  ========================================== -->
+
+  <script src="../../../js/modulos.js"></script>
+
+  <script>
+
+    /* ==========================================
+       MENÚ SUPERIOR DE MÓDULOS
+    ========================================== */
+
+    const menuModulos =
+      document.getElementById("menuModulos");
+
+    const botonTema =
+      document.getElementById("botonTema");
+
+    const modulosActivos =
+      modulos.filter(modulo => modulo.activo === true);
+
+    modulosActivos.forEach(modulo => {
+
+      const enlace =
+        document.createElement("a");
+
+      enlace.href =
+        `../../../${modulo.carpeta}/index.html`;
+
+      enlace.textContent =
+        modulo.siglas;
+
+      enlace.title =
+        modulo.nombre;
+
+      if (modulo.siglas === "SASP") {
+        enlace.style.color =
+          "var(--verde-principal)";
+      }
+
+      menuModulos.appendChild(enlace);
+
+    });
+
+
+    /* ==========================================
+       MODO CLARO / OSCURO
+    ========================================== */
+
+    const temaGuardado =
+      localStorage.getItem("tema");
+
+    if (temaGuardado === "oscuro") {
+
+      document.body.classList.add("modo-oscuro");
+
+      botonTema.textContent = "🌙";
+
+    }
+
+    botonTema.addEventListener("click", () => {
+
+      document.body.classList.toggle("modo-oscuro");
+
+      const estaOscuro =
+        document.body.classList.contains("modo-oscuro");
+
+      botonTema.textContent =
+        estaOscuro ? "🌙" : "☀️";
+
+      localStorage.setItem(
+        "tema",
+        estaOscuro ? "oscuro" : "claro"
+      );
+
+    });
+    /* ==========================================
+   MENÚ LATERAL DESPLEGABLE
+========================================== */
+
+const botonesDesplegar =
+  document.querySelectorAll(".boton-desplegar");
+
+function abrirSubmenu(boton, submenu) {
+  submenu.classList.add("submenu-abierto");
+  boton.textContent = "⌄";
+  boton.setAttribute("aria-expanded", "true");
+}
+
+function cerrarSubmenu(boton, submenu) {
+  submenu.classList.remove("submenu-abierto");
+  boton.textContent = "›";
+  boton.setAttribute("aria-expanded", "false");
+}
+
+/* ESTADO INICIAL */
+
+botonesDesplegar.forEach((boton) => {
+
+  const idSubmenu =
+    boton.getAttribute("data-target");
+
+  const submenu =
+    document.getElementById(idSubmenu);
+
+  if (!submenu) {
+    return;
+  }
+
+  /* UT2 permanece abierta */
+  if (idSubmenu === "submenu-ut2") {
+    abrirSubmenu(boton, submenu);
+    return;
+  }
+
+  /* Apartados 2.1 a 2.9 */
+  if (/^submenu-2-[1-9]$/.test(idSubmenu)) {
+
+    const clave =
+      "sasp-" + idSubmenu;
+
+    const estadoManual =
+      localStorage.getItem(clave);
+
+    if (estadoManual === "abierto") {
+      abrirSubmenu(boton, submenu);
+      return;
+    }
+
+    const numeroApartado =
+      idSubmenu.replace("submenu-", "");
+
+    const ruta =
+      window.location.pathname;
+
+    const esPaginaPropia =
+      ruta.includes("/ut2/" + numeroApartado + "/");
+
+    if (esPaginaPropia) {
+      abrirSubmenu(boton, submenu);
+    } else {
+      cerrarSubmenu(boton, submenu);
+    }
+  }
+});
+
+/* CLIC EN LAS FLECHAS */
+
+botonesDesplegar.forEach((boton) => {
+
+  boton.addEventListener("click", () => {
+
+    const idSubmenu =
+      boton.getAttribute("data-target");
+
+    const submenu =
+      document.getElementById(idSubmenu);
+
+    if (!submenu) {
+      return;
+    }
+
+    const estaAbierto =
+      submenu.classList.contains("submenu-abierto");
+
+    if (idSubmenu === "submenu-ut2") {
+      estaAbierto
+        ? cerrarSubmenu(boton, submenu)
+        : abrirSubmenu(boton, submenu);
+      return;
+    }
+
+    if (/^submenu-2-[1-9]$/.test(idSubmenu)) {
+
+      const clave =
+        "sasp-" + idSubmenu;
+
+      if (estaAbierto) {
+        cerrarSubmenu(boton, submenu);
+        localStorage.removeItem(clave);
+      } else {
+        abrirSubmenu(boton, submenu);
+        localStorage.setItem(clave, "abierto");
+      }
+    }
+  });
+});
+
+  </script>
+
+</body>
+
+</html>
