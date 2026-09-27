@@ -1,0 +1,3300 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+  <meta charset="UTF-8">
+
+  <meta
+    name="viewport"
+    content="width=device-width, initial-scale=1.0"
+  >
+
+  <meta
+    name="description"
+    content="3.6 - Introducción a los bucles."
+  >
+
+  <title>3.6 - Introducción a los bucles</title>
+
+  <link rel="icon" type="image/png" href="../../../img/favicon.png?v=5">
+  <link rel="stylesheet" href="../../../css/estilos.css">
+
+  <style>
+
+    /* ==========================================
+       ESTRUCTURA DE LA UT
+    ========================================== */
+
+    .pagina-ut {
+      display: grid;
+      grid-template-columns: 280px 1fr 260px;
+      min-height: calc(100vh - 68px);
+    }
+
+
+    /* ==========================================
+       COLUMNA IZQUIERDA
+    ========================================== */
+
+    .sidebar {
+      border-right: 1px solid var(--borde);
+      background-color: var(--fondo-pagina);
+
+      padding: 12px 10px 30px;
+
+      position: sticky;
+      top: 68px;
+
+      height: calc(100vh - 68px);
+      overflow-y: auto;
+    }
+
+    .sidebar-modulo {
+      display: block;
+      margin-bottom: 8px;
+      padding: 8px 14px;
+
+      color: #626873;
+
+      font-size: 17px;
+      font-weight: 700;
+      line-height: 1.3;
+
+      text-decoration: none;
+      border-radius: 6px;
+
+      transition:
+        color 0.2s ease,
+        background-color 0.2s ease;
+    }
+
+    .sidebar-modulo:hover {
+      color: var(--verde-principal);
+      background-color: #f3f4f6;
+    }
+
+    body.modo-oscuro .sidebar-modulo:hover {
+      background-color: #273244;
+    }
+
+
+    /* ==========================================
+       MENÚ LATERAL DESPLEGABLE
+    ========================================== */
+
+    .menu-desplegable {
+      width: 100%;
+    }
+
+    .menu-cabecera {
+      display: flex;
+      align-items: center;
+      gap: 4px;
+      width: 100%;
+      border-radius: 6px;
+    }
+
+    .menu-cabecera-activa {
+      background-color: #f1f1f1;
+    }
+
+    .menu-cabecera-activa > .menu-titulo {
+      color: var(--verde-principal);
+    }
+
+    .menu-titulo {
+      flex: 1;
+      display: block;
+      padding: 11px 8px 11px 14px;
+
+      color: #626873;
+
+      font-size: 16px;
+      font-weight: 650;
+      line-height: 1.4;
+
+      text-decoration: none;
+    }
+
+    .menu-titulo:hover {
+      color: var(--verde-principal);
+    }
+
+    .boton-desplegar {
+      width: 36px;
+      height: 36px;
+
+      margin-right: 5px;
+      padding: 0;
+
+      display: flex;
+      align-items: center;
+      justify-content: center;
+
+      flex-shrink: 0;
+
+      border: 0;
+      border-radius: 6px;
+
+      background: transparent;
+
+      color: #777;
+
+      font-family: inherit;
+      font-size: 24px;
+      line-height: 1;
+
+      cursor: pointer;
+    }
+
+    .boton-desplegar:hover {
+      background-color: #e5e7eb;
+      color: var(--verde-principal);
+    }
+
+    .submenu {
+      display: none;
+    }
+
+    .submenu.submenu-abierto {
+      display: block;
+    }
+
+    .menu-apartado {
+      margin-left: 14px;
+    }
+
+    .menu-apartado .menu-titulo {
+      padding-top: 9px;
+      padding-bottom: 9px;
+
+      font-size: 15px;
+      font-weight: 600;
+    }
+
+    .enlace-apartado-simple {
+      display: block;
+
+      margin-left: 14px;
+      padding: 10px 14px;
+
+      color: #626873;
+
+      font-size: 15px;
+      font-weight: 600;
+      line-height: 1.4;
+
+      text-decoration: none;
+
+      border-radius: 6px;
+    }
+
+    .enlace-apartado-simple:hover {
+      background-color: #f3f4f6;
+      color: var(--verde-principal);
+    }
+
+    .submenu-apartados {
+      margin: 2px 0 5px 28px;
+      border-left: 2px solid #e0e3e7;
+    }
+
+    .submenu-apartados a {
+      display: block;
+
+      padding: 7px 10px;
+
+      color: #777d87;
+
+      font-size: 14px;
+      font-weight: 500;
+      line-height: 1.35;
+
+      text-decoration: none;
+    }
+
+    .submenu-apartados a:hover {
+      color: var(--verde-principal);
+    }
+
+    body.modo-oscuro .menu-cabecera-activa {
+      background-color: #273244;
+    }
+
+    body.modo-oscuro .boton-desplegar:hover {
+      background-color: #334155;
+    }
+
+    body.modo-oscuro .enlace-apartado-simple:hover {
+      background-color: #273244;
+    }
+
+    body.modo-oscuro .submenu-apartados {
+      border-left-color: #3a4659;
+    }
+
+
+    /* ==========================================
+       RESTO DE UT
+    ========================================== */
+
+    .sidebar-ut-cerrada {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+
+      padding: 13px 14px;
+
+      color: #626873;
+      text-decoration: none;
+
+      font-size: 16px;
+      font-weight: 650;
+      line-height: 1.35;
+
+      border-radius: 6px;
+    }
+
+    .sidebar-ut-cerrada:hover {
+      background-color: #f3f4f6;
+      color: var(--verde-principal);
+    }
+
+    body.modo-oscuro .sidebar-ut-cerrada:hover {
+      background-color: #273244;
+    }
+
+
+    /* ==========================================
+       ZONA CENTRAL
+    ========================================== */
+
+    .contenido-ut {
+      padding: 28px 34px 70px;
+      max-width: 1150px;
+      width: 100%;
+    }
+
+    .migas {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+
+      margin-bottom: 30px;
+
+      font-size: 14px;
+    }
+
+    .miga-inicio {
+      text-decoration: none;
+      font-size: 18px;
+    }
+
+    .miga-separador {
+      color: #999;
+      font-size: 22px;
+    }
+
+    .miga-modulo {
+      color: var(--texto-secundario);
+      text-decoration: none;
+    }
+
+    .miga-modulo:hover {
+      color: var(--verde-principal);
+    }
+
+    .miga-actual {
+      padding: 8px 14px;
+
+      background-color: #f3f3f3;
+      border-radius: 24px;
+
+      color: var(--verde-principal);
+    }
+
+    body.modo-oscuro .miga-actual {
+      background-color: #273244;
+    }
+
+    .contenido-ut h1 {
+      margin: 0 0 30px;
+
+      font-size: clamp(38px, 5vw, 58px);
+      line-height: 1.12;
+    }
+
+
+    /* ==========================================
+       CONTENIDO DE LOS APARTADOS
+    ========================================== */
+
+    .apartado-ut {
+      margin-top: 55px;
+      scroll-margin-top: 95px;
+    }
+
+    .apartado-ut h2 {
+      margin: 0 0 24px;
+
+      font-size: 32px;
+      line-height: 1.2;
+
+      scroll-margin-top: 95px;
+    }
+
+    .apartado-ut h3 {
+      margin: 34px 0 16px;
+
+      font-size: 24px;
+      line-height: 1.3;
+    }
+
+    .apartado-ut p {
+      margin: 0 0 18px;
+
+      font-size: 18px;
+      line-height: 1.75;
+    }
+
+    .apartado-ut ul {
+      margin: 16px 0 24px;
+      padding-left: 28px;
+    }
+
+    .apartado-ut li {
+      margin-bottom: 10px;
+
+      font-size: 17px;
+      line-height: 1.6;
+    }
+
+
+    /* ==========================================
+       CAJAS
+    ========================================== */
+
+    .caja {
+      margin: 28px 0;
+      padding: 18px 20px;
+
+      border-left: 5px solid;
+      border-radius: 8px;
+
+      line-height: 1.65;
+    }
+
+    .caja p {
+      margin: 0;
+      font-size: 17px;
+    }
+
+    .caja-titulo {
+      display: block;
+
+      margin-bottom: 8px;
+
+      font-size: 17px;
+      font-weight: 700;
+    }
+
+    .caja-importante {
+      background-color: #eef8f1;
+      border-left-color: #2f9e5b;
+    }
+
+    .caja-atencion {
+      background-color: #fff7e8;
+      border-left-color: #e09b27;
+    }
+
+    .caja-ejemplo {
+      background-color: #eef5ff;
+      border-left-color: #3f7acb;
+    }
+
+    body.modo-oscuro .caja-importante {
+      background-color: #20372a;
+    }
+
+    body.modo-oscuro .caja-atencion {
+      background-color: #3b3020;
+    }
+
+    body.modo-oscuro .caja-ejemplo {
+      background-color: #23344a;
+    }
+
+
+    /* ==========================================
+       TABLAS
+    ========================================== */
+
+    .tabla-responsive {
+      width: 100%;
+      margin: 28px 0;
+      overflow-x: auto;
+    }
+
+    .tabla-apuntes {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 16px;
+    }
+
+    .tabla-apuntes th,
+    .tabla-apuntes td {
+      padding: 14px 16px;
+
+      border: 1px solid var(--borde);
+
+      text-align: left;
+      vertical-align: top;
+
+      line-height: 1.55;
+    }
+
+    .tabla-apuntes th {
+      background-color: #f1f3f5;
+      font-weight: 700;
+    }
+
+    body.modo-oscuro .tabla-apuntes th {
+      background-color: #273244;
+    }
+
+
+    /* ==========================================
+       ACTIVIDADES
+    ========================================== */
+
+    .actividad-reflexion {
+      margin: 32px 0;
+      padding: 22px 24px;
+
+      background-color: #f7f8fa;
+
+      border: 1px solid var(--borde);
+      border-radius: 10px;
+    }
+
+    .actividad-reflexion h3 {
+      margin: 0 0 12px;
+
+      color: var(--verde-principal);
+
+      font-size: 20px;
+    }
+
+    .actividad-reflexion p {
+      margin: 0 0 14px;
+
+      font-size: 17px;
+      line-height: 1.65;
+    }
+
+    body.modo-oscuro .actividad-reflexion {
+      background-color: #232d3d;
+    }
+
+    .solucion-desplegable {
+      margin-top: 20px;
+    }
+
+    .solucion-desplegable summary {
+      display: inline-block;
+
+      padding: 10px 16px;
+
+      background-color: #eef8f1;
+
+      border: 1px solid #b9dfc6;
+      border-radius: 7px;
+
+      color: var(--verde-principal);
+
+      font-size: 16px;
+      font-weight: 700;
+
+      cursor: pointer;
+      user-select: none;
+    }
+
+    .solucion-desplegable summary:hover {
+      background-color: #e2f3e7;
+    }
+
+    .contenido-solucion {
+      margin-top: 16px;
+      padding: 18px 20px;
+
+      background-color: var(--fondo-pagina);
+
+      border-left: 4px solid var(--verde-principal);
+      border-radius: 6px;
+    }
+
+    .contenido-solucion p {
+      margin: 0 0 12px;
+
+      font-size: 16px;
+      line-height: 1.65;
+    }
+
+    .contenido-solucion p:last-child {
+      margin-bottom: 0;
+    }
+
+    body.modo-oscuro .solucion-desplegable summary {
+      background-color: #20372a;
+      border-color: #315d40;
+    }
+
+
+    /* ==========================================
+       BLOQUES DE CÓDIGO DWEC
+    ========================================== */
+
+    .bloque-codigo {
+      margin: 28px 0;
+
+      border: 1px solid #3b3b3b;
+      border-radius: 9px;
+
+      overflow: hidden;
+
+      background-color: #1e1e1e;
+    }
+
+    .cabecera-codigo {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+
+      padding: 10px 14px;
+
+      background-color: #2b2b2b;
+      color: #f3f4f6;
+
+      font-size: 14px;
+    }
+
+    .lenguaje-codigo {
+      font-weight: 700;
+    }
+
+    .boton-copiar {
+      padding: 6px 11px;
+
+      border: 1px solid #5c5c5c;
+      border-radius: 6px;
+
+      background-color: #383838;
+      color: #f3f4f6;
+
+      font-family: inherit;
+      font-size: 13px;
+
+      cursor: pointer;
+
+      transition:
+        background-color 0.2s ease,
+        border-color 0.2s ease;
+    }
+
+    .boton-copiar:hover {
+      background-color: #484848;
+      border-color: #777;
+    }
+
+    .bloque-codigo pre {
+      margin: 0;
+      padding: 18px 20px;
+
+      overflow-x: auto;
+
+      tab-size: 2;
+    }
+
+    .bloque-codigo code {
+      color: #f5f5f5;
+
+      font-family:
+        Consolas,
+        "Courier New",
+        monospace;
+
+      font-size: 15px;
+      line-height: 1.6;
+
+      white-space: pre;
+    }
+
+
+    /* ==========================================
+       COLUMNA DERECHA
+    ========================================== */
+
+    .indice-derecho {
+      padding: 28px 22px 100px;
+
+      border-left: 1px solid var(--borde);
+
+      position: sticky;
+      top: 68px;
+
+      height: calc(100vh - 68px);
+
+      overflow-y: auto;
+
+      box-sizing: border-box;
+    }
+
+    .indice-derecho h2 {
+      margin: 8px 0 20px;
+
+      font-size: 17px;
+      color: #555b65;
+    }
+
+    body.modo-oscuro .indice-derecho h2 {
+      color: #d1d5db;
+    }
+
+    .indice-derecho ul {
+      margin: 0;
+      padding-left: 18px;
+    }
+
+    .indice-derecho li {
+      margin-bottom: 12px;
+    }
+
+    .indice-derecho a {
+      color: var(--texto-secundario);
+
+      text-decoration: none;
+
+      font-size: 14px;
+      line-height: 1.4;
+    }
+
+    .indice-derecho a:hover {
+      color: var(--verde-principal);
+    }
+
+
+    /* ==========================================
+       NAVEGACIÓN
+    ========================================== */
+
+    .navegacion-paginas {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 20px;
+
+      margin-top: 50px;
+    }
+
+    .nav-pagina {
+      min-height: 100px;
+      padding: 18px 20px;
+
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+
+      border: 1px solid var(--borde);
+      border-radius: 8px;
+
+      text-decoration: none;
+
+      background-color: var(--fondo-tarjeta);
+    }
+
+    .nav-anterior {
+      align-items: flex-start;
+      text-align: left;
+    }
+
+    .nav-siguiente {
+      align-items: flex-end;
+      text-align: right;
+    }
+
+    .nav-etiqueta {
+      margin-bottom: 5px;
+
+      color: var(--texto-secundario);
+
+      font-size: 14px;
+    }
+
+    .nav-pagina strong {
+      color: var(--verde-principal);
+
+      font-size: 16px;
+      line-height: 1.4;
+    }
+
+    .nav-pagina:hover {
+      border-color: var(--verde-principal);
+    }
+
+
+    /* ==========================================
+       RESPONSIVE
+    ========================================== */
+
+    @media (max-width: 1100px) {
+
+      .pagina-ut {
+        grid-template-columns: 250px 1fr;
+      }
+
+      .indice-derecho {
+        display: none;
+      }
+
+    }
+
+    @media (max-width: 760px) {
+
+      .pagina-ut {
+        display: block;
+      }
+
+      .sidebar {
+        position: static;
+
+        width: 100%;
+        height: auto;
+
+        border-right: 0;
+        border-bottom: 1px solid var(--borde);
+      }
+
+      .contenido-ut {
+        padding: 28px 20px 60px;
+      }
+
+      .contenido-ut h1 {
+        font-size: 36px;
+      }
+
+      .navegacion-paginas {
+        grid-template-columns: 1fr;
+      }
+
+      .nav-siguiente {
+        align-items: flex-start;
+        text-align: left;
+      }
+
+    }
+
+  </style>
+
+</head>
+
+
+<body>
+
+  <header class="navbar">
+
+    <a class="inicio" href="../../../index.html">
+
+      <img
+        src="../../../img/profesora-castana.png?v=2"
+        alt=""
+        class="icono-profesora"
+      >
+
+      <span>Inicio</span>
+
+    </a>
+
+    <nav
+      id="menuModulos"
+      class="menu-modulos"
+      aria-label="Módulos formativos"
+    ></nav>
+
+    <button
+      id="botonTema"
+      class="boton-tema"
+      type="button"
+      aria-label="Cambiar entre modo claro y oscuro"
+      title="Cambiar tema"
+    >
+      ☀️
+    </button>
+
+  </header>
+
+
+  <div class="pagina-ut">
+
+    <!-- ==========================================
+         MENÚ LATERAL
+    ========================================== -->
+
+    <aside class="sidebar">
+
+      <a class="sidebar-modulo" href="../../index.html">
+        Desarrollo web en entorno cliente
+      </a>
+
+      <a class="sidebar-ut-cerrada" href="../../ut1/index.html">
+        <span>UT1 - Introducción al desarrollo web en entorno cliente</span>
+        <span>›</span>
+      </a>
+
+      <a class="sidebar-ut-cerrada" href="../../ut2/index.html">
+        <span>UT2 - Fundamentos de JavaScript: variables, tipos y operadores</span>
+        <span>›</span>
+      </a>
+
+
+      <!-- UT3 -->
+
+      <div class="menu-desplegable">
+
+        <div class="menu-cabecera menu-cabecera-activa">
+
+          <a class="menu-titulo" href="../index.html">
+            UT3 - Estructuras de control en JavaScript
+          </a>
+
+          <button
+            class="boton-desplegar"
+            type="button"
+            data-target="submenu-ut3"
+            aria-expanded="true"
+          >
+            ⌄
+          </button>
+
+        </div>
+
+
+        <div id="submenu-ut3" class="submenu submenu-abierto">
+
+
+          <!-- 3.1 -->
+
+          <div class="menu-desplegable menu-apartado">
+
+            <div class="menu-cabecera">
+
+              <a class="menu-titulo" href="../3-1/index.html">
+                3.1 El flujo de ejecución de un programa
+              </a>
+
+              <button
+                class="boton-desplegar"
+                type="button"
+                data-target="submenu-3-1"
+                aria-expanded="false"
+              >
+                ›
+              </button>
+
+            </div>
+
+            <div id="submenu-3-1" class="submenu submenu-apartados">
+
+              <a href="../3-1/index.html#ejecucion-secuencial">
+                Ejecución secuencial
+              </a>
+
+              <a href="../3-1/index.html#control-flujo">
+                Qué significa controlar el flujo
+              </a>
+
+              <a href="../3-1/index.html#condiciones">
+                Condiciones y valores booleanos
+              </a>
+
+              <a href="../3-1/index.html#comparacion">
+                Expresiones de comparación
+              </a>
+
+              <a href="../3-1/index.html#operadores-logicos">
+                Operadores lógicos en condiciones
+              </a>
+
+              <a href="../3-1/index.html#bloques">
+                Bloques de código
+              </a>
+
+            </div>
+
+          </div>
+
+
+          <!-- 3.2 -->
+
+          <div class="menu-desplegable menu-apartado">
+
+            <div class="menu-cabecera">
+
+              <a class="menu-titulo" href="../3-2/index.html">
+                3.2 Estructuras condicionales: if
+              </a>
+
+              <button
+                class="boton-desplegar"
+                type="button"
+                data-target="submenu-3-2"
+                aria-expanded="false"
+              >
+                ›
+              </button>
+
+            </div>
+
+            <div id="submenu-3-2" class="submenu submenu-apartados">
+
+              <a href="../3-2/index.html#que-es-condicion">
+                Qué es una condición
+              </a>
+
+              <a href="../3-2/index.html#sintaxis-if">
+                Sintaxis de if
+              </a>
+
+              <a href="../3-2/index.html#evaluacion-condicion">
+                Evaluación de la condición
+              </a>
+
+              <a href="../3-2/index.html#bloque-instrucciones">
+                Bloque de instrucciones
+              </a>
+
+              <a href="../3-2/index.html#condiciones-simples">
+                Condiciones simples
+              </a>
+
+              <a href="../3-2/index.html#errores-frecuentes">
+                Errores frecuentes
+              </a>
+
+            </div>
+
+          </div>
+
+
+          <!-- 3.3 -->
+
+          <div class="menu-desplegable menu-apartado">
+
+            <div class="menu-cabecera">
+
+              <a class="menu-titulo" href="../3-3/index.html">
+                3.3 Alternativas con if...else
+              </a>
+
+              <button
+                class="boton-desplegar"
+                type="button"
+                data-target="submenu-3-3"
+                aria-expanded="false"
+              >
+                ›
+              </button>
+
+            </div>
+
+            <div id="submenu-3-3" class="submenu submenu-apartados">
+
+              <a href="../3-3/index.html#dos-caminos">
+                Dos caminos de ejecución
+              </a>
+
+              <a href="../3-3/index.html#sintaxis-if-else">
+                Sintaxis de if...else
+              </a>
+
+              <a href="../3-3/index.html#funcionamiento">
+                Funcionamiento paso a paso
+              </a>
+
+              <a href="../3-3/index.html#operadores-logicos">
+                Condiciones con operadores lógicos
+              </a>
+
+              <a href="../3-3/index.html#casos-practicos">
+                Casos prácticos
+              </a>
+
+              <a href="../3-3/index.html#errores-frecuentes">
+                Errores frecuentes
+              </a>
+
+            </div>
+
+          </div>
+
+
+          <!-- 3.4 -->
+
+          <div class="menu-desplegable menu-apartado">
+
+            <div class="menu-cabecera">
+
+              <a class="menu-titulo" href="../3-4/index.html">
+                3.4 Decisiones múltiples con else if
+              </a>
+
+              <button
+                class="boton-desplegar"
+                type="button"
+                data-target="submenu-3-4"
+                aria-expanded="false"
+              >
+                ›
+              </button>
+
+            </div>
+
+            <div id="submenu-3-4" class="submenu submenu-apartados">
+
+              <a href="../3-4/index.html#mas-alternativas">
+                Más de dos alternativas
+              </a>
+
+              <a href="../3-4/index.html#encadenamiento">
+                Encadenamiento de condiciones
+              </a>
+
+              <a href="../3-4/index.html#orden-evaluacion">
+                Orden de evaluación
+              </a>
+
+              <a href="../3-4/index.html#rangos">
+                Rangos de valores
+              </a>
+
+              <a href="../3-4/index.html#casos-practicos">
+                Casos prácticos
+              </a>
+
+              <a href="../3-4/index.html#errores-frecuentes">
+                Errores frecuentes
+              </a>
+
+            </div>
+
+          </div>
+
+
+          <!-- 3.5 -->
+
+          <div class="menu-desplegable menu-apartado">
+
+            <div class="menu-cabecera">
+
+              <a class="menu-titulo" href="../3-5/index.html">
+                3.5 La estructura switch
+              </a>
+
+              <button
+                class="boton-desplegar"
+                type="button"
+                data-target="submenu-3-5"
+                aria-expanded="false"
+              >
+                ›
+              </button>
+
+            </div>
+
+            <div id="submenu-3-5" class="submenu submenu-apartados">
+
+              <a href="../3-5/index.html#cuando-switch">
+                Cuándo utilizar switch
+              </a>
+
+              <a href="../3-5/index.html#sintaxis-switch">
+                Sintaxis de switch
+              </a>
+
+              <a href="../3-5/index.html#case">
+                case
+              </a>
+
+              <a href="../3-5/index.html#break">
+                break
+              </a>
+
+              <a href="../3-5/index.html#default">
+                default
+              </a>
+
+              <a href="../3-5/index.html#varios-case">
+                Varios case para una misma acción
+              </a>
+
+              <a href="../3-5/index.html#switch-if">
+                switch frente a if...else if
+              </a>
+
+            </div>
+
+          </div>
+
+
+          <!-- 3.6 -->
+
+          <div class="menu-desplegable menu-apartado">
+
+            <div class="menu-cabecera menu-cabecera-activa">
+
+              <a class="menu-titulo" href="index.html">
+                3.6 Introducción a los bucles
+              </a>
+
+              <button
+                class="boton-desplegar"
+                type="button"
+                data-target="submenu-3-6"
+                aria-expanded="true"
+              >
+                ⌄
+              </button>
+
+            </div>
+
+            <div
+              id="submenu-3-6"
+              class="submenu submenu-apartados submenu-abierto"
+            >
+
+              <a href="#estructura-repetitiva">
+                Qué es una estructura repetitiva
+              </a>
+
+              <a href="#para-que-bucles">
+                Para qué utilizamos los bucles
+              </a>
+
+              <a href="#contador">
+                Contador
+              </a>
+
+              <a href="#condicion-continuacion">
+                Condición de continuación
+              </a>
+
+              <a href="#actualizacion">
+                Actualización
+              </a>
+
+              <a href="#finitos-infinitos">
+                Bucles finitos e infinitos
+              </a>
+
+              <a href="#elegir-bucle">
+                Elegir el bucle adecuado
+              </a>
+
+            </div>
+
+          </div>
+
+
+          <!-- 3.7 -->
+
+          <div class="menu-desplegable menu-apartado">
+
+            <div class="menu-cabecera">
+
+              <a class="menu-titulo" href="../3-7/index.html">
+                3.7 El bucle for
+              </a>
+
+              <button
+                class="boton-desplegar"
+                type="button"
+                data-target="submenu-3-7"
+                aria-expanded="false"
+              >
+                ›
+              </button>
+
+            </div>
+
+            <div id="submenu-3-7" class="submenu submenu-apartados">
+
+              <a href="../3-7/index.html#sintaxis-for">
+                Sintaxis de for
+              </a>
+
+              <a href="../3-7/index.html#inicializacion">
+                Inicialización
+              </a>
+
+              <a href="../3-7/index.html#condicion">
+                Condición
+              </a>
+
+              <a href="../3-7/index.html#actualizacion">
+                Actualización
+              </a>
+
+              <a href="../3-7/index.html#contadores">
+                Contadores
+              </a>
+
+              <a href="../3-7/index.html#ascendentes">
+                Recorridos ascendentes
+              </a>
+
+              <a href="../3-7/index.html#descendentes">
+                Recorridos descendentes
+              </a>
+
+              <a href="../3-7/index.html#errores-frecuentes">
+                Errores frecuentes
+              </a>
+
+            </div>
+
+          </div>
+
+
+          <!-- 3.8 -->
+
+          <div class="menu-desplegable menu-apartado">
+
+            <div class="menu-cabecera">
+
+              <a class="menu-titulo" href="../3-8/index.html">
+                3.8 Los bucles while y do...while
+              </a>
+
+              <button
+                class="boton-desplegar"
+                type="button"
+                data-target="submenu-3-8"
+                aria-expanded="false"
+              >
+                ›
+              </button>
+
+            </div>
+
+            <div id="submenu-3-8" class="submenu submenu-apartados">
+
+              <a href="../3-8/index.html#while">
+                El bucle while
+              </a>
+
+              <a href="../3-8/index.html#funcionamiento">
+                Funcionamiento paso a paso
+              </a>
+
+              <a href="../3-8/index.html#do-while">
+                El bucle do...while
+              </a>
+
+              <a href="../3-8/index.html#diferencias">
+                Diferencias entre while y do...while
+              </a>
+
+              <a href="../3-8/index.html#cuando-utilizar">
+                Cuándo utilizar cada uno
+              </a>
+
+              <a href="../3-8/index.html#control-condicion">
+                Bucles controlados por condición
+              </a>
+
+              <a href="../3-8/index.html#bucle-infinito">
+                Riesgo de bucle infinito
+              </a>
+
+            </div>
+
+          </div>
+
+
+          <!-- 3.9 -->
+
+          <div class="menu-desplegable menu-apartado">
+
+            <div class="menu-cabecera">
+
+              <a class="menu-titulo" href="../3-9/index.html">
+                3.9 Control de bucles con break y continue
+              </a>
+
+              <button
+                class="boton-desplegar"
+                type="button"
+                data-target="submenu-3-9"
+                aria-expanded="false"
+              >
+                ›
+              </button>
+
+            </div>
+
+            <div id="submenu-3-9" class="submenu submenu-apartados">
+
+              <a href="../3-9/index.html#break">
+                Interrumpir un bucle con break
+              </a>
+
+              <a href="../3-9/index.html#continue">
+                Saltar una iteración con continue
+              </a>
+
+              <a href="../3-9/index.html#diferencias">
+                Diferencias entre break y continue
+              </a>
+
+              <a href="../3-9/index.html#uso-responsable">
+                Uso responsable
+              </a>
+
+              <a href="../3-9/index.html#ejemplos">
+                Ejemplos prácticos
+              </a>
+
+            </div>
+
+          </div>
+
+
+          <!-- 3.10 -->
+
+          <div class="menu-desplegable menu-apartado">
+
+            <div class="menu-cabecera">
+
+              <a class="menu-titulo" href="../3-10/index.html">
+                3.10 Estructuras de control anidadas
+              </a>
+
+              <button
+                class="boton-desplegar"
+                type="button"
+                data-target="submenu-3-10"
+                aria-expanded="false"
+              >
+                ›
+              </button>
+
+            </div>
+
+            <div id="submenu-3-10" class="submenu submenu-apartados">
+
+              <a href="../3-10/index.html#anidar">
+                Qué significa anidar estructuras
+              </a>
+
+              <a href="../3-10/index.html#if-dentro-if">
+                if dentro de if
+              </a>
+
+              <a href="../3-10/index.html#if-dentro-bucle">
+                if dentro de un bucle
+              </a>
+
+              <a href="../3-10/index.html#bucles-anidados">
+                Bucles anidados
+              </a>
+
+              <a href="../3-10/index.html#variables-control">
+                Variables de control
+              </a>
+
+              <a href="../3-10/index.html#lectura">
+                Lectura paso a paso
+              </a>
+
+              <a href="../3-10/index.html#legibilidad">
+                Legibilidad
+              </a>
+
+            </div>
+
+          </div>
+
+
+          <!-- 3.11 -->
+
+          <div class="menu-desplegable menu-apartado">
+
+            <div class="menu-cabecera">
+
+              <a class="menu-titulo" href="../3-11/index.html">
+                3.11 Resolución de problemas con estructuras de control
+              </a>
+
+              <button
+                class="boton-desplegar"
+                type="button"
+                data-target="submenu-3-11"
+                aria-expanded="false"
+              >
+                ›
+              </button>
+
+            </div>
+
+            <div id="submenu-3-11" class="submenu submenu-apartados">
+
+              <a href="../3-11/index.html#analizar-problema">
+                Analizar el problema
+              </a>
+
+              <a href="../3-11/index.html#datos">
+                Identificar los datos
+              </a>
+
+              <a href="../3-11/index.html#decisiones">
+                Identificar las decisiones
+              </a>
+
+              <a href="../3-11/index.html#repeticiones">
+                Identificar las repeticiones
+              </a>
+
+              <a href="../3-11/index.html#algoritmo">
+                Diseñar el algoritmo
+              </a>
+
+              <a href="../3-11/index.html#javascript">
+                Traducirlo a JavaScript
+              </a>
+
+              <a href="../3-11/index.html#pruebas">
+                Probar casos
+              </a>
+
+              <a href="../3-11/index.html#depuracion">
+                Depurar y corregir
+              </a>
+
+            </div>
+
+          </div>
+
+
+          <a
+            class="enlace-apartado-simple"
+            href="../resumen/index.html"
+          >
+            ✏️ Resumen de la UT3
+          </a>
+
+          <a
+            class="enlace-apartado-simple"
+            href="../actividades/index.html"
+          >
+            📝 Actividades de la UT3
+          </a>
+
+        </div>
+
+      </div>
+
+
+      <!-- RESTO DE UT -->
+
+      <a class="sidebar-ut-cerrada" href="../../ut4/index.html">
+        <span>UT4 - Arrays y estructuras de datos en JavaScript</span>
+        <span>›</span>
+      </a>
+
+      <a class="sidebar-ut-cerrada" href="../../ut5/index.html">
+        <span>UT5 - Funciones en JavaScript</span>
+        <span>›</span>
+      </a>
+
+      <a class="sidebar-ut-cerrada" href="../../ut6/index.html">
+        <span>UT6 - Objetos y Programación Orientada a Objetos en JavaScript</span>
+        <span>›</span>
+      </a>
+
+      <a class="sidebar-ut-cerrada" href="../../ut7/index.html">
+        <span>UT7 - Objetos predefinidos y modelo del navegador (BOM)</span>
+        <span>›</span>
+      </a>
+
+      <a class="sidebar-ut-cerrada" href="../../ut8/index.html">
+        <span>UT8 - Aplicaciones web interactivas: DOM, eventos y formularios</span>
+        <span>›</span>
+      </a>
+
+      <a class="sidebar-ut-cerrada" href="../../ut9/index.html">
+        <span>UT9 - Comunicación asíncrona y peticiones al servidor</span>
+        <span>›</span>
+      </a>
+
+      <a class="sidebar-ut-cerrada" href="../../ut10/index.html">
+        <span>UT10 - Introducción a React</span>
+        <span>›</span>
+      </a>
+
+    </aside>
+
+
+    <!-- ==========================================
+         CONTENIDO PRINCIPAL
+    ========================================== -->
+
+    <main class="contenido-ut">
+
+      <div class="migas">
+
+        <a
+          class="miga-inicio"
+          href="../../../index.html"
+          aria-label="Volver a la página principal"
+        >
+          🏠
+        </a>
+
+        <span class="miga-separador">›</span>
+
+        <a class="miga-modulo" href="../../index.html">
+          DWEC
+        </a>
+
+        <span class="miga-separador">›</span>
+
+        <a class="miga-modulo" href="../index.html">
+          UT3
+        </a>
+
+        <span class="miga-separador">›</span>
+
+        <span class="miga-actual">
+          3.6
+        </span>
+
+      </div>
+
+
+      <h1>
+        3.6 Introducción a los bucles
+      </h1>
+
+
+      <section class="apartado-ut">
+
+        <p>
+          Hasta ahora hemos aprendido a controlar el flujo de un programa
+          mediante <strong>estructuras condicionales</strong>. Con
+          <code>if</code>, <code>if...else</code>,
+          <code>else if</code> y <code>switch</code> podemos decidir qué
+          instrucciones deben ejecutarse dependiendo de determinadas
+          condiciones.
+        </p>
+
+        <p>
+          Sin embargo, en programación aparece constantemente otra necesidad:
+          <strong>repetir una misma acción varias veces</strong>.
+        </p>
+
+        <p>
+          Imagina, por ejemplo, que queremos mostrar cinco veces el mismo
+          mensaje:
+        </p>
+
+        <div class="bloque-codigo">
+
+          <div class="cabecera-codigo">
+            <span class="lenguaje-codigo">JavaScript</span>
+            <button class="boton-copiar" type="button">
+              📋 Copiar código
+            </button>
+          </div>
+
+          <pre><code>console.log("Bienvenido");
+console.log("Bienvenido");
+console.log("Bienvenido");
+console.log("Bienvenido");
+console.log("Bienvenido");</code></pre>
+
+        </div>
+
+        <p>
+          Este código funciona, pero repetir manualmente una instrucción no
+          es una buena solución. Si necesitáramos mostrar el mensaje 100
+          veces, tendríamos que escribir 100 instrucciones.
+        </p>
+
+        <p>
+          Para resolver este tipo de situaciones utilizamos los
+          <strong>bucles</strong> o
+          <strong>estructuras repetitivas</strong>.
+        </p>
+
+        <div class="caja caja-importante">
+
+          <span class="caja-titulo">📌 Importante</span>
+
+          <p>
+            Un <strong>bucle</strong> es una estructura de control que
+            permite <strong>repetir un bloque de instrucciones</strong>
+            mientras se cumpla una determinada condición o durante un número
+            concreto de repeticiones.
+          </p>
+
+        </div>
+
+
+        <!-- ======================================
+             QUÉ ES UNA ESTRUCTURA REPETITIVA
+        ======================================= -->
+
+        <h2 id="estructura-repetitiva">
+          Qué es una estructura repetitiva
+        </h2>
+
+        <p>
+          Una <strong>estructura repetitiva</strong> permite ejecutar varias
+          veces un mismo bloque de código sin tener que escribir las
+          instrucciones repetidamente.
+        </p>
+
+        <p>
+          Por ejemplo, en lugar de escribir:
+        </p>
+
+        <div class="bloque-codigo">
+
+          <div class="cabecera-codigo">
+            <span class="lenguaje-codigo">JavaScript</span>
+            <button class="boton-copiar" type="button">
+              📋 Copiar código
+            </button>
+          </div>
+
+          <pre><code>console.log("Repetición 1");
+console.log("Repetición 2");
+console.log("Repetición 3");
+console.log("Repetición 4");
+console.log("Repetición 5");</code></pre>
+
+        </div>
+
+        <p>
+          podremos utilizar una estructura repetitiva:
+        </p>
+
+        <div class="bloque-codigo">
+
+          <div class="cabecera-codigo">
+            <span class="lenguaje-codigo">JavaScript</span>
+            <button class="boton-copiar" type="button">
+              📋 Copiar código
+            </button>
+          </div>
+
+          <pre><code>for (let i = 1; i &lt;= 5; i++) {
+  console.log("Repetición " + i);
+}</code></pre>
+
+        </div>
+
+        <p>
+          El resultado será:
+        </p>
+
+        <div class="bloque-codigo">
+
+          <div class="cabecera-codigo">
+            <span class="lenguaje-codigo">Console</span>
+            <button class="boton-copiar" type="button">
+              📋 Copiar código
+            </button>
+          </div>
+
+          <pre><code>Repetición 1
+Repetición 2
+Repetición 3
+Repetición 4
+Repetición 5</code></pre>
+
+        </div>
+
+        <p>
+          En este momento no es necesario comprender todavía todos los
+          elementos de este <code>for</code>. Lo estudiaremos paso a paso en
+          el <strong>apartado 3.7</strong>.
+        </p>
+
+        <p>
+          Lo importante ahora es observar que
+          <strong>un pequeño bloque de código puede ejecutarse varias
+          veces</strong>.
+        </p>
+
+        <p>
+          Cada vez que se ejecuta nuevamente el bloque de instrucciones de un
+          bucle hablamos de una <strong>iteración</strong>.
+        </p>
+
+        <div class="caja caja-importante">
+
+          <span class="caja-titulo">📌 Importante</span>
+
+          <p>
+            Una <strong>iteración</strong> es cada una de las veces que se
+            ejecuta el bloque de instrucciones de un bucle. En el ejemplo
+            anterior el bucle realiza <strong>5 iteraciones</strong>.
+          </p>
+
+        </div>
+
+
+        <!-- ======================================
+             PARA QUÉ UTILIZAMOS LOS BUCLES
+        ======================================= -->
+
+        <h2 id="para-que-bucles">
+          Para qué utilizamos los bucles
+        </h2>
+
+        <p>
+          Los bucles aparecen constantemente en los programas porque permiten
+          automatizar tareas repetitivas.
+        </p>
+
+        <p>
+          Podemos utilizarlos, por ejemplo, para:
+        </p>
+
+        <ul>
+          <li>mostrar una acción varias veces;</li>
+          <li>realizar cálculos repetidamente;</li>
+          <li>generar secuencias de números;</li>
+          <li>repetir una operación mientras se cumpla una condición;</li>
+          <li>procesar conjuntos de datos;</li>
+          <li>buscar información;</li>
+          <li>controlar intentos o repeticiones.</li>
+        </ul>
+
+        <p>
+          Por ejemplo, si queremos mostrar los números del 1 al 10, no
+          necesitamos escribir diez <code>console.log()</code> diferentes:
+        </p>
+
+        <div class="bloque-codigo">
+
+          <div class="cabecera-codigo">
+            <span class="lenguaje-codigo">JavaScript</span>
+            <button class="boton-copiar" type="button">
+              📋 Copiar código
+            </button>
+          </div>
+
+          <pre><code>for (let i = 1; i &lt;= 10; i++) {
+  console.log(i);
+}</code></pre>
+
+        </div>
+
+        <p>
+          El resultado será:
+        </p>
+
+        <div class="bloque-codigo">
+
+          <div class="cabecera-codigo">
+            <span class="lenguaje-codigo">Console</span>
+            <button class="boton-copiar" type="button">
+              📋 Copiar código
+            </button>
+          </div>
+
+          <pre><code>1
+2
+3
+4
+5
+6
+7
+8
+9
+10</code></pre>
+
+        </div>
+
+        <div class="caja caja-ejemplo">
+
+          <span class="caja-titulo">💻 Ejemplo DAW</span>
+
+          <p>
+            En desarrollo web utilizaremos bucles continuamente. Más adelante
+            nos permitirán, por ejemplo, recorrer listas de productos,
+            procesar datos recibidos de un servidor, generar elementos de una
+            interfaz o trabajar con colecciones de información.
+          </p>
+
+        </div>
+
+        <div class="caja caja-atencion">
+
+          <span class="caja-titulo">⚠️ Atención</span>
+
+          <p>
+            Todavía no trabajaremos formalmente con arrays en esta unidad.
+            Los arrays y su recorrido se estudiarán en la
+            <strong>UT4</strong>.
+          </p>
+
+        </div>
+
+
+        <!-- ======================================
+             CONTADOR
+        ======================================= -->
+
+        <h2 id="contador">
+          Contador
+        </h2>
+
+        <p>
+          Muchos bucles necesitan saber
+          <strong>cuántas veces se ha realizado una repetición</strong>.
+        </p>
+
+        <p>
+          Para ello podemos utilizar una variable que actúe como
+          <strong>contador</strong>.
+        </p>
+
+        <p>
+          Por ejemplo:
+        </p>
+
+        <div class="bloque-codigo">
+
+          <div class="cabecera-codigo">
+            <span class="lenguaje-codigo">JavaScript</span>
+            <button class="boton-copiar" type="button">
+              📋 Copiar código
+            </button>
+          </div>
+
+          <pre><code>let contador = 1;
+
+console.log(contador);
+
+contador++;
+
+console.log(contador);</code></pre>
+
+        </div>
+
+        <p>
+          El resultado será:
+        </p>
+
+        <div class="bloque-codigo">
+
+          <div class="cabecera-codigo">
+            <span class="lenguaje-codigo">Console</span>
+            <button class="boton-copiar" type="button">
+              📋 Copiar código
+            </button>
+          </div>
+
+          <pre><code>1
+2</code></pre>
+
+        </div>
+
+        <p>
+          La instrucción:
+        </p>
+
+        <div class="bloque-codigo">
+
+          <div class="cabecera-codigo">
+            <span class="lenguaje-codigo">JavaScript</span>
+            <button class="boton-copiar" type="button">
+              📋 Copiar código
+            </button>
+          </div>
+
+          <pre><code>contador++;</code></pre>
+
+        </div>
+
+        <p>
+          incrementa el valor de <code>contador</code> en una unidad. Es
+          equivalente a:
+        </p>
+
+        <div class="bloque-codigo">
+
+          <div class="cabecera-codigo">
+            <span class="lenguaje-codigo">JavaScript</span>
+            <button class="boton-copiar" type="button">
+              📋 Copiar código
+            </button>
+          </div>
+
+          <pre><code>contador = contador + 1;</code></pre>
+
+        </div>
+
+        <p>
+          Por tanto, el contador podría ir tomando sucesivamente estos
+          valores:
+        </p>
+
+        <div class="bloque-codigo">
+
+          <div class="cabecera-codigo">
+            <span class="lenguaje-codigo">Evolución del contador</span>
+            <button class="boton-copiar" type="button">
+              📋 Copiar código
+            </button>
+          </div>
+
+          <pre><code>1 → 2 → 3 → 4 → 5 → ...</code></pre>
+
+        </div>
+
+        <div class="caja caja-importante">
+
+          <span class="caja-titulo">📌 Importante</span>
+
+          <p>
+            Un <strong>contador</strong> es una variable cuyo valor se
+            modifica normalmente en una cantidad fija para controlar el
+            número de repeticiones realizadas.
+          </p>
+
+        </div>
+
+        <p>
+          En los bucles es muy habitual incrementar el contador en una
+          unidad:
+        </p>
+
+        <div class="bloque-codigo">
+
+          <div class="cabecera-codigo">
+            <span class="lenguaje-codigo">JavaScript</span>
+            <button class="boton-copiar" type="button">
+              📋 Copiar código
+            </button>
+          </div>
+
+          <pre><code>contador++;</code></pre>
+
+        </div>
+
+        <p>
+          aunque también podemos disminuirlo:
+        </p>
+
+        <div class="bloque-codigo">
+
+          <div class="cabecera-codigo">
+            <span class="lenguaje-codigo">JavaScript</span>
+            <button class="boton-copiar" type="button">
+              📋 Copiar código
+            </button>
+          </div>
+
+          <pre><code>contador--;</code></pre>
+
+        </div>
+
+        <p>
+          o modificarlo en otra cantidad:
+        </p>
+
+        <div class="bloque-codigo">
+
+          <div class="cabecera-codigo">
+            <span class="lenguaje-codigo">JavaScript</span>
+            <button class="boton-copiar" type="button">
+              📋 Copiar código
+            </button>
+          </div>
+
+          <pre><code>contador += 2;</code></pre>
+
+        </div>
+
+        <p>
+          Por ejemplo:
+        </p>
+
+        <div class="bloque-codigo">
+
+          <div class="cabecera-codigo">
+            <span class="lenguaje-codigo">JavaScript</span>
+            <button class="boton-copiar" type="button">
+              📋 Copiar código
+            </button>
+          </div>
+
+          <pre><code>let numero = 0;
+
+numero += 2;
+console.log(numero);
+
+numero += 2;
+console.log(numero);
+
+numero += 2;
+console.log(numero);</code></pre>
+
+        </div>
+
+        <p>
+          El resultado será:
+        </p>
+
+        <div class="bloque-codigo">
+
+          <div class="cabecera-codigo">
+            <span class="lenguaje-codigo">Console</span>
+            <button class="boton-copiar" type="button">
+              📋 Copiar código
+            </button>
+          </div>
+
+          <pre><code>2
+4
+6</code></pre>
+
+        </div>
+
+        <div class="caja caja-atencion">
+
+          <span class="caja-titulo">⚠️ Atención</span>
+
+          <p>
+            El contador <strong>no tiene que llamarse obligatoriamente
+            <code>contador</code></strong>. En los bucles es muy frecuente
+            encontrar nombres cortos como <code>i</code>, especialmente
+            cuando la variable únicamente controla las iteraciones. En el
+            siguiente apartado veremos por qué aparece con tanta frecuencia.
+          </p>
+
+        </div>
+
+
+        <!-- ======================================
+             CONDICIÓN DE CONTINUACIÓN
+        ======================================= -->
+
+        <h2 id="condicion-continuacion">
+          Condición de continuación
+        </h2>
+
+        <p>
+          Un bucle necesita saber
+          <strong>hasta cuándo debe seguir repitiéndose</strong>.
+        </p>
+
+        <p>
+          Para ello utiliza normalmente una <strong>condición</strong>.
+        </p>
+
+        <p>
+          Por ejemplo:
+        </p>
+
+        <div class="bloque-codigo">
+
+          <div class="cabecera-codigo">
+            <span class="lenguaje-codigo">JavaScript</span>
+            <button class="boton-copiar" type="button">
+              📋 Copiar código
+            </button>
+          </div>
+
+          <pre><code>contador &lt;= 5</code></pre>
+
+        </div>
+
+        <p>
+          Mientras esta expresión sea <code>true</code>, el bucle puede
+          continuar. Cuando pase a ser <code>false</code>, el bucle
+          terminará.
+        </p>
+
+        <p>
+          Supongamos que <code>contador</code> va tomando estos valores:
+        </p>
+
+        <div class="tabla-responsive">
+
+          <table class="tabla-apuntes">
+
+            <thead>
+              <tr>
+                <th>contador</th>
+                <th><code>contador &lt;= 5</code></th>
+                <th>¿Continuar?</th>
+              </tr>
+            </thead>
+
+            <tbody>
+
+              <tr>
+                <td>1</td>
+                <td><code>true</code></td>
+                <td>Sí</td>
+              </tr>
+
+              <tr>
+                <td>2</td>
+                <td><code>true</code></td>
+                <td>Sí</td>
+              </tr>
+
+              <tr>
+                <td>3</td>
+                <td><code>true</code></td>
+                <td>Sí</td>
+              </tr>
+
+              <tr>
+                <td>4</td>
+                <td><code>true</code></td>
+                <td>Sí</td>
+              </tr>
+
+              <tr>
+                <td>5</td>
+                <td><code>true</code></td>
+                <td>Sí</td>
+              </tr>
+
+              <tr>
+                <td>6</td>
+                <td><code>false</code></td>
+                <td>No</td>
+              </tr>
+
+            </tbody>
+
+          </table>
+
+        </div>
+
+        <p>
+          Por tanto, el proceso sería:
+        </p>
+
+        <div class="bloque-codigo">
+
+          <div class="cabecera-codigo">
+            <span class="lenguaje-codigo">Evolución</span>
+            <button class="boton-copiar" type="button">
+              📋 Copiar código
+            </button>
+          </div>
+
+          <pre><code>contador = 1 → continuar
+contador = 2 → continuar
+contador = 3 → continuar
+contador = 4 → continuar
+contador = 5 → continuar
+contador = 6 → detener</code></pre>
+
+        </div>
+
+        <div class="caja caja-importante">
+
+          <span class="caja-titulo">📌 Importante</span>
+
+          <p>
+            La <strong>condición de continuación</strong> determina si el
+            bucle debe realizar otra iteración. Mientras la condición permita
+            continuar, el bloque vuelve a ejecutarse. Cuando deja de
+            cumplirse, el bucle termina.
+          </p>
+
+        </div>
+
+
+        <!-- ======================================
+             ACTUALIZACIÓN
+        ======================================= -->
+
+        <h2 id="actualizacion">
+          Actualización
+        </h2>
+
+        <p>
+          Para que un bucle avance normalmente debe producirse algún cambio
+          entre una iteración y la siguiente.
+        </p>
+
+        <p>
+          Ese cambio se denomina <strong>actualización</strong>.
+        </p>
+
+        <p>
+          Por ejemplo:
+        </p>
+
+        <div class="bloque-codigo">
+
+          <div class="cabecera-codigo">
+            <span class="lenguaje-codigo">JavaScript</span>
+            <button class="boton-copiar" type="button">
+              📋 Copiar código
+            </button>
+          </div>
+
+          <pre><code>contador++;</code></pre>
+
+        </div>
+
+        <p>
+          Si comenzamos con:
+        </p>
+
+        <div class="bloque-codigo">
+
+          <div class="cabecera-codigo">
+            <span class="lenguaje-codigo">JavaScript</span>
+            <button class="boton-copiar" type="button">
+              📋 Copiar código
+            </button>
+          </div>
+
+          <pre><code>let contador = 1;</code></pre>
+
+        </div>
+
+        <p>
+          las sucesivas actualizaciones producirán:
+        </p>
+
+        <div class="bloque-codigo">
+
+          <div class="cabecera-codigo">
+            <span class="lenguaje-codigo">Evolución</span>
+            <button class="boton-copiar" type="button">
+              📋 Copiar código
+            </button>
+          </div>
+
+          <pre><code>1 → 2 → 3 → 4 → 5 → 6</code></pre>
+
+        </div>
+
+        <p>
+          Podemos visualizar el funcionamiento general de un bucle así:
+        </p>
+
+        <div class="bloque-codigo">
+
+          <div class="cabecera-codigo">
+            <span class="lenguaje-codigo">Esquema</span>
+            <button class="boton-copiar" type="button">
+              📋 Copiar código
+            </button>
+          </div>
+
+          <pre><code>Inicio
+  ↓
+Comprobar condición
+  ↓
+¿Se cumple?
+ ├── No → Fin
+ │
+ └── Sí
+      ↓
+ Ejecutar instrucciones
+      ↓
+ Actualizar
+      ↓
+ Volver a comprobar
+ la condición</code></pre>
+
+        </div>
+
+        <div class="caja caja-importante">
+
+          <span class="caja-titulo">📌 Importante</span>
+
+          <p>
+            En muchos bucles encontraremos tres elementos fundamentales:
+            <strong>inicialización</strong>, <strong>condición</strong> y
+            <strong>actualización</strong>.
+          </p>
+
+        </div>
+
+        <ul>
+          <li>
+            <strong>Inicialización:</strong> establece el valor inicial.
+          </li>
+
+          <li>
+            <strong>Condición:</strong> determina si el bucle continúa.
+          </li>
+
+          <li>
+            <strong>Actualización:</strong> modifica el valor utilizado para
+            controlar las repeticiones.
+          </li>
+        </ul>
+
+        <p>
+          Por ejemplo:
+        </p>
+
+        <div class="bloque-codigo">
+
+          <div class="cabecera-codigo">
+            <span class="lenguaje-codigo">JavaScript</span>
+            <button class="boton-copiar" type="button">
+              📋 Copiar código
+            </button>
+          </div>
+
+          <pre><code>for (let i = 1; i &lt;= 5; i++) {
+  console.log(i);
+}</code></pre>
+
+        </div>
+
+        <p>
+          Podemos identificar:
+        </p>
+
+        <div class="bloque-codigo">
+
+          <div class="cabecera-codigo">
+            <span class="lenguaje-codigo">Elementos del bucle</span>
+            <button class="boton-copiar" type="button">
+              📋 Copiar código
+            </button>
+          </div>
+
+          <pre><code>let i = 1     → inicialización
+
+i &lt;= 5        → condición
+
+i++           → actualización</code></pre>
+
+        </div>
+
+        <p>
+          Todavía no necesitamos memorizar esta sintaxis. La estudiaremos
+          detenidamente en el <strong>apartado 3.7</strong>.
+        </p>
+
+
+        <!-- ======================================
+             BUCLES FINITOS E INFINITOS
+        ======================================= -->
+
+        <h2 id="finitos-infinitos">
+          Bucles finitos e infinitos
+        </h2>
+
+        <p>
+          Un bucle debe disponer normalmente de algún mecanismo que permita
+          que la repetición termine.
+        </p>
+
+        <p>
+          Cuando el número de repeticiones está limitado hablamos de un
+          <strong>bucle finito</strong>.
+        </p>
+
+        <p>
+          Por ejemplo:
+        </p>
+
+        <div class="bloque-codigo">
+
+          <div class="cabecera-codigo">
+            <span class="lenguaje-codigo">JavaScript</span>
+            <button class="boton-copiar" type="button">
+              📋 Copiar código
+            </button>
+          </div>
+
+          <pre><code>for (let i = 1; i &lt;= 5; i++) {
+  console.log(i);
+}</code></pre>
+
+        </div>
+
+        <p>
+          Este bucle termina después de mostrar los números del
+          <code>1</code> al <code>5</code>.
+        </p>
+
+        <p>
+          Sin embargo, si la condición que controla un bucle
+          <strong>nunca llega a ser falsa</strong>, podemos crear un
+          <strong>bucle infinito</strong>.
+        </p>
+
+        <p>
+          Observa este ejemplo:
+        </p>
+
+        <div class="bloque-codigo">
+
+          <div class="cabecera-codigo">
+            <span class="lenguaje-codigo">JavaScript - Bucle infinito</span>
+            <button class="boton-copiar" type="button">
+              📋 Copiar código
+            </button>
+          </div>
+
+          <pre><code>let contador = 1;
+
+while (contador &lt;= 5) {
+  console.log(contador);
+}</code></pre>
+
+        </div>
+
+        <p>
+          La variable <code>contador</code> comienza valiendo
+          <code>1</code>, pero dentro del bucle
+          <strong>nunca cambia</strong>.
+        </p>
+
+        <p>
+          Por tanto:
+        </p>
+
+        <div class="bloque-codigo">
+
+          <div class="cabecera-codigo">
+            <span class="lenguaje-codigo">JavaScript</span>
+            <button class="boton-copiar" type="button">
+              📋 Copiar código
+            </button>
+          </div>
+
+          <pre><code>contador &lt;= 5</code></pre>
+
+        </div>
+
+        <p>
+          siempre seguirá siendo <code>true</code> y el bucle continuará
+          ejecutándose indefinidamente.
+        </p>
+
+        <p>
+          La versión correcta sería:
+        </p>
+
+        <div class="bloque-codigo">
+
+          <div class="cabecera-codigo">
+            <span class="lenguaje-codigo">JavaScript</span>
+            <button class="boton-copiar" type="button">
+              📋 Copiar código
+            </button>
+          </div>
+
+          <pre><code>let contador = 1;
+
+while (contador &lt;= 5) {
+  console.log(contador);
+  contador++;
+}</code></pre>
+
+        </div>
+
+        <p>
+          Ahora el valor cambia:
+        </p>
+
+        <div class="bloque-codigo">
+
+          <div class="cabecera-codigo">
+            <span class="lenguaje-codigo">Evolución</span>
+            <button class="boton-copiar" type="button">
+              📋 Copiar código
+            </button>
+          </div>
+
+          <pre><code>1 → 2 → 3 → 4 → 5 → 6</code></pre>
+
+        </div>
+
+        <p>
+          Cuando <code>contador</code> pasa a valer <code>6</code>, la
+          expresión:
+        </p>
+
+        <div class="bloque-codigo">
+
+          <div class="cabecera-codigo">
+            <span class="lenguaje-codigo">JavaScript</span>
+            <button class="boton-copiar" type="button">
+              📋 Copiar código
+            </button>
+          </div>
+
+          <pre><code>contador &lt;= 5</code></pre>
+
+        </div>
+
+        <p>
+          produce <code>false</code> y el bucle termina.
+        </p>
+
+        <div class="caja caja-atencion">
+
+          <span class="caja-titulo">⚠️ Atención</span>
+
+          <p>
+            Los <strong>bucles infinitos</strong> suelen producirse cuando
+            olvidamos actualizar la variable que interviene en la condición
+            o cuando construimos una condición que nunca puede llegar a ser
+            falsa. Durante las prácticas debemos preguntarnos siempre:
+            <strong>¿qué hace que este bucle termine?</strong>
+          </p>
+
+        </div>
+
+
+        <!-- ======================================
+             ELEGIR EL BUCLE ADECUADO
+        ======================================= -->
+
+        <h2 id="elegir-bucle">
+          Elegir el bucle adecuado
+        </h2>
+
+        <p>
+          JavaScript dispone de diferentes estructuras repetitivas. En esta
+          unidad estudiaremos principalmente:
+        </p>
+
+        <div class="tabla-responsive">
+
+          <table class="tabla-apuntes">
+
+            <thead>
+              <tr>
+                <th>Estructura</th>
+                <th>Uso habitual</th>
+              </tr>
+            </thead>
+
+            <tbody>
+
+              <tr>
+                <td><code>for</code></td>
+                <td>
+                  Cuando conocemos o podemos determinar las repeticiones que
+                  queremos realizar.
+                </td>
+              </tr>
+
+              <tr>
+                <td><code>while</code></td>
+                <td>
+                  Cuando queremos repetir mientras se cumpla una condición.
+                </td>
+              </tr>
+
+              <tr>
+                <td><code>do...while</code></td>
+                <td>
+                  Cuando necesitamos ejecutar el bloque al menos una vez y
+                  después comprobar si debe repetirse.
+                </td>
+              </tr>
+
+            </tbody>
+
+          </table>
+
+        </div>
+
+        <p>
+          Por ejemplo:
+        </p>
+
+        <div class="bloque-codigo">
+
+          <div class="cabecera-codigo">
+            <span class="lenguaje-codigo">JavaScript - for</span>
+            <button class="boton-copiar" type="button">
+              📋 Copiar código
+            </button>
+          </div>
+
+          <pre><code>for (let i = 1; i &lt;= 5; i++) {
+  console.log(i);
+}</code></pre>
+
+        </div>
+
+        <p>
+          resulta muy natural cuando queremos realizar
+          <strong>cinco repeticiones</strong>.
+        </p>
+
+        <p>
+          En cambio:
+        </p>
+
+        <div class="bloque-codigo">
+
+          <div class="cabecera-codigo">
+            <span class="lenguaje-codigo">JavaScript - while</span>
+            <button class="boton-copiar" type="button">
+              📋 Copiar código
+            </button>
+          </div>
+
+          <pre><code>let numero = 1;
+
+while (numero &lt; 100) {
+  console.log(numero);
+  numero *= 2;
+}</code></pre>
+
+        </div>
+
+        <p>
+          se basa principalmente en una
+          <strong>condición de continuación</strong>.
+        </p>
+
+        <p>
+          Y <code>do...while</code>, que estudiaremos en el
+          <strong>apartado 3.8</strong>, presenta una característica
+          especial: <strong>su bloque se ejecuta al menos una vez</strong>,
+          porque la condición se comprueba después de ejecutar las
+          instrucciones.
+        </p>
+
+        <div class="caja caja-importante">
+
+          <span class="caja-titulo">📌 Importante</span>
+
+          <p>
+            No existe un único bucle válido para cada problema. En muchas
+            situaciones podríamos utilizar estructuras diferentes. La
+            elección depende principalmente de
+            <strong>cómo queremos controlar la repetición</strong> y de cuál
+            permita expresar la solución de forma más clara.
+          </p>
+
+        </div>
+
+
+        <!-- ======================================
+             COMPRUEBA LO APRENDIDO
+        ======================================= -->
+
+        <div class="actividad-reflexion">
+
+          <h3>🧠 Comprueba lo aprendido</h3>
+
+          <p>
+            Sin ejecutar el código, observa el siguiente programa:
+          </p>
+
+          <div class="bloque-codigo">
+
+            <div class="cabecera-codigo">
+              <span class="lenguaje-codigo">JavaScript</span>
+              <button class="boton-copiar" type="button">
+                📋 Copiar código
+              </button>
+            </div>
+
+            <pre><code>let contador = 1;
+
+while (contador &lt;= 4) {
+  console.log(contador);
+  contador++;
+}
+
+console.log("Fin");</code></pre>
+
+          </div>
+
+          <p>
+            Intenta responder:
+          </p>
+
+          <ul>
+            <li>¿Cuál es el valor inicial de <code>contador</code>?</li>
+            <li>¿Qué condición controla la repetición?</li>
+            <li>¿Qué instrucción actualiza el contador?</li>
+            <li>¿Cuántas iteraciones se realizan?</li>
+            <li>¿Qué aparecerá finalmente en Console?</li>
+          </ul>
+
+          <details class="solucion-desplegable">
+
+            <summary>
+              Ver solución
+            </summary>
+
+            <div class="contenido-solucion">
+
+              <p>
+                El contador comienza valiendo <code>1</code>.
+              </p>
+
+              <p>
+                La condición es:
+              </p>
+
+              <div class="bloque-codigo">
+
+                <div class="cabecera-codigo">
+                  <span class="lenguaje-codigo">JavaScript</span>
+                  <button class="boton-copiar" type="button">
+                    📋 Copiar código
+                  </button>
+                </div>
+
+                <pre><code>contador &lt;= 4</code></pre>
+
+              </div>
+
+              <p>
+                La actualización es:
+              </p>
+
+              <div class="bloque-codigo">
+
+                <div class="cabecera-codigo">
+                  <span class="lenguaje-codigo">JavaScript</span>
+                  <button class="boton-copiar" type="button">
+                    📋 Copiar código
+                  </button>
+                </div>
+
+                <pre><code>contador++;</code></pre>
+
+              </div>
+
+              <p>
+                El bucle realiza <strong>4 iteraciones</strong>.
+              </p>
+
+              <p>
+                El resultado será:
+              </p>
+
+              <div class="bloque-codigo">
+
+                <div class="cabecera-codigo">
+                  <span class="lenguaje-codigo">Console</span>
+                  <button class="boton-copiar" type="button">
+                    📋 Copiar código
+                  </button>
+                </div>
+
+                <pre><code>1
+2
+3
+4
+Fin</code></pre>
+
+              </div>
+
+              <p>
+                Cuando <code>contador</code> pasa a valer <code>5</code>,
+                la condición <code>contador &lt;= 4</code> es
+                <code>false</code> y el bucle termina.
+              </p>
+
+            </div>
+
+          </details>
+
+        </div>
+
+
+        <!-- ======================================
+             PRÁCTICA
+        ======================================= -->
+
+        <div class="actividad-reflexion">
+
+          <h3>💻 Práctica: analiza los bucles</h3>
+
+          <p>
+            Antes de ejecutar cada código, intenta averiguar qué ocurrirá.
+          </p>
+
+          <h3>Ejercicio 1</h3>
+
+          <div class="bloque-codigo">
+
+            <div class="cabecera-codigo">
+              <span class="lenguaje-codigo">JavaScript</span>
+              <button class="boton-copiar" type="button">
+                📋 Copiar código
+              </button>
+            </div>
+
+            <pre><code>let numero = 1;
+
+while (numero &lt;= 3) {
+  console.log(numero);
+  numero++;
+}</code></pre>
+
+          </div>
+
+
+          <h3>Ejercicio 2</h3>
+
+          <div class="bloque-codigo">
+
+            <div class="cabecera-codigo">
+              <span class="lenguaje-codigo">JavaScript</span>
+              <button class="boton-copiar" type="button">
+                📋 Copiar código
+              </button>
+            </div>
+
+            <pre><code>let numero = 3;
+
+while (numero &gt;= 1) {
+  console.log(numero);
+  numero--;
+}</code></pre>
+
+          </div>
+
+
+          <h3>Ejercicio 3</h3>
+
+          <div class="bloque-codigo">
+
+            <div class="cabecera-codigo">
+              <span class="lenguaje-codigo">JavaScript</span>
+              <button class="boton-copiar" type="button">
+                📋 Copiar código
+              </button>
+            </div>
+
+            <pre><code>let numero = 0;
+
+while (numero &lt;= 6) {
+  console.log(numero);
+  numero += 2;
+}</code></pre>
+
+          </div>
+
+
+          <h3>Ejercicio 4</h3>
+
+          <p>
+            Analiza este código sin ejecutarlo inicialmente. ¿Qué problema
+            tiene?
+          </p>
+
+          <div class="bloque-codigo">
+
+            <div class="cabecera-codigo">
+              <span class="lenguaje-codigo">JavaScript</span>
+              <button class="boton-copiar" type="button">
+                📋 Copiar código
+              </button>
+            </div>
+
+            <pre><code>let numero = 1;
+
+while (numero &lt;= 5) {
+  console.log(numero);
+}</code></pre>
+
+          </div>
+
+          <details class="solucion-desplegable">
+
+            <summary>
+              Ver solución
+            </summary>
+
+            <div class="contenido-solucion">
+
+              <p>
+                El primer programa muestra:
+              </p>
+
+              <div class="bloque-codigo">
+
+                <div class="cabecera-codigo">
+                  <span class="lenguaje-codigo">Console</span>
+                  <button class="boton-copiar" type="button">
+                    📋 Copiar código
+                  </button>
+                </div>
+
+                <pre><code>1
+2
+3</code></pre>
+
+              </div>
+
+              <p>
+                El segundo programa muestra:
+              </p>
+
+              <div class="bloque-codigo">
+
+                <div class="cabecera-codigo">
+                  <span class="lenguaje-codigo">Console</span>
+                  <button class="boton-copiar" type="button">
+                    📋 Copiar código
+                  </button>
+                </div>
+
+                <pre><code>3
+2
+1</code></pre>
+
+              </div>
+
+              <p>
+                El tercer programa muestra:
+              </p>
+
+              <div class="bloque-codigo">
+
+                <div class="cabecera-codigo">
+                  <span class="lenguaje-codigo">Console</span>
+                  <button class="boton-copiar" type="button">
+                    📋 Copiar código
+                  </button>
+                </div>
+
+                <pre><code>0
+2
+4
+6</code></pre>
+
+              </div>
+
+              <p>
+                El cuarto programa contiene un
+                <strong>bucle infinito</strong>, porque
+                <code>numero</code> comienza valiendo <code>1</code> y nunca
+                se modifica. Por tanto, la condición
+                <code>numero &lt;= 5</code> nunca deja de ser verdadera.
+              </p>
+
+            </div>
+
+          </details>
+
+        </div>
+
+
+        <div class="caja caja-importante">
+
+          <span class="caja-titulo">📌 Recuerda</span>
+
+          <p>
+            Un bucle permite repetir instrucciones. Para comprender su
+            funcionamiento debemos identificar especialmente:
+            <strong>valor inicial → condición → instrucciones →
+            actualización</strong> y preguntarnos siempre:
+            <strong>¿qué provoca que el bucle termine?</strong>
+          </p>
+
+        </div>
+
+
+        <!-- ======================================
+             NAVEGACIÓN
+        ======================================= -->
+
+        <div class="navegacion-paginas">
+
+          <a
+            class="nav-pagina nav-anterior"
+            href="../3-5/index.html"
+          >
+            <span class="nav-etiqueta">
+              ← Anterior
+            </span>
+
+            <strong>
+              3.5 La estructura switch
+            </strong>
+          </a>
+
+          <a
+            class="nav-pagina nav-siguiente"
+            href="../3-7/index.html"
+          >
+            <span class="nav-etiqueta">
+              Siguiente →
+            </span>
+
+            <strong>
+              3.7 El bucle for
+            </strong>
+          </a>
+
+        </div>
+
+      </section>
+
+    </main>
+
+
+    <!-- ==========================================
+         ÍNDICE DERECHO
+    ========================================== -->
+
+    <aside class="indice-derecho">
+
+      <h2>En este apartado</h2>
+
+      <ul>
+
+        <li>
+          <a href="#estructura-repetitiva">
+            Qué es una estructura repetitiva
+          </a>
+        </li>
+
+        <li>
+          <a href="#para-que-bucles">
+            Para qué utilizamos los bucles
+          </a>
+        </li>
+
+        <li>
+          <a href="#contador">
+            Contador
+          </a>
+        </li>
+
+        <li>
+          <a href="#condicion-continuacion">
+            Condición de continuación
+          </a>
+        </li>
+
+        <li>
+          <a href="#actualizacion">
+            Actualización
+          </a>
+        </li>
+
+        <li>
+          <a href="#finitos-infinitos">
+            Bucles finitos e infinitos
+          </a>
+        </li>
+
+        <li>
+          <a href="#elegir-bucle">
+            Elegir el bucle adecuado
+          </a>
+        </li>
+
+      </ul>
+
+    </aside>
+
+  </div>
+
+
+  <!-- ==========================================
+       PIE
+  ========================================== -->
+
+  <footer>
+
+    <p>
+      Eva Ballestero Cubeles
+    </p>
+
+    <p>
+      Este material se distribuye bajo licencia
+      Creative Commons BY-NC-SA 4.0.
+    </p>
+
+  </footer>
+
+
+  <script src="../../../js/modulos.js"></script>
+
+  <script>
+
+    /* ==========================================
+       MENÚ DE MÓDULOS
+    ========================================== */
+
+    const menuModulos = document.getElementById("menuModulos");
+
+    if (
+      typeof modulos !== "undefined" &&
+      menuModulos
+    ) {
+
+      modulos
+        .filter(modulo => modulo.activo)
+        .forEach(modulo => {
+
+          const enlace = document.createElement("a");
+
+          enlace.href = `../../../${modulo.carpeta}/index.html`;
+          enlace.textContent = modulo.siglas;
+
+          menuModulos.appendChild(enlace);
+
+        });
+
+    }
+
+
+    /* ==========================================
+       MODO CLARO / OSCURO
+    ========================================== */
+
+    const botonTema = document.getElementById("botonTema");
+
+    function actualizarIconoTema() {
+
+      if (document.body.classList.contains("modo-oscuro")) {
+        botonTema.textContent = "🌙";
+      } else {
+        botonTema.textContent = "☀️";
+      }
+
+    }
+
+    if (localStorage.getItem("tema") === "oscuro") {
+      document.body.classList.add("modo-oscuro");
+    }
+
+    actualizarIconoTema();
+
+    botonTema.addEventListener("click", () => {
+
+      document.body.classList.toggle("modo-oscuro");
+
+      if (document.body.classList.contains("modo-oscuro")) {
+        localStorage.setItem("tema", "oscuro");
+      } else {
+        localStorage.setItem("tema", "claro");
+      }
+
+      actualizarIconoTema();
+
+    });
+
+
+    /* ==========================================
+       MENÚS DESPLEGABLES
+    ========================================== */
+
+    document
+      .querySelectorAll(".boton-desplegar")
+      .forEach(boton => {
+
+        boton.addEventListener("click", () => {
+
+          const idSubmenu = boton.dataset.target;
+          const submenu = document.getElementById(idSubmenu);
+
+          if (!submenu) {
+            return;
+          }
+
+          const abierto =
+            submenu.classList.toggle("submenu-abierto");
+
+          boton.setAttribute(
+            "aria-expanded",
+            abierto ? "true" : "false"
+          );
+
+          boton.textContent =
+            abierto ? "⌄" : "›";
+
+        });
+
+      });
+
+
+    /* ==========================================
+       COPIAR CÓDIGO
+    ========================================== */
+
+    document
+      .querySelectorAll(".boton-copiar")
+      .forEach(boton => {
+
+        boton.addEventListener("click", async () => {
+
+          const bloque =
+            boton.closest(".bloque-codigo");
+
+          const codigo =
+            bloque.querySelector("code");
+
+          if (!codigo) {
+            return;
+          }
+
+          try {
+
+            await navigator.clipboard.writeText(
+              codigo.textContent
+            );
+
+            const textoOriginal =
+              boton.textContent;
+
+            boton.textContent =
+              "✔ Copiado";
+
+            setTimeout(() => {
+
+              boton.textContent =
+                textoOriginal;
+
+            }, 1500);
+
+          } catch (error) {
+
+            console.error(
+              "No se ha podido copiar el código.",
+              error
+            );
+
+          }
+
+        });
+
+      });
+
+  </script>
+
+</body>
+
+</html>
