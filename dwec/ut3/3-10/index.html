@@ -2017,10 +2017,23 @@ Fila 3, columna 2</code></pre>
           Cómo se ejecutan los bucles anidados
         </h3>
 
-        <p>
-          Es importante comprender que el bucle interior comienza de nuevo
-          cada vez que el bucle exterior realiza una nueva iteración.
-        </p>
+<p>
+  Es importante comprender que el bucle interior se ejecuta
+  <strong>completamente por cada iteración del bucle exterior</strong>.
+</p>
+
+<p>
+  Cuando el bucle exterior avanza a su siguiente iteración, se vuelve
+  a ejecutar la declaración del bucle interior. Por tanto, su variable
+  de control se inicializa de nuevo con el valor indicado en su
+  <code>for</code>.
+</p>
+
+<p>
+  En nuestro ejemplo, cada vez que <code>fila</code> cambia de valor,
+  el bucle interior comienza de nuevo con
+  <code>columna = 1</code> y realiza todas sus iteraciones:
+</p>
 
         <div class="tabla-responsive">
 
@@ -2090,6 +2103,41 @@ Fila 3, columna 2</code></pre>
 
         </div>
 
+        <p>
+  Este efecto es importante porque, al anidar bucles, el número de
+  ejecuciones puede aumentar rápidamente.
+</p>
+
+<p>
+  Por ejemplo, si un bucle exterior realiza <code>100</code>
+  iteraciones y, en cada una de ellas, el bucle interior realiza otras
+  <code>100</code>, el bloque situado dentro de ambos bucles puede
+  ejecutarse:
+</p>
+
+<div class="caja caja-ejemplo">
+
+  <span class="caja-titulo">💻 Ejemplo</span>
+
+  <p>
+    <code>100 × 100 = 10.000</code> veces.
+  </p>
+
+</div>
+
+<div class="caja caja-atencion">
+
+  <span class="caja-titulo">⚠️ Atención</span>
+
+  <p>
+    Los bucles anidados son muy útiles, pero debemos tener en cuenta
+    que las repeticiones del bucle exterior y del interior se
+    <strong>combinan</strong>. Por ello, un número elevado de
+    iteraciones en ambos bucles puede hacer que se ejecuten muchas
+    operaciones.
+  </p>
+
+</div>
 
         <h3>
           Construir patrones con bucles anidados
