@@ -1943,7 +1943,116 @@ Fin</code></pre>
 
         </div>
 
+<h3>
+  Atención al utilizar continue dentro de while
+</h3>
 
+<p>
+  Cuando utilizamos <code>continue</code> dentro de un bucle
+  <code>while</code>, debemos prestar especial atención a la
+  <strong>actualización de la variable de control</strong>.
+</p>
+
+<p>
+  Si <code>continue</code> se ejecuta antes de actualizar esa variable,
+  el programa puede volver a comprobar siempre la misma condición y
+  provocar un <strong>bucle infinito</strong>.
+</p>
+
+<div class="caja caja-atencion">
+
+  <span class="caja-titulo">
+    ⚠️ Atención
+  </span>
+
+  <p>
+    Observa el siguiente ejemplo. Es incorrecto y
+    <strong>no debes ejecutarlo</strong>, porque provoca un bucle infinito.
+  </p>
+
+</div>
+
+<div class="bloque-codigo">
+
+  <div class="cabecera-codigo">
+    <span class="lenguaje-codigo">
+      JavaScript · Ejemplo incorrecto · No ejecutar
+    </span>
+  </div>
+
+  <pre><code>let numero = 1;
+
+while (numero &lt;= 5) {
+
+  if (numero === 3) {
+    continue;
+  }
+
+  console.log(numero);
+  numero++;
+}</code></pre>
+
+</div>
+
+<p>
+  Cuando <code>numero</code> alcanza el valor <code>3</code>, se ejecuta
+  <code>continue</code> antes de llegar a <code>numero++</code>.
+</p>
+
+<p>
+  Por tanto, <code>numero</code> sigue valiendo <code>3</code>. En la
+  siguiente iteración vuelve a cumplirse <code>numero === 3</code>, se
+  ejecuta de nuevo <code>continue</code> y el contador nunca puede avanzar.
+</p>
+
+<p>
+  Una posible corrección sería actualizar la variable antes de ejecutar
+  <code>continue</code>:
+</p>
+
+<div class="bloque-codigo">
+
+  <div class="cabecera-codigo">
+    <span class="lenguaje-codigo">JavaScript</span>
+
+    <button class="boton-copiar" type="button">
+      📋 Copiar código
+    </button>
+  </div>
+
+  <pre><code>let numero = 1;
+
+while (numero &lt;= 5) {
+
+  if (numero === 3) {
+    numero++;
+    continue;
+  }
+
+  console.log(numero);
+  numero++;
+}</code></pre>
+
+</div>
+
+<p>
+  En este caso, cuando <code>numero</code> vale <code>3</code>, primero
+  se incrementa hasta <code>4</code> y después se ejecuta
+  <code>continue</code>. De esta forma, el bucle puede seguir avanzando.
+</p>
+
+<div class="caja caja-importante">
+
+  <span class="caja-titulo">📌 Importante</span>
+
+  <p>
+    Cuando utilices <code>continue</code> dentro de un
+    <code>while</code>, comprueba siempre que la variable que controla
+    el bucle puede actualizarse correctamente antes de comenzar la
+    siguiente iteración.
+  </p>
+
+</div>
         <!-- ======================================
              DIFERENCIAS
         ======================================= -->
@@ -2201,21 +2310,25 @@ Fin</code></pre>
         </p>
 
 
-        <div class="caja caja-ejemplo">
+ <div class="caja caja-ejemplo">
 
-          <span class="caja-titulo">💻 Ejemplo DAW</span>
+  <span class="caja-titulo">💻 Ejemplo DAW</span>
 
-          <p>
-            En una aplicación web podemos recorrer información recibida
-            desde un servidor. Si encontramos el elemento que buscamos,
-            podríamos utilizar <code>break</code> para detener la búsqueda.
-            Si queremos ignorar determinados elementos y seguir procesando
-            los demás, <code>continue</code> puede resultar útil. Más adelante
-            trabajaremos estas situaciones con estructuras de datos reales.
-          </p>
+  <p>
+    En una aplicación web puede ser necesario repetir una serie de
+    comprobaciones. Si durante esas comprobaciones encontramos el dato
+    que buscábamos, podemos utilizar <code>break</code> para detener
+    el proceso. Si queremos ignorar determinados casos y continuar
+    comprobando los demás, <code>continue</code> puede resultar útil.
+  </p>
 
-        </div>
+  <p>
+    Más adelante, cuando trabajemos con arrays y con datos recibidos
+    desde un servidor, veremos aplicaciones más reales de estas
+    instrucciones.
+  </p>
 
+</div>
 
         <!-- ======================================
              EJEMPLOS PRÁCTICOS
