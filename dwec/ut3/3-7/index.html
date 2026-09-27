@@ -2819,9 +2819,9 @@ console.log("¡Despegue!");</code></pre>
         </div>
 
 
-        <h3>
-          4. Confundir el valor del contador después del bucle
-        </h3>
+<h3>
+  4. Confundir el último valor ejecutado con el valor que hace terminar el bucle
+</h3>
 
         <p>
           Observa este ejemplo:
@@ -2842,13 +2842,16 @@ console.log("¡Despegue!");</code></pre>
 
         </div>
 
-        <p>
-          El bloque se ejecuta con los valores <code>1</code>,
-          <code>2</code> y <code>3</code>. Después de la tercera iteración se
-          ejecuta una vez más <code>i++</code>, por lo que <code>i</code>
-          pasa a valer <code>4</code>. Entonces la condición
-          <code>4 &lt;= 3</code> es falsa y el bucle termina.
-        </p>
+<p>
+  El bloque se ejecuta con los valores <code>1</code>,
+  <code>2</code> y <code>3</code>. Después de la tercera iteración se
+  ejecuta <code>i++</code>, por lo que <code>i</code> pasa a valer
+  <code>4</code>. A continuación se comprueba de nuevo la condición.
+  Como <code>4 &lt;= 3</code> es <code>false</code>, el bucle termina.
+  Por tanto, el último valor con el que se ejecuta el bloque es
+  <code>3</code>, aunque la condición deja de cumplirse cuando el
+  contador alcanza el valor <code>4</code>.
+</p>
 
         <div class="caja caja-importante">
 
