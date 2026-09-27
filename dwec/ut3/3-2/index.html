@@ -1885,31 +1885,63 @@ if (edad >= 18 && tieneEntrada) {
         </p>
 
 
-        <h3>Confundir <code>=</code> con <code>===</code></h3>
+<h3>Confundir <code>=</code> con <code>===</code></h3>
 
-        <p>
-          Recuerda que <code>=</code> se utiliza para asignar un valor y
-          <code>===</code> para comprobar una igualdad estricta.
-        </p>
+<p>
+  Recuerda que <code>=</code> se utiliza para asignar un valor y
+  <code>===</code> para comprobar una igualdad estricta. Utilizar
+  <code>=</code> por error dentro de la condición puede modificar el valor
+  de la variable en lugar de realizar la comparación que pretendíamos.
+</p>
 
-        <div class="bloque-codigo">
+<p>
+  Observa este código incorrecto:
+</p>
 
-          <div class="cabecera-codigo">
-            <span class="lenguaje-codigo">JavaScript</span>
-            <button class="boton-copiar" type="button">
-              📋 Copiar código
-            </button>
-          </div>
+<div class="bloque-codigo">
 
-          <pre><code>const edad = 18;
+  <div class="cabecera-codigo">
+    <span class="lenguaje-codigo">JavaScript - Incorrecto</span>
+    <button class="boton-copiar" type="button">
+      📋 Copiar código
+    </button>
+  </div>
 
-// Comparación
+  <pre><code>let edad = 20;
+
+if (edad = 18) {
+  console.log("La edad es 18");
+}</code></pre>
+
+</div>
+
+<p>
+  En este caso no estamos comparando <code>edad</code> con
+  <code>18</code>: estamos <strong>asignando</strong> el valor
+  <code>18</code> a la variable. Por tanto, hemos modificado
+  accidentalmente su valor.
+</p>
+
+<p>
+  La comparación correcta sería:
+</p>
+
+<div class="bloque-codigo">
+
+  <div class="cabecera-codigo">
+    <span class="lenguaje-codigo">JavaScript - Correcto</span>
+    <button class="boton-copiar" type="button">
+      📋 Copiar código
+    </button>
+  </div>
+
+  <pre><code>let edad = 20;
+
 if (edad === 18) {
   console.log("La edad es 18");
 }</code></pre>
 
-        </div>
-
+</div>
 
         <h3>Escribir un punto y coma después de la condición</h3>
 
