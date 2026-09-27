@@ -1428,12 +1428,12 @@
           Ejecución secuencial
         </h2>
 
-        <p>
-          La forma más sencilla de ejecutar un programa es la
-          <strong>ejecución secuencial</strong>. En este caso, JavaScript ejecuta
-          las instrucciones una detrás de otra, siguiendo normalmente el orden
-          en el que aparecen escritas.
-        </p>
+<p>
+  La forma más sencilla de ejecutar un programa es la
+  <strong>ejecución secuencial</strong>. En un programa sencillo como los
+  que hemos utilizado hasta ahora, JavaScript ejecuta las instrucciones
+  una detrás de otra, siguiendo el orden en el que aparecen escritas.
+</p>
 
         <p>
           Observa el siguiente ejemplo:
@@ -1908,17 +1908,23 @@ false</code></pre>
             </button>
           </div>
 
-          <pre><code>const edad = 20;
+<pre><code>const edad = 20;
 const tieneEntrada = true;
 
-console.log(edad >= 18 && tieneEntrada === true);</code></pre>
+console.log(edad >= 18 && tieneEntrada);</code></pre>
 
         </div>
 
-        <p>
-          El resultado será <code>true</code>, porque ambas condiciones se
-          cumplen.
-        </p>
+<p>
+  El resultado será <code>true</code>, porque ambas condiciones se
+  cumplen.
+</p>
+
+<p>
+  Como <code>tieneEntrada</code> ya contiene un valor booleano, podemos
+  utilizar la variable directamente como condición. No es necesario
+  escribir <code>tieneEntrada === true</code>.
+</p>
 
 
         <h3>Operador OR: <code>||</code></h3>
