@@ -1,0 +1,3276 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+  <meta charset="UTF-8">
+
+  <meta
+    name="viewport"
+    content="width=device-width, initial-scale=1.0"
+  >
+
+  <meta
+    name="description"
+    content="3.4 - Decisiones múltiples con else if."
+  >
+
+  <title>3.4 - Decisiones múltiples con else if</title>
+
+  <link rel="icon" type="image/png" href="../../../img/favicon.png?v=5">
+  <link rel="stylesheet" href="../../../css/estilos.css">
+
+  <style>
+
+    /* ==========================================
+       ESTRUCTURA DE LA UT
+    ========================================== */
+
+    .pagina-ut {
+      display: grid;
+      grid-template-columns: 280px 1fr 260px;
+      min-height: calc(100vh - 68px);
+    }
+
+
+    /* ==========================================
+       COLUMNA IZQUIERDA
+    ========================================== */
+
+    .sidebar {
+      border-right: 1px solid var(--borde);
+      background-color: var(--fondo-pagina);
+
+      padding: 12px 10px 30px;
+
+      position: sticky;
+      top: 68px;
+
+      height: calc(100vh - 68px);
+      overflow-y: auto;
+    }
+
+    .sidebar-modulo {
+      display: block;
+      margin-bottom: 8px;
+      padding: 8px 14px;
+
+      color: #626873;
+
+      font-size: 17px;
+      font-weight: 700;
+      line-height: 1.3;
+
+      text-decoration: none;
+      border-radius: 6px;
+
+      transition:
+        color 0.2s ease,
+        background-color 0.2s ease;
+    }
+
+    .sidebar-modulo:hover {
+      color: var(--verde-principal);
+      background-color: #f3f4f6;
+    }
+
+    body.modo-oscuro .sidebar-modulo:hover {
+      background-color: #273244;
+    }
+
+
+    /* ==========================================
+       MENÚ LATERAL DESPLEGABLE
+    ========================================== */
+
+    .menu-desplegable {
+      width: 100%;
+    }
+
+    .menu-cabecera {
+      display: flex;
+      align-items: center;
+      gap: 4px;
+      width: 100%;
+      border-radius: 6px;
+    }
+
+    .menu-cabecera-activa {
+      background-color: #f1f1f1;
+    }
+
+    .menu-cabecera-activa > .menu-titulo {
+      color: var(--verde-principal);
+    }
+
+    .menu-titulo {
+      flex: 1;
+      display: block;
+      padding: 11px 8px 11px 14px;
+
+      color: #626873;
+
+      font-size: 16px;
+      font-weight: 650;
+      line-height: 1.4;
+
+      text-decoration: none;
+    }
+
+    .menu-titulo:hover {
+      color: var(--verde-principal);
+    }
+
+    .boton-desplegar {
+      width: 36px;
+      height: 36px;
+
+      margin-right: 5px;
+      padding: 0;
+
+      display: flex;
+      align-items: center;
+      justify-content: center;
+
+      flex-shrink: 0;
+
+      border: 0;
+      border-radius: 6px;
+
+      background: transparent;
+
+      color: #777;
+
+      font-family: inherit;
+      font-size: 24px;
+      line-height: 1;
+
+      cursor: pointer;
+    }
+
+    .boton-desplegar:hover {
+      background-color: #e5e7eb;
+      color: var(--verde-principal);
+    }
+
+    .submenu {
+      display: none;
+    }
+
+    .submenu.submenu-abierto {
+      display: block;
+    }
+
+    .menu-apartado {
+      margin-left: 14px;
+    }
+
+    .menu-apartado .menu-titulo {
+      padding-top: 9px;
+      padding-bottom: 9px;
+
+      font-size: 15px;
+      font-weight: 600;
+    }
+
+    .enlace-apartado-simple {
+      display: block;
+
+      margin-left: 14px;
+      padding: 10px 14px;
+
+      color: #626873;
+
+      font-size: 15px;
+      font-weight: 600;
+      line-height: 1.4;
+
+      text-decoration: none;
+
+      border-radius: 6px;
+    }
+
+    .enlace-apartado-simple:hover {
+      background-color: #f3f4f6;
+      color: var(--verde-principal);
+    }
+
+    .submenu-apartados {
+      margin: 2px 0 5px 28px;
+      border-left: 2px solid #e0e3e7;
+    }
+
+    .submenu-apartados a {
+      display: block;
+
+      padding: 7px 10px;
+
+      color: #777d87;
+
+      font-size: 14px;
+      font-weight: 500;
+      line-height: 1.35;
+
+      text-decoration: none;
+    }
+
+    .submenu-apartados a:hover {
+      color: var(--verde-principal);
+    }
+
+    body.modo-oscuro .menu-cabecera-activa {
+      background-color: #273244;
+    }
+
+    body.modo-oscuro .boton-desplegar:hover {
+      background-color: #334155;
+    }
+
+    body.modo-oscuro .enlace-apartado-simple:hover {
+      background-color: #273244;
+    }
+
+    body.modo-oscuro .submenu-apartados {
+      border-left-color: #3a4659;
+    }
+
+
+    /* ==========================================
+       RESTO DE UT
+    ========================================== */
+
+    .sidebar-ut-cerrada {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+
+      padding: 13px 14px;
+
+      color: #626873;
+      text-decoration: none;
+
+      font-size: 16px;
+      font-weight: 650;
+      line-height: 1.35;
+
+      border-radius: 6px;
+    }
+
+    .sidebar-ut-cerrada:hover {
+      background-color: #f3f4f6;
+      color: var(--verde-principal);
+    }
+
+    body.modo-oscuro .sidebar-ut-cerrada:hover {
+      background-color: #273244;
+    }
+
+
+    /* ==========================================
+       ZONA CENTRAL
+    ========================================== */
+
+    .contenido-ut {
+      padding: 28px 34px 70px;
+      max-width: 1150px;
+      width: 100%;
+    }
+
+    .migas {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+
+      margin-bottom: 30px;
+
+      font-size: 14px;
+    }
+
+    .miga-inicio {
+      text-decoration: none;
+      font-size: 18px;
+    }
+
+    .miga-separador {
+      color: #999;
+      font-size: 22px;
+    }
+
+    .miga-modulo {
+      color: var(--texto-secundario);
+      text-decoration: none;
+    }
+
+    .miga-modulo:hover {
+      color: var(--verde-principal);
+    }
+
+    .miga-actual {
+      padding: 8px 14px;
+
+      background-color: #f3f3f3;
+      border-radius: 24px;
+
+      color: var(--verde-principal);
+    }
+
+    body.modo-oscuro .miga-actual {
+      background-color: #273244;
+    }
+
+    .contenido-ut h1 {
+      margin: 0 0 30px;
+
+      font-size: clamp(38px, 5vw, 58px);
+      line-height: 1.12;
+    }
+
+
+    /* ==========================================
+       CONTENIDO DE LOS APARTADOS
+    ========================================== */
+
+    .apartado-ut {
+      margin-top: 55px;
+      scroll-margin-top: 95px;
+    }
+
+    .apartado-ut h2 {
+      margin: 0 0 24px;
+
+      font-size: 32px;
+      line-height: 1.2;
+
+      scroll-margin-top: 95px;
+    }
+
+    .apartado-ut h3 {
+      margin: 34px 0 16px;
+
+      font-size: 24px;
+      line-height: 1.3;
+    }
+
+    .apartado-ut p {
+      margin: 0 0 18px;
+
+      font-size: 18px;
+      line-height: 1.75;
+    }
+
+    .apartado-ut ul {
+      margin: 16px 0 24px;
+      padding-left: 28px;
+    }
+
+    .apartado-ut li {
+      margin-bottom: 10px;
+
+      font-size: 17px;
+      line-height: 1.6;
+    }
+
+
+    /* ==========================================
+       CAJAS
+    ========================================== */
+
+    .caja {
+      margin: 28px 0;
+      padding: 18px 20px;
+
+      border-left: 5px solid;
+      border-radius: 8px;
+
+      line-height: 1.65;
+    }
+
+    .caja p {
+      margin: 0;
+      font-size: 17px;
+    }
+
+    .caja-titulo {
+      display: block;
+
+      margin-bottom: 8px;
+
+      font-size: 17px;
+      font-weight: 700;
+    }
+
+    .caja-importante {
+      background-color: #eef8f1;
+      border-left-color: #2f9e5b;
+    }
+
+    .caja-atencion {
+      background-color: #fff7e8;
+      border-left-color: #e09b27;
+    }
+
+    .caja-ejemplo {
+      background-color: #eef5ff;
+      border-left-color: #3f7acb;
+    }
+
+    body.modo-oscuro .caja-importante {
+      background-color: #20372a;
+    }
+
+    body.modo-oscuro .caja-atencion {
+      background-color: #3b3020;
+    }
+
+    body.modo-oscuro .caja-ejemplo {
+      background-color: #23344a;
+    }
+
+
+    /* ==========================================
+       TABLAS
+    ========================================== */
+
+    .tabla-responsive {
+      width: 100%;
+      margin: 28px 0;
+      overflow-x: auto;
+    }
+
+    .tabla-apuntes {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 16px;
+    }
+
+    .tabla-apuntes th,
+    .tabla-apuntes td {
+      padding: 14px 16px;
+
+      border: 1px solid var(--borde);
+
+      text-align: left;
+      vertical-align: top;
+
+      line-height: 1.55;
+    }
+
+    .tabla-apuntes th {
+      background-color: #f1f3f5;
+      font-weight: 700;
+    }
+
+    body.modo-oscuro .tabla-apuntes th {
+      background-color: #273244;
+    }
+
+
+    /* ==========================================
+       ACTIVIDADES
+    ========================================== */
+
+    .actividad-reflexion {
+      margin: 32px 0;
+      padding: 22px 24px;
+
+      background-color: #f7f8fa;
+
+      border: 1px solid var(--borde);
+      border-radius: 10px;
+    }
+
+    .actividad-reflexion h3 {
+      margin: 0 0 12px;
+
+      color: var(--verde-principal);
+
+      font-size: 20px;
+    }
+
+    .actividad-reflexion p {
+      margin: 0 0 14px;
+
+      font-size: 17px;
+      line-height: 1.65;
+    }
+
+    body.modo-oscuro .actividad-reflexion {
+      background-color: #232d3d;
+    }
+
+    .solucion-desplegable {
+      margin-top: 20px;
+    }
+
+    .solucion-desplegable summary {
+      display: inline-block;
+
+      padding: 10px 16px;
+
+      background-color: #eef8f1;
+
+      border: 1px solid #b9dfc6;
+      border-radius: 7px;
+
+      color: var(--verde-principal);
+
+      font-size: 16px;
+      font-weight: 700;
+
+      cursor: pointer;
+      user-select: none;
+    }
+
+    .solucion-desplegable summary:hover {
+      background-color: #e2f3e7;
+    }
+
+    .contenido-solucion {
+      margin-top: 16px;
+      padding: 18px 20px;
+
+      background-color: var(--fondo-pagina);
+
+      border-left: 4px solid var(--verde-principal);
+      border-radius: 6px;
+    }
+
+    .contenido-solucion p {
+      margin: 0 0 12px;
+
+      font-size: 16px;
+      line-height: 1.65;
+    }
+
+    .contenido-solucion p:last-child {
+      margin-bottom: 0;
+    }
+
+    body.modo-oscuro .solucion-desplegable summary {
+      background-color: #20372a;
+      border-color: #315d40;
+    }
+
+
+    /* ==========================================
+       BLOQUES DE CÓDIGO DWEC
+    ========================================== */
+
+    .bloque-codigo {
+      margin: 28px 0;
+
+      border: 1px solid #3b3b3b;
+      border-radius: 9px;
+
+      overflow: hidden;
+
+      background-color: #1e1e1e;
+    }
+
+    .cabecera-codigo {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+
+      padding: 10px 14px;
+
+      background-color: #2b2b2b;
+      color: #f3f4f6;
+
+      font-size: 14px;
+    }
+
+    .lenguaje-codigo {
+      font-weight: 700;
+    }
+
+    .boton-copiar {
+      padding: 6px 11px;
+
+      border: 1px solid #5c5c5c;
+      border-radius: 6px;
+
+      background-color: #383838;
+      color: #f3f4f6;
+
+      font-family: inherit;
+      font-size: 13px;
+
+      cursor: pointer;
+
+      transition:
+        background-color 0.2s ease,
+        border-color 0.2s ease;
+    }
+
+    .boton-copiar:hover {
+      background-color: #484848;
+      border-color: #777;
+    }
+
+    .bloque-codigo pre {
+      margin: 0;
+      padding: 18px 20px;
+
+      overflow-x: auto;
+
+      tab-size: 2;
+    }
+
+    .bloque-codigo code {
+      color: #f5f5f5;
+
+      font-family:
+        Consolas,
+        "Courier New",
+        monospace;
+
+      font-size: 15px;
+      line-height: 1.6;
+
+      white-space: pre;
+    }
+
+
+    /* ==========================================
+       COLUMNA DERECHA
+    ========================================== */
+
+    .indice-derecho {
+      padding: 28px 22px 100px;
+
+      border-left: 1px solid var(--borde);
+
+      position: sticky;
+      top: 68px;
+
+      height: calc(100vh - 68px);
+
+      overflow-y: auto;
+
+      box-sizing: border-box;
+    }
+
+    .indice-derecho h2 {
+      margin: 8px 0 20px;
+
+      font-size: 17px;
+      color: #555b65;
+    }
+
+    body.modo-oscuro .indice-derecho h2 {
+      color: #d1d5db;
+    }
+
+    .indice-derecho ul {
+      margin: 0;
+      padding-left: 18px;
+    }
+
+    .indice-derecho li {
+      margin-bottom: 12px;
+    }
+
+    .indice-derecho a {
+      color: var(--texto-secundario);
+
+      text-decoration: none;
+
+      font-size: 14px;
+      line-height: 1.4;
+    }
+
+    .indice-derecho a:hover {
+      color: var(--verde-principal);
+    }
+
+
+    /* ==========================================
+       NAVEGACIÓN
+    ========================================== */
+
+    .navegacion-paginas {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 20px;
+
+      margin-top: 50px;
+    }
+
+    .nav-pagina {
+      min-height: 100px;
+      padding: 18px 20px;
+
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+
+      border: 1px solid var(--borde);
+      border-radius: 8px;
+
+      text-decoration: none;
+
+      background-color: var(--fondo-tarjeta);
+    }
+
+    .nav-anterior {
+      align-items: flex-start;
+      text-align: left;
+    }
+
+    .nav-siguiente {
+      align-items: flex-end;
+      text-align: right;
+    }
+
+    .nav-etiqueta {
+      margin-bottom: 5px;
+
+      color: var(--texto-secundario);
+
+      font-size: 14px;
+    }
+
+    .nav-pagina strong {
+      color: var(--verde-principal);
+
+      font-size: 16px;
+      line-height: 1.4;
+    }
+
+    .nav-pagina:hover {
+      border-color: var(--verde-principal);
+    }
+
+
+    /* ==========================================
+       RESPONSIVE
+    ========================================== */
+
+    @media (max-width: 1100px) {
+
+      .pagina-ut {
+        grid-template-columns: 250px 1fr;
+      }
+
+      .indice-derecho {
+        display: none;
+      }
+
+    }
+
+    @media (max-width: 760px) {
+
+      .pagina-ut {
+        display: block;
+      }
+
+      .sidebar {
+        position: static;
+
+        width: 100%;
+        height: auto;
+
+        border-right: 0;
+        border-bottom: 1px solid var(--borde);
+      }
+
+      .contenido-ut {
+        padding: 28px 20px 60px;
+      }
+
+      .contenido-ut h1 {
+        font-size: 36px;
+      }
+
+      .navegacion-paginas {
+        grid-template-columns: 1fr;
+      }
+
+      .nav-siguiente {
+        align-items: flex-start;
+        text-align: left;
+      }
+
+    }
+
+  </style>
+
+</head>
+
+
+<body>
+
+  <header class="navbar">
+
+    <a class="inicio" href="../../../index.html">
+
+      <img
+        src="../../../img/profesora-castana.png?v=2"
+        alt=""
+        class="icono-profesora"
+      >
+
+      <span>Inicio</span>
+
+    </a>
+
+    <nav
+      id="menuModulos"
+      class="menu-modulos"
+      aria-label="Módulos formativos"
+    ></nav>
+
+    <button
+      id="botonTema"
+      class="boton-tema"
+      type="button"
+      aria-label="Cambiar entre modo claro y oscuro"
+      title="Cambiar tema"
+    >
+      ☀️
+    </button>
+
+  </header>
+
+
+  <div class="pagina-ut">
+
+    <!-- ==========================================
+         MENÚ LATERAL
+    ========================================== -->
+
+    <aside class="sidebar">
+
+      <a class="sidebar-modulo" href="../../index.html">
+        Desarrollo web en entorno cliente
+      </a>
+
+      <a class="sidebar-ut-cerrada" href="../../ut1/index.html">
+        <span>UT1 - Introducción al desarrollo web en entorno cliente</span>
+        <span>›</span>
+      </a>
+
+      <a class="sidebar-ut-cerrada" href="../../ut2/index.html">
+        <span>UT2 - Fundamentos de JavaScript: variables, tipos y operadores</span>
+        <span>›</span>
+      </a>
+
+
+      <!-- UT3 -->
+
+      <div class="menu-desplegable">
+
+        <div class="menu-cabecera menu-cabecera-activa">
+
+          <a class="menu-titulo" href="../index.html">
+            UT3 - Estructuras de control en JavaScript
+          </a>
+
+          <button
+            class="boton-desplegar"
+            type="button"
+            data-target="submenu-ut3"
+            aria-expanded="true"
+          >
+            ⌄
+          </button>
+
+        </div>
+
+
+        <div id="submenu-ut3" class="submenu submenu-abierto">
+
+
+          <!-- 3.1 -->
+
+          <div class="menu-desplegable menu-apartado">
+
+            <div class="menu-cabecera">
+
+              <a class="menu-titulo" href="../3-1/index.html">
+                3.1 El flujo de ejecución de un programa
+              </a>
+
+              <button
+                class="boton-desplegar"
+                type="button"
+                data-target="submenu-3-1"
+                aria-expanded="false"
+              >
+                ›
+              </button>
+
+            </div>
+
+            <div id="submenu-3-1" class="submenu submenu-apartados">
+
+              <a href="../3-1/index.html#ejecucion-secuencial">
+                Ejecución secuencial
+              </a>
+
+              <a href="../3-1/index.html#control-flujo">
+                Qué significa controlar el flujo
+              </a>
+
+              <a href="../3-1/index.html#condiciones">
+                Condiciones y valores booleanos
+              </a>
+
+              <a href="../3-1/index.html#comparacion">
+                Expresiones de comparación
+              </a>
+
+              <a href="../3-1/index.html#operadores-logicos">
+                Operadores lógicos en condiciones
+              </a>
+
+              <a href="../3-1/index.html#bloques">
+                Bloques de código
+              </a>
+
+            </div>
+
+          </div>
+
+
+          <!-- 3.2 -->
+
+          <div class="menu-desplegable menu-apartado">
+
+            <div class="menu-cabecera">
+
+              <a class="menu-titulo" href="../3-2/index.html">
+                3.2 Estructuras condicionales: if
+              </a>
+
+              <button
+                class="boton-desplegar"
+                type="button"
+                data-target="submenu-3-2"
+                aria-expanded="false"
+              >
+                ›
+              </button>
+
+            </div>
+
+            <div id="submenu-3-2" class="submenu submenu-apartados">
+
+              <a href="../3-2/index.html#que-es-condicion">
+                Qué es una condición
+              </a>
+
+              <a href="../3-2/index.html#sintaxis-if">
+                Sintaxis de if
+              </a>
+
+              <a href="../3-2/index.html#evaluacion-condicion">
+                Evaluación de la condición
+              </a>
+
+              <a href="../3-2/index.html#bloque-instrucciones">
+                Bloque de instrucciones
+              </a>
+
+              <a href="../3-2/index.html#condiciones-simples">
+                Condiciones simples
+              </a>
+
+              <a href="../3-2/index.html#errores-frecuentes">
+                Errores frecuentes
+              </a>
+
+            </div>
+
+          </div>
+
+
+          <!-- 3.3 -->
+
+          <div class="menu-desplegable menu-apartado">
+
+            <div class="menu-cabecera">
+
+              <a class="menu-titulo" href="../3-3/index.html">
+                3.3 Alternativas con if...else
+              </a>
+
+              <button
+                class="boton-desplegar"
+                type="button"
+                data-target="submenu-3-3"
+                aria-expanded="false"
+              >
+                ›
+              </button>
+
+            </div>
+
+            <div id="submenu-3-3" class="submenu submenu-apartados">
+
+              <a href="../3-3/index.html#dos-caminos">
+                Dos caminos de ejecución
+              </a>
+
+              <a href="../3-3/index.html#sintaxis-if-else">
+                Sintaxis de if...else
+              </a>
+
+              <a href="../3-3/index.html#funcionamiento">
+                Funcionamiento paso a paso
+              </a>
+
+              <a href="../3-3/index.html#operadores-logicos">
+                Condiciones con operadores lógicos
+              </a>
+
+              <a href="../3-3/index.html#casos-practicos">
+                Casos prácticos
+              </a>
+
+              <a href="../3-3/index.html#errores-frecuentes">
+                Errores frecuentes
+              </a>
+
+            </div>
+
+          </div>
+
+
+          <!-- 3.4 -->
+
+          <div class="menu-desplegable menu-apartado">
+
+            <div class="menu-cabecera menu-cabecera-activa">
+
+              <a class="menu-titulo" href="index.html">
+                3.4 Decisiones múltiples con else if
+              </a>
+
+              <button
+                class="boton-desplegar"
+                type="button"
+                data-target="submenu-3-4"
+                aria-expanded="true"
+              >
+                ⌄
+              </button>
+
+            </div>
+
+            <div
+              id="submenu-3-4"
+              class="submenu submenu-apartados submenu-abierto"
+            >
+
+              <a href="#mas-alternativas">
+                Más de dos alternativas
+              </a>
+
+              <a href="#encadenamiento">
+                Encadenamiento de condiciones
+              </a>
+
+              <a href="#orden-evaluacion">
+                Orden de evaluación
+              </a>
+
+              <a href="#rangos">
+                Rangos de valores
+              </a>
+
+              <a href="#casos-practicos">
+                Casos prácticos
+              </a>
+
+              <a href="#errores-frecuentes">
+                Errores frecuentes
+              </a>
+
+            </div>
+
+          </div>
+
+
+          <!-- 3.5 -->
+
+          <div class="menu-desplegable menu-apartado">
+
+            <div class="menu-cabecera">
+
+              <a class="menu-titulo" href="../3-5/index.html">
+                3.5 La estructura switch
+              </a>
+
+              <button
+                class="boton-desplegar"
+                type="button"
+                data-target="submenu-3-5"
+                aria-expanded="false"
+              >
+                ›
+              </button>
+
+            </div>
+
+            <div id="submenu-3-5" class="submenu submenu-apartados">
+
+              <a href="../3-5/index.html#cuando-switch">
+                Cuándo utilizar switch
+              </a>
+
+              <a href="../3-5/index.html#sintaxis-switch">
+                Sintaxis de switch
+              </a>
+
+              <a href="../3-5/index.html#case">
+                case
+              </a>
+
+              <a href="../3-5/index.html#break">
+                break
+              </a>
+
+              <a href="../3-5/index.html#default">
+                default
+              </a>
+
+              <a href="../3-5/index.html#varios-case">
+                Varios case para una misma acción
+              </a>
+
+              <a href="../3-5/index.html#switch-if">
+                switch frente a if...else if
+              </a>
+
+            </div>
+
+          </div>
+
+
+          <!-- 3.6 -->
+
+          <div class="menu-desplegable menu-apartado">
+
+            <div class="menu-cabecera">
+
+              <a class="menu-titulo" href="../3-6/index.html">
+                3.6 Introducción a los bucles
+              </a>
+
+              <button
+                class="boton-desplegar"
+                type="button"
+                data-target="submenu-3-6"
+                aria-expanded="false"
+              >
+                ›
+              </button>
+
+            </div>
+
+            <div id="submenu-3-6" class="submenu submenu-apartados">
+
+              <a href="../3-6/index.html#estructura-repetitiva">
+                Qué es una estructura repetitiva
+              </a>
+
+              <a href="../3-6/index.html#para-que-bucles">
+                Para qué utilizamos los bucles
+              </a>
+
+              <a href="../3-6/index.html#contador">
+                Contador
+              </a>
+
+              <a href="../3-6/index.html#condicion-continuacion">
+                Condición de continuación
+              </a>
+
+              <a href="../3-6/index.html#actualizacion">
+                Actualización
+              </a>
+
+              <a href="../3-6/index.html#finitos-infinitos">
+                Bucles finitos e infinitos
+              </a>
+
+              <a href="../3-6/index.html#elegir-bucle">
+                Elegir el bucle adecuado
+              </a>
+
+            </div>
+
+          </div>
+
+
+          <!-- 3.7 -->
+
+          <div class="menu-desplegable menu-apartado">
+
+            <div class="menu-cabecera">
+
+              <a class="menu-titulo" href="../3-7/index.html">
+                3.7 El bucle for
+              </a>
+
+              <button
+                class="boton-desplegar"
+                type="button"
+                data-target="submenu-3-7"
+                aria-expanded="false"
+              >
+                ›
+              </button>
+
+            </div>
+
+            <div id="submenu-3-7" class="submenu submenu-apartados">
+
+              <a href="../3-7/index.html#sintaxis-for">
+                Sintaxis de for
+              </a>
+
+              <a href="../3-7/index.html#inicializacion">
+                Inicialización
+              </a>
+
+              <a href="../3-7/index.html#condicion">
+                Condición
+              </a>
+
+              <a href="../3-7/index.html#actualizacion">
+                Actualización
+              </a>
+
+              <a href="../3-7/index.html#contadores">
+                Contadores
+              </a>
+
+              <a href="../3-7/index.html#ascendentes">
+                Recorridos ascendentes
+              </a>
+
+              <a href="../3-7/index.html#descendentes">
+                Recorridos descendentes
+              </a>
+
+              <a href="../3-7/index.html#errores-frecuentes">
+                Errores frecuentes
+              </a>
+
+            </div>
+
+          </div>
+
+
+          <!-- 3.8 -->
+
+          <div class="menu-desplegable menu-apartado">
+
+            <div class="menu-cabecera">
+
+              <a class="menu-titulo" href="../3-8/index.html">
+                3.8 Los bucles while y do...while
+              </a>
+
+              <button
+                class="boton-desplegar"
+                type="button"
+                data-target="submenu-3-8"
+                aria-expanded="false"
+              >
+                ›
+              </button>
+
+            </div>
+
+            <div id="submenu-3-8" class="submenu submenu-apartados">
+
+              <a href="../3-8/index.html#while">
+                El bucle while
+              </a>
+
+              <a href="../3-8/index.html#funcionamiento">
+                Funcionamiento paso a paso
+              </a>
+
+              <a href="../3-8/index.html#do-while">
+                El bucle do...while
+              </a>
+
+              <a href="../3-8/index.html#diferencias">
+                Diferencias entre while y do...while
+              </a>
+
+              <a href="../3-8/index.html#cuando-utilizar">
+                Cuándo utilizar cada uno
+              </a>
+
+              <a href="../3-8/index.html#control-condicion">
+                Bucles controlados por condición
+              </a>
+
+              <a href="../3-8/index.html#bucle-infinito">
+                Riesgo de bucle infinito
+              </a>
+
+            </div>
+
+          </div>
+
+
+          <!-- 3.9 -->
+
+          <div class="menu-desplegable menu-apartado">
+
+            <div class="menu-cabecera">
+
+              <a class="menu-titulo" href="../3-9/index.html">
+                3.9 Control de bucles con break y continue
+              </a>
+
+              <button
+                class="boton-desplegar"
+                type="button"
+                data-target="submenu-3-9"
+                aria-expanded="false"
+              >
+                ›
+              </button>
+
+            </div>
+
+            <div id="submenu-3-9" class="submenu submenu-apartados">
+
+              <a href="../3-9/index.html#break">
+                Interrumpir un bucle con break
+              </a>
+
+              <a href="../3-9/index.html#continue">
+                Saltar una iteración con continue
+              </a>
+
+              <a href="../3-9/index.html#diferencias">
+                Diferencias entre break y continue
+              </a>
+
+              <a href="../3-9/index.html#uso-responsable">
+                Uso responsable
+              </a>
+
+              <a href="../3-9/index.html#ejemplos">
+                Ejemplos prácticos
+              </a>
+
+            </div>
+
+          </div>
+
+
+          <!-- 3.10 -->
+
+          <div class="menu-desplegable menu-apartado">
+
+            <div class="menu-cabecera">
+
+              <a class="menu-titulo" href="../3-10/index.html">
+                3.10 Estructuras de control anidadas
+              </a>
+
+              <button
+                class="boton-desplegar"
+                type="button"
+                data-target="submenu-3-10"
+                aria-expanded="false"
+              >
+                ›
+              </button>
+
+            </div>
+
+            <div id="submenu-3-10" class="submenu submenu-apartados">
+
+              <a href="../3-10/index.html#anidar">
+                Qué significa anidar estructuras
+              </a>
+
+              <a href="../3-10/index.html#if-dentro-if">
+                if dentro de if
+              </a>
+
+              <a href="../3-10/index.html#if-dentro-bucle">
+                if dentro de un bucle
+              </a>
+
+              <a href="../3-10/index.html#bucles-anidados">
+                Bucles anidados
+              </a>
+
+              <a href="../3-10/index.html#variables-control">
+                Variables de control
+              </a>
+
+              <a href="../3-10/index.html#lectura">
+                Lectura paso a paso
+              </a>
+
+              <a href="../3-10/index.html#legibilidad">
+                Legibilidad
+              </a>
+
+            </div>
+
+          </div>
+
+
+          <!-- 3.11 -->
+
+          <div class="menu-desplegable menu-apartado">
+
+            <div class="menu-cabecera">
+
+              <a class="menu-titulo" href="../3-11/index.html">
+                3.11 Resolución de problemas con estructuras de control
+              </a>
+
+              <button
+                class="boton-desplegar"
+                type="button"
+                data-target="submenu-3-11"
+                aria-expanded="false"
+              >
+                ›
+              </button>
+
+            </div>
+
+            <div id="submenu-3-11" class="submenu submenu-apartados">
+
+              <a href="../3-11/index.html#analizar-problema">
+                Analizar el problema
+              </a>
+
+              <a href="../3-11/index.html#datos">
+                Identificar los datos
+              </a>
+
+              <a href="../3-11/index.html#decisiones">
+                Identificar las decisiones
+              </a>
+
+              <a href="../3-11/index.html#repeticiones">
+                Identificar las repeticiones
+              </a>
+
+              <a href="../3-11/index.html#algoritmo">
+                Diseñar el algoritmo
+              </a>
+
+              <a href="../3-11/index.html#javascript">
+                Traducirlo a JavaScript
+              </a>
+
+              <a href="../3-11/index.html#pruebas">
+                Probar casos
+              </a>
+
+              <a href="../3-11/index.html#depuracion">
+                Depurar y corregir
+              </a>
+
+            </div>
+
+          </div>
+
+
+          <a
+            class="enlace-apartado-simple"
+            href="../resumen/index.html"
+          >
+            ✏️ Resumen de la UT3
+          </a>
+
+          <a
+            class="enlace-apartado-simple"
+            href="../actividades/index.html"
+          >
+            📝 Actividades de la UT3
+          </a>
+
+        </div>
+
+      </div>
+
+
+      <!-- RESTO DE UT -->
+
+      <a class="sidebar-ut-cerrada" href="../../ut4/index.html">
+        <span>UT4 - Arrays y estructuras de datos en JavaScript</span>
+        <span>›</span>
+      </a>
+
+      <a class="sidebar-ut-cerrada" href="../../ut5/index.html">
+        <span>UT5 - Funciones en JavaScript</span>
+        <span>›</span>
+      </a>
+
+      <a class="sidebar-ut-cerrada" href="../../ut6/index.html">
+        <span>UT6 - Objetos y Programación Orientada a Objetos en JavaScript</span>
+        <span>›</span>
+      </a>
+
+      <a class="sidebar-ut-cerrada" href="../../ut7/index.html">
+        <span>UT7 - Objetos predefinidos y modelo del navegador (BOM)</span>
+        <span>›</span>
+      </a>
+
+      <a class="sidebar-ut-cerrada" href="../../ut8/index.html">
+        <span>UT8 - Aplicaciones web interactivas: DOM, eventos y formularios</span>
+        <span>›</span>
+      </a>
+
+      <a class="sidebar-ut-cerrada" href="../../ut9/index.html">
+        <span>UT9 - Comunicación asíncrona y peticiones al servidor</span>
+        <span>›</span>
+      </a>
+
+      <a class="sidebar-ut-cerrada" href="../../ut10/index.html">
+        <span>UT10 - Introducción a React</span>
+        <span>›</span>
+      </a>
+
+    </aside>
+
+
+    <!-- ==========================================
+         CONTENIDO PRINCIPAL
+    ========================================== -->
+
+    <main class="contenido-ut">
+
+      <div class="migas">
+
+        <a
+          class="miga-inicio"
+          href="../../../index.html"
+          aria-label="Volver a la página principal"
+        >
+          🏠
+        </a>
+
+        <span class="miga-separador">›</span>
+
+        <a class="miga-modulo" href="../../index.html">
+          DWEC
+        </a>
+
+        <span class="miga-separador">›</span>
+
+        <a class="miga-modulo" href="../index.html">
+          UT3
+        </a>
+
+        <span class="miga-separador">›</span>
+
+        <span class="miga-actual">
+          3.4
+        </span>
+
+      </div>
+
+
+      <h1>
+        3.4 Decisiones múltiples con else if
+      </h1>
+
+
+      <section class="apartado-ut">
+
+        <p>
+          En el apartado anterior aprendimos a utilizar
+          <code>if...else</code> para elegir entre
+          <strong>dos alternativas</strong>. Sin embargo, en muchos programas
+          una decisión puede tener más de dos posibles resultados.
+        </p>
+
+        <p>
+          Para resolver estas situaciones podemos utilizar
+          <code>else if</code>, que permite
+          <strong>encadenar varias condiciones</strong> y ejecutar un bloque
+          diferente dependiendo de cuál de ellas se cumpla.
+        </p>
+
+        <div class="caja caja-importante">
+
+          <span class="caja-titulo">📌 Importante</span>
+
+          <p>
+            Una estructura <code>if...else if...else</code> permite elegir
+            entre <strong>varias alternativas</strong>. JavaScript evalúa las
+            condiciones en orden y ejecuta el bloque correspondiente a la
+            <strong>primera condición que sea verdadera</strong>.
+          </p>
+
+        </div>
+
+
+        <!-- ======================================
+             MÁS DE DOS ALTERNATIVAS
+        ======================================= -->
+
+        <h2 id="mas-alternativas">
+          Más de dos alternativas
+        </h2>
+
+        <p>
+          Imagina que queremos mostrar un mensaje diferente dependiendo de la
+          nota obtenida por un alumno.
+        </p>
+
+        <p>
+          Con <code>if...else</code> podemos distinguir únicamente entre dos
+          situaciones:
+        </p>
+
+        <div class="bloque-codigo">
+
+          <div class="cabecera-codigo">
+            <span class="lenguaje-codigo">JavaScript</span>
+            <button class="boton-copiar" type="button">
+              📋 Copiar código
+            </button>
+          </div>
+
+          <pre><code>const nota = 7;
+
+if (nota >= 5) {
+  console.log("Aprobado");
+} else {
+  console.log("No aprobado");
+}</code></pre>
+
+        </div>
+
+        <p>
+          Pero quizá queremos distinguir entre tres resultados:
+        </p>
+
+        <ul>
+          <li>
+            Una nota igual o superior a <code>9</code> →
+            <code>"Sobresaliente"</code>.
+          </li>
+
+          <li>
+            Una nota igual o superior a <code>5</code> →
+            <code>"Aprobado"</code>.
+          </li>
+
+          <li>
+            Una nota inferior a <code>5</code> →
+            <code>"No aprobado"</code>.
+          </li>
+        </ul>
+
+        <p>
+          Para ello podemos añadir una nueva condición mediante
+          <code>else if</code>:
+        </p>
+
+        <div class="bloque-codigo">
+
+          <div class="cabecera-codigo">
+            <span class="lenguaje-codigo">JavaScript</span>
+            <button class="boton-copiar" type="button">
+              📋 Copiar código
+            </button>
+          </div>
+
+          <pre><code>const nota = 7;
+
+if (nota >= 9) {
+  console.log("Sobresaliente");
+} else if (nota >= 5) {
+  console.log("Aprobado");
+} else {
+  console.log("No aprobado");
+}</code></pre>
+
+        </div>
+
+        <p>
+          En este caso JavaScript realiza el siguiente proceso:
+        </p>
+
+        <ul>
+          <li>
+            Comprueba si <code>nota >= 9</code>.
+          </li>
+
+          <li>
+            Como <code>7 >= 9</code> es <code>false</code>, continúa con el
+            <code>else if</code>.
+          </li>
+
+          <li>
+            Comprueba si <code>nota >= 5</code>.
+          </li>
+
+          <li>
+            Como <code>7 >= 5</code> es <code>true</code>, ejecuta ese
+            bloque.
+          </li>
+
+          <li>
+            El resto de la estructura se omite.
+          </li>
+        </ul>
+
+        <p>
+          Por tanto, en Console aparecerá:
+        </p>
+
+        <div class="bloque-codigo">
+
+          <div class="cabecera-codigo">
+            <span class="lenguaje-codigo">Console</span>
+            <button class="boton-copiar" type="button">
+              📋 Copiar código
+            </button>
+          </div>
+
+          <pre><code>Aprobado</code></pre>
+
+        </div>
+
+        <div class="caja caja-ejemplo">
+
+          <span class="caja-titulo">💻 Ejemplo DAW</span>
+
+          <p>
+            En una aplicación web podemos necesitar más de dos respuestas
+            posibles: clasificar un pedido según su importe, mostrar distintos
+            mensajes según el estado de una operación, determinar diferentes
+            niveles de acceso o aplicar distintas acciones dependiendo de los
+            datos introducidos por el usuario.
+          </p>
+
+        </div>
+
+
+        <!-- ======================================
+             ENCADENAMIENTO DE CONDICIONES
+        ======================================= -->
+
+        <h2 id="encadenamiento">
+          Encadenamiento de condiciones
+        </h2>
+
+        <p>
+          La estructura general de <code>if...else if...else</code> es la
+          siguiente:
+        </p>
+
+        <div class="bloque-codigo">
+
+          <div class="cabecera-codigo">
+            <span class="lenguaje-codigo">JavaScript</span>
+            <button class="boton-copiar" type="button">
+              📋 Copiar código
+            </button>
+          </div>
+
+          <pre><code>if (condición1) {
+  // Instrucciones si condición1 es true
+} else if (condición2) {
+  // Instrucciones si condición1 es false
+  // y condición2 es true
+} else {
+  // Instrucciones si ninguna condición anterior es true
+}</code></pre>
+
+        </div>
+
+        <p>
+          Podemos añadir tantos bloques <code>else if</code> como necesitemos:
+        </p>
+
+        <div class="bloque-codigo">
+
+          <div class="cabecera-codigo">
+            <span class="lenguaje-codigo">JavaScript</span>
+            <button class="boton-copiar" type="button">
+              📋 Copiar código
+            </button>
+          </div>
+
+          <pre><code>if (condición1) {
+  // Primera alternativa
+} else if (condición2) {
+  // Segunda alternativa
+} else if (condición3) {
+  // Tercera alternativa
+} else {
+  // Alternativa final
+}</code></pre>
+
+        </div>
+
+        <p>
+          Cada <code>else if</code> introduce
+          <strong>una nueva condición que solo se evaluará si las anteriores
+          han sido falsas</strong>.
+        </p>
+
+        <p>
+          Por ejemplo:
+        </p>
+
+        <div class="bloque-codigo">
+
+          <div class="cabecera-codigo">
+            <span class="lenguaje-codigo">JavaScript</span>
+            <button class="boton-copiar" type="button">
+              📋 Copiar código
+            </button>
+          </div>
+
+          <pre><code>const temperatura = 28;
+
+if (temperatura >= 35) {
+  console.log("Temperatura muy alta");
+} else if (temperatura >= 25) {
+  console.log("Temperatura alta");
+} else if (temperatura >= 15) {
+  console.log("Temperatura moderada");
+} else {
+  console.log("Temperatura baja");
+}</code></pre>
+
+        </div>
+
+        <p>
+          Como <code>28 >= 35</code> es <code>false</code>, JavaScript
+          continúa.
+        </p>
+
+        <p>
+          Después comprueba:
+        </p>
+
+        <div class="bloque-codigo">
+
+          <div class="cabecera-codigo">
+            <span class="lenguaje-codigo">JavaScript</span>
+            <button class="boton-copiar" type="button">
+              📋 Copiar código
+            </button>
+          </div>
+
+          <pre><code>temperatura >= 25</code></pre>
+
+        </div>
+
+        <p>
+          Esta condición es <code>true</code>, por lo que muestra:
+        </p>
+
+        <div class="bloque-codigo">
+
+          <div class="cabecera-codigo">
+            <span class="lenguaje-codigo">Console</span>
+            <button class="boton-copiar" type="button">
+              📋 Copiar código
+            </button>
+          </div>
+
+          <pre><code>Temperatura alta</code></pre>
+
+        </div>
+
+        <p>
+          A partir de ese momento JavaScript deja de evaluar las condiciones
+          restantes de la estructura.
+        </p>
+
+        <div class="caja caja-importante">
+
+          <span class="caja-titulo">📌 Importante</span>
+
+          <p>
+            Los distintos <code>else if</code>
+            <strong>no son decisiones independientes</strong>. Forman parte de
+            una única estructura condicional y, cuando una condición es
+            verdadera, JavaScript ejecuta su bloque y omite las alternativas
+            restantes.
+          </p>
+
+        </div>
+
+
+        <h3>¿Es obligatorio utilizar <code>else</code> al final?</h3>
+
+        <p>
+          No. Una estructura con <code>else if</code> puede terminar sin un
+          <code>else</code>:
+        </p>
+
+        <div class="bloque-codigo">
+
+          <div class="cabecera-codigo">
+            <span class="lenguaje-codigo">JavaScript</span>
+            <button class="boton-copiar" type="button">
+              📋 Copiar código
+            </button>
+          </div>
+
+          <pre><code>const puntos = 75;
+
+if (puntos >= 90) {
+  console.log("Nivel avanzado");
+} else if (puntos >= 60) {
+  console.log("Nivel intermedio");
+}</code></pre>
+
+        </div>
+
+        <p>
+          Si ninguna condición se cumple, simplemente no se ejecutará ninguno
+          de esos bloques y el programa continuará con la siguiente
+          instrucción.
+        </p>
+
+        <p>
+          Utilizaremos <code>else</code> cuando queramos establecer
+          <strong>una alternativa final para todos los casos que no hayan
+          cumplido ninguna de las condiciones anteriores</strong>.
+        </p>
+
+
+        <!-- ======================================
+             ORDEN DE EVALUACIÓN
+        ======================================= -->
+
+        <h2 id="orden-evaluacion">
+          Orden de evaluación
+        </h2>
+
+        <p>
+          El orden en el que escribimos las condiciones es fundamental.
+        </p>
+
+        <p>
+          JavaScript las evalúa <strong>de arriba hacia abajo</strong> y deja
+          de comprobar las siguientes en cuanto encuentra una condición
+          verdadera.
+        </p>
+
+        <p>
+          Observa:
+        </p>
+
+        <div class="bloque-codigo">
+
+          <div class="cabecera-codigo">
+            <span class="lenguaje-codigo">JavaScript - Orden incorrecto</span>
+            <button class="boton-copiar" type="button">
+              📋 Copiar código
+            </button>
+          </div>
+
+          <pre><code>const nota = 9;
+
+if (nota >= 5) {
+  console.log("Aprobado");
+} else if (nota >= 7) {
+  console.log("Notable");
+} else if (nota >= 9) {
+  console.log("Sobresaliente");
+}</code></pre>
+
+        </div>
+
+        <p>
+          Podríamos esperar que apareciera <code>"Sobresaliente"</code>, pero
+          el resultado será:
+        </p>
+
+        <div class="bloque-codigo">
+
+          <div class="cabecera-codigo">
+            <span class="lenguaje-codigo">Console</span>
+            <button class="boton-copiar" type="button">
+              📋 Copiar código
+            </button>
+          </div>
+
+          <pre><code>Aprobado</code></pre>
+
+        </div>
+
+        <p>
+          La primera condición:
+        </p>
+
+        <div class="bloque-codigo">
+
+          <div class="cabecera-codigo">
+            <span class="lenguaje-codigo">JavaScript</span>
+            <button class="boton-copiar" type="button">
+              📋 Copiar código
+            </button>
+          </div>
+
+          <pre><code>nota >= 5</code></pre>
+
+        </div>
+
+        <p>
+          ya es verdadera para una nota de <code>9</code>. JavaScript ejecuta
+          ese bloque y <strong>no continúa comprobando los siguientes
+          <code>else if</code></strong>.
+        </p>
+
+        <p>
+          Por tanto, en este caso debemos ordenar las condiciones desde la más
+          restrictiva hasta la más general:
+        </p>
+
+        <div class="bloque-codigo">
+
+          <div class="cabecera-codigo">
+            <span class="lenguaje-codigo">JavaScript - Orden correcto</span>
+            <button class="boton-copiar" type="button">
+              📋 Copiar código
+            </button>
+          </div>
+
+          <pre><code>const nota = 9;
+
+if (nota >= 9) {
+  console.log("Sobresaliente");
+} else if (nota >= 7) {
+  console.log("Notable");
+} else if (nota >= 5) {
+  console.log("Aprobado");
+} else {
+  console.log("No aprobado");
+}</code></pre>
+
+        </div>
+
+        <p>
+          Ahora el resultado será:
+        </p>
+
+        <div class="bloque-codigo">
+
+          <div class="cabecera-codigo">
+            <span class="lenguaje-codigo">Console</span>
+            <button class="boton-copiar" type="button">
+              📋 Copiar código
+            </button>
+          </div>
+
+          <pre><code>Sobresaliente</code></pre>
+
+        </div>
+
+        <div class="caja caja-atencion">
+
+          <span class="caja-titulo">⚠️ Atención</span>
+
+          <p>
+            Cuando varias condiciones pueden ser verdaderas al mismo tiempo,
+            el <strong>orden importa</strong>. En una cadena
+            <code>if...else if</code>, JavaScript ejecutará únicamente el
+            bloque correspondiente a la
+            <strong>primera condición verdadera</strong>.
+          </p>
+
+        </div>
+
+        <div class="caja caja-ejemplo">
+
+          <span class="caja-titulo">💡 Para razonar el orden</span>
+
+          <p>
+            Antes de escribir una cadena de condiciones, pregúntate:
+            <strong>si un valor puede cumplir varias condiciones, cuál quiero
+            comprobar primero</strong>. Esta pregunta ayuda a detectar muchos
+            errores de orden.
+          </p>
+
+        </div>
+
+
+        <!-- ======================================
+             RANGOS DE VALORES
+        ======================================= -->
+
+        <h2 id="rangos">
+          Rangos de valores
+        </h2>
+
+        <p>
+          <code>else if</code> resulta especialmente útil cuando queremos
+          clasificar un valor en diferentes rangos.
+        </p>
+
+        <p>
+          Por ejemplo, podemos clasificar una nota:
+        </p>
+
+        <div class="bloque-codigo">
+
+          <div class="cabecera-codigo">
+            <span class="lenguaje-codigo">JavaScript</span>
+            <button class="boton-copiar" type="button">
+              📋 Copiar código
+            </button>
+          </div>
+
+          <pre><code>const nota = 8;
+
+if (nota >= 9) {
+  console.log("Sobresaliente");
+} else if (nota >= 7) {
+  console.log("Notable");
+} else if (nota >= 5) {
+  console.log("Aprobado");
+} else {
+  console.log("No aprobado");
+}</code></pre>
+
+        </div>
+
+        <p>
+          Aunque en cada condición solo aparece un límite inferior, la propia
+          estructura establece los rangos.
+        </p>
+
+        <p>
+          Si JavaScript llega a:
+        </p>
+
+        <div class="bloque-codigo">
+
+          <div class="cabecera-codigo">
+            <span class="lenguaje-codigo">JavaScript</span>
+            <button class="boton-copiar" type="button">
+              📋 Copiar código
+            </button>
+          </div>
+
+          <pre><code>else if (nota >= 7)</code></pre>
+
+        </div>
+
+        <p>
+          sabemos que:
+        </p>
+
+        <div class="bloque-codigo">
+
+          <div class="cabecera-codigo">
+            <span class="lenguaje-codigo">JavaScript</span>
+            <button class="boton-copiar" type="button">
+              📋 Copiar código
+            </button>
+          </div>
+
+          <pre><code>nota >= 9</code></pre>
+
+        </div>
+
+        <p>
+          ya ha sido falsa. Por tanto, en ese punto el valor se encuentra
+          implícitamente en el intervalo:
+        </p>
+
+        <div class="bloque-codigo">
+
+          <div class="cabecera-codigo">
+            <span class="lenguaje-codigo">Rango</span>
+            <button class="boton-copiar" type="button">
+              📋 Copiar código
+            </button>
+          </div>
+
+          <pre><code>7 <= nota < 9</code></pre>
+
+        </div>
+
+        <p>
+          Podemos interpretarlo así:
+        </p>
+
+        <div class="tabla-responsive">
+
+          <table class="tabla-apuntes">
+
+            <thead>
+              <tr>
+                <th>Condición</th>
+                <th>Rango que representa</th>
+                <th>Resultado</th>
+              </tr>
+            </thead>
+
+            <tbody>
+
+              <tr>
+                <td><code>nota >= 9</code></td>
+                <td>9 o más</td>
+                <td>Sobresaliente</td>
+              </tr>
+
+              <tr>
+                <td><code>nota >= 7</code></td>
+                <td>Desde 7 hasta menos de 9</td>
+                <td>Notable</td>
+              </tr>
+
+              <tr>
+                <td><code>nota >= 5</code></td>
+                <td>Desde 5 hasta menos de 7</td>
+                <td>Aprobado</td>
+              </tr>
+
+              <tr>
+                <td><code>else</code></td>
+                <td>Menos de 5</td>
+                <td>No aprobado</td>
+              </tr>
+
+            </tbody>
+
+          </table>
+
+        </div>
+
+        <div class="caja caja-importante">
+
+          <span class="caja-titulo">📌 Importante</span>
+
+          <p>
+            En una cadena ordenada correctamente no siempre necesitamos
+            escribir los dos límites de cada rango. Las condiciones que ya han
+            resultado falsas pueden establecer implícitamente uno de esos
+            límites.
+          </p>
+
+        </div>
+
+
+        <h3>Rangos con operadores lógicos</h3>
+
+        <p>
+          También podemos expresar un rango de forma explícita utilizando
+          <code>&amp;&amp;</code>.
+        </p>
+
+        <div class="bloque-codigo">
+
+          <div class="cabecera-codigo">
+            <span class="lenguaje-codigo">JavaScript</span>
+            <button class="boton-copiar" type="button">
+              📋 Copiar código
+            </button>
+          </div>
+
+          <pre><code>const edad = 25;
+
+if (edad < 18) {
+  console.log("Menor de edad");
+} else if (edad >= 18 && edad < 65) {
+  console.log("Persona adulta");
+} else {
+  console.log("65 años o más");
+}</code></pre>
+
+        </div>
+
+        <p>
+          La expresión:
+        </p>
+
+        <div class="bloque-codigo">
+
+          <div class="cabecera-codigo">
+            <span class="lenguaje-codigo">JavaScript</span>
+            <button class="boton-copiar" type="button">
+              📋 Copiar código
+            </button>
+          </div>
+
+          <pre><code>edad >= 18 && edad < 65</code></pre>
+
+        </div>
+
+        <p>
+          solo será verdadera cuando se cumplan simultáneamente los dos
+          límites.
+        </p>
+
+        <p>
+          Sin embargo, teniendo en cuenta el orden de evaluación, también
+          podríamos escribir:
+        </p>
+
+        <div class="bloque-codigo">
+
+          <div class="cabecera-codigo">
+            <span class="lenguaje-codigo">JavaScript</span>
+            <button class="boton-copiar" type="button">
+              📋 Copiar código
+            </button>
+          </div>
+
+          <pre><code>const edad = 25;
+
+if (edad < 18) {
+  console.log("Menor de edad");
+} else if (edad < 65) {
+  console.log("Persona adulta");
+} else {
+  console.log("65 años o más");
+}</code></pre>
+
+        </div>
+
+        <p>
+          Cuando JavaScript llega a <code>edad < 65</code>, ya sabemos que
+          <code>edad < 18</code> ha sido falsa.
+        </p>
+
+        <div class="caja caja-ejemplo">
+
+          <span class="caja-titulo">💻 Ejemplo DAW</span>
+
+          <p>
+            Comprender los rangos es útil para clasificar datos de una
+            aplicación: importes de pedidos, porcentajes, puntuaciones, edades,
+            niveles de ocupación o cualquier otro valor que pueda pertenecer a
+            diferentes categorías.
+          </p>
+
+        </div>
+
+
+        <!-- ======================================
+             CASOS PRÁCTICOS
+        ======================================= -->
+
+        <h2 id="casos-practicos">
+          Casos prácticos
+        </h2>
+
+
+        <h3>Clasificar el importe de un pedido</h3>
+
+        <div class="bloque-codigo">
+
+          <div class="cabecera-codigo">
+            <span class="lenguaje-codigo">JavaScript</span>
+            <button class="boton-copiar" type="button">
+              📋 Copiar código
+            </button>
+          </div>
+
+          <pre><code>const importe = 135;
+
+if (importe >= 200) {
+  console.log("Pedido de importe alto");
+} else if (importe >= 100) {
+  console.log("Pedido de importe medio");
+} else {
+  console.log("Pedido de importe bajo");
+}</code></pre>
+
+        </div>
+
+        <p>
+          El importe es <code>135</code>. La primera condición es falsa:
+        </p>
+
+        <div class="bloque-codigo">
+
+          <div class="cabecera-codigo">
+            <span class="lenguaje-codigo">JavaScript</span>
+            <button class="boton-copiar" type="button">
+              📋 Copiar código
+            </button>
+          </div>
+
+          <pre><code>135 >= 200</code></pre>
+
+        </div>
+
+        <p>
+          La segunda es verdadera:
+        </p>
+
+        <div class="bloque-codigo">
+
+          <div class="cabecera-codigo">
+            <span class="lenguaje-codigo">JavaScript</span>
+            <button class="boton-copiar" type="button">
+              📋 Copiar código
+            </button>
+          </div>
+
+          <pre><code>135 >= 100</code></pre>
+
+        </div>
+
+        <p>
+          Por tanto, aparecerá:
+        </p>
+
+        <div class="bloque-codigo">
+
+          <div class="cabecera-codigo">
+            <span class="lenguaje-codigo">Console</span>
+            <button class="boton-copiar" type="button">
+              📋 Copiar código
+            </button>
+          </div>
+
+          <pre><code>Pedido de importe medio</code></pre>
+
+        </div>
+
+
+        <h3>Clasificar una puntuación</h3>
+
+        <div class="bloque-codigo">
+
+          <div class="cabecera-codigo">
+            <span class="lenguaje-codigo">JavaScript</span>
+            <button class="boton-copiar" type="button">
+              📋 Copiar código
+            </button>
+          </div>
+
+          <pre><code>const puntuacion = 72;
+
+if (puntuacion >= 90) {
+  console.log("Nivel excelente");
+} else if (puntuacion >= 70) {
+  console.log("Nivel alto");
+} else if (puntuacion >= 50) {
+  console.log("Nivel medio");
+} else {
+  console.log("Nivel bajo");
+}</code></pre>
+
+        </div>
+
+        <p>
+          El resultado será:
+        </p>
+
+        <div class="bloque-codigo">
+
+          <div class="cabecera-codigo">
+            <span class="lenguaje-codigo">Console</span>
+            <button class="boton-copiar" type="button">
+              📋 Copiar código
+            </button>
+          </div>
+
+          <pre><code>Nivel alto</code></pre>
+
+        </div>
+
+
+        <h3>Clasificar un valor introducido por el usuario</h3>
+
+        <p>
+          También podemos combinar <code>prompt()</code>, conversión de tipos
+          y <code>else if</code>:
+        </p>
+
+        <div class="bloque-codigo">
+
+          <div class="cabecera-codigo">
+            <span class="lenguaje-codigo">JavaScript</span>
+            <button class="boton-copiar" type="button">
+              📋 Copiar código
+            </button>
+          </div>
+
+          <pre><code>const notaTexto = prompt("Introduce una nota:");
+const nota = Number(notaTexto);
+
+if (nota >= 9) {
+  console.log("Sobresaliente");
+} else if (nota >= 7) {
+  console.log("Notable");
+} else if (nota >= 5) {
+  console.log("Aprobado");
+} else {
+  console.log("No aprobado");
+}</code></pre>
+
+        </div>
+
+        <p>
+          Primero obtenemos el dato mediante <code>prompt()</code>, lo
+          convertimos explícitamente a número y después evaluamos las
+          condiciones en orden.
+        </p>
+
+
+        <h3>Combinar diferentes tipos de condiciones</h3>
+
+        <p>
+          No todas las ramas tienen que comprobar exactamente la misma
+          expresión.
+        </p>
+
+        <div class="bloque-codigo">
+
+          <div class="cabecera-codigo">
+            <span class="lenguaje-codigo">JavaScript</span>
+            <button class="boton-copiar" type="button">
+              📋 Copiar código
+            </button>
+          </div>
+
+          <pre><code>const edad = 20;
+const tieneEntrada = true;
+
+if (edad < 18) {
+  console.log("Acceso no permitido por edad");
+} else if (!tieneEntrada) {
+  console.log("Necesitas una entrada");
+} else {
+  console.log("Acceso permitido");
+}</code></pre>
+
+        </div>
+
+        <p>
+          JavaScript comprueba primero la edad. Si la persona es mayor de
+          edad, pasa a comprobar si tiene entrada. Solo llegará al
+          <code>else</code> cuando ninguna de las situaciones anteriores se
+          haya producido.
+        </p>
+
+
+        <!-- ======================================
+             ERRORES FRECUENTES
+        ======================================= -->
+
+        <h2 id="errores-frecuentes">
+          Errores frecuentes
+        </h2>
+
+
+        <h3>Ordenar incorrectamente las condiciones</h3>
+
+        <p>
+          Uno de los errores más habituales consiste en colocar primero una
+          condición demasiado general:
+        </p>
+
+        <div class="bloque-codigo">
+
+          <div class="cabecera-codigo">
+            <span class="lenguaje-codigo">JavaScript - Incorrecto</span>
+            <button class="boton-copiar" type="button">
+              📋 Copiar código
+            </button>
+          </div>
+
+          <pre><code>const nota = 9;
+
+if (nota >= 5) {
+  console.log("Aprobado");
+} else if (nota >= 7) {
+  console.log("Notable");
+} else if (nota >= 9) {
+  console.log("Sobresaliente");
+}</code></pre>
+
+        </div>
+
+        <p>
+          Las condiciones de <code>7</code> y <code>9</code> nunca podrán
+          alcanzarse para esos valores, porque cualquier nota que las cumpla
+          también habrá cumplido antes <code>nota >= 5</code>.
+        </p>
+
+        <p>
+          La forma correcta sería:
+        </p>
+
+        <div class="bloque-codigo">
+
+          <div class="cabecera-codigo">
+            <span class="lenguaje-codigo">JavaScript - Correcto</span>
+            <button class="boton-copiar" type="button">
+              📋 Copiar código
+            </button>
+          </div>
+
+          <pre><code>const nota = 9;
+
+if (nota >= 9) {
+  console.log("Sobresaliente");
+} else if (nota >= 7) {
+  console.log("Notable");
+} else if (nota >= 5) {
+  console.log("Aprobado");
+} else {
+  console.log("No aprobado");
+}</code></pre>
+
+        </div>
+
+
+        <h3>Escribir <code>else</code> antes de terminar las condiciones</h3>
+
+        <p>
+          <code>else</code> representa la alternativa final y, por tanto,
+          debe aparecer al final de la cadena.
+        </p>
+
+        <div class="bloque-codigo">
+
+          <div class="cabecera-codigo">
+            <span class="lenguaje-codigo">JavaScript - Incorrecto</span>
+            <button class="boton-copiar" type="button">
+              📋 Copiar código
+            </button>
+          </div>
+
+          <pre><code>if (nota >= 9) {
+  console.log("Sobresaliente");
+} else {
+  console.log("Otro resultado");
+} else if (nota >= 5) {
+  console.log("Aprobado");
+}</code></pre>
+
+        </div>
+
+        <p>
+          Después de un <code>else</code> ya no podemos añadir otro
+          <code>else if</code> perteneciente a la misma estructura.
+        </p>
+
+
+        <h3>Confundir varios <code>if</code> con una cadena <code>else if</code></h3>
+
+        <p>
+          Observa:
+        </p>
+
+        <div class="bloque-codigo">
+
+          <div class="cabecera-codigo">
+            <span class="lenguaje-codigo">JavaScript - Varios if</span>
+            <button class="boton-copiar" type="button">
+              📋 Copiar código
+            </button>
+          </div>
+
+          <pre><code>const nota = 9;
+
+if (nota >= 5) {
+  console.log("Aprobado");
+}
+
+if (nota >= 7) {
+  console.log("Notable");
+}
+
+if (nota >= 9) {
+  console.log("Sobresaliente");
+}</code></pre>
+
+        </div>
+
+        <p>
+          Aquí tenemos <strong>tres decisiones independientes</strong>.
+        </p>
+
+        <p>
+          Como las tres condiciones son verdaderas, aparecerán los tres
+          mensajes:
+        </p>
+
+        <div class="bloque-codigo">
+
+          <div class="cabecera-codigo">
+            <span class="lenguaje-codigo">Console</span>
+            <button class="boton-copiar" type="button">
+              📋 Copiar código
+            </button>
+          </div>
+
+          <pre><code>Aprobado
+Notable
+Sobresaliente</code></pre>
+
+        </div>
+
+        <p>
+          En cambio:
+        </p>
+
+        <div class="bloque-codigo">
+
+          <div class="cabecera-codigo">
+            <span class="lenguaje-codigo">JavaScript - else if</span>
+            <button class="boton-copiar" type="button">
+              📋 Copiar código
+            </button>
+          </div>
+
+          <pre><code>const nota = 9;
+
+if (nota >= 9) {
+  console.log("Sobresaliente");
+} else if (nota >= 7) {
+  console.log("Notable");
+} else if (nota >= 5) {
+  console.log("Aprobado");
+}</code></pre>
+
+        </div>
+
+        <p>
+          solo mostrará:
+        </p>
+
+        <div class="bloque-codigo">
+
+          <div class="cabecera-codigo">
+            <span class="lenguaje-codigo">Console</span>
+            <button class="boton-copiar" type="button">
+              📋 Copiar código
+            </button>
+          </div>
+
+          <pre><code>Sobresaliente</code></pre>
+
+        </div>
+
+        <div class="caja caja-atencion">
+
+          <span class="caja-titulo">⚠️ Atención</span>
+
+          <p>
+            Utiliza varios <code>if</code> independientes cuando quieras
+            realizar <strong>varias comprobaciones que puedan ejecutarse de
+            forma independiente</strong>. Utiliza
+            <code>if...else if...else</code> cuando quieras elegir
+            <strong>una única alternativa entre varias posibilidades</strong>.
+          </p>
+
+        </div>
+
+
+        <!-- ======================================
+             COMPRUEBA LO APRENDIDO
+        ======================================= -->
+
+        <div class="actividad-reflexion">
+
+          <h3>🧠 Comprueba lo aprendido</h3>
+
+          <p>
+            Sin ejecutar el código, indica qué aparecerá en Console.
+          </p>
+
+          <div class="bloque-codigo">
+
+            <div class="cabecera-codigo">
+              <span class="lenguaje-codigo">JavaScript</span>
+              <button class="boton-copiar" type="button">
+                📋 Copiar código
+              </button>
+            </div>
+
+            <pre><code>const puntos = 85;
+
+console.log("Inicio");
+
+if (puntos >= 90) {
+  console.log("Nivel A");
+} else if (puntos >= 70) {
+  console.log("Nivel B");
+} else if (puntos >= 50) {
+  console.log("Nivel C");
+} else {
+  console.log("Nivel D");
+}
+
+console.log("Fin");</code></pre>
+
+          </div>
+
+          <details class="solucion-desplegable">
+
+            <summary>
+              Ver solución
+            </summary>
+
+            <div class="contenido-solucion">
+
+              <p>
+                La primera condición <code>puntos >= 90</code> es
+                <code>false</code>.
+              </p>
+
+              <p>
+                La segunda condición <code>puntos >= 70</code> es
+                <code>true</code>. Por tanto, JavaScript ejecuta ese bloque y
+                deja de evaluar las siguientes alternativas.
+              </p>
+
+              <p>
+                En Console aparecerá:
+              </p>
+
+              <div class="bloque-codigo">
+
+                <div class="cabecera-codigo">
+                  <span class="lenguaje-codigo">Console</span>
+                  <button class="boton-copiar" type="button">
+                    📋 Copiar código
+                  </button>
+                </div>
+
+                <pre><code>Inicio
+Nivel B
+Fin</code></pre>
+
+              </div>
+
+            </div>
+
+          </details>
+
+        </div>
+
+
+        <!-- ======================================
+             PRÁCTICA
+        ======================================= -->
+
+        <div class="actividad-reflexion">
+
+          <h3>💻 Práctica con <code>else if</code></h3>
+
+          <p>
+            Crea un archivo JavaScript y resuelve los siguientes ejercicios.
+            Antes de ejecutar cada programa, intenta predecir qué condición
+            será la primera que produzca <code>true</code>.
+          </p>
+
+          <ul>
+
+            <li>
+              Declara una constante <code>nota</code> con valor
+              <code>8</code>. Muestra <code>"Sobresaliente"</code> si es
+              igual o superior a <code>9</code>,
+              <code>"Notable"</code> si es igual o superior a
+              <code>7</code>, <code>"Aprobado"</code> si es igual o superior
+              a <code>5</code> y <code>"No aprobado"</code> en caso
+              contrario.
+            </li>
+
+            <li>
+              Declara una constante <code>temperatura</code> con valor
+              <code>27</code>. Muestra <code>"Muy alta"</code> si es igual o
+              superior a <code>35</code>, <code>"Alta"</code> si es igual o
+              superior a <code>25</code>, <code>"Moderada"</code> si es
+              igual o superior a <code>15</code> y <code>"Baja"</code> en
+              caso contrario.
+            </li>
+
+            <li>
+              Declara una constante <code>puntos</code> con valor
+              <code>65</code>. Clasifica el resultado como
+              <code>"Nivel avanzado"</code> a partir de <code>90</code>,
+              <code>"Nivel intermedio"</code> a partir de <code>60</code> y
+              <code>"Nivel inicial"</code> en cualquier otro caso.
+            </li>
+
+            <li>
+              Declara <code>edad = 21</code> y
+              <code>tieneEntrada = false</code>. Muestra
+              <code>"Menor de edad"</code> si la edad es inferior a
+              <code>18</code>, <code>"Necesitas una entrada"</code> si es
+              mayor de edad pero no tiene entrada y
+              <code>"Acceso permitido"</code> en cualquier otro caso.
+            </li>
+
+          </ul>
+
+          <details class="solucion-desplegable">
+
+            <summary>
+              Ver solución
+            </summary>
+
+            <div class="contenido-solucion">
+
+              <div class="bloque-codigo">
+
+                <div class="cabecera-codigo">
+                  <span class="lenguaje-codigo">JavaScript</span>
+                  <button class="boton-copiar" type="button">
+                    📋 Copiar código
+                  </button>
+                </div>
+
+                <pre><code>const nota = 8;
+
+if (nota >= 9) {
+  console.log("Sobresaliente");
+} else if (nota >= 7) {
+  console.log("Notable");
+} else if (nota >= 5) {
+  console.log("Aprobado");
+} else {
+  console.log("No aprobado");
+}
+
+
+const temperatura = 27;
+
+if (temperatura >= 35) {
+  console.log("Muy alta");
+} else if (temperatura >= 25) {
+  console.log("Alta");
+} else if (temperatura >= 15) {
+  console.log("Moderada");
+} else {
+  console.log("Baja");
+}
+
+
+const puntos = 65;
+
+if (puntos >= 90) {
+  console.log("Nivel avanzado");
+} else if (puntos >= 60) {
+  console.log("Nivel intermedio");
+} else {
+  console.log("Nivel inicial");
+}
+
+
+const edad = 21;
+const tieneEntrada = false;
+
+if (edad < 18) {
+  console.log("Menor de edad");
+} else if (!tieneEntrada) {
+  console.log("Necesitas una entrada");
+} else {
+  console.log("Acceso permitido");
+}</code></pre>
+
+              </div>
+
+            </div>
+
+          </details>
+
+        </div>
+
+
+        <div class="caja caja-importante">
+
+          <span class="caja-titulo">📌 Recuerda</span>
+
+          <p>
+            En una cadena <code>if...else if...else</code>, JavaScript evalúa
+            las condiciones <strong>de arriba hacia abajo</strong> y ejecuta
+            únicamente el bloque correspondiente a la
+            <strong>primera condición verdadera</strong>. Por eso, además de
+            escribir correctamente las condiciones, debemos prestar especial
+            atención al <strong>orden en el que las colocamos</strong>.
+          </p>
+
+        </div>
+
+
+        <!-- ======================================
+             NAVEGACIÓN
+        ======================================= -->
+
+        <div class="navegacion-paginas">
+
+          <a
+            class="nav-pagina nav-anterior"
+            href="../3-3/index.html"
+          >
+            <span class="nav-etiqueta">
+              ← Anterior
+            </span>
+
+            <strong>
+              3.3 Alternativas con if...else
+            </strong>
+          </a>
+
+          <a
+            class="nav-pagina nav-siguiente"
+            href="../3-5/index.html"
+          >
+            <span class="nav-etiqueta">
+              Siguiente →
+            </span>
+
+            <strong>
+              3.5 La estructura switch
+            </strong>
+          </a>
+
+        </div>
+
+      </section>
+
+    </main>
+
+
+    <!-- ==========================================
+         ÍNDICE DERECHO
+    ========================================== -->
+
+    <aside class="indice-derecho">
+
+      <h2>En este apartado</h2>
+
+      <ul>
+
+        <li>
+          <a href="#mas-alternativas">
+            Más de dos alternativas
+          </a>
+        </li>
+
+        <li>
+          <a href="#encadenamiento">
+            Encadenamiento de condiciones
+          </a>
+        </li>
+
+        <li>
+          <a href="#orden-evaluacion">
+            Orden de evaluación
+          </a>
+        </li>
+
+        <li>
+          <a href="#rangos">
+            Rangos de valores
+          </a>
+        </li>
+
+        <li>
+          <a href="#casos-practicos">
+            Casos prácticos
+          </a>
+        </li>
+
+        <li>
+          <a href="#errores-frecuentes">
+            Errores frecuentes
+          </a>
+        </li>
+
+      </ul>
+
+    </aside>
+
+  </div>
+
+
+  <!-- ==========================================
+       PIE
+  ========================================== -->
+
+  <footer>
+
+    <p>
+      Eva Ballestero Cubeles
+    </p>
+
+    <p>
+      Este material se distribuye bajo licencia
+      Creative Commons BY-NC-SA 4.0.
+    </p>
+
+  </footer>
+
+
+  <script src="../../../js/modulos.js"></script>
+
+  <script>
+
+    /* ==========================================
+       MENÚ DE MÓDULOS
+    ========================================== */
+
+    const menuModulos = document.getElementById("menuModulos");
+
+    if (
+      typeof modulos !== "undefined" &&
+      menuModulos
+    ) {
+
+      modulos
+        .filter(modulo => modulo.activo)
+        .forEach(modulo => {
+
+          const enlace = document.createElement("a");
+
+          enlace.href = `../../../${modulo.carpeta}/index.html`;
+          enlace.textContent = modulo.siglas;
+
+          menuModulos.appendChild(enlace);
+
+        });
+
+    }
+
+
+    /* ==========================================
+       MODO CLARO / OSCURO
+    ========================================== */
+
+    const botonTema = document.getElementById("botonTema");
+
+    function actualizarIconoTema() {
+
+      if (document.body.classList.contains("modo-oscuro")) {
+        botonTema.textContent = "🌙";
+      } else {
+        botonTema.textContent = "☀️";
+      }
+
+    }
+
+    if (localStorage.getItem("tema") === "oscuro") {
+      document.body.classList.add("modo-oscuro");
+    }
+
+    actualizarIconoTema();
+
+    botonTema.addEventListener("click", () => {
+
+      document.body.classList.toggle("modo-oscuro");
+
+      if (document.body.classList.contains("modo-oscuro")) {
+        localStorage.setItem("tema", "oscuro");
+      } else {
+        localStorage.setItem("tema", "claro");
+      }
+
+      actualizarIconoTema();
+
+    });
+
+
+    /* ==========================================
+       MENÚS DESPLEGABLES
+    ========================================== */
+
+    document
+      .querySelectorAll(".boton-desplegar")
+      .forEach(boton => {
+
+        boton.addEventListener("click", () => {
+
+          const idSubmenu = boton.dataset.target;
+          const submenu = document.getElementById(idSubmenu);
+
+          if (!submenu) {
+            return;
+          }
+
+          const abierto =
+            submenu.classList.toggle("submenu-abierto");
+
+          boton.setAttribute(
+            "aria-expanded",
+            abierto ? "true" : "false"
+          );
+
+          boton.textContent =
+            abierto ? "⌄" : "›";
+
+        });
+
+      });
+
+
+    /* ==========================================
+       COPIAR CÓDIGO
+    ========================================== */
+
+    document
+      .querySelectorAll(".boton-copiar")
+      .forEach(boton => {
+
+        boton.addEventListener("click", async () => {
+
+          const bloque =
+            boton.closest(".bloque-codigo");
+
+          const codigo =
+            bloque.querySelector("code");
+
+          if (!codigo) {
+            return;
+          }
+
+          try {
+
+            await navigator.clipboard.writeText(
+              codigo.textContent
+            );
+
+            const textoOriginal =
+              boton.textContent;
+
+            boton.textContent =
+              "✔ Copiado";
+
+            setTimeout(() => {
+
+              boton.textContent =
+                textoOriginal;
+
+            }, 1500);
+
+          } catch (error) {
+
+            console.error(
+              "No se ha podido copiar el código.",
+              error
+            );
+
+          }
+
+        });
+
+      });
+
+  </script>
+
+</body>
+
+</html>
