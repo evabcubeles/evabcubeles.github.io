@@ -1,0 +1,1921 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+  <meta charset="UTF-8">
+
+  <meta
+    name="viewport"
+    content="width=device-width, initial-scale=1.0"
+  >
+
+  <meta
+    name="description"
+    content="UT4 - Arrays y estructuras de datos en JavaScript."
+  >
+
+  <title>UT4 - Arrays y estructuras de datos en JavaScript</title>
+
+  <link rel="icon" type="image/png" href="../../img/favicon.png?v=5">
+
+  <link rel="stylesheet" href="../../css/estilos.css">
+
+  <style>
+
+    /* ==========================================
+       ESTRUCTURA DE LA UT
+    ========================================== */
+
+    .pagina-ut {
+      display: grid;
+      grid-template-columns: 280px 1fr 260px;
+      min-height: calc(100vh - 68px);
+    }
+
+
+    /* ==========================================
+       COLUMNA IZQUIERDA
+    ========================================== */
+
+    .sidebar {
+      border-right: 1px solid var(--borde);
+      background-color: var(--fondo-pagina);
+
+      padding: 12px 10px 30px;
+
+      position: sticky;
+      top: 68px;
+
+      height: calc(100vh - 68px);
+      overflow-y: auto;
+    }
+
+    .sidebar-modulo {
+      display: block;
+      margin-bottom: 8px;
+      padding: 8px 14px;
+
+      color: #626873;
+
+      font-size: 17px;
+      font-weight: 700;
+      line-height: 1.3;
+
+      text-decoration: none;
+
+      border-radius: 6px;
+
+      transition:
+        color 0.2s ease,
+        background-color 0.2s ease;
+    }
+
+    .sidebar-modulo:hover {
+      color: var(--verde-principal);
+      background-color: #f3f4f6;
+    }
+
+    body.modo-oscuro .sidebar-modulo:hover {
+      background-color: #273244;
+    }
+
+
+    /* ==========================================
+       MENÚ LATERAL DESPLEGABLE
+    ========================================== */
+
+    .menu-desplegable {
+      width: 100%;
+    }
+
+    .menu-cabecera {
+      display: flex;
+      align-items: center;
+      gap: 4px;
+
+      width: 100%;
+
+      border-radius: 6px;
+    }
+
+    .menu-cabecera-activa {
+      background-color: #f1f1f1;
+    }
+
+    .menu-cabecera-activa > .menu-titulo {
+      color: var(--verde-principal);
+    }
+
+    .menu-titulo {
+      flex: 1;
+
+      display: block;
+
+      padding: 11px 8px 11px 14px;
+
+      color: #626873;
+
+      font-size: 16px;
+      font-weight: 650;
+      line-height: 1.4;
+
+      text-decoration: none;
+    }
+
+    .menu-titulo:hover {
+      color: var(--verde-principal);
+    }
+
+    .boton-desplegar {
+      width: 36px;
+      height: 36px;
+
+      margin-right: 5px;
+      padding: 0;
+
+      display: flex;
+      align-items: center;
+      justify-content: center;
+
+      flex-shrink: 0;
+
+      border: 0;
+      border-radius: 6px;
+
+      background: transparent;
+
+      color: #777;
+
+      font-family: inherit;
+      font-size: 24px;
+      line-height: 1;
+
+      cursor: pointer;
+    }
+
+    .boton-desplegar:hover {
+      background-color: #e5e7eb;
+      color: var(--verde-principal);
+    }
+
+    .submenu {
+      display: none;
+    }
+
+    .submenu.submenu-abierto {
+      display: block;
+    }
+
+    .menu-apartado {
+      margin-left: 14px;
+    }
+
+    .menu-apartado .menu-titulo {
+      padding-top: 9px;
+      padding-bottom: 9px;
+
+      font-size: 15px;
+      font-weight: 600;
+    }
+
+    .submenu-apartados {
+      margin: 2px 0 5px 28px;
+
+      border-left: 2px solid #e0e3e7;
+    }
+
+    .submenu-apartados a {
+      display: block;
+
+      padding: 7px 10px;
+
+      color: #777d87;
+
+      font-size: 14px;
+      font-weight: 500;
+      line-height: 1.35;
+
+      text-decoration: none;
+    }
+
+    .submenu-apartados a:hover {
+      color: var(--verde-principal);
+    }
+
+    .enlace-apartado-simple {
+      display: block;
+
+      margin-left: 14px;
+      padding: 10px 14px;
+
+      color: #626873;
+
+      font-size: 15px;
+      font-weight: 600;
+      line-height: 1.4;
+
+      text-decoration: none;
+
+      border-radius: 6px;
+
+      transition:
+        background-color 0.2s ease,
+        color 0.2s ease;
+    }
+
+    .enlace-apartado-simple:hover {
+      background-color: #f3f4f6;
+      color: var(--verde-principal);
+    }
+
+    body.modo-oscuro .menu-cabecera-activa {
+      background-color: #273244;
+    }
+
+    body.modo-oscuro .boton-desplegar:hover {
+      background-color: #334155;
+    }
+
+    body.modo-oscuro .enlace-apartado-simple:hover {
+      background-color: #273244;
+    }
+
+    body.modo-oscuro .submenu-apartados {
+      border-left-color: #3a4659;
+    }
+
+
+    /* ==========================================
+       RESTO DE UT
+    ========================================== */
+
+    .sidebar-ut-cerrada {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+
+      padding: 13px 14px;
+
+      color: #626873;
+
+      text-decoration: none;
+
+      font-size: 16px;
+      font-weight: 650;
+      line-height: 1.35;
+
+      border-radius: 6px;
+
+      transition:
+        background-color 0.2s ease,
+        color 0.2s ease;
+    }
+
+    .sidebar-ut-cerrada:hover {
+      background-color: #f3f4f6;
+      color: var(--verde-principal);
+    }
+
+    body.modo-oscuro .sidebar-ut-cerrada:hover {
+      background-color: #273244;
+    }
+
+
+    /* ==========================================
+       ZONA CENTRAL
+    ========================================== */
+
+    .contenido-ut {
+      padding: 28px 34px 70px;
+
+      max-width: 1150px;
+      width: 100%;
+    }
+
+    .migas {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+
+      margin-bottom: 30px;
+
+      font-size: 14px;
+    }
+
+    .miga-inicio {
+      text-decoration: none;
+      font-size: 18px;
+    }
+
+    .miga-separador {
+      color: #999;
+      font-size: 22px;
+    }
+
+    .miga-modulo {
+      color: var(--texto-secundario);
+
+      text-decoration: none;
+    }
+
+    .miga-modulo:hover {
+      color: var(--verde-principal);
+    }
+
+    .miga-actual {
+      padding: 8px 14px;
+
+      background-color: #f3f3f3;
+      border-radius: 24px;
+
+      color: var(--verde-principal);
+    }
+
+    body.modo-oscuro .miga-actual {
+      background-color: #273244;
+    }
+
+    .contenido-ut h1 {
+      margin: 0 0 30px;
+
+      font-size: clamp(38px, 5vw, 58px);
+      line-height: 1.12;
+    }
+
+    .introduccion-ut {
+      max-width: 980px;
+
+      font-size: 19px;
+      line-height: 1.75;
+    }
+
+    .introduccion-ut p {
+      margin: 0 0 20px;
+    }
+
+
+    /* ==========================================
+       BLOQUES DE CÓDIGO
+    ========================================== */
+
+    .bloque-codigo {
+      margin: 28px 0;
+
+      border: 1px solid var(--borde);
+      border-radius: 8px;
+
+      overflow: hidden;
+
+      background-color: #1e1e1e;
+    }
+
+    .cabecera-codigo {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+
+      padding: 10px 14px;
+
+      background-color: #2b2b2b;
+
+      color: #f3f4f6;
+
+      font-size: 14px;
+    }
+
+    .lenguaje-codigo {
+      font-weight: 700;
+    }
+
+    .boton-copiar {
+      padding: 6px 10px;
+
+      border: 1px solid #555;
+      border-radius: 6px;
+
+      background-color: #383838;
+
+      color: #f3f4f6;
+
+      font-family: inherit;
+      font-size: 13px;
+
+      cursor: pointer;
+    }
+
+    .boton-copiar:hover {
+      background-color: #484848;
+    }
+
+    .bloque-codigo pre {
+      margin: 0;
+      padding: 18px 20px;
+
+      overflow-x: auto;
+    }
+
+    .bloque-codigo code {
+      color: #f5f5f5;
+
+      font-family:
+        Consolas,
+        "Courier New",
+        monospace;
+
+      font-size: 15px;
+      line-height: 1.6;
+    }
+
+
+    /* ==========================================
+       COLUMNA DERECHA
+    ========================================== */
+
+    .indice-derecho {
+      padding: 28px 22px 100px;
+
+      border-left: 1px solid var(--borde);
+
+      position: sticky;
+      top: 68px;
+
+      height: calc(100vh - 68px);
+
+      overflow-y: auto;
+
+      box-sizing: border-box;
+    }
+
+    .indice-derecho h2 {
+      margin: 8px 0 20px;
+
+      font-size: 17px;
+      color: #555b65;
+    }
+
+    body.modo-oscuro .indice-derecho h2 {
+      color: #d1d5db;
+    }
+
+    .indice-derecho ul {
+      margin: 0;
+      padding-left: 18px;
+    }
+
+    .indice-derecho li {
+      margin-bottom: 12px;
+    }
+
+    .indice-derecho a {
+      color: var(--texto-secundario);
+
+      text-decoration: none;
+
+      font-size: 14px;
+      line-height: 1.4;
+    }
+
+    .indice-derecho a:hover {
+      color: var(--verde-principal);
+    }
+
+
+    /* ==========================================
+       NAVEGACIÓN ANTERIOR / SIGUIENTE
+    ========================================== */
+
+    .navegacion-paginas {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 20px;
+
+      margin-top: 50px;
+    }
+
+    .nav-pagina {
+      min-height: 100px;
+      padding: 18px 20px;
+
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+
+      border: 1px solid var(--borde);
+      border-radius: 8px;
+
+      text-decoration: none;
+
+      background-color: var(--fondo-tarjeta);
+    }
+
+    .nav-anterior {
+      align-items: flex-start;
+      text-align: left;
+    }
+
+    .nav-siguiente {
+      align-items: flex-end;
+      text-align: right;
+    }
+
+    .nav-etiqueta {
+      margin-bottom: 5px;
+
+      color: var(--texto-secundario);
+
+      font-size: 14px;
+    }
+
+    .nav-pagina strong {
+      color: var(--verde-principal);
+
+      font-size: 16px;
+      line-height: 1.4;
+    }
+
+    .nav-pagina:hover {
+      border-color: var(--verde-principal);
+    }
+
+
+    /* ==========================================
+       RESPONSIVE
+    ========================================== */
+
+    @media (max-width: 1100px) {
+
+      .pagina-ut {
+        grid-template-columns: 250px 1fr;
+      }
+
+      .indice-derecho {
+        display: none;
+      }
+
+    }
+
+    @media (max-width: 760px) {
+
+      .pagina-ut {
+        display: block;
+      }
+
+      .sidebar {
+        position: static;
+
+        width: 100%;
+        height: auto;
+
+        border-right: 0;
+        border-bottom: 1px solid var(--borde);
+      }
+
+      .contenido-ut {
+        padding: 28px 20px 60px;
+      }
+
+      .contenido-ut h1 {
+        font-size: 36px;
+      }
+
+      .navegacion-paginas {
+        grid-template-columns: 1fr;
+      }
+
+      .nav-siguiente {
+        align-items: flex-start;
+        text-align: left;
+      }
+
+    }
+
+  </style>
+
+</head>
+
+
+<body>
+
+  <!-- ==========================================
+       BARRA SUPERIOR
+  ========================================== -->
+
+  <header class="navbar">
+
+    <a class="inicio" href="../../index.html">
+
+      <img
+        src="../../img/profesora-castana.png?v=2"
+        alt=""
+        class="icono-profesora"
+      >
+
+      <span>Inicio</span>
+
+    </a>
+
+    <nav
+      id="menuModulos"
+      class="menu-modulos"
+      aria-label="Módulos formativos"
+    ></nav>
+
+    <button
+      id="botonTema"
+      class="boton-tema"
+      type="button"
+      aria-label="Cambiar entre modo claro y oscuro"
+      title="Cambiar tema"
+    >
+      ☀️
+    </button>
+
+  </header>
+
+
+  <div class="pagina-ut">
+
+
+    <!-- ==========================================
+         COLUMNA IZQUIERDA
+    ========================================== -->
+
+    <aside class="sidebar">
+
+      <a class="sidebar-modulo" href="../index.html">
+        Desarrollo web en entorno cliente
+      </a>
+
+
+      <!-- UT1 CERRADA -->
+
+      <a class="sidebar-ut-cerrada" href="../ut1/index.html">
+        <span>UT1 - Introducción al desarrollo web en entorno cliente</span>
+        <span>›</span>
+      </a>
+
+
+      <!-- UT2 CERRADA -->
+
+      <a class="sidebar-ut-cerrada" href="../ut2/index.html">
+        <span>UT2 - Fundamentos de JavaScript: variables, tipos y operadores</span>
+        <span>›</span>
+      </a>
+
+
+      <!-- UT3 CERRADA -->
+
+      <a class="sidebar-ut-cerrada" href="../ut3/index.html">
+        <span>UT3 - Estructuras de control en JavaScript</span>
+        <span>›</span>
+      </a>
+
+
+      <!-- UT4 ACTIVA -->
+
+      <div class="menu-desplegable">
+
+        <div class="menu-cabecera menu-cabecera-activa">
+
+          <a class="menu-titulo" href="index.html">
+            UT4 - Arrays y estructuras de datos en JavaScript
+          </a>
+
+          <button
+            class="boton-desplegar"
+            type="button"
+            data-target="submenu-ut4"
+            aria-expanded="true"
+            aria-label="Mostrar u ocultar UT4"
+          >
+            ⌄
+          </button>
+
+        </div>
+
+
+        <div id="submenu-ut4" class="submenu submenu-abierto">
+
+
+          <!-- 4.1 -->
+
+          <div class="menu-desplegable menu-apartado">
+
+            <div class="menu-cabecera">
+
+              <a class="menu-titulo" href="4-1/index.html">
+                4.1 Introducción a los arrays
+              </a>
+
+              <button
+                class="boton-desplegar"
+                type="button"
+                data-target="submenu-4-1"
+                aria-expanded="false"
+                aria-label="Mostrar u ocultar los subapartados del 4.1"
+              >
+                ›
+              </button>
+
+            </div>
+
+            <div
+              id="submenu-4-1"
+              class="submenu submenu-apartados"
+            >
+              <a href="4-1/index.html#que-es-array">
+                Qué es un array
+              </a>
+
+              <a href="4-1/index.html#para-que">
+                Para qué necesitamos arrays
+              </a>
+
+              <a href="4-1/index.html#crear">
+                Crear un array
+              </a>
+
+              <a href="4-1/index.html#inicializar">
+                Inicializar un array
+              </a>
+
+              <a href="4-1/index.html#indices">
+                Elementos e índices
+              </a>
+
+              <a href="4-1/index.html#acceso">
+                Acceder a los elementos
+              </a>
+
+              <a href="4-1/index.html#length">
+                La propiedad length
+              </a>
+
+              <a href="4-1/index.html#tipos">
+                Arrays con distintos tipos de datos
+              </a>
+
+              <a href="4-1/index.html#console">
+                Visualización en Console
+              </a>
+            </div>
+
+          </div>
+
+
+          <!-- 4.2 -->
+
+          <div class="menu-desplegable menu-apartado">
+
+            <div class="menu-cabecera">
+
+              <a class="menu-titulo" href="4-2/index.html">
+                4.2 Acceso y modificación de elementos
+              </a>
+
+              <button
+                class="boton-desplegar"
+                type="button"
+                data-target="submenu-4-2"
+                aria-expanded="false"
+                aria-label="Mostrar u ocultar los subapartados del 4.2"
+              >
+                ›
+              </button>
+
+            </div>
+
+            <div
+              id="submenu-4-2"
+              class="submenu submenu-apartados"
+            >
+              <a href="4-2/index.html#acceso-indice">
+                Acceder mediante el índice
+              </a>
+
+              <a href="4-2/index.html#modificar">
+                Modificar un elemento
+              </a>
+
+              <a href="4-2/index.html#anadir-indice">
+                Añadir elementos mediante índices
+              </a>
+
+              <a href="4-2/index.html#indices-inexistentes">
+                Índices inexistentes
+              </a>
+
+              <a href="4-2/index.html#indices-length">
+                Relación entre índices y length
+              </a>
+
+              <a href="4-2/index.html#errores">
+                Errores frecuentes
+              </a>
+            </div>
+
+          </div>
+
+
+          <!-- 4.3 -->
+
+          <div class="menu-desplegable menu-apartado">
+
+            <div class="menu-cabecera">
+
+              <a class="menu-titulo" href="4-3/index.html">
+                4.3 Añadir y eliminar elementos
+              </a>
+
+              <button
+                class="boton-desplegar"
+                type="button"
+                data-target="submenu-4-3"
+                aria-expanded="false"
+                aria-label="Mostrar u ocultar los subapartados del 4.3"
+              >
+                ›
+              </button>
+
+            </div>
+
+            <div
+              id="submenu-4-3"
+              class="submenu submenu-apartados"
+            >
+              <a href="4-3/index.html#push">
+                push()
+              </a>
+
+              <a href="4-3/index.html#pop">
+                pop()
+              </a>
+
+              <a href="4-3/index.html#unshift">
+                unshift()
+              </a>
+
+              <a href="4-3/index.html#shift">
+                shift()
+              </a>
+
+              <a href="4-3/index.html#principio-final">
+                Añadir y eliminar al principio y al final
+              </a>
+
+              <a href="4-3/index.html#valores-devueltos">
+                Valores devueltos por los métodos
+              </a>
+
+              <a href="4-3/index.html#ejemplos">
+                Ejemplos prácticos
+              </a>
+            </div>
+
+          </div>
+
+
+          <!-- 4.4 -->
+
+          <div class="menu-desplegable menu-apartado">
+
+            <div class="menu-cabecera">
+
+              <a class="menu-titulo" href="4-4/index.html">
+                4.4 Modificar arrays con splice()
+              </a>
+
+              <button
+                class="boton-desplegar"
+                type="button"
+                data-target="submenu-4-4"
+                aria-expanded="false"
+                aria-label="Mostrar u ocultar los subapartados del 4.4"
+              >
+                ›
+              </button>
+
+            </div>
+
+            <div
+              id="submenu-4-4"
+              class="submenu submenu-apartados"
+            >
+              <a href="4-4/index.html#que-permite">
+                Qué permite hacer splice()
+              </a>
+
+              <a href="4-4/index.html#eliminar">
+                Eliminar elementos
+              </a>
+
+              <a href="4-4/index.html#insertar">
+                Insertar elementos
+              </a>
+
+              <a href="4-4/index.html#sustituir">
+                Sustituir elementos
+              </a>
+
+              <a href="4-4/index.html#parametros">
+                Posición inicial y número de elementos
+              </a>
+
+              <a href="4-4/index.html#valor-devuelto">
+                Valor devuelto por splice()
+              </a>
+
+              <a href="4-4/index.html#ejemplos">
+                Ejemplos prácticos
+              </a>
+            </div>
+
+          </div>
+
+
+          <!-- 4.5 -->
+
+          <div class="menu-desplegable menu-apartado">
+
+            <div class="menu-cabecera">
+
+              <a class="menu-titulo" href="4-5/index.html">
+                4.5 Buscar elementos en un array
+              </a>
+
+              <button
+                class="boton-desplegar"
+                type="button"
+                data-target="submenu-4-5"
+                aria-expanded="false"
+                aria-label="Mostrar u ocultar los subapartados del 4.5"
+              >
+                ›
+              </button>
+
+            </div>
+
+            <div
+              id="submenu-4-5"
+              class="submenu submenu-apartados"
+            >
+              <a href="4-5/index.html#indexof">
+                indexOf()
+              </a>
+
+              <a href="4-5/index.html#menos-uno">
+                Interpretar el valor -1
+              </a>
+
+              <a href="4-5/index.html#includes">
+                includes()
+              </a>
+
+              <a href="4-5/index.html#indexof-includes">
+                Diferencias entre indexOf() e includes()
+              </a>
+
+              <a href="4-5/index.html#find">
+                find()
+              </a>
+
+              <a href="4-5/index.html#findindex">
+                findIndex()
+              </a>
+
+              <a href="4-5/index.html#elegir-metodo">
+                Cuándo utilizar cada método
+              </a>
+
+              <a href="4-5/index.html#ejemplos">
+                Ejemplos prácticos
+              </a>
+            </div>
+
+          </div>
+
+
+          <!-- 4.6 -->
+
+          <div class="menu-desplegable menu-apartado">
+
+            <div class="menu-cabecera">
+
+              <a class="menu-titulo" href="4-6/index.html">
+                4.6 Recorrer arrays con for
+              </a>
+
+              <button
+                class="boton-desplegar"
+                type="button"
+                data-target="submenu-4-6"
+                aria-expanded="false"
+                aria-label="Mostrar u ocultar los subapartados del 4.6"
+              >
+                ›
+              </button>
+
+            </div>
+
+            <div
+              id="submenu-4-6"
+              class="submenu submenu-apartados"
+            >
+              <a href="4-6/index.html#indices">
+                Recorrido mediante índices
+              </a>
+
+              <a href="4-6/index.html#indice-posicion">
+                Relación entre i y la posición
+              </a>
+
+              <a href="4-6/index.html#length">
+                Utilización de length como límite
+              </a>
+
+              <a href="4-6/index.html#elemento-actual">
+                Acceder al elemento actual
+              </a>
+
+              <a href="4-6/index.html#recorridos-completos">
+                Recorridos completos
+              </a>
+
+              <a href="4-6/index.html#recorridos-parciales">
+                Recorridos parciales
+              </a>
+
+              <a href="4-6/index.html#orden-inverso">
+                Recorridos en orden inverso
+              </a>
+
+              <a href="4-6/index.html#errores">
+                Errores frecuentes
+              </a>
+            </div>
+
+          </div>
+
+
+          <!-- 4.7 -->
+
+          <div class="menu-desplegable menu-apartado">
+
+            <div class="menu-cabecera">
+
+              <a class="menu-titulo" href="4-7/index.html">
+                4.7 Recorrer arrays con for...of
+              </a>
+
+              <button
+                class="boton-desplegar"
+                type="button"
+                data-target="submenu-4-7"
+                aria-expanded="false"
+                aria-label="Mostrar u ocultar los subapartados del 4.7"
+              >
+                ›
+              </button>
+
+            </div>
+
+            <div
+              id="submenu-4-7"
+              class="submenu submenu-apartados"
+            >
+              <a href="4-7/index.html#sintaxis">
+                Sintaxis de for...of
+              </a>
+
+              <a href="4-7/index.html#valores">
+                Acceso directo a los valores
+              </a>
+
+              <a href="4-7/index.html#diferencias-for">
+                Diferencias respecto al for tradicional
+              </a>
+
+              <a href="4-7/index.html#necesitamos-indice">
+                Cuándo necesitamos el índice
+              </a>
+
+              <a href="4-7/index.html#solo-valor">
+                Cuándo solo necesitamos el valor
+              </a>
+
+              <a href="4-7/index.html#comparacion">
+                Comparación for / for...of
+              </a>
+            </div>
+
+          </div>
+
+
+          <!-- 4.8 -->
+
+          <div class="menu-desplegable menu-apartado">
+
+            <div class="menu-cabecera">
+
+              <a class="menu-titulo" href="4-8/index.html">
+                4.8 El método forEach()
+              </a>
+
+              <button
+                class="boton-desplegar"
+                type="button"
+                data-target="submenu-4-8"
+                aria-expanded="false"
+                aria-label="Mostrar u ocultar los subapartados del 4.8"
+              >
+                ›
+              </button>
+
+            </div>
+
+            <div
+              id="submenu-4-8"
+              class="submenu submenu-apartados"
+            >
+              <a href="4-8/index.html#que-hace">
+                Qué hace forEach()
+              </a>
+
+              <a href="4-8/index.html#elemento">
+                Elemento actual
+              </a>
+
+              <a href="4-8/index.html#indice">
+                Índice del elemento
+              </a>
+
+              <a href="4-8/index.html#recorrido">
+                Recorrido completo del array
+              </a>
+
+              <a href="4-8/index.html#diferencias">
+                Diferencias con for y for...of
+              </a>
+
+              <a href="4-8/index.html#cuando-utilizar">
+                Cuándo utilizarlo
+              </a>
+
+              <a href="4-8/index.html#limitaciones">
+                Limitaciones básicas
+              </a>
+            </div>
+
+          </div>
+
+
+          <!-- 4.9 -->
+
+          <div class="menu-desplegable menu-apartado">
+
+            <div class="menu-cabecera">
+
+              <a class="menu-titulo" href="4-9/index.html">
+                4.9 Transformar y filtrar arrays
+              </a>
+
+              <button
+                class="boton-desplegar"
+                type="button"
+                data-target="submenu-4-9"
+                aria-expanded="false"
+                aria-label="Mostrar u ocultar los subapartados del 4.9"
+              >
+                ›
+              </button>
+
+            </div>
+
+            <div
+              id="submenu-4-9"
+              class="submenu submenu-apartados"
+            >
+              <a href="4-9/index.html#map">
+                map()
+              </a>
+
+              <a href="4-9/index.html#nuevo-array">
+                Crear un nuevo array a partir de otro
+              </a>
+
+              <a href="4-9/index.html#filter">
+                filter()
+              </a>
+
+              <a href="4-9/index.html#seleccionar">
+                Seleccionar elementos que cumplen una condición
+              </a>
+
+              <a href="4-9/index.html#modificar-crear">
+                Modificar frente a crear un nuevo array
+              </a>
+
+              <a href="4-9/index.html#diferencias">
+                Diferencias entre forEach(), map() y filter()
+              </a>
+
+              <a href="4-9/index.html#ejemplos">
+                Ejemplos prácticos
+              </a>
+            </div>
+
+          </div>
+
+
+          <!-- 4.10 -->
+
+          <div class="menu-desplegable menu-apartado">
+
+            <div class="menu-cabecera">
+
+              <a class="menu-titulo" href="4-10/index.html">
+                4.10 Ordenar e invertir arrays
+              </a>
+
+              <button
+                class="boton-desplegar"
+                type="button"
+                data-target="submenu-4-10"
+                aria-expanded="false"
+                aria-label="Mostrar u ocultar los subapartados del 4.10"
+              >
+                ›
+              </button>
+
+            </div>
+
+            <div
+              id="submenu-4-10"
+              class="submenu submenu-apartados"
+            >
+              <a href="4-10/index.html#sort">
+                sort()
+              </a>
+
+              <a href="4-10/index.html#cadenas">
+                Ordenación de cadenas
+              </a>
+
+              <a href="4-10/index.html#numeros">
+                Problema de la ordenación numérica
+              </a>
+
+              <a href="4-10/index.html#comparacion">
+                Función de comparación
+              </a>
+
+              <a href="4-10/index.html#ascendente-descendente">
+                Orden ascendente y descendente
+              </a>
+
+              <a href="4-10/index.html#reverse">
+                reverse()
+              </a>
+
+              <a href="4-10/index.html#array-original">
+                Efecto sobre el array original
+              </a>
+
+              <a href="4-10/index.html#ejemplos">
+                Ejemplos prácticos
+              </a>
+            </div>
+
+          </div>
+
+
+          <!-- 4.11 -->
+
+          <div class="menu-desplegable menu-apartado">
+
+            <div class="menu-cabecera">
+
+              <a class="menu-titulo" href="4-11/index.html">
+                4.11 Arrays multidimensionales
+              </a>
+
+              <button
+                class="boton-desplegar"
+                type="button"
+                data-target="submenu-4-11"
+                aria-expanded="false"
+                aria-label="Mostrar u ocultar los subapartados del 4.11"
+              >
+                ›
+              </button>
+
+            </div>
+
+            <div
+              id="submenu-4-11"
+              class="submenu submenu-apartados"
+            >
+              <a href="4-11/index.html#arrays-dentro">
+                Arrays dentro de arrays
+              </a>
+
+              <a href="4-11/index.html#bidimensional">
+                Crear una estructura bidimensional
+              </a>
+
+              <a href="4-11/index.html#filas-columnas">
+                Filas y columnas
+              </a>
+
+              <a href="4-11/index.html#dos-indices">
+                Acceso mediante dos índices
+              </a>
+
+              <a href="4-11/index.html#modificar">
+                Modificación de elementos
+              </a>
+
+              <a href="4-11/index.html#bucles-anidados">
+                Recorrido mediante bucles anidados
+              </a>
+
+              <a href="4-11/index.html#length">
+                Uso de length en cada dimensión
+              </a>
+
+              <a href="4-11/index.html#ejemplos">
+                Ejemplos prácticos
+              </a>
+            </div>
+
+          </div>
+
+
+          <!-- 4.12 -->
+
+          <div class="menu-desplegable menu-apartado">
+
+            <div class="menu-cabecera">
+
+              <a class="menu-titulo" href="4-12/index.html">
+                4.12 Resolución de problemas con arrays
+              </a>
+
+              <button
+                class="boton-desplegar"
+                type="button"
+                data-target="submenu-4-12"
+                aria-expanded="false"
+                aria-label="Mostrar u ocultar los subapartados del 4.12"
+              >
+                ›
+              </button>
+
+            </div>
+
+            <div
+              id="submenu-4-12"
+              class="submenu submenu-apartados"
+            >
+              <a href="4-12/index.html#analizar">
+                Analizar la información
+              </a>
+
+              <a href="4-12/index.html#elegir-estructura">
+                Elegir la estructura adecuada
+              </a>
+
+              <a href="4-12/index.html#crear-inicializar">
+                Crear e inicializar el array
+              </a>
+
+              <a href="4-12/index.html#anadir-eliminar">
+                Añadir y eliminar información
+              </a>
+
+              <a href="4-12/index.html#buscar">
+                Buscar elementos
+              </a>
+
+              <a href="4-12/index.html#recorrer">
+                Recorrer los datos
+              </a>
+
+              <a href="4-12/index.html#calcular">
+                Calcular resultados
+              </a>
+
+              <a href="4-12/index.html#transformar-filtrar">
+                Transformar y filtrar información
+              </a>
+
+              <a href="4-12/index.html#pruebas">
+                Probar casos
+              </a>
+
+              <a href="4-12/index.html#depurar">
+                Depurar errores
+              </a>
+            </div>
+
+          </div>
+
+
+          <!-- RESUMEN -->
+
+          <a
+            class="enlace-apartado-simple"
+            href="resumen/index.html"
+          >
+            ✏️ Resumen de la UT4
+          </a>
+
+
+          <!-- ACTIVIDADES -->
+
+          <a
+            class="enlace-apartado-simple"
+            href="actividades/index.html"
+          >
+            📝 Actividades de la UT4
+          </a>
+
+        </div>
+
+      </div>
+
+
+      <!-- ==========================================
+           RESTO DE UT
+      ========================================== -->
+
+      <a class="sidebar-ut-cerrada" href="../ut5/index.html">
+        <span>UT5 - Funciones en JavaScript</span>
+        <span>›</span>
+      </a>
+
+      <a class="sidebar-ut-cerrada" href="../ut6/index.html">
+        <span>UT6 - Objetos y Programación Orientada a Objetos en JavaScript</span>
+        <span>›</span>
+      </a>
+
+      <a class="sidebar-ut-cerrada" href="../ut7/index.html">
+        <span>UT7 - Objetos predefinidos y modelo del navegador (BOM)</span>
+        <span>›</span>
+      </a>
+
+      <a class="sidebar-ut-cerrada" href="../ut8/index.html">
+        <span>UT8 - Aplicaciones web interactivas: DOM, eventos y formularios</span>
+        <span>›</span>
+      </a>
+
+      <a class="sidebar-ut-cerrada" href="../ut9/index.html">
+        <span>UT9 - Comunicación asíncrona y peticiones al servidor</span>
+        <span>›</span>
+      </a>
+
+      <a class="sidebar-ut-cerrada" href="../ut10/index.html">
+        <span>UT10 - Introducción a React</span>
+        <span>›</span>
+      </a>
+
+    </aside>
+
+
+    <!-- ==========================================
+         ZONA CENTRAL
+    ========================================== -->
+
+    <main class="contenido-ut">
+
+      <div class="migas">
+
+        <a
+          class="miga-inicio"
+          href="../../index.html"
+          aria-label="Volver a la página principal"
+        >
+          🏠
+        </a>
+
+        <span class="miga-separador">›</span>
+
+        <a class="miga-modulo" href="../index.html">
+          DWEC
+        </a>
+
+        <span class="miga-separador">›</span>
+
+        <span class="miga-actual">
+          UT4
+        </span>
+
+      </div>
+
+
+      <h1>
+        UT4 - Arrays y estructuras de datos en JavaScript
+      </h1>
+
+
+      <div class="introduccion-ut">
+
+        <p>
+          En esta unidad aprenderemos a trabajar con <strong>arrays</strong>,
+          estructuras que permiten almacenar varios valores dentro de una misma
+          variable y acceder a ellos mediante su posición. Los arrays son una de
+          las herramientas fundamentales de JavaScript para organizar y procesar
+          conjuntos de datos.
+        </p>
+
+        <p>
+          Comenzaremos aprendiendo a crear e inicializar arrays, acceder a sus
+          elementos mediante índices y utilizar la propiedad
+          <code>length</code>. Después veremos cómo modificar su contenido,
+          añadir y eliminar elementos y buscar información utilizando distintos
+          métodos proporcionados por JavaScript.
+        </p>
+
+        <p>
+          También aprenderemos a recorrer arrays utilizando las estructuras
+          repetitivas estudiadas en la UT3, especialmente el bucle
+          <code>for</code>, y conoceremos otras herramientas específicas como
+          <code>for...of</code> y <code>forEach()</code>. A partir de estos
+          recorridos podremos procesar, transformar y filtrar conjuntos de datos.
+        </p>
+
+        <p>
+          Finalmente, estudiaremos cómo ordenar arrays, trabajar con estructuras
+          multidimensionales y combinar las distintas operaciones aprendidas para
+          resolver problemas completos. Durante toda la unidad prestaremos
+          especial atención a la elección de la operación adecuada, las pruebas
+          y la depuración del código.
+        </p>
+
+      </div>
+
+
+      <!-- ==========================================
+           NAVEGACIÓN
+      ========================================== -->
+
+      <nav class="navegacion-paginas">
+
+        <a
+          class="nav-pagina nav-anterior"
+          href="../ut3/actividades/index.html"
+        >
+          <span class="nav-etiqueta">
+            Anterior
+          </span>
+
+          <strong>
+            ‹ 📝 Actividades de la UT3
+          </strong>
+        </a>
+
+
+        <a
+          class="nav-pagina nav-siguiente"
+          href="4-1/index.html"
+        >
+          <span class="nav-etiqueta">
+            Siguiente
+          </span>
+
+          <strong>
+            4.1 Introducción a los arrays ›
+          </strong>
+        </a>
+
+      </nav>
+
+    </main>
+
+
+    <!-- ==========================================
+         COLUMNA DERECHA
+    ========================================== -->
+
+    <aside class="indice-derecho">
+
+      <h2>
+        Contenidos de la UT4
+      </h2>
+
+      <ul>
+
+        <li>
+          <a href="4-1/index.html">
+            4.1 Introducción a los arrays
+          </a>
+        </li>
+
+        <li>
+          <a href="4-2/index.html">
+            4.2 Acceso y modificación de elementos
+          </a>
+        </li>
+
+        <li>
+          <a href="4-3/index.html">
+            4.3 Añadir y eliminar elementos
+          </a>
+        </li>
+
+        <li>
+          <a href="4-4/index.html">
+            4.4 Modificar arrays con splice()
+          </a>
+        </li>
+
+        <li>
+          <a href="4-5/index.html">
+            4.5 Buscar elementos en un array
+          </a>
+        </li>
+
+        <li>
+          <a href="4-6/index.html">
+            4.6 Recorrer arrays con for
+          </a>
+        </li>
+
+        <li>
+          <a href="4-7/index.html">
+            4.7 Recorrer arrays con for...of
+          </a>
+        </li>
+
+        <li>
+          <a href="4-8/index.html">
+            4.8 El método forEach()
+          </a>
+        </li>
+
+        <li>
+          <a href="4-9/index.html">
+            4.9 Transformar y filtrar arrays
+          </a>
+        </li>
+
+        <li>
+          <a href="4-10/index.html">
+            4.10 Ordenar e invertir arrays
+          </a>
+        </li>
+
+        <li>
+          <a href="4-11/index.html">
+            4.11 Arrays multidimensionales
+          </a>
+        </li>
+
+        <li>
+          <a href="4-12/index.html">
+            4.12 Resolución de problemas con arrays
+          </a>
+        </li>
+
+        <li>
+          <a href="resumen/index.html">
+            ✏️ Resumen de la UT4
+          </a>
+        </li>
+
+        <li>
+          <a href="actividades/index.html">
+            📝 Actividades de la UT4
+          </a>
+        </li>
+
+      </ul>
+
+    </aside>
+
+  </div>
+
+
+  <!-- ==========================================
+       PIE DE PÁGINA
+  ========================================== -->
+
+  <footer class="footer">
+
+    <p>
+
+      Material elaborado por
+      <strong>Eva Ballestero Cubeles</strong>
+
+      - Licencia
+
+      <span class="licencia">
+        CC BY-NC-SA 4.0
+      </span>
+
+      <a
+        class="enlace-licencia"
+        href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.es"
+        target="_blank"
+        rel="license noopener noreferrer"
+        aria-label="Licencia Creative Commons BY-NC-SA 4.0"
+      >
+
+        <img
+          class="icono-licencia"
+          src="../../img/licencias/cc-by-nc-sa.png"
+          alt="Licencia Creative Commons BY-NC-SA 4.0"
+        >
+
+      </a>
+
+    </p>
+
+  </footer>
+
+
+  <!-- ==========================================
+       JAVASCRIPT COMÚN
+  ========================================== -->
+
+  <script src="../../js/modulos.js"></script>
+
+  <script>
+
+    const menuModulos =
+      document.getElementById("menuModulos");
+
+    const botonTema =
+      document.getElementById("botonTema");
+
+    const modulosActivos =
+      modulos.filter(modulo => modulo.activo === true);
+
+
+    modulosActivos.forEach(modulo => {
+
+      const enlace =
+        document.createElement("a");
+
+      enlace.href =
+        `../../${modulo.carpeta}/index.html`;
+
+      enlace.textContent =
+        modulo.siglas;
+
+      enlace.title =
+        modulo.nombre;
+
+      if (modulo.siglas === "DWEC") {
+
+        enlace.style.color =
+          "var(--verde-principal)";
+
+      }
+
+      menuModulos.appendChild(enlace);
+
+    });
+
+
+    /* ==========================================
+       MODO OSCURO
+    ========================================== */
+
+    const temaGuardado =
+      localStorage.getItem("tema");
+
+    if (temaGuardado === "oscuro") {
+
+      document.body.classList.add("modo-oscuro");
+
+      botonTema.textContent = "🌙";
+
+    }
+
+    botonTema.addEventListener("click", () => {
+
+      document.body.classList.toggle("modo-oscuro");
+
+      const estaOscuro =
+        document.body.classList.contains("modo-oscuro");
+
+      botonTema.textContent =
+        estaOscuro ? "🌙" : "☀️";
+
+      localStorage.setItem(
+        "tema",
+        estaOscuro ? "oscuro" : "claro"
+      );
+
+    });
+
+
+    /* ==========================================
+       MENÚS DESPLEGABLES
+    ========================================== */
+
+    const botonesDesplegar =
+      document.querySelectorAll(".boton-desplegar");
+
+    botonesDesplegar.forEach((boton) => {
+
+      boton.addEventListener("click", () => {
+
+        const idSubmenu =
+          boton.getAttribute("data-target");
+
+        const submenu =
+          document.getElementById(idSubmenu);
+
+        if (!submenu) {
+          return;
+        }
+
+        const estaAbierto =
+          submenu.classList.contains("submenu-abierto");
+
+        if (estaAbierto) {
+
+          submenu.classList.remove("submenu-abierto");
+
+          boton.textContent = "›";
+
+          boton.setAttribute(
+            "aria-expanded",
+            "false"
+          );
+
+        } else {
+
+          submenu.classList.add("submenu-abierto");
+
+          boton.textContent = "⌄";
+
+          boton.setAttribute(
+            "aria-expanded",
+            "true"
+          );
+
+        }
+
+      });
+
+    });
+
+
+    /* ==========================================
+       COPIAR CÓDIGO
+       Se utilizará en las páginas de contenidos
+    ========================================== */
+
+    document.addEventListener("click", async (evento) => {
+
+      const boton =
+        evento.target.closest(".boton-copiar");
+
+      if (!boton) {
+        return;
+      }
+
+      const bloque =
+        boton.closest(".bloque-codigo");
+
+      const codigo =
+        bloque.querySelector("code");
+
+      try {
+
+        await navigator.clipboard.writeText(
+          codigo.textContent
+        );
+
+        const textoOriginal =
+          boton.textContent;
+
+        boton.textContent =
+          "✔ Copiado";
+
+        setTimeout(() => {
+
+          boton.textContent =
+            textoOriginal;
+
+        }, 1600);
+
+      } catch (error) {
+
+        boton.textContent =
+          "Error al copiar";
+
+      }
+
+    });
+
+  </script>
+
+</body>
+
+</html>
