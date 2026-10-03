@@ -1,0 +1,2999 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+
+  <meta charset="UTF-8">
+
+  <meta
+    name="viewport"
+    content="width=device-width, initial-scale=1.0"
+  >
+
+  <meta
+    name="description"
+    content="4.3 - Añadir y eliminar elementos de un array."
+  >
+
+  <title>4.3 - Añadir y eliminar elementos</title>
+
+  <link rel="icon" type="image/png" href="../../../img/favicon.png?v=5">
+  <link rel="stylesheet" href="../../../css/estilos.css">
+
+  <style>
+
+    /* ==========================================
+       ESTRUCTURA DE LA UT
+    ========================================== */
+
+    .pagina-ut {
+      display: grid;
+      grid-template-columns: 280px 1fr 260px;
+      min-height: calc(100vh - 68px);
+    }
+
+
+    /* ==========================================
+       COLUMNA IZQUIERDA
+    ========================================== */
+
+    .sidebar {
+      border-right: 1px solid var(--borde);
+      background-color: var(--fondo-pagina);
+
+      padding: 12px 10px 30px;
+
+      position: sticky;
+      top: 68px;
+
+      height: calc(100vh - 68px);
+      overflow-y: auto;
+    }
+
+    .sidebar-modulo {
+      display: block;
+      margin-bottom: 8px;
+      padding: 8px 14px;
+
+      color: #626873;
+
+      font-size: 17px;
+      font-weight: 700;
+      line-height: 1.3;
+
+      text-decoration: none;
+      border-radius: 6px;
+
+      transition:
+        color 0.2s ease,
+        background-color 0.2s ease;
+    }
+
+    .sidebar-modulo:hover {
+      color: var(--verde-principal);
+      background-color: #f3f4f6;
+    }
+
+    body.modo-oscuro .sidebar-modulo:hover {
+      background-color: #273244;
+    }
+
+
+    /* ==========================================
+       MENÚ LATERAL DESPLEGABLE
+    ========================================== */
+
+    .menu-desplegable {
+      width: 100%;
+    }
+
+    .menu-cabecera {
+      display: flex;
+      align-items: center;
+      gap: 4px;
+
+      width: 100%;
+
+      border-radius: 6px;
+    }
+
+    .menu-cabecera-activa {
+      background-color: #f1f1f1;
+    }
+
+    .menu-cabecera-activa > .menu-titulo {
+      color: var(--verde-principal);
+    }
+
+    .menu-titulo {
+      flex: 1;
+
+      display: block;
+
+      padding: 11px 8px 11px 14px;
+
+      color: #626873;
+
+      font-size: 16px;
+      font-weight: 650;
+      line-height: 1.4;
+
+      text-decoration: none;
+    }
+
+    .menu-titulo:hover {
+      color: var(--verde-principal);
+    }
+
+    .boton-desplegar {
+      width: 36px;
+      height: 36px;
+
+      margin-right: 5px;
+      padding: 0;
+
+      display: flex;
+      align-items: center;
+      justify-content: center;
+
+      flex-shrink: 0;
+
+      border: 0;
+      border-radius: 6px;
+
+      background: transparent;
+
+      color: #777;
+
+      font-family: inherit;
+      font-size: 24px;
+      line-height: 1;
+
+      cursor: pointer;
+    }
+
+    .boton-desplegar:hover {
+      background-color: #e5e7eb;
+      color: var(--verde-principal);
+    }
+
+    .submenu {
+      display: none;
+    }
+
+    .submenu.submenu-abierto {
+      display: block;
+    }
+
+    .menu-apartado {
+      margin-left: 14px;
+    }
+
+    .menu-apartado .menu-titulo {
+      padding-top: 9px;
+      padding-bottom: 9px;
+
+      font-size: 15px;
+      font-weight: 600;
+    }
+
+    .enlace-apartado-simple {
+      display: block;
+
+      margin-left: 14px;
+      padding: 10px 14px;
+
+      color: #626873;
+
+      font-size: 15px;
+      font-weight: 600;
+      line-height: 1.4;
+
+      text-decoration: none;
+
+      border-radius: 6px;
+
+      transition:
+        background-color 0.2s ease,
+        color 0.2s ease;
+    }
+
+    .enlace-apartado-simple:hover {
+      background-color: #f3f4f6;
+      color: var(--verde-principal);
+    }
+
+    .submenu-apartados {
+      margin: 2px 0 5px 28px;
+
+      border-left: 2px solid #e0e3e7;
+    }
+
+    .submenu-apartados a {
+      display: block;
+
+      padding: 7px 10px;
+
+      color: #777d87;
+
+      font-size: 14px;
+      font-weight: 500;
+      line-height: 1.35;
+
+      text-decoration: none;
+    }
+
+    .submenu-apartados a:hover {
+      color: var(--verde-principal);
+    }
+
+    body.modo-oscuro .menu-cabecera-activa {
+      background-color: #273244;
+    }
+
+    body.modo-oscuro .boton-desplegar:hover {
+      background-color: #334155;
+    }
+
+    body.modo-oscuro .enlace-apartado-simple:hover {
+      background-color: #273244;
+    }
+
+    body.modo-oscuro .submenu-apartados {
+      border-left-color: #3a4659;
+    }
+
+
+    /* ==========================================
+       RESTO DE UT
+    ========================================== */
+
+    .sidebar-ut-cerrada {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+
+      padding: 13px 14px;
+
+      color: #626873;
+
+      text-decoration: none;
+
+      font-size: 16px;
+      font-weight: 650;
+      line-height: 1.35;
+
+      border-radius: 6px;
+
+      transition:
+        background-color 0.2s ease,
+        color 0.2s ease;
+    }
+
+    .sidebar-ut-cerrada:hover {
+      background-color: #f3f4f6;
+      color: var(--verde-principal);
+    }
+
+    body.modo-oscuro .sidebar-ut-cerrada:hover {
+      background-color: #273244;
+    }
+
+
+    /* ==========================================
+       ZONA CENTRAL
+    ========================================== */
+
+    .contenido-ut {
+      padding: 28px 34px 70px;
+
+      max-width: 1150px;
+      width: 100%;
+    }
+
+    .migas {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+
+      margin-bottom: 30px;
+
+      font-size: 14px;
+    }
+
+    .miga-inicio {
+      text-decoration: none;
+      font-size: 18px;
+    }
+
+    .miga-separador {
+      color: #999;
+      font-size: 22px;
+    }
+
+    .miga-modulo {
+      color: var(--texto-secundario);
+      text-decoration: none;
+    }
+
+    .miga-modulo:hover {
+      color: var(--verde-principal);
+    }
+
+    .miga-actual {
+      padding: 8px 14px;
+
+      background-color: #f3f3f3;
+      border-radius: 24px;
+
+      color: var(--verde-principal);
+    }
+
+    body.modo-oscuro .miga-actual {
+      background-color: #273244;
+    }
+
+    .contenido-ut h1 {
+      margin: 0 0 30px;
+
+      font-size: clamp(38px, 5vw, 58px);
+      line-height: 1.12;
+    }
+
+
+    /* ==========================================
+       CONTENIDO DE LOS APARTADOS
+    ========================================== */
+
+    .apartado-ut {
+      margin-top: 55px;
+      scroll-margin-top: 95px;
+    }
+
+    .apartado-ut h2 {
+      margin: 0 0 24px;
+
+      font-size: 32px;
+      line-height: 1.2;
+
+      scroll-margin-top: 95px;
+    }
+
+    .apartado-ut h3 {
+      margin: 34px 0 16px;
+
+      font-size: 24px;
+      line-height: 1.3;
+    }
+
+    .apartado-ut p {
+      margin: 0 0 18px;
+
+      font-size: 18px;
+      line-height: 1.75;
+    }
+
+    .apartado-ut ul {
+      margin: 16px 0 24px;
+      padding-left: 28px;
+    }
+
+    .apartado-ut li {
+      margin-bottom: 10px;
+
+      font-size: 17px;
+      line-height: 1.6;
+    }
+
+
+    /* ==========================================
+       CAJAS DE LOS APUNTES
+    ========================================== */
+
+    .caja {
+      margin: 28px 0;
+      padding: 18px 20px;
+
+      border-left: 5px solid;
+      border-radius: 8px;
+
+      line-height: 1.65;
+    }
+
+    .caja p {
+      margin: 0;
+
+      font-size: 17px;
+    }
+
+    .caja-titulo {
+      display: block;
+
+      margin-bottom: 8px;
+
+      font-size: 17px;
+      font-weight: 700;
+    }
+
+    .caja-importante {
+      background-color: #eef8f1;
+      border-left-color: #2f9e5b;
+    }
+
+    .caja-atencion {
+      background-color: #fff7e8;
+      border-left-color: #e09b27;
+    }
+
+    .caja-ejemplo {
+      background-color: #eef5ff;
+      border-left-color: #3f7acb;
+    }
+
+    .caja-curiosidad {
+      background-color: #f7f1ff;
+      border-left-color: #8b5cc7;
+    }
+
+    body.modo-oscuro .caja-importante {
+      background-color: #20372a;
+    }
+
+    body.modo-oscuro .caja-atencion {
+      background-color: #3b3020;
+    }
+
+    body.modo-oscuro .caja-ejemplo {
+      background-color: #23344a;
+    }
+
+    body.modo-oscuro .caja-curiosidad {
+      background-color: #332944;
+    }
+
+
+    /* ==========================================
+       TABLAS
+    ========================================== */
+
+    .tabla-responsive {
+      width: 100%;
+
+      margin: 28px 0;
+
+      overflow-x: auto;
+    }
+
+    .tabla-apuntes {
+      width: 100%;
+
+      border-collapse: collapse;
+
+      font-size: 16px;
+    }
+
+    .tabla-apuntes th,
+    .tabla-apuntes td {
+      padding: 14px 16px;
+
+      border: 1px solid var(--borde);
+
+      text-align: left;
+      vertical-align: top;
+
+      line-height: 1.55;
+    }
+
+    .tabla-apuntes th {
+      background-color: #f1f3f5;
+
+      font-weight: 700;
+    }
+
+    body.modo-oscuro .tabla-apuntes th {
+      background-color: #273244;
+    }
+
+
+    /* ==========================================
+       ESQUEMAS VISUALES
+    ========================================== */
+
+    .esquema-web {
+      max-width: 850px;
+
+      margin: 30px auto;
+    }
+
+    .esquema-fila {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 14px;
+
+      margin-top: 16px;
+    }
+
+    .esquema-caja {
+      padding: 18px 16px;
+
+      background-color: var(--fondo-tarjeta);
+
+      border: 1px solid var(--borde);
+      border-radius: 10px;
+
+      text-align: center;
+    }
+
+    .esquema-caja strong {
+      display: block;
+
+      margin-bottom: 5px;
+
+      color: var(--verde-principal);
+
+      font-size: 18px;
+    }
+
+    .esquema-caja span {
+      color: var(--texto-secundario);
+
+      font-size: 15px;
+      line-height: 1.45;
+    }
+
+
+    /* ==========================================
+       ACTIVIDAD DE REFLEXIÓN
+    ========================================== */
+
+    .actividad-reflexion {
+      margin: 32px 0;
+      padding: 22px 24px;
+
+      background-color: #f7f8fa;
+
+      border: 1px solid var(--borde);
+      border-radius: 10px;
+    }
+
+    .actividad-reflexion h3 {
+      margin: 0 0 12px;
+
+      color: var(--verde-principal);
+
+      font-size: 20px;
+    }
+
+    .actividad-reflexion p {
+      margin: 0 0 14px;
+
+      font-size: 17px;
+      line-height: 1.65;
+    }
+
+    body.modo-oscuro .actividad-reflexion {
+      background-color: #232d3d;
+    }
+
+
+    /* ==========================================
+       SOLUCIÓN DESPLEGABLE
+    ========================================== */
+
+    .solucion-desplegable {
+      margin-top: 20px;
+    }
+
+    .solucion-desplegable summary {
+      display: inline-block;
+
+      padding: 10px 16px;
+
+      background-color: #eef8f1;
+
+      border: 1px solid #b9dfc6;
+      border-radius: 7px;
+
+      color: var(--verde-principal);
+
+      font-size: 16px;
+      font-weight: 700;
+
+      cursor: pointer;
+      user-select: none;
+    }
+
+    .solucion-desplegable summary:hover {
+      background-color: #e2f3e7;
+    }
+
+    .contenido-solucion {
+      margin-top: 16px;
+      padding: 18px 20px;
+
+      background-color: var(--fondo-pagina);
+
+      border-left: 4px solid var(--verde-principal);
+      border-radius: 6px;
+    }
+
+    .contenido-solucion p {
+      margin: 0 0 12px;
+
+      font-size: 16px;
+      line-height: 1.65;
+    }
+
+    .contenido-solucion p:last-child {
+      margin-bottom: 0;
+    }
+
+    body.modo-oscuro .solucion-desplegable summary {
+      background-color: #20372a;
+      border-color: #315d40;
+    }
+
+
+    /* ==========================================
+       BLOQUES DE CÓDIGO DWEC
+    ========================================== */
+
+    .bloque-codigo {
+      margin: 28px 0;
+
+      border: 1px solid #3b3b3b;
+      border-radius: 9px;
+
+      overflow: hidden;
+
+      background-color: #1e1e1e;
+    }
+
+    .cabecera-codigo {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+
+      padding: 10px 14px;
+
+      background-color: #2b2b2b;
+
+      color: #f3f4f6;
+
+      font-size: 14px;
+    }
+
+    .lenguaje-codigo {
+      font-weight: 700;
+    }
+
+    .boton-copiar {
+      padding: 6px 11px;
+
+      border: 1px solid #5c5c5c;
+      border-radius: 6px;
+
+      background-color: #383838;
+
+      color: #f3f4f6;
+
+      font-family: inherit;
+      font-size: 13px;
+
+      cursor: pointer;
+
+      transition:
+        background-color 0.2s ease,
+        border-color 0.2s ease;
+    }
+
+    .boton-copiar:hover {
+      background-color: #484848;
+      border-color: #777;
+    }
+
+    .bloque-codigo pre {
+      margin: 0;
+      padding: 18px 20px;
+
+      overflow-x: auto;
+
+      tab-size: 2;
+    }
+
+    .bloque-codigo code {
+      color: #f5f5f5;
+
+      font-family:
+        Consolas,
+        "Courier New",
+        monospace;
+
+      font-size: 15px;
+      line-height: 1.6;
+
+      white-space: pre;
+    }
+
+
+    /* ==========================================
+       COLUMNA DERECHA
+    ========================================== */
+
+    .indice-derecho {
+      padding: 28px 22px 100px;
+
+      border-left: 1px solid var(--borde);
+
+      position: sticky;
+      top: 68px;
+
+      height: calc(100vh - 68px);
+
+      overflow-y: auto;
+
+      box-sizing: border-box;
+    }
+
+    .indice-derecho h2 {
+      margin: 8px 0 20px;
+
+      font-size: 17px;
+      color: #555b65;
+    }
+
+    body.modo-oscuro .indice-derecho h2 {
+      color: #d1d5db;
+    }
+
+    .indice-derecho ul {
+      margin: 0;
+      padding-left: 18px;
+    }
+
+    .indice-derecho li {
+      margin-bottom: 12px;
+    }
+
+    .indice-derecho a {
+      color: var(--texto-secundario);
+
+      text-decoration: none;
+
+      font-size: 14px;
+      line-height: 1.4;
+    }
+
+    .indice-derecho a:hover {
+      color: var(--verde-principal);
+    }
+
+
+    /* ==========================================
+       NAVEGACIÓN ANTERIOR / SIGUIENTE
+    ========================================== */
+
+    .navegacion-paginas {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 20px;
+
+      margin-top: 50px;
+    }
+
+    .nav-pagina {
+      min-height: 100px;
+      padding: 18px 20px;
+
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+
+      border: 1px solid var(--borde);
+      border-radius: 8px;
+
+      text-decoration: none;
+
+      background-color: var(--fondo-tarjeta);
+    }
+
+    .nav-anterior {
+      align-items: flex-start;
+      text-align: left;
+    }
+
+    .nav-siguiente {
+      align-items: flex-end;
+      text-align: right;
+    }
+
+    .nav-etiqueta {
+      margin-bottom: 5px;
+
+      color: var(--texto-secundario);
+
+      font-size: 14px;
+    }
+
+    .nav-pagina strong {
+      color: var(--verde-principal);
+
+      font-size: 16px;
+      line-height: 1.4;
+    }
+
+    .nav-pagina:hover {
+      border-color: var(--verde-principal);
+    }
+
+
+    /* ==========================================
+       RESPONSIVE
+    ========================================== */
+
+    @media (max-width: 1100px) {
+
+      .pagina-ut {
+        grid-template-columns: 250px 1fr;
+      }
+
+      .indice-derecho {
+        display: none;
+      }
+
+    }
+
+    @media (max-width: 760px) {
+
+      .pagina-ut {
+        display: block;
+      }
+
+      .sidebar {
+        position: static;
+
+        width: 100%;
+        height: auto;
+
+        border-right: 0;
+        border-bottom: 1px solid var(--borde);
+      }
+
+      .contenido-ut {
+        padding: 28px 20px 60px;
+      }
+
+      .contenido-ut h1 {
+        font-size: 36px;
+      }
+
+      .navegacion-paginas {
+        grid-template-columns: 1fr;
+      }
+
+      .nav-siguiente {
+        align-items: flex-start;
+        text-align: left;
+      }
+
+      .esquema-fila {
+        grid-template-columns: repeat(2, 1fr);
+      }
+
+    }
+
+  </style>
+
+</head>
+
+
+<body>
+
+  <header class="navbar">
+
+    <a class="inicio" href="../../../index.html">
+
+      <img
+        src="../../../img/profesora-castana.png?v=2"
+        alt=""
+        class="icono-profesora"
+      >
+
+      <span>Inicio</span>
+
+    </a>
+
+    <nav
+      id="menuModulos"
+      class="menu-modulos"
+      aria-label="Módulos formativos"
+    ></nav>
+
+    <button
+      id="botonTema"
+      class="boton-tema"
+      type="button"
+      aria-label="Cambiar entre modo claro y oscuro"
+      title="Cambiar tema"
+    >
+      ☀️
+    </button>
+
+  </header>
+
+
+  <div class="pagina-ut">
+
+    <aside class="sidebar">
+
+      <a class="sidebar-modulo" href="../../index.html">
+        Desarrollo web en entorno cliente
+      </a>
+
+      <a class="sidebar-ut-cerrada" href="../../ut1/index.html">
+        <span>UT1 - Introducción al desarrollo web en entorno cliente</span>
+        <span>›</span>
+      </a>
+
+      <a class="sidebar-ut-cerrada" href="../../ut2/index.html">
+        <span>UT2 - Fundamentos de JavaScript: variables, tipos y operadores</span>
+        <span>›</span>
+      </a>
+
+      <a class="sidebar-ut-cerrada" href="../../ut3/index.html">
+        <span>UT3 - Estructuras de control en JavaScript</span>
+        <span>›</span>
+      </a>
+
+
+      <!-- UT4 -->
+
+      <div class="menu-desplegable">
+
+        <div class="menu-cabecera menu-cabecera-activa">
+
+          <a class="menu-titulo" href="../index.html">
+            UT4 - Arrays y estructuras de datos en JavaScript
+          </a>
+
+          <button
+            class="boton-desplegar"
+            type="button"
+            data-target="submenu-ut4"
+            aria-expanded="true"
+          >
+            ⌄
+          </button>
+
+        </div>
+
+
+        <div id="submenu-ut4" class="submenu submenu-abierto">
+
+
+          <!-- 4.1 -->
+
+          <div class="menu-desplegable menu-apartado">
+
+            <div class="menu-cabecera">
+
+              <a class="menu-titulo" href="../4-1/index.html">
+                4.1 Introducción a los arrays
+              </a>
+
+              <button
+                class="boton-desplegar"
+                type="button"
+                data-target="submenu-4-1"
+                aria-expanded="false"
+              >
+                ›
+              </button>
+
+            </div>
+
+            <div id="submenu-4-1" class="submenu submenu-apartados">
+            </div>
+
+          </div>
+
+
+          <!-- 4.2 -->
+
+          <div class="menu-desplegable menu-apartado">
+
+            <div class="menu-cabecera">
+
+              <a class="menu-titulo" href="../4-2/index.html">
+                4.2 Acceso y modificación de elementos
+              </a>
+
+              <button
+                class="boton-desplegar"
+                type="button"
+                data-target="submenu-4-2"
+                aria-expanded="false"
+              >
+                ›
+              </button>
+
+            </div>
+
+            <div id="submenu-4-2" class="submenu submenu-apartados">
+            </div>
+
+          </div>
+
+
+          <!-- 4.3 -->
+
+          <div class="menu-desplegable menu-apartado">
+
+            <div class="menu-cabecera menu-cabecera-activa">
+
+              <a class="menu-titulo" href="index.html">
+                4.3 Añadir y eliminar elementos
+              </a>
+
+              <button
+                class="boton-desplegar"
+                type="button"
+                data-target="submenu-4-3"
+                aria-expanded="true"
+              >
+                ⌄
+              </button>
+
+            </div>
+
+            <div
+              id="submenu-4-3"
+              class="submenu submenu-apartados submenu-abierto"
+            >
+
+              <a href="#push">
+                Añadir al final con push()
+              </a>
+
+              <a href="#pop">
+                Eliminar del final con pop()
+              </a>
+
+              <a href="#unshift">
+                Añadir al principio con unshift()
+              </a>
+
+              <a href="#shift">
+                Eliminar del principio con shift()
+              </a>
+
+              <a href="#principio-final">
+                Principio o final del array
+              </a>
+
+              <a href="#valores-devueltos">
+                Valores devueltos por los métodos
+              </a>
+
+              <a href="#ejemplos">
+                Ejemplos prácticos
+              </a>
+
+            </div>
+
+          </div>
+
+
+          <!-- 4.4 -->
+
+          <div class="menu-desplegable menu-apartado">
+
+            <div class="menu-cabecera">
+
+              <a class="menu-titulo" href="../4-4/index.html">
+                4.4 Modificar arrays con splice()
+              </a>
+
+              <button
+                class="boton-desplegar"
+                type="button"
+                data-target="submenu-4-4"
+                aria-expanded="false"
+              >
+                ›
+              </button>
+
+            </div>
+
+            <div id="submenu-4-4" class="submenu submenu-apartados">
+            </div>
+
+          </div>
+
+
+          <!-- 4.5 -->
+
+          <div class="menu-desplegable menu-apartado">
+
+            <div class="menu-cabecera">
+
+              <a class="menu-titulo" href="../4-5/index.html">
+                4.5 Buscar elementos en un array
+              </a>
+
+              <button
+                class="boton-desplegar"
+                type="button"
+                data-target="submenu-4-5"
+                aria-expanded="false"
+              >
+                ›
+              </button>
+
+            </div>
+
+            <div id="submenu-4-5" class="submenu submenu-apartados">
+            </div>
+
+          </div>
+
+
+          <!-- 4.6 -->
+
+          <div class="menu-desplegable menu-apartado">
+
+            <div class="menu-cabecera">
+
+              <a class="menu-titulo" href="../4-6/index.html">
+                4.6 Recorrer arrays con for
+              </a>
+
+              <button
+                class="boton-desplegar"
+                type="button"
+                data-target="submenu-4-6"
+                aria-expanded="false"
+              >
+                ›
+              </button>
+
+            </div>
+
+            <div id="submenu-4-6" class="submenu submenu-apartados">
+            </div>
+
+          </div>
+
+
+          <!-- 4.7 -->
+
+          <div class="menu-desplegable menu-apartado">
+
+            <div class="menu-cabecera">
+
+              <a class="menu-titulo" href="../4-7/index.html">
+                4.7 Recorrer arrays con for...of
+              </a>
+
+              <button
+                class="boton-desplegar"
+                type="button"
+                data-target="submenu-4-7"
+                aria-expanded="false"
+              >
+                ›
+              </button>
+
+            </div>
+
+            <div id="submenu-4-7" class="submenu submenu-apartados">
+            </div>
+
+          </div>
+
+
+          <!-- 4.8 -->
+
+          <div class="menu-desplegable menu-apartado">
+
+            <div class="menu-cabecera">
+
+              <a class="menu-titulo" href="../4-8/index.html">
+                4.8 El método forEach()
+              </a>
+
+              <button
+                class="boton-desplegar"
+                type="button"
+                data-target="submenu-4-8"
+                aria-expanded="false"
+              >
+                ›
+              </button>
+
+            </div>
+
+            <div id="submenu-4-8" class="submenu submenu-apartados">
+            </div>
+
+          </div>
+
+
+          <!-- 4.9 -->
+
+          <div class="menu-desplegable menu-apartado">
+
+            <div class="menu-cabecera">
+
+              <a class="menu-titulo" href="../4-9/index.html">
+                4.9 Transformar y filtrar arrays
+              </a>
+
+              <button
+                class="boton-desplegar"
+                type="button"
+                data-target="submenu-4-9"
+                aria-expanded="false"
+              >
+                ›
+              </button>
+
+            </div>
+
+            <div id="submenu-4-9" class="submenu submenu-apartados">
+            </div>
+
+          </div>
+
+
+          <!-- 4.10 -->
+
+          <div class="menu-desplegable menu-apartado">
+
+            <div class="menu-cabecera">
+
+              <a class="menu-titulo" href="../4-10/index.html">
+                4.10 Ordenar e invertir arrays
+              </a>
+
+              <button
+                class="boton-desplegar"
+                type="button"
+                data-target="submenu-4-10"
+                aria-expanded="false"
+              >
+                ›
+              </button>
+
+            </div>
+
+            <div id="submenu-4-10" class="submenu submenu-apartados">
+            </div>
+
+          </div>
+
+
+          <!-- 4.11 -->
+
+          <div class="menu-desplegable menu-apartado">
+
+            <div class="menu-cabecera">
+
+              <a class="menu-titulo" href="../4-11/index.html">
+                4.11 Arrays multidimensionales
+              </a>
+
+              <button
+                class="boton-desplegar"
+                type="button"
+                data-target="submenu-4-11"
+                aria-expanded="false"
+              >
+                ›
+              </button>
+
+            </div>
+
+            <div id="submenu-4-11" class="submenu submenu-apartados">
+            </div>
+
+          </div>
+
+
+          <!-- 4.12 -->
+
+          <div class="menu-desplegable menu-apartado">
+
+            <div class="menu-cabecera">
+
+              <a class="menu-titulo" href="../4-12/index.html">
+                4.12 Resolución de problemas con arrays
+              </a>
+
+              <button
+                class="boton-desplegar"
+                type="button"
+                data-target="submenu-4-12"
+                aria-expanded="false"
+              >
+                ›
+              </button>
+
+            </div>
+
+            <div id="submenu-4-12" class="submenu submenu-apartados">
+            </div>
+
+          </div>
+
+
+          <a
+            class="enlace-apartado-simple"
+            href="../resumen/index.html"
+          >
+            ✏️ Resumen de la UT4
+          </a>
+
+          <a
+            class="enlace-apartado-simple"
+            href="../actividades/index.html"
+          >
+            📝 Actividades de la UT4
+          </a>
+
+        </div>
+
+      </div>
+
+
+      <!-- RESTO DE UT -->
+
+      <a class="sidebar-ut-cerrada" href="../../ut5/index.html">
+        <span>UT5 - Funciones en JavaScript</span>
+        <span>›</span>
+      </a>
+
+      <a class="sidebar-ut-cerrada" href="../../ut6/index.html">
+        <span>UT6 - Objetos y Programación Orientada a Objetos en JavaScript</span>
+        <span>›</span>
+      </a>
+
+      <a class="sidebar-ut-cerrada" href="../../ut7/index.html">
+        <span>UT7 - Objetos predefinidos y modelo del navegador (BOM)</span>
+        <span>›</span>
+      </a>
+
+      <a class="sidebar-ut-cerrada" href="../../ut8/index.html">
+        <span>UT8 - Aplicaciones web interactivas: DOM, eventos y formularios</span>
+        <span>›</span>
+      </a>
+
+      <a class="sidebar-ut-cerrada" href="../../ut9/index.html">
+        <span>UT9 - Comunicación asíncrona y peticiones al servidor</span>
+        <span>›</span>
+      </a>
+
+      <a class="sidebar-ut-cerrada" href="../../ut10/index.html">
+        <span>UT10 - Introducción a React</span>
+        <span>›</span>
+      </a>
+
+    </aside>
+
+
+    <!-- ==========================================
+         CONTENIDO PRINCIPAL
+    ========================================== -->
+
+    <main class="contenido-ut">
+
+      <div class="migas">
+
+        <a
+          class="miga-inicio"
+          href="../../../index.html"
+          aria-label="Volver a la página principal"
+        >
+          🏠
+        </a>
+
+        <span class="miga-separador">›</span>
+
+        <a class="miga-modulo" href="../../index.html">
+          DWEC
+        </a>
+
+        <span class="miga-separador">›</span>
+
+        <a class="miga-modulo" href="../index.html">
+          UT4
+        </a>
+
+        <span class="miga-separador">›</span>
+
+        <span class="miga-actual">
+          4.3
+        </span>
+
+      </div>
+
+
+      <h1>
+        4.3 Añadir y eliminar elementos
+      </h1>
+
+
+      <section class="apartado-ut">
+
+        <p>
+          En el apartado anterior hemos aprendido a acceder a los elementos
+          de un array mediante sus índices, modificar su contenido e incluso
+          añadir un nuevo elemento utilizando la siguiente posición disponible.
+        </p>
+
+        <p>
+          Sin embargo, JavaScript proporciona métodos específicos que permiten
+          <strong>añadir y eliminar elementos de una forma más sencilla y
+          expresiva</strong>. Estos métodos permiten trabajar tanto con el
+          principio como con el final del array.
+        </p>
+
+        <p>
+          En este apartado estudiaremos cuatro métodos fundamentales:
+          <code>push()</code>, <code>pop()</code>, <code>unshift()</code> y
+          <code>shift()</code>.
+        </p>
+
+
+        <div class="esquema-web">
+
+          <div class="esquema-fila">
+
+            <div class="esquema-caja">
+              <strong>push()</strong>
+              <span>Añade elementos al final</span>
+            </div>
+
+            <div class="esquema-caja">
+              <strong>pop()</strong>
+              <span>Elimina el último elemento</span>
+            </div>
+
+            <div class="esquema-caja">
+              <strong>unshift()</strong>
+              <span>Añade elementos al principio</span>
+            </div>
+
+            <div class="esquema-caja">
+              <strong>shift()</strong>
+              <span>Elimina el primer elemento</span>
+            </div>
+
+          </div>
+
+        </div>
+
+
+        <div class="caja caja-importante">
+          <span class="caja-titulo">📌 Importante</span>
+
+          <p>
+            Los métodos <code>push()</code>, <code>pop()</code>,
+            <code>unshift()</code> y <code>shift()</code>
+            <strong>modifican directamente el array original</strong>.
+            Después de ejecutarlos, el contenido y normalmente también
+            la propiedad <code>length</code> del array habrán cambiado.
+          </p>
+        </div>
+
+
+        <!-- ======================================
+             PUSH
+        ======================================= -->
+
+        <h2 id="push">
+          Añadir elementos al final con push()
+        </h2>
+
+        <p>
+          El método <code>push()</code> permite
+          <strong>añadir uno o varios elementos al final de un array</strong>.
+        </p>
+
+        <p>
+          Su sintaxis básica es:
+        </p>
+
+
+        <div class="bloque-codigo">
+
+          <div class="cabecera-codigo">
+            <span class="lenguaje-codigo">JavaScript</span>
+            <button class="boton-copiar" type="button">
+              📋 Copiar código
+            </button>
+          </div>
+
+          <pre><code>nombreArray.push(elemento);</code></pre>
+
+        </div>
+
+
+        <p>
+          Observa el siguiente ejemplo:
+        </p>
+
+
+        <div class="bloque-codigo">
+
+          <div class="cabecera-codigo">
+            <span class="lenguaje-codigo">JavaScript</span>
+            <button class="boton-copiar" type="button">
+              📋 Copiar código
+            </button>
+          </div>
+
+          <pre><code>const lenguajes = ["HTML", "CSS", "JavaScript"];
+
+lenguajes.push("PHP");
+
+console.log(lenguajes);</code></pre>
+
+        </div>
+
+
+        <p>
+          El método añade <code>"PHP"</code> después del último elemento
+          existente. El array queda así:
+        </p>
+
+
+        <div class="bloque-codigo">
+
+          <div class="cabecera-codigo">
+            <span class="lenguaje-codigo">Console</span>
+            <button class="boton-copiar" type="button">
+              📋 Copiar código
+            </button>
+          </div>
+
+          <pre><code>["HTML", "CSS", "JavaScript", "PHP"]</code></pre>
+
+        </div>
+
+
+        <p>
+          También podemos añadir varios elementos en una sola operación:
+        </p>
+
+
+        <div class="bloque-codigo">
+
+          <div class="cabecera-codigo">
+            <span class="lenguaje-codigo">JavaScript</span>
+            <button class="boton-copiar" type="button">
+              📋 Copiar código
+            </button>
+          </div>
+
+          <pre><code>const lenguajes = ["HTML", "CSS"];
+
+lenguajes.push("JavaScript", "PHP");
+
+console.log(lenguajes);</code></pre>
+
+        </div>
+
+
+        <p>
+          El resultado será:
+        </p>
+
+
+        <div class="bloque-codigo">
+
+          <div class="cabecera-codigo">
+            <span class="lenguaje-codigo">Console</span>
+            <button class="boton-copiar" type="button">
+              📋 Copiar código
+            </button>
+          </div>
+
+          <pre><code>["HTML", "CSS", "JavaScript", "PHP"]</code></pre>
+
+        </div>
+
+
+        <div class="caja caja-ejemplo">
+          <span class="caja-titulo">💻 Ejemplo DAW</span>
+
+          <p>
+            Imagina que una aplicación mantiene un array con los productos
+            añadidos al carrito. Cada vez que el usuario selecciona un nuevo
+            producto podemos incorporarlo al final mediante, por ejemplo,
+            <code>carrito.push("Teclado");</code>.
+          </p>
+        </div>
+
+
+        <!-- ======================================
+             POP
+        ======================================= -->
+
+        <h2 id="pop">
+          Eliminar el último elemento con pop()
+        </h2>
+
+        <p>
+          El método <code>pop()</code> permite
+          <strong>eliminar el último elemento de un array</strong>.
+        </p>
+
+        <p>
+          No es necesario indicar ningún índice ni pasar ningún argumento.
+        </p>
+
+
+        <div class="bloque-codigo">
+
+          <div class="cabecera-codigo">
+            <span class="lenguaje-codigo">JavaScript</span>
+            <button class="boton-copiar" type="button">
+              📋 Copiar código
+            </button>
+          </div>
+
+          <pre><code>const navegadores = ["Chrome", "Firefox", "Edge", "Safari"];
+
+navegadores.pop();
+
+console.log(navegadores);</code></pre>
+
+        </div>
+
+
+        <p>
+          <code>pop()</code> elimina <code>"Safari"</code>, porque era
+          el último elemento del array.
+        </p>
+
+        <p>
+          El resultado será:
+        </p>
+
+
+        <div class="bloque-codigo">
+
+          <div class="cabecera-codigo">
+            <span class="lenguaje-codigo">Console</span>
+            <button class="boton-copiar" type="button">
+              📋 Copiar código
+            </button>
+          </div>
+
+          <pre><code>["Chrome", "Firefox", "Edge"]</code></pre>
+
+        </div>
+
+
+        <p>
+          Como hemos eliminado un elemento, también cambia la propiedad
+          <code>length</code>:
+        </p>
+
+
+        <div class="bloque-codigo">
+
+          <div class="cabecera-codigo">
+            <span class="lenguaje-codigo">JavaScript</span>
+            <button class="boton-copiar" type="button">
+              📋 Copiar código
+            </button>
+          </div>
+
+          <pre><code>const navegadores = ["Chrome", "Firefox", "Edge", "Safari"];
+
+console.log(navegadores.length);
+
+navegadores.pop();
+
+console.log(navegadores.length);</code></pre>
+
+        </div>
+
+
+        <p>
+          Console mostrará:
+        </p>
+
+
+        <div class="bloque-codigo">
+
+          <div class="cabecera-codigo">
+            <span class="lenguaje-codigo">Console</span>
+            <button class="boton-copiar" type="button">
+              📋 Copiar código
+            </button>
+          </div>
+
+          <pre><code>4
+3</code></pre>
+
+        </div>
+
+
+        <div class="caja caja-importante">
+          <span class="caja-titulo">📌 Importante</span>
+
+          <p>
+            <code>pop()</code> siempre actúa sobre el
+            <strong>último elemento</strong>. No permite indicar una posición
+            concreta. Más adelante estudiaremos cómo eliminar elementos
+            situados en otras posiciones del array.
+          </p>
+        </div>
+
+
+        <!-- ======================================
+             UNSHIFT
+        ======================================= -->
+
+        <h2 id="unshift">
+          Añadir elementos al principio con unshift()
+        </h2>
+
+        <p>
+          El método <code>unshift()</code> permite
+          <strong>añadir uno o varios elementos al principio de un array</strong>.
+        </p>
+
+        <p>
+          El nuevo elemento pasa a ocupar el índice <code>0</code> y los
+          elementos que ya existían cambian de posición.
+        </p>
+
+
+        <div class="bloque-codigo">
+
+          <div class="cabecera-codigo">
+            <span class="lenguaje-codigo">JavaScript</span>
+            <button class="boton-copiar" type="button">
+              📋 Copiar código
+            </button>
+          </div>
+
+          <pre><code>const alumnos = ["Luis", "Marta", "Pablo"];
+
+alumnos.unshift("Ana");
+
+console.log(alumnos);</code></pre>
+
+        </div>
+
+
+        <p>
+          El resultado será:
+        </p>
+
+
+        <div class="bloque-codigo">
+
+          <div class="cabecera-codigo">
+            <span class="lenguaje-codigo">Console</span>
+            <button class="boton-copiar" type="button">
+              📋 Copiar código
+            </button>
+          </div>
+
+          <pre><code>["Ana", "Luis", "Marta", "Pablo"]</code></pre>
+
+        </div>
+
+
+        <p>
+          Antes de ejecutar <code>unshift()</code>, <code>"Luis"</code>
+          estaba situado en el índice <code>0</code>. Después de añadir
+          <code>"Ana"</code>, pasa al índice <code>1</code>.
+        </p>
+
+
+        <div class="tabla-responsive">
+
+          <table class="tabla-apuntes">
+
+            <thead>
+              <tr>
+                <th>Elemento</th>
+                <th>Índice antes</th>
+                <th>Índice después</th>
+              </tr>
+            </thead>
+
+            <tbody>
+
+              <tr>
+                <td>Luis</td>
+                <td><code>0</code></td>
+                <td><code>1</code></td>
+              </tr>
+
+              <tr>
+                <td>Marta</td>
+                <td><code>1</code></td>
+                <td><code>2</code></td>
+              </tr>
+
+              <tr>
+                <td>Pablo</td>
+                <td><code>2</code></td>
+                <td><code>3</code></td>
+              </tr>
+
+            </tbody>
+
+          </table>
+
+        </div>
+
+
+        <p>
+          También podemos añadir varios elementos:
+        </p>
+
+
+        <div class="bloque-codigo">
+
+          <div class="cabecera-codigo">
+            <span class="lenguaje-codigo">JavaScript</span>
+            <button class="boton-copiar" type="button">
+              📋 Copiar código
+            </button>
+          </div>
+
+          <pre><code>const alumnos = ["Marta", "Pablo"];
+
+alumnos.unshift("Ana", "Luis");
+
+console.log(alumnos);</code></pre>
+
+        </div>
+
+
+        <p>
+          El resultado será:
+        </p>
+
+
+        <div class="bloque-codigo">
+
+          <div class="cabecera-codigo">
+            <span class="lenguaje-codigo">Console</span>
+            <button class="boton-copiar" type="button">
+              📋 Copiar código
+            </button>
+          </div>
+
+          <pre><code>["Ana", "Luis", "Marta", "Pablo"]</code></pre>
+
+        </div>
+
+
+        <!-- ======================================
+             SHIFT
+        ======================================= -->
+
+        <h2 id="shift">
+          Eliminar el primer elemento con shift()
+        </h2>
+
+        <p>
+          El método <code>shift()</code> permite
+          <strong>eliminar el primer elemento de un array</strong>.
+        </p>
+
+        <p>
+          Al eliminar el elemento situado en el índice <code>0</code>,
+          los demás elementos cambian de posición.
+        </p>
+
+
+        <div class="bloque-codigo">
+
+          <div class="cabecera-codigo">
+            <span class="lenguaje-codigo">JavaScript</span>
+            <button class="boton-copiar" type="button">
+              📋 Copiar código
+            </button>
+          </div>
+
+          <pre><code>const tareas = ["Estudiar", "Practicar JavaScript", "Hacer el reto"];
+
+tareas.shift();
+
+console.log(tareas);</code></pre>
+
+        </div>
+
+
+        <p>
+          El método elimina <code>"Estudiar"</code>. El resultado será:
+        </p>
+
+
+        <div class="bloque-codigo">
+
+          <div class="cabecera-codigo">
+            <span class="lenguaje-codigo">Console</span>
+            <button class="boton-copiar" type="button">
+              📋 Copiar código
+            </button>
+          </div>
+
+          <pre><code>["Practicar JavaScript", "Hacer el reto"]</code></pre>
+
+        </div>
+
+
+        <p>
+          Después de eliminar el primer elemento,
+          <code>"Practicar JavaScript"</code> pasa a ocupar el índice
+          <code>0</code>.
+        </p>
+
+
+        <div class="caja caja-ejemplo">
+          <span class="caja-titulo">💻 Ejemplo DAW</span>
+
+          <p>
+            Una aplicación puede mantener una cola de avisos pendientes.
+            Si el primer aviso ya ha sido procesado,
+            <code>avisos.shift();</code> permite eliminarlo y hacer que
+            el siguiente aviso pase a ocupar la primera posición.
+          </p>
+        </div>
+
+
+        <!-- ======================================
+             PRINCIPIO Y FINAL
+        ======================================= -->
+
+        <h2 id="principio-final">
+          Añadir y eliminar al principio o al final
+        </h2>
+
+        <p>
+          Los cuatro métodos estudiados pueden organizarse según la zona
+          del array sobre la que actúan.
+        </p>
+
+
+        <div class="tabla-responsive">
+
+          <table class="tabla-apuntes">
+
+            <thead>
+              <tr>
+                <th>Método</th>
+                <th>Operación</th>
+                <th>Zona del array</th>
+              </tr>
+            </thead>
+
+            <tbody>
+
+              <tr>
+                <td><code>push()</code></td>
+                <td>Añade uno o varios elementos</td>
+                <td>Final</td>
+              </tr>
+
+              <tr>
+                <td><code>pop()</code></td>
+                <td>Elimina un elemento</td>
+                <td>Final</td>
+              </tr>
+
+              <tr>
+                <td><code>unshift()</code></td>
+                <td>Añade uno o varios elementos</td>
+                <td>Principio</td>
+              </tr>
+
+              <tr>
+                <td><code>shift()</code></td>
+                <td>Elimina un elemento</td>
+                <td>Principio</td>
+              </tr>
+
+            </tbody>
+
+          </table>
+
+        </div>
+
+
+        <div class="esquema-web">
+
+          <div class="esquema-fila">
+
+            <div class="esquema-caja">
+              <strong>unshift()</strong>
+              <span>→ añade al principio</span>
+            </div>
+
+            <div class="esquema-caja">
+              <strong>shift()</strong>
+              <span>→ elimina del principio</span>
+            </div>
+
+            <div class="esquema-caja">
+              <strong>push()</strong>
+              <span>→ añade al final</span>
+            </div>
+
+            <div class="esquema-caja">
+              <strong>pop()</strong>
+              <span>→ elimina del final</span>
+            </div>
+
+          </div>
+
+        </div>
+
+
+        <p>
+          Observa cómo podemos combinar varios métodos:
+        </p>
+
+
+        <div class="bloque-codigo">
+
+          <div class="cabecera-codigo">
+            <span class="lenguaje-codigo">JavaScript</span>
+            <button class="boton-copiar" type="button">
+              📋 Copiar código
+            </button>
+          </div>
+
+          <pre><code>const tecnologias = ["CSS", "JavaScript"];
+
+tecnologias.unshift("HTML");
+tecnologias.push("PHP");
+
+console.log(tecnologias);</code></pre>
+
+        </div>
+
+
+        <p>
+          El resultado será:
+        </p>
+
+
+        <div class="bloque-codigo">
+
+          <div class="cabecera-codigo">
+            <span class="lenguaje-codigo">Console</span>
+            <button class="boton-copiar" type="button">
+              📋 Copiar código
+            </button>
+          </div>
+
+          <pre><code>["HTML", "CSS", "JavaScript", "PHP"]</code></pre>
+
+        </div>
+
+
+        <div class="caja caja-atencion">
+          <span class="caja-titulo">⚠️ Atención</span>
+
+          <p>
+            Cuando utilizamos <code>unshift()</code> o <code>shift()</code>,
+            cambian los índices de los elementos que ya estaban en el array.
+            Esto es importante si posteriormente necesitamos acceder a ellos
+            mediante su posición.
+          </p>
+        </div>
+
+
+        <!-- ======================================
+             VALORES DEVUELTOS
+        ======================================= -->
+
+        <h2 id="valores-devueltos">
+          Valores devueltos por estos métodos
+        </h2>
+
+        <p>
+          Además de modificar el array, estos métodos
+          <strong>devuelven un valor</strong>. Es importante conocerlo porque
+          podemos guardar ese resultado en una variable o utilizarlo
+          posteriormente.
+        </p>
+
+
+        <h3>
+          Valor devuelto por push()
+        </h3>
+
+        <p>
+          <code>push()</code> devuelve la
+          <strong>nueva longitud del array</strong>.
+        </p>
+
+
+        <div class="bloque-codigo">
+
+          <div class="cabecera-codigo">
+            <span class="lenguaje-codigo">JavaScript</span>
+            <button class="boton-copiar" type="button">
+              📋 Copiar código
+            </button>
+          </div>
+
+          <pre><code>const lenguajes = ["HTML", "CSS"];
+
+const nuevaLongitud = lenguajes.push("JavaScript");
+
+console.log(nuevaLongitud);
+console.log(lenguajes);</code></pre>
+
+        </div>
+
+
+        <p>
+          Console mostrará:
+        </p>
+
+
+        <div class="bloque-codigo">
+
+          <div class="cabecera-codigo">
+            <span class="lenguaje-codigo">Console</span>
+            <button class="boton-copiar" type="button">
+              📋 Copiar código
+            </button>
+          </div>
+
+          <pre><code>3
+["HTML", "CSS", "JavaScript"]</code></pre>
+
+        </div>
+
+
+        <h3>
+          Valor devuelto por unshift()
+        </h3>
+
+        <p>
+          <code>unshift()</code> también devuelve la
+          <strong>nueva longitud del array</strong>.
+        </p>
+
+
+        <div class="bloque-codigo">
+
+          <div class="cabecera-codigo">
+            <span class="lenguaje-codigo">JavaScript</span>
+            <button class="boton-copiar" type="button">
+              📋 Copiar código
+            </button>
+          </div>
+
+          <pre><code>const lenguajes = ["CSS", "JavaScript"];
+
+const nuevaLongitud = lenguajes.unshift("HTML");
+
+console.log(nuevaLongitud);
+console.log(lenguajes);</code></pre>
+
+        </div>
+
+
+        <p>
+          Console mostrará:
+        </p>
+
+
+        <div class="bloque-codigo">
+
+          <div class="cabecera-codigo">
+            <span class="lenguaje-codigo">Console</span>
+            <button class="boton-copiar" type="button">
+              📋 Copiar código
+            </button>
+          </div>
+
+          <pre><code>3
+["HTML", "CSS", "JavaScript"]</code></pre>
+
+        </div>
+
+
+        <h3>
+          Valor devuelto por pop()
+        </h3>
+
+        <p>
+          <code>pop()</code> devuelve el
+          <strong>elemento que ha eliminado</strong>.
+        </p>
+
+
+        <div class="bloque-codigo">
+
+          <div class="cabecera-codigo">
+            <span class="lenguaje-codigo">JavaScript</span>
+            <button class="boton-copiar" type="button">
+              📋 Copiar código
+            </button>
+          </div>
+
+          <pre><code>const lenguajes = ["HTML", "CSS", "JavaScript"];
+
+const eliminado = lenguajes.pop();
+
+console.log(eliminado);
+console.log(lenguajes);</code></pre>
+
+        </div>
+
+
+        <p>
+          Console mostrará:
+        </p>
+
+
+        <div class="bloque-codigo">
+
+          <div class="cabecera-codigo">
+            <span class="lenguaje-codigo">Console</span>
+            <button class="boton-copiar" type="button">
+              📋 Copiar código
+            </button>
+          </div>
+
+          <pre><code>JavaScript
+["HTML", "CSS"]</code></pre>
+
+        </div>
+
+
+        <h3>
+          Valor devuelto por shift()
+        </h3>
+
+        <p>
+          <code>shift()</code> devuelve el
+          <strong>elemento que ha eliminado</strong>.
+        </p>
+
+
+        <div class="bloque-codigo">
+
+          <div class="cabecera-codigo">
+            <span class="lenguaje-codigo">JavaScript</span>
+            <button class="boton-copiar" type="button">
+              📋 Copiar código
+            </button>
+          </div>
+
+          <pre><code>const lenguajes = ["HTML", "CSS", "JavaScript"];
+
+const eliminado = lenguajes.shift();
+
+console.log(eliminado);
+console.log(lenguajes);</code></pre>
+
+        </div>
+
+
+        <p>
+          Console mostrará:
+        </p>
+
+
+        <div class="bloque-codigo">
+
+          <div class="cabecera-codigo">
+            <span class="lenguaje-codigo">Console</span>
+            <button class="boton-copiar" type="button">
+              📋 Copiar código
+            </button>
+          </div>
+
+          <pre><code>HTML
+["CSS", "JavaScript"]</code></pre>
+
+        </div>
+
+
+        <div class="tabla-responsive">
+
+          <table class="tabla-apuntes">
+
+            <thead>
+              <tr>
+                <th>Método</th>
+                <th>Modifica el array</th>
+                <th>Valor devuelto</th>
+              </tr>
+            </thead>
+
+            <tbody>
+
+              <tr>
+                <td><code>push()</code></td>
+                <td>Sí</td>
+                <td>Nueva longitud</td>
+              </tr>
+
+              <tr>
+                <td><code>pop()</code></td>
+                <td>Sí</td>
+                <td>Elemento eliminado</td>
+              </tr>
+
+              <tr>
+                <td><code>unshift()</code></td>
+                <td>Sí</td>
+                <td>Nueva longitud</td>
+              </tr>
+
+              <tr>
+                <td><code>shift()</code></td>
+                <td>Sí</td>
+                <td>Elemento eliminado</td>
+              </tr>
+
+            </tbody>
+
+          </table>
+
+        </div>
+
+
+        <div class="caja caja-importante">
+          <span class="caja-titulo">📌 Importante</span>
+
+          <p>
+            No debemos confundir el efecto que produce un método sobre el
+            array con el valor que devuelve. Por ejemplo,
+            <code>pop()</code> modifica el array eliminando su último
+            elemento y, además, devuelve precisamente el elemento eliminado.
+          </p>
+        </div>
+
+
+        <!-- ======================================
+             EJEMPLOS PRÁCTICOS
+        ======================================= -->
+
+        <h2 id="ejemplos">
+          Ejemplos prácticos
+        </h2>
+
+        <p>
+          Podemos combinar los cuatro métodos para gestionar conjuntos de
+          datos que cambian durante la ejecución de un programa.
+        </p>
+
+
+        <h3>
+          Ejemplo 1: lista de tareas
+        </h3>
+
+
+        <div class="bloque-codigo">
+
+          <div class="cabecera-codigo">
+            <span class="lenguaje-codigo">JavaScript</span>
+            <button class="boton-copiar" type="button">
+              📋 Copiar código
+            </button>
+          </div>
+
+          <pre><code>const tareas = ["Estudiar JavaScript", "Hacer ejercicios"];
+
+tareas.push("Preparar el reto");
+tareas.unshift("Revisar apuntes");
+
+console.log(tareas);
+
+const primeraTarea = tareas.shift();
+
+console.log("Tarea realizada: " + primeraTarea);
+console.log(tareas);</code></pre>
+
+        </div>
+
+
+        <p>
+          Primero se añade una tarea al final y otra al principio. Después
+          se elimina la primera tarea y se guarda en la variable
+          <code>primeraTarea</code>.
+        </p>
+
+
+        <h3>
+          Ejemplo 2: historial de páginas
+        </h3>
+
+
+        <div class="bloque-codigo">
+
+          <div class="cabecera-codigo">
+            <span class="lenguaje-codigo">JavaScript</span>
+            <button class="boton-copiar" type="button">
+              📋 Copiar código
+            </button>
+          </div>
+
+          <pre><code>const historial = ["inicio.html", "productos.html"];
+
+historial.push("detalle.html");
+historial.push("carrito.html");
+
+console.log(historial);
+
+const ultimaPagina = historial.pop();
+
+console.log("Página eliminada: " + ultimaPagina);
+console.log(historial);</code></pre>
+
+        </div>
+
+
+        <p>
+          En este caso utilizamos <code>push()</code> para incorporar nuevas
+          páginas al final del historial y <code>pop()</code> para retirar
+          la última.
+        </p>
+
+
+        <div class="caja caja-ejemplo">
+          <span class="caja-titulo">💻 Ejemplo DAW</span>
+
+          <p>
+            En una aplicación web es habitual trabajar con colecciones que
+            cambian: productos de un carrito, mensajes pendientes, tareas,
+            notificaciones o páginas visitadas. Elegir entre
+            <code>push()</code>, <code>pop()</code>,
+            <code>unshift()</code> y <code>shift()</code> dependerá de si
+            necesitamos actuar sobre el principio o sobre el final del array.
+          </p>
+        </div>
+
+
+        <!-- ======================================
+             ACTIVIDAD
+        ======================================= -->
+
+        <div class="actividad-reflexion">
+
+          <h3>🧠 Comprueba lo aprendido</h3>
+
+          <p>
+            Observa el siguiente código sin ejecutarlo:
+          </p>
+
+
+          <div class="bloque-codigo">
+
+            <div class="cabecera-codigo">
+              <span class="lenguaje-codigo">JavaScript</span>
+              <button class="boton-copiar" type="button">
+                📋 Copiar código
+              </button>
+            </div>
+
+            <pre><code>const tecnologias = ["HTML", "CSS", "JavaScript"];
+
+tecnologias.push("PHP");
+tecnologias.unshift("Git");
+
+const ultima = tecnologias.pop();
+const primera = tecnologias.shift();</code></pre>
+
+          </div>
+
+
+          <p>
+            Responde a las siguientes preguntas:
+          </p>
+
+          <ul>
+
+            <li>
+              ¿Cuál es el contenido del array después de ejecutar
+              <code>push("PHP")</code>?
+            </li>
+
+            <li>
+              ¿Cuál es el contenido después de ejecutar
+              <code>unshift("Git")</code>?
+            </li>
+
+            <li>
+              ¿Qué valor se almacena en la variable
+              <code>ultima</code>?
+            </li>
+
+            <li>
+              ¿Qué valor se almacena en la variable
+              <code>primera</code>?
+            </li>
+
+            <li>
+              ¿Cuál es el contenido final del array
+              <code>tecnologias</code>?
+            </li>
+
+            <li>
+              ¿Cuánto vale finalmente
+              <code>tecnologias.length</code>?
+            </li>
+
+          </ul>
+
+
+          <details class="solucion-desplegable">
+
+            <summary>
+              Ver solución
+            </summary>
+
+            <div class="contenido-solucion">
+
+              <p>
+                Después de ejecutar <code>push("PHP")</code>, el array es
+                <code>["HTML", "CSS", "JavaScript", "PHP"]</code>.
+              </p>
+
+              <p>
+                Después de ejecutar <code>unshift("Git")</code>, el array es
+                <code>["Git", "HTML", "CSS", "JavaScript", "PHP"]</code>.
+              </p>
+
+              <p>
+                <code>pop()</code> elimina el último elemento, por lo que
+                <code>ultima</code> contiene <strong>"PHP"</strong>.
+              </p>
+
+              <p>
+                Después de esa operación el array es
+                <code>["Git", "HTML", "CSS", "JavaScript"]</code>.
+              </p>
+
+              <p>
+                <code>shift()</code> elimina el primer elemento, por lo que
+                <code>primera</code> contiene <strong>"Git"</strong>.
+              </p>
+
+              <p>
+                El contenido final de <code>tecnologias</code> es
+                <code>["HTML", "CSS", "JavaScript"]</code>.
+              </p>
+
+              <p>
+                Finalmente, <code>tecnologias.length</code> vale
+                <strong>3</strong>.
+              </p>
+
+            </div>
+
+          </details>
+
+        </div>
+
+
+        <!-- ======================================
+             PRÁCTICA EN CONSOLA
+        ======================================= -->
+
+        <div class="actividad-reflexion">
+
+          <h3>💻 Prueba en Console</h3>
+
+          <p>
+            Abre las herramientas de desarrollo del navegador y crea el
+            siguiente array:
+          </p>
+
+
+          <div class="bloque-codigo">
+
+            <div class="cabecera-codigo">
+              <span class="lenguaje-codigo">Console</span>
+              <button class="boton-copiar" type="button">
+                📋 Copiar código
+              </button>
+            </div>
+
+            <pre><code>const lenguajes = ["CSS", "JavaScript"];</code></pre>
+
+          </div>
+
+
+          <p>
+            Después ejecuta estas expresiones una a una:
+          </p>
+
+
+          <div class="bloque-codigo">
+
+            <div class="cabecera-codigo">
+              <span class="lenguaje-codigo">Console</span>
+              <button class="boton-copiar" type="button">
+                📋 Copiar código
+              </button>
+            </div>
+
+            <pre><code>lenguajes
+lenguajes.push("PHP")
+lenguajes
+lenguajes.unshift("HTML")
+lenguajes
+lenguajes.pop()
+lenguajes
+lenguajes.shift()
+lenguajes
+lenguajes.length</code></pre>
+
+          </div>
+
+
+          <p>
+            Antes de ejecutar cada expresión, intenta predecir tanto
+            <strong>el valor que devolverá el método</strong> como
+            <strong>el contenido que tendrá el array</strong> después de
+            la operación.
+          </p>
+
+          <p>
+            Presta especial atención a la diferencia entre los métodos que
+            actúan sobre el principio del array y los que actúan sobre el
+            final.
+          </p>
+
+        </div>
+
+      </section>
+
+
+      <!-- ==========================================
+           NAVEGACIÓN
+      ========================================== -->
+
+      <nav class="navegacion-paginas">
+
+        <a
+          class="nav-pagina nav-anterior"
+          href="../4-2/index.html"
+        >
+
+          <span class="nav-etiqueta">
+            Anterior
+          </span>
+
+          <strong>
+            ‹ 4.2 Acceso y modificación de elementos
+          </strong>
+
+        </a>
+
+
+        <a
+          class="nav-pagina nav-siguiente"
+          href="../4-4/index.html"
+        >
+
+          <span class="nav-etiqueta">
+            Siguiente
+          </span>
+
+          <strong>
+            4.4 Modificar arrays con splice() ›
+          </strong>
+
+        </a>
+
+      </nav>
+
+    </main>
+
+
+    <!-- ==========================================
+         ÍNDICE DERECHO
+    ========================================== -->
+
+    <aside class="indice-derecho">
+
+      <h2>
+        En este apartado
+      </h2>
+
+      <ul>
+
+        <li>
+          <a href="#push">
+            Añadir al final con push()
+          </a>
+        </li>
+
+        <li>
+          <a href="#pop">
+            Eliminar del final con pop()
+          </a>
+        </li>
+
+        <li>
+          <a href="#unshift">
+            Añadir al principio con unshift()
+          </a>
+        </li>
+
+        <li>
+          <a href="#shift">
+            Eliminar del principio con shift()
+          </a>
+        </li>
+
+        <li>
+          <a href="#principio-final">
+            Principio o final del array
+          </a>
+        </li>
+
+        <li>
+          <a href="#valores-devueltos">
+            Valores devueltos por los métodos
+          </a>
+        </li>
+
+        <li>
+          <a href="#ejemplos">
+            Ejemplos prácticos
+          </a>
+        </li>
+
+      </ul>
+
+    </aside>
+
+  </div>
+
+
+  <!-- ==========================================
+       PIE DE PÁGINA
+  ========================================== -->
+
+  <footer>
+
+    <p>
+      Material elaborado por Eva Ballestero Cubeles ·
+      Licencia CC BY-NC-SA 4.0
+
+      <a
+        class="enlace-licencia"
+        href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.es"
+        target="_blank"
+        rel="license noopener noreferrer"
+        aria-label="Licencia Creative Commons BY-NC-SA 4.0"
+      >
+
+        <img
+          class="icono-licencia"
+          src="../../../img/licencias/cc-by-nc-sa.png"
+          alt="Licencia Creative Commons BY-NC-SA 4.0"
+        >
+
+      </a>
+
+    </p>
+
+  </footer>
+
+
+  <!-- ==========================================
+       JAVASCRIPT COMÚN
+  ========================================== -->
+
+  <script src="../../../js/modulos.js"></script>
+
+  <script>
+
+    const menuModulos =
+      document.getElementById("menuModulos");
+
+    const botonTema =
+      document.getElementById("botonTema");
+
+    const modulosActivos =
+      modulos.filter(modulo => modulo.activo === true);
+
+
+    modulosActivos.forEach(modulo => {
+
+      const enlace =
+        document.createElement("a");
+
+      enlace.href =
+        `../../../${modulo.carpeta}/index.html`;
+
+      enlace.textContent =
+        modulo.siglas;
+
+      enlace.title =
+        modulo.nombre;
+
+      if (modulo.siglas === "DWEC") {
+
+        enlace.style.color =
+          "var(--verde-principal)";
+
+      }
+
+      menuModulos.appendChild(enlace);
+
+    });
+
+
+    /* ==========================================
+       MODO OSCURO
+    ========================================== */
+
+    const temaGuardado =
+      localStorage.getItem("tema");
+
+    if (temaGuardado === "oscuro") {
+
+      document.body.classList.add("modo-oscuro");
+
+      botonTema.textContent =
+        "🌙";
+
+    }
+
+    botonTema.addEventListener("click", () => {
+
+      document.body.classList.toggle("modo-oscuro");
+
+      const estaOscuro =
+        document.body.classList.contains("modo-oscuro");
+
+      botonTema.textContent =
+        estaOscuro ? "🌙" : "☀️";
+
+      localStorage.setItem(
+        "tema",
+        estaOscuro ? "oscuro" : "claro"
+      );
+
+    });
+
+
+    /* ==========================================
+       MENÚS DESPLEGABLES
+    ========================================== */
+
+    const botonesDesplegar =
+      document.querySelectorAll(".boton-desplegar");
+
+    botonesDesplegar.forEach((boton) => {
+
+      boton.addEventListener("click", () => {
+
+        const idSubmenu =
+          boton.getAttribute("data-target");
+
+        const submenu =
+          document.getElementById(idSubmenu);
+
+        if (!submenu) {
+          return;
+        }
+
+        const estaAbierto =
+          submenu.classList.contains("submenu-abierto");
+
+        if (estaAbierto) {
+
+          submenu.classList.remove("submenu-abierto");
+
+          boton.textContent =
+            "›";
+
+          boton.setAttribute(
+            "aria-expanded",
+            "false"
+          );
+
+        } else {
+
+          submenu.classList.add("submenu-abierto");
+
+          boton.textContent =
+            "⌄";
+
+          boton.setAttribute(
+            "aria-expanded",
+            "true"
+          );
+
+        }
+
+      });
+
+    });
+
+
+    /* ==========================================
+       COPIAR BLOQUES DE CÓDIGO
+    ========================================== */
+
+    document.addEventListener("click", async (evento) => {
+
+      const boton =
+        evento.target.closest(".boton-copiar");
+
+      if (!boton) {
+        return;
+      }
+
+      const bloque =
+        boton.closest(".bloque-codigo");
+
+      if (!bloque) {
+        return;
+      }
+
+      const codigo =
+        bloque.querySelector("code");
+
+      if (!codigo) {
+        return;
+      }
+
+      const textoOriginal =
+        boton.textContent;
+
+      try {
+
+        await navigator.clipboard.writeText(
+          codigo.textContent
+        );
+
+        boton.textContent =
+          "✔ Copiado";
+
+        setTimeout(() => {
+
+          boton.textContent =
+            textoOriginal;
+
+        }, 1600);
+
+      } catch (error) {
+
+        boton.textContent =
+          "Error al copiar";
+
+        setTimeout(() => {
+
+          boton.textContent =
+            textoOriginal;
+
+        }, 1600);
+
+      }
+
+    });
+
+  </script>
+
+</body>
+
+</html>
