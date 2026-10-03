@@ -1,0 +1,3042 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+
+  <meta charset="UTF-8">
+
+  <meta
+    name="viewport"
+    content="width=device-width, initial-scale=1.0"
+  >
+
+  <meta
+    name="description"
+    content="4.4 - Modificar arrays con splice()."
+  >
+
+  <title>4.4 - Modificar arrays con splice()</title>
+
+  <link rel="icon" type="image/png" href="../../../img/favicon.png?v=5">
+  <link rel="stylesheet" href="../../../css/estilos.css">
+
+  <style>
+
+    /* ==========================================
+       ESTRUCTURA DE LA UT
+    ========================================== */
+
+    .pagina-ut {
+      display: grid;
+      grid-template-columns: 280px 1fr 260px;
+      min-height: calc(100vh - 68px);
+    }
+
+
+    /* ==========================================
+       COLUMNA IZQUIERDA
+    ========================================== */
+
+    .sidebar {
+      border-right: 1px solid var(--borde);
+      background-color: var(--fondo-pagina);
+
+      padding: 12px 10px 30px;
+
+      position: sticky;
+      top: 68px;
+
+      height: calc(100vh - 68px);
+      overflow-y: auto;
+    }
+
+    .sidebar-modulo {
+      display: block;
+      margin-bottom: 8px;
+      padding: 8px 14px;
+
+      color: #626873;
+
+      font-size: 17px;
+      font-weight: 700;
+      line-height: 1.3;
+
+      text-decoration: none;
+      border-radius: 6px;
+
+      transition:
+        color 0.2s ease,
+        background-color 0.2s ease;
+    }
+
+    .sidebar-modulo:hover {
+      color: var(--verde-principal);
+      background-color: #f3f4f6;
+    }
+
+    body.modo-oscuro .sidebar-modulo:hover {
+      background-color: #273244;
+    }
+
+
+    /* ==========================================
+       MENÚ LATERAL DESPLEGABLE
+    ========================================== */
+
+    .menu-desplegable {
+      width: 100%;
+    }
+
+    .menu-cabecera {
+      display: flex;
+      align-items: center;
+      gap: 4px;
+
+      width: 100%;
+
+      border-radius: 6px;
+    }
+
+    .menu-cabecera-activa {
+      background-color: #f1f1f1;
+    }
+
+    .menu-cabecera-activa > .menu-titulo {
+      color: var(--verde-principal);
+    }
+
+    .menu-titulo {
+      flex: 1;
+
+      display: block;
+
+      padding: 11px 8px 11px 14px;
+
+      color: #626873;
+
+      font-size: 16px;
+      font-weight: 650;
+      line-height: 1.4;
+
+      text-decoration: none;
+    }
+
+    .menu-titulo:hover {
+      color: var(--verde-principal);
+    }
+
+    .boton-desplegar {
+      width: 36px;
+      height: 36px;
+
+      margin-right: 5px;
+      padding: 0;
+
+      display: flex;
+      align-items: center;
+      justify-content: center;
+
+      flex-shrink: 0;
+
+      border: 0;
+      border-radius: 6px;
+
+      background: transparent;
+
+      color: #777;
+
+      font-family: inherit;
+      font-size: 24px;
+      line-height: 1;
+
+      cursor: pointer;
+    }
+
+    .boton-desplegar:hover {
+      background-color: #e5e7eb;
+      color: var(--verde-principal);
+    }
+
+    .submenu {
+      display: none;
+    }
+
+    .submenu.submenu-abierto {
+      display: block;
+    }
+
+    .menu-apartado {
+      margin-left: 14px;
+    }
+
+    .menu-apartado .menu-titulo {
+      padding-top: 9px;
+      padding-bottom: 9px;
+
+      font-size: 15px;
+      font-weight: 600;
+    }
+
+    .enlace-apartado-simple {
+      display: block;
+
+      margin-left: 14px;
+      padding: 10px 14px;
+
+      color: #626873;
+
+      font-size: 15px;
+      font-weight: 600;
+      line-height: 1.4;
+
+      text-decoration: none;
+
+      border-radius: 6px;
+    }
+
+    .enlace-apartado-simple:hover {
+      background-color: #f3f4f6;
+      color: var(--verde-principal);
+    }
+
+    .submenu-apartados {
+      margin: 2px 0 5px 28px;
+      border-left: 2px solid #e0e3e7;
+    }
+
+    .submenu-apartados a {
+      display: block;
+      padding: 7px 10px;
+
+      color: #777d87;
+
+      font-size: 14px;
+      font-weight: 500;
+      line-height: 1.35;
+
+      text-decoration: none;
+    }
+
+    .submenu-apartados a:hover {
+      color: var(--verde-principal);
+    }
+
+    body.modo-oscuro .menu-cabecera-activa {
+      background-color: #273244;
+    }
+
+    body.modo-oscuro .boton-desplegar:hover {
+      background-color: #334155;
+    }
+
+    body.modo-oscuro .enlace-apartado-simple:hover {
+      background-color: #273244;
+    }
+
+    body.modo-oscuro .submenu-apartados {
+      border-left-color: #3a4659;
+    }
+
+
+    /* ==========================================
+       RESTO DE UT
+    ========================================== */
+
+    .sidebar-ut-cerrada {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+
+      padding: 13px 14px;
+
+      color: #626873;
+
+      text-decoration: none;
+
+      font-size: 16px;
+      font-weight: 650;
+      line-height: 1.35;
+
+      border-radius: 6px;
+    }
+
+    .sidebar-ut-cerrada:hover {
+      background-color: #f3f4f6;
+      color: var(--verde-principal);
+    }
+
+    body.modo-oscuro .sidebar-ut-cerrada:hover {
+      background-color: #273244;
+    }
+
+
+    /* ==========================================
+       ZONA CENTRAL
+    ========================================== */
+
+    .contenido-ut {
+      padding: 28px 34px 70px;
+
+      max-width: 1150px;
+      width: 100%;
+    }
+
+    .migas {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+
+      margin-bottom: 30px;
+
+      font-size: 14px;
+    }
+
+    .miga-inicio {
+      text-decoration: none;
+      font-size: 18px;
+    }
+
+    .miga-separador {
+      color: #999;
+      font-size: 22px;
+    }
+
+    .miga-modulo {
+      color: var(--texto-secundario);
+      text-decoration: none;
+    }
+
+    .miga-modulo:hover {
+      color: var(--verde-principal);
+    }
+
+    .miga-actual {
+      padding: 8px 14px;
+
+      background-color: #f3f3f3;
+      border-radius: 24px;
+
+      color: var(--verde-principal);
+    }
+
+    body.modo-oscuro .miga-actual {
+      background-color: #273244;
+    }
+
+    .contenido-ut h1 {
+      margin: 0 0 30px;
+
+      font-size: clamp(38px, 5vw, 58px);
+      line-height: 1.12;
+    }
+
+
+    /* ==========================================
+       CONTENIDO
+    ========================================== */
+
+    .apartado-ut {
+      margin-top: 55px;
+      scroll-margin-top: 95px;
+    }
+
+    .apartado-ut h2 {
+      margin: 0 0 24px;
+
+      font-size: 32px;
+      line-height: 1.2;
+
+      scroll-margin-top: 95px;
+    }
+
+    .apartado-ut h3 {
+      margin: 34px 0 16px;
+
+      font-size: 24px;
+      line-height: 1.3;
+    }
+
+    .apartado-ut p {
+      margin: 0 0 18px;
+
+      font-size: 18px;
+      line-height: 1.75;
+    }
+
+    .apartado-ut ul {
+      margin: 16px 0 24px;
+      padding-left: 28px;
+    }
+
+    .apartado-ut li {
+      margin-bottom: 10px;
+
+      font-size: 17px;
+      line-height: 1.6;
+    }
+
+
+    /* ==========================================
+       CAJAS
+    ========================================== */
+
+    .caja {
+      margin: 28px 0;
+      padding: 18px 20px;
+
+      border-left: 5px solid;
+      border-radius: 8px;
+
+      line-height: 1.65;
+    }
+
+    .caja p {
+      margin: 0;
+      font-size: 17px;
+    }
+
+    .caja-titulo {
+      display: block;
+
+      margin-bottom: 8px;
+
+      font-size: 17px;
+      font-weight: 700;
+    }
+
+    .caja-importante {
+      background-color: #eef8f1;
+      border-left-color: #2f9e5b;
+    }
+
+    .caja-atencion {
+      background-color: #fff7e8;
+      border-left-color: #e09b27;
+    }
+
+    .caja-ejemplo {
+      background-color: #eef5ff;
+      border-left-color: #3f7acb;
+    }
+
+    .caja-curiosidad {
+      background-color: #f7f1ff;
+      border-left-color: #8b5cc7;
+    }
+
+    body.modo-oscuro .caja-importante {
+      background-color: #20372a;
+    }
+
+    body.modo-oscuro .caja-atencion {
+      background-color: #3b3020;
+    }
+
+    body.modo-oscuro .caja-ejemplo {
+      background-color: #23344a;
+    }
+
+    body.modo-oscuro .caja-curiosidad {
+      background-color: #332944;
+    }
+
+
+    /* ==========================================
+       TABLAS
+    ========================================== */
+
+    .tabla-responsive {
+      width: 100%;
+      margin: 28px 0;
+      overflow-x: auto;
+    }
+
+    .tabla-apuntes {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 16px;
+    }
+
+    .tabla-apuntes th,
+    .tabla-apuntes td {
+      padding: 14px 16px;
+
+      border: 1px solid var(--borde);
+
+      text-align: left;
+      vertical-align: top;
+
+      line-height: 1.55;
+    }
+
+    .tabla-apuntes th {
+      background-color: #f1f3f5;
+      font-weight: 700;
+    }
+
+    body.modo-oscuro .tabla-apuntes th {
+      background-color: #273244;
+    }
+
+
+    /* ==========================================
+       ACTIVIDAD
+    ========================================== */
+
+    .actividad-reflexion {
+      margin: 32px 0;
+      padding: 22px 24px;
+
+      background-color: #f7f8fa;
+
+      border: 1px solid var(--borde);
+      border-radius: 10px;
+    }
+
+    .actividad-reflexion h3 {
+      margin: 0 0 12px;
+
+      color: var(--verde-principal);
+
+      font-size: 20px;
+    }
+
+    .actividad-reflexion p {
+      margin: 0 0 14px;
+
+      font-size: 17px;
+      line-height: 1.65;
+    }
+
+    body.modo-oscuro .actividad-reflexion {
+      background-color: #232d3d;
+    }
+
+
+    /* ==========================================
+       SOLUCIÓN
+    ========================================== */
+
+    .solucion-desplegable {
+      margin-top: 20px;
+    }
+
+    .solucion-desplegable summary {
+      display: inline-block;
+
+      padding: 10px 16px;
+
+      background-color: #eef8f1;
+
+      border: 1px solid #b9dfc6;
+      border-radius: 7px;
+
+      color: var(--verde-principal);
+
+      font-size: 16px;
+      font-weight: 700;
+
+      cursor: pointer;
+      user-select: none;
+    }
+
+    .solucion-desplegable summary:hover {
+      background-color: #e2f3e7;
+    }
+
+    .contenido-solucion {
+      margin-top: 16px;
+      padding: 18px 20px;
+
+      background-color: var(--fondo-pagina);
+
+      border-left: 4px solid var(--verde-principal);
+      border-radius: 6px;
+    }
+
+    .contenido-solucion p {
+      margin: 0 0 12px;
+
+      font-size: 16px;
+      line-height: 1.65;
+    }
+
+    body.modo-oscuro .solucion-desplegable summary {
+      background-color: #20372a;
+      border-color: #315d40;
+    }
+
+
+    /* ==========================================
+       BLOQUES DE CÓDIGO
+    ========================================== */
+
+    .bloque-codigo {
+      margin: 28px 0;
+
+      border: 1px solid #3b3b3b;
+      border-radius: 9px;
+
+      overflow: hidden;
+
+      background-color: #1e1e1e;
+    }
+
+    .cabecera-codigo {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+
+      padding: 10px 14px;
+
+      background-color: #2b2b2b;
+
+      color: #f3f4f6;
+
+      font-size: 14px;
+    }
+
+    .lenguaje-codigo {
+      font-weight: 700;
+    }
+
+    .boton-copiar {
+      padding: 6px 11px;
+
+      border: 1px solid #5c5c5c;
+      border-radius: 6px;
+
+      background-color: #383838;
+
+      color: #f3f4f6;
+
+      font-family: inherit;
+      font-size: 13px;
+
+      cursor: pointer;
+    }
+
+    .boton-copiar:hover {
+      background-color: #484848;
+      border-color: #777;
+    }
+
+    .bloque-codigo pre {
+      margin: 0;
+      padding: 18px 20px;
+
+      overflow-x: auto;
+
+      tab-size: 2;
+    }
+
+    .bloque-codigo code {
+      color: #f5f5f5;
+
+      font-family:
+        Consolas,
+        "Courier New",
+        monospace;
+
+      font-size: 15px;
+      line-height: 1.6;
+
+      white-space: pre;
+    }
+
+
+    /* ==========================================
+       ÍNDICE DERECHO
+    ========================================== */
+
+    .indice-derecho {
+      padding: 28px 22px 100px;
+
+      border-left: 1px solid var(--borde);
+
+      position: sticky;
+      top: 68px;
+
+      height: calc(100vh - 68px);
+
+      overflow-y: auto;
+      box-sizing: border-box;
+    }
+
+    .indice-derecho h2 {
+      margin: 8px 0 20px;
+
+      font-size: 17px;
+      color: #555b65;
+    }
+
+    body.modo-oscuro .indice-derecho h2 {
+      color: #d1d5db;
+    }
+
+    .indice-derecho ul {
+      margin: 0;
+      padding-left: 18px;
+    }
+
+    .indice-derecho li {
+      margin-bottom: 12px;
+    }
+
+    .indice-derecho a {
+      color: var(--texto-secundario);
+
+      text-decoration: none;
+
+      font-size: 14px;
+      line-height: 1.4;
+    }
+
+    .indice-derecho a:hover {
+      color: var(--verde-principal);
+    }
+
+
+    /* ==========================================
+       NAVEGACIÓN
+    ========================================== */
+
+    .navegacion-paginas {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 20px;
+
+      margin-top: 50px;
+    }
+
+    .nav-pagina {
+      min-height: 100px;
+      padding: 18px 20px;
+
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+
+      border: 1px solid var(--borde);
+      border-radius: 8px;
+
+      text-decoration: none;
+
+      background-color: var(--fondo-tarjeta);
+    }
+
+    .nav-anterior {
+      align-items: flex-start;
+      text-align: left;
+    }
+
+    .nav-siguiente {
+      align-items: flex-end;
+      text-align: right;
+    }
+
+    .nav-etiqueta {
+      margin-bottom: 5px;
+
+      color: var(--texto-secundario);
+
+      font-size: 14px;
+    }
+
+    .nav-pagina strong {
+      color: var(--verde-principal);
+
+      font-size: 16px;
+      line-height: 1.4;
+    }
+
+    .nav-pagina:hover {
+      border-color: var(--verde-principal);
+    }
+
+
+    /* ==========================================
+       RESPONSIVE
+    ========================================== */
+
+    @media (max-width: 1100px) {
+
+      .pagina-ut {
+        grid-template-columns: 250px 1fr;
+      }
+
+      .indice-derecho {
+        display: none;
+      }
+
+    }
+
+    @media (max-width: 760px) {
+
+      .pagina-ut {
+        display: block;
+      }
+
+      .sidebar {
+        position: static;
+
+        width: 100%;
+        height: auto;
+
+        border-right: 0;
+        border-bottom: 1px solid var(--borde);
+      }
+
+      .contenido-ut {
+        padding: 28px 20px 60px;
+      }
+
+      .contenido-ut h1 {
+        font-size: 36px;
+      }
+
+      .navegacion-paginas {
+        grid-template-columns: 1fr;
+      }
+
+      .nav-siguiente {
+        align-items: flex-start;
+        text-align: left;
+      }
+
+    }
+
+  </style>
+
+</head>
+
+
+<body>
+
+  <header class="navbar">
+
+    <a class="inicio" href="../../../index.html">
+
+      <img
+        src="../../../img/profesora-castana.png?v=2"
+        alt=""
+        class="icono-profesora"
+      >
+
+      <span>Inicio</span>
+
+    </a>
+
+    <nav
+      id="menuModulos"
+      class="menu-modulos"
+      aria-label="Módulos formativos"
+    ></nav>
+
+    <button
+      id="botonTema"
+      class="boton-tema"
+      type="button"
+      aria-label="Cambiar entre modo claro y oscuro"
+      title="Cambiar tema"
+    >
+      ☀️
+    </button>
+
+  </header>
+
+
+  <div class="pagina-ut">
+
+    <!-- ==========================================
+         MENÚ LATERAL
+    ========================================== -->
+
+    <aside class="sidebar">
+
+      <a class="sidebar-modulo" href="../../index.html">
+        Desarrollo web en entorno cliente
+      </a>
+
+      <a class="sidebar-ut-cerrada" href="../../ut1/index.html">
+        <span>UT1 - Introducción al desarrollo web en entorno cliente</span>
+        <span>›</span>
+      </a>
+
+      <a class="sidebar-ut-cerrada" href="../../ut2/index.html">
+        <span>UT2 - Fundamentos de JavaScript: variables, tipos y operadores</span>
+        <span>›</span>
+      </a>
+
+      <a class="sidebar-ut-cerrada" href="../../ut3/index.html">
+        <span>UT3 - Estructuras de control en JavaScript</span>
+        <span>›</span>
+      </a>
+
+
+      <!-- UT4 -->
+
+      <div class="menu-desplegable">
+
+        <div class="menu-cabecera menu-cabecera-activa">
+
+          <a class="menu-titulo" href="../index.html">
+            UT4 - Arrays y estructuras de datos en JavaScript
+          </a>
+
+          <button
+            class="boton-desplegar"
+            type="button"
+            data-target="submenu-ut4"
+            aria-expanded="true"
+          >
+            ⌄
+          </button>
+
+        </div>
+
+
+        <div id="submenu-ut4" class="submenu submenu-abierto">
+
+
+          <!-- 4.1 -->
+
+          <div class="menu-desplegable menu-apartado">
+
+            <div class="menu-cabecera">
+
+              <a class="menu-titulo" href="../4-1/index.html">
+                4.1 Introducción a los arrays
+              </a>
+
+              <button
+                class="boton-desplegar"
+                type="button"
+                data-target="submenu-4-1"
+                aria-expanded="false"
+              >
+                ›
+              </button>
+
+            </div>
+
+            <div id="submenu-4-1" class="submenu submenu-apartados"></div>
+
+          </div>
+
+
+          <!-- 4.2 -->
+
+          <div class="menu-desplegable menu-apartado">
+
+            <div class="menu-cabecera">
+
+              <a class="menu-titulo" href="../4-2/index.html">
+                4.2 Acceso y modificación de elementos
+              </a>
+
+              <button
+                class="boton-desplegar"
+                type="button"
+                data-target="submenu-4-2"
+                aria-expanded="false"
+              >
+                ›
+              </button>
+
+            </div>
+
+            <div id="submenu-4-2" class="submenu submenu-apartados"></div>
+
+          </div>
+
+
+          <!-- 4.3 -->
+
+          <div class="menu-desplegable menu-apartado">
+
+            <div class="menu-cabecera">
+
+              <a class="menu-titulo" href="../4-3/index.html">
+                4.3 Añadir y eliminar elementos
+              </a>
+
+              <button
+                class="boton-desplegar"
+                type="button"
+                data-target="submenu-4-3"
+                aria-expanded="false"
+              >
+                ›
+              </button>
+
+            </div>
+
+            <div id="submenu-4-3" class="submenu submenu-apartados"></div>
+
+          </div>
+
+
+          <!-- 4.4 -->
+
+          <div class="menu-desplegable menu-apartado">
+
+            <div class="menu-cabecera menu-cabecera-activa">
+
+              <a class="menu-titulo" href="index.html">
+                4.4 Modificar arrays con splice()
+              </a>
+
+              <button
+                class="boton-desplegar"
+                type="button"
+                data-target="submenu-4-4"
+                aria-expanded="true"
+              >
+                ⌄
+              </button>
+
+            </div>
+
+            <div
+              id="submenu-4-4"
+              class="submenu submenu-apartados submenu-abierto"
+            >
+
+              <a href="#que-es-splice">
+                Qué permite hacer splice()
+              </a>
+
+              <a href="#sintaxis">
+                Sintaxis de splice()
+              </a>
+
+              <a href="#eliminar">
+                Eliminar elementos
+              </a>
+
+              <a href="#insertar">
+                Insertar elementos
+              </a>
+
+              <a href="#sustituir">
+                Sustituir elementos
+              </a>
+
+              <a href="#valor-devuelto">
+                Valor devuelto por splice()
+              </a>
+
+              <a href="#ejemplo-practico">
+                Ejemplo práctico
+              </a>
+
+              <a href="#errores">
+                Errores frecuentes
+              </a>
+
+            </div>
+
+          </div>
+
+
+          <!-- 4.5 -->
+
+          <div class="menu-desplegable menu-apartado">
+
+            <div class="menu-cabecera">
+
+              <a class="menu-titulo" href="../4-5/index.html">
+                4.5 Buscar elementos en un array
+              </a>
+
+              <button
+                class="boton-desplegar"
+                type="button"
+                data-target="submenu-4-5"
+                aria-expanded="false"
+              >
+                ›
+              </button>
+
+            </div>
+
+            <div id="submenu-4-5" class="submenu submenu-apartados"></div>
+
+          </div>
+
+
+          <!-- 4.6 -->
+
+          <div class="menu-desplegable menu-apartado">
+
+            <div class="menu-cabecera">
+
+              <a class="menu-titulo" href="../4-6/index.html">
+                4.6 Recorrer arrays con for
+              </a>
+
+              <button
+                class="boton-desplegar"
+                type="button"
+                data-target="submenu-4-6"
+                aria-expanded="false"
+              >
+                ›
+              </button>
+
+            </div>
+
+            <div id="submenu-4-6" class="submenu submenu-apartados"></div>
+
+          </div>
+
+
+          <!-- 4.7 -->
+
+          <div class="menu-desplegable menu-apartado">
+
+            <div class="menu-cabecera">
+
+              <a class="menu-titulo" href="../4-7/index.html">
+                4.7 Recorrer arrays con for...of
+              </a>
+
+              <button
+                class="boton-desplegar"
+                type="button"
+                data-target="submenu-4-7"
+                aria-expanded="false"
+              >
+                ›
+              </button>
+
+            </div>
+
+            <div id="submenu-4-7" class="submenu submenu-apartados"></div>
+
+          </div>
+
+
+          <!-- 4.8 -->
+
+          <div class="menu-desplegable menu-apartado">
+
+            <div class="menu-cabecera">
+
+              <a class="menu-titulo" href="../4-8/index.html">
+                4.8 El método forEach()
+              </a>
+
+              <button
+                class="boton-desplegar"
+                type="button"
+                data-target="submenu-4-8"
+                aria-expanded="false"
+              >
+                ›
+              </button>
+
+            </div>
+
+            <div id="submenu-4-8" class="submenu submenu-apartados"></div>
+
+          </div>
+
+
+          <!-- 4.9 -->
+
+          <div class="menu-desplegable menu-apartado">
+
+            <div class="menu-cabecera">
+
+              <a class="menu-titulo" href="../4-9/index.html">
+                4.9 Transformar y filtrar arrays
+              </a>
+
+              <button
+                class="boton-desplegar"
+                type="button"
+                data-target="submenu-4-9"
+                aria-expanded="false"
+              >
+                ›
+              </button>
+
+            </div>
+
+            <div id="submenu-4-9" class="submenu submenu-apartados"></div>
+
+          </div>
+
+
+          <!-- 4.10 -->
+
+          <div class="menu-desplegable menu-apartado">
+
+            <div class="menu-cabecera">
+
+              <a class="menu-titulo" href="../4-10/index.html">
+                4.10 Ordenar e invertir arrays
+              </a>
+
+              <button
+                class="boton-desplegar"
+                type="button"
+                data-target="submenu-4-10"
+                aria-expanded="false"
+              >
+                ›
+              </button>
+
+            </div>
+
+            <div id="submenu-4-10" class="submenu submenu-apartados"></div>
+
+          </div>
+
+
+          <!-- 4.11 -->
+
+          <div class="menu-desplegable menu-apartado">
+
+            <div class="menu-cabecera">
+
+              <a class="menu-titulo" href="../4-11/index.html">
+                4.11 Arrays multidimensionales
+              </a>
+
+              <button
+                class="boton-desplegar"
+                type="button"
+                data-target="submenu-4-11"
+                aria-expanded="false"
+              >
+                ›
+              </button>
+
+            </div>
+
+            <div id="submenu-4-11" class="submenu submenu-apartados"></div>
+
+          </div>
+
+
+          <!-- 4.12 -->
+
+          <div class="menu-desplegable menu-apartado">
+
+            <div class="menu-cabecera">
+
+              <a class="menu-titulo" href="../4-12/index.html">
+                4.12 Resolución de problemas con arrays
+              </a>
+
+              <button
+                class="boton-desplegar"
+                type="button"
+                data-target="submenu-4-12"
+                aria-expanded="false"
+              >
+                ›
+              </button>
+
+            </div>
+
+            <div id="submenu-4-12" class="submenu submenu-apartados"></div>
+
+          </div>
+
+
+          <a
+            class="enlace-apartado-simple"
+            href="../resumen/index.html"
+          >
+            ✏️ Resumen de la UT4
+          </a>
+
+          <a
+            class="enlace-apartado-simple"
+            href="../actividades/index.html"
+          >
+            📝 Actividades de la UT4
+          </a>
+
+        </div>
+
+      </div>
+
+
+      <!-- RESTO DE UT -->
+
+      <a class="sidebar-ut-cerrada" href="../../ut5/index.html">
+        <span>UT5 - Funciones en JavaScript</span>
+        <span>›</span>
+      </a>
+
+      <a class="sidebar-ut-cerrada" href="../../ut6/index.html">
+        <span>UT6 - Objetos y Programación Orientada a Objetos en JavaScript</span>
+        <span>›</span>
+      </a>
+
+      <a class="sidebar-ut-cerrada" href="../../ut7/index.html">
+        <span>UT7 - Objetos predefinidos y modelo del navegador (BOM)</span>
+        <span>›</span>
+      </a>
+
+      <a class="sidebar-ut-cerrada" href="../../ut8/index.html">
+        <span>UT8 - Aplicaciones web interactivas: DOM, eventos y formularios</span>
+        <span>›</span>
+      </a>
+
+      <a class="sidebar-ut-cerrada" href="../../ut9/index.html">
+        <span>UT9 - Comunicación asíncrona y peticiones al servidor</span>
+        <span>›</span>
+      </a>
+
+      <a class="sidebar-ut-cerrada" href="../../ut10/index.html">
+        <span>UT10 - Introducción a React</span>
+        <span>›</span>
+      </a>
+
+    </aside>
+
+
+    <!-- ==========================================
+         CONTENIDO PRINCIPAL
+    ========================================== -->
+
+    <main class="contenido-ut">
+
+      <div class="migas">
+
+        <a
+          class="miga-inicio"
+          href="../../../index.html"
+          aria-label="Volver a la página principal"
+        >
+          🏠
+        </a>
+
+        <span class="miga-separador">›</span>
+
+        <a class="miga-modulo" href="../../index.html">
+          DWEC
+        </a>
+
+        <span class="miga-separador">›</span>
+
+        <a class="miga-modulo" href="../index.html">
+          UT4
+        </a>
+
+        <span class="miga-separador">›</span>
+
+        <span class="miga-actual">
+          4.4
+        </span>
+
+      </div>
+
+
+      <h1>
+        4.4 Modificar arrays con splice()
+      </h1>
+
+
+      <section class="apartado-ut">
+
+        <p>
+          En el apartado anterior hemos aprendido a añadir y eliminar
+          elementos utilizando <code>push()</code>, <code>pop()</code>,
+          <code>unshift()</code> y <code>shift()</code>.
+        </p>
+
+        <p>
+          Estos métodos son muy útiles cuando queremos trabajar con el
+          <strong>principio o el final del array</strong>. Sin embargo,
+          en muchas ocasiones necesitaremos modificar una posición concreta.
+        </p>
+
+        <p>
+          Para ello JavaScript dispone del método
+          <code>splice()</code>, que permite
+          <strong>eliminar, insertar o sustituir elementos en cualquier
+          posición de un array</strong>.
+        </p>
+
+
+        <div class="caja caja-importante">
+
+          <span class="caja-titulo">
+            📌 Importante
+          </span>
+
+          <p>
+            <code>splice()</code> modifica directamente el array original.
+            No crea un nuevo array con el resultado de la modificación.
+          </p>
+
+        </div>
+
+
+        <!-- ======================================
+             QUÉ ES SPLICE
+        ======================================= -->
+
+        <h2 id="que-es-splice">
+          Qué permite hacer splice()
+        </h2>
+
+        <p>
+          Hasta ahora hemos trabajado principalmente con los extremos
+          de un array. Con <code>splice()</code> podemos indicar
+          <strong>exactamente en qué posición queremos realizar una
+          modificación</strong>.
+        </p>
+
+        <p>
+          Este método permite realizar tres operaciones fundamentales:
+        </p>
+
+        <ul>
+          <li>Eliminar uno o varios elementos.</li>
+          <li>Insertar nuevos elementos.</li>
+          <li>Sustituir elementos existentes por otros.</li>
+        </ul>
+
+
+        <div class="tabla-responsive">
+
+          <table class="tabla-apuntes">
+
+            <thead>
+              <tr>
+                <th>Operación</th>
+                <th>¿Qué hace?</th>
+              </tr>
+            </thead>
+
+            <tbody>
+
+              <tr>
+                <td>Eliminar</td>
+                <td>
+                  Borra elementos a partir de una posición concreta.
+                </td>
+              </tr>
+
+              <tr>
+                <td>Insertar</td>
+                <td>
+                  Añade elementos en una posición determinada.
+                </td>
+              </tr>
+
+              <tr>
+                <td>Sustituir</td>
+                <td>
+                  Elimina elementos y coloca otros nuevos en su lugar.
+                </td>
+              </tr>
+
+            </tbody>
+
+          </table>
+
+        </div>
+
+
+        <!-- ======================================
+             SINTAXIS
+        ======================================= -->
+
+        <h2 id="sintaxis">
+          Sintaxis de splice()
+        </h2>
+
+        <p>
+          La forma general del método es:
+        </p>
+
+
+        <div class="bloque-codigo">
+
+          <div class="cabecera-codigo">
+
+            <span class="lenguaje-codigo">
+              JavaScript
+            </span>
+
+            <button class="boton-copiar" type="button">
+              📋 Copiar código
+            </button>
+
+          </div>
+
+          <pre><code>array.splice(posicionInicial, cantidadEliminar, elementosNuevos);</code></pre>
+
+        </div>
+
+
+        <p>
+          Sus parámetros tienen el siguiente significado:
+        </p>
+
+
+        <div class="tabla-responsive">
+
+          <table class="tabla-apuntes">
+
+            <thead>
+              <tr>
+                <th>Parámetro</th>
+                <th>Significado</th>
+              </tr>
+            </thead>
+
+            <tbody>
+
+              <tr>
+                <td><code>posicionInicial</code></td>
+                <td>
+                  Índice en el que comenzará la modificación.
+                </td>
+              </tr>
+
+              <tr>
+                <td><code>cantidadEliminar</code></td>
+                <td>
+                  Número de elementos que queremos eliminar.
+                </td>
+              </tr>
+
+              <tr>
+                <td><code>elementosNuevos</code></td>
+                <td>
+                  Elementos que queremos insertar. Este parámetro
+                  es opcional.
+                </td>
+              </tr>
+
+            </tbody>
+
+          </table>
+
+        </div>
+
+
+        <div class="caja caja-atencion">
+
+          <span class="caja-titulo">
+            ⚠️ Atención
+          </span>
+
+          <p>
+            El primer parámetro de <code>splice()</code> es un
+            <strong>índice</strong>. Recuerda que los índices de los arrays
+            comienzan en <code>0</code>.
+          </p>
+
+        </div>
+
+
+        <!-- ======================================
+             ELIMINAR
+        ======================================= -->
+
+        <h2 id="eliminar">
+          Eliminar elementos con splice()
+        </h2>
+
+        <p>
+          Para eliminar elementos indicamos:
+        </p>
+
+        <ul>
+          <li>La posición desde la que queremos comenzar.</li>
+          <li>Cuántos elementos queremos eliminar.</li>
+        </ul>
+
+        <p>
+          Observa el siguiente array:
+        </p>
+
+
+        <div class="bloque-codigo">
+
+          <div class="cabecera-codigo">
+
+            <span class="lenguaje-codigo">
+              JavaScript
+            </span>
+
+            <button class="boton-copiar" type="button">
+              📋 Copiar código
+            </button>
+
+          </div>
+
+          <pre><code>const lenguajes = ["HTML", "CSS", "JavaScript", "PHP"];
+
+lenguajes.splice(1, 1);
+
+console.log(lenguajes);</code></pre>
+
+        </div>
+
+
+        <p>
+          La instrucción:
+        </p>
+
+
+        <div class="bloque-codigo">
+
+          <div class="cabecera-codigo">
+
+            <span class="lenguaje-codigo">
+              JavaScript
+            </span>
+
+            <button class="boton-copiar" type="button">
+              📋 Copiar código
+            </button>
+
+          </div>
+
+          <pre><code>lenguajes.splice(1, 1);</code></pre>
+
+        </div>
+
+
+        <p>
+          significa:
+        </p>
+
+        <ul>
+          <li>
+            Comienza en el índice <code>1</code>.
+          </li>
+          <li>
+            Elimina <code>1</code> elemento.
+          </li>
+        </ul>
+
+        <p>
+          Como <code>"CSS"</code> ocupa el índice <code>1</code>,
+          será el elemento eliminado.
+        </p>
+
+        <p>
+          El resultado será:
+        </p>
+
+
+        <div class="bloque-codigo">
+
+          <div class="cabecera-codigo">
+
+            <span class="lenguaje-codigo">
+              Console
+            </span>
+
+            <button class="boton-copiar" type="button">
+              📋 Copiar código
+            </button>
+
+          </div>
+
+          <pre><code>["HTML", "JavaScript", "PHP"]</code></pre>
+
+        </div>
+
+
+        <h3>
+          Eliminar varios elementos
+        </h3>
+
+        <p>
+          También podemos eliminar varios elementos consecutivos.
+        </p>
+
+
+        <div class="bloque-codigo">
+
+          <div class="cabecera-codigo">
+
+            <span class="lenguaje-codigo">
+              JavaScript
+            </span>
+
+            <button class="boton-copiar" type="button">
+              📋 Copiar código
+            </button>
+
+          </div>
+
+          <pre><code>const tecnologias = ["HTML", "CSS", "JavaScript", "PHP", "SQL"];
+
+tecnologias.splice(1, 2);
+
+console.log(tecnologias);</code></pre>
+
+        </div>
+
+
+        <p>
+          En este caso comenzamos en el índice <code>1</code> y
+          eliminamos <code>2</code> elementos:
+          <code>"CSS"</code> y <code>"JavaScript"</code>.
+        </p>
+
+        <p>
+          El resultado será:
+        </p>
+
+
+        <div class="bloque-codigo">
+
+          <div class="cabecera-codigo">
+
+            <span class="lenguaje-codigo">
+              Console
+            </span>
+
+            <button class="boton-copiar" type="button">
+              📋 Copiar código
+            </button>
+
+          </div>
+
+          <pre><code>["HTML", "PHP", "SQL"]</code></pre>
+
+        </div>
+
+
+        <!-- ======================================
+             INSERTAR
+        ======================================= -->
+
+        <h2 id="insertar">
+          Insertar elementos con splice()
+        </h2>
+
+        <p>
+          <code>splice()</code> también permite insertar elementos
+          <strong>sin eliminar ninguno</strong>.
+        </p>
+
+        <p>
+          Para conseguirlo, utilizamos <code>0</code> como segundo
+          parámetro:
+        </p>
+
+
+        <div class="bloque-codigo">
+
+          <div class="cabecera-codigo">
+
+            <span class="lenguaje-codigo">
+              JavaScript
+            </span>
+
+            <button class="boton-copiar" type="button">
+              📋 Copiar código
+            </button>
+
+          </div>
+
+          <pre><code>const lenguajes = ["HTML", "JavaScript"];
+
+lenguajes.splice(1, 0, "CSS");
+
+console.log(lenguajes);</code></pre>
+
+        </div>
+
+
+        <p>
+          La instrucción:
+        </p>
+
+
+        <div class="bloque-codigo">
+
+          <div class="cabecera-codigo">
+
+            <span class="lenguaje-codigo">
+              JavaScript
+            </span>
+
+            <button class="boton-copiar" type="button">
+              📋 Copiar código
+            </button>
+
+          </div>
+
+          <pre><code>lenguajes.splice(1, 0, "CSS");</code></pre>
+
+        </div>
+
+
+        <p>
+          significa:
+        </p>
+
+        <ul>
+          <li>
+            Comienza en el índice <code>1</code>.
+          </li>
+
+          <li>
+            Elimina <code>0</code> elementos.
+          </li>
+
+          <li>
+            Inserta <code>"CSS"</code>.
+          </li>
+        </ul>
+
+        <p>
+          El resultado será:
+        </p>
+
+
+        <div class="bloque-codigo">
+
+          <div class="cabecera-codigo">
+
+            <span class="lenguaje-codigo">
+              Console
+            </span>
+
+            <button class="boton-copiar" type="button">
+              📋 Copiar código
+            </button>
+
+          </div>
+
+          <pre><code>["HTML", "CSS", "JavaScript"]</code></pre>
+
+        </div>
+
+
+        <div class="caja caja-importante">
+
+          <span class="caja-titulo">
+            📌 Importante
+          </span>
+
+          <p>
+            Cuando el segundo parámetro de <code>splice()</code>
+            es <code>0</code>, no se elimina ningún elemento.
+            Los nuevos elementos simplemente se insertan a partir
+            de la posición indicada.
+          </p>
+
+        </div>
+
+
+        <h3>
+          Insertar varios elementos
+        </h3>
+
+        <p>
+          Podemos añadir varios elementos en la misma operación:
+        </p>
+
+
+        <div class="bloque-codigo">
+
+          <div class="cabecera-codigo">
+
+            <span class="lenguaje-codigo">
+              JavaScript
+            </span>
+
+            <button class="boton-copiar" type="button">
+              📋 Copiar código
+            </button>
+
+          </div>
+
+          <pre><code>const tecnologias = ["HTML", "PHP"];
+
+tecnologias.splice(1, 0, "CSS", "JavaScript");
+
+console.log(tecnologias);</code></pre>
+
+        </div>
+
+
+        <p>
+          El resultado será:
+        </p>
+
+
+        <div class="bloque-codigo">
+
+          <div class="cabecera-codigo">
+
+            <span class="lenguaje-codigo">
+              Console
+            </span>
+
+            <button class="boton-copiar" type="button">
+              📋 Copiar código
+            </button>
+
+          </div>
+
+          <pre><code>["HTML", "CSS", "JavaScript", "PHP"]</code></pre>
+
+        </div>
+
+
+        <!-- ======================================
+             SUSTITUIR
+        ======================================= -->
+
+        <h2 id="sustituir">
+          Sustituir elementos con splice()
+        </h2>
+
+        <p>
+          Una de las posibilidades más útiles de <code>splice()</code>
+          consiste en <strong>eliminar un elemento e insertar otro en
+          su lugar</strong>.
+        </p>
+
+        <p>
+          De esta forma podemos sustituir elementos.
+        </p>
+
+
+        <div class="bloque-codigo">
+
+          <div class="cabecera-codigo">
+
+            <span class="lenguaje-codigo">
+              JavaScript
+            </span>
+
+            <button class="boton-copiar" type="button">
+              📋 Copiar código
+            </button>
+
+          </div>
+
+          <pre><code>const lenguajes = ["HTML", "CSS", "PHP"];
+
+lenguajes.splice(2, 1, "JavaScript");
+
+console.log(lenguajes);</code></pre>
+
+        </div>
+
+
+        <p>
+          La instrucción:
+        </p>
+
+
+        <div class="bloque-codigo">
+
+          <div class="cabecera-codigo">
+
+            <span class="lenguaje-codigo">
+              JavaScript
+            </span>
+
+            <button class="boton-copiar" type="button">
+              📋 Copiar código
+            </button>
+
+          </div>
+
+          <pre><code>lenguajes.splice(2, 1, "JavaScript");</code></pre>
+
+        </div>
+
+
+        <p>
+          indica que:
+        </p>
+
+        <ul>
+
+          <li>
+            La modificación comienza en el índice <code>2</code>.
+          </li>
+
+          <li>
+            Se elimina <code>1</code> elemento:
+            <code>"PHP"</code>.
+          </li>
+
+          <li>
+            En esa posición se inserta
+            <code>"JavaScript"</code>.
+          </li>
+
+        </ul>
+
+        <p>
+          El resultado será:
+        </p>
+
+
+        <div class="bloque-codigo">
+
+          <div class="cabecera-codigo">
+
+            <span class="lenguaje-codigo">
+              Console
+            </span>
+
+            <button class="boton-copiar" type="button">
+              📋 Copiar código
+            </button>
+
+          </div>
+
+          <pre><code>["HTML", "CSS", "JavaScript"]</code></pre>
+
+        </div>
+
+
+        <h3>
+          Sustituir varios elementos
+        </h3>
+
+        <p>
+          También podemos sustituir varios elementos en una sola
+          operación:
+        </p>
+
+
+        <div class="bloque-codigo">
+
+          <div class="cabecera-codigo">
+
+            <span class="lenguaje-codigo">
+              JavaScript
+            </span>
+
+            <button class="boton-copiar" type="button">
+              📋 Copiar código
+            </button>
+
+          </div>
+
+          <pre><code>const tecnologias = ["HTML", "CSS", "PHP", "MySQL"];
+
+tecnologias.splice(2, 2, "JavaScript", "Node.js");
+
+console.log(tecnologias);</code></pre>
+
+        </div>
+
+
+        <p>
+          Se eliminan <code>"PHP"</code> y <code>"MySQL"</code>,
+          y en su lugar se insertan <code>"JavaScript"</code> y
+          <code>"Node.js"</code>.
+        </p>
+
+
+        <div class="bloque-codigo">
+
+          <div class="cabecera-codigo">
+
+            <span class="lenguaje-codigo">
+              Console
+            </span>
+
+            <button class="boton-copiar" type="button">
+              📋 Copiar código
+            </button>
+
+          </div>
+
+          <pre><code>["HTML", "CSS", "JavaScript", "Node.js"]</code></pre>
+
+        </div>
+
+
+        <!-- ======================================
+             VALOR DEVUELTO
+        ======================================= -->
+
+        <h2 id="valor-devuelto">
+          Valor devuelto por splice()
+        </h2>
+
+        <p>
+          Además de modificar el array original,
+          <code>splice()</code> devuelve un
+          <strong>nuevo array que contiene los elementos eliminados</strong>.
+        </p>
+
+
+        <div class="bloque-codigo">
+
+          <div class="cabecera-codigo">
+
+            <span class="lenguaje-codigo">
+              JavaScript
+            </span>
+
+            <button class="boton-copiar" type="button">
+              📋 Copiar código
+            </button>
+
+          </div>
+
+          <pre><code>const lenguajes = ["HTML", "CSS", "JavaScript", "PHP"];
+
+const eliminados = lenguajes.splice(1, 2);
+
+console.log(eliminados);
+console.log(lenguajes);</code></pre>
+
+        </div>
+
+
+        <p>
+          Console mostrará:
+        </p>
+
+
+        <div class="bloque-codigo">
+
+          <div class="cabecera-codigo">
+
+            <span class="lenguaje-codigo">
+              Console
+            </span>
+
+            <button class="boton-copiar" type="button">
+              📋 Copiar código
+            </button>
+
+          </div>
+
+          <pre><code>["CSS", "JavaScript"]
+["HTML", "PHP"]</code></pre>
+
+        </div>
+
+
+        <p>
+          Por tanto, debemos distinguir entre:
+        </p>
+
+        <ul>
+
+          <li>
+            <code>lenguajes</code>: el array original, que ha sido
+            modificado.
+          </li>
+
+          <li>
+            <code>eliminados</code>: un nuevo array que contiene los
+            elementos que <code>splice()</code> ha eliminado.
+          </li>
+
+        </ul>
+
+
+        <div class="caja caja-atencion">
+
+          <span class="caja-titulo">
+            ⚠️ Atención
+          </span>
+
+          <p>
+            El valor devuelto por <code>splice()</code> no es el array
+            modificado. Es un array que contiene los elementos que han
+            sido eliminados.
+          </p>
+
+        </div>
+
+
+        <h3>
+          ¿Qué ocurre si no eliminamos ningún elemento?
+        </h3>
+
+        <p>
+          Si utilizamos <code>splice()</code> únicamente para insertar,
+          el método devuelve un array vacío porque no se ha eliminado
+          ningún elemento.
+        </p>
+
+
+        <div class="bloque-codigo">
+
+          <div class="cabecera-codigo">
+
+            <span class="lenguaje-codigo">
+              JavaScript
+            </span>
+
+            <button class="boton-copiar" type="button">
+              📋 Copiar código
+            </button>
+
+          </div>
+
+          <pre><code>const lenguajes = ["HTML", "JavaScript"];
+
+const eliminados = lenguajes.splice(1, 0, "CSS");
+
+console.log(eliminados);
+console.log(lenguajes);</code></pre>
+
+        </div>
+
+
+        <p>
+          Console mostrará:
+        </p>
+
+
+        <div class="bloque-codigo">
+
+          <div class="cabecera-codigo">
+
+            <span class="lenguaje-codigo">
+              Console
+            </span>
+
+            <button class="boton-copiar" type="button">
+              📋 Copiar código
+            </button>
+
+          </div>
+
+          <pre><code>[]
+["HTML", "CSS", "JavaScript"]</code></pre>
+
+        </div>
+
+
+        <!-- ======================================
+             EJEMPLO PRÁCTICO
+        ======================================= -->
+
+        <h2 id="ejemplo-practico">
+          Ejemplo práctico
+        </h2>
+
+
+        <div class="caja caja-ejemplo">
+
+          <span class="caja-titulo">
+            💻 Ejemplo DAW
+          </span>
+
+          <p>
+            Imagina que una aplicación mantiene un array con las
+            opciones de un menú. Queremos insertar una nueva opción,
+            sustituir otra y eliminar una que ya no necesitamos.
+          </p>
+
+        </div>
+
+
+        <div class="bloque-codigo">
+
+          <div class="cabecera-codigo">
+
+            <span class="lenguaje-codigo">
+              JavaScript
+            </span>
+
+            <button class="boton-copiar" type="button">
+              📋 Copiar código
+            </button>
+
+          </div>
+
+          <pre><code>const menu = [
+  "Inicio",
+  "Productos",
+  "Contacto"
+];
+
+menu.splice(2, 0, "Servicios");
+
+console.log(menu);</code></pre>
+
+        </div>
+
+
+        <p>
+          Hemos insertado <code>"Servicios"</code> en el índice
+          <code>2</code> sin eliminar ningún elemento.
+        </p>
+
+
+        <div class="bloque-codigo">
+
+          <div class="cabecera-codigo">
+
+            <span class="lenguaje-codigo">
+              Console
+            </span>
+
+            <button class="boton-copiar" type="button">
+              📋 Copiar código
+            </button>
+
+          </div>
+
+          <pre><code>["Inicio", "Productos", "Servicios", "Contacto"]</code></pre>
+
+        </div>
+
+
+        <p>
+          Ahora podemos sustituir <code>"Productos"</code> por
+          <code>"Catálogo"</code>:
+        </p>
+
+
+        <div class="bloque-codigo">
+
+          <div class="cabecera-codigo">
+
+            <span class="lenguaje-codigo">
+              JavaScript
+            </span>
+
+            <button class="boton-copiar" type="button">
+              📋 Copiar código
+            </button>
+
+          </div>
+
+          <pre><code>menu.splice(1, 1, "Catálogo");
+
+console.log(menu);</code></pre>
+
+        </div>
+
+
+        <p>
+          El resultado será:
+        </p>
+
+
+        <div class="bloque-codigo">
+
+          <div class="cabecera-codigo">
+
+            <span class="lenguaje-codigo">
+              Console
+            </span>
+
+            <button class="boton-copiar" type="button">
+              📋 Copiar código
+            </button>
+
+          </div>
+
+          <pre><code>["Inicio", "Catálogo", "Servicios", "Contacto"]</code></pre>
+
+        </div>
+
+
+        <p>
+          Finalmente podemos eliminar <code>"Servicios"</code>:
+        </p>
+
+
+        <div class="bloque-codigo">
+
+          <div class="cabecera-codigo">
+
+            <span class="lenguaje-codigo">
+              JavaScript
+            </span>
+
+            <button class="boton-copiar" type="button">
+              📋 Copiar código
+            </button>
+
+          </div>
+
+          <pre><code>menu.splice(2, 1);
+
+console.log(menu);</code></pre>
+
+        </div>
+
+
+        <p>
+          El array final será:
+        </p>
+
+
+        <div class="bloque-codigo">
+
+          <div class="cabecera-codigo">
+
+            <span class="lenguaje-codigo">
+              Console
+            </span>
+
+            <button class="boton-copiar" type="button">
+              📋 Copiar código
+            </button>
+
+          </div>
+
+          <pre><code>["Inicio", "Catálogo", "Contacto"]</code></pre>
+
+        </div>
+
+
+        <!-- ======================================
+             ERRORES
+        ======================================= -->
+
+        <h2 id="errores">
+          Errores frecuentes al utilizar splice()
+        </h2>
+
+
+        <h3>
+          1. Confundir el índice con el número de elementos
+        </h3>
+
+        <p>
+          En:
+        </p>
+
+
+        <div class="bloque-codigo">
+
+          <div class="cabecera-codigo">
+
+            <span class="lenguaje-codigo">
+              JavaScript
+            </span>
+
+            <button class="boton-copiar" type="button">
+              📋 Copiar código
+            </button>
+
+          </div>
+
+          <pre><code>lenguajes.splice(2, 1);</code></pre>
+
+        </div>
+
+
+        <p>
+          el <code>2</code> indica la posición inicial y el
+          <code>1</code> indica cuántos elementos deben eliminarse.
+        </p>
+
+
+        <h3>
+          2. Olvidar que splice() modifica el array original
+        </h3>
+
+        <p>
+          Después de utilizar <code>splice()</code>, el array sobre
+          el que hemos ejecutado el método puede tener un contenido
+          y una longitud diferentes.
+        </p>
+
+
+        <h3>
+          3. Pensar que splice() devuelve el array modificado
+        </h3>
+
+        <p>
+          <code>splice()</code> devuelve un array con los
+          <strong>elementos eliminados</strong>, no el array después
+          de la modificación.
+        </p>
+
+
+        <h3>
+          4. Olvidar utilizar 0 cuando solo queremos insertar
+        </h3>
+
+        <p>
+          Si queremos añadir elementos sin borrar ninguno,
+          la cantidad de elementos que se deben eliminar tiene
+          que ser <code>0</code>.
+        </p>
+
+
+        <div class="caja caja-importante">
+
+          <span class="caja-titulo">
+            📌 Recuerda
+          </span>
+
+          <p>
+            Puedes interpretar <code>splice()</code> pensando en tres
+            preguntas: <strong>¿desde dónde?</strong>,
+            <strong>¿cuántos elimino?</strong> y
+            <strong>¿qué elementos añado?</strong>.
+          </p>
+
+        </div>
+
+
+        <!-- ======================================
+             COMPRUEBA LO APRENDIDO
+        ======================================= -->
+
+        <div class="actividad-reflexion">
+
+          <h3>
+            🧠 Comprueba lo aprendido
+          </h3>
+
+          <p>
+            Observa el siguiente código sin ejecutarlo:
+          </p>
+
+
+          <div class="bloque-codigo">
+
+            <div class="cabecera-codigo">
+
+              <span class="lenguaje-codigo">
+                JavaScript
+              </span>
+
+              <button class="boton-copiar" type="button">
+                📋 Copiar código
+              </button>
+
+            </div>
+
+            <pre><code>const modulos = [
+  "DWEC",
+  "DIW",
+  "SASP",
+  "DAW"
+];
+
+const eliminados = modulos.splice(
+  1,
+  2,
+  "Programación"
+);
+
+console.log(eliminados);
+console.log(modulos);</code></pre>
+
+          </div>
+
+
+          <p>
+            Antes de ejecutarlo, responde:
+          </p>
+
+          <ul>
+
+            <li>
+              ¿En qué índice comienza la modificación?
+            </li>
+
+            <li>
+              ¿Cuántos elementos se eliminan?
+            </li>
+
+            <li>
+              ¿Qué elementos se eliminan?
+            </li>
+
+            <li>
+              ¿Qué elemento se añade?
+            </li>
+
+            <li>
+              ¿Qué contendrá <code>eliminados</code>?
+            </li>
+
+            <li>
+              ¿Cómo quedará finalmente <code>modulos</code>?
+            </li>
+
+          </ul>
+
+
+          <details class="solucion-desplegable">
+
+            <summary>
+              Ver solución
+            </summary>
+
+            <div class="contenido-solucion">
+
+              <p>
+                La modificación comienza en el índice
+                <code>1</code>.
+              </p>
+
+              <p>
+                Se eliminan <code>2</code> elementos:
+                <code>"DIW"</code> y <code>"SASP"</code>.
+              </p>
+
+              <p>
+                En esa posición se añade
+                <code>"Programación"</code>.
+              </p>
+
+              <p>
+                Por tanto:
+              </p>
+
+
+              <div class="bloque-codigo">
+
+                <div class="cabecera-codigo">
+
+                  <span class="lenguaje-codigo">
+                    Console
+                  </span>
+
+                  <button class="boton-copiar" type="button">
+                    📋 Copiar código
+                  </button>
+
+                </div>
+
+                <pre><code>["DIW", "SASP"]
+["DWEC", "Programación", "DAW"]</code></pre>
+
+              </div>
+
+            </div>
+
+          </details>
+
+        </div>
+
+
+        <!-- ======================================
+             PRÁCTICA EN CONSOLE
+        ======================================= -->
+
+        <div class="actividad-reflexion">
+
+          <h3>
+            💻 Prueba en Console
+          </h3>
+
+          <p>
+            Abre las herramientas de desarrollo del navegador y prueba
+            las siguientes instrucciones una a una:
+          </p>
+
+
+          <div class="bloque-codigo">
+
+            <div class="cabecera-codigo">
+
+              <span class="lenguaje-codigo">
+                JavaScript
+              </span>
+
+              <button class="boton-copiar" type="button">
+                📋 Copiar código
+              </button>
+
+            </div>
+
+            <pre><code>const tecnologias = [
+  "HTML",
+  "CSS",
+  "JavaScript",
+  "PHP"
+];
+
+tecnologias.splice(1, 1);
+tecnologias;
+
+tecnologias.splice(1, 0, "CSS");
+tecnologias;
+
+tecnologias.splice(3, 1, "Node.js");
+tecnologias;</code></pre>
+
+          </div>
+
+
+          <p>
+            Antes de ejecutar cada <code>splice()</code>, intenta
+            predecir cómo quedará el array.
+          </p>
+
+          <p>
+            Después comprueba el resultado en Console y observa cómo
+            cambian los índices y la propiedad <code>length</code>.
+          </p>
+
+        </div>
+
+
+        <!-- ======================================
+             NAVEGACIÓN
+        ======================================= -->
+
+        <div class="navegacion-paginas">
+
+          <a
+            class="nav-pagina nav-anterior"
+            href="../4-3/index.html"
+          >
+
+            <span class="nav-etiqueta">
+              Anterior
+            </span>
+
+            <strong>
+              ‹ 4.3 Añadir y eliminar elementos
+            </strong>
+
+          </a>
+
+
+          <a
+            class="nav-pagina nav-siguiente"
+            href="../4-5/index.html"
+          >
+
+            <span class="nav-etiqueta">
+              Siguiente
+            </span>
+
+            <strong>
+              4.5 Buscar elementos en un array ›
+            </strong>
+
+          </a>
+
+        </div>
+
+      </section>
+
+    </main>
+
+
+    <!-- ==========================================
+         ÍNDICE DERECHO
+    ========================================== -->
+
+    <aside class="indice-derecho">
+
+      <h2>
+        En esta página
+      </h2>
+
+      <ul>
+
+        <li>
+          <a href="#que-es-splice">
+            Qué permite hacer splice()
+          </a>
+        </li>
+
+        <li>
+          <a href="#sintaxis">
+            Sintaxis de splice()
+          </a>
+        </li>
+
+        <li>
+          <a href="#eliminar">
+            Eliminar elementos
+          </a>
+        </li>
+
+        <li>
+          <a href="#insertar">
+            Insertar elementos
+          </a>
+        </li>
+
+        <li>
+          <a href="#sustituir">
+            Sustituir elementos
+          </a>
+        </li>
+
+        <li>
+          <a href="#valor-devuelto">
+            Valor devuelto por splice()
+          </a>
+        </li>
+
+        <li>
+          <a href="#ejemplo-practico">
+            Ejemplo práctico
+          </a>
+        </li>
+
+        <li>
+          <a href="#errores">
+            Errores frecuentes
+          </a>
+        </li>
+
+      </ul>
+
+    </aside>
+
+  </div>
+
+
+  <!-- ==========================================
+       PIE DE PÁGINA
+  ========================================== -->
+
+  <footer class="footer">
+
+    <p>
+
+      Material elaborado por
+      <strong>Eva Ballestero Cubeles</strong>
+
+      - Licencia
+
+      <span class="licencia">
+        CC BY-NC-SA 4.0
+      </span>
+
+      <a
+        class="enlace-licencia"
+        href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.es"
+        target="_blank"
+        rel="license noopener noreferrer"
+        aria-label="Licencia Creative Commons BY-NC-SA 4.0"
+      >
+
+        <img
+          class="icono-licencia"
+          src="../../../img/licencias/cc-by-nc-sa.png"
+          alt="Licencia Creative Commons BY-NC-SA 4.0"
+        >
+
+      </a>
+
+    </p>
+
+  </footer>
+
+
+  <!-- ==========================================
+       JAVASCRIPT COMÚN
+  ========================================== -->
+
+  <script src="../../../js/modulos.js"></script>
+
+  <script>
+
+    const menuModulos =
+      document.getElementById("menuModulos");
+
+    const botonTema =
+      document.getElementById("botonTema");
+
+    const modulosActivos =
+      modulos.filter(modulo => modulo.activo === true);
+
+
+    modulosActivos.forEach(modulo => {
+
+      const enlace =
+        document.createElement("a");
+
+      enlace.href =
+        `../../../${modulo.carpeta}/index.html`;
+
+      enlace.textContent =
+        modulo.siglas;
+
+      enlace.title =
+        modulo.nombre;
+
+      if (modulo.siglas === "DWEC") {
+
+        enlace.style.color =
+          "var(--verde-principal)";
+
+      }
+
+      menuModulos.appendChild(enlace);
+
+    });
+
+
+    /* ==========================================
+       MODO OSCURO
+    ========================================== */
+
+    const temaGuardado =
+      localStorage.getItem("tema");
+
+    if (temaGuardado === "oscuro") {
+
+      document.body.classList.add("modo-oscuro");
+
+      botonTema.textContent =
+        "🌙";
+
+    }
+
+    botonTema.addEventListener("click", () => {
+
+      document.body.classList.toggle("modo-oscuro");
+
+      const estaOscuro =
+        document.body.classList.contains("modo-oscuro");
+
+      botonTema.textContent =
+        estaOscuro ? "🌙" : "☀️";
+
+      localStorage.setItem(
+        "tema",
+        estaOscuro ? "oscuro" : "claro"
+      );
+
+    });
+
+
+    /* ==========================================
+       MENÚS DESPLEGABLES
+    ========================================== */
+
+    const botonesDesplegar =
+      document.querySelectorAll(".boton-desplegar");
+
+    botonesDesplegar.forEach((boton) => {
+
+      boton.addEventListener("click", () => {
+
+        const idSubmenu =
+          boton.getAttribute("data-target");
+
+        const submenu =
+          document.getElementById(idSubmenu);
+
+        if (!submenu) {
+          return;
+        }
+
+        const estaAbierto =
+          submenu.classList.contains("submenu-abierto");
+
+        if (estaAbierto) {
+
+          submenu.classList.remove("submenu-abierto");
+
+          boton.textContent =
+            "›";
+
+          boton.setAttribute(
+            "aria-expanded",
+            "false"
+          );
+
+        } else {
+
+          submenu.classList.add("submenu-abierto");
+
+          boton.textContent =
+            "⌄";
+
+          boton.setAttribute(
+            "aria-expanded",
+            "true"
+          );
+
+        }
+
+      });
+
+    });
+
+
+    /* ==========================================
+       COPIAR BLOQUES DE CÓDIGO
+    ========================================== */
+
+    document.addEventListener("click", async (evento) => {
+
+      const boton =
+        evento.target.closest(".boton-copiar");
+
+      if (!boton) {
+        return;
+      }
+
+      const bloque =
+        boton.closest(".bloque-codigo");
+
+      if (!bloque) {
+        return;
+      }
+
+      const codigo =
+        bloque.querySelector("code");
+
+      if (!codigo) {
+        return;
+      }
+
+      const textoOriginal =
+        boton.textContent;
+
+      try {
+
+        await navigator.clipboard.writeText(
+          codigo.textContent
+        );
+
+        boton.textContent =
+          "✔ Copiado";
+
+        setTimeout(() => {
+
+          boton.textContent =
+            textoOriginal;
+
+        }, 1600);
+
+      } catch (error) {
+
+        boton.textContent =
+          "Error al copiar";
+
+        setTimeout(() => {
+
+          boton.textContent =
+            textoOriginal;
+
+        }, 1600);
+
+      }
+
+    });
+
+  </script>
+
+</body>
+
+</html>
