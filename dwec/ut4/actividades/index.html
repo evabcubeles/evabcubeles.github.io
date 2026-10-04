@@ -553,157 +553,221 @@
     ========================================== */
 
     .escenario-reto {
-      margin: 25px 0;
+      margin: 30px 0;
       padding: 24px;
 
-      border: 1px solid var(--borde);
-      border-radius: 10px;
-
       background-color: var(--fondo-tarjeta);
+
+      border: 1px solid var(--borde);
+      border-radius: 12px;
     }
 
     .escenario-reto h3 {
       margin-top: 0;
+    }
+
+    .lista-mision li {
+      margin-bottom: 16px;
+    }
+
+    .entrega-reto {
+      margin: 26px 0;
+      padding: 20px 22px;
+
+      background-color: #eef5ff;
+
+      border-left: 5px solid #3f7acb;
+      border-radius: 8px;
+    }
+
+    body.modo-oscuro .entrega-reto {
+      background-color: #23344a;
+    }
+
+
+    /* ==========================================
+       AUTOEVALUACIÓN
+    ========================================== */
+
+    .pregunta-test {
+      margin: 28px 0;
+      padding: 26px 28px;
+
+      background-color: var(--fondo-tarjeta);
+
+      border: 1px solid var(--borde);
+      border-radius: 10px;
+    }
+
+    .pregunta-test p {
+      margin-bottom: 20px;
+    }
+
+    .pregunta-test label {
+      display: block;
+
+      margin: 14px 0;
+      padding: 14px 16px;
+
+      border: 1px solid var(--borde);
+      border-radius: 8px;
+
+      cursor: pointer;
+
+      transition:
+        border-color 0.2s ease,
+        background-color 0.2s ease;
+    }
+
+    .pregunta-test label:hover {
+      border-color: var(--verde-principal);
+      background-color: #f7faf8;
+    }
+
+    body.modo-oscuro .pregunta-test label:hover {
+      background-color: #273244;
+    }
+
+    .pregunta-test input {
+      margin-right: 10px;
+    }
+
+    .boton-corregir {
+      display: inline-block;
+
+      margin-top: 20px;
+      padding: 12px 18px;
+
+      border: 0;
+      border-radius: 7px;
+
+      background-color: var(--verde-principal);
+
+      color: #ffffff;
+
+      font-family: inherit;
+      font-size: 16px;
+      font-weight: 700;
+
+      cursor: pointer;
+    }
+
+    .boton-corregir:hover {
+      opacity: 0.9;
+    }
+
+    .mensaje-test {
+      margin-top: 28px;
+    }
+
+    .mensaje-aviso {
+      padding: 18px 22px;
+
+      background-color: #fff7e8;
+
+      border-left: 5px solid #e09b27;
+      border-radius: 8px;
+
+      font-size: 17px;
+      line-height: 1.65;
+    }
+
+    body.modo-oscuro .mensaje-aviso {
+      background-color: #3b3020;
+    }
+
+    .resultado-test {
+      margin-top: 28px;
+      padding: 26px 28px;
+
+      background-color: #eef8f1;
+
+      border-left: 5px solid #2f9e5b;
+      border-radius: 8px;
+    }
+
+    body.modo-oscuro .resultado-test {
+      background-color: #20372a;
+    }
+
+    .resultado-test h3 {
+      margin-top: 0;
+    }
+
+    .feedback-test {
+      margin-top: 14px;
+      padding: 14px 16px;
+
+      border-radius: 8px;
+
+      font-size: 16px;
+      line-height: 1.6;
+    }
+
+    .feedback-correcto {
+      background-color: #eef8f1;
+      border-left: 4px solid #2f9e5b;
+    }
+
+    .feedback-incorrecto {
+      background-color: #fff0f0;
+      border-left: 4px solid #d9534f;
+    }
+
+    body.modo-oscuro .feedback-correcto {
+      background-color: #20372a;
+    }
+
+    body.modo-oscuro .feedback-incorrecto {
+      background-color: #452525;
+    }
+
+    .respuesta-correcta {
+      border-color: #2f9e5b !important;
+      background-color: #eef8f1 !important;
+    }
+
+    .respuesta-incorrecta {
+      border-color: #d9534f !important;
+      background-color: #fff0f0 !important;
+    }
+
+    body.modo-oscuro .respuesta-correcta {
+      background-color: #20372a !important;
+    }
+
+    body.modo-oscuro .respuesta-incorrecta {
+      background-color: #452525 !important;
+    }
+
+    #boton-reintentar {
+      display: inline-block;
+
+      margin-top: 18px;
+      padding: 11px 17px;
+
+      border: 1px solid var(--verde-principal);
+      border-radius: 7px;
+
+      background-color: transparent;
 
       color: var(--verde-principal);
+
+      font-family: inherit;
+      font-size: 15px;
+      font-weight: 700;
+
+      cursor: pointer;
     }
 
-    .lista-mision {
-      margin-top: 20px;
+    #boton-reintentar:hover {
+      background-color: #eef8f1;
     }
 
-/* ==========================================
-   RETO FINAL
-========================================== */
+    body.modo-oscuro #boton-reintentar:hover {
+      background-color: #20372a;
+    }
 
-.escenario-reto {
-  margin: 30px 0;
-  padding: 24px;
-
-  background-color: var(--fondo-tarjeta);
-
-  border: 1px solid var(--borde);
-  border-radius: 12px;
-}
-
-.escenario-reto h3 {
-  margin-top: 0;
-}
-
-.lista-mision li {
-  margin-bottom: 16px;
-}
-
-.entrega-reto {
-  margin: 26px 0;
-  padding: 20px 22px;
-
-  background-color: #eef5ff;
-
-  border-left: 5px solid #3f7acb;
-  border-radius: 8px;
-}
-
-body.modo-oscuro .entrega-reto {
-  background-color: #23344a;
-}
-
-
-/* ==========================================
-   AUTOEVALUACIÓN
-========================================== */
-
-.pregunta-test {
-  margin: 28px 0;
-  padding: 26px 28px;
-
-  background-color: var(--fondo-tarjeta);
-
-  border: 1px solid var(--borde);
-  border-radius: 10px;
-}
-
-.pregunta-test p {
-  margin-bottom: 20px;
-}
-
-.pregunta-test label {
-  display: block;
-
-  margin: 14px 0;
-  padding: 14px 16px;
-
-  border: 1px solid var(--borde);
-  border-radius: 8px;
-
-  cursor: pointer;
-
-  transition:
-    border-color 0.2s ease,
-    background-color 0.2s ease;
-}
-
-.pregunta-test label:hover {
-  border-color: var(--verde-principal);
-  background-color: #f7faf8;
-}
-
-body.modo-oscuro .pregunta-test label:hover {
-  background-color: #273244;
-}
-
-.pregunta-test input {
-  margin-right: 10px;
-}
-
-.boton-corregir {
-  display: inline-block;
-
-  margin-top: 20px;
-  padding: 12px 18px;
-
-  border: 0;
-  border-radius: 7px;
-
-  background-color: var(--verde-principal);
-
-  color: #ffffff;
-
-  font-family: inherit;
-  font-size: 16px;
-  font-weight: 700;
-
-  cursor: pointer;
-}
-
-.boton-corregir:hover {
-  opacity: 0.9;
-}
-
-.resultado-autoevaluacion {
-  margin-top: 24px;
-  padding: 20px 22px;
-
-  border-radius: 8px;
-
-  background-color: #eef8f1;
-  border-left: 5px solid #2f9e5b;
-
-  font-size: 17px;
-  line-height: 1.65;
-}
-
-body.modo-oscuro .resultado-autoevaluacion {
-  background-color: #20372a;
-}
-.resultado-autoevaluacion.resultado-incompleto {
-  background-color: #fff7e8;
-  border-left-color: #e09b27;
-}
-
-body.modo-oscuro .resultado-autoevaluacion.resultado-incompleto {
-  background-color: #3b3020;
-}
 
     /* ==========================================
        COLUMNA DERECHA
@@ -993,8 +1057,6 @@ body.modo-oscuro .resultado-autoevaluacion.resultado-incompleto {
         >
 
 
-          <!-- 4.1 -->
-
           <div class="menu-desplegable menu-apartado">
 
             <div class="menu-cabecera">
@@ -1024,8 +1086,6 @@ body.modo-oscuro .resultado-autoevaluacion.resultado-incompleto {
 
           </div>
 
-
-          <!-- 4.2 -->
 
           <div class="menu-desplegable menu-apartado">
 
@@ -1057,8 +1117,6 @@ body.modo-oscuro .resultado-autoevaluacion.resultado-incompleto {
           </div>
 
 
-          <!-- 4.3 -->
-
           <div class="menu-desplegable menu-apartado">
 
             <div class="menu-cabecera">
@@ -1088,8 +1146,6 @@ body.modo-oscuro .resultado-autoevaluacion.resultado-incompleto {
 
           </div>
 
-
-          <!-- 4.4 -->
 
           <div class="menu-desplegable menu-apartado">
 
@@ -1121,8 +1177,6 @@ body.modo-oscuro .resultado-autoevaluacion.resultado-incompleto {
           </div>
 
 
-          <!-- 4.5 -->
-
           <div class="menu-desplegable menu-apartado">
 
             <div class="menu-cabecera">
@@ -1152,8 +1206,6 @@ body.modo-oscuro .resultado-autoevaluacion.resultado-incompleto {
 
           </div>
 
-
-          <!-- 4.6 -->
 
           <div class="menu-desplegable menu-apartado">
 
@@ -1185,8 +1237,6 @@ body.modo-oscuro .resultado-autoevaluacion.resultado-incompleto {
           </div>
 
 
-          <!-- 4.7 -->
-
           <div class="menu-desplegable menu-apartado">
 
             <div class="menu-cabecera">
@@ -1216,8 +1266,6 @@ body.modo-oscuro .resultado-autoevaluacion.resultado-incompleto {
 
           </div>
 
-
-          <!-- 4.8 -->
 
           <div class="menu-desplegable menu-apartado">
 
@@ -1249,8 +1297,6 @@ body.modo-oscuro .resultado-autoevaluacion.resultado-incompleto {
           </div>
 
 
-          <!-- 4.9 -->
-
           <div class="menu-desplegable menu-apartado">
 
             <div class="menu-cabecera">
@@ -1280,8 +1326,6 @@ body.modo-oscuro .resultado-autoevaluacion.resultado-incompleto {
 
           </div>
 
-
-          <!-- 4.10 -->
 
           <div class="menu-desplegable menu-apartado">
 
@@ -1313,8 +1357,6 @@ body.modo-oscuro .resultado-autoevaluacion.resultado-incompleto {
           </div>
 
 
-          <!-- 4.11 -->
-
           <div class="menu-desplegable menu-apartado">
 
             <div class="menu-cabecera">
@@ -1344,8 +1386,6 @@ body.modo-oscuro .resultado-autoevaluacion.resultado-incompleto {
 
           </div>
 
-
-          <!-- 4.12 -->
 
           <div class="menu-desplegable menu-apartado">
 
@@ -1377,8 +1417,6 @@ body.modo-oscuro .resultado-autoevaluacion.resultado-incompleto {
           </div>
 
 
-          <!-- RESUMEN -->
-
           <a
             class="enlace-apartado-simple"
             href="../resumen/index.html"
@@ -1386,8 +1424,6 @@ body.modo-oscuro .resultado-autoevaluacion.resultado-incompleto {
             ✏️ Resumen de la UT4
           </a>
 
-
-          <!-- ACTIVIDADES -->
 
           <div class="menu-desplegable menu-apartado">
 
@@ -1437,8 +1473,6 @@ body.modo-oscuro .resultado-autoevaluacion.resultado-incompleto {
       </div>
 
 
-      <!-- UT5 -->
-
       <a
         class="sidebar-ut-cerrada"
         href="../../ut5/index.html"
@@ -1450,8 +1484,6 @@ body.modo-oscuro .resultado-autoevaluacion.resultado-incompleto {
         <span>›</span>
       </a>
 
-
-      <!-- UT6 -->
 
       <a
         class="sidebar-ut-cerrada"
@@ -1465,8 +1497,6 @@ body.modo-oscuro .resultado-autoevaluacion.resultado-incompleto {
       </a>
 
 
-      <!-- UT7 -->
-
       <a
         class="sidebar-ut-cerrada"
         href="../../ut7/index.html"
@@ -1478,8 +1508,6 @@ body.modo-oscuro .resultado-autoevaluacion.resultado-incompleto {
         <span>›</span>
       </a>
 
-
-      <!-- UT8 -->
 
       <a
         class="sidebar-ut-cerrada"
@@ -1493,8 +1521,6 @@ body.modo-oscuro .resultado-autoevaluacion.resultado-incompleto {
       </a>
 
 
-      <!-- UT9 -->
-
       <a
         class="sidebar-ut-cerrada"
         href="../../ut9/index.html"
@@ -1506,8 +1532,6 @@ body.modo-oscuro .resultado-autoevaluacion.resultado-incompleto {
         <span>›</span>
       </a>
 
-
-      <!-- UT10 -->
 
       <a
         class="sidebar-ut-cerrada"
@@ -1528,9 +1552,6 @@ body.modo-oscuro .resultado-autoevaluacion.resultado-incompleto {
     ========================================== -->
 
     <main class="contenido-ut">
-
-
-      <!-- MIGAS -->
 
       <div class="migas">
 
@@ -1618,8 +1639,6 @@ body.modo-oscuro .resultado-autoevaluacion.resultado-incompleto {
         <h2>💻 Actividades prácticas</h2>
 
 
-        <!-- ACTIVIDAD 1 -->
-
         <div class="tarjeta-actividad">
 
           <h3>
@@ -1690,8 +1709,6 @@ body.modo-oscuro .resultado-autoevaluacion.resultado-incompleto {
 
         </div>
 
-
-        <!-- ACTIVIDAD 2 -->
 
         <div class="tarjeta-actividad">
 
@@ -1771,8 +1788,6 @@ body.modo-oscuro .resultado-autoevaluacion.resultado-incompleto {
         </div>
 
 
-        <!-- ACTIVIDAD 3 -->
-
         <div class="tarjeta-actividad">
 
           <h3>
@@ -1845,8 +1860,6 @@ body.modo-oscuro .resultado-autoevaluacion.resultado-incompleto {
 
         </div>
 
-
-        <!-- ACTIVIDAD 4 -->
 
         <div class="tarjeta-actividad">
 
@@ -1929,8 +1942,6 @@ body.modo-oscuro .resultado-autoevaluacion.resultado-incompleto {
         </div>
 
 
-        <!-- ACTIVIDAD 5 -->
-
         <div class="tarjeta-actividad">
 
           <h3>
@@ -2009,8 +2020,6 @@ body.modo-oscuro .resultado-autoevaluacion.resultado-incompleto {
         </div>
 
 
-        <!-- ACTIVIDAD 6 -->
-
         <div class="tarjeta-actividad">
 
           <h3>
@@ -2074,8 +2083,6 @@ body.modo-oscuro .resultado-autoevaluacion.resultado-incompleto {
 
         </div>
 
-
-        <!-- ACTIVIDAD 7 -->
 
         <div class="tarjeta-actividad">
 
@@ -2149,8 +2156,6 @@ body.modo-oscuro .resultado-autoevaluacion.resultado-incompleto {
 
         </div>
 
-
-        <!-- ACTIVIDAD 8 -->
 
         <div class="tarjeta-actividad">
 
@@ -2228,8 +2233,6 @@ body.modo-oscuro .resultado-autoevaluacion.resultado-incompleto {
         </div>
 
 
-        <!-- ACTIVIDAD 9 -->
-
         <div class="tarjeta-actividad">
 
           <h3>
@@ -2306,8 +2309,6 @@ body.modo-oscuro .resultado-autoevaluacion.resultado-incompleto {
 
         </div>
 
-
-        <!-- ACTIVIDAD 10 -->
 
         <div class="tarjeta-actividad">
 
@@ -2576,550 +2577,634 @@ body.modo-oscuro .resultado-autoevaluacion.resultado-incompleto {
            AUTOEVALUACIÓN
       ========================================== -->
 
- <section
-  id="autoevaluacion"
-  class="apartado-ut"
->
-
-  <h2>✅ Autoevaluación de la UT4</h2>
-
-  <p>
-    Responde las siguientes preguntas para comprobar qué contenidos
-    de la UT4 has comprendido.
-  </p>
-
-  <p>
-    Cada pregunta tiene
-    <strong>una única respuesta correcta</strong>.
-  </p>
-
-
-  <!-- PREGUNTA 1 -->
-
-  <div class="pregunta-test">
-
-    <p>
-      <strong>
-        1. ¿Cuál es el índice del primer elemento de un array
-        en JavaScript?
-      </strong>
-    </p>
-
-    <label>
-      <input
-        type="radio"
-        name="pregunta1"
-        value="a"
+      <section
+        id="autoevaluacion"
+        class="apartado-ut"
       >
-      a) 1.
-    </label>
-
-    <label>
-      <input
-        type="radio"
-        name="pregunta1"
-        value="b"
-      >
-      b) 0.
-    </label>
-
-    <label>
-      <input
-        type="radio"
-        name="pregunta1"
-        value="c"
-      >
-      c) -1.
-    </label>
-
-    <label>
-      <input
-        type="radio"
-        name="pregunta1"
-        value="d"
-      >
-      d) Depende de la longitud.
-    </label>
-
-  </div>
-
-
-  <!-- PREGUNTA 2 -->
-
-  <div class="pregunta-test">
-
-    <p>
-      <strong>
-        2. ¿Qué expresión permite acceder al último elemento
-        del array <code>datos</code>?
-      </strong>
-    </p>
-
-    <label>
-      <input
-        type="radio"
-        name="pregunta2"
-        value="a"
-      >
-      a) <code>datos[datos.length - 1]</code>.
-    </label>
-
-    <label>
-      <input
-        type="radio"
-        name="pregunta2"
-        value="b"
-      >
-      b) <code>datos[datos.length]</code>.
-    </label>
-
-    <label>
-      <input
-        type="radio"
-        name="pregunta2"
-        value="c"
-      >
-      c) <code>datos[-1]</code>.
-    </label>
-
-    <label>
-      <input
-        type="radio"
-        name="pregunta2"
-        value="d"
-      >
-      d) <code>datos.last</code>.
-    </label>
-
-  </div>
-
-
-  <!-- PREGUNTA 3 -->
-
-  <div class="pregunta-test">
-
-    <p>
-      <strong>
-        3. ¿Qué método añade un elemento al final de un array?
-      </strong>
-    </p>
-
-    <label>
-      <input
-        type="radio"
-        name="pregunta3"
-        value="a"
-      >
-      a) <code>shift()</code>.
-    </label>
-
-    <label>
-      <input
-        type="radio"
-        name="pregunta3"
-        value="b"
-      >
-      b) <code>unshift()</code>.
-    </label>
-
-    <label>
-      <input
-        type="radio"
-        name="pregunta3"
-        value="c"
-      >
-      c) <code>push()</code>.
-    </label>
-
-    <label>
-      <input
-        type="radio"
-        name="pregunta3"
-        value="d"
-      >
-      d) <code>pop()</code>.
-    </label>
-
-  </div>
-
-
-  <!-- PREGUNTA 4 -->
-
-  <div class="pregunta-test">
-
-    <p>
-      <strong>
-        4. ¿Qué método permite eliminar, insertar o sustituir
-        elementos en una posición concreta?
-      </strong>
-    </p>
-
-    <label>
-      <input
-        type="radio"
-        name="pregunta4"
-        value="a"
-      >
-      a) <code>includes()</code>.
-    </label>
-
-    <label>
-      <input
-        type="radio"
-        name="pregunta4"
-        value="b"
-      >
-      b) <code>splice()</code>.
-    </label>
-
-    <label>
-      <input
-        type="radio"
-        name="pregunta4"
-        value="c"
-      >
-      c) <code>map()</code>.
-    </label>
-
-    <label>
-      <input
-        type="radio"
-        name="pregunta4"
-        value="d"
-      >
-      d) <code>reverse()</code>.
-    </label>
-
-  </div>
-
-
-  <!-- PREGUNTA 5 -->
-
-  <div class="pregunta-test">
-
-    <p>
-      <strong>
-        5. ¿Qué método devuelve <code>true</code> o
-        <code>false</code> según exista un valor concreto
-        en un array?
-      </strong>
-    </p>
-
-    <label>
-      <input
-        type="radio"
-        name="pregunta5"
-        value="a"
-      >
-      a) <code>indexOf()</code>.
-    </label>
-
-    <label>
-      <input
-        type="radio"
-        name="pregunta5"
-        value="b"
-      >
-      b) <code>find()</code>.
-    </label>
-
-    <label>
-      <input
-        type="radio"
-        name="pregunta5"
-        value="c"
-      >
-      c) <code>includes()</code>.
-    </label>
-
-    <label>
-      <input
-        type="radio"
-        name="pregunta5"
-        value="d"
-      >
-      d) <code>findIndex()</code>.
-    </label>
-
-  </div>
-
-
-  <!-- PREGUNTA 6 -->
-
-  <div class="pregunta-test">
-
-    <p>
-      <strong>
-        6. ¿Qué recorrido resulta especialmente cómodo cuando
-        solo necesitamos trabajar con los valores del array
-        y no con sus índices?
-      </strong>
-    </p>
-
-    <label>
-      <input
-        type="radio"
-        name="pregunta6"
-        value="a"
-      >
-      a) <code>for...of</code>.
-    </label>
-
-    <label>
-      <input
-        type="radio"
-        name="pregunta6"
-        value="b"
-      >
-      b) <code>switch</code>.
-    </label>
-
-    <label>
-      <input
-        type="radio"
-        name="pregunta6"
-        value="c"
-      >
-      c) <code>while</code> obligatoriamente.
-    </label>
-
-    <label>
-      <input
-        type="radio"
-        name="pregunta6"
-        value="d"
-      >
-      d) <code>if...else</code>.
-    </label>
-
-  </div>
-
-
-  <!-- PREGUNTA 7 -->
-
-  <div class="pregunta-test">
-
-    <p>
-      <strong>
-        7. ¿Qué afirmación describe correctamente
-        <code>map()</code> y <code>filter()</code>?
-      </strong>
-    </p>
-
-    <label>
-      <input
-        type="radio"
-        name="pregunta7"
-        value="a"
-      >
-      a) Ambos eliminan siempre elementos del array original.
-    </label>
-
-    <label>
-      <input
-        type="radio"
-        name="pregunta7"
-        value="b"
-      >
-      b) <code>map()</code> transforma elementos y
-      <code>filter()</code> selecciona los que cumplen una condición.
-    </label>
-
-    <label>
-      <input
-        type="radio"
-        name="pregunta7"
-        value="c"
-      >
-      c) <code>filter()</code> ordena y
-      <code>map()</code> invierte.
-    </label>
-
-    <label>
-      <input
-        type="radio"
-        name="pregunta7"
-        value="d"
-      >
-      d) Ambos modifican siempre el array original.
-    </label>
-
-  </div>
-
-
-  <!-- PREGUNTA 8 -->
-
-  <div class="pregunta-test">
-
-    <p>
-      <strong>
-        8. ¿Qué debemos tener en cuenta al utilizar
-        <code>sort()</code> para ordenar números?
-      </strong>
-    </p>
-
-    <label>
-      <input
-        type="radio"
-        name="pregunta8"
-        value="a"
-      >
-      a) No puede ordenar números.
-    </label>
-
-    <label>
-      <input
-        type="radio"
-        name="pregunta8"
-        value="b"
-      >
-      b) Siempre ordena correctamente de menor a mayor
-      sin indicar nada.
-    </label>
-
-    <label>
-      <input
-        type="radio"
-        name="pregunta8"
-        value="c"
-      >
-      c) Conviene proporcionar una función de comparación,
-      por ejemplo <code>(a, b) =&gt; a - b</code>.
-    </label>
-
-    <label>
-      <input
-        type="radio"
-        name="pregunta8"
-        value="d"
-      >
-      d) Es obligatorio aplicar antes <code>reverse()</code>.
-    </label>
-
-  </div>
-
-
-  <!-- PREGUNTA 9 -->
-
-  <div class="pregunta-test">
-
-    <p>
-      <strong>
-        9. En un array bidimensional llamado
-        <code>datos</code>, ¿qué representa
-        <code>datos[1][2]</code>?
-      </strong>
-    </p>
-
-    <label>
-      <input
-        type="radio"
-        name="pregunta9"
-        value="a"
-      >
-      a) Todo el array.
-    </label>
-
-    <label>
-      <input
-        type="radio"
-        name="pregunta9"
-        value="b"
-      >
-      b) El elemento situado en la segunda fila
-      y tercera columna.
-    </label>
-
-    <label>
-      <input
-        type="radio"
-        name="pregunta9"
-        value="c"
-      >
-      c) El elemento situado en la primera fila
-      y segunda columna.
-    </label>
-
-    <label>
-      <input
-        type="radio"
-        name="pregunta9"
-        value="d"
-      >
-      d) La longitud del array.
-    </label>
-
-  </div>
-
-
-  <!-- PREGUNTA 10 -->
-
-  <div class="pregunta-test">
-
-    <p>
-      <strong>
-        10. ¿Cuál es la estrategia más adecuada al resolver
-        un problema con arrays?
-      </strong>
-    </p>
-
-    <label>
-      <input
-        type="radio"
-        name="pregunta10"
-        value="a"
-      >
-      a) Encadenar todos los métodos posibles desde el principio.
-    </label>
-
-    <label>
-      <input
-        type="radio"
-        name="pregunta10"
-        value="b"
-      >
-      b) Memorizar todos los métodos y utilizar siempre el más corto.
-    </label>
-
-    <label>
-      <input
-        type="radio"
-        name="pregunta10"
-        value="c"
-      >
-      c) Analizar el problema, identificar los datos,
-      elegir las operaciones, implementar y comprobar
-      los resultados.
-    </label>
-
-    <label>
-      <input
-        type="radio"
-        name="pregunta10"
-        value="d"
-      >
-      d) Modificar siempre el array original para ahorrar memoria.
-    </label>
-
-  </div>
-
-
-  <button
-    id="boton-corregir"
-    class="boton-corregir"
-    type="button"
-  >
-    ✅ Corregir autoevaluación
-  </button>
-
-
-  <div
-    id="resultado-autoevaluacion"
-    class="resultado-autoevaluacion"
-    hidden
-  ></div>
-
-</section>
+
+        <h2>✅ Autoevaluación de la UT4</h2>
+
+        <p>
+          Responde las siguientes preguntas para comprobar qué contenidos
+          de la UT4 has comprendido.
+        </p>
+
+        <p>
+          Cada pregunta tiene
+          <strong>una única respuesta correcta</strong>.
+        </p>
+
+
+        <div
+          class="pregunta-test"
+          data-pregunta="pregunta1"
+        >
+
+          <p>
+            <strong>
+              1. ¿Cuál es el índice del primer elemento de un array
+              en JavaScript?
+            </strong>
+          </p>
+
+          <label>
+            <input
+              type="radio"
+              name="pregunta1"
+              value="a"
+            >
+            a) 1.
+          </label>
+
+          <label>
+            <input
+              type="radio"
+              name="pregunta1"
+              value="b"
+            >
+            b) 0.
+          </label>
+
+          <label>
+            <input
+              type="radio"
+              name="pregunta1"
+              value="c"
+            >
+            c) -1.
+          </label>
+
+          <label>
+            <input
+              type="radio"
+              name="pregunta1"
+              value="d"
+            >
+            d) Depende de la longitud.
+          </label>
+
+          <div
+            class="feedback-test"
+            hidden
+          ></div>
+
+        </div>
+
+
+        <div
+          class="pregunta-test"
+          data-pregunta="pregunta2"
+        >
+
+          <p>
+            <strong>
+              2. ¿Qué expresión permite acceder al último elemento
+              del array <code>datos</code>?
+            </strong>
+          </p>
+
+          <label>
+            <input
+              type="radio"
+              name="pregunta2"
+              value="a"
+            >
+            a) <code>datos[datos.length - 1]</code>.
+          </label>
+
+          <label>
+            <input
+              type="radio"
+              name="pregunta2"
+              value="b"
+            >
+            b) <code>datos[datos.length]</code>.
+          </label>
+
+          <label>
+            <input
+              type="radio"
+              name="pregunta2"
+              value="c"
+            >
+            c) <code>datos[-1]</code>.
+          </label>
+
+          <label>
+            <input
+              type="radio"
+              name="pregunta2"
+              value="d"
+            >
+            d) <code>datos.last</code>.
+          </label>
+
+          <div
+            class="feedback-test"
+            hidden
+          ></div>
+
+        </div>
+
+
+        <div
+          class="pregunta-test"
+          data-pregunta="pregunta3"
+        >
+
+          <p>
+            <strong>
+              3. ¿Qué método añade un elemento al final de un array?
+            </strong>
+          </p>
+
+          <label>
+            <input
+              type="radio"
+              name="pregunta3"
+              value="a"
+            >
+            a) <code>shift()</code>.
+          </label>
+
+          <label>
+            <input
+              type="radio"
+              name="pregunta3"
+              value="b"
+            >
+            b) <code>unshift()</code>.
+          </label>
+
+          <label>
+            <input
+              type="radio"
+              name="pregunta3"
+              value="c"
+            >
+            c) <code>push()</code>.
+          </label>
+
+          <label>
+            <input
+              type="radio"
+              name="pregunta3"
+              value="d"
+            >
+            d) <code>pop()</code>.
+          </label>
+
+          <div
+            class="feedback-test"
+            hidden
+          ></div>
+
+        </div>
+
+
+        <div
+          class="pregunta-test"
+          data-pregunta="pregunta4"
+        >
+
+          <p>
+            <strong>
+              4. ¿Qué método permite eliminar, insertar o sustituir
+              elementos en una posición concreta?
+            </strong>
+          </p>
+
+          <label>
+            <input
+              type="radio"
+              name="pregunta4"
+              value="a"
+            >
+            a) <code>includes()</code>.
+          </label>
+
+          <label>
+            <input
+              type="radio"
+              name="pregunta4"
+              value="b"
+            >
+            b) <code>splice()</code>.
+          </label>
+
+          <label>
+            <input
+              type="radio"
+              name="pregunta4"
+              value="c"
+            >
+            c) <code>map()</code>.
+          </label>
+
+          <label>
+            <input
+              type="radio"
+              name="pregunta4"
+              value="d"
+            >
+            d) <code>reverse()</code>.
+          </label>
+
+          <div
+            class="feedback-test"
+            hidden
+          ></div>
+
+        </div>
+
+
+        <div
+          class="pregunta-test"
+          data-pregunta="pregunta5"
+        >
+
+          <p>
+            <strong>
+              5. ¿Qué método devuelve <code>true</code> o
+              <code>false</code> según exista un valor concreto
+              en un array?
+            </strong>
+          </p>
+
+          <label>
+            <input
+              type="radio"
+              name="pregunta5"
+              value="a"
+            >
+            a) <code>indexOf()</code>.
+          </label>
+
+          <label>
+            <input
+              type="radio"
+              name="pregunta5"
+              value="b"
+            >
+            b) <code>find()</code>.
+          </label>
+
+          <label>
+            <input
+              type="radio"
+              name="pregunta5"
+              value="c"
+            >
+            c) <code>includes()</code>.
+          </label>
+
+          <label>
+            <input
+              type="radio"
+              name="pregunta5"
+              value="d"
+            >
+            d) <code>findIndex()</code>.
+          </label>
+
+          <div
+            class="feedback-test"
+            hidden
+          ></div>
+
+        </div>
+
+
+        <div
+          class="pregunta-test"
+          data-pregunta="pregunta6"
+        >
+
+          <p>
+            <strong>
+              6. ¿Qué recorrido resulta especialmente cómodo cuando
+              solo necesitamos trabajar con los valores del array
+              y no con sus índices?
+            </strong>
+          </p>
+
+          <label>
+            <input
+              type="radio"
+              name="pregunta6"
+              value="a"
+            >
+            a) <code>for...of</code>.
+          </label>
+
+          <label>
+            <input
+              type="radio"
+              name="pregunta6"
+              value="b"
+            >
+            b) <code>switch</code>.
+          </label>
+
+          <label>
+            <input
+              type="radio"
+              name="pregunta6"
+              value="c"
+            >
+            c) <code>while</code> obligatoriamente.
+          </label>
+
+          <label>
+            <input
+              type="radio"
+              name="pregunta6"
+              value="d"
+            >
+            d) <code>if...else</code>.
+          </label>
+
+          <div
+            class="feedback-test"
+            hidden
+          ></div>
+
+        </div>
+
+
+        <div
+          class="pregunta-test"
+          data-pregunta="pregunta7"
+        >
+
+          <p>
+            <strong>
+              7. ¿Qué afirmación describe correctamente
+              <code>map()</code> y <code>filter()</code>?
+            </strong>
+          </p>
+
+          <label>
+            <input
+              type="radio"
+              name="pregunta7"
+              value="a"
+            >
+            a) Ambos eliminan siempre elementos del array original.
+          </label>
+
+          <label>
+            <input
+              type="radio"
+              name="pregunta7"
+              value="b"
+            >
+            b) <code>map()</code> transforma elementos y
+            <code>filter()</code> selecciona los que cumplen
+            una condición.
+          </label>
+
+          <label>
+            <input
+              type="radio"
+              name="pregunta7"
+              value="c"
+            >
+            c) <code>filter()</code> ordena y
+            <code>map()</code> invierte.
+          </label>
+
+          <label>
+            <input
+              type="radio"
+              name="pregunta7"
+              value="d"
+            >
+            d) Ambos modifican siempre el array original.
+          </label>
+
+          <div
+            class="feedback-test"
+            hidden
+          ></div>
+
+        </div>
+
+
+        <div
+          class="pregunta-test"
+          data-pregunta="pregunta8"
+        >
+
+          <p>
+            <strong>
+              8. ¿Qué debemos tener en cuenta al utilizar
+              <code>sort()</code> para ordenar números?
+            </strong>
+          </p>
+
+          <label>
+            <input
+              type="radio"
+              name="pregunta8"
+              value="a"
+            >
+            a) No puede ordenar números.
+          </label>
+
+          <label>
+            <input
+              type="radio"
+              name="pregunta8"
+              value="b"
+            >
+            b) Siempre ordena correctamente de menor a mayor
+            sin indicar nada.
+          </label>
+
+          <label>
+            <input
+              type="radio"
+              name="pregunta8"
+              value="c"
+            >
+            c) Conviene proporcionar una función de comparación,
+            por ejemplo <code>(a, b) =&gt; a - b</code>.
+          </label>
+
+          <label>
+            <input
+              type="radio"
+              name="pregunta8"
+              value="d"
+            >
+            d) Es obligatorio aplicar antes <code>reverse()</code>.
+          </label>
+
+          <div
+            class="feedback-test"
+            hidden
+          ></div>
+
+        </div>
+
+
+        <div
+          class="pregunta-test"
+          data-pregunta="pregunta9"
+        >
+
+          <p>
+            <strong>
+              9. En un array bidimensional llamado
+              <code>datos</code>, ¿qué representa
+              <code>datos[1][2]</code>?
+            </strong>
+          </p>
+
+          <label>
+            <input
+              type="radio"
+              name="pregunta9"
+              value="a"
+            >
+            a) Todo el array.
+          </label>
+
+          <label>
+            <input
+              type="radio"
+              name="pregunta9"
+              value="b"
+            >
+            b) El elemento situado en la segunda fila
+            y tercera columna.
+          </label>
+
+          <label>
+            <input
+              type="radio"
+              name="pregunta9"
+              value="c"
+            >
+            c) El elemento situado en la primera fila
+            y segunda columna.
+          </label>
+
+          <label>
+            <input
+              type="radio"
+              name="pregunta9"
+              value="d"
+            >
+            d) La longitud del array.
+          </label>
+
+          <div
+            class="feedback-test"
+            hidden
+          ></div>
+
+        </div>
+
+
+        <div
+          class="pregunta-test"
+          data-pregunta="pregunta10"
+        >
+
+          <p>
+            <strong>
+              10. ¿Cuál es la estrategia más adecuada al resolver
+              un problema con arrays?
+            </strong>
+          </p>
+
+          <label>
+            <input
+              type="radio"
+              name="pregunta10"
+              value="a"
+            >
+            a) Encadenar todos los métodos posibles desde el principio.
+          </label>
+
+          <label>
+            <input
+              type="radio"
+              name="pregunta10"
+              value="b"
+            >
+            b) Memorizar todos los métodos y utilizar siempre el más corto.
+          </label>
+
+          <label>
+            <input
+              type="radio"
+              name="pregunta10"
+              value="c"
+            >
+            c) Analizar el problema, identificar los datos,
+            elegir las operaciones, implementar y comprobar
+            los resultados.
+          </label>
+
+          <label>
+            <input
+              type="radio"
+              name="pregunta10"
+              value="d"
+            >
+            d) Modificar siempre el array original para ahorrar memoria.
+          </label>
+
+          <div
+            class="feedback-test"
+            hidden
+          ></div>
+
+        </div>
+
+
+        <button
+          id="boton-corregir"
+          class="boton-corregir"
+          type="button"
+        >
+          ✅ Corregir autoevaluación
+        </button>
+
+
+        <div
+          id="mensaje-test"
+          class="mensaje-test"
+          hidden
+        ></div>
+
+
+        <div
+          id="resultado-test"
+          class="resultado-test"
+          hidden
+        >
+
+          <h3>
+            Resultado de la autoevaluación
+          </h3>
+
+          <p id="texto-resultado"></p>
+
+          <button
+            id="boton-reintentar"
+            type="button"
+          >
+            🔄 Reintentar
+          </button>
+
+        </div>
+
+      </section>
+
 
       <!-- ==========================================
            NAVEGACIÓN
@@ -3261,32 +3346,36 @@ body.modo-oscuro .resultado-autoevaluacion.resultado-incompleto {
       );
 
 
-    modulosActivos.forEach(modulo => {
+    modulosActivos.forEach(
+      modulo => {
 
-      const enlace =
-        document.createElement("a");
+        const enlace =
+          document.createElement("a");
 
-      enlace.href =
-        `../../../${modulo.carpeta}/index.html`;
+        enlace.href =
+          `../../../${modulo.carpeta}/index.html`;
 
-      enlace.textContent =
-        modulo.siglas;
+        enlace.textContent =
+          modulo.siglas;
 
-      enlace.title =
-        modulo.nombre;
+        enlace.title =
+          modulo.nombre;
 
 
-      if (modulo.siglas === "DWEC") {
+        if (modulo.siglas === "DWEC") {
 
-        enlace.style.color =
-          "var(--verde-principal)";
+          enlace.style.color =
+            "var(--verde-principal)";
+
+        }
+
+
+        menuModulos.appendChild(
+          enlace
+        );
 
       }
-
-
-      menuModulos.appendChild(enlace);
-
-    });
+    );
 
 
     /* ==========================================
@@ -3325,7 +3414,9 @@ body.modo-oscuro .resultado-autoevaluacion.resultado-incompleto {
 
 
         botonTema.textContent =
-          estaOscuro ? "🌙" : "☀️";
+          estaOscuro
+            ? "🌙"
+            : "☀️";
 
 
         localStorage.setItem(
@@ -3350,7 +3441,7 @@ body.modo-oscuro .resultado-autoevaluacion.resultado-incompleto {
 
 
     botonesDesplegar.forEach(
-      (boton) => {
+      boton => {
 
         boton.addEventListener(
           "click",
@@ -3427,7 +3518,7 @@ body.modo-oscuro .resultado-autoevaluacion.resultado-incompleto {
 
 
     botonesCopiar.forEach(
-      (boton) => {
+      boton => {
 
         boton.addEventListener(
           "click",
@@ -3545,208 +3636,401 @@ body.modo-oscuro .resultado-autoevaluacion.resultado-incompleto {
         "boton-corregir"
       );
 
-    const resultadoAutoevaluacion =
+    const mensajeTest =
       document.getElementById(
-        "resultado-autoevaluacion"
+        "mensaje-test"
+      );
+
+    const resultadoTest =
+      document.getElementById(
+        "resultado-test"
+      );
+
+    const textoResultado =
+      document.getElementById(
+        "texto-resultado"
+      );
+
+    const botonReintentar =
+      document.getElementById(
+        "boton-reintentar"
       );
 
 
-botonCorregir.addEventListener(
-  "click",
-  () => {
+    botonCorregir.addEventListener(
+      "click",
+      () => {
 
-    /* ==========================================
-       COMPROBAR QUE TODAS ESTÁN RESPONDIDAS
-    ========================================== */
+        /* ==========================================
+           COMPROBAR QUE TODAS ESTÁN RESPONDIDAS
+        ========================================== */
 
-    let todasRespondidas = true;
+        let todasRespondidas =
+          true;
 
-    Object.keys(respuestasCorrectas).forEach(
-      (pregunta) => {
 
-        const seleccionada =
-          document.querySelector(
-            `input[name="${pregunta}"]:checked`
-          );
+        Object.keys(
+          respuestasCorrectas
+        ).forEach(
+          pregunta => {
 
-        if (!seleccionada) {
-          todasRespondidas = false;
+            const seleccionada =
+              document.querySelector(
+                `input[name="${pregunta}"]:checked`
+              );
+
+
+            if (!seleccionada) {
+
+              todasRespondidas =
+                false;
+
+            }
+
+          }
+        );
+
+
+        /* ==========================================
+           SI FALTA ALGUNA, NO CORREGIR
+        ========================================== */
+
+        if (!todasRespondidas) {
+
+          mensajeTest.innerHTML =
+            `
+              <div class="mensaje-aviso">
+                ⚠️ Todavía tienes preguntas sin responder.
+                Responde las 10 preguntas antes de corregir
+                la autoevaluación.
+              </div>
+            `;
+
+
+          mensajeTest.hidden =
+            false;
+
+          resultadoTest.hidden =
+            true;
+
+
+          mensajeTest.scrollIntoView({
+            behavior: "smooth",
+            block: "center"
+          });
+
+
+          return;
+
         }
 
-      }
-    );
+
+        /* ==========================================
+           LIMPIAR AVISO
+        ========================================== */
+
+        mensajeTest.hidden =
+          true;
+
+        mensajeTest.innerHTML =
+          "";
 
 
-    /* ==========================================
-       SI FALTA ALGUNA, NO CORREGIR
-    ========================================== */
+        /* ==========================================
+           CORREGIR
+        ========================================== */
 
-    if (!todasRespondidas) {
-
-      resultadoAutoevaluacion.innerHTML =
-        `
-          <p>
-            ⚠️ Todavía tienes preguntas sin responder.
-            Responde las 10 preguntas antes de corregir
-            la autoevaluación.
-          </p>
-        `;
-
-      resultadoAutoevaluacion.classList.add(
-        "resultado-incompleto"
-      );
-
-      resultadoAutoevaluacion.hidden =
-        false;
-
-      resultadoAutoevaluacion.scrollIntoView({
-        behavior: "smooth",
-        block: "start"
-      });
-
-      return;
-    }
+        let aciertos =
+          0;
 
 
-    /* ==========================================
-       TODAS RESPONDIDAS → CORREGIR
-    ========================================== */
+        Object.keys(
+          respuestasCorrectas
+        ).forEach(
+          pregunta => {
 
-    resultadoAutoevaluacion.classList.remove(
-      "resultado-incompleto"
-    );
-
-    let aciertos = 0;
-
-    let contenidoResultado =
-      "<h3>Resultado de la autoevaluación</h3>";
+            const seleccionada =
+              document.querySelector(
+                `input[name="${pregunta}"]:checked`
+              );
 
 
-    Object.keys(
-      respuestasCorrectas
-    ).forEach(
-      (pregunta, indice) => {
-
-        const seleccionada =
-          document.querySelector(
-            `input[name="${pregunta}"]:checked`
-          );
+            const tarjeta =
+              document.querySelector(
+                `[data-pregunta="${pregunta}"]`
+              );
 
 
-        const numeroPregunta =
-          indice + 1;
+            const feedback =
+              tarjeta.querySelector(
+                ".feedback-test"
+              );
 
 
-        if (
-          seleccionada.value ===
-          respuestasCorrectas[pregunta]
-        ) {
+            const labels =
+              tarjeta.querySelectorAll(
+                "label"
+              );
 
-          aciertos++;
 
-          contenidoResultado +=
-            `
-              <p class="respuesta-correcta">
-                ✔ Pregunta ${numeroPregunta}:
-                correcta.
-              </p>
+            labels.forEach(
+              label => {
 
-              <p class="explicacion-respuesta">
-                ${explicaciones[pregunta]}
-              </p>
-            `;
+                label.classList.remove(
+                  "respuesta-correcta",
+                  "respuesta-incorrecta"
+                );
+
+              }
+            );
+
+
+            const inputCorrecto =
+              tarjeta.querySelector(
+                `input[value="${respuestasCorrectas[pregunta]}"]`
+              );
+
+
+            const labelCorrecto =
+              inputCorrecto.closest(
+                "label"
+              );
+
+
+            labelCorrecto.classList.add(
+              "respuesta-correcta"
+            );
+
+
+            if (
+              seleccionada.value ===
+              respuestasCorrectas[pregunta]
+            ) {
+
+              aciertos++;
+
+
+              feedback.className =
+                "feedback-test feedback-correcto";
+
+
+              feedback.innerHTML =
+                `
+                  ✔ Respuesta correcta.<br>
+                  ${explicaciones[pregunta]}
+                `;
+
+            } else {
+
+              const labelSeleccionado =
+                seleccionada.closest(
+                  "label"
+                );
+
+
+              labelSeleccionado.classList.add(
+                "respuesta-incorrecta"
+              );
+
+
+              feedback.className =
+                "feedback-test feedback-incorrecto";
+
+
+              feedback.innerHTML =
+                `
+                  ✘ Respuesta incorrecta.<br>
+                  ${explicaciones[pregunta]}
+                `;
+
+            }
+
+
+            feedback.hidden =
+              false;
+
+
+            const inputs =
+              tarjeta.querySelectorAll(
+                "input"
+              );
+
+
+            inputs.forEach(
+              input => {
+
+                input.disabled =
+                  true;
+
+              }
+            );
+
+          }
+        );
+
+
+        /* ==========================================
+           RESULTADO FINAL
+        ========================================== */
+
+        const nota =
+          aciertos;
+
+
+        let mensajeFinal =
+          "";
+
+
+        if (aciertos === 10) {
+
+          mensajeFinal =
+            "🎉 Excelente. Has comprendido los contenidos fundamentales de la UT4.";
+
+        } else if (aciertos >= 7) {
+
+          mensajeFinal =
+            "👍 Buen trabajo. Revisa las preguntas que has fallado antes de continuar.";
+
+        } else if (aciertos >= 5) {
+
+          mensajeFinal =
+            "📖 Has alcanzado parte de los objetivos, pero conviene repasar algunos apartados de la unidad.";
 
         } else {
 
-          contenidoResultado +=
-            `
-              <p class="respuesta-incorrecta">
-                ✘ Pregunta ${numeroPregunta}:
-                incorrecta.
-              </p>
-
-              <p class="explicacion-respuesta">
-                ${explicaciones[pregunta]}
-              </p>
-            `;
+          mensajeFinal =
+            "🔎 Conviene volver al resumen de la UT4 y repasar especialmente los métodos de arrays, los recorridos y la elección de la operación adecuada.";
 
         }
+
+
+        textoResultado.innerHTML =
+          `
+            Has obtenido
+            <strong>${aciertos} de 10 respuestas correctas</strong>.
+            <br><br>
+            <strong>Nota: ${nota}/10</strong>.
+            <br><br>
+            ${mensajeFinal}
+          `;
+
+
+        resultadoTest.hidden =
+          false;
+
+        botonCorregir.disabled =
+          true;
+
+
+        resultadoTest.scrollIntoView({
+          behavior: "smooth",
+          block: "center"
+        });
 
       }
     );
 
 
-    contenidoResultado +=
-      `
-        <p>
-          <strong>
-            Resultado final:
-            ${aciertos} / 10
-          </strong>
-        </p>
-      `;
+    /* ==========================================
+       REINTENTAR AUTOEVALUACIÓN
+    ========================================== */
+
+    botonReintentar.addEventListener(
+      "click",
+      () => {
+
+        const preguntas =
+          document.querySelectorAll(
+            ".pregunta-test"
+          );
 
 
-    if (aciertos === 10) {
+        preguntas.forEach(
+          tarjeta => {
 
-      contenidoResultado +=
-        `
-          <p>
-            🎉 Excelente. Has comprendido los conceptos
-            fundamentales de la UT4.
-          </p>
-        `;
-
-    } else if (aciertos >= 7) {
-
-      contenidoResultado +=
-        `
-          <p>
-            👍 Buen trabajo. Revisa las preguntas que
-            has fallado antes de continuar.
-          </p>
-        `;
-
-    } else if (aciertos >= 5) {
-
-      contenidoResultado +=
-        `
-          <p>
-            📖 Has alcanzado parte de los objetivos,
-            pero conviene repasar algunos apartados
-            de la unidad.
-          </p>
-        `;
-
-    } else {
-
-      contenidoResultado +=
-        `
-          <p>
-            🔎 Te recomiendo volver al resumen de la UT4
-            y repasar especialmente los métodos de arrays,
-            los recorridos y la elección de la operación
-            adecuada.
-          </p>
-        `;
-
-    }
+            const inputs =
+              tarjeta.querySelectorAll(
+                "input"
+              );
 
 
-    resultadoAutoevaluacion.innerHTML =
-      contenidoResultado;
+            inputs.forEach(
+              input => {
 
-    resultadoAutoevaluacion.hidden =
-      false;
+                input.checked =
+                  false;
+
+                input.disabled =
+                  false;
+
+              }
+            );
 
 
-    resultadoAutoevaluacion.scrollIntoView({
-      behavior: "smooth",
-      block: "start"
-    });
+            const labels =
+              tarjeta.querySelectorAll(
+                "label"
+              );
 
-  }
-);
+
+            labels.forEach(
+              label => {
+
+                label.classList.remove(
+                  "respuesta-correcta",
+                  "respuesta-incorrecta"
+                );
+
+              }
+            );
+
+
+            const feedback =
+              tarjeta.querySelector(
+                ".feedback-test"
+              );
+
+
+            feedback.hidden =
+              true;
+
+            feedback.innerHTML =
+              "";
+
+            feedback.className =
+              "feedback-test";
+
+          }
+        );
+
+
+        mensajeTest.hidden =
+          true;
+
+        mensajeTest.innerHTML =
+          "";
+
+
+        resultadoTest.hidden =
+          true;
+
+        textoResultado.innerHTML =
+          "";
+
+
+        botonCorregir.disabled =
+          false;
+
+
+        document.getElementById(
+          "autoevaluacion"
+        ).scrollIntoView({
+          behavior: "smooth",
+          block: "start"
+        });
+
+      }
+    );
 
   </script>
 
