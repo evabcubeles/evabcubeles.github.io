@@ -3543,146 +3543,108 @@ body.modo-oscuro .resultado-autoevaluacion {
       );
 
 
-    botonCorregir.addEventListener(
-      "click",
-      () => {
+botonCorregir.addEventListener(
+  "click",
+  () => {
 
-        let aciertos = 0;
-        let respondidas = 0;
+    /* ==========================================
+       COMPROBAR QUE TODAS ESTÁN RESPONDIDAS
+    ========================================== */
 
-        let contenidoResultado =
-          "<h3>Resultado de la autoevaluación</h3>";
+    let todasRespondidas = true;
 
+    Object.keys(respuestasCorrectas).forEach(
+      (pregunta) => {
 
-        Object.keys(
-          respuestasCorrectas
-        ).forEach(
-          (pregunta, indice) => {
+        const seleccionada =
+          document.querySelector(
+            `input[name="${pregunta}"]:checked`
+          );
 
-            const seleccionada =
-              document.querySelector(
-                `input[name="${pregunta}"]:checked`
-              );
-
-
-            const numeroPregunta =
-              indice + 1;
-
-
-            if (!seleccionada) {
-
-              contenidoResultado +=
-                `
-                  <p class="respuesta-incorrecta">
-                    Pregunta ${numeroPregunta}:
-                    sin responder.
-                  </p>
-
-                  <p class="explicacion-respuesta">
-                    ${explicaciones[pregunta]}
-                  </p>
-                `;
-
-              return;
-
-            }
-
-
-            respondidas++;
-
-
-            if (
-              seleccionada.value ===
-              respuestasCorrectas[pregunta]
-            ) {
-
-              aciertos++;
-
-              contenidoResultado +=
-                `
-                  <p class="respuesta-correcta">
-                    ✔ Pregunta ${numeroPregunta}:
-                    correcta.
-                  </p>
-
-                  <p class="explicacion-respuesta">
-                    ${explicaciones[pregunta]}
-                  </p>
-                `;
-
-            } else {
-
-              contenidoResultado +=
-                `
-                  <p class="respuesta-incorrecta">
-                    ✘ Pregunta ${numeroPregunta}:
-                    incorrecta.
-                  </p>
-
-                  <p class="explicacion-respuesta">
-                    ${explicaciones[pregunta]}
-                  </p>
-                `;
-
-            }
-
-          }
-        );
-
-
-        contenidoResultado +=
-          `
-            <p>
-              <strong>
-                Resultado final:
-                ${aciertos} / 10
-              </strong>
-            </p>
-          `;
-
-
-        if (respondidas < 10) {
-
-          contenidoResultado +=
-            `
-              <p>
-                Has respondido
-                ${respondidas}
-                de las 10 preguntas.
-              </p>
-            `;
-
+        if (!seleccionada) {
+          todasRespondidas = false;
         }
 
+      }
+    );
 
-        if (aciertos === 10) {
+
+    /* ==========================================
+       SI FALTA ALGUNA, NO CORREGIR
+    ========================================== */
+
+    if (!todasRespondidas) {
+
+      resultadoAutoevaluacion.innerHTML =
+        `
+          <p>
+            ⚠️ Todavía tienes preguntas sin responder.
+            Responde las 10 preguntas antes de corregir
+            la autoevaluación.
+          </p>
+        `;
+
+      resultadoAutoevaluacion.classList.add(
+        "resultado-incompleto"
+      );
+
+      resultadoAutoevaluacion.hidden =
+        false;
+
+      resultadoAutoevaluacion.scrollIntoView({
+        behavior: "smooth",
+        block: "start"
+      });
+
+      return;
+    }
+
+
+    /* ==========================================
+       TODAS RESPONDIDAS → CORREGIR
+    ========================================== */
+
+    resultadoAutoevaluacion.classList.remove(
+      "resultado-incompleto"
+    );
+
+    let aciertos = 0;
+
+    let contenidoResultado =
+      "<h3>Resultado de la autoevaluación</h3>";
+
+
+    Object.keys(
+      respuestasCorrectas
+    ).forEach(
+      (pregunta, indice) => {
+
+        const seleccionada =
+          document.querySelector(
+            `input[name="${pregunta}"]:checked`
+          );
+
+
+        const numeroPregunta =
+          indice + 1;
+
+
+        if (
+          seleccionada.value ===
+          respuestasCorrectas[pregunta]
+        ) {
+
+          aciertos++;
 
           contenidoResultado +=
             `
-              <p>
-                🎉 Excelente. Has comprendido los conceptos
-                fundamentales de la UT4.
+              <p class="respuesta-correcta">
+                ✔ Pregunta ${numeroPregunta}:
+                correcta.
               </p>
-            `;
 
-        } else if (aciertos >= 7) {
-
-          contenidoResultado +=
-            `
-              <p>
-                👍 Buen trabajo. Revisa las preguntas que
-                has fallado antes de continuar.
-              </p>
-            `;
-
-        } else if (aciertos >= 5) {
-
-          contenidoResultado +=
-            `
-              <p>
-                📖 Has alcanzado parte de los objetivos,
-                pero conviene repasar algunos apartados
-                de la unidad.
+              <p class="explicacion-respuesta">
+                ${explicaciones[pregunta]}
               </p>
             `;
 
@@ -3690,31 +3652,93 @@ body.modo-oscuro .resultado-autoevaluacion {
 
           contenidoResultado +=
             `
-              <p>
-                🔎 Te recomiendo volver al resumen de la UT4
-                y repasar especialmente los métodos de arrays,
-                los recorridos y la elección de la operación
-                adecuada.
+              <p class="respuesta-incorrecta">
+                ✘ Pregunta ${numeroPregunta}:
+                incorrecta.
+              </p>
+
+              <p class="explicacion-respuesta">
+                ${explicaciones[pregunta]}
               </p>
             `;
 
         }
 
-
-        resultadoAutoevaluacion.innerHTML =
-          contenidoResultado;
-
-        resultadoAutoevaluacion.hidden =
-          false;
-
-
-        resultadoAutoevaluacion.scrollIntoView({
-          behavior: "smooth",
-          block: "start"
-        });
-
       }
     );
+
+
+    contenidoResultado +=
+      `
+        <p>
+          <strong>
+            Resultado final:
+            ${aciertos} / 10
+          </strong>
+        </p>
+      `;
+
+
+    if (aciertos === 10) {
+
+      contenidoResultado +=
+        `
+          <p>
+            🎉 Excelente. Has comprendido los conceptos
+            fundamentales de la UT4.
+          </p>
+        `;
+
+    } else if (aciertos >= 7) {
+
+      contenidoResultado +=
+        `
+          <p>
+            👍 Buen trabajo. Revisa las preguntas que
+            has fallado antes de continuar.
+          </p>
+        `;
+
+    } else if (aciertos >= 5) {
+
+      contenidoResultado +=
+        `
+          <p>
+            📖 Has alcanzado parte de los objetivos,
+            pero conviene repasar algunos apartados
+            de la unidad.
+          </p>
+        `;
+
+    } else {
+
+      contenidoResultado +=
+        `
+          <p>
+            🔎 Te recomiendo volver al resumen de la UT4
+            y repasar especialmente los métodos de arrays,
+            los recorridos y la elección de la operación
+            adecuada.
+          </p>
+        `;
+
+    }
+
+
+    resultadoAutoevaluacion.innerHTML =
+      contenidoResultado;
+
+    resultadoAutoevaluacion.hidden =
+      false;
+
+
+    resultadoAutoevaluacion.scrollIntoView({
+      behavior: "smooth",
+      block: "start"
+    });
+
+  }
+);
 
   </script>
 
