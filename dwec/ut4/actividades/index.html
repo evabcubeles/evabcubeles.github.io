@@ -4115,40 +4115,41 @@ body.modo-oscuro .entrega-reto {
                 </p>
               `;
 
-          } else {
+  } else {
 
-            /* ==========================================
-               RESPUESTA INCORRECTA
-            ========================================== */
+  /* ==========================================
+     RESPUESTA INCORRECTA
+  ========================================== */
 
-            const labelSeleccionado =
-              seleccionada.closest(
-                "label"
-              );
-
-
-            labelSeleccionado.classList.add(
-              "respuesta-incorrecta"
-            );
+  const labelSeleccionado =
+    seleccionada.closest(
+      "label"
+    );
 
 
-            feedback.className =
-              "feedback-test feedback-incorrecto";
+  labelSeleccionado.classList.add(
+    "respuesta-incorrecta"
+  );
 
 
-            feedback.innerHTML =
-              `
-                <strong>
-                  ❌ Respuesta incorrecta.
-                </strong>
+  feedback.className =
+    "feedback-test feedback-incorrecto";
 
-                <p>
-                  ${explicaciones[nombrePregunta]}
-                </p>
-              `;
 
-          }
+  feedback.innerHTML =
+    `
+      <strong>
+        ❌ Respuesta incorrecta.
+      </strong>
 
+      <p>
+        La respuesta correcta es la opción
+        ${respuestasCorrectas[nombrePregunta].toUpperCase()}.
+        ${explicaciones[nombrePregunta]}
+      </p>
+    `;
+
+}
 
           feedback.hidden =
             false;
