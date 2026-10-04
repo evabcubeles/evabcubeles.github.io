@@ -705,35 +705,35 @@ body.modo-oscuro .entrega-reto {
     }
 
     .resultado-test {
-      margin-top: 22px;
-      padding: 18px 20px;
-
       display: flex;
       align-items: center;
-      justify-content: space-between;
-      gap: 18px;
       flex-wrap: wrap;
+      gap: 14px;
 
-      border: 1px solid var(--borde);
-      border-radius: 9px;
+      padding: 18px 20px;
 
-      background-color: var(--fondo-tarjeta);
+      background-color: #eef8f1;
+
+      border-left: 5px solid var(--verde-principal);
+      border-radius: 8px;
     }
 
     .resultado-test strong {
-      color: var(--verde-principal);
+      font-size: 17px;
     }
 
-    #boton-corregir,
-    #boton-reintentar {
-      padding: 11px 17px;
+    .resultado-test span {
+      font-size: 16px;
+    }
 
-      border: 0;
+    #boton-reintentar {
+      padding: 10px 16px;
+
+      border: 1px solid var(--verde-principal);
       border-radius: 7px;
 
-      background-color: var(--verde-principal);
-
-      color: white;
+      background: #fff;
+      color: var(--verde-principal);
 
       font-family: inherit;
       font-size: 15px;
@@ -742,11 +742,55 @@ body.modo-oscuro .entrega-reto {
       cursor: pointer;
     }
 
-    #boton-corregir:hover,
     #boton-reintentar:hover {
-      opacity: 0.9;
+      background: var(--verde-principal);
+      color: #fff;
     }
 
+    .feedback-test {
+      margin-top: 16px;
+      padding: 14px 16px;
+
+      border-radius: 7px;
+
+      font-size: 16px;
+      line-height: 1.6;
+    }
+
+    .feedback-test p {
+      margin: 6px 0 0;
+      font-size: 16px;
+    }
+
+    .respuesta-correcta {
+      background-color: #eef8f1 !important;
+      border-color: #58b879 !important;
+    }
+
+    .respuesta-incorrecta {
+      background-color: #fff0f0 !important;
+      border-color: #d96c6c !important;
+    }
+
+    body.modo-oscuro .mensaje-aviso {
+      background-color: #3b3020;
+    }
+
+    body.modo-oscuro .resultado-test {
+      background-color: #20372a;
+    }
+
+    body.modo-oscuro #boton-reintentar {
+      background-color: #273244;
+    }
+
+    body.modo-oscuro .respuesta-correcta {
+      background-color: #20372a !important;
+    }
+
+    body.modo-oscuro .respuesta-incorrecta {
+      background-color: #402626 !important;
+    }
 
     /* ==========================================
        ÍNDICE DERECHO
@@ -4144,7 +4188,7 @@ body.modo-oscuro .entrega-reto {
 
       <p>
         La respuesta correcta es la opción
-        ${respuestasCorrectas[nombrePregunta].toUpperCase()}.
+        <strong>${respuestasCorrectas[nombrePregunta].toUpperCase()}</strong>.
         ${explicaciones[nombrePregunta]}
       </p>
     `;
