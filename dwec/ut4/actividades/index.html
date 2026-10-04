@@ -574,14 +574,24 @@
       margin: 26px 0;
       padding: 20px 22px;
 
-      background-color: #eef5ff;
+      border: 1px solid var(--borde);
+      border-radius: 10px;
 
-      border-left: 5px solid #3f7acb;
-      border-radius: 8px;
+      background-color: var(--fondo-tarjeta);
     }
 
-    body.modo-oscuro .entrega-reto {
-      background-color: #23344a;
+    .entrega-reto strong {
+      display: block;
+
+      margin-bottom: 10px;
+
+      color: var(--verde-principal);
+
+      font-size: 18px;
+    }
+
+    .entrega-reto p {
+      margin-bottom: 0;
     }
 
 
@@ -590,27 +600,30 @@
     ========================================== */
 
     .pregunta-test {
-      margin: 28px 0;
-      padding: 26px 28px;
-
-      background-color: var(--fondo-tarjeta);
+      margin: 26px 0;
+      padding: 22px;
 
       border: 1px solid var(--borde);
       border-radius: 10px;
+
+      background-color: var(--fondo-tarjeta);
     }
 
-    .pregunta-test p {
-      margin-bottom: 20px;
+    .pregunta-test > p:first-child {
+      margin-bottom: 18px;
     }
 
     .pregunta-test label {
       display: block;
 
-      margin: 14px 0;
-      padding: 14px 16px;
+      margin: 10px 0;
+      padding: 12px 14px;
 
       border: 1px solid var(--borde);
-      border-radius: 8px;
+      border-radius: 7px;
+
+      font-size: 16px;
+      line-height: 1.5;
 
       cursor: pointer;
 
@@ -621,128 +634,20 @@
 
     .pregunta-test label:hover {
       border-color: var(--verde-principal);
-      background-color: #f7faf8;
     }
 
-    body.modo-oscuro .pregunta-test label:hover {
-      background-color: #273244;
+    .pregunta-test input[type="radio"] {
+      margin-right: 8px;
     }
 
-    .pregunta-test input {
-      margin-right: 10px;
-    }
-
-    .boton-corregir {
-      display: inline-block;
-
-      margin-top: 20px;
-      padding: 12px 18px;
-
-      border: 0;
-      border-radius: 7px;
-
-      background-color: var(--verde-principal);
-
-      color: #ffffff;
-
-      font-family: inherit;
-      font-size: 16px;
-      font-weight: 700;
-
-      cursor: pointer;
-    }
-
-    .boton-corregir:hover {
-      opacity: 0.9;
-    }
-
-    .mensaje-test {
-      margin-top: 28px;
-    }
-
-    .mensaje-aviso {
-      padding: 18px 22px;
-
-      background-color: #fff7e8;
-
-      border-left: 5px solid #e09b27;
-      border-radius: 8px;
-
-      font-size: 17px;
-      line-height: 1.65;
-    }
-
-    body.modo-oscuro .mensaje-aviso {
-      background-color: #3b3020;
-    }
-
-.resultado-test {
-  display: flex;
-  align-items: center;
-  flex-wrap: wrap;
-  gap: 18px;
-
-  margin-top: 28px;
-  padding: 20px 26px;
-
-  background-color: #eef8f1;
-
-  border-left: 5px solid #2f9e5b;
-  border-radius: 8px;
-}
-
-.resultado-test[hidden] {
-  display: none;
-}
-
-.resultado-test p {
-  margin: 0;
-
-  font-size: 17px;
-  line-height: 1.6;
-}
-
-body.modo-oscuro .resultado-test {
-  background-color: #20372a;
-}
-
-    .resultado-test h3 {
-      margin-top: 0;
-    }
-
-.feedback-test {
-  margin-top: 28px;
-  padding: 0 24px;
-
-  font-size: 17px;
-  line-height: 1.75;
-}
-
-.feedback-test strong {
-  display: block;
-
-  margin-bottom: 10px;
-
-  font-size: 17px;
-}
-
-.feedback-test p {
-  margin: 0;
-}
-
-.feedback-correcto,
-.feedback-incorrecto {
-  background: transparent;
-  border: 0;
-}
     .respuesta-correcta {
       border-color: #2f9e5b !important;
-      background-color: #eef8f1 !important;
+      background-color: #eaf8ef !important;
     }
 
     .respuesta-incorrecta {
       border-color: #d9534f !important;
-      background-color: #fff0f0 !important;
+      background-color: #fdecec !important;
     }
 
     body.modo-oscuro .respuesta-correcta {
@@ -750,21 +655,76 @@ body.modo-oscuro .resultado-test {
     }
 
     body.modo-oscuro .respuesta-incorrecta {
-      background-color: #452525 !important;
+      background-color: #452626 !important;
     }
 
-    #boton-reintentar {
-      display: inline-block;
+    .feedback-test {
+      margin-top: 14px;
+      padding: 14px 16px;
 
-      margin-top: 18px;
-      padding: 11px 17px;
-
-      border: 1px solid var(--verde-principal);
       border-radius: 7px;
 
-      background-color: transparent;
+      font-size: 15px;
+      line-height: 1.55;
+    }
 
+    .feedback-test p {
+      margin: 7px 0 0;
+
+      font-size: 15px;
+      line-height: 1.55;
+    }
+
+    .mensaje-test {
+      margin-top: 22px;
+    }
+
+    .mensaje-aviso {
+      padding: 16px 18px;
+
+      border-left: 5px solid #e09b27;
+      border-radius: 8px;
+
+      background-color: #fff7e8;
+
+      font-size: 16px;
+      line-height: 1.6;
+    }
+
+    body.modo-oscuro .mensaje-aviso {
+      background-color: #3b3020;
+    }
+
+    .resultado-test {
+      margin-top: 22px;
+      padding: 18px 20px;
+
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 18px;
+      flex-wrap: wrap;
+
+      border: 1px solid var(--borde);
+      border-radius: 9px;
+
+      background-color: var(--fondo-tarjeta);
+    }
+
+    .resultado-test strong {
       color: var(--verde-principal);
+    }
+
+    #boton-corregir,
+    #boton-reintentar {
+      padding: 11px 17px;
+
+      border: 0;
+      border-radius: 7px;
+
+      background-color: var(--verde-principal);
+
+      color: white;
 
       font-family: inherit;
       font-size: 15px;
@@ -773,21 +733,18 @@ body.modo-oscuro .resultado-test {
       cursor: pointer;
     }
 
+    #boton-corregir:hover,
     #boton-reintentar:hover {
-      background-color: #eef8f1;
-    }
-
-    body.modo-oscuro #boton-reintentar:hover {
-      background-color: #20372a;
+      opacity: 0.9;
     }
 
 
     /* ==========================================
-       COLUMNA DERECHA
+       ÍNDICE DERECHO
     ========================================== */
 
     .indice-derecho {
-      padding: 28px 22px;
+      padding: 28px 18px;
 
       border-left: 1px solid var(--borde);
 
@@ -795,37 +752,35 @@ body.modo-oscuro .resultado-test {
       top: 68px;
 
       height: calc(100vh - 68px);
+
       overflow-y: auto;
     }
 
     .indice-derecho h2 {
-      margin: 8px 0 20px;
+      margin: 0 0 18px;
 
-      color: #555b65;
-
-      font-size: 17px;
-    }
-
-    body.modo-oscuro .indice-derecho h2 {
-      color: #d1d5db;
+      font-size: 16px;
+      line-height: 1.4;
     }
 
     .indice-derecho ul {
       margin: 0;
-      padding-left: 18px;
+      padding: 0;
+
+      list-style: none;
     }
 
     .indice-derecho li {
-      margin-bottom: 12px;
+      margin-bottom: 10px;
     }
 
     .indice-derecho a {
       color: var(--texto-secundario);
 
-      text-decoration: none;
-
       font-size: 14px;
       line-height: 1.4;
+
+      text-decoration: none;
     }
 
     .indice-derecho a:hover {
@@ -834,60 +789,51 @@ body.modo-oscuro .resultado-test {
 
 
     /* ==========================================
-       NAVEGACIÓN
+       NAVEGACIÓN ENTRE PÁGINAS
     ========================================== */
 
     .navegacion-paginas {
       display: grid;
       grid-template-columns: 1fr 1fr;
-      gap: 20px;
+      gap: 18px;
 
-      margin-top: 50px;
+      margin-top: 60px;
     }
 
     .nav-pagina {
-      min-height: 100px;
       padding: 18px 20px;
 
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
-
       border: 1px solid var(--borde);
-      border-radius: 8px;
+      border-radius: 9px;
+
+      color: var(--texto-principal);
 
       text-decoration: none;
 
       background-color: var(--fondo-tarjeta);
-    }
 
-    .nav-anterior {
-      align-items: flex-start;
-      text-align: left;
-    }
-
-    .nav-siguiente {
-      align-items: flex-end;
-      text-align: right;
-    }
-
-    .nav-etiqueta {
-      margin-bottom: 5px;
-
-      color: var(--texto-secundario);
-
-      font-size: 14px;
-    }
-
-    .nav-pagina strong {
-      color: var(--verde-principal);
-
-      font-size: 16px;
-      line-height: 1.4;
+      transition:
+        border-color 0.2s ease,
+        transform 0.2s ease;
     }
 
     .nav-pagina:hover {
       border-color: var(--verde-principal);
+      transform: translateY(-2px);
+    }
+
+    .nav-siguiente {
+      text-align: right;
+    }
+
+    .nav-etiqueta {
+      display: block;
+
+      margin-bottom: 7px;
+
+      color: var(--texto-secundario);
+
+      font-size: 13px;
     }
 
 
@@ -907,6 +853,7 @@ body.modo-oscuro .resultado-test {
 
     }
 
+
     @media (max-width: 760px) {
 
       .pagina-ut {
@@ -924,11 +871,15 @@ body.modo-oscuro .resultado-test {
       }
 
       .contenido-ut {
-        padding: 28px 20px 60px;
+        padding: 24px 18px 55px;
       }
 
       .contenido-ut h1 {
-        font-size: 36px;
+        font-size: 38px;
+      }
+
+      .apartado-ut h2 {
+        font-size: 28px;
       }
 
       .navegacion-paginas {
@@ -936,7 +887,6 @@ body.modo-oscuro .resultado-test {
       }
 
       .nav-siguiente {
-        align-items: flex-start;
         text-align: left;
       }
 
@@ -945,8 +895,6 @@ body.modo-oscuro .resultado-test {
   </style>
 
 </head>
-
-
 <body>
 
   <!-- ==========================================
@@ -1003,40 +951,316 @@ body.modo-oscuro .resultado-test {
       </a>
 
 
-      <a
-        class="sidebar-ut-cerrada"
-        href="../../ut1/index.html"
-      >
-        <span>
-          UT1 - Introducción al desarrollo web en entorno cliente
-        </span>
+      <!-- UT1 -->
 
-        <span>›</span>
-      </a>
+      <div class="menu-desplegable">
+
+        <div class="menu-cabecera">
+
+          <a
+            class="menu-titulo"
+            href="../../ut1/index.html"
+          >
+            UT1 - Introducción al desarrollo web en entorno cliente
+          </a>
+
+          <button
+            class="boton-desplegar"
+            type="button"
+            data-target="submenu-ut1"
+            aria-expanded="false"
+          >
+            ›
+          </button>
+
+        </div>
+
+        <div
+          id="submenu-ut1"
+          class="submenu"
+        >
+
+          <a
+            class="enlace-apartado-simple"
+            href="../../ut1/1-1/index.html"
+          >
+            1.1 Desarrollo web
+          </a>
+
+          <a
+            class="enlace-apartado-simple"
+            href="../../ut1/1-2/index.html"
+          >
+            1.2 Arquitectura cliente-servidor
+          </a>
+
+          <a
+            class="enlace-apartado-simple"
+            href="../../ut1/1-3/index.html"
+          >
+            1.3 Desarrollo en entorno cliente
+          </a>
+
+          <a
+            class="enlace-apartado-simple"
+            href="../../ut1/1-4/index.html"
+          >
+            1.4 Navegadores web
+          </a>
+
+          <a
+            class="enlace-apartado-simple"
+            href="../../ut1/1-5/index.html"
+          >
+            1.5 JavaScript
+          </a>
+
+          <a
+            class="enlace-apartado-simple"
+            href="../../ut1/1-6/index.html"
+          >
+            1.6 Integración de JavaScript en HTML
+          </a>
+
+          <a
+            class="enlace-apartado-simple"
+            href="../../ut1/1-7/index.html"
+          >
+            1.7 Herramientas de desarrollo
+          </a>
+
+          <a
+            class="enlace-apartado-simple"
+            href="../../ut1/1-8/index.html"
+          >
+            1.8 Primer programa en JavaScript
+          </a>
+
+          <a
+            class="enlace-apartado-simple"
+            href="../../ut1/resumen/index.html"
+          >
+            ✏️ Resumen de la UT1
+          </a>
+
+          <a
+            class="enlace-apartado-simple"
+            href="../../ut1/actividades/index.html"
+          >
+            📝 Actividades de la UT1
+          </a>
+
+        </div>
+
+      </div>
 
 
-      <a
-        class="sidebar-ut-cerrada"
-        href="../../ut2/index.html"
-      >
-        <span>
-          UT2 - Fundamentos de JavaScript: variables, tipos y operadores
-        </span>
+      <!-- UT2 -->
 
-        <span>›</span>
-      </a>
+      <div class="menu-desplegable">
+
+        <div class="menu-cabecera">
+
+          <a
+            class="menu-titulo"
+            href="../../ut2/index.html"
+          >
+            UT2 - Fundamentos de JavaScript: variables, tipos y operadores
+          </a>
+
+          <button
+            class="boton-desplegar"
+            type="button"
+            data-target="submenu-ut2"
+            aria-expanded="false"
+          >
+            ›
+          </button>
+
+        </div>
+
+        <div
+          id="submenu-ut2"
+          class="submenu"
+        >
+
+          <a
+            class="enlace-apartado-simple"
+            href="../../ut2/2-1/index.html"
+          >
+            2.1 Variables y constantes
+          </a>
+
+          <a
+            class="enlace-apartado-simple"
+            href="../../ut2/2-2/index.html"
+          >
+            2.2 Tipos de datos
+          </a>
+
+          <a
+            class="enlace-apartado-simple"
+            href="../../ut2/2-3/index.html"
+          >
+            2.3 Operadores
+          </a>
+
+          <a
+            class="enlace-apartado-simple"
+            href="../../ut2/2-4/index.html"
+          >
+            2.4 Conversión de tipos
+          </a>
+
+          <a
+            class="enlace-apartado-simple"
+            href="../../ut2/2-5/index.html"
+          >
+            2.5 Entrada y salida de datos
+          </a>
+
+          <a
+            class="enlace-apartado-simple"
+            href="../../ut2/resumen/index.html"
+          >
+            ✏️ Resumen de la UT2
+          </a>
+
+          <a
+            class="enlace-apartado-simple"
+            href="../../ut2/actividades/index.html"
+          >
+            📝 Actividades de la UT2
+          </a>
+
+        </div>
+
+      </div>
 
 
-      <a
-        class="sidebar-ut-cerrada"
-        href="../../ut3/index.html"
-      >
-        <span>
-          UT3 - Estructuras de control en JavaScript
-        </span>
+      <!-- UT3 -->
 
-        <span>›</span>
-      </a>
+      <div class="menu-desplegable">
+
+        <div class="menu-cabecera">
+
+          <a
+            class="menu-titulo"
+            href="../../ut3/index.html"
+          >
+            UT3 - Estructuras de control en JavaScript
+          </a>
+
+          <button
+            class="boton-desplegar"
+            type="button"
+            data-target="submenu-ut3"
+            aria-expanded="false"
+          >
+            ›
+          </button>
+
+        </div>
+
+        <div
+          id="submenu-ut3"
+          class="submenu"
+        >
+
+          <a
+            class="enlace-apartado-simple"
+            href="../../ut3/3-1/index.html"
+          >
+            3.1 Estructuras de control
+          </a>
+
+          <a
+            class="enlace-apartado-simple"
+            href="../../ut3/3-2/index.html"
+          >
+            3.2 Condicional if
+          </a>
+
+          <a
+            class="enlace-apartado-simple"
+            href="../../ut3/3-3/index.html"
+          >
+            3.3 if...else
+          </a>
+
+          <a
+            class="enlace-apartado-simple"
+            href="../../ut3/3-4/index.html"
+          >
+            3.4 if...else if...else
+          </a>
+
+          <a
+            class="enlace-apartado-simple"
+            href="../../ut3/3-5/index.html"
+          >
+            3.5 Operador ternario
+          </a>
+
+          <a
+            class="enlace-apartado-simple"
+            href="../../ut3/3-6/index.html"
+          >
+            3.6 switch
+          </a>
+
+          <a
+            class="enlace-apartado-simple"
+            href="../../ut3/3-7/index.html"
+          >
+            3.7 Bucle while
+          </a>
+
+          <a
+            class="enlace-apartado-simple"
+            href="../../ut3/3-8/index.html"
+          >
+            3.8 Bucle do...while
+          </a>
+
+          <a
+            class="enlace-apartado-simple"
+            href="../../ut3/3-9/index.html"
+          >
+            3.9 Bucle for
+          </a>
+
+          <a
+            class="enlace-apartado-simple"
+            href="../../ut3/3-10/index.html"
+          >
+            3.10 break y continue
+          </a>
+
+          <a
+            class="enlace-apartado-simple"
+            href="../../ut3/3-11/index.html"
+          >
+            3.11 Resolución de problemas
+          </a>
+
+          <a
+            class="enlace-apartado-simple"
+            href="../../ut3/resumen/index.html"
+          >
+            ✏️ Resumen de la UT3
+          </a>
+
+          <a
+            class="enlace-apartado-simple"
+            href="../../ut3/actividades/index.html"
+          >
+            📝 Actividades de la UT3
+          </a>
+
+        </div>
+
+      </div>
 
 
       <!-- UT4 -->
@@ -1070,6 +1294,8 @@ body.modo-oscuro .resultado-test {
         >
 
 
+          <!-- 4.1 -->
+
           <div class="menu-desplegable menu-apartado">
 
             <div class="menu-cabecera">
@@ -1099,6 +1325,8 @@ body.modo-oscuro .resultado-test {
 
           </div>
 
+
+          <!-- 4.2 -->
 
           <div class="menu-desplegable menu-apartado">
 
@@ -1130,6 +1358,8 @@ body.modo-oscuro .resultado-test {
           </div>
 
 
+          <!-- 4.3 -->
+
           <div class="menu-desplegable menu-apartado">
 
             <div class="menu-cabecera">
@@ -1159,6 +1389,8 @@ body.modo-oscuro .resultado-test {
 
           </div>
 
+
+          <!-- 4.4 -->
 
           <div class="menu-desplegable menu-apartado">
 
@@ -1190,6 +1422,8 @@ body.modo-oscuro .resultado-test {
           </div>
 
 
+          <!-- 4.5 -->
+
           <div class="menu-desplegable menu-apartado">
 
             <div class="menu-cabecera">
@@ -1219,6 +1453,8 @@ body.modo-oscuro .resultado-test {
 
           </div>
 
+
+          <!-- 4.6 -->
 
           <div class="menu-desplegable menu-apartado">
 
@@ -1250,6 +1486,8 @@ body.modo-oscuro .resultado-test {
           </div>
 
 
+          <!-- 4.7 -->
+
           <div class="menu-desplegable menu-apartado">
 
             <div class="menu-cabecera">
@@ -1279,6 +1517,8 @@ body.modo-oscuro .resultado-test {
 
           </div>
 
+
+          <!-- 4.8 -->
 
           <div class="menu-desplegable menu-apartado">
 
@@ -1310,6 +1550,8 @@ body.modo-oscuro .resultado-test {
           </div>
 
 
+          <!-- 4.9 -->
+
           <div class="menu-desplegable menu-apartado">
 
             <div class="menu-cabecera">
@@ -1339,6 +1581,8 @@ body.modo-oscuro .resultado-test {
 
           </div>
 
+
+          <!-- 4.10 -->
 
           <div class="menu-desplegable menu-apartado">
 
@@ -1370,6 +1614,8 @@ body.modo-oscuro .resultado-test {
           </div>
 
 
+          <!-- 4.11 -->
+
           <div class="menu-desplegable menu-apartado">
 
             <div class="menu-cabecera">
@@ -1399,6 +1645,8 @@ body.modo-oscuro .resultado-test {
 
           </div>
 
+
+          <!-- 4.12 -->
 
           <div class="menu-desplegable menu-apartado">
 
@@ -1430,6 +1678,8 @@ body.modo-oscuro .resultado-test {
           </div>
 
 
+          <!-- RESUMEN -->
+
           <a
             class="enlace-apartado-simple"
             href="../resumen/index.html"
@@ -1437,6 +1687,8 @@ body.modo-oscuro .resultado-test {
             ✏️ Resumen de la UT4
           </a>
 
+
+          <!-- ACTIVIDADES -->
 
           <div class="menu-desplegable menu-apartado">
 
@@ -1459,6 +1711,7 @@ body.modo-oscuro .resultado-test {
               </button>
 
             </div>
+
 
             <div
               id="submenu-actividades"
@@ -1486,75 +1739,99 @@ body.modo-oscuro .resultado-test {
       </div>
 
 
+      <!-- UT5 -->
+
       <a
         class="sidebar-ut-cerrada"
         href="../../ut5/index.html"
       >
+
         <span>
           UT5 - Funciones en JavaScript
         </span>
 
         <span>›</span>
+
       </a>
 
+
+      <!-- UT6 -->
 
       <a
         class="sidebar-ut-cerrada"
         href="../../ut6/index.html"
       >
+
         <span>
           UT6 - Objetos y Programación Orientada a Objetos en JavaScript
         </span>
 
         <span>›</span>
+
       </a>
 
+
+      <!-- UT7 -->
 
       <a
         class="sidebar-ut-cerrada"
         href="../../ut7/index.html"
       >
+
         <span>
           UT7 - Objetos predefinidos y modelo del navegador (BOM)
         </span>
 
         <span>›</span>
+
       </a>
 
+
+      <!-- UT8 -->
 
       <a
         class="sidebar-ut-cerrada"
         href="../../ut8/index.html"
       >
+
         <span>
           UT8 - Aplicaciones web interactivas: DOM, eventos y formularios
         </span>
 
         <span>›</span>
+
       </a>
 
+
+      <!-- UT9 -->
 
       <a
         class="sidebar-ut-cerrada"
         href="../../ut9/index.html"
       >
+
         <span>
           UT9 - Comunicación asíncrona y peticiones al servidor
         </span>
 
         <span>›</span>
+
       </a>
 
+
+      <!-- UT10 -->
 
       <a
         class="sidebar-ut-cerrada"
         href="../../ut10/index.html"
       >
+
         <span>
           UT10 - Introducción a React
         </span>
 
         <span>›</span>
+
       </a>
 
     </aside>
@@ -1576,7 +1853,9 @@ body.modo-oscuro .resultado-test {
           🏠
         </a>
 
-        <span class="miga-separador">›</span>
+        <span class="miga-separador">
+          ›
+        </span>
 
         <a
           class="miga-modulo"
@@ -1585,7 +1864,9 @@ body.modo-oscuro .resultado-test {
           DWEC
         </a>
 
-        <span class="miga-separador">›</span>
+        <span class="miga-separador">
+          ›
+        </span>
 
         <a
           class="miga-modulo"
@@ -1594,7 +1875,9 @@ body.modo-oscuro .resultado-test {
           UT4
         </a>
 
-        <span class="miga-separador">›</span>
+        <span class="miga-separador">
+          ›
+        </span>
 
         <span class="miga-actual">
           Actividades
@@ -1603,22 +1886,26 @@ body.modo-oscuro .resultado-test {
       </div>
 
 
-      <h1>📝 Actividades de la UT4</h1>
+      <h1>
+        📝 Actividades de la UT4
+      </h1>
 
 
       <section class="apartado-ut">
 
         <p>
-          Para finalizar la UT4 vas a aplicar de forma conjunta los
-          principales conceptos trabajados sobre
-          <strong>arrays y estructuras de datos en JavaScript</strong>.
+          Para finalizar la UT4 vas a aplicar de forma conjunta
+          los principales conceptos trabajados sobre
+          <strong>
+            arrays y estructuras de datos en JavaScript
+          </strong>.
         </p>
 
         <p>
           Las actividades se organizan en tres bloques:
           <strong>actividades prácticas</strong>,
-          un <strong>reto final</strong> y una
-          <strong>autoevaluación</strong>.
+          un <strong>reto final</strong>
+          y una <strong>autoevaluación</strong>.
         </p>
 
         <div class="caja caja-importante">
@@ -1649,8 +1936,12 @@ body.modo-oscuro .resultado-test {
         class="apartado-ut"
       >
 
-        <h2>💻 Actividades prácticas</h2>
+        <h2>
+          💻 Actividades prácticas
+        </h2>
 
+
+        <!-- ACTIVIDAD 1 -->
 
         <div class="tarjeta-actividad">
 
@@ -1722,6 +2013,8 @@ body.modo-oscuro .resultado-test {
 
         </div>
 
+
+        <!-- ACTIVIDAD 2 -->
 
         <div class="tarjeta-actividad">
 
@@ -1801,6 +2094,8 @@ body.modo-oscuro .resultado-test {
         </div>
 
 
+        <!-- ACTIVIDAD 3 -->
+
         <div class="tarjeta-actividad">
 
           <h3>
@@ -1873,6 +2168,8 @@ body.modo-oscuro .resultado-test {
 
         </div>
 
+
+        <!-- ACTIVIDAD 4 -->
 
         <div class="tarjeta-actividad">
 
@@ -1953,7 +2250,7 @@ body.modo-oscuro .resultado-test {
           </ol>
 
         </div>
-
+                <!-- ACTIVIDAD 5 -->
 
         <div class="tarjeta-actividad">
 
@@ -1962,7 +2259,7 @@ body.modo-oscuro .resultado-test {
           </h3>
 
           <p>
-            Utiliza el siguiente array de calificaciones:
+            Utiliza el siguiente array de notas:
           </p>
 
           <div class="bloque-codigo">
@@ -1992,11 +2289,6 @@ body.modo-oscuro .resultado-test {
 ];</code></pre>
 
           </div>
-
-          <p>
-            Utilizando exclusivamente un bucle
-            <code>for</code> tradicional:
-          </p>
 
           <ol>
 
@@ -2032,6 +2324,8 @@ body.modo-oscuro .resultado-test {
 
         </div>
 
+
+        <!-- ACTIVIDAD 6 -->
 
         <div class="tarjeta-actividad">
 
@@ -2096,6 +2390,8 @@ body.modo-oscuro .resultado-test {
 
         </div>
 
+
+        <!-- ACTIVIDAD 7 -->
 
         <div class="tarjeta-actividad">
 
@@ -2169,6 +2465,8 @@ body.modo-oscuro .resultado-test {
 
         </div>
 
+
+        <!-- ACTIVIDAD 8 -->
 
         <div class="tarjeta-actividad">
 
@@ -2246,6 +2544,8 @@ body.modo-oscuro .resultado-test {
         </div>
 
 
+        <!-- ACTIVIDAD 9 -->
+
         <div class="tarjeta-actividad">
 
           <h3>
@@ -2322,6 +2622,8 @@ body.modo-oscuro .resultado-test {
 
         </div>
 
+
+        <!-- ACTIVIDAD 10 -->
 
         <div class="tarjeta-actividad">
 
@@ -2413,30 +2715,29 @@ body.modo-oscuro .resultado-test {
         </div>
 
       </section>
-
-
-      <!-- ==========================================
+            <!-- ==========================================
            RETO FINAL
       ========================================== -->
 
-<section
-  id="reto-final"
-  class="apartado-ut"
->
+      <section
+        id="reto-final"
+        class="apartado-ut"
+      >
 
-  <h2>
-    🧩 Reto final — Analizador de rendimiento de una aplicación web
-  </h2>
+        <h2>
+          🧩 Reto final — Analizador de rendimiento de una aplicación web
+        </h2>
 
-  <p>
-    Formas parte del equipo de desarrollo de una aplicación
-    web. Durante una prueba de rendimiento se han registrado
-    los tiempos de respuesta, en milisegundos, de distintas
-    peticiones.
-  </p>
+        <p>
+          Formas parte del equipo de desarrollo de una aplicación
+          web. Durante una prueba de rendimiento se han registrado
+          los tiempos de respuesta, en milisegundos, de distintas
+          peticiones.
+        </p>
 
 
-  <div class="escenario-reto">
+        <div class="escenario-reto">
+
           <div class="bloque-codigo">
 
             <div class="cabecera-codigo">
@@ -2472,7 +2773,9 @@ body.modo-oscuro .resultado-test {
         </div>
 
 
-        <h3>Tu misión</h3>
+        <h3>
+          Tu misión
+        </h3>
 
         <ol class="lista-mision">
 
@@ -2586,7 +2889,9 @@ body.modo-oscuro .resultado-test {
         class="apartado-ut"
       >
 
-        <h2>✅ Autoevaluación de la UT4</h2>
+        <h2>
+          ✅ Autoevaluación de la UT4
+        </h2>
 
         <p>
           Responde las siguientes preguntas para comprobar qué contenidos
@@ -2598,6 +2903,8 @@ body.modo-oscuro .resultado-test {
           <strong>una única respuesta correcta</strong>.
         </p>
 
+
+        <!-- PREGUNTA 1 -->
 
         <div
           class="pregunta-test"
@@ -2655,6 +2962,8 @@ body.modo-oscuro .resultado-test {
         </div>
 
 
+        <!-- PREGUNTA 2 -->
+
         <div
           class="pregunta-test"
           data-pregunta="pregunta2"
@@ -2711,6 +3020,8 @@ body.modo-oscuro .resultado-test {
         </div>
 
 
+        <!-- PREGUNTA 3 -->
+
         <div
           class="pregunta-test"
           data-pregunta="pregunta3"
@@ -2765,6 +3076,8 @@ body.modo-oscuro .resultado-test {
 
         </div>
 
+
+        <!-- PREGUNTA 4 -->
 
         <div
           class="pregunta-test"
@@ -2821,6 +3134,8 @@ body.modo-oscuro .resultado-test {
 
         </div>
 
+
+        <!-- PREGUNTA 5 -->
 
         <div
           class="pregunta-test"
@@ -2879,6 +3194,8 @@ body.modo-oscuro .resultado-test {
         </div>
 
 
+        <!-- PREGUNTA 6 -->
+
         <div
           class="pregunta-test"
           data-pregunta="pregunta6"
@@ -2935,6 +3252,8 @@ body.modo-oscuro .resultado-test {
 
         </div>
 
+
+        <!-- PREGUNTA 7 -->
 
         <div
           class="pregunta-test"
@@ -2995,6 +3314,8 @@ body.modo-oscuro .resultado-test {
         </div>
 
 
+        <!-- PREGUNTA 8 -->
+
         <div
           class="pregunta-test"
           data-pregunta="pregunta8"
@@ -3042,7 +3363,8 @@ body.modo-oscuro .resultado-test {
               name="pregunta8"
               value="d"
             >
-            d) Es obligatorio aplicar antes <code>reverse()</code>.
+            d) Es obligatorio aplicar antes
+            <code>reverse()</code>.
           </label>
 
           <div
@@ -3052,6 +3374,8 @@ body.modo-oscuro .resultado-test {
 
         </div>
 
+
+        <!-- PREGUNTA 9 -->
 
         <div
           class="pregunta-test"
@@ -3111,6 +3435,8 @@ body.modo-oscuro .resultado-test {
 
         </div>
 
+
+        <!-- PREGUNTA 10 -->
 
         <div
           class="pregunta-test"
@@ -3172,7 +3498,6 @@ body.modo-oscuro .resultado-test {
 
         <button
           id="boton-corregir"
-          class="boton-corregir"
           type="button"
         >
           ✅ Corregir autoevaluación
@@ -3180,33 +3505,12 @@ body.modo-oscuro .resultado-test {
 
 
         <div
-          id="mensaje-test"
-          class="mensaje-test"
+          id="resultado-autoevaluacion"
           hidden
         ></div>
 
-
-<div
-  id="resultado-test"
-  class="resultado-test"
-  hidden
->
-
-  <p id="texto-resultado"></p>
-
-  <button
-    id="boton-reintentar"
-    type="button"
-  >
-    🔄 Reintentar
-  </button>
-
-</div>
-
       </section>
-
-
-      <!-- ==========================================
+            <!-- ==========================================
            NAVEGACIÓN
       ========================================== -->
 
@@ -3335,10 +3639,14 @@ body.modo-oscuro .resultado-test {
     ========================================== */
 
     const menuModulos =
-      document.getElementById("menuModulos");
+      document.getElementById(
+        "menuModulos"
+      );
 
     const botonTema =
-      document.getElementById("botonTema");
+      document.getElementById(
+        "botonTema"
+      );
 
     const modulosActivos =
       modulos.filter(
@@ -3350,7 +3658,9 @@ body.modo-oscuro .resultado-test {
       modulo => {
 
         const enlace =
-          document.createElement("a");
+          document.createElement(
+            "a"
+          );
 
         enlace.href =
           `../../../${modulo.carpeta}/index.html`;
@@ -3383,7 +3693,9 @@ body.modo-oscuro .resultado-test {
     ========================================== */
 
     const temaGuardado =
-      localStorage.getItem("tema");
+      localStorage.getItem(
+        "tema"
+      );
 
 
     if (temaGuardado === "oscuro") {
@@ -3529,6 +3841,7 @@ body.modo-oscuro .resultado-test {
                 ".bloque-codigo"
               );
 
+
             const codigo =
               bloque.querySelector(
                 "code"
@@ -3636,30 +3949,16 @@ body.modo-oscuro .resultado-test {
         "boton-corregir"
       );
 
-    const mensajeTest =
-      document.getElementById(
-        "mensaje-test"
-      );
 
-    const resultadoTest =
+    const resultado =
       document.getElementById(
-        "resultado-test"
-      );
-
-    const textoResultado =
-      document.getElementById(
-        "texto-resultado"
-      );
-
-    const botonReintentar =
-      document.getElementById(
-        "boton-reintentar"
+        "resultado-autoevaluacion"
       );
 
 
     botonCorregir.addEventListener(
       "click",
-      () => {
+      function () {
 
         /* ==========================================
            COMPROBAR QUE TODAS ESTÁN RESPONDIDAS
@@ -3669,26 +3968,20 @@ body.modo-oscuro .resultado-test {
           true;
 
 
-        Object.keys(
-          respuestasCorrectas
-        ).forEach(
-          pregunta => {
+        for (let i = 1; i <= 10; i++) {
 
-            const seleccionada =
-              document.querySelector(
-                `input[name="${pregunta}"]:checked`
-              );
+          if (
+            !document.querySelector(
+              `input[name="pregunta${i}"]:checked`
+            )
+          ) {
 
-
-            if (!seleccionada) {
-
-              todasRespondidas =
-                false;
-
-            }
+            todasRespondidas =
+              false;
 
           }
-        );
+
+        }
 
 
         /* ==========================================
@@ -3697,27 +3990,15 @@ body.modo-oscuro .resultado-test {
 
         if (!todasRespondidas) {
 
-          mensajeTest.innerHTML =
-            `
-              <div class="mensaje-aviso">
-                ⚠️ Todavía tienes preguntas sin responder.
-                Responde las 10 preguntas antes de corregir
-                la autoevaluación.
-              </div>
-            `;
-
-
-          mensajeTest.hidden =
+          resultado.hidden =
             false;
 
-          resultadoTest.hidden =
-            true;
 
-
-          mensajeTest.scrollIntoView({
-            behavior: "smooth",
-            block: "center"
-          });
+          resultado.innerHTML =
+            '<div class="mensaje-test mensaje-aviso">' +
+            '⚠️ Todavía tienes preguntas sin responder. ' +
+            'Responde las 10 preguntas antes de corregir la autoevaluación.' +
+            '</div>';
 
 
           return;
@@ -3726,312 +4007,318 @@ body.modo-oscuro .resultado-test {
 
 
         /* ==========================================
-           LIMPIAR AVISO
-        ========================================== */
-
-        mensajeTest.hidden =
-          true;
-
-        mensajeTest.innerHTML =
-          "";
-
-
-        /* ==========================================
-           CORREGIR
+           CORREGIR RESPUESTAS
         ========================================== */
 
         let aciertos =
           0;
 
 
-        Object.keys(
-          respuestasCorrectas
-        ).forEach(
-          pregunta => {
+        for (let i = 1; i <= 10; i++) {
 
-            const seleccionada =
-              document.querySelector(
-                `input[name="${pregunta}"]:checked`
-              );
+          const nombrePregunta =
+            `pregunta${i}`;
 
 
-            const tarjeta =
-              document.querySelector(
-                `[data-pregunta="${pregunta}"]`
-              );
-
-
-            const feedback =
-              tarjeta.querySelector(
-                ".feedback-test"
-              );
-
-
-            const labels =
-              tarjeta.querySelectorAll(
-                "label"
-              );
-
-
-            labels.forEach(
-              label => {
-
-                label.classList.remove(
-                  "respuesta-correcta",
-                  "respuesta-incorrecta"
-                );
-
-              }
+          const seleccionada =
+            document.querySelector(
+              `input[name="${nombrePregunta}"]:checked`
             );
 
 
-            const inputCorrecto =
-              tarjeta.querySelector(
-                `input[value="${respuestasCorrectas[pregunta]}"]`
-              );
-
-
-            const labelCorrecto =
-              inputCorrecto.closest(
-                "label"
-              );
-
-
-            labelCorrecto.classList.add(
-              "respuesta-correcta"
+          const tarjeta =
+            document.querySelector(
+              `[data-pregunta="${nombrePregunta}"]`
             );
 
 
-if (
-  seleccionada.value ===
-  respuestasCorrectas[pregunta]
-) {
-
-  aciertos++;
+          const feedback =
+            tarjeta.querySelector(
+              ".feedback-test"
+            );
 
 
-  feedback.className =
-    "feedback-test feedback-correcto";
+          const labels =
+            tarjeta.querySelectorAll(
+              "label"
+            );
 
 
-  feedback.innerHTML =
-    `
-      <strong>
-        ✅ Respuesta correcta.
-      </strong>
+          /* Limpiamos posibles correcciones anteriores */
 
-      <p>
-        ${explicaciones[pregunta]}
-      </p>
-    `;
+          labels.forEach(
+            label => {
 
-} else {
-
-  const labelSeleccionado =
-    seleccionada.closest(
-      "label"
-    );
-
-
-  labelSeleccionado.classList.add(
-    "respuesta-incorrecta"
-  );
-
-
-  feedback.className =
-    "feedback-test feedback-incorrecto";
-
-
-  feedback.innerHTML =
-    `
-      <strong>
-        ❌ Respuesta incorrecta.
-      </strong>
-
-      <p>
-        ${explicaciones[pregunta]}
-      </p>
-    `;
-
-} else {
-
-              const labelSeleccionado =
-                seleccionada.closest(
-                  "label"
-                );
-
-
-              labelSeleccionado.classList.add(
+              label.classList.remove(
+                "respuesta-correcta",
                 "respuesta-incorrecta"
               );
 
-
-              feedback.className =
-                "feedback-test feedback-incorrecto";
-
-
-              feedback.innerHTML =
-                `
-                  ✘ Respuesta incorrecta.<br>
-                  ${explicaciones[pregunta]}
-                `;
-
             }
+          );
 
 
-            feedback.hidden =
-              false;
+          /* Localizamos la respuesta correcta */
+
+          const inputCorrecto =
+            tarjeta.querySelector(
+              `input[value="${respuestasCorrectas[nombrePregunta]}"]`
+            );
 
 
-            const inputs =
-              tarjeta.querySelectorAll(
-                "input"
+          const labelCorrecto =
+            inputCorrecto.closest(
+              "label"
+            );
+
+
+          /* La respuesta correcta siempre se marca en verde */
+
+          labelCorrecto.classList.add(
+            "respuesta-correcta"
+          );
+
+
+          /* ==========================================
+             RESPUESTA CORRECTA
+          ========================================== */
+
+          if (
+            seleccionada.value ===
+            respuestasCorrectas[nombrePregunta]
+          ) {
+
+            aciertos++;
+
+
+            feedback.className =
+              "feedback-test feedback-correcto";
+
+
+            feedback.innerHTML =
+              `
+                <strong>
+                  ✅ Respuesta correcta.
+                </strong>
+
+                <p>
+                  ${explicaciones[nombrePregunta]}
+                </p>
+              `;
+
+          } else {
+
+            /* ==========================================
+               RESPUESTA INCORRECTA
+            ========================================== */
+
+            const labelSeleccionado =
+              seleccionada.closest(
+                "label"
               );
 
 
-            inputs.forEach(
-              input => {
-
-                input.disabled =
-                  true;
-
-              }
+            labelSeleccionado.classList.add(
+              "respuesta-incorrecta"
             );
 
+
+            feedback.className =
+              "feedback-test feedback-incorrecto";
+
+
+            feedback.innerHTML =
+              `
+                <strong>
+                  ❌ Respuesta incorrecta.
+                </strong>
+
+                <p>
+                  ${explicaciones[nombrePregunta]}
+                </p>
+              `;
+
           }
-        );
+
+
+          feedback.hidden =
+            false;
+
+
+          /* Bloqueamos las respuestas después de corregir */
+
+          const inputs =
+            tarjeta.querySelectorAll(
+              "input"
+            );
+
+
+          inputs.forEach(
+            input => {
+
+              input.disabled =
+                true;
+
+            }
+          );
+
+        }
 
 
         /* ==========================================
            RESULTADO FINAL
         ========================================== */
 
-const nota =
-  aciertos;
-
-
-textoResultado.innerHTML =
-  `
-    Has obtenido
-    <strong>${aciertos} de 10 respuestas correctas.</strong>
-    &nbsp;&nbsp;
-    Nota: ${nota}/10
-  `;
-
-
-        resultadoTest.hidden =
+        resultado.hidden =
           false;
+
+
+        resultado.innerHTML =
+          `
+            <div class="resultado-test">
+
+              <div>
+
+                <strong>
+                  Resultado de la autoevaluación
+                </strong>
+
+                <span>
+                  Has obtenido
+                  <strong>
+                    ${aciertos} de 10 respuestas correctas.
+                  </strong>
+                  Nota: ${aciertos}/10
+                </span>
+
+              </div>
+
+              <button
+                id="boton-reintentar"
+                type="button"
+              >
+                🔄 Reintentar
+              </button>
+
+            </div>
+          `;
+
 
         botonCorregir.disabled =
           true;
 
 
-        resultadoTest.scrollIntoView({
-          behavior: "smooth",
-          block: "center"
-        });
+        /* ==========================================
+           BOTÓN REINTENTAR
+        ========================================== */
 
-      }
-    );
-
-
-    /* ==========================================
-       REINTENTAR AUTOEVALUACIÓN
-    ========================================== */
-
-    botonReintentar.addEventListener(
-      "click",
-      () => {
-
-        const preguntas =
-          document.querySelectorAll(
-            ".pregunta-test"
+        const botonReintentar =
+          document.getElementById(
+            "boton-reintentar"
           );
 
 
-        preguntas.forEach(
-          tarjeta => {
+        botonReintentar.addEventListener(
+          "click",
+          function () {
 
-            const inputs =
-              tarjeta.querySelectorAll(
-                "input"
+            const preguntas =
+              document.querySelectorAll(
+                ".pregunta-test"
               );
 
 
-            inputs.forEach(
-              input => {
+            preguntas.forEach(
+              tarjeta => {
 
-                input.checked =
-                  false;
+                /* Restablecer radios */
 
-                input.disabled =
-                  false;
-
-              }
-            );
+                const inputs =
+                  tarjeta.querySelectorAll(
+                    "input"
+                  );
 
 
-            const labels =
-              tarjeta.querySelectorAll(
-                "label"
-              );
+                inputs.forEach(
+                  input => {
 
+                    input.checked =
+                      false;
 
-            labels.forEach(
-              label => {
+                    input.disabled =
+                      false;
 
-                label.classList.remove(
-                  "respuesta-correcta",
-                  "respuesta-incorrecta"
+                  }
                 );
 
+
+                /* Quitar colores de corrección */
+
+                const labels =
+                  tarjeta.querySelectorAll(
+                    "label"
+                  );
+
+
+                labels.forEach(
+                  label => {
+
+                    label.classList.remove(
+                      "respuesta-correcta",
+                      "respuesta-incorrecta"
+                    );
+
+                  }
+                );
+
+
+                /* Ocultar feedback */
+
+                const feedback =
+                  tarjeta.querySelector(
+                    ".feedback-test"
+                  );
+
+
+                feedback.hidden =
+                  true;
+
+                feedback.innerHTML =
+                  "";
+
+                feedback.className =
+                  "feedback-test";
+
               }
             );
 
 
-            const feedback =
-              tarjeta.querySelector(
-                ".feedback-test"
-              );
+            /* Ocultar resultado */
 
-
-            feedback.hidden =
+            resultado.hidden =
               true;
 
-            feedback.innerHTML =
+            resultado.innerHTML =
               "";
 
-            feedback.className =
-              "feedback-test";
+
+            /* Reactivar botón de corrección */
+
+            botonCorregir.disabled =
+              false;
+
+
+            /* Volver al inicio de la autoevaluación */
+
+            document.getElementById(
+              "autoevaluacion"
+            ).scrollIntoView({
+              behavior: "smooth",
+              block: "start"
+            });
 
           }
         );
-
-
-        mensajeTest.hidden =
-          true;
-
-        mensajeTest.innerHTML =
-          "";
-
-
-        resultadoTest.hidden =
-          true;
-
-        textoResultado.innerHTML =
-          "";
-
-
-        botonCorregir.disabled =
-          false;
-
-
-        document.getElementById(
-          "autoevaluacion"
-        ).scrollIntoView({
-          behavior: "smooth",
-          block: "start"
-        });
 
       }
     );
