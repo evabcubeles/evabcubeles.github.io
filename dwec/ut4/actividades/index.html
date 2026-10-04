@@ -604,194 +604,193 @@ body.modo-oscuro .entrega-reto {
 }
 
 
-    /* ==========================================
-       AUTOEVALUACIÓN
-    ========================================== */
+  /* ==========================================
+   AUTOEVALUACIÓN
+========================================== */
 
-    .pregunta-test {
-      margin: 26px 0;
-      padding: 22px;
+.pregunta-test {
+  margin: 28px 0;
+  padding: 22px 24px;
 
-      border: 1px solid var(--borde);
-      border-radius: 10px;
+  background-color: var(--fondo-tarjeta);
 
-      background-color: var(--fondo-tarjeta);
-    }
+  border: 1px solid var(--borde);
+  border-radius: 10px;
+}
 
-    .pregunta-test > p:first-child {
-      margin-bottom: 18px;
-    }
+.pregunta-test > p {
+  margin: 0 0 18px;
 
-    .pregunta-test label {
-      display: block;
+  font-size: 17px;
+  line-height: 1.6;
+}
 
-      margin: 10px 0;
-      padding: 12px 14px;
+.pregunta-test label {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
 
-      border: 1px solid var(--borde);
-      border-radius: 7px;
+  width: 100%;
+  box-sizing: border-box;
 
-      font-size: 16px;
-      line-height: 1.5;
+  margin: 10px 0;
+  padding: 11px 14px;
 
-      cursor: pointer;
+  border: 1px solid var(--borde);
+  border-radius: 7px;
 
-      transition:
-        border-color 0.2s ease,
-        background-color 0.2s ease;
-    }
+  font-size: 16px;
+  line-height: 1.5;
 
-    .pregunta-test label:hover {
-      border-color: var(--verde-principal);
-    }
+  cursor: pointer;
 
-    .pregunta-test input[type="radio"] {
-      margin-right: 8px;
-    }
+  transition:
+    background-color .2s ease,
+    border-color .2s ease;
+}
 
-    .respuesta-correcta {
-      border-color: #2f9e5b !important;
-      background-color: #eaf8ef !important;
-    }
+.pregunta-test label:hover {
+  background-color: #f3f7f4;
+  border-color: #b9d8c3;
+}
 
-    .respuesta-incorrecta {
-      border-color: #d9534f !important;
-      background-color: #fdecec !important;
-    }
+body.modo-oscuro .pregunta-test label:hover {
+  background-color: #273244;
+  border-color: #3a4659;
+}
 
-    body.modo-oscuro .respuesta-correcta {
-      background-color: #20372a !important;
-    }
+.pregunta-test input[type="radio"] {
+  flex-shrink: 0;
 
-    body.modo-oscuro .respuesta-incorrecta {
-      background-color: #452626 !important;
-    }
+  margin: 5px 0 0;
 
-    .feedback-test {
-      margin-top: 14px;
-      padding: 14px 16px;
+  accent-color: var(--verde-principal);
 
-      border-radius: 7px;
+  cursor: pointer;
+}
 
-      font-size: 15px;
-      line-height: 1.55;
-    }
+#boton-corregir {
+  margin-top: 18px;
+  padding: 13px 20px;
 
-    .feedback-test p {
-      margin: 7px 0 0;
+  border: 0;
+  border-radius: 8px;
 
-      font-size: 15px;
-      line-height: 1.55;
-    }
+  background-color: var(--verde-principal);
+  color: #fff;
 
-    .mensaje-test {
-      margin-top: 22px;
-    }
+  font-family: inherit;
+  font-size: 16px;
+  font-weight: 700;
 
-    .mensaje-aviso {
-      padding: 16px 18px;
+  cursor: pointer;
+}
 
-      border-left: 5px solid #e09b27;
-      border-radius: 8px;
+#resultado-autoevaluacion {
+  margin-top: 22px;
+}
 
-      background-color: #fff7e8;
+.mensaje-test {
+  padding: 16px 18px;
 
-      font-size: 16px;
-      line-height: 1.6;
-    }
+  border-radius: 8px;
 
-    body.modo-oscuro .mensaje-aviso {
-      background-color: #3b3020;
-    }
+  font-size: 16px;
+  line-height: 1.6;
+}
 
-    .resultado-test {
-      display: flex;
-      align-items: center;
-      flex-wrap: wrap;
-      gap: 14px;
+.mensaje-aviso {
+  background-color: #fff7e8;
+  border-left: 5px solid #e09b27;
+}
 
-      padding: 18px 20px;
+.resultado-test {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 14px;
 
-      background-color: #eef8f1;
+  padding: 18px 20px;
 
-      border-left: 5px solid var(--verde-principal);
-      border-radius: 8px;
-    }
+  background-color: #eef8f1;
 
-    .resultado-test strong {
-      font-size: 17px;
-    }
+  border-left: 5px solid var(--verde-principal);
+  border-radius: 8px;
+}
 
-    .resultado-test span {
-      font-size: 16px;
-    }
+.resultado-test strong {
+  font-size: 17px;
+}
 
-    #boton-reintentar {
-      padding: 10px 16px;
+.resultado-test span {
+  font-size: 16px;
+}
 
-      border: 1px solid var(--verde-principal);
-      border-radius: 7px;
+#boton-reintentar {
+  padding: 10px 16px;
 
-      background: #fff;
-      color: var(--verde-principal);
+  border: 1px solid var(--verde-principal);
+  border-radius: 7px;
 
-      font-family: inherit;
-      font-size: 15px;
-      font-weight: 700;
+  background: #fff;
+  color: var(--verde-principal);
 
-      cursor: pointer;
-    }
+  font-family: inherit;
+  font-size: 15px;
+  font-weight: 700;
 
-    #boton-reintentar:hover {
-      background: var(--verde-principal);
-      color: #fff;
-    }
+  cursor: pointer;
+}
 
-    .feedback-test {
-      margin-top: 16px;
-      padding: 14px 16px;
+#boton-reintentar:hover {
+  background: var(--verde-principal);
+  color: #fff;
+}
 
-      border-radius: 7px;
+.feedback-test {
+  margin-top: 16px;
+  padding: 14px 16px;
 
-      font-size: 16px;
-      line-height: 1.6;
-    }
+  border-radius: 7px;
 
-    .feedback-test p {
-      margin: 6px 0 0;
-      font-size: 16px;
-    }
+  font-size: 16px;
+  line-height: 1.6;
+}
 
-    .respuesta-correcta {
-      background-color: #eef8f1 !important;
-      border-color: #58b879 !important;
-    }
+.feedback-test p {
+  margin: 6px 0 0;
+  font-size: 16px;
+}
 
-    .respuesta-incorrecta {
-      background-color: #fff0f0 !important;
-      border-color: #d96c6c !important;
-    }
+.respuesta-correcta {
+  background-color: #eef8f1 !important;
+  border-color: #58b879 !important;
+}
 
-    body.modo-oscuro .mensaje-aviso {
-      background-color: #3b3020;
-    }
+.respuesta-incorrecta {
+  background-color: #fff0f0 !important;
+  border-color: #d96c6c !important;
+}
 
-    body.modo-oscuro .resultado-test {
-      background-color: #20372a;
-    }
+body.modo-oscuro .mensaje-aviso {
+  background-color: #3b3020;
+}
 
-    body.modo-oscuro #boton-reintentar {
-      background-color: #273244;
-    }
+body.modo-oscuro .resultado-test {
+  background-color: #20372a;
+}
 
-    body.modo-oscuro .respuesta-correcta {
-      background-color: #20372a !important;
-    }
+body.modo-oscuro #boton-reintentar {
+  background-color: #273244;
+}
 
-    body.modo-oscuro .respuesta-incorrecta {
-      background-color: #402626 !important;
-    }
+body.modo-oscuro .respuesta-correcta {
+  background-color: #20372a !important;
+}
 
+body.modo-oscuro .respuesta-incorrecta {
+  background-color: #402626 !important;
+}
     /* ==========================================
        ÍNDICE DERECHO
     ========================================== */
@@ -3997,385 +3996,237 @@ body.modo-oscuro .entrega-reto {
     };
 
 
-    const botonCorregir =
-      document.getElementById(
-        "boton-corregir"
-      );
+ const botonCorregir =
+  document.getElementById(
+    "boton-corregir"
+  );
+
+const resultado =
+  document.getElementById(
+    "resultado-autoevaluacion"
+  );
 
 
-    const resultado =
-      document.getElementById(
-        "resultado-autoevaluacion"
-      );
+botonCorregir.addEventListener(
+  "click",
+  function () {
+
+    let todasRespondidas = true;
+
+    for (let i = 1; i <= 10; i++) {
+
+      if (
+        !document.querySelector(
+          `input[name="pregunta${i}"]:checked`
+        )
+      ) {
+
+        todasRespondidas = false;
+
+      }
+
+    }
 
 
-    botonCorregir.addEventListener(
-      "click",
-      function () {
+    if (!todasRespondidas) {
 
-        /* ==========================================
-           COMPROBAR QUE TODAS ESTÁN RESPONDIDAS
-        ========================================== */
+      resultado.hidden = false;
 
-        let todasRespondidas =
-          true;
+      resultado.innerHTML =
+        '<div class="mensaje-test mensaje-aviso">' +
+        '⚠️ Todavía tienes preguntas sin responder. ' +
+        'Responde las 10 preguntas antes de corregir la autoevaluación.' +
+        '</div>';
+
+      return;
+
+    }
 
 
-        for (let i = 1; i <= 10; i++) {
+    let aciertos = 0;
 
-          if (
-            !document.querySelector(
-              `input[name="pregunta${i}"]:checked`
+
+    for (let i = 1; i <= 10; i++) {
+
+      const nombre =
+        `pregunta${i}`;
+
+      const seleccionada =
+        document.querySelector(
+          `input[name="${nombre}"]:checked`
+        );
+
+      const contenedor =
+        seleccionada.closest(
+          ".pregunta-test"
+        );
+
+
+      contenedor
+        .querySelectorAll("label")
+        .forEach(label => {
+
+          label.classList.remove(
+            "respuesta-correcta",
+            "respuesta-incorrecta"
+          );
+
+        });
+
+
+      const correcta =
+        contenedor.querySelector(
+          `input[value="${respuestasCorrectas[nombre]}"]`
+        );
+
+
+      correcta
+        .closest("label")
+        .classList.add(
+          "respuesta-correcta"
+        );
+
+
+      const esCorrecta =
+        seleccionada.value ===
+        respuestasCorrectas[nombre];
+
+
+      if (esCorrecta) {
+
+        aciertos++;
+
+      } else {
+
+        seleccionada
+          .closest("label")
+          .classList.add(
+            "respuesta-incorrecta"
+          );
+
+      }
+
+
+      let feedback =
+        contenedor.querySelector(
+          ".feedback-test"
+        );
+
+
+      if (!feedback) {
+
+        feedback =
+          document.createElement(
+            "div"
+          );
+
+        feedback.classList.add(
+          "feedback-test"
+        );
+
+        contenedor.appendChild(
+          feedback
+        );
+
+      }
+
+
+      feedback.innerHTML =
+        esCorrecta
+          ? `<strong>✅ Respuesta correcta.</strong>
+             <p>${explicaciones[nombre]}</p>`
+          : `<strong>❌ Respuesta incorrecta.</strong>
+             <p>
+               La respuesta correcta es la opción
+               <strong>${respuestasCorrectas[nombre].toUpperCase()}</strong>.
+               ${explicaciones[nombre]}
+             </p>`;
+
+    }
+
+
+    resultado.hidden = false;
+
+    resultado.innerHTML =
+      `<div class="resultado-test">
+         <strong>
+           Has obtenido ${aciertos} de 10 respuestas correctas.
+         </strong>
+
+         <span>
+           Nota: ${aciertos}/10
+         </span>
+
+         <button
+           id="boton-reintentar"
+           type="button"
+         >
+           🔄 Reintentar
+         </button>
+       </div>`;
+
+
+    document
+      .getElementById(
+        "boton-reintentar"
+      )
+      .addEventListener(
+        "click",
+        function () {
+
+          document
+            .querySelectorAll(
+              '.pregunta-test input[type="radio"]'
             )
-          ) {
+            .forEach(input => {
 
-            todasRespondidas =
-              false;
+              input.checked = false;
 
-          }
-
-        }
+            });
 
 
-        /* ==========================================
-           SI FALTA ALGUNA, NO CORREGIR
-        ========================================== */
-
-        if (!todasRespondidas) {
-
-          resultado.hidden =
-            false;
-
-
-          resultado.innerHTML =
-            '<div class="mensaje-test mensaje-aviso">' +
-            '⚠️ Todavía tienes preguntas sin responder. ' +
-            'Responde las 10 preguntas antes de corregir la autoevaluación.' +
-            '</div>';
-
-
-          return;
-
-        }
-
-
-        /* ==========================================
-           CORREGIR RESPUESTAS
-        ========================================== */
-
-        let aciertos =
-          0;
-
-
-        for (let i = 1; i <= 10; i++) {
-
-          const nombrePregunta =
-            `pregunta${i}`;
-
-
-          const seleccionada =
-            document.querySelector(
-              `input[name="${nombrePregunta}"]:checked`
-            );
-
-
-          const tarjeta =
-            document.querySelector(
-              `[data-pregunta="${nombrePregunta}"]`
-            );
-
-
-          const feedback =
-            tarjeta.querySelector(
-              ".feedback-test"
-            );
-
-
-          const labels =
-            tarjeta.querySelectorAll(
-              "label"
-            );
-
-
-          /* Limpiamos posibles correcciones anteriores */
-
-          labels.forEach(
-            label => {
+          document
+            .querySelectorAll(
+              ".pregunta-test label"
+            )
+            .forEach(label => {
 
               label.classList.remove(
                 "respuesta-correcta",
                 "respuesta-incorrecta"
               );
 
-            }
-          );
-
-
-          /* Localizamos la respuesta correcta */
-
-          const inputCorrecto =
-            tarjeta.querySelector(
-              `input[value="${respuestasCorrectas[nombrePregunta]}"]`
-            );
-
-
-          const labelCorrecto =
-            inputCorrecto.closest(
-              "label"
-            );
-
-
-          /* La respuesta correcta siempre se marca en verde */
-
-          labelCorrecto.classList.add(
-            "respuesta-correcta"
-          );
-
-
-          /* ==========================================
-             RESPUESTA CORRECTA
-          ========================================== */
-
-          if (
-            seleccionada.value ===
-            respuestasCorrectas[nombrePregunta]
-          ) {
-
-            aciertos++;
-
-
-            feedback.className =
-              "feedback-test feedback-correcto";
-
-
-            feedback.innerHTML =
-              `
-                <strong>
-                  ✅ Respuesta correcta.
-                </strong>
-
-                <p>
-                  ${explicaciones[nombrePregunta]}
-                </p>
-              `;
-
-  } else {
-
-  /* ==========================================
-     RESPUESTA INCORRECTA
-  ========================================== */
-
-  const labelSeleccionado =
-    seleccionada.closest(
-      "label"
-    );
-
-
-  labelSeleccionado.classList.add(
-    "respuesta-incorrecta"
-  );
-
-
-  feedback.className =
-    "feedback-test feedback-incorrecto";
-
-
-  feedback.innerHTML =
-    `
-      <strong>
-        ❌ Respuesta incorrecta.
-      </strong>
-
-      <p>
-        La respuesta correcta es la opción
-        <strong>${respuestasCorrectas[nombrePregunta].toUpperCase()}</strong>.
-        ${explicaciones[nombrePregunta]}
-      </p>
-    `;
-
-}
-
-          feedback.hidden =
-            false;
-
-
-          /* Bloqueamos las respuestas después de corregir */
-
-          const inputs =
-            tarjeta.querySelectorAll(
-              "input"
-            );
-
-
-          inputs.forEach(
-            input => {
-
-              input.disabled =
-                true;
-
-            }
-          );
-
-        }
-
-
-        /* ==========================================
-           RESULTADO FINAL
-        ========================================== */
-
-        resultado.hidden =
-          false;
-
-
-        resultado.innerHTML =
-          `
-            <div class="resultado-test">
-
-              <div>
-
-                <strong>
-                  Resultado de la autoevaluación
-                </strong>
-
-                <span>
-                  Has obtenido
-                  <strong>
-                    ${aciertos} de 10 respuestas correctas.
-                  </strong>
-                  Nota: ${aciertos}/10
-                </span>
-
-              </div>
-
-              <button
-                id="boton-reintentar"
-                type="button"
-              >
-                🔄 Reintentar
-              </button>
-
-            </div>
-          `;
-
-
-        botonCorregir.disabled =
-          true;
-
-
-        /* ==========================================
-           BOTÓN REINTENTAR
-        ========================================== */
-
-        const botonReintentar =
-          document.getElementById(
-            "boton-reintentar"
-          );
-
-
-        botonReintentar.addEventListener(
-          "click",
-          function () {
-
-            const preguntas =
-              document.querySelectorAll(
-                ".pregunta-test"
-              );
-
-
-            preguntas.forEach(
-              tarjeta => {
-
-                /* Restablecer radios */
-
-                const inputs =
-                  tarjeta.querySelectorAll(
-                    "input"
-                  );
-
-
-                inputs.forEach(
-                  input => {
-
-                    input.checked =
-                      false;
-
-                    input.disabled =
-                      false;
-
-                  }
-                );
-
-
-                /* Quitar colores de corrección */
-
-                const labels =
-                  tarjeta.querySelectorAll(
-                    "label"
-                  );
-
-
-                labels.forEach(
-                  label => {
-
-                    label.classList.remove(
-                      "respuesta-correcta",
-                      "respuesta-incorrecta"
-                    );
-
-                  }
-                );
-
-
-                /* Ocultar feedback */
-
-                const feedback =
-                  tarjeta.querySelector(
-                    ".feedback-test"
-                  );
-
-
-                feedback.hidden =
-                  true;
-
-                feedback.innerHTML =
-                  "";
-
-                feedback.className =
-                  "feedback-test";
-
-              }
-            );
-
-
-            /* Ocultar resultado */
-
-            resultado.hidden =
-              true;
-
-            resultado.innerHTML =
-              "";
-
-
-            /* Reactivar botón de corrección */
-
-            botonCorregir.disabled =
-              false;
-
-
-            /* Volver al inicio de la autoevaluación */
-
-            document.getElementById(
-              "autoevaluacion"
-            ).scrollIntoView({
-              behavior: "smooth",
-              block: "start"
             });
 
-          }
-        );
 
-      }
-    );
+          document
+            .querySelectorAll(
+              ".feedback-test"
+            )
+            .forEach(feedback => {
+
+              feedback.remove();
+
+            });
+
+
+          resultado.hidden = true;
+          resultado.innerHTML = "";
+
+
+          document
+            .getElementById(
+              "autoevaluacion"
+            )
+            .scrollIntoView({
+              behavior: "smooth"
+            });
+
+        }
+      );
+
+  }
+);
 
   </script>
 
