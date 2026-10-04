@@ -676,52 +676,65 @@
       background-color: #3b3020;
     }
 
-    .resultado-test {
-      margin-top: 28px;
-      padding: 26px 28px;
+.resultado-test {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 18px;
 
-      background-color: #eef8f1;
+  margin-top: 28px;
+  padding: 20px 26px;
 
-      border-left: 5px solid #2f9e5b;
-      border-radius: 8px;
-    }
+  background-color: #eef8f1;
 
-    body.modo-oscuro .resultado-test {
-      background-color: #20372a;
-    }
+  border-left: 5px solid #2f9e5b;
+  border-radius: 8px;
+}
+
+.resultado-test[hidden] {
+  display: none;
+}
+
+.resultado-test p {
+  margin: 0;
+
+  font-size: 17px;
+  line-height: 1.6;
+}
+
+body.modo-oscuro .resultado-test {
+  background-color: #20372a;
+}
 
     .resultado-test h3 {
       margin-top: 0;
     }
 
-    .feedback-test {
-      margin-top: 14px;
-      padding: 14px 16px;
+.feedback-test {
+  margin-top: 28px;
+  padding: 0 24px;
 
-      border-radius: 8px;
+  font-size: 17px;
+  line-height: 1.75;
+}
 
-      font-size: 16px;
-      line-height: 1.6;
-    }
+.feedback-test strong {
+  display: block;
 
-    .feedback-correcto {
-      background-color: #eef8f1;
-      border-left: 4px solid #2f9e5b;
-    }
+  margin-bottom: 10px;
 
-    .feedback-incorrecto {
-      background-color: #fff0f0;
-      border-left: 4px solid #d9534f;
-    }
+  font-size: 17px;
+}
 
-    body.modo-oscuro .feedback-correcto {
-      background-color: #20372a;
-    }
+.feedback-test p {
+  margin: 0;
+}
 
-    body.modo-oscuro .feedback-incorrecto {
-      background-color: #452525;
-    }
-
+.feedback-correcto,
+.feedback-incorrecto {
+  background: transparent;
+  border: 0;
+}
     .respuesta-correcta {
       border-color: #2f9e5b !important;
       background-color: #eef8f1 !important;
@@ -2406,33 +2419,24 @@
            RETO FINAL
       ========================================== -->
 
-      <section
-        id="reto-final"
-        class="apartado-ut"
-      >
+<section
+  id="reto-final"
+  class="apartado-ut"
+>
 
-        <h2>🧩 Reto final</h2>
+  <h2>
+    🧩 Reto final — Analizador de rendimiento de una aplicación web
+  </h2>
 
-        <p>
-          En este reto vas a combinar los principales contenidos
-          de la UT4 para resolver un problema relacionado con
-          el desarrollo de aplicaciones web.
-        </p>
+  <p>
+    Formas parte del equipo de desarrollo de una aplicación
+    web. Durante una prueba de rendimiento se han registrado
+    los tiempos de respuesta, en milisegundos, de distintas
+    peticiones.
+  </p>
 
 
-        <div class="escenario-reto">
-
-          <h3>
-            Analizador de rendimiento de una aplicación web
-          </h3>
-
-          <p>
-            Formas parte del equipo de desarrollo de una aplicación
-            web. Durante una prueba de rendimiento se han registrado
-            los tiempos de respuesta, en milisegundos, de distintas
-            peticiones.
-          </p>
-
+  <div class="escenario-reto">
           <div class="bloque-codigo">
 
             <div class="cabecera-codigo">
@@ -3182,26 +3186,22 @@
         ></div>
 
 
-        <div
-          id="resultado-test"
-          class="resultado-test"
-          hidden
-        >
+<div
+  id="resultado-test"
+  class="resultado-test"
+  hidden
+>
 
-          <h3>
-            Resultado de la autoevaluación
-          </h3>
+  <p id="texto-resultado"></p>
 
-          <p id="texto-resultado"></p>
+  <button
+    id="boton-reintentar"
+    type="button"
+  >
+    🔄 Reintentar
+  </button>
 
-          <button
-            id="boton-reintentar"
-            type="button"
-          >
-            🔄 Reintentar
-          </button>
-
-        </div>
+</div>
 
       </section>
 
@@ -3802,25 +3802,58 @@
             );
 
 
-            if (
-              seleccionada.value ===
-              respuestasCorrectas[pregunta]
-            ) {
+if (
+  seleccionada.value ===
+  respuestasCorrectas[pregunta]
+) {
 
-              aciertos++;
-
-
-              feedback.className =
-                "feedback-test feedback-correcto";
+  aciertos++;
 
 
-              feedback.innerHTML =
-                `
-                  ✔ Respuesta correcta.<br>
-                  ${explicaciones[pregunta]}
-                `;
+  feedback.className =
+    "feedback-test feedback-correcto";
 
-            } else {
+
+  feedback.innerHTML =
+    `
+      <strong>
+        ✅ Respuesta correcta.
+      </strong>
+
+      <p>
+        ${explicaciones[pregunta]}
+      </p>
+    `;
+
+} else {
+
+  const labelSeleccionado =
+    seleccionada.closest(
+      "label"
+    );
+
+
+  labelSeleccionado.classList.add(
+    "respuesta-incorrecta"
+  );
+
+
+  feedback.className =
+    "feedback-test feedback-incorrecto";
+
+
+  feedback.innerHTML =
+    `
+      <strong>
+        ❌ Respuesta incorrecta.
+      </strong>
+
+      <p>
+        ${explicaciones[pregunta]}
+      </p>
+    `;
+
+} else {
 
               const labelSeleccionado =
                 seleccionada.closest(
@@ -3873,46 +3906,17 @@
            RESULTADO FINAL
         ========================================== */
 
-        const nota =
-          aciertos;
+const nota =
+  aciertos;
 
 
-        let mensajeFinal =
-          "";
-
-
-        if (aciertos === 10) {
-
-          mensajeFinal =
-            "🎉 Excelente. Has comprendido los contenidos fundamentales de la UT4.";
-
-        } else if (aciertos >= 7) {
-
-          mensajeFinal =
-            "👍 Buen trabajo. Revisa las preguntas que has fallado antes de continuar.";
-
-        } else if (aciertos >= 5) {
-
-          mensajeFinal =
-            "📖 Has alcanzado parte de los objetivos, pero conviene repasar algunos apartados de la unidad.";
-
-        } else {
-
-          mensajeFinal =
-            "🔎 Conviene volver al resumen de la UT4 y repasar especialmente los métodos de arrays, los recorridos y la elección de la operación adecuada.";
-
-        }
-
-
-        textoResultado.innerHTML =
-          `
-            Has obtenido
-            <strong>${aciertos} de 10 respuestas correctas</strong>.
-            <br><br>
-            <strong>Nota: ${nota}/10</strong>.
-            <br><br>
-            ${mensajeFinal}
-          `;
+textoResultado.innerHTML =
+  `
+    Has obtenido
+    <strong>${aciertos} de 10 respuestas correctas.</strong>
+    &nbsp;&nbsp;
+    Nota: ${nota}/10
+  `;
 
 
         resultadoTest.hidden =
