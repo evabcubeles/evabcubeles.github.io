@@ -609,88 +609,93 @@ body.modo-oscuro .entrega-reto {
 }
 
 
-    /* ==========================================
-       AUTOEVALUACIÓN
-    ========================================== */
+/* ==========================================
+   AUTOEVALUACIÓN
+========================================== */
 
-    .pregunta-test {
-      margin: 24px 0;
-      padding: 20px;
+.pregunta-test {
+  margin: 28px 0;
+  padding: 26px 28px;
 
-      border: 1px solid var(--borde);
-      border-radius: 9px;
+  background-color: var(--fondo-tarjeta);
 
-      background-color: var(--fondo-tarjeta);
-    }
+  border: 1px solid var(--borde);
+  border-radius: 10px;
+}
 
-    .pregunta-test p {
-      margin-bottom: 15px;
-    }
+.pregunta-test p {
+  margin-bottom: 20px;
+}
 
-    .pregunta-test label {
-      display: block;
+.pregunta-test label {
+  display: block;
 
-      margin: 9px 0;
+  margin: 14px 0;
+  padding: 14px 16px;
 
-      font-size: 16px;
-      line-height: 1.5;
+  border: 1px solid var(--borde);
+  border-radius: 8px;
 
-      cursor: pointer;
-    }
+  cursor: pointer;
 
-    .pregunta-test input {
-      margin-right: 8px;
-    }
+  transition:
+    border-color 0.2s ease,
+    background-color 0.2s ease;
+}
 
-    #boton-corregir {
-      margin-top: 12px;
-      padding: 12px 18px;
+.pregunta-test label:hover {
+  border-color: var(--verde-principal);
+  background-color: #f7faf8;
+}
 
-      border: 0;
-      border-radius: 7px;
+body.modo-oscuro .pregunta-test label:hover {
+  background-color: #273244;
+}
 
-      background-color: var(--verde-principal);
+.pregunta-test input {
+  margin-right: 10px;
+}
 
-      color: white;
+.boton-corregir {
+  display: inline-block;
 
-      font-family: inherit;
-      font-size: 16px;
-      font-weight: 700;
+  margin-top: 20px;
+  padding: 12px 18px;
 
-      cursor: pointer;
-    }
+  border: 0;
+  border-radius: 7px;
 
-    #boton-corregir:hover {
-      opacity: 0.9;
-    }
+  background-color: var(--verde-principal);
 
-    #resultado-autoevaluacion {
-      margin-top: 24px;
-      padding: 20px;
+  color: #ffffff;
 
-      border: 1px solid var(--borde);
-      border-radius: 9px;
+  font-family: inherit;
+  font-size: 16px;
+  font-weight: 700;
 
-      background-color: var(--fondo-tarjeta);
-    }
+  cursor: pointer;
+}
 
-    .respuesta-correcta {
-      color: #16803a;
-      font-weight: 700;
-    }
+.boton-corregir:hover {
+  opacity: 0.9;
+}
 
-    .respuesta-incorrecta {
-      color: #c43c35;
-      font-weight: 700;
-    }
+.resultado-autoevaluacion {
+  margin-top: 24px;
+  padding: 20px 22px;
 
-    .explicacion-respuesta {
-      margin: 6px 0 18px;
+  border-radius: 8px;
 
-      font-size: 15px;
-      line-height: 1.55;
-    }
+  background-color: #eef8f1;
+  border-left: 5px solid #2f9e5b;
 
+  font-size: 17px;
+  line-height: 1.65;
+}
+
+body.modo-oscuro .resultado-autoevaluacion {
+  background-color: #20372a;
+}
 
     /* ==========================================
        COLUMNA DERECHA
@@ -2563,546 +2568,550 @@ body.modo-oscuro .entrega-reto {
            AUTOEVALUACIÓN
       ========================================== -->
 
-      <section
-        id="autoevaluacion"
-        class="apartado-ut"
+ <section
+  id="autoevaluacion"
+  class="apartado-ut"
+>
+
+  <h2>✅ Autoevaluación de la UT4</h2>
+
+  <p>
+    Responde las siguientes preguntas para comprobar qué contenidos
+    de la UT4 has comprendido.
+  </p>
+
+  <p>
+    Cada pregunta tiene
+    <strong>una única respuesta correcta</strong>.
+  </p>
+
+
+  <!-- PREGUNTA 1 -->
+
+  <div class="pregunta-test">
+
+    <p>
+      <strong>
+        1. ¿Cuál es el índice del primer elemento de un array
+        en JavaScript?
+      </strong>
+    </p>
+
+    <label>
+      <input
+        type="radio"
+        name="pregunta1"
+        value="a"
       >
-
-        <h2>✅ Autoevaluación</h2>
-
-        <p>
-          Responde las siguientes 10 preguntas. Cuando hayas terminado,
-          pulsa el botón de corrección para comprobar tus respuestas.
-        </p>
-
-
-        <!-- PREGUNTA 1 -->
-
-        <div class="pregunta-test">
-
-          <p>
-            <strong>
-              1. ¿Cuál es el índice del primer elemento de un array
-              en JavaScript?
-            </strong>
-          </p>
-
-          <label>
-            <input
-              type="radio"
-              name="pregunta1"
-              value="a"
-            >
-            a) 1.
-          </label>
-
-          <label>
-            <input
-              type="radio"
-              name="pregunta1"
-              value="b"
-            >
-            b) 0.
-          </label>
-
-          <label>
-            <input
-              type="radio"
-              name="pregunta1"
-              value="c"
-            >
-            c) -1.
-          </label>
-
-          <label>
-            <input
-              type="radio"
-              name="pregunta1"
-              value="d"
-            >
-            d) Depende de la longitud.
-          </label>
-
-        </div>
-
-
-        <!-- PREGUNTA 2 -->
-
-        <div class="pregunta-test">
-
-          <p>
-            <strong>
-              2. ¿Qué expresión permite acceder al último elemento
-              del array <code>datos</code>?
-            </strong>
-          </p>
-
-          <label>
-            <input
-              type="radio"
-              name="pregunta2"
-              value="a"
-            >
-            a) <code>datos[datos.length - 1]</code>.
-          </label>
-
-          <label>
-            <input
-              type="radio"
-              name="pregunta2"
-              value="b"
-            >
-            b) <code>datos[datos.length]</code>.
-          </label>
-
-          <label>
-            <input
-              type="radio"
-              name="pregunta2"
-              value="c"
-            >
-            c) <code>datos[-1]</code>.
-          </label>
-
-          <label>
-            <input
-              type="radio"
-              name="pregunta2"
-              value="d"
-            >
-            d) <code>datos.last</code>.
-          </label>
-
-        </div>
-
-
-        <!-- PREGUNTA 3 -->
-
-        <div class="pregunta-test">
-
-          <p>
-            <strong>
-              3. ¿Qué método añade un elemento al final de un array?
-            </strong>
-          </p>
-
-          <label>
-            <input
-              type="radio"
-              name="pregunta3"
-              value="a"
-            >
-            a) <code>shift()</code>.
-          </label>
-
-          <label>
-            <input
-              type="radio"
-              name="pregunta3"
-              value="b"
-            >
-            b) <code>unshift()</code>.
-          </label>
-
-          <label>
-            <input
-              type="radio"
-              name="pregunta3"
-              value="c"
-            >
-            c) <code>push()</code>.
-          </label>
-
-          <label>
-            <input
-              type="radio"
-              name="pregunta3"
-              value="d"
-            >
-            d) <code>pop()</code>.
-          </label>
-
-        </div>
-
-
-        <!-- PREGUNTA 4 -->
-
-        <div class="pregunta-test">
-
-          <p>
-            <strong>
-              4. ¿Qué método permite eliminar, insertar o sustituir
-              elementos en una posición concreta?
-            </strong>
-          </p>
-
-          <label>
-            <input
-              type="radio"
-              name="pregunta4"
-              value="a"
-            >
-            a) <code>includes()</code>.
-          </label>
-
-          <label>
-            <input
-              type="radio"
-              name="pregunta4"
-              value="b"
-            >
-            b) <code>splice()</code>.
-          </label>
-
-          <label>
-            <input
-              type="radio"
-              name="pregunta4"
-              value="c"
-            >
-            c) <code>map()</code>.
-          </label>
-
-          <label>
-            <input
-              type="radio"
-              name="pregunta4"
-              value="d"
-            >
-            d) <code>reverse()</code>.
-          </label>
-
-        </div>
-
-
-        <!-- PREGUNTA 5 -->
-
-        <div class="pregunta-test">
-
-          <p>
-            <strong>
-              5. ¿Qué método devuelve <code>true</code> o
-              <code>false</code> según exista un valor concreto
-              en un array?
-            </strong>
-          </p>
-
-          <label>
-            <input
-              type="radio"
-              name="pregunta5"
-              value="a"
-            >
-            a) <code>indexOf()</code>.
-          </label>
-
-          <label>
-            <input
-              type="radio"
-              name="pregunta5"
-              value="b"
-            >
-            b) <code>find()</code>.
-          </label>
-
-          <label>
-            <input
-              type="radio"
-              name="pregunta5"
-              value="c"
-            >
-            c) <code>includes()</code>.
-          </label>
-
-          <label>
-            <input
-              type="radio"
-              name="pregunta5"
-              value="d"
-            >
-            d) <code>findIndex()</code>.
-          </label>
-
-        </div>
-
-
-        <!-- PREGUNTA 6 -->
-
-        <div class="pregunta-test">
-
-          <p>
-            <strong>
-              6. ¿Qué recorrido resulta especialmente cómodo cuando
-              solo necesitamos trabajar con los valores del array
-              y no con sus índices?
-            </strong>
-          </p>
-
-          <label>
-            <input
-              type="radio"
-              name="pregunta6"
-              value="a"
-            >
-            a) <code>for...of</code>.
-          </label>
-
-          <label>
-            <input
-              type="radio"
-              name="pregunta6"
-              value="b"
-            >
-            b) <code>switch</code>.
-          </label>
-
-          <label>
-            <input
-              type="radio"
-              name="pregunta6"
-              value="c"
-            >
-            c) <code>while</code> obligatoriamente.
-          </label>
-
-          <label>
-            <input
-              type="radio"
-              name="pregunta6"
-              value="d"
-            >
-            d) <code>if...else</code>.
-          </label>
-
-        </div>
-
-
-        <!-- PREGUNTA 7 -->
-
-        <div class="pregunta-test">
-
-          <p>
-            <strong>
-              7. ¿Qué afirmación describe correctamente
-              <code>map()</code> y <code>filter()</code>?
-            </strong>
-          </p>
-
-          <label>
-            <input
-              type="radio"
-              name="pregunta7"
-              value="a"
-            >
-            a) Ambos eliminan siempre elementos del array original.
-          </label>
-
-          <label>
-            <input
-              type="radio"
-              name="pregunta7"
-              value="b"
-            >
-            b) <code>map()</code> transforma elementos y
-            <code>filter()</code> selecciona los que cumplen
-            una condición.
-          </label>
-
-          <label>
-            <input
-              type="radio"
-              name="pregunta7"
-              value="c"
-            >
-            c) <code>filter()</code> ordena y
-            <code>map()</code> invierte.
-          </label>
-
-          <label>
-            <input
-              type="radio"
-              name="pregunta7"
-              value="d"
-            >
-            d) Ambos modifican siempre el array original.
-          </label>
-
-        </div>
-
-
-        <!-- PREGUNTA 8 -->
-
-        <div class="pregunta-test">
-
-          <p>
-            <strong>
-              8. ¿Qué debemos tener en cuenta al utilizar
-              <code>sort()</code> para ordenar números?
-            </strong>
-          </p>
-
-          <label>
-            <input
-              type="radio"
-              name="pregunta8"
-              value="a"
-            >
-            a) No puede ordenar números.
-          </label>
-
-          <label>
-            <input
-              type="radio"
-              name="pregunta8"
-              value="b"
-            >
-            b) Siempre ordena correctamente de menor a mayor
-            sin indicar nada.
-          </label>
-
-          <label>
-            <input
-              type="radio"
-              name="pregunta8"
-              value="c"
-            >
-            c) Conviene proporcionar una función de comparación,
-            por ejemplo <code>(a, b) =&gt; a - b</code>.
-          </label>
-
-          <label>
-            <input
-              type="radio"
-              name="pregunta8"
-              value="d"
-            >
-            d) Es obligatorio aplicar antes <code>reverse()</code>.
-          </label>
-
-        </div>
-
-
-        <!-- PREGUNTA 9 -->
-
-        <div class="pregunta-test">
-
-          <p>
-            <strong>
-              9. En un array bidimensional llamado
-              <code>datos</code>, ¿qué representa
-              <code>datos[1][2]</code>?
-            </strong>
-          </p>
-
-          <label>
-            <input
-              type="radio"
-              name="pregunta9"
-              value="a"
-            >
-            a) Todo el array.
-          </label>
-
-          <label>
-            <input
-              type="radio"
-              name="pregunta9"
-              value="b"
-            >
-            b) El elemento situado en la segunda fila
-            y tercera columna.
-          </label>
-
-          <label>
-            <input
-              type="radio"
-              name="pregunta9"
-              value="c"
-            >
-            c) El elemento situado en la primera fila
-            y segunda columna.
-          </label>
-
-          <label>
-            <input
-              type="radio"
-              name="pregunta9"
-              value="d"
-            >
-            d) La longitud del array.
-          </label>
-
-        </div>
-
-
-        <!-- PREGUNTA 10 -->
-
-        <div class="pregunta-test">
-
-          <p>
-            <strong>
-              10. ¿Cuál es la estrategia más adecuada al resolver
-              un problema con arrays?
-            </strong>
-          </p>
-
-          <label>
-            <input
-              type="radio"
-              name="pregunta10"
-              value="a"
-            >
-            a) Encadenar todos los métodos posibles desde el principio.
-          </label>
-
-          <label>
-            <input
-              type="radio"
-              name="pregunta10"
-              value="b"
-            >
-            b) Memorizar todos los métodos y utilizar siempre
-            el más corto.
-          </label>
-
-          <label>
-            <input
-              type="radio"
-              name="pregunta10"
-              value="c"
-            >
-            c) Analizar el problema, identificar los datos,
-            elegir las operaciones, implementar y comprobar
-            los resultados.
-          </label>
-
-          <label>
-            <input
-              type="radio"
-              name="pregunta10"
-              value="d"
-            >
-            d) Modificar siempre el array original para ahorrar memoria.
-          </label>
-
-        </div>
-
-
-        <button
-          id="boton-corregir"
-          type="button"
-        >
-          ✅ Corregir autoevaluación
-        </button>
-
-
-        <div
-          id="resultado-autoevaluacion"
-          hidden
-        ></div>
-
-      </section>
-
+      a) 1.
+    </label>
+
+    <label>
+      <input
+        type="radio"
+        name="pregunta1"
+        value="b"
+      >
+      b) 0.
+    </label>
+
+    <label>
+      <input
+        type="radio"
+        name="pregunta1"
+        value="c"
+      >
+      c) -1.
+    </label>
+
+    <label>
+      <input
+        type="radio"
+        name="pregunta1"
+        value="d"
+      >
+      d) Depende de la longitud.
+    </label>
+
+  </div>
+
+
+  <!-- PREGUNTA 2 -->
+
+  <div class="pregunta-test">
+
+    <p>
+      <strong>
+        2. ¿Qué expresión permite acceder al último elemento
+        del array <code>datos</code>?
+      </strong>
+    </p>
+
+    <label>
+      <input
+        type="radio"
+        name="pregunta2"
+        value="a"
+      >
+      a) <code>datos[datos.length - 1]</code>.
+    </label>
+
+    <label>
+      <input
+        type="radio"
+        name="pregunta2"
+        value="b"
+      >
+      b) <code>datos[datos.length]</code>.
+    </label>
+
+    <label>
+      <input
+        type="radio"
+        name="pregunta2"
+        value="c"
+      >
+      c) <code>datos[-1]</code>.
+    </label>
+
+    <label>
+      <input
+        type="radio"
+        name="pregunta2"
+        value="d"
+      >
+      d) <code>datos.last</code>.
+    </label>
+
+  </div>
+
+
+  <!-- PREGUNTA 3 -->
+
+  <div class="pregunta-test">
+
+    <p>
+      <strong>
+        3. ¿Qué método añade un elemento al final de un array?
+      </strong>
+    </p>
+
+    <label>
+      <input
+        type="radio"
+        name="pregunta3"
+        value="a"
+      >
+      a) <code>shift()</code>.
+    </label>
+
+    <label>
+      <input
+        type="radio"
+        name="pregunta3"
+        value="b"
+      >
+      b) <code>unshift()</code>.
+    </label>
+
+    <label>
+      <input
+        type="radio"
+        name="pregunta3"
+        value="c"
+      >
+      c) <code>push()</code>.
+    </label>
+
+    <label>
+      <input
+        type="radio"
+        name="pregunta3"
+        value="d"
+      >
+      d) <code>pop()</code>.
+    </label>
+
+  </div>
+
+
+  <!-- PREGUNTA 4 -->
+
+  <div class="pregunta-test">
+
+    <p>
+      <strong>
+        4. ¿Qué método permite eliminar, insertar o sustituir
+        elementos en una posición concreta?
+      </strong>
+    </p>
+
+    <label>
+      <input
+        type="radio"
+        name="pregunta4"
+        value="a"
+      >
+      a) <code>includes()</code>.
+    </label>
+
+    <label>
+      <input
+        type="radio"
+        name="pregunta4"
+        value="b"
+      >
+      b) <code>splice()</code>.
+    </label>
+
+    <label>
+      <input
+        type="radio"
+        name="pregunta4"
+        value="c"
+      >
+      c) <code>map()</code>.
+    </label>
+
+    <label>
+      <input
+        type="radio"
+        name="pregunta4"
+        value="d"
+      >
+      d) <code>reverse()</code>.
+    </label>
+
+  </div>
+
+
+  <!-- PREGUNTA 5 -->
+
+  <div class="pregunta-test">
+
+    <p>
+      <strong>
+        5. ¿Qué método devuelve <code>true</code> o
+        <code>false</code> según exista un valor concreto
+        en un array?
+      </strong>
+    </p>
+
+    <label>
+      <input
+        type="radio"
+        name="pregunta5"
+        value="a"
+      >
+      a) <code>indexOf()</code>.
+    </label>
+
+    <label>
+      <input
+        type="radio"
+        name="pregunta5"
+        value="b"
+      >
+      b) <code>find()</code>.
+    </label>
+
+    <label>
+      <input
+        type="radio"
+        name="pregunta5"
+        value="c"
+      >
+      c) <code>includes()</code>.
+    </label>
+
+    <label>
+      <input
+        type="radio"
+        name="pregunta5"
+        value="d"
+      >
+      d) <code>findIndex()</code>.
+    </label>
+
+  </div>
+
+
+  <!-- PREGUNTA 6 -->
+
+  <div class="pregunta-test">
+
+    <p>
+      <strong>
+        6. ¿Qué recorrido resulta especialmente cómodo cuando
+        solo necesitamos trabajar con los valores del array
+        y no con sus índices?
+      </strong>
+    </p>
+
+    <label>
+      <input
+        type="radio"
+        name="pregunta6"
+        value="a"
+      >
+      a) <code>for...of</code>.
+    </label>
+
+    <label>
+      <input
+        type="radio"
+        name="pregunta6"
+        value="b"
+      >
+      b) <code>switch</code>.
+    </label>
+
+    <label>
+      <input
+        type="radio"
+        name="pregunta6"
+        value="c"
+      >
+      c) <code>while</code> obligatoriamente.
+    </label>
+
+    <label>
+      <input
+        type="radio"
+        name="pregunta6"
+        value="d"
+      >
+      d) <code>if...else</code>.
+    </label>
+
+  </div>
+
+
+  <!-- PREGUNTA 7 -->
+
+  <div class="pregunta-test">
+
+    <p>
+      <strong>
+        7. ¿Qué afirmación describe correctamente
+        <code>map()</code> y <code>filter()</code>?
+      </strong>
+    </p>
+
+    <label>
+      <input
+        type="radio"
+        name="pregunta7"
+        value="a"
+      >
+      a) Ambos eliminan siempre elementos del array original.
+    </label>
+
+    <label>
+      <input
+        type="radio"
+        name="pregunta7"
+        value="b"
+      >
+      b) <code>map()</code> transforma elementos y
+      <code>filter()</code> selecciona los que cumplen una condición.
+    </label>
+
+    <label>
+      <input
+        type="radio"
+        name="pregunta7"
+        value="c"
+      >
+      c) <code>filter()</code> ordena y
+      <code>map()</code> invierte.
+    </label>
+
+    <label>
+      <input
+        type="radio"
+        name="pregunta7"
+        value="d"
+      >
+      d) Ambos modifican siempre el array original.
+    </label>
+
+  </div>
+
+
+  <!-- PREGUNTA 8 -->
+
+  <div class="pregunta-test">
+
+    <p>
+      <strong>
+        8. ¿Qué debemos tener en cuenta al utilizar
+        <code>sort()</code> para ordenar números?
+      </strong>
+    </p>
+
+    <label>
+      <input
+        type="radio"
+        name="pregunta8"
+        value="a"
+      >
+      a) No puede ordenar números.
+    </label>
+
+    <label>
+      <input
+        type="radio"
+        name="pregunta8"
+        value="b"
+      >
+      b) Siempre ordena correctamente de menor a mayor
+      sin indicar nada.
+    </label>
+
+    <label>
+      <input
+        type="radio"
+        name="pregunta8"
+        value="c"
+      >
+      c) Conviene proporcionar una función de comparación,
+      por ejemplo <code>(a, b) =&gt; a - b</code>.
+    </label>
+
+    <label>
+      <input
+        type="radio"
+        name="pregunta8"
+        value="d"
+      >
+      d) Es obligatorio aplicar antes <code>reverse()</code>.
+    </label>
+
+  </div>
+
+
+  <!-- PREGUNTA 9 -->
+
+  <div class="pregunta-test">
+
+    <p>
+      <strong>
+        9. En un array bidimensional llamado
+        <code>datos</code>, ¿qué representa
+        <code>datos[1][2]</code>?
+      </strong>
+    </p>
+
+    <label>
+      <input
+        type="radio"
+        name="pregunta9"
+        value="a"
+      >
+      a) Todo el array.
+    </label>
+
+    <label>
+      <input
+        type="radio"
+        name="pregunta9"
+        value="b"
+      >
+      b) El elemento situado en la segunda fila
+      y tercera columna.
+    </label>
+
+    <label>
+      <input
+        type="radio"
+        name="pregunta9"
+        value="c"
+      >
+      c) El elemento situado en la primera fila
+      y segunda columna.
+    </label>
+
+    <label>
+      <input
+        type="radio"
+        name="pregunta9"
+        value="d"
+      >
+      d) La longitud del array.
+    </label>
+
+  </div>
+
+
+  <!-- PREGUNTA 10 -->
+
+  <div class="pregunta-test">
+
+    <p>
+      <strong>
+        10. ¿Cuál es la estrategia más adecuada al resolver
+        un problema con arrays?
+      </strong>
+    </p>
+
+    <label>
+      <input
+        type="radio"
+        name="pregunta10"
+        value="a"
+      >
+      a) Encadenar todos los métodos posibles desde el principio.
+    </label>
+
+    <label>
+      <input
+        type="radio"
+        name="pregunta10"
+        value="b"
+      >
+      b) Memorizar todos los métodos y utilizar siempre el más corto.
+    </label>
+
+    <label>
+      <input
+        type="radio"
+        name="pregunta10"
+        value="c"
+      >
+      c) Analizar el problema, identificar los datos,
+      elegir las operaciones, implementar y comprobar
+      los resultados.
+    </label>
+
+    <label>
+      <input
+        type="radio"
+        name="pregunta10"
+        value="d"
+      >
+      d) Modificar siempre el array original para ahorrar memoria.
+    </label>
+
+  </div>
+
+
+  <button
+    id="boton-corregir"
+    class="boton-corregir"
+    type="button"
+  >
+    ✅ Corregir autoevaluación
+  </button>
+
+
+  <div
+    id="resultado-autoevaluacion"
+    class="resultado-autoevaluacion"
+    hidden
+  ></div>
+
+</section>
 
       <!-- ==========================================
            NAVEGACIÓN
