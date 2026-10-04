@@ -1,0 +1,3505 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+
+  <meta charset="UTF-8">
+
+  <meta
+    name="viewport"
+    content="width=device-width, initial-scale=1.0"
+  >
+
+  <meta
+    name="description"
+    content="Resumen de la UT4 - Arrays y estructuras de datos en JavaScript."
+  >
+
+  <title>Resumen UT4 - Arrays y estructuras de datos en JavaScript</title>
+
+  <link
+    rel="icon"
+    type="image/png"
+    href="../../../img/favicon.png?v=5"
+  >
+
+  <link
+    rel="stylesheet"
+    href="../../../css/estilos.css"
+  >
+
+  <style>
+
+    /* ==========================================
+       ESTRUCTURA DE LA UT
+    ========================================== */
+
+    .pagina-ut {
+      display: grid;
+      grid-template-columns: 280px 1fr 260px;
+      min-height: calc(100vh - 68px);
+    }
+
+
+    /* ==========================================
+       COLUMNA IZQUIERDA
+    ========================================== */
+
+    .sidebar {
+      border-right: 1px solid var(--borde);
+      background-color: var(--fondo-pagina);
+
+      padding: 12px 10px 30px;
+
+      position: sticky;
+      top: 68px;
+
+      height: calc(100vh - 68px);
+      overflow-y: auto;
+    }
+
+    .sidebar-modulo {
+      display: block;
+
+      margin-bottom: 8px;
+      padding: 8px 14px;
+
+      color: #626873;
+
+      font-size: 17px;
+      font-weight: 700;
+      line-height: 1.3;
+
+      text-decoration: none;
+
+      border-radius: 6px;
+
+      transition:
+        color 0.2s ease,
+        background-color 0.2s ease;
+    }
+
+    .sidebar-modulo:hover {
+      color: var(--verde-principal);
+      background-color: #f3f4f6;
+    }
+
+    body.modo-oscuro .sidebar-modulo:hover {
+      background-color: #273244;
+    }
+
+
+    /* ==========================================
+       MENÚ LATERAL DESPLEGABLE
+    ========================================== */
+
+    .menu-desplegable {
+      width: 100%;
+    }
+
+    .menu-cabecera {
+      display: flex;
+      align-items: center;
+      gap: 4px;
+
+      width: 100%;
+
+      border-radius: 6px;
+    }
+
+    .menu-cabecera-activa {
+      background-color: #f1f1f1;
+    }
+
+    .menu-cabecera-activa > .menu-titulo {
+      color: var(--verde-principal);
+    }
+
+    .menu-titulo {
+      flex: 1;
+
+      display: block;
+
+      padding: 11px 8px 11px 14px;
+
+      color: #626873;
+
+      font-size: 16px;
+      font-weight: 650;
+      line-height: 1.4;
+
+      text-decoration: none;
+    }
+
+    .menu-titulo:hover {
+      color: var(--verde-principal);
+    }
+
+    .boton-desplegar {
+      width: 36px;
+      height: 36px;
+
+      margin-right: 5px;
+      padding: 0;
+
+      display: flex;
+      align-items: center;
+      justify-content: center;
+
+      flex-shrink: 0;
+
+      border: 0;
+      border-radius: 6px;
+
+      background: transparent;
+
+      color: #777;
+
+      font-family: inherit;
+      font-size: 24px;
+      line-height: 1;
+
+      cursor: pointer;
+    }
+
+    .boton-desplegar:hover {
+      background-color: #e5e7eb;
+      color: var(--verde-principal);
+    }
+
+    .submenu {
+      display: none;
+    }
+
+    .submenu.submenu-abierto {
+      display: block;
+    }
+
+    .menu-apartado {
+      margin-left: 14px;
+    }
+
+    .menu-apartado .menu-titulo {
+      padding-top: 9px;
+      padding-bottom: 9px;
+
+      font-size: 15px;
+      font-weight: 600;
+    }
+
+    .enlace-apartado-simple {
+      display: block;
+
+      margin-left: 14px;
+      padding: 10px 14px;
+
+      color: #626873;
+
+      font-size: 15px;
+      font-weight: 600;
+      line-height: 1.4;
+
+      text-decoration: none;
+
+      border-radius: 6px;
+
+      transition:
+        background-color 0.2s ease,
+        color 0.2s ease;
+    }
+
+    .enlace-apartado-simple:hover {
+      background-color: #f3f4f6;
+      color: var(--verde-principal);
+    }
+
+    .submenu-apartados {
+      margin: 2px 0 5px 28px;
+      border-left: 2px solid #e0e3e7;
+    }
+
+    .submenu-apartados a {
+      display: block;
+
+      padding: 7px 10px;
+
+      color: #777d87;
+
+      font-size: 14px;
+      font-weight: 500;
+      line-height: 1.35;
+
+      text-decoration: none;
+    }
+
+    .submenu-apartados a:hover {
+      color: var(--verde-principal);
+    }
+
+    .sidebar-ut-cerrada {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+
+      padding: 13px 14px;
+
+      color: #626873;
+
+      text-decoration: none;
+
+      font-size: 16px;
+      font-weight: 650;
+      line-height: 1.35;
+
+      border-radius: 6px;
+
+      transition:
+        background-color 0.2s ease,
+        color 0.2s ease;
+    }
+
+    .sidebar-ut-cerrada:hover {
+      background-color: #f3f4f6;
+      color: var(--verde-principal);
+    }
+
+    body.modo-oscuro .menu-cabecera-activa {
+      background-color: #273244;
+    }
+
+    body.modo-oscuro .boton-desplegar:hover {
+      background-color: #334155;
+    }
+
+    body.modo-oscuro .enlace-apartado-simple:hover,
+    body.modo-oscuro .sidebar-ut-cerrada:hover {
+      background-color: #273244;
+    }
+
+    body.modo-oscuro .submenu-apartados {
+      border-left-color: #3a4659;
+    }
+
+
+    /* ==========================================
+       ZONA CENTRAL
+    ========================================== */
+
+    .contenido-ut {
+      padding: 28px 34px 70px;
+
+      max-width: 1150px;
+      width: 100%;
+    }
+
+    .migas {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+
+      margin-bottom: 30px;
+
+      font-size: 14px;
+    }
+
+    .miga-inicio {
+      text-decoration: none;
+      font-size: 18px;
+    }
+
+    .miga-separador {
+      color: #999;
+      font-size: 22px;
+    }
+
+    .miga-modulo {
+      color: var(--texto-secundario);
+      text-decoration: none;
+    }
+
+    .miga-modulo:hover {
+      color: var(--verde-principal);
+    }
+
+    .miga-actual {
+      padding: 8px 14px;
+
+      background-color: #f3f3f3;
+      border-radius: 24px;
+
+      color: var(--verde-principal);
+    }
+
+    body.modo-oscuro .miga-actual {
+      background-color: #273244;
+    }
+
+    .contenido-ut h1 {
+      margin: 0 0 30px;
+
+      font-size: clamp(38px, 5vw, 58px);
+      line-height: 1.12;
+    }
+
+    .introduccion-ut {
+      max-width: 980px;
+
+      font-size: 19px;
+      line-height: 1.75;
+    }
+
+    .introduccion-ut p {
+      margin: 0 0 20px;
+    }
+
+
+    /* ==========================================
+       CONTENIDO DE LOS APARTADOS
+    ========================================== */
+
+    .apartado-ut {
+      margin-top: 55px;
+      scroll-margin-top: 95px;
+    }
+
+    .apartado-ut h2 {
+      margin: 0 0 24px;
+
+      font-size: 32px;
+      line-height: 1.2;
+    }
+
+    .apartado-ut h3 {
+      margin: 34px 0 16px;
+
+      font-size: 24px;
+      line-height: 1.3;
+    }
+
+    .apartado-ut p {
+      margin: 0 0 18px;
+
+      font-size: 18px;
+      line-height: 1.75;
+    }
+
+    .apartado-ut ul {
+      margin: 16px 0 24px;
+      padding-left: 28px;
+    }
+
+    .apartado-ut li {
+      margin-bottom: 10px;
+
+      font-size: 17px;
+      line-height: 1.6;
+    }
+
+
+    /* ==========================================
+       CAJAS
+    ========================================== */
+
+    .caja {
+      margin: 28px 0;
+      padding: 18px 20px;
+
+      border-left: 5px solid;
+      border-radius: 8px;
+
+      line-height: 1.65;
+    }
+
+    .caja p {
+      margin: 0;
+      font-size: 17px;
+    }
+
+    .caja-titulo {
+      display: block;
+
+      margin-bottom: 8px;
+
+      font-size: 17px;
+      font-weight: 700;
+    }
+
+    .caja-importante {
+      background-color: #eef8f1;
+      border-left-color: #2f9e5b;
+    }
+
+    .caja-atencion {
+      background-color: #fff7e8;
+      border-left-color: #e09b27;
+    }
+
+    .caja-ejemplo {
+      background-color: #eef5ff;
+      border-left-color: #3f7acb;
+    }
+
+    body.modo-oscuro .caja-importante {
+      background-color: #20372a;
+    }
+
+    body.modo-oscuro .caja-atencion {
+      background-color: #3b3020;
+    }
+
+    body.modo-oscuro .caja-ejemplo {
+      background-color: #23344a;
+    }
+
+
+    /* ==========================================
+       TABLAS
+    ========================================== */
+
+    .tabla-responsive {
+      width: 100%;
+
+      margin: 28px 0;
+
+      overflow-x: auto;
+    }
+
+    .tabla-apuntes {
+      width: 100%;
+
+      border-collapse: collapse;
+
+      font-size: 16px;
+    }
+
+    .tabla-apuntes th,
+    .tabla-apuntes td {
+      padding: 14px 16px;
+
+      border: 1px solid var(--borde);
+
+      text-align: left;
+      vertical-align: top;
+
+      line-height: 1.55;
+    }
+
+    .tabla-apuntes th {
+      background-color: #f1f3f5;
+      font-weight: 700;
+    }
+
+    body.modo-oscuro .tabla-apuntes th {
+      background-color: #273244;
+    }
+
+
+    /* ==========================================
+       RESUMEN DE LA UT4
+    ========================================== */
+
+    .mapa-resumen {
+      margin: 28px 0;
+      padding: 22px;
+
+      border: 1px solid var(--borde);
+      border-radius: 10px;
+
+      background: var(--fondo-tarjeta);
+    }
+
+    .mapa-nodo {
+      padding: 17px;
+
+      border: 2px solid var(--verde-principal);
+      border-radius: 9px;
+
+      text-align: center;
+
+      background: var(--fondo-pagina);
+    }
+
+    .mapa-nodo strong,
+    .mapa-nodo span {
+      display: block;
+    }
+
+    .mapa-nodo span {
+      margin-top: 8px;
+
+      color: var(--texto-secundario);
+
+      font-size: 15px;
+      line-height: 1.5;
+    }
+
+    .mapa-principal {
+      max-width: 720px;
+      margin: 0 auto;
+
+      font-weight: 800;
+    }
+
+    .mapa-flecha {
+      margin: 8px 0;
+
+      text-align: center;
+
+      color: var(--verde-principal);
+
+      font-size: 28px;
+      font-weight: 700;
+    }
+
+    .mapa-columnas {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 14px;
+    }
+
+    .rejilla-resumen {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 14px;
+
+      margin: 24px 0;
+    }
+
+    .tarjeta-resumen {
+      padding: 18px;
+
+      border: 1px solid var(--borde);
+      border-radius: 9px;
+
+      background: var(--fondo-tarjeta);
+    }
+
+    .tarjeta-resumen > span {
+      display: block;
+
+      margin-bottom: 8px;
+
+      font-size: 30px;
+    }
+
+    .tarjeta-resumen > strong {
+      display: block;
+
+      margin-bottom: 8px;
+
+      font-size: 17px;
+    }
+
+    .tarjeta-resumen p {
+      margin: 0;
+
+      font-size: 15px;
+      line-height: 1.55;
+    }
+
+    .lista-claves {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+
+      margin: 24px 0;
+    }
+
+    .lista-claves > div {
+      padding: 16px 18px;
+
+      border: 1px solid var(--borde);
+      border-radius: 8px;
+
+      background: var(--fondo-tarjeta);
+    }
+
+    .lista-claves strong,
+    .lista-claves span {
+      display: block;
+    }
+
+    .lista-claves strong {
+      margin-bottom: 6px;
+      color: var(--verde-principal);
+    }
+
+    .lista-claves span {
+      line-height: 1.5;
+    }
+
+    .resumen-final ul {
+      margin: 12px 0 0;
+      padding-left: 24px;
+    }
+
+    .resumen-final li {
+      margin-bottom: 10px;
+    }
+
+
+    /* ==========================================
+       COLUMNA DERECHA
+    ========================================== */
+
+    .indice-derecho {
+      padding: 28px 22px;
+
+      border-left: 1px solid var(--borde);
+
+      position: sticky;
+      top: 68px;
+
+      height: calc(100vh - 68px);
+      overflow-y: auto;
+    }
+
+    .indice-derecho h2 {
+      margin: 8px 0 20px;
+
+      color: #555b65;
+
+      font-size: 17px;
+    }
+
+    body.modo-oscuro .indice-derecho h2 {
+      color: #d1d5db;
+    }
+
+    .indice-derecho ul {
+      margin: 0;
+      padding-left: 18px;
+    }
+
+    .indice-derecho li {
+      margin-bottom: 12px;
+    }
+
+    .indice-derecho a {
+      color: var(--texto-secundario);
+
+      text-decoration: none;
+
+      font-size: 14px;
+      line-height: 1.4;
+    }
+
+    .indice-derecho a:hover {
+      color: var(--verde-principal);
+    }
+
+
+    /* ==========================================
+       NAVEGACIÓN ANTERIOR / SIGUIENTE
+    ========================================== */
+
+    .navegacion-paginas {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 20px;
+
+      margin-top: 50px;
+    }
+
+    .nav-pagina {
+      min-height: 100px;
+      padding: 18px 20px;
+
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+
+      border: 1px solid var(--borde);
+      border-radius: 8px;
+
+      text-decoration: none;
+
+      background-color: var(--fondo-tarjeta);
+    }
+
+    .nav-anterior {
+      align-items: flex-start;
+      text-align: left;
+    }
+
+    .nav-siguiente {
+      align-items: flex-end;
+      text-align: right;
+    }
+
+    .nav-etiqueta {
+      margin-bottom: 5px;
+
+      color: var(--texto-secundario);
+
+      font-size: 14px;
+    }
+
+    .nav-pagina strong {
+      color: var(--verde-principal);
+
+      font-size: 16px;
+      line-height: 1.4;
+    }
+
+    .nav-pagina:hover {
+      border-color: var(--verde-principal);
+    }
+
+
+    /* ==========================================
+       RESPONSIVE
+    ========================================== */
+
+    @media (max-width: 1100px) {
+
+      .pagina-ut {
+        grid-template-columns: 250px 1fr;
+      }
+
+      .indice-derecho {
+        display: none;
+      }
+
+    }
+
+    @media (max-width: 900px) {
+
+      .mapa-columnas,
+      .rejilla-resumen {
+        grid-template-columns: 1fr;
+      }
+
+      .lista-claves {
+        grid-template-columns: 1fr;
+      }
+
+    }
+
+    @media (max-width: 760px) {
+
+      .pagina-ut {
+        display: block;
+      }
+
+      .sidebar {
+        position: static;
+
+        width: 100%;
+        height: auto;
+
+        border-right: 0;
+        border-bottom: 1px solid var(--borde);
+      }
+
+      .contenido-ut {
+        padding: 28px 20px 60px;
+      }
+
+      .contenido-ut h1 {
+        font-size: 36px;
+      }
+
+      .navegacion-paginas {
+        grid-template-columns: 1fr;
+      }
+
+      .nav-siguiente {
+        align-items: flex-start;
+        text-align: left;
+      }
+
+    }
+
+  </style>
+
+</head>
+
+
+<body>
+
+  <!-- ==========================================
+       BARRA SUPERIOR
+  ========================================== -->
+
+  <header class="navbar">
+
+    <a class="inicio" href="../../../index.html">
+
+      <img
+        src="../../../img/profesora-castana.png?v=2"
+        alt=""
+        class="icono-profesora"
+      >
+
+      <span>Inicio</span>
+
+    </a>
+
+    <nav
+      id="menuModulos"
+      class="menu-modulos"
+      aria-label="Módulos formativos"
+    ></nav>
+
+    <button
+      id="botonTema"
+      class="boton-tema"
+      type="button"
+      aria-label="Cambiar entre modo claro y oscuro"
+      title="Cambiar tema"
+    >
+      ☀️
+    </button>
+
+  </header>
+
+
+  <!-- ==========================================
+       ESTRUCTURA PRINCIPAL
+  ========================================== -->
+
+  <div class="pagina-ut">
+
+
+    <!-- ==========================================
+         MENÚ LATERAL IZQUIERDO
+    ========================================== -->
+
+    <aside class="sidebar">
+
+      <a
+        class="sidebar-modulo"
+        href="../../index.html"
+      >
+        Desarrollo web en entorno cliente
+      </a>
+
+
+      <!-- UT1 -->
+
+      <a
+        class="sidebar-ut-cerrada"
+        href="../../ut1/index.html"
+      >
+        <span>
+          UT1 - Introducción al desarrollo web en entorno cliente
+        </span>
+
+        <span>›</span>
+      </a>
+
+
+      <!-- UT2 -->
+
+      <a
+        class="sidebar-ut-cerrada"
+        href="../../ut2/index.html"
+      >
+        <span>
+          UT2 - Fundamentos de JavaScript: variables, tipos y operadores
+        </span>
+
+        <span>›</span>
+      </a>
+
+
+      <!-- UT3 -->
+
+      <a
+        class="sidebar-ut-cerrada"
+        href="../../ut3/index.html"
+      >
+        <span>
+          UT3 - Estructuras de control en JavaScript
+        </span>
+
+        <span>›</span>
+      </a>
+
+
+      <!-- ==========================================
+           UT4
+      ========================================== -->
+
+      <div class="menu-desplegable">
+
+        <div class="menu-cabecera menu-cabecera-activa">
+
+          <a
+            class="menu-titulo"
+            href="../index.html"
+          >
+            UT4 - Arrays y estructuras de datos en JavaScript
+          </a>
+
+          <button
+            class="boton-desplegar"
+            type="button"
+            data-target="submenu-ut4"
+            aria-expanded="true"
+            aria-label="Mostrar u ocultar UT4"
+          >
+            ⌄
+          </button>
+
+        </div>
+
+
+        <div
+          id="submenu-ut4"
+          class="submenu submenu-abierto"
+        >
+
+
+          <!-- 4.1 -->
+
+          <div class="menu-desplegable menu-apartado">
+
+            <div class="menu-cabecera">
+
+              <a
+                class="menu-titulo"
+                href="../4-1/index.html"
+              >
+                4.1 Introducción a los arrays
+              </a>
+
+              <button
+                class="boton-desplegar"
+                type="button"
+                data-target="submenu-4-1"
+                aria-expanded="false"
+              >
+                ›
+              </button>
+
+            </div>
+
+            <div
+              id="submenu-4-1"
+              class="submenu submenu-apartados"
+            >
+
+              <a href="../4-1/index.html#que-es">
+                Qué es un array
+              </a>
+
+              <a href="../4-1/index.html#necesidad">
+                Para qué necesitamos arrays
+              </a>
+
+              <a href="../4-1/index.html#crear">
+                Crear un array
+              </a>
+
+              <a href="../4-1/index.html#indices">
+                Elementos e índices
+              </a>
+
+              <a href="../4-1/index.html#length">
+                Propiedad length
+              </a>
+
+            </div>
+
+          </div>
+
+
+          <!-- 4.2 -->
+
+          <div class="menu-desplegable menu-apartado">
+
+            <div class="menu-cabecera">
+
+              <a
+                class="menu-titulo"
+                href="../4-2/index.html"
+              >
+                4.2 Acceso y modificación de elementos
+              </a>
+
+              <button
+                class="boton-desplegar"
+                type="button"
+                data-target="submenu-4-2"
+                aria-expanded="false"
+              >
+                ›
+              </button>
+
+            </div>
+
+            <div
+              id="submenu-4-2"
+              class="submenu submenu-apartados"
+            >
+
+              <a href="../4-2/index.html#acceso">
+                Acceder a elementos
+              </a>
+
+              <a href="../4-2/index.html#modificar">
+                Modificar elementos
+              </a>
+
+              <a href="../4-2/index.html#const">
+                Arrays declarados con const
+              </a>
+
+              <a href="../4-2/index.html#ultimo">
+                Último elemento
+              </a>
+
+            </div>
+
+          </div>
+
+
+          <!-- 4.3 -->
+
+          <div class="menu-desplegable menu-apartado">
+
+            <div class="menu-cabecera">
+
+              <a
+                class="menu-titulo"
+                href="../4-3/index.html"
+              >
+                4.3 Añadir y eliminar elementos
+              </a>
+
+              <button
+                class="boton-desplegar"
+                type="button"
+                data-target="submenu-4-3"
+                aria-expanded="false"
+              >
+                ›
+              </button>
+
+            </div>
+
+            <div
+              id="submenu-4-3"
+              class="submenu submenu-apartados"
+            >
+
+              <a href="../4-3/index.html#push">
+                push()
+              </a>
+
+              <a href="../4-3/index.html#pop">
+                pop()
+              </a>
+
+              <a href="../4-3/index.html#unshift">
+                unshift()
+              </a>
+
+              <a href="../4-3/index.html#shift">
+                shift()
+              </a>
+
+            </div>
+
+          </div>
+
+
+          <!-- 4.4 -->
+
+          <div class="menu-desplegable menu-apartado">
+
+            <div class="menu-cabecera">
+
+              <a
+                class="menu-titulo"
+                href="../4-4/index.html"
+              >
+                4.4 Modificar arrays con splice()
+              </a>
+
+              <button
+                class="boton-desplegar"
+                type="button"
+                data-target="submenu-4-4"
+                aria-expanded="false"
+              >
+                ›
+              </button>
+
+            </div>
+
+            <div
+              id="submenu-4-4"
+              class="submenu submenu-apartados"
+            >
+
+              <a href="../4-4/index.html#splice">
+                El método splice()
+              </a>
+
+              <a href="../4-4/index.html#eliminar">
+                Eliminar elementos
+              </a>
+
+              <a href="../4-4/index.html#insertar">
+                Insertar elementos
+              </a>
+
+              <a href="../4-4/index.html#reemplazar">
+                Reemplazar elementos
+              </a>
+
+            </div>
+
+          </div>
+
+
+          <!-- 4.5 -->
+
+          <div class="menu-desplegable menu-apartado">
+
+            <div class="menu-cabecera">
+
+              <a
+                class="menu-titulo"
+                href="../4-5/index.html"
+              >
+                4.5 Buscar elementos en un array
+              </a>
+
+              <button
+                class="boton-desplegar"
+                type="button"
+                data-target="submenu-4-5"
+                aria-expanded="false"
+              >
+                ›
+              </button>
+
+            </div>
+
+            <div
+              id="submenu-4-5"
+              class="submenu submenu-apartados"
+            >
+
+              <a href="../4-5/index.html#indexof">
+                indexOf()
+              </a>
+
+              <a href="../4-5/index.html#includes">
+                includes()
+              </a>
+
+              <a href="../4-5/index.html#find">
+                find()
+              </a>
+
+              <a href="../4-5/index.html#findindex">
+                findIndex()
+              </a>
+
+            </div>
+
+          </div>
+
+
+          <!-- 4.6 -->
+
+          <div class="menu-desplegable menu-apartado">
+
+            <div class="menu-cabecera">
+
+              <a
+                class="menu-titulo"
+                href="../4-6/index.html"
+              >
+                4.6 Recorrer arrays con for
+              </a>
+
+              <button
+                class="boton-desplegar"
+                type="button"
+                data-target="submenu-4-6"
+                aria-expanded="false"
+              >
+                ›
+              </button>
+
+            </div>
+
+            <div
+              id="submenu-4-6"
+              class="submenu submenu-apartados"
+            >
+
+              <a href="../4-6/index.html#recorrer">
+                Recorrer un array
+              </a>
+
+              <a href="../4-6/index.html#indice-elemento">
+                Índice y elemento
+              </a>
+
+              <a href="../4-6/index.html#length">
+                length como límite
+              </a>
+
+              <a href="../4-6/index.html#recorrido-inverso">
+                Recorrido inverso
+              </a>
+
+            </div>
+
+          </div>
+
+
+          <!-- 4.7 -->
+
+          <div class="menu-desplegable menu-apartado">
+
+            <div class="menu-cabecera">
+
+              <a
+                class="menu-titulo"
+                href="../4-7/index.html"
+              >
+                4.7 Recorrer arrays con for...of
+              </a>
+
+              <button
+                class="boton-desplegar"
+                type="button"
+                data-target="submenu-4-7"
+                aria-expanded="false"
+              >
+                ›
+              </button>
+
+            </div>
+
+            <div
+              id="submenu-4-7"
+              class="submenu submenu-apartados"
+            >
+
+              <a href="../4-7/index.html#for-of">
+                El bucle for...of
+              </a>
+
+              <a href="../4-7/index.html#elemento">
+                Acceso al elemento
+              </a>
+
+              <a href="../4-7/index.html#comparacion">
+                for frente a for...of
+              </a>
+
+              <a href="../4-7/index.html#for-in">
+                for...of no es for...in
+              </a>
+
+            </div>
+
+          </div>
+
+
+          <!-- 4.8 -->
+
+          <div class="menu-desplegable menu-apartado">
+
+            <div class="menu-cabecera">
+
+              <a
+                class="menu-titulo"
+                href="../4-8/index.html"
+              >
+                4.8 El método forEach()
+              </a>
+
+              <button
+                class="boton-desplegar"
+                type="button"
+                data-target="submenu-4-8"
+                aria-expanded="false"
+              >
+                ›
+              </button>
+
+            </div>
+
+            <div
+              id="submenu-4-8"
+              class="submenu submenu-apartados"
+            >
+
+              <a href="../4-8/index.html#foreach">
+                El método forEach()
+              </a>
+
+              <a href="../4-8/index.html#elemento">
+                Elemento actual
+              </a>
+
+              <a href="../4-8/index.html#indice">
+                Acceso al índice
+              </a>
+
+              <a href="../4-8/index.html#comparacion">
+                Comparación de recorridos
+              </a>
+
+            </div>
+
+          </div>
+
+
+          <!-- 4.9 -->
+
+          <div class="menu-desplegable menu-apartado">
+
+            <div class="menu-cabecera">
+
+              <a
+                class="menu-titulo"
+                href="../4-9/index.html"
+              >
+                4.9 Transformar y filtrar arrays
+              </a>
+
+              <button
+                class="boton-desplegar"
+                type="button"
+                data-target="submenu-4-9"
+                aria-expanded="false"
+              >
+                ›
+              </button>
+
+            </div>
+
+            <div
+              id="submenu-4-9"
+              class="submenu submenu-apartados"
+            >
+
+              <a href="../4-9/index.html#map">
+                map()
+              </a>
+
+              <a href="../4-9/index.html#filter">
+                filter()
+              </a>
+
+              <a href="../4-9/index.html#original">
+                Array original y nuevo array
+              </a>
+
+              <a href="../4-9/index.html#combinar">
+                Combinar operaciones
+              </a>
+
+            </div>
+
+          </div>
+
+
+          <!-- 4.10 -->
+
+          <div class="menu-desplegable menu-apartado">
+
+            <div class="menu-cabecera">
+
+              <a
+                class="menu-titulo"
+                href="../4-10/index.html"
+              >
+                4.10 Ordenar e invertir arrays
+              </a>
+
+              <button
+                class="boton-desplegar"
+                type="button"
+                data-target="submenu-4-10"
+                aria-expanded="false"
+              >
+                ›
+              </button>
+
+            </div>
+
+            <div
+              id="submenu-4-10"
+              class="submenu submenu-apartados"
+            >
+
+              <a href="../4-10/index.html#sort">
+                sort()
+              </a>
+
+              <a href="../4-10/index.html#numeros">
+                Ordenar números
+              </a>
+
+              <a href="../4-10/index.html#descendente">
+                Orden descendente
+              </a>
+
+              <a href="../4-10/index.html#reverse">
+                reverse()
+              </a>
+
+            </div>
+
+          </div>
+
+
+          <!-- 4.11 -->
+
+          <div class="menu-desplegable menu-apartado">
+
+            <div class="menu-cabecera">
+
+              <a
+                class="menu-titulo"
+                href="../4-11/index.html"
+              >
+                4.11 Arrays multidimensionales
+              </a>
+
+              <button
+                class="boton-desplegar"
+                type="button"
+                data-target="submenu-4-11"
+                aria-expanded="false"
+              >
+                ›
+              </button>
+
+            </div>
+
+            <div
+              id="submenu-4-11"
+              class="submenu submenu-apartados"
+            >
+
+              <a href="../4-11/index.html#crear">
+                Crear arrays multidimensionales
+              </a>
+
+              <a href="../4-11/index.html#acceder">
+                Acceder a elementos
+              </a>
+
+              <a href="../4-11/index.html#recorrer">
+                Recorrer arrays multidimensionales
+              </a>
+
+              <a href="../4-11/index.html#length">
+                Filas, columnas y length
+              </a>
+
+            </div>
+
+          </div>
+
+
+          <!-- 4.12 -->
+
+          <div class="menu-desplegable menu-apartado">
+
+            <div class="menu-cabecera">
+
+              <a
+                class="menu-titulo"
+                href="../4-12/index.html"
+              >
+                4.12 Resolución de problemas con arrays
+              </a>
+
+              <button
+                class="boton-desplegar"
+                type="button"
+                data-target="submenu-4-12"
+                aria-expanded="false"
+              >
+                ›
+              </button>
+
+            </div>
+
+            <div
+              id="submenu-4-12"
+              class="submenu submenu-apartados"
+            >
+
+              <a href="../4-12/index.html#analizar">
+                Analizar el problema
+              </a>
+
+              <a href="../4-12/index.html#herramienta">
+                Elegir la herramienta
+              </a>
+
+              <a href="../4-12/index.html#pasos">
+                Dividir en pasos
+              </a>
+
+              <a href="../4-12/index.html#depurar">
+                Comprobar y depurar
+              </a>
+
+            </div>
+
+          </div>
+
+
+          <!-- RESUMEN -->
+
+          <div class="menu-desplegable menu-apartado">
+
+            <div class="menu-cabecera menu-cabecera-activa">
+
+              <a
+                class="menu-titulo"
+                href="index.html"
+              >
+                ✏️ Resumen de la UT4
+              </a>
+
+              <button
+                class="boton-desplegar"
+                type="button"
+                data-target="submenu-resumen"
+                aria-expanded="true"
+                aria-label="Mostrar u ocultar el resumen de la UT4"
+              >
+                ⌄
+              </button>
+
+            </div>
+
+            <div
+              id="submenu-resumen"
+              class="submenu submenu-apartados submenu-abierto"
+            >
+
+              <a href="#vision-global">
+                Visión global
+              </a>
+
+              <a href="#introduccion-arrays">
+                4.1 Introducción a los arrays
+              </a>
+
+              <a href="#acceso">
+                4.2 Acceso y modificación
+              </a>
+
+              <a href="#anadir-eliminar">
+                4.3 Añadir y eliminar
+              </a>
+
+              <a href="#splice">
+                4.4 splice()
+              </a>
+
+              <a href="#buscar">
+                4.5 Buscar elementos
+              </a>
+
+              <a href="#for">
+                4.6 Recorrer con for
+              </a>
+
+              <a href="#for-of">
+                4.7 Recorrer con for...of
+              </a>
+
+              <a href="#foreach">
+                4.8 forEach()
+              </a>
+
+              <a href="#map-filter">
+                4.9 map() y filter()
+              </a>
+
+              <a href="#ordenar">
+                4.10 Ordenar e invertir
+              </a>
+
+              <a href="#multidimensionales">
+                4.11 Arrays multidimensionales
+              </a>
+
+              <a href="#problemas">
+                4.12 Resolución de problemas
+              </a>
+
+              <a href="#ideas-clave">
+                Ideas clave
+              </a>
+
+            </div>
+
+          </div>
+
+
+          <!-- ACTIVIDADES -->
+
+          <a
+            class="enlace-apartado-simple"
+            href="../actividades/index.html"
+          >
+            📝 Actividades de la UT4
+          </a>
+
+        </div>
+
+      </div>
+
+
+      <!-- UT5 -->
+
+      <a
+        class="sidebar-ut-cerrada"
+        href="../../ut5/index.html"
+      >
+        <span>
+          UT5 - Funciones en JavaScript
+        </span>
+
+        <span>›</span>
+      </a>
+
+
+      <!-- UT6 -->
+
+      <a
+        class="sidebar-ut-cerrada"
+        href="../../ut6/index.html"
+      >
+        <span>
+          UT6 - Objetos y Programación Orientada a Objetos en JavaScript
+        </span>
+
+        <span>›</span>
+      </a>
+
+
+      <!-- UT7 -->
+
+      <a
+        class="sidebar-ut-cerrada"
+        href="../../ut7/index.html"
+      >
+        <span>
+          UT7 - Objetos predefinidos y modelo del navegador (BOM)
+        </span>
+
+        <span>›</span>
+      </a>
+
+
+      <!-- UT8 -->
+
+      <a
+        class="sidebar-ut-cerrada"
+        href="../../ut8/index.html"
+      >
+        <span>
+          UT8 - Aplicaciones web interactivas: DOM, eventos y formularios
+        </span>
+
+        <span>›</span>
+      </a>
+
+
+      <!-- UT9 -->
+
+      <a
+        class="sidebar-ut-cerrada"
+        href="../../ut9/index.html"
+      >
+        <span>
+          UT9 - Comunicación asíncrona y peticiones al servidor
+        </span>
+
+        <span>›</span>
+      </a>
+
+
+      <!-- UT10 -->
+
+      <a
+        class="sidebar-ut-cerrada"
+        href="../../ut10/index.html"
+      >
+        <span>
+          UT10 - Introducción a React
+        </span>
+
+        <span>›</span>
+      </a>
+
+    </aside>
+
+
+    <!-- ==========================================
+         CONTENIDO CENTRAL
+    ========================================== -->
+
+    <main class="contenido-ut">
+
+
+      <!-- MIGAS -->
+
+      <div class="migas">
+
+        <a
+          class="miga-inicio"
+          href="../../../index.html"
+          aria-label="Volver a la página principal"
+        >
+          🏠
+        </a>
+
+        <span class="miga-separador">›</span>
+
+        <a
+          class="miga-modulo"
+          href="../../index.html"
+        >
+          DWEC
+        </a>
+
+        <span class="miga-separador">›</span>
+
+        <a
+          class="miga-modulo"
+          href="../index.html"
+        >
+          UT4
+        </a>
+
+        <span class="miga-separador">›</span>
+
+        <span class="miga-actual">
+          Resumen
+        </span>
+
+      </div>
+
+
+      <!-- TÍTULO -->
+
+      <h1>✏️ Resumen de la UT4</h1>
+
+
+      <!-- INTRODUCCIÓN -->
+
+      <div class="introduccion-ut">
+
+        <p>
+          En esta unidad hemos aprendido a utilizar
+          <strong>arrays para almacenar, organizar y procesar conjuntos de datos</strong>
+          en JavaScript.
+        </p>
+
+        <p>
+          Hemos estudiado cómo crear arrays, acceder y modificar sus elementos,
+          añadirlos y eliminarlos, buscar información, recorrer sus valores,
+          transformar y filtrar datos, ordenar elementos y trabajar con
+          <strong>arrays multidimensionales</strong>.
+        </p>
+
+        <p>
+          Este resumen reúne las ideas esenciales de los apartados
+          4.1 a 4.12 para utilizarlo como
+          <strong>guía rápida de repaso</strong>.
+        </p>
+
+      </div>
+
+
+      <!-- ==========================================
+           VISIÓN GLOBAL
+      ========================================== -->
+
+      <section
+        class="apartado-ut"
+        id="vision-global"
+      >
+
+        <h2>Visión global de la unidad</h2>
+
+        <div class="mapa-resumen">
+
+          <div class="mapa-nodo mapa-principal">
+            ARRAYS Y ESTRUCTURAS DE DATOS
+          </div>
+
+          <div class="mapa-flecha">
+            ↓
+          </div>
+
+          <div class="mapa-columnas">
+
+            <div class="mapa-nodo">
+
+              <strong>Gestionar datos</strong>
+
+              <span>
+                crear · acceder · modificar · añadir · eliminar
+              </span>
+
+            </div>
+
+            <div class="mapa-nodo">
+
+              <strong>Recorrer y consultar</strong>
+
+              <span>
+                buscar · for · for...of · forEach()
+              </span>
+
+            </div>
+
+            <div class="mapa-nodo">
+
+              <strong>Procesar datos</strong>
+
+              <span>
+                map() · filter() · sort() · reverse() · multidimensionales
+              </span>
+
+            </div>
+
+          </div>
+
+          <div class="mapa-flecha">
+            ↓
+          </div>
+
+          <div class="mapa-nodo mapa-principal">
+
+            <strong>RESOLVER PROBLEMAS CON COLECCIONES DE DATOS</strong>
+
+            <span>
+              analizar → elegir → implementar → comprobar → corregir
+            </span>
+
+          </div>
+
+        </div>
+
+      </section>
+
+
+      <!-- ==========================================
+           4.1
+      ========================================== -->
+
+      <section
+        class="apartado-ut"
+        id="introduccion-arrays"
+      >
+
+        <h2>4.1 Introducción a los arrays</h2>
+
+        <p>
+          Un array es una estructura que permite
+          <strong>almacenar varios valores dentro de una misma variable</strong>.
+        </p>
+
+        <div class="lista-claves">
+
+          <div>
+            <strong>Array</strong>
+            <span>
+              Colección ordenada de elementos almacenados bajo un mismo nombre.
+            </span>
+          </div>
+
+          <div>
+            <strong>Índice</strong>
+            <span>
+              Posición que ocupa cada elemento. El primer índice es
+              <code>0</code>.
+            </span>
+          </div>
+
+          <div>
+            <strong>Acceso</strong>
+            <span>
+              Utilizamos corchetes y el índice:
+              <code>array[indice]</code>.
+            </span>
+          </div>
+
+          <div>
+            <strong>length</strong>
+            <span>
+              Indica el número de elementos almacenados en el array.
+            </span>
+          </div>
+
+        </div>
+
+        <div class="caja caja-ejemplo">
+
+          <span class="caja-titulo">
+            💻 Ejemplo
+          </span>
+
+          <p>
+            <code>const lenguajes = ["HTML", "CSS", "JavaScript"];</code>
+          </p>
+
+        </div>
+
+        <div class="caja caja-importante">
+
+          <span class="caja-titulo">
+            📌 Recuerda
+          </span>
+
+          <p>
+            Los índices comienzan en <strong>0</strong>.
+            Por tanto, en un array de tres elementos los índices válidos
+            son <code>0</code>, <code>1</code> y <code>2</code>.
+          </p>
+
+        </div>
+
+      </section>
+
+
+      <!-- ==========================================
+           4.2
+      ========================================== -->
+
+      <section
+        class="apartado-ut"
+        id="acceso"
+      >
+
+        <h2>4.2 Acceso y modificación de elementos</h2>
+
+        <p>
+          Podemos consultar o modificar un elemento indicando
+          <strong>la posición que ocupa dentro del array</strong>.
+        </p>
+
+        <div class="lista-claves">
+
+          <div>
+            <strong>Consultar</strong>
+            <span>
+              <code>lenguajes[0]</code> devuelve el primer elemento.
+            </span>
+          </div>
+
+          <div>
+            <strong>Modificar</strong>
+            <span>
+              Podemos asignar un nuevo valor:
+              <code>lenguajes[1] = "Sass";</code>
+            </span>
+          </div>
+
+          <div>
+            <strong>Último elemento</strong>
+            <span>
+              Su posición puede obtenerse mediante
+              <code>array.length - 1</code>.
+            </span>
+          </div>
+
+          <div>
+            <strong>const</strong>
+            <span>
+              Un array declarado con <code>const</code> puede modificar
+              sus elementos aunque no pueda reasignarse la variable completa.
+            </span>
+          </div>
+
+        </div>
+
+        <div class="caja caja-atencion">
+
+          <span class="caja-titulo">
+            ⚠️ Atención
+          </span>
+
+          <p>
+            Acceder a una posición que no existe devuelve
+            <code>undefined</code>. Debemos comprobar siempre que el índice
+            utilizado corresponde a una posición válida.
+          </p>
+
+        </div>
+
+      </section>
+
+
+      <!-- ==========================================
+           4.3
+      ========================================== -->
+
+      <section
+        class="apartado-ut"
+        id="anadir-eliminar"
+      >
+
+        <h2>4.3 Añadir y eliminar elementos</h2>
+
+        <p>
+          JavaScript proporciona métodos específicos para
+          <strong>añadir o eliminar elementos en los extremos de un array</strong>.
+        </p>
+
+        <div class="tabla-responsive">
+
+          <table class="tabla-apuntes">
+
+            <thead>
+              <tr>
+                <th>Método</th>
+                <th>Operación</th>
+                <th>Valor devuelto</th>
+              </tr>
+            </thead>
+
+            <tbody>
+
+              <tr>
+                <td><code>push()</code></td>
+                <td>Añade uno o varios elementos al final.</td>
+                <td>Nueva longitud del array.</td>
+              </tr>
+
+              <tr>
+                <td><code>pop()</code></td>
+                <td>Elimina el último elemento.</td>
+                <td>Elemento eliminado.</td>
+              </tr>
+
+              <tr>
+                <td><code>unshift()</code></td>
+                <td>Añade uno o varios elementos al principio.</td>
+                <td>Nueva longitud del array.</td>
+              </tr>
+
+              <tr>
+                <td><code>shift()</code></td>
+                <td>Elimina el primer elemento.</td>
+                <td>Elemento eliminado.</td>
+              </tr>
+
+            </tbody>
+
+          </table>
+
+        </div>
+
+        <div class="caja caja-importante">
+
+          <span class="caja-titulo">
+            📌 Importante
+          </span>
+
+          <p>
+            <code>push()</code>, <code>pop()</code>,
+            <code>unshift()</code> y <code>shift()</code>
+            <strong>modifican el array original</strong>.
+          </p>
+
+        </div>
+
+      </section>
+
+
+      <!-- ==========================================
+           4.4
+      ========================================== -->
+
+      <section
+        class="apartado-ut"
+        id="splice"
+      >
+
+        <h2>4.4 Modificar arrays con splice()</h2>
+
+        <p>
+          El método <code>splice()</code> permite realizar modificaciones
+          en cualquier posición del array.
+        </p>
+
+        <div class="rejilla-resumen">
+
+          <div class="tarjeta-resumen">
+
+            <span>➖</span>
+
+            <strong>Eliminar</strong>
+
+            <p>
+              Puede eliminar uno o varios elementos desde una posición.
+            </p>
+
+          </div>
+
+          <div class="tarjeta-resumen">
+
+            <span>➕</span>
+
+            <strong>Insertar</strong>
+
+            <p>
+              Puede introducir nuevos elementos sin eliminar los existentes.
+            </p>
+
+          </div>
+
+          <div class="tarjeta-resumen">
+
+            <span>🔄</span>
+
+            <strong>Reemplazar</strong>
+
+            <p>
+              Puede eliminar elementos e insertar otros en su lugar.
+            </p>
+
+          </div>
+
+        </div>
+
+        <div class="caja caja-ejemplo">
+
+          <span class="caja-titulo">
+            💻 Sintaxis básica
+          </span>
+
+          <p>
+            <code>
+              array.splice(posicionInicial, cantidadEliminar, elemento1, ...)
+            </code>
+          </p>
+
+        </div>
+
+        <div class="caja caja-importante">
+
+          <span class="caja-titulo">
+            📌 Recuerda
+          </span>
+
+          <p>
+            <code>splice()</code> <strong>modifica el array original</strong>
+            y devuelve un nuevo array con los elementos que hayan sido eliminados.
+          </p>
+
+        </div>
+
+      </section>
+
+
+      <!-- ==========================================
+           4.5
+      ========================================== -->
+
+      <section
+        class="apartado-ut"
+        id="buscar"
+      >
+
+        <h2>4.5 Buscar elementos en un array</h2>
+
+        <p>
+          Dependiendo de lo que necesitemos conocer podemos utilizar
+          diferentes métodos de búsqueda.
+        </p>
+
+        <div class="tabla-responsive">
+
+          <table class="tabla-apuntes">
+
+            <thead>
+              <tr>
+                <th>Método</th>
+                <th>Qué busca</th>
+                <th>Resultado</th>
+              </tr>
+            </thead>
+
+            <tbody>
+
+              <tr>
+                <td><code>indexOf()</code></td>
+                <td>Un valor concreto.</td>
+                <td>Índice o <code>-1</code>.</td>
+              </tr>
+
+              <tr>
+                <td><code>includes()</code></td>
+                <td>Si existe un valor concreto.</td>
+                <td><code>true</code> o <code>false</code>.</td>
+              </tr>
+
+              <tr>
+                <td><code>find()</code></td>
+                <td>Primer elemento que cumple una condición.</td>
+                <td>Elemento o <code>undefined</code>.</td>
+              </tr>
+
+              <tr>
+                <td><code>findIndex()</code></td>
+                <td>Posición del primer elemento que cumple una condición.</td>
+                <td>Índice o <code>-1</code>.</td>
+              </tr>
+
+            </tbody>
+
+          </table>
+
+        </div>
+
+        <div class="caja caja-atencion">
+
+          <span class="caja-titulo">
+            ⚠️ Atención
+          </span>
+
+          <p>
+            Cuando utilizamos <code>indexOf()</code> o
+            <code>findIndex()</code>, debemos recordar que
+            <code>-1</code> significa que no se ha encontrado ningún elemento.
+          </p>
+
+        </div>
+
+      </section>
+
+
+      <!-- ==========================================
+           4.6
+      ========================================== -->
+
+      <section
+        class="apartado-ut"
+        id="for"
+      >
+
+        <h2>4.6 Recorrer arrays con for</h2>
+
+        <p>
+          El bucle <code>for</code> permite recorrer un array utilizando
+          <strong>sus índices</strong>.
+        </p>
+
+        <div class="lista-claves">
+
+          <div>
+            <strong>Inicio</strong>
+            <span>
+              Normalmente comenzamos en el índice <code>0</code>.
+            </span>
+          </div>
+
+          <div>
+            <strong>Límite</strong>
+            <span>
+              Utilizamos <code>i &lt; array.length</code>.
+            </span>
+          </div>
+
+          <div>
+            <strong>Índice</strong>
+            <span>
+              La variable de control representa la posición del elemento.
+            </span>
+          </div>
+
+          <div>
+            <strong>Elemento</strong>
+            <span>
+              Accedemos mediante <code>array[i]</code>.
+            </span>
+          </div>
+
+        </div>
+
+        <div class="caja caja-ejemplo">
+
+          <span class="caja-titulo">
+            💻 Estructura habitual
+          </span>
+
+          <p>
+            <code>
+              for (let i = 0; i &lt; array.length; i++) { ... }
+            </code>
+          </p>
+
+        </div>
+
+        <div class="caja caja-atencion">
+
+          <span class="caja-titulo">
+            ⚠️ Error frecuente
+          </span>
+
+          <p>
+            Utilizar <code>i &lt;= array.length</code> intenta acceder
+            a una posición que no existe. La condición habitual es
+            <strong><code>i &lt; array.length</code></strong>.
+          </p>
+
+        </div>
+
+      </section>
+
+
+      <!-- ==========================================
+           4.7
+      ========================================== -->
+
+      <section
+        class="apartado-ut"
+        id="for-of"
+      >
+
+        <h2>4.7 Recorrer arrays con for...of</h2>
+
+        <p>
+          <code>for...of</code> permite recorrer directamente
+          <strong>los valores almacenados en un array</strong>.
+        </p>
+
+        <div class="caja caja-ejemplo">
+
+          <span class="caja-titulo">
+            💻 Estructura básica
+          </span>
+
+          <p>
+            <code>for (const elemento of array) { ... }</code>
+          </p>
+
+        </div>
+
+        <div class="lista-claves">
+
+          <div>
+            <strong>Acceso directo</strong>
+            <span>
+              La variable representa directamente el elemento actual.
+            </span>
+          </div>
+
+          <div>
+            <strong>Sintaxis sencilla</strong>
+            <span>
+              No necesitamos controlar manualmente un índice.
+            </span>
+          </div>
+
+          <div>
+            <strong>Cuándo utilizarlo</strong>
+            <span>
+              Resulta apropiado cuando necesitamos los valores pero no sus índices.
+            </span>
+          </div>
+
+          <div>
+            <strong>for tradicional</strong>
+            <span>
+              Sigue siendo preferible cuando necesitamos controlar posiciones,
+              límites o recorridos inversos.
+            </span>
+          </div>
+
+        </div>
+
+        <div class="caja caja-atencion">
+
+          <span class="caja-titulo">
+            ⚠️ for...of no es for...in
+          </span>
+
+          <p>
+            Para recorrer habitualmente los <strong>valores</strong> de un array
+            utilizamos <code>for...of</code>. No debemos confundirlo con
+            <code>for...in</code>.
+          </p>
+
+        </div>
+
+      </section>
+
+
+      <!-- ==========================================
+           4.8
+      ========================================== -->
+
+      <section
+        class="apartado-ut"
+        id="foreach"
+      >
+
+        <h2>4.8 El método forEach()</h2>
+
+        <p>
+          <code>forEach()</code> ejecuta una acción
+          <strong>una vez por cada elemento del array</strong>.
+        </p>
+
+        <div class="lista-claves">
+
+          <div>
+            <strong>Elemento</strong>
+            <span>
+              El primer parámetro representa el elemento actual.
+            </span>
+          </div>
+
+          <div>
+            <strong>Índice</strong>
+            <span>
+              Podemos utilizar un segundo parámetro para conocer su posición.
+            </span>
+          </div>
+
+          <div>
+            <strong>Uso</strong>
+            <span>
+              Es útil cuando queremos realizar una acción con todos los elementos.
+            </span>
+          </div>
+
+          <div>
+            <strong>Resultado</strong>
+            <span>
+              No crea automáticamente un nuevo array transformado.
+            </span>
+          </div>
+
+        </div>
+
+        <div class="caja caja-importante">
+
+          <span class="caja-titulo">
+            📌 Recuerda
+          </span>
+
+          <p>
+            <code>forEach()</code> resulta muy cómodo para recorrer todos los
+            elementos, pero no permite utilizar <code>break</code> o
+            <code>continue</code> como en un bucle tradicional.
+          </p>
+
+        </div>
+
+      </section>
+
+
+      <!-- ==========================================
+           4.9
+      ========================================== -->
+
+      <section
+        class="apartado-ut"
+        id="map-filter"
+      >
+
+        <h2>4.9 Transformar y filtrar arrays</h2>
+
+        <p>
+          <code>map()</code> y <code>filter()</code> permiten obtener
+          <strong>nuevos arrays a partir de un array existente</strong>.
+        </p>
+
+        <div class="rejilla-resumen">
+
+          <div class="tarjeta-resumen">
+
+            <span>🔄</span>
+
+            <strong>map()</strong>
+
+            <p>
+              Transforma cada elemento y genera un nuevo array con
+              el mismo número de elementos.
+            </p>
+
+          </div>
+
+          <div class="tarjeta-resumen">
+
+            <span>🔎</span>
+
+            <strong>filter()</strong>
+
+            <p>
+              Selecciona únicamente los elementos que cumplen una condición.
+            </p>
+
+          </div>
+
+          <div class="tarjeta-resumen">
+
+            <span>🔗</span>
+
+            <strong>Combinación</strong>
+
+            <p>
+              Podemos encadenar operaciones para filtrar y después
+              transformar los resultados.
+            </p>
+
+          </div>
+
+        </div>
+
+        <div class="tabla-responsive">
+
+          <table class="tabla-apuntes">
+
+            <thead>
+              <tr>
+                <th>Método</th>
+                <th>Objetivo</th>
+                <th>Nuevo array</th>
+              </tr>
+            </thead>
+
+            <tbody>
+
+              <tr>
+                <td><code>forEach()</code></td>
+                <td>Realizar una acción por elemento.</td>
+                <td>No.</td>
+              </tr>
+
+              <tr>
+                <td><code>map()</code></td>
+                <td>Transformar todos los elementos.</td>
+                <td>Sí.</td>
+              </tr>
+
+              <tr>
+                <td><code>filter()</code></td>
+                <td>Seleccionar algunos elementos.</td>
+                <td>Sí.</td>
+              </tr>
+
+            </tbody>
+
+          </table>
+
+        </div>
+
+        <div class="caja caja-importante">
+
+          <span class="caja-titulo">
+            📌 Idea esencial
+          </span>
+
+          <p>
+            <code>map()</code> y <code>filter()</code>
+            <strong>no modifican por sí mismos el array original</strong>.
+            Devuelven un nuevo array que debemos guardar si queremos utilizarlo.
+          </p>
+
+        </div>
+
+      </section>
+
+
+      <!-- ==========================================
+           4.10
+      ========================================== -->
+
+      <section
+        class="apartado-ut"
+        id="ordenar"
+      >
+
+        <h2>4.10 Ordenar e invertir arrays</h2>
+
+        <p>
+          Los métodos <code>sort()</code> y <code>reverse()</code>
+          permiten modificar el orden de los elementos.
+        </p>
+
+        <div class="lista-claves">
+
+          <div>
+            <strong>sort()</strong>
+            <span>
+              Ordena los elementos del array.
+            </span>
+          </div>
+
+          <div>
+            <strong>Orden numérico ascendente</strong>
+            <span>
+              Utilizamos <code>sort((a, b) =&gt; a - b)</code>.
+            </span>
+          </div>
+
+          <div>
+            <strong>Orden numérico descendente</strong>
+            <span>
+              Utilizamos <code>sort((a, b) =&gt; b - a)</code>.
+            </span>
+          </div>
+
+          <div>
+            <strong>reverse()</strong>
+            <span>
+              Invierte el orden actual de los elementos.
+            </span>
+          </div>
+
+        </div>
+
+        <div class="caja caja-atencion">
+
+          <span class="caja-titulo">
+            ⚠️ Atención
+          </span>
+
+          <p>
+            Tanto <code>sort()</code> como <code>reverse()</code>
+            <strong>modifican el array original</strong>.
+          </p>
+
+        </div>
+
+        <div class="caja caja-importante">
+
+          <span class="caja-titulo">
+            📌 Ordenar no es invertir
+          </span>
+
+          <p>
+            <code>reverse()</code> no ordena los valores de menor a mayor
+            ni de mayor a menor: únicamente
+            <strong>invierte el orden que ya tiene el array</strong>.
+          </p>
+
+        </div>
+
+      </section>
+
+
+      <!-- ==========================================
+           4.11
+      ========================================== -->
+
+      <section
+        class="apartado-ut"
+        id="multidimensionales"
+      >
+
+        <h2>4.11 Arrays multidimensionales</h2>
+
+        <p>
+          Un array multidimensional es un array que contiene
+          <strong>otros arrays como elementos</strong>.
+        </p>
+
+        <div class="lista-claves">
+
+          <div>
+            <strong>Filas</strong>
+            <span>
+              Cada array interior puede representar una fila de datos.
+            </span>
+          </div>
+
+          <div>
+            <strong>Columnas</strong>
+            <span>
+              Cada elemento de una fila puede interpretarse como una columna.
+            </span>
+          </div>
+
+          <div>
+            <strong>Acceso</strong>
+            <span>
+              Utilizamos dos índices:
+              <code>array[fila][columna]</code>.
+            </span>
+          </div>
+
+          <div>
+            <strong>Recorrido</strong>
+            <span>
+              Normalmente necesitamos un recorrido exterior para las filas
+              y otro interior para sus elementos.
+            </span>
+          </div>
+
+        </div>
+
+        <div class="caja caja-ejemplo">
+
+          <span class="caja-titulo">
+            💻 Ejemplo
+          </span>
+
+          <p>
+            <code>
+              const notas = [[7, 8, 6], [5, 9, 7], [8, 6, 10]];
+            </code>
+          </p>
+
+        </div>
+
+        <div class="caja caja-importante">
+
+          <span class="caja-titulo">
+            📌 length en arrays multidimensionales
+          </span>
+
+          <p>
+            <code>array.length</code> indica el número de filas,
+            mientras que <code>array[fila].length</code> indica
+            el número de elementos de esa fila.
+          </p>
+
+        </div>
+
+      </section>
+
+
+      <!-- ==========================================
+           4.12
+      ========================================== -->
+
+      <section
+        class="apartado-ut"
+        id="problemas"
+      >
+
+        <h2>4.12 Resolución de problemas con arrays</h2>
+
+        <p>
+          Resolver problemas con arrays no consiste en utilizar
+          cuantos más métodos mejor, sino en
+          <strong>analizar qué resultado necesitamos y elegir la herramienta adecuada</strong>.
+        </p>
+
+        <div class="mapa-resumen">
+
+          <div class="mapa-nodo mapa-principal">
+
+            <strong>COMPRENDER EL PROBLEMA</strong>
+
+            <span>
+              ¿Qué datos tenemos y qué resultado necesitamos?
+            </span>
+
+          </div>
+
+          <div class="mapa-flecha">↓</div>
+
+          <div class="mapa-columnas">
+
+            <div class="mapa-nodo">
+
+              <strong>Datos</strong>
+
+              <span>
+                ¿Qué información contiene el array?
+              </span>
+
+            </div>
+
+            <div class="mapa-nodo">
+
+              <strong>Operación</strong>
+
+              <span>
+                ¿Buscar, recorrer, filtrar, transformar u ordenar?
+              </span>
+
+            </div>
+
+            <div class="mapa-nodo">
+
+              <strong>Resultado</strong>
+
+              <span>
+                ¿Necesitamos un valor, un índice o un nuevo array?
+              </span>
+
+            </div>
+
+          </div>
+
+          <div class="mapa-flecha">↓</div>
+
+          <div class="mapa-nodo mapa-principal">
+
+            <strong>ELEGIR LA HERRAMIENTA ADECUADA</strong>
+
+            <span>
+              índice · búsqueda · recorrido · transformación · filtrado · ordenación
+            </span>
+
+          </div>
+
+          <div class="mapa-flecha">↓</div>
+
+          <div class="mapa-nodo mapa-principal">
+
+            <strong>PROGRAMAR → COMPROBAR → DEPURAR → CORREGIR</strong>
+
+          </div>
+
+        </div>
+
+
+        <h3>Elegir la herramienta adecuada</h3>
+
+        <div class="tabla-responsive">
+
+          <table class="tabla-apuntes">
+
+            <thead>
+              <tr>
+                <th>Necesidad</th>
+                <th>Herramienta</th>
+              </tr>
+            </thead>
+
+            <tbody>
+
+              <tr>
+                <td>Acceder a una posición conocida</td>
+                <td>Índice</td>
+              </tr>
+
+              <tr>
+                <td>Conocer el número de elementos</td>
+                <td><code>length</code></td>
+              </tr>
+
+              <tr>
+                <td>Añadir o eliminar en los extremos</td>
+                <td>
+                  <code>push()</code>, <code>pop()</code>,
+                  <code>unshift()</code>, <code>shift()</code>
+                </td>
+              </tr>
+
+              <tr>
+                <td>Insertar, eliminar o reemplazar en una posición</td>
+                <td><code>splice()</code></td>
+              </tr>
+
+              <tr>
+                <td>Buscar un valor concreto</td>
+                <td><code>indexOf()</code> o <code>includes()</code></td>
+              </tr>
+
+              <tr>
+                <td>Buscar mediante una condición</td>
+                <td><code>find()</code> o <code>findIndex()</code></td>
+              </tr>
+
+              <tr>
+                <td>Recorrer con control del índice</td>
+                <td><code>for</code></td>
+              </tr>
+
+              <tr>
+                <td>Recorrer directamente los valores</td>
+                <td><code>for...of</code></td>
+              </tr>
+
+              <tr>
+                <td>Realizar una acción por cada elemento</td>
+                <td><code>forEach()</code></td>
+              </tr>
+
+              <tr>
+                <td>Transformar todos los elementos</td>
+                <td><code>map()</code></td>
+              </tr>
+
+              <tr>
+                <td>Seleccionar algunos elementos</td>
+                <td><code>filter()</code></td>
+              </tr>
+
+              <tr>
+                <td>Ordenar</td>
+                <td><code>sort()</code></td>
+              </tr>
+
+              <tr>
+                <td>Invertir el orden actual</td>
+                <td><code>reverse()</code></td>
+              </tr>
+
+              <tr>
+                <td>Trabajar con filas y columnas</td>
+                <td>Arrays multidimensionales y recorridos anidados</td>
+              </tr>
+
+            </tbody>
+
+          </table>
+
+        </div>
+
+
+        <div class="caja caja-ejemplo">
+
+          <span class="caja-titulo">
+            💻 Método de trabajo
+          </span>
+
+          <p>
+            <strong>
+              Analizar → identificar los datos → determinar el resultado →
+              elegir la operación → programar → comprobar → corregir.
+            </strong>
+          </p>
+
+        </div>
+
+        <div class="caja caja-importante">
+
+          <span class="caja-titulo">
+            📌 Idea fundamental
+          </span>
+
+          <p>
+            Conocer muchos métodos no sustituye al razonamiento.
+            Lo importante es <strong>comprender el problema y seleccionar
+            la herramienta que mejor se adapte al resultado que necesitamos</strong>.
+          </p>
+
+        </div>
+
+      </section>
+
+
+      <!-- ==========================================
+           IDEAS CLAVE
+      ========================================== -->
+
+      <section
+        class="apartado-ut"
+        id="ideas-clave"
+      >
+
+        <h2>Ideas clave de la UT4</h2>
+
+        <div class="caja caja-importante resumen-final">
+
+          <span class="caja-titulo">
+            📌 Si tuvieras que recordar solo estas ideas…
+          </span>
+
+          <ul>
+
+            <li>
+              Un <strong>array</strong> permite almacenar varios valores
+              dentro de una misma estructura.
+            </li>
+
+            <li>
+              Los índices de un array comienzan en
+              <strong><code>0</code></strong>.
+            </li>
+
+            <li>
+              La propiedad <code>length</code> indica
+              <strong>cuántos elementos contiene un array</strong>.
+            </li>
+
+            <li>
+              Podemos acceder o modificar un elemento mediante
+              <code>array[indice]</code>.
+            </li>
+
+            <li>
+              Un array declarado con <code>const</code> puede modificar
+              sus elementos, aunque no podemos reasignar la variable
+              a otro array.
+            </li>
+
+            <li>
+              <code>push()</code> y <code>unshift()</code> añaden elementos;
+              <code>pop()</code> y <code>shift()</code> los eliminan
+              de los extremos del array.
+            </li>
+
+            <li>
+              <code>splice()</code> permite
+              <strong>eliminar, insertar o reemplazar elementos</strong>
+              en cualquier posición.
+            </li>
+
+            <li>
+              <code>indexOf()</code> devuelve un índice,
+              mientras que <code>includes()</code> responde con
+              <code>true</code> o <code>false</code>.
+            </li>
+
+            <li>
+              <code>find()</code> devuelve el primer elemento que cumple
+              una condición y <code>findIndex()</code> devuelve su posición.
+            </li>
+
+            <li>
+              <code>for</code> resulta especialmente útil cuando necesitamos
+              <strong>trabajar con los índices</strong> o controlar el recorrido.
+            </li>
+
+            <li>
+              <code>for...of</code> permite recorrer directamente
+              <strong>los valores</strong> de un array.
+            </li>
+
+            <li>
+              <code>forEach()</code> ejecuta una acción una vez por cada
+              elemento del array.
+            </li>
+
+            <li>
+              <code>map()</code> transforma los elementos y devuelve
+              <strong>un nuevo array</strong>.
+            </li>
+
+            <li>
+              <code>filter()</code> selecciona los elementos que cumplen
+              una condición y devuelve <strong>un nuevo array</strong>.
+            </li>
+
+            <li>
+              <code>sort()</code> ordena los elementos y
+              <code>reverse()</code> invierte el orden actual.
+            </li>
+
+            <li>
+              <code>sort()</code>, <code>reverse()</code> y
+              <code>splice()</code> <strong>modifican el array original</strong>.
+            </li>
+
+            <li>
+              Para ordenar números correctamente con <code>sort()</code>
+              necesitamos una función de comparación:
+              <code>(a, b) =&gt; a - b</code> para orden ascendente y
+              <code>(a, b) =&gt; b - a</code> para descendente.
+            </li>
+
+            <li>
+              Un array multidimensional contiene otros arrays y permite
+              representar estructuras como
+              <strong>filas y columnas</strong>.
+            </li>
+
+            <li>
+              Para recorrer un array multidimensional normalmente necesitamos
+              <strong>recorridos anidados</strong>.
+            </li>
+
+            <li>
+              Antes de elegir un método debemos preguntarnos
+              <strong>qué resultado necesitamos obtener</strong>:
+              un valor, un índice, una comprobación o un nuevo array.
+            </li>
+
+            <li>
+              Resolver problemas con arrays implica
+              <strong>
+                analizar, elegir la herramienta adecuada, programar,
+                comprobar, depurar y corregir.
+              </strong>
+            </li>
+
+          </ul>
+
+        </div>
+
+      </section>
+
+
+      <!-- ==========================================
+           NAVEGACIÓN
+      ========================================== -->
+
+      <nav class="navegacion-paginas">
+
+        <a
+          class="nav-pagina nav-anterior"
+          href="../4-12/index.html"
+        >
+
+          <span class="nav-etiqueta">
+            Anterior
+          </span>
+
+          <strong>
+            ‹ 4.12 Resolución de problemas con arrays
+          </strong>
+
+        </a>
+
+
+        <a
+          class="nav-pagina nav-siguiente"
+          href="../actividades/index.html"
+        >
+
+          <span class="nav-etiqueta">
+            Siguiente
+          </span>
+
+          <strong>
+            📝 Actividades de la UT4 ›
+          </strong>
+
+        </a>
+
+      </nav>
+
+    </main>
+
+
+    <!-- ==========================================
+         ÍNDICE DERECHO
+    ========================================== -->
+
+    <aside class="indice-derecho">
+
+      <h2>
+        En este resumen
+      </h2>
+
+      <ul>
+
+        <li>
+          <a href="#vision-global">
+            Visión global
+          </a>
+        </li>
+
+        <li>
+          <a href="#introduccion-arrays">
+            4.1 Introducción a los arrays
+          </a>
+        </li>
+
+        <li>
+          <a href="#acceso">
+            4.2 Acceso y modificación
+          </a>
+        </li>
+
+        <li>
+          <a href="#anadir-eliminar">
+            4.3 Añadir y eliminar
+          </a>
+        </li>
+
+        <li>
+          <a href="#splice">
+            4.4 splice()
+          </a>
+        </li>
+
+        <li>
+          <a href="#buscar">
+            4.5 Buscar elementos
+          </a>
+        </li>
+
+        <li>
+          <a href="#for">
+            4.6 Recorrer con for
+          </a>
+        </li>
+
+        <li>
+          <a href="#for-of">
+            4.7 Recorrer con for...of
+          </a>
+        </li>
+
+        <li>
+          <a href="#foreach">
+            4.8 forEach()
+          </a>
+        </li>
+
+        <li>
+          <a href="#map-filter">
+            4.9 map() y filter()
+          </a>
+        </li>
+
+        <li>
+          <a href="#ordenar">
+            4.10 Ordenar e invertir
+          </a>
+        </li>
+
+        <li>
+          <a href="#multidimensionales">
+            4.11 Arrays multidimensionales
+          </a>
+        </li>
+
+        <li>
+          <a href="#problemas">
+            4.12 Resolución de problemas
+          </a>
+        </li>
+
+        <li>
+          <a href="#ideas-clave">
+            Ideas clave
+          </a>
+        </li>
+
+      </ul>
+
+    </aside>
+
+  </div>
+
+
+  <!-- ==========================================
+       PIE DE PÁGINA
+  ========================================== -->
+
+  <footer class="footer">
+
+    <p>
+
+      Material elaborado por
+      <strong>Eva Ballestero Cubeles</strong>
+
+      · Licencia
+
+      <span class="licencia">
+        CC BY-NC-SA 4.0
+      </span>
+
+      <a
+        class="enlace-licencia"
+        href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.es"
+        target="_blank"
+        rel="license noopener noreferrer"
+        aria-label="Licencia Creative Commons BY-NC-SA 4.0"
+      >
+
+        <img
+          class="icono-licencia"
+          src="../../../img/licencias/cc-by-nc-sa.png"
+          alt="Licencia Creative Commons BY-NC-SA 4.0"
+        >
+
+      </a>
+
+    </p>
+
+  </footer>
+
+
+  <!-- ==========================================
+       JAVASCRIPT
+  ========================================== -->
+
+  <script src="../../../js/modulos.js"></script>
+
+  <script>
+
+    /* ==========================================
+       MENÚ SUPERIOR DE MÓDULOS
+    ========================================== */
+
+    const menuModulos =
+      document.getElementById("menuModulos");
+
+    const botonTema =
+      document.getElementById("botonTema");
+
+    const modulosActivos =
+      modulos.filter(
+        modulo => modulo.activo === true
+      );
+
+
+    modulosActivos.forEach(modulo => {
+
+      const enlace =
+        document.createElement("a");
+
+      enlace.href =
+        `../../../${modulo.carpeta}/index.html`;
+
+      enlace.textContent =
+        modulo.siglas;
+
+      enlace.title =
+        modulo.nombre;
+
+
+      if (modulo.siglas === "DWEC") {
+
+        enlace.style.color =
+          "var(--verde-principal)";
+
+      }
+
+
+      menuModulos.appendChild(enlace);
+
+    });
+
+
+    /* ==========================================
+       MODO CLARO / OSCURO
+    ========================================== */
+
+    const temaGuardado =
+      localStorage.getItem("tema");
+
+
+    if (temaGuardado === "oscuro") {
+
+      document.body.classList.add(
+        "modo-oscuro"
+      );
+
+      botonTema.textContent =
+        "🌙";
+
+    }
+
+
+    botonTema.addEventListener(
+      "click",
+      () => {
+
+        document.body.classList.toggle(
+          "modo-oscuro"
+        );
+
+
+        const estaOscuro =
+          document.body.classList.contains(
+            "modo-oscuro"
+          );
+
+
+        botonTema.textContent =
+          estaOscuro ? "🌙" : "☀️";
+
+
+        localStorage.setItem(
+          "tema",
+          estaOscuro
+            ? "oscuro"
+            : "claro"
+        );
+
+      }
+    );
+
+
+    /* ==========================================
+       MENÚS DESPLEGABLES
+    ========================================== */
+
+    const botonesDesplegar =
+      document.querySelectorAll(
+        ".boton-desplegar"
+      );
+
+
+    botonesDesplegar.forEach(
+      (boton) => {
+
+        boton.addEventListener(
+          "click",
+          () => {
+
+            const idSubmenu =
+              boton.getAttribute(
+                "data-target"
+              );
+
+
+            const submenu =
+              document.getElementById(
+                idSubmenu
+              );
+
+
+            if (!submenu) {
+              return;
+            }
+
+
+            const estaAbierto =
+              submenu.classList.contains(
+                "submenu-abierto"
+              );
+
+
+            if (estaAbierto) {
+
+              submenu.classList.remove(
+                "submenu-abierto"
+              );
+
+              boton.textContent =
+                "›";
+
+              boton.setAttribute(
+                "aria-expanded",
+                "false"
+              );
+
+            } else {
+
+              submenu.classList.add(
+                "submenu-abierto"
+              );
+
+              boton.textContent =
+                "⌄";
+
+              boton.setAttribute(
+                "aria-expanded",
+                "true"
+              );
+
+            }
+
+          }
+        );
+
+      }
+    );
+
+  </script>
+
+</body>
+
+</html>
