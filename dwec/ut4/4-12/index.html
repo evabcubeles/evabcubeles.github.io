@@ -4002,29 +4002,35 @@ Segundos: [1.1, 1.5, 2.2]</code></pre>
        MENÚ SUPERIOR DE MÓDULOS
     ========================================== */
 
-    const menuModulos = document.getElementById("menuModulos");
 
-    if (
-      menuModulos &&
-      typeof modulos !== "undefined"
-    ) {
+const menuModulos = document.getElementById("menuModulos");
 
-      const modulosActivos = modulos.filter(
-        (modulo) => modulo.activo
-      );
+if (menuModulos && typeof modulos !== "undefined") {
 
-      modulosActivos.forEach((modulo) => {
+  const modulosActivos = modulos.filter(
+    modulo => modulo.activo === true
+  );
 
-        const enlace = document.createElement("a");
+  modulosActivos.forEach(modulo => {
 
-        enlace.href = "../../../" + modulo.carpeta + "/index.html";
-        enlace.textContent = modulo.nombre;
+    const enlace = document.createElement("a");
 
-        menuModulos.appendChild(enlace);
+    enlace.href = `../../../${modulo.carpeta}/index.html`;
 
-      });
+    enlace.textContent = modulo.siglas;
 
+    enlace.title = modulo.nombre;
+
+    if (modulo.siglas === "DWEC") {
+      enlace.style.color = "var(--verde-principal)";
     }
+
+    menuModulos.appendChild(enlace);
+
+  });
+
+}
+
 
 
     /* ==========================================
