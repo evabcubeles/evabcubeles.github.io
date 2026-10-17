@@ -536,39 +536,53 @@
       gap: 10px;
     }
 
-    .demo-lineas-esquema {
-      display: grid;
-      grid-template-columns: 24px repeat(3, minmax(0, 1fr)) 24px;
-      grid-template-rows: auto 66px 66px;
-      gap: 0;
-      max-width: 500px;
-      margin: 14px auto 0;
-    }
+.demo-lineas-esquema {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  grid-template-rows: 28px 66px 66px;
+  gap: 0;
+  max-width: 500px;
+  margin: 14px auto 0;
+  position: relative;
+}
 
-    .demo-numero-linea {
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-family: Consolas, monospace;
-      font-size: 13px;
-      font-weight: 700;
-      color: #516176;
-    }
+.demo-numero-linea {
+  position: absolute;
+  top: 0;
+  transform: translateX(-50%);
+  color: #516176;
+  font-family: Consolas, monospace;
+  font-size: 13px;
+  font-weight: 700;
+}
 
     .demo-numero-linea.superior {
       padding-bottom: 8px;
     }
 
-    .demo-celda-esquema {
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      border: 1px dashed #77a88a;
-      background: #e4f3e9;
-      color: #195c36;
-      font-weight: 700;
-      font-size: 14px;
-    }
+.linea-1 { left: 0; }
+.linea-2 { left: 33.333%; }
+.linea-3 { left: 66.666%; }
+.linea-4 { left: 100%; }
+
+.demo-celda-esquema {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px dashed #77a88a;
+  background: #e4f3e9;
+  color: #195c36;
+  font-size: 14px;
+  font-weight: 700;
+}
+
+.celda-1 { grid-column: 1; grid-row: 2; }
+.celda-2 { grid-column: 2; grid-row: 2; }
+.celda-3 { grid-column: 3; grid-row: 2; }
+
+.celda-4 { grid-column: 1; grid-row: 3; }
+.celda-5 { grid-column: 2; grid-row: 3; }
+.celda-6 { grid-column: 3; grid-row: 3; }
 
     .demo-celda-esquema:nth-of-type(even) {
       background: #d5eadc;
@@ -675,7 +689,7 @@
 
     .demo-studyflow {
       display: grid;
-      grid-template-columns: repeat(3, minmax(0, 1fr));
+      grid-template-columns: 1fr 1fr 1fr;
       gap: 14px;
     }
 
@@ -2070,23 +2084,23 @@
 
           <strong>Esquema: líneas verticales de una cuadrícula</strong>
 
-          <div class="demo-lineas-esquema" aria-label="Tres columnas delimitadas por cuatro líneas verticales">
+ <div class="demo-lineas-esquema"
+     aria-label="Tres columnas delimitadas por cuatro líneas verticales">
 
-            <span class="demo-numero-linea superior" style="grid-column: 2; grid-row: 1; justify-content: flex-start;">1</span>
-            <span class="demo-numero-linea superior" style="grid-column: 2; grid-row: 1; justify-content: flex-end;">2</span>
-            <span class="demo-numero-linea superior" style="grid-column: 3; grid-row: 1; justify-content: flex-end;">3</span>
-            <span class="demo-numero-linea superior" style="grid-column: 4; grid-row: 1; justify-content: flex-end;">4</span>
+  <span class="demo-numero-linea linea-1">1</span>
+  <span class="demo-numero-linea linea-2">2</span>
+  <span class="demo-numero-linea linea-3">3</span>
+  <span class="demo-numero-linea linea-4">4</span>
 
-            <div class="demo-celda-esquema" style="grid-column: 2; grid-row: 2;">1</div>
-            <div class="demo-celda-esquema" style="grid-column: 3; grid-row: 2;">2</div>
-            <div class="demo-celda-esquema" style="grid-column: 4; grid-row: 2;">3</div>
+  <div class="demo-celda-esquema celda-1">1</div>
+  <div class="demo-celda-esquema celda-2">2</div>
+  <div class="demo-celda-esquema celda-3">3</div>
 
-            <div class="demo-celda-esquema" style="grid-column: 2; grid-row: 3;">4</div>
-            <div class="demo-celda-esquema" style="grid-column: 3; grid-row: 3;">5</div>
-            <div class="demo-celda-esquema" style="grid-column: 4; grid-row: 3;">6</div>
+  <div class="demo-celda-esquema celda-4">4</div>
+  <div class="demo-celda-esquema celda-5">5</div>
+  <div class="demo-celda-esquema celda-6">6</div>
 
-          </div>
-
+</div>
           <p class="demo-explicacion">
             Los números superiores representan
             las cuatro líneas verticales que
@@ -2906,12 +2920,20 @@
 
         <h3>¿Cómo se calcula el espacio disponible?</h3>
 
-        <p>
-          Para comprender la unidad <code>fr</code>,
-          imaginemos una cuadrícula con
-          800 píxeles de anchura interior
-          y tres columnas:
-        </p>
+<p>
+  Para comprender la unidad <code>fr</code>,
+  imaginemos una cuadrícula con
+  <strong>800 píxeles de anchura interior</strong>
+  y tres columnas.
+</p>
+
+<p>
+  En este ejemplo suponemos que el contenedor
+  no tiene <code>padding</code> ni bordes que
+  reduzcan el espacio interior disponible,
+  y que el contenido no impone tamaños mínimos
+  adicionales.
+</p>
 
         <div class="codigo-ejemplo">
 
@@ -3299,18 +3321,28 @@
 &lt;/section&gt;
 
 &lt;style&gt;
+.cursos {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  gap: 14px;
+}
+
+.curso {
+  min-width: 0;
+  padding: 18px;
+  border: 1px solid #b8d8c3;
+  border-radius: 9px;
+}
+
+/* Adaptación a pantallas estrechas */
+
+@media (max-width: 760px) {
+
   .cursos {
-    display: grid;
-    grid-template-columns: repeat(3, minmax(0, 1fr));
-    gap: 14px;
+    grid-template-columns: 1fr;
   }
 
-  .curso {
-    min-width: 0;
-    padding: 18px;
-    border: 1px solid #b8d8c3;
-    border-radius: 9px;
-  }
+}
 &lt;/style&gt;</code></pre>
 
         </div>
