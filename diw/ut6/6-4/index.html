@@ -646,6 +646,7 @@
       border-radius: 8px;
       background: #f3f6fa;
       min-width: 0;
+      overflow-x: auto;
     }
 
     .demo-elemento {
@@ -686,15 +687,17 @@
 
     /* Representación de los ejes */
 
-    .demo-ejes {
-      display: flex;
-      flex-direction: row;
-      gap: 12px;
-      min-height: 145px;
-      align-items: flex-start;
-      position: relative;
-      padding-bottom: 48px;
-    }
+.demo-ejes {
+  display: flex;
+  flex-direction: row;
+  gap: 12px;
+  min-height: 165px;
+  min-width: 340px;
+  align-items: flex-start;
+  position: relative;
+  padding: 14px 42px 55px 14px;
+  box-sizing: border-box;
+}
 
     .demo-eje-principal {
       position: absolute;
@@ -796,10 +799,11 @@
 
     /* Flex-wrap */
 
-    .demo-wrap-base {
-      display: flex;
-      gap: 10px;
-    }
+.demo-wrap-base {
+  display: flex;
+  gap: 10px;
+  max-width: 450px;
+}
 
     .demo-wrap-base .demo-elemento {
       flex: 0 0 125px;
