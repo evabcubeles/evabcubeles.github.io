@@ -1,0 +1,3264 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <meta
+    name="description"
+    content="6.4 - Introducción a Flexbox. Contenedores flexibles, ejes, display flex, flex-direction y flex-wrap."
+  >
+
+  <title>6.4 - Introducción a Flexbox</title>
+
+  <link rel="icon" type="image/png" href="../../../img/favicon.png?v=5">
+  <link rel="stylesheet" href="../../../css/estilos.css">
+
+  <style>
+
+    /* ==========================================
+       ESTRUCTURA GENERAL
+    ========================================== */
+
+    .pagina-ut {
+      display: grid;
+      grid-template-columns: 280px minmax(0, 1fr) 260px;
+      min-height: calc(100vh - 68px);
+    }
+
+    /* ==========================================
+       COLUMNA IZQUIERDA
+    ========================================== */
+
+    .sidebar {
+      border-right: 1px solid var(--borde);
+      background-color: var(--fondo-pagina);
+      padding: 12px 10px 30px;
+      position: sticky;
+      top: 68px;
+      height: calc(100vh - 68px);
+      overflow-y: auto;
+    }
+
+    .sidebar-modulo {
+      display: block;
+      margin-bottom: 8px;
+      padding: 8px 14px;
+      color: #626873;
+      font-size: 17px;
+      font-weight: 700;
+      line-height: 1.3;
+      text-decoration: none;
+      border-radius: 6px;
+    }
+
+    .sidebar-modulo:hover {
+      color: var(--verde-principal);
+      background-color: #f3f4f6;
+    }
+
+    .sidebar-ut-cerrada {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      padding: 13px 14px;
+      color: #626873;
+      text-decoration: none;
+      font-size: 16px;
+      font-weight: 650;
+      line-height: 1.35;
+      border-radius: 6px;
+    }
+
+    .sidebar-ut-cerrada:hover {
+      background-color: #f3f4f6;
+      color: var(--verde-principal);
+    }
+
+    .menu-desplegable {
+      width: 100%;
+    }
+
+    .menu-cabecera {
+      display: flex;
+      align-items: center;
+      gap: 4px;
+      width: 100%;
+      border-radius: 6px;
+    }
+
+    .menu-cabecera-activa {
+      background-color: #f1f1f1;
+    }
+
+    .menu-cabecera-activa > .menu-titulo {
+      color: var(--verde-principal);
+    }
+
+    .menu-titulo {
+      flex: 1;
+      display: block;
+      padding: 11px 8px 11px 14px;
+      color: #626873;
+      font-size: 16px;
+      font-weight: 650;
+      line-height: 1.4;
+      text-decoration: none;
+    }
+
+    .menu-titulo:hover {
+      color: var(--verde-principal);
+    }
+
+    .boton-desplegar {
+      width: 36px;
+      height: 36px;
+      margin-right: 5px;
+      padding: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+      border: 0;
+      border-radius: 6px;
+      background: transparent;
+      color: #777;
+      font-family: inherit;
+      font-size: 24px;
+      line-height: 1;
+      cursor: pointer;
+    }
+
+    .boton-desplegar:hover {
+      background-color: #e5e7eb;
+      color: var(--verde-principal);
+    }
+
+    .submenu {
+      display: none;
+    }
+
+    .submenu.submenu-abierto {
+      display: block;
+    }
+
+    .menu-apartado {
+      margin-left: 14px;
+    }
+
+    .menu-apartado .menu-titulo {
+      padding-top: 9px;
+      padding-bottom: 9px;
+      font-size: 15px;
+      font-weight: 600;
+    }
+
+    .enlace-apartado-simple {
+      display: block;
+      margin-left: 14px;
+      padding: 10px 14px;
+      color: #626873;
+      font-size: 15px;
+      font-weight: 600;
+      line-height: 1.4;
+      text-decoration: none;
+      border-radius: 6px;
+    }
+
+    .enlace-apartado-simple:hover {
+      background-color: #f3f4f6;
+      color: var(--verde-principal);
+    }
+
+    .submenu-apartados {
+      margin: 2px 0 5px 28px;
+      border-left: 2px solid #e0e3e7;
+    }
+
+    .submenu-apartados a {
+      display: block;
+      padding: 7px 10px;
+      color: #777d87;
+      font-size: 14px;
+      font-weight: 500;
+      line-height: 1.35;
+      text-decoration: none;
+    }
+
+    .submenu-apartados a:hover {
+      color: var(--verde-principal);
+    }
+
+    body.modo-oscuro .sidebar-modulo:hover,
+    body.modo-oscuro .sidebar-ut-cerrada:hover,
+    body.modo-oscuro .enlace-apartado-simple:hover,
+    body.modo-oscuro .menu-cabecera-activa {
+      background-color: #273244;
+    }
+
+    body.modo-oscuro .boton-desplegar:hover {
+      background-color: #334155;
+    }
+
+    body.modo-oscuro .submenu-apartados {
+      border-left-color: #3a4659;
+    }
+
+    /* ==========================================
+       ZONA CENTRAL
+    ========================================== */
+
+    .contenido-ut {
+      padding: 28px 34px 70px;
+      max-width: 1150px;
+      width: 100%;
+      min-width: 0;
+    }
+
+    .migas {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 30px;
+      font-size: 14px;
+    }
+
+    .miga-inicio {
+      text-decoration: none;
+      font-size: 18px;
+    }
+
+    .miga-separador {
+      color: #999;
+      font-size: 22px;
+    }
+
+    .miga-modulo {
+      color: var(--texto-secundario);
+      text-decoration: none;
+    }
+
+    .miga-modulo:hover {
+      color: var(--verde-principal);
+    }
+
+    .miga-actual {
+      padding: 8px 14px;
+      background-color: #f3f3f3;
+      border-radius: 24px;
+      color: var(--verde-principal);
+    }
+
+    body.modo-oscuro .miga-actual {
+      background-color: #273244;
+    }
+
+    .contenido-ut h1 {
+      margin: 0 0 30px;
+      font-size: clamp(38px, 5vw, 58px);
+      line-height: 1.12;
+    }
+
+    /* ==========================================
+       CONTENIDO DIDÁCTICO
+    ========================================== */
+
+    .apartado-ut {
+      margin-top: 55px;
+      scroll-margin-top: 95px;
+    }
+
+    .apartado-ut h2 {
+      margin: 0 0 24px;
+      font-size: 32px;
+      line-height: 1.2;
+      scroll-margin-top: 95px;
+    }
+
+    .apartado-ut h3 {
+      margin: 34px 0 16px;
+      font-size: 24px;
+      line-height: 1.3;
+    }
+
+    .apartado-ut p {
+      margin: 0 0 18px;
+      font-size: 18px;
+      line-height: 1.75;
+    }
+
+    .apartado-ut ul,
+    .apartado-ut ol {
+      margin: 16px 0 24px;
+      padding-left: 28px;
+    }
+
+    .apartado-ut li {
+      margin-bottom: 10px;
+      font-size: 17px;
+      line-height: 1.6;
+    }
+
+    /* ==========================================
+       CAJAS DIDÁCTICAS
+    ========================================== */
+
+    .caja {
+      margin: 28px 0;
+      padding: 18px 20px;
+      border-left: 5px solid;
+      border-radius: 8px;
+      line-height: 1.65;
+    }
+
+    .caja p {
+      margin: 0;
+      font-size: 17px;
+    }
+
+    .caja-titulo {
+      display: block;
+      margin-bottom: 8px;
+      font-size: 17px;
+      font-weight: 700;
+    }
+
+    .caja-importante {
+      background-color: #eef8f1;
+      border-left-color: #2f9e5b;
+    }
+
+    .caja-atencion {
+      background-color: #fff7e8;
+      border-left-color: #e09b27;
+    }
+
+    .caja-ejemplo {
+      background-color: #eef5ff;
+      border-left-color: #3f7acb;
+    }
+
+    body.modo-oscuro .caja-importante {
+      background-color: #20372a;
+    }
+
+    body.modo-oscuro .caja-atencion {
+      background-color: #3b3020;
+    }
+
+    body.modo-oscuro .caja-ejemplo {
+      background-color: #23344a;
+    }
+
+    /* ==========================================
+       TABLAS
+    ========================================== */
+
+    .tabla-responsive {
+      width: 100%;
+      margin: 28px 0;
+      overflow-x: auto;
+    }
+
+    .tabla-apuntes {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 16px;
+    }
+
+    .tabla-apuntes th,
+    .tabla-apuntes td {
+      padding: 14px 16px;
+      border: 1px solid var(--borde);
+      text-align: left;
+      vertical-align: top;
+      line-height: 1.55;
+    }
+
+    .tabla-apuntes th {
+      background-color: #f1f3f5;
+      font-weight: 700;
+    }
+
+    body.modo-oscuro .tabla-apuntes th {
+      background-color: #273244;
+    }
+
+    /* ==========================================
+       ACTIVIDAD DE REFLEXIÓN
+    ========================================== */
+
+    .actividad-reflexion {
+      margin: 32px 0;
+      padding: 22px 24px;
+      background-color: #f7f8fa;
+      border: 1px solid var(--borde);
+      border-radius: 10px;
+    }
+
+    .actividad-reflexion h3 {
+      margin: 0 0 12px;
+      color: var(--verde-principal);
+      font-size: 20px;
+    }
+
+    .actividad-reflexion p {
+      margin: 0;
+      font-size: 17px;
+      line-height: 1.65;
+    }
+
+    body.modo-oscuro .actividad-reflexion {
+      background-color: #232d3d;
+    }
+
+    .solucion-desplegable {
+      margin-top: 20px;
+    }
+
+    .solucion-desplegable summary {
+      display: inline-block;
+      padding: 10px 16px;
+      background-color: #eef8f1;
+      border: 1px solid #b9dfc6;
+      border-radius: 7px;
+      color: var(--verde-principal);
+      font-size: 16px;
+      font-weight: 700;
+      cursor: pointer;
+      user-select: none;
+    }
+
+    .solucion-desplegable summary:hover {
+      background-color: #e2f3e7;
+    }
+
+    .contenido-solucion {
+      margin-top: 16px;
+      padding: 18px 20px;
+      background-color: var(--fondo-pagina);
+      border-left: 4px solid var(--verde-principal);
+      border-radius: 6px;
+    }
+
+    .contenido-solucion p {
+      margin: 0 0 12px;
+      font-size: 16px;
+      line-height: 1.65;
+    }
+
+    .contenido-solucion p:last-child {
+      margin-bottom: 0;
+    }
+
+    body.modo-oscuro .solucion-desplegable summary {
+      background-color: #20372a;
+      border-color: #315d40;
+    }
+
+    /* ==========================================
+       COLUMNA DERECHA
+    ========================================== */
+
+    .indice-derecho {
+      padding: 28px 22px;
+      border-left: 1px solid var(--borde);
+      position: sticky;
+      top: 68px;
+      height: calc(100vh - 68px);
+      overflow-y: auto;
+    }
+
+    .indice-derecho h2 {
+      margin: 8px 0 20px;
+      font-size: 17px;
+      color: #555b65;
+    }
+
+    body.modo-oscuro .indice-derecho h2 {
+      color: #d1d5db;
+    }
+
+    .indice-derecho ul {
+      margin: 0;
+      padding-left: 18px;
+    }
+
+    .indice-derecho li {
+      margin-bottom: 12px;
+    }
+
+    .indice-derecho a {
+      color: var(--texto-secundario);
+      text-decoration: none;
+      font-size: 14px;
+      line-height: 1.4;
+    }
+
+    .indice-derecho a:hover {
+      color: var(--verde-principal);
+    }
+
+    /* ==========================================
+       NAVEGACIÓN ANTERIOR / SIGUIENTE
+    ========================================== */
+
+    .navegacion-paginas {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 20px;
+      margin-top: 50px;
+    }
+
+    .nav-pagina {
+      min-height: 100px;
+      padding: 18px 20px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      border: 1px solid var(--borde);
+      border-radius: 8px;
+      text-decoration: none;
+      background-color: var(--fondo-tarjeta);
+    }
+
+    .nav-anterior {
+      align-items: flex-start;
+      text-align: left;
+    }
+
+    .nav-siguiente {
+      align-items: flex-end;
+      text-align: right;
+    }
+
+    .nav-etiqueta {
+      margin-bottom: 5px;
+      color: var(--texto-secundario);
+      font-size: 14px;
+    }
+
+    .nav-pagina strong {
+      color: var(--verde-principal);
+      font-size: 16px;
+      line-height: 1.4;
+    }
+
+    .nav-pagina:hover {
+      border-color: var(--verde-principal);
+    }
+
+    /* ==========================================
+       BLOQUES DE CÓDIGO
+    ========================================== */
+
+    .codigo-ejemplo {
+      margin: 24px 0 30px;
+      border: 1px solid var(--borde);
+      border-radius: 9px;
+      overflow: hidden;
+      background: #172033;
+    }
+
+    .codigo-cabecera {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      padding: 10px 14px;
+      background: #202b3d;
+      color: #e5e7eb;
+      font-size: 14px;
+      font-weight: 700;
+    }
+
+    .boton-copiar {
+      padding: 6px 10px;
+      border: 1px solid #526078;
+      border-radius: 6px;
+      background: transparent;
+      color: #e5e7eb;
+      font: inherit;
+      cursor: pointer;
+    }
+
+    .boton-copiar:hover {
+      background: #2d3a50;
+    }
+
+    .codigo-ejemplo pre {
+      margin: 0;
+      padding: 18px;
+      overflow-x: auto;
+    }
+
+    .codigo-ejemplo code {
+      color: #f3f4f6;
+      font-family: Consolas, "Courier New", monospace;
+      font-size: 15px;
+      line-height: 1.65;
+    }
+
+    /* ==========================================
+       DEMOSTRACIONES VISUALES DEL 6.4
+    ========================================== */
+
+    .demo-flexbox {
+      margin: 24px 0 30px;
+      padding: 22px;
+      border: 1px solid var(--borde);
+      border-radius: 10px;
+      background: var(--fondo-tarjeta);
+      min-width: 0;
+    }
+
+    .demo-flexbox > strong {
+      display: block;
+      margin-bottom: 16px;
+      font-size: 17px;
+    }
+
+    .demo-flexbox p {
+      margin: 14px 0 0;
+      font-size: 15px;
+      line-height: 1.65;
+    }
+
+    .demo-etiqueta {
+      display: block;
+      margin: 0 0 10px;
+      color: var(--texto-secundario);
+      font-size: 14px;
+      font-weight: 700;
+    }
+
+    .demo-explicacion {
+      margin-top: 16px !important;
+      color: var(--texto-secundario);
+      font-size: 15px !important;
+    }
+
+    .demo-contenedor {
+      padding: 14px;
+      border: 2px dashed #91a4ba;
+      border-radius: 8px;
+      background: #f3f6fa;
+      min-width: 0;
+    }
+
+    .demo-elemento {
+      box-sizing: border-box;
+      padding: 14px 18px;
+      border: 1px solid #85c79b;
+      border-radius: 7px;
+      background: #e4f3e9;
+      color: #195c36;
+      font-size: 15px;
+      font-weight: 700;
+      text-align: center;
+    }
+
+    /* Ejemplo básico: tres elementos en fila */
+
+    .demo-flex-basico {
+      display: flex;
+      gap: 12px;
+    }
+
+    /* Comparación: flujo normal */
+
+    .demo-flujo-normal .demo-elemento {
+      margin-bottom: 10px;
+    }
+
+    .demo-flujo-normal .demo-elemento:last-child {
+      margin-bottom: 0;
+    }
+
+    /* Comparación: contenedor flex */
+
+    .demo-flujo-flex {
+      display: flex;
+      gap: 10px;
+    }
+
+    /* Representación de los ejes */
+
+    .demo-ejes {
+      display: flex;
+      flex-direction: row;
+      gap: 12px;
+      min-height: 145px;
+      align-items: flex-start;
+      position: relative;
+      padding-bottom: 48px;
+    }
+
+    .demo-eje-principal {
+      position: absolute;
+      bottom: 16px;
+      left: 14px;
+      right: 14px;
+      border-bottom: 2px solid #287e51;
+      color: #287e51;
+      font-size: 13px;
+      font-weight: 700;
+      padding-bottom: 5px;
+      pointer-events: none;
+    }
+
+    .demo-eje-principal::after {
+      content: "▶";
+      position: absolute;
+      right: -4px;
+      bottom: -11px;
+      font-size: 13px;
+    }
+
+    .demo-eje-transversal {
+      position: absolute;
+      right: 10px;
+      top: 14px;
+      bottom: 50px;
+      border-right: 2px solid #4677bb;
+      color: #4677bb;
+      pointer-events: none;
+    }
+
+    .demo-eje-transversal::after {
+      content: "▼";
+      position: absolute;
+      right: -6px;
+      bottom: -11px;
+      font-size: 13px;
+    }
+
+    .demo-eje-leyenda {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px 24px;
+      margin-top: 12px;
+      font-size: 14px;
+    }
+
+    .demo-eje-leyenda span:first-child {
+      color: #287e51;
+    }
+
+    .demo-eje-leyenda span:last-child {
+      color: #4677bb;
+    }
+
+    /* display flex e inline-flex */
+
+    .demo-display-flex {
+      display: flex;
+      gap: 10px;
+    }
+
+    .demo-display-inline-flex {
+      display: inline-flex;
+      gap: 10px;
+      vertical-align: middle;
+    }
+
+    .demo-display-inline-flex .demo-elemento {
+      padding: 10px 14px;
+    }
+
+    /* Direcciones */
+
+    .demo-direction-row {
+      display: flex;
+      flex-direction: row;
+      gap: 10px;
+    }
+
+    .demo-direction-row-reverse {
+      display: flex;
+      flex-direction: row-reverse;
+      gap: 10px;
+    }
+
+    .demo-direction-column {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    .demo-direction-column-reverse {
+      display: flex;
+      flex-direction: column-reverse;
+      gap: 10px;
+    }
+
+    /* Flex-wrap */
+
+    .demo-wrap-base {
+      display: flex;
+      gap: 10px;
+    }
+
+    .demo-wrap-base .demo-elemento {
+      flex: 0 0 125px;
+    }
+
+    .demo-nowrap {
+      flex-wrap: nowrap;
+      overflow-x: auto;
+    }
+
+    .demo-wrap {
+      flex-wrap: wrap;
+    }
+
+    .demo-wrap-reverse {
+      flex-wrap: wrap-reverse;
+      min-height: 180px;
+      align-content: flex-start;
+    }
+
+    /* Ejemplo StudyFlow */
+
+    .demo-studyflow {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+    }
+
+    .demo-studyflow a {
+      display: inline-block;
+      padding: 12px 18px;
+      border: 1px solid #85c79b;
+      border-radius: 7px;
+      background: #e4f3e9;
+      color: #195c36;
+      font-size: 15px;
+      font-weight: 700;
+      text-decoration: none;
+    }
+
+    .demo-studyflow a:hover {
+      background: #d4ebdd;
+    }
+
+    body.modo-oscuro .demo-contenedor {
+      background: #1e293b;
+      border-color: #64748b;
+    }
+
+    body.modo-oscuro .demo-elemento,
+    body.modo-oscuro .demo-studyflow a {
+      background: #203b2b;
+      color: #b5edc7;
+      border-color: #397a50;
+    }
+
+    body.modo-oscuro .demo-studyflow a:hover {
+      background: #2c5039;
+    }
+
+    body.modo-oscuro .demo-eje-principal,
+    body.modo-oscuro .demo-eje-leyenda span:first-child {
+      color: #81d4a0;
+      border-color: #81d4a0;
+    }
+
+    body.modo-oscuro .demo-eje-transversal,
+    body.modo-oscuro .demo-eje-leyenda span:last-child {
+      color: #93c5fd;
+      border-color: #93c5fd;
+    }
+
+    /* ==========================================
+       RESPONSIVE DE LA PLANTILLA
+    ========================================== */
+
+    @media (max-width: 1100px) {
+
+      .pagina-ut {
+        grid-template-columns: 250px minmax(0, 1fr);
+      }
+
+      .indice-derecho {
+        display: none;
+      }
+
+    }
+
+    @media (max-width: 760px) {
+
+      .pagina-ut {
+        display: block;
+      }
+
+      .sidebar {
+        position: static;
+        width: 100%;
+        height: auto;
+        border-right: 0;
+        border-bottom: 1px solid var(--borde);
+      }
+
+      .contenido-ut {
+        padding: 28px 20px 60px;
+      }
+
+      .contenido-ut h1 {
+        font-size: 36px;
+      }
+
+      .navegacion-paginas {
+        grid-template-columns: 1fr;
+      }
+
+      .nav-siguiente {
+        align-items: flex-start;
+        text-align: left;
+      }
+
+      .demo-flexbox {
+        padding: 16px;
+      }
+
+      .demo-elemento {
+        padding: 12px;
+      }
+
+      .demo-ejes {
+        overflow-x: auto;
+      }
+
+    }
+
+  </style>
+
+</head>
+
+<body>
+
+  <!-- ==========================================
+       CABECERA SUPERIOR
+  ========================================== -->
+
+  <header class="navbar">
+
+    <a class="inicio" href="../../../index.html">
+
+      <img
+        src="../../../img/profesora-castana.png?v=2"
+        alt=""
+        class="icono-profesora"
+      >
+
+      <span>Inicio</span>
+
+    </a>
+
+    <nav
+      id="menuModulos"
+      class="menu-modulos"
+      aria-label="Módulos formativos"
+    ></nav>
+
+    <button
+      id="botonTema"
+      class="boton-tema"
+      type="button"
+      aria-label="Cambiar entre modo claro y oscuro"
+      title="Cambiar tema"
+    >☀️</button>
+
+  </header>
+
+  <div class="pagina-ut">
+
+    <!-- ==========================================
+         MENÚ LATERAL IZQUIERDO
+    ========================================== -->
+
+    <aside class="sidebar">
+
+      <a class="sidebar-modulo" href="../../index.html">
+        Diseño de interfaces web
+      </a>
+
+      <!-- UNIDADES ANTERIORES -->
+
+      <a class="sidebar-ut-cerrada" href="../../ut1/index.html">
+        <span>UT1 - Fundamentos del diseño de interfaces web</span>
+        <span>›</span>
+      </a>
+
+      <a class="sidebar-ut-cerrada" href="../../ut2/index.html">
+        <span>UT2 - Color, tipografía, iconografía e identidad visual</span>
+        <span>›</span>
+      </a>
+
+      <a class="sidebar-ut-cerrada" href="../../ut3/index.html">
+        <span>UT3 - Planificación, arquitectura y prototipado de interfaces</span>
+        <span>›</span>
+      </a>
+
+      <a class="sidebar-ut-cerrada" href="../../ut4/index.html">
+        <span>UT4 - HTML: estructura y contenido de interfaces web</span>
+        <span>›</span>
+      </a>
+
+      <a class="sidebar-ut-cerrada" href="../../ut5/index.html">
+        <span>UT5 - CSS: fundamentos y diseño visual</span>
+        <span>›</span>
+      </a>
+
+      <!-- ==========================================
+           UT6 ACTIVA
+      ========================================== -->
+
+      <div class="menu-desplegable">
+
+        <div class="menu-cabecera menu-cabecera-activa">
+
+          <a class="menu-titulo" href="../index.html">
+            UT6 - CSS: maquetación y diseño avanzado
+          </a>
+
+          <button
+            class="boton-desplegar"
+            type="button"
+            data-target="submenu-ut6"
+            aria-expanded="true"
+            aria-label="Mostrar u ocultar UT6"
+          >⌄</button>
+
+        </div>
+
+        <div id="submenu-ut6" class="submenu submenu-abierto">
+
+          <!-- 6.1 -->
+
+          <div class="menu-desplegable menu-apartado">
+
+            <div class="menu-cabecera">
+
+              <a class="menu-titulo" href="../6-1/index.html">
+                6.1 Flujo normal del documento y propiedad display
+              </a>
+
+              <button
+                class="boton-desplegar"
+                type="button"
+                data-target="submenu-6-1"
+                aria-expanded="false"
+                aria-label="Mostrar u ocultar los subapartados del 6.1"
+              >›</button>
+
+            </div>
+
+            <div id="submenu-6-1" class="submenu submenu-apartados">
+
+              <a href="../6-1/index.html#flujo-normal">
+                El flujo normal del documento
+              </a>
+
+              <a href="../6-1/index.html#elementos-bloque-linea">
+                Elementos de bloque y en línea
+              </a>
+
+              <a href="../6-1/index.html#propiedad-display">
+                La propiedad display
+              </a>
+
+              <a href="../6-1/index.html#inline-block">
+                display: inline-block
+              </a>
+
+              <a href="../6-1/index.html#display-none">
+                display: none y visibilidad
+              </a>
+
+              <a href="../6-1/index.html#buenas-practicas-display">
+                Buenas prácticas de distribución
+              </a>
+
+            </div>
+
+          </div>
+
+          <!-- 6.2 -->
+
+          <div class="menu-desplegable menu-apartado">
+
+            <div class="menu-cabecera">
+
+              <a class="menu-titulo" href="../6-2/index.html">
+                6.2 Posicionamiento de elementos en CSS
+              </a>
+
+              <button
+                class="boton-desplegar"
+                type="button"
+                data-target="submenu-6-2"
+                aria-expanded="false"
+                aria-label="Mostrar u ocultar los subapartados del 6.2"
+              >›</button>
+
+            </div>
+
+            <div id="submenu-6-2" class="submenu submenu-apartados">
+
+              <a href="../6-2/index.html#position">
+                La propiedad position
+              </a>
+
+              <a href="../6-2/index.html#static">
+                Posicionamiento static
+              </a>
+
+              <a href="../6-2/index.html#relative">
+                Posicionamiento relative
+              </a>
+
+              <a href="../6-2/index.html#absolute">
+                Posicionamiento absolute
+              </a>
+
+              <a href="../6-2/index.html#fixed">
+                Posicionamiento fixed
+              </a>
+
+              <a href="../6-2/index.html#sticky">
+                Posicionamiento sticky
+              </a>
+
+              <a href="../6-2/index.html#z-index">
+                Superposición y z-index
+              </a>
+
+            </div>
+
+          </div>
+
+          <!-- 6.3 -->
+
+          <div class="menu-desplegable menu-apartado">
+
+            <div class="menu-cabecera">
+
+              <a class="menu-titulo" href="../6-3/index.html">
+                6.3 Flotación de elementos y control del flujo
+              </a>
+
+              <button
+                class="boton-desplegar"
+                type="button"
+                data-target="submenu-6-3"
+                aria-expanded="false"
+                aria-label="Mostrar u ocultar los subapartados del 6.3"
+              >›</button>
+
+            </div>
+
+            <div id="submenu-6-3" class="submenu submenu-apartados">
+
+              <a href="../6-3/index.html#float">
+                La propiedad float
+              </a>
+
+              <a href="../6-3/index.html#float-left-right">
+                Flotación a izquierda y derecha
+              </a>
+
+              <a href="../6-3/index.html#clear">
+                La propiedad clear
+              </a>
+
+              <a href="../6-3/index.html#overflow">
+                Overflow y desbordamiento
+              </a>
+
+              <a href="../6-3/index.html#usos-actuales-float">
+                Usos actuales de float
+              </a>
+
+            </div>
+
+          </div>
+
+          <!-- ==========================================
+               6.4 ACTIVO
+          ========================================== -->
+
+          <div class="menu-desplegable menu-apartado">
+
+            <div class="menu-cabecera menu-cabecera-activa">
+
+              <a class="menu-titulo" href="index.html">
+                6.4 Introducción a Flexbox
+              </a>
+
+              <button
+                class="boton-desplegar"
+                type="button"
+                data-target="submenu-6-4"
+                aria-expanded="true"
+                aria-label="Mostrar u ocultar los subapartados del 6.4"
+              >⌄</button>
+
+            </div>
+
+            <div
+              id="submenu-6-4"
+              class="submenu submenu-apartados submenu-abierto"
+            >
+
+              <a href="#que-es-flexbox">
+                Qué es Flexbox
+              </a>
+
+              <a href="#contenedor-flex">
+                Contenedor y elementos flexibles
+              </a>
+
+              <a href="#ejes-flexbox">
+                Eje principal y eje transversal
+              </a>
+
+              <a href="#display-flex">
+                display: flex e inline-flex
+              </a>
+
+              <a href="#flex-direction">
+                Dirección de los elementos
+              </a>
+
+              <a href="#flex-wrap">
+                Distribución en varias líneas
+              </a>
+
+            </div>
+
+          </div>
+
+          <!-- 6.5 -->
+
+          <div class="menu-desplegable menu-apartado">
+
+            <div class="menu-cabecera">
+
+              <a class="menu-titulo" href="../6-5/index.html">
+                6.5 Distribución y alineación con Flexbox
+              </a>
+
+              <button
+                class="boton-desplegar"
+                type="button"
+                data-target="submenu-6-5"
+                aria-expanded="false"
+                aria-label="Mostrar u ocultar los subapartados del 6.5"
+              >›</button>
+
+            </div>
+
+            <div id="submenu-6-5" class="submenu submenu-apartados">
+
+              <a href="../6-5/index.html#justify-content">
+                justify-content
+              </a>
+
+              <a href="../6-5/index.html#align-items">
+                align-items
+              </a>
+
+              <a href="../6-5/index.html#align-content">
+                align-content y align-self
+              </a>
+
+              <a href="../6-5/index.html#gap">
+                Espaciado con gap
+              </a>
+
+              <a href="../6-5/index.html#flex-grow-shrink-basis">
+                flex-grow, flex-shrink y flex-basis
+              </a>
+
+              <a href="../6-5/index.html#order">
+                Orden visual de los elementos
+              </a>
+
+              <a href="../6-5/index.html#ejemplos-flexbox">
+                Aplicaciones prácticas de Flexbox
+              </a>
+
+            </div>
+
+          </div>
+
+          <!-- 6.6 -->
+
+          <div class="menu-desplegable menu-apartado">
+
+            <div class="menu-cabecera">
+
+              <a class="menu-titulo" href="../6-6/index.html">
+                6.6 Introducción a CSS Grid
+              </a>
+
+              <button
+                class="boton-desplegar"
+                type="button"
+                data-target="submenu-6-6"
+                aria-expanded="false"
+                aria-label="Mostrar u ocultar los subapartados del 6.6"
+              >›</button>
+
+            </div>
+
+            <div id="submenu-6-6" class="submenu submenu-apartados">
+
+              <a href="../6-6/index.html#que-es-grid">
+                Qué es CSS Grid
+              </a>
+
+              <a href="../6-6/index.html#contenedor-grid">
+                Contenedor y elementos Grid
+              </a>
+
+              <a href="../6-6/index.html#filas-columnas">
+                Filas, columnas y líneas
+              </a>
+
+              <a href="../6-6/index.html#display-grid">
+                display: grid e inline-grid
+              </a>
+
+              <a href="../6-6/index.html#grid-template">
+                grid-template-columns y rows
+              </a>
+
+              <a href="../6-6/index.html#unidad-fr">
+                La unidad fr
+              </a>
+
+              <a href="../6-6/index.html#gap-grid">
+                Separación entre celdas
+              </a>
+
+            </div>
+
+          </div>
+
+          <!-- 6.7 -->
+
+          <div class="menu-desplegable menu-apartado">
+
+            <div class="menu-cabecera">
+
+              <a class="menu-titulo" href="../6-7/index.html">
+                6.7 Distribución y alineación con CSS Grid
+              </a>
+
+              <button
+                class="boton-desplegar"
+                type="button"
+                data-target="submenu-6-7"
+                aria-expanded="false"
+                aria-label="Mostrar u ocultar los subapartados del 6.7"
+              >›</button>
+
+            </div>
+
+            <div id="submenu-6-7" class="submenu submenu-apartados">
+
+              <a href="../6-7/index.html#grid-column-row">
+                grid-column y grid-row
+              </a>
+
+              <a href="../6-7/index.html#grid-template-areas">
+                Áreas de la cuadrícula
+              </a>
+
+              <a href="../6-7/index.html#colocacion-automatica">
+                Colocación automática
+              </a>
+
+              <a href="../6-7/index.html#alineacion-grid">
+                Alineación en Grid
+              </a>
+
+              <a href="../6-7/index.html#repeat-minmax">
+                repeat() y minmax()
+              </a>
+
+              <a href="../6-7/index.html#ejemplos-grid">
+                Aplicaciones prácticas de Grid
+              </a>
+
+            </div>
+
+          </div>
+
+          <!-- 6.8 -->
+
+          <div class="menu-desplegable menu-apartado">
+
+            <div class="menu-cabecera">
+
+              <a class="menu-titulo" href="../6-8/index.html">
+                6.8 Maquetación avanzada: combinación de técnicas
+              </a>
+
+              <button
+                class="boton-desplegar"
+                type="button"
+                data-target="submenu-6-8"
+                aria-expanded="false"
+                aria-label="Mostrar u ocultar los subapartados del 6.8"
+              >›</button>
+
+            </div>
+
+            <div id="submenu-6-8" class="submenu submenu-apartados">
+
+              <a href="../6-8/index.html#flexbox-vs-grid">
+                Cuándo utilizar Flexbox o Grid
+              </a>
+
+              <a href="../6-8/index.html#combinacion-tecnicas">
+                Combinación de técnicas
+              </a>
+
+              <a href="../6-8/index.html#maquetacion-pagina">
+                Estructura de una página web
+              </a>
+
+              <a href="../6-8/index.html#anidamiento">
+                Contenedores anidados
+              </a>
+
+              <a href="../6-8/index.html#buenas-practicas">
+                Buenas prácticas de maquetación
+              </a>
+
+              <a href="../6-8/index.html#studyflow">
+                Aplicación al proyecto StudyFlow
+              </a>
+
+            </div>
+
+          </div>
+
+          <!-- RESUMEN Y ACTIVIDADES DE LA UNIDAD -->
+
+          <a class="enlace-apartado-simple" href="../resumen/index.html">
+            ✏️ Resumen de la UT6
+          </a>
+
+          <a class="enlace-apartado-simple" href="../actividades/index.html">
+            📝 Actividades de la UT6
+          </a>
+
+        </div>
+
+      </div>
+
+      <!-- UNIDADES POSTERIORES -->
+
+      <a class="sidebar-ut-cerrada" href="../../ut7/index.html">
+        <span>UT7 - Diseño web responsive</span>
+        <span>›</span>
+      </a>
+
+      <a class="sidebar-ut-cerrada" href="../../ut8/index.html">
+        <span>UT8 - Recursos gráficos e imágenes para la web</span>
+        <span>›</span>
+      </a>
+
+      <a class="sidebar-ut-cerrada" href="../../ut9/index.html">
+        <span>UT9 - Audio, vídeo, animaciones e interactividad</span>
+        <span>›</span>
+      </a>
+
+      <a class="sidebar-ut-cerrada" href="../../ut10/index.html">
+        <span>UT10 - Accesibilidad web</span>
+        <span>›</span>
+      </a>
+
+      <a class="sidebar-ut-cerrada" href="../../ut11/index.html">
+        <span>UT11 - Usabilidad y evaluación de interfaces web</span>
+        <span>›</span>
+      </a>
+
+    </aside>
+
+    <!-- ==========================================
+         CONTENIDO CENTRAL
+    ========================================== -->
+
+    <main class="contenido-ut">
+
+      <!-- MIGAS DE NAVEGACIÓN -->
+
+      <div class="migas">
+
+        <a
+          class="miga-inicio"
+          href="../../../index.html"
+          aria-label="Volver a la página principal"
+        >🏠</a>
+
+        <span class="miga-separador">›</span>
+
+        <a class="miga-modulo" href="../../index.html">
+          DIW
+        </a>
+
+        <span class="miga-separador">›</span>
+
+        <a class="miga-modulo" href="../index.html">
+          UT6
+        </a>
+
+        <span class="miga-separador">›</span>
+
+        <span class="miga-actual">6.4</span>
+
+      </div>
+
+      <h1>6.4 Introducción a Flexbox</h1>
+
+      <!-- ==========================================
+           INTRODUCCIÓN
+      ========================================== -->
+
+      <section class="apartado-ut">
+
+        <p>
+          En los apartados anteriores hemos estudiado cómo
+          se distribuyen los elementos HTML mediante el
+          flujo normal, las propiedades de posicionamiento
+          y la flotación.
+        </p>
+
+        <p>
+          Estas técnicas permiten controlar diferentes
+          aspectos de una interfaz, pero presentan
+          limitaciones cuando necesitamos organizar
+          varios elementos en filas, columnas o
+          grupos que se adapten al espacio disponible.
+        </p>
+
+        <p>
+          Para resolver estas necesidades, CSS dispone
+          de <strong>Flexbox</strong>, un sistema de
+          maquetación especialmente diseñado para
+          distribuir y organizar elementos dentro
+          de un contenedor.
+        </p>
+
+        <div class="caja caja-importante">
+
+          <span class="caja-titulo">📌 Importante</span>
+
+          <p>
+            Flexbox permite organizar elementos en
+            <strong>una dimensión principal</strong>:
+            una fila o una columna. Facilita su
+            distribución, alineación y adaptación
+            al espacio disponible sin recurrir
+            a flotaciones ni posicionamientos
+            artificiales.
+          </p>
+
+        </div>
+
+        <!-- ==========================================
+             1. QUÉ ES FLEXBOX
+        ========================================== -->
+
+        <h2 id="que-es-flexbox">Qué es Flexbox</h2>
+
+        <p>
+          <strong>Flexbox</strong>, abreviatura de
+          <em>Flexible Box Layout</em>, es un modelo
+          de distribución de CSS que permite organizar
+          los elementos hijos de un contenedor de
+          forma flexible.
+        </p>
+
+        <p>
+          Su principal ventaja es que el navegador
+          puede distribuir los elementos teniendo
+          en cuenta el espacio disponible y las
+          reglas que definimos mediante CSS.
+        </p>
+
+        <p>
+          Por ejemplo, podemos utilizar Flexbox
+          para colocar tres botones uno junto a otro,
+          organizar los enlaces de un menú o
+          distribuir las tarjetas de una interfaz.
+        </p>
+
+        <h3>Comparación con el flujo normal</h3>
+
+        <p>
+          Cuando utilizamos elementos de bloque
+          como <code>&lt;div&gt;</code>, estos se
+          colocan normalmente uno debajo de otro.
+        </p>
+
+        <div class="codigo-ejemplo">
+
+          <div class="codigo-cabecera">
+            <span>HTML</span>
+            <button class="boton-copiar" type="button">
+              Copiar
+            </button>
+          </div>
+
+          <pre><code>&lt;div class="contenedor"&gt;
+  &lt;div&gt;Elemento 1&lt;/div&gt;
+  &lt;div&gt;Elemento 2&lt;/div&gt;
+  &lt;div&gt;Elemento 3&lt;/div&gt;
+&lt;/div&gt;</code></pre>
+
+        </div>
+
+        <div class="demo-flexbox">
+
+          <strong>Resultado visual: flujo normal</strong>
+
+          <div class="demo-contenedor demo-flujo-normal">
+
+            <div class="demo-elemento">Elemento 1</div>
+            <div class="demo-elemento">Elemento 2</div>
+            <div class="demo-elemento">Elemento 3</div>
+
+          </div>
+
+          <p class="demo-explicacion">
+            Los tres elementos de bloque se
+            muestran uno debajo de otro.
+          </p>
+
+        </div>
+
+        <p>
+          Si aplicamos <code>display: flex</code>
+          al contenedor, los elementos pasan a
+          distribuirse horizontalmente de forma
+          predeterminada.
+        </p>
+
+        <div class="codigo-ejemplo">
+
+          <div class="codigo-cabecera">
+            <span>CSS</span>
+            <button class="boton-copiar" type="button">
+              Copiar
+            </button>
+          </div>
+
+          <pre><code>.contenedor {
+  display: flex;
+  gap: 10px;
+}</code></pre>
+
+        </div>
+
+        <div class="demo-flexbox">
+
+          <strong>Resultado visual: Flexbox</strong>
+
+          <div class="demo-contenedor demo-flujo-flex">
+
+            <div class="demo-elemento">Elemento 1</div>
+            <div class="demo-elemento">Elemento 2</div>
+            <div class="demo-elemento">Elemento 3</div>
+
+          </div>
+
+          <p class="demo-explicacion">
+            Los elementos aparecen en una fila.
+            La propiedad <code>gap</code> establece
+            una separación de 10 píxeles entre ellos.
+          </p>
+
+        </div>
+
+        <h3>¿Para qué se utiliza Flexbox?</h3>
+
+        <div class="tabla-responsive">
+
+          <table class="tabla-apuntes">
+
+            <thead>
+              <tr>
+                <th>Necesidad</th>
+                <th>Aplicación de Flexbox</th>
+              </tr>
+            </thead>
+
+            <tbody>
+
+              <tr>
+                <td>Menús de navegación</td>
+                <td>
+                  Colocar enlaces en una fila
+                  y distribuirlos dentro de la cabecera.
+                </td>
+              </tr>
+
+              <tr>
+                <td>Grupos de botones</td>
+                <td>
+                  Organizar acciones con separaciones
+                  uniformes.
+                </td>
+              </tr>
+
+              <tr>
+                <td>Tarjetas</td>
+                <td>
+                  Distribuir tarjetas en filas
+                  que puedan adaptarse al espacio.
+                </td>
+              </tr>
+
+              <tr>
+                <td>Formularios</td>
+                <td>
+                  Organizar campos, etiquetas
+                  y botones.
+                </td>
+              </tr>
+
+              <tr>
+                <td>Cabeceras y barras de herramientas</td>
+                <td>
+                  Colocar elementos y controlar
+                  su alineación.
+                </td>
+              </tr>
+
+            </tbody>
+
+          </table>
+
+        </div>
+
+        <div class="caja caja-ejemplo">
+
+          <span class="caja-titulo">💻 Ejemplo DAW</span>
+
+          <p>
+            En StudyFlow utilizaremos Flexbox
+            para organizar botones de navegación,
+            acciones de usuario y grupos de
+            elementos de la interfaz. Esto
+            permitirá mantener una distribución
+            más flexible y fácil de modificar.
+          </p>
+
+        </div>
+
+        <!-- ==========================================
+             2. CONTENEDOR Y ELEMENTOS FLEXIBLES
+        ========================================== -->
+
+        <h2 id="contenedor-flex">
+          Contenedor y elementos flexibles
+        </h2>
+
+        <p>
+          Para trabajar con Flexbox debemos
+          distinguir dos conceptos fundamentales:
+          el <strong>contenedor flexible</strong>
+          y los <strong>elementos flexibles</strong>.
+        </p>
+
+        <p>
+          El contenedor es el elemento al que
+          aplicamos <code>display: flex</code>.
+          Sus hijos directos pasan a participar
+          en el modelo de distribución flexible.
+        </p>
+
+        <h3>Estructura básica</h3>
+
+        <div class="codigo-ejemplo">
+
+          <div class="codigo-cabecera">
+            <span>HTML + CSS</span>
+            <button class="boton-copiar" type="button">
+              Copiar
+            </button>
+          </div>
+
+          <pre><code>&lt;div class="contenedor-flex"&gt;
+
+  &lt;div class="elemento"&gt;1&lt;/div&gt;
+  &lt;div class="elemento"&gt;2&lt;/div&gt;
+  &lt;div class="elemento"&gt;3&lt;/div&gt;
+
+&lt;/div&gt;
+
+&lt;style&gt;
+
+  .contenedor-flex {
+    display: flex;
+    gap: 12px;
+  }
+
+  .elemento {
+    padding: 14px 18px;
+    background-color: #e4f3e9;
+    border: 1px solid #85c79b;
+  }
+
+&lt;/style&gt;</code></pre>
+
+        </div>
+
+        <div class="demo-flexbox">
+
+          <strong>Resultado visual</strong>
+
+          <span class="demo-etiqueta">
+            Contenedor flexible
+          </span>
+
+          <div class="demo-contenedor demo-flex-basico">
+
+            <div class="demo-elemento">1</div>
+            <div class="demo-elemento">2</div>
+            <div class="demo-elemento">3</div>
+
+          </div>
+
+          <p class="demo-explicacion">
+            El borde discontinuo representa el
+            contenedor. Los tres bloques verdes
+            son sus elementos flexibles.
+          </p>
+
+        </div>
+
+        <h3>¿Qué elementos se convierten en flexibles?</h3>
+
+        <p>
+          Cuando aplicamos <code>display: flex</code>,
+          los <strong>hijos directos</strong> del
+          contenedor se convierten en elementos
+          flexibles.
+        </p>
+
+        <p>
+          Los elementos que estén dentro de
+          esos hijos no se convierten
+          automáticamente en elementos flexibles
+          del contenedor exterior.
+        </p>
+
+        <div class="codigo-ejemplo">
+
+          <div class="codigo-cabecera">
+            <span>HTML</span>
+            <button class="boton-copiar" type="button">
+              Copiar
+            </button>
+          </div>
+
+          <pre><code>&lt;div class="contenedor-flex"&gt;
+
+  &lt;div class="tarjeta"&gt;
+
+    &lt;h3&gt;Diseño de Interfaces Web&lt;/h3&gt;
+    &lt;p&gt;Materiales de la asignatura&lt;/p&gt;
+
+  &lt;/div&gt;
+
+  &lt;div class="tarjeta"&gt;
+
+    &lt;h3&gt;Desarrollo Web en Entorno Cliente&lt;/h3&gt;
+    &lt;p&gt;Actividades de JavaScript&lt;/p&gt;
+
+  &lt;/div&gt;
+
+&lt;/div&gt;</code></pre>
+
+        </div>
+
+        <p>
+          En este ejemplo, las dos tarjetas
+          son elementos flexibles porque son
+          hijas directas del contenedor.
+          Los títulos y los párrafos siguen
+          organizándose normalmente dentro
+          de cada tarjeta.
+        </p>
+
+        <div class="caja caja-atencion">
+
+          <span class="caja-titulo">⚠️ Atención</span>
+
+          <p>
+            Flexbox no se aplica automáticamente
+            a todos los descendientes. Si queremos
+            utilizar otra distribución flexible
+            dentro de una tarjeta, tendremos
+            que aplicar <code>display: flex</code>
+            al contenedor interior correspondiente.
+          </p>
+
+        </div>
+
+        <!-- ==========================================
+             3. EJES DE FLEXBOX
+        ========================================== -->
+
+        <h2 id="ejes-flexbox">
+          Eje principal y eje transversal
+        </h2>
+
+        <p>
+          Para comprender Flexbox es necesario
+          conocer sus dos ejes de referencia:
+          el <strong>eje principal</strong>
+          (<em>main axis</em>) y el
+          <strong>eje transversal</strong>
+          (<em>cross axis</em>).
+        </p>
+
+        <p>
+          Estos ejes determinan cómo se organizan
+          y alinean los elementos dentro
+          del contenedor flexible.
+        </p>
+
+        <h3>El eje principal</h3>
+
+        <p>
+          Es el eje sobre el que se distribuyen
+          los elementos flexibles. Su orientación
+          depende de la propiedad
+          <code>flex-direction</code>.
+        </p>
+
+        <p>
+          Por defecto, cuando utilizamos
+          <code>flex-direction: row</code>,
+          el eje principal sigue la dirección
+          horizontal de escritura. En una página
+          en español con dirección de izquierda
+          a derecha, avanza hacia la derecha.
+        </p>
+
+        <h3>El eje transversal</h3>
+
+        <p>
+          Es perpendicular al eje principal.
+          Si los elementos se distribuyen
+          horizontalmente, el eje transversal
+          es vertical.
+        </p>
+
+        <div class="codigo-ejemplo">
+
+          <div class="codigo-cabecera">
+            <span>CSS</span>
+            <button class="boton-copiar" type="button">
+              Copiar
+            </button>
+          </div>
+
+          <pre><code>.contenedor {
+  display: flex;
+  flex-direction: row;
+  gap: 12px;
+}</code></pre>
+
+        </div>
+
+        <div class="demo-flexbox">
+
+          <strong>Resultado visual: los ejes de Flexbox</strong>
+
+          <div class="demo-contenedor demo-ejes">
+
+            <div class="demo-elemento">1</div>
+            <div class="demo-elemento">2</div>
+            <div class="demo-elemento">3</div>
+
+            <div
+              class="demo-eje-principal"
+              aria-hidden="true"
+            ></div>
+
+            <div
+              class="demo-eje-transversal"
+              aria-hidden="true"
+            ></div>
+
+          </div>
+
+          <div class="demo-eje-leyenda">
+            <span>━━ Eje principal →</span>
+            <span>┃ Eje transversal ↓</span>
+          </div>
+
+          <p class="demo-explicacion">
+            Con <code>flex-direction: row</code>,
+            los elementos se distribuyen a lo
+            largo del eje principal horizontal.
+            El eje transversal es perpendicular.
+          </p>
+
+        </div>
+
+        <h3>Los ejes cambian con la dirección</h3>
+
+        <p>
+          Si utilizamos <code>flex-direction: column</code>,
+          el eje principal pasa a seguir
+          la dirección vertical de escritura
+          y el transversal queda perpendicular.
+        </p>
+
+        <div class="tabla-responsive">
+
+          <table class="tabla-apuntes">
+
+            <thead>
+              <tr>
+                <th>Dirección</th>
+                <th>Eje principal</th>
+                <th>Eje transversal</th>
+              </tr>
+            </thead>
+
+            <tbody>
+
+              <tr>
+                <td><code>row</code></td>
+                <td>Horizontal</td>
+                <td>Vertical</td>
+              </tr>
+
+              <tr>
+                <td><code>column</code></td>
+                <td>Vertical</td>
+                <td>Horizontal</td>
+              </tr>
+
+            </tbody>
+
+          </table>
+
+        </div>
+
+        <div class="caja caja-importante">
+
+          <span class="caja-titulo">📌 Idea clave</span>
+
+          <p>
+            Los ejes de Flexbox no son
+            necesariamente horizontal y vertical.
+            Dependen de la dirección establecida
+            para el contenedor y del modo
+            de escritura del documento.
+          </p>
+
+        </div>
+
+        <!-- ==========================================
+             4. DISPLAY FLEX E INLINE-FLEX
+        ========================================== -->
+
+        <h2 id="display-flex">
+          display: flex e inline-flex
+        </h2>
+
+        <p>
+          Para activar Flexbox utilizamos
+          la propiedad <code>display</code>.
+          Los valores principales son
+          <code>flex</code> e
+          <code>inline-flex</code>.
+        </p>
+
+        <h3>display: flex</h3>
+
+        <p>
+          Convierte el elemento en un contenedor
+          flexible que, hacia el exterior,
+          se comporta como un elemento de bloque.
+        </p>
+
+        <p>
+          Esto significa que, normalmente,
+          ocupa el ancho disponible de su
+          contenedor, mientras que sus hijos
+          se organizan mediante Flexbox.
+        </p>
+
+        <div class="codigo-ejemplo">
+
+          <div class="codigo-cabecera">
+            <span>HTML + CSS</span>
+            <button class="boton-copiar" type="button">
+              Copiar
+            </button>
+          </div>
+
+          <pre><code>&lt;div class="botones"&gt;
+  &lt;button&gt;Guardar&lt;/button&gt;
+  &lt;button&gt;Editar&lt;/button&gt;
+  &lt;button&gt;Eliminar&lt;/button&gt;
+&lt;/div&gt;
+
+&lt;style&gt;
+
+  .botones {
+    display: flex;
+    gap: 10px;
+  }
+
+&lt;/style&gt;</code></pre>
+
+        </div>
+
+        <div class="demo-flexbox">
+
+          <strong>Resultado visual</strong>
+
+          <div class="demo-contenedor demo-display-flex">
+
+            <button class="demo-elemento" type="button">
+              Guardar
+            </button>
+
+            <button class="demo-elemento" type="button">
+              Editar
+            </button>
+
+            <button class="demo-elemento" type="button">
+              Eliminar
+            </button>
+
+          </div>
+
+          <p class="demo-explicacion">
+            El contenedor ocupa el ancho
+            disponible y los botones aparecen
+            distribuidos en una fila.
+          </p>
+
+        </div>
+
+        <h3>display: inline-flex</h3>
+
+        <p>
+          También crea un contenedor flexible,
+          pero su comportamiento exterior
+          es similar al de un elemento
+          en línea.
+        </p>
+
+        <p>
+          Esto permite integrar un grupo
+          de elementos flexibles dentro
+          de una línea de texto.
+        </p>
+
+        <div class="codigo-ejemplo">
+
+          <div class="codigo-cabecera">
+            <span>HTML + CSS</span>
+            <button class="boton-copiar" type="button">
+              Copiar
+            </button>
+          </div>
+
+          <pre><code>&lt;p&gt;
+  Estado:
+
+  &lt;span class="grupo-estados"&gt;
+    &lt;span&gt;Activo&lt;/span&gt;
+    &lt;span&gt;Verificado&lt;/span&gt;
+  &lt;/span&gt;
+
+&lt;/p&gt;
+
+&lt;style&gt;
+
+  .grupo-estados {
+    display: inline-flex;
+    gap: 10px;
+  }
+
+&lt;/style&gt;</code></pre>
+
+        </div>
+
+        <div class="demo-flexbox">
+
+          <strong>Resultado visual</strong>
+
+          <p>
+            Estado:
+
+            <span class="demo-display-inline-flex">
+
+              <span class="demo-elemento">Activo</span>
+
+              <span class="demo-elemento">Verificado</span>
+
+            </span>
+
+          </p>
+
+          <p class="demo-explicacion">
+            El grupo de estados se integra
+            dentro de la línea de texto.
+            Sus elementos internos siguen
+            utilizando Flexbox.
+          </p>
+
+        </div>
+
+        <h3>Diferencias principales</h3>
+
+        <div class="tabla-responsive">
+
+          <table class="tabla-apuntes">
+
+            <thead>
+              <tr>
+                <th>Propiedad</th>
+                <th>Comportamiento exterior</th>
+                <th>Comportamiento interior</th>
+              </tr>
+            </thead>
+
+            <tbody>
+
+              <tr>
+                <td><code>display: flex</code></td>
+                <td>Contenedor de bloque</td>
+                <td>Distribución flexible</td>
+              </tr>
+
+              <tr>
+                <td><code>display: inline-flex</code></td>
+                <td>Contenedor en línea</td>
+                <td>Distribución flexible</td>
+              </tr>
+
+            </tbody>
+
+          </table>
+
+        </div>
+
+        <div class="caja caja-atencion">
+
+          <span class="caja-titulo">⚠️ Atención</span>
+
+          <p>
+            La diferencia entre
+            <code>flex</code> e
+            <code>inline-flex</code>
+            afecta al comportamiento
+            exterior del contenedor.
+            En ambos casos, los hijos
+            directos se distribuyen
+            mediante Flexbox.
+          </p>
+
+        </div>
+
+        <!-- ==========================================
+             5. FLEX-DIRECTION
+        ========================================== -->
+
+        <h2 id="flex-direction">
+          Dirección de los elementos
+        </h2>
+
+        <p>
+          La propiedad <code>flex-direction</code>
+          establece la dirección del eje
+          principal y, por tanto, cómo se
+          distribuyen los elementos
+          dentro del contenedor.
+        </p>
+
+        <p>
+          Dispone de cuatro valores principales:
+          <code>row</code>,
+          <code>row-reverse</code>,
+          <code>column</code> y
+          <code>column-reverse</code>.
+        </p>
+
+        <div class="tabla-responsive">
+
+          <table class="tabla-apuntes">
+
+            <thead>
+              <tr>
+                <th>Valor</th>
+                <th>Comportamiento</th>
+              </tr>
+            </thead>
+
+            <tbody>
+
+              <tr>
+                <td><code>row</code></td>
+                <td>
+                  Los elementos se distribuyen
+                  en una fila. Es el valor
+                  predeterminado.
+                </td>
+              </tr>
+
+              <tr>
+                <td><code>row-reverse</code></td>
+                <td>
+                  Los elementos se distribuyen
+                  en una fila, pero en sentido
+                  inverso.
+                </td>
+              </tr>
+
+              <tr>
+                <td><code>column</code></td>
+                <td>
+                  Los elementos se distribuyen
+                  en una columna.
+                </td>
+              </tr>
+
+              <tr>
+                <td><code>column-reverse</code></td>
+                <td>
+                  Los elementos se distribuyen
+                  en una columna, en sentido
+                  inverso.
+                </td>
+              </tr>
+
+            </tbody>
+
+          </table>
+
+        </div>
+
+        <h3>flex-direction: row</h3>
+
+        <p>
+          Es el valor predeterminado.
+          En una página con escritura
+          de izquierda a derecha,
+          los elementos aparecen
+          de izquierda a derecha.
+        </p>
+
+        <div class="codigo-ejemplo">
+
+          <div class="codigo-cabecera">
+            <span>CSS</span>
+            <button class="boton-copiar" type="button">
+              Copiar
+            </button>
+          </div>
+
+          <pre><code>.contenedor {
+  display: flex;
+  flex-direction: row;
+  gap: 10px;
+}</code></pre>
+
+        </div>
+
+        <div class="demo-flexbox">
+
+          <strong>Resultado visual</strong>
+
+          <div class="demo-contenedor demo-direction-row">
+
+            <div class="demo-elemento">1</div>
+            <div class="demo-elemento">2</div>
+            <div class="demo-elemento">3</div>
+
+          </div>
+
+          <p class="demo-explicacion">
+            Orden visual: 1 → 2 → 3.
+          </p>
+
+        </div>
+
+        <h3>flex-direction: row-reverse</h3>
+
+        <p>
+          Invierte el sentido del eje principal.
+          En una página de izquierda a derecha,
+          los elementos comienzan desde el
+          extremo derecho del contenedor.
+        </p>
+
+        <div class="codigo-ejemplo">
+
+          <div class="codigo-cabecera">
+            <span>CSS</span>
+            <button class="boton-copiar" type="button">
+              Copiar
+            </button>
+          </div>
+
+          <pre><code>.contenedor {
+  display: flex;
+  flex-direction: row-reverse;
+  gap: 10px;
+}</code></pre>
+
+        </div>
+
+        <div class="demo-flexbox">
+
+          <strong>Resultado visual</strong>
+
+          <div class="demo-contenedor demo-direction-row-reverse">
+
+            <div class="demo-elemento">1</div>
+            <div class="demo-elemento">2</div>
+            <div class="demo-elemento">3</div>
+
+          </div>
+
+          <p class="demo-explicacion">
+            Los elementos aparecen desde
+            la derecha: 1, 2 y 3,
+            avanzando hacia la izquierda.
+            Visualmente, de izquierda a
+            derecha, vemos 3, 2 y 1.
+          </p>
+
+        </div>
+
+        <h3>flex-direction: column</h3>
+
+        <p>
+          Coloca los elementos uno debajo
+          de otro, siguiendo el eje
+          principal vertical.
+        </p>
+
+        <div class="codigo-ejemplo">
+
+          <div class="codigo-cabecera">
+            <span>CSS</span>
+            <button class="boton-copiar" type="button">
+              Copiar
+            </button>
+          </div>
+
+          <pre><code>.contenedor {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}</code></pre>
+
+        </div>
+
+        <div class="demo-flexbox">
+
+          <strong>Resultado visual</strong>
+
+          <div class="demo-contenedor demo-direction-column">
+
+            <div class="demo-elemento">1</div>
+            <div class="demo-elemento">2</div>
+            <div class="demo-elemento">3</div>
+
+          </div>
+
+          <p class="demo-explicacion">
+            Los elementos se muestran
+            en una columna, de arriba
+            hacia abajo.
+          </p>
+
+        </div>
+
+        <h3>flex-direction: column-reverse</h3>
+
+        <p>
+          Invierte el sentido del eje
+          principal vertical. En una
+          página con escritura horizontal
+          habitual, el primer elemento
+          aparece en la parte inferior.
+        </p>
+
+        <div class="codigo-ejemplo">
+
+          <div class="codigo-cabecera">
+            <span>CSS</span>
+            <button class="boton-copiar" type="button">
+              Copiar
+            </button>
+          </div>
+
+          <pre><code>.contenedor {
+  display: flex;
+  flex-direction: column-reverse;
+  gap: 10px;
+}</code></pre>
+
+        </div>
+
+        <div class="demo-flexbox">
+
+          <strong>Resultado visual</strong>
+
+          <div class="demo-contenedor demo-direction-column-reverse">
+
+            <div class="demo-elemento">1</div>
+            <div class="demo-elemento">2</div>
+            <div class="demo-elemento">3</div>
+
+          </div>
+
+          <p class="demo-explicacion">
+            El orden visual, de arriba
+            hacia abajo, es 3, 2 y 1.
+          </p>
+
+        </div>
+
+        <div class="caja caja-importante">
+
+          <span class="caja-titulo">📌 Importante</span>
+
+          <p>
+            <code>flex-direction</code> modifica
+            la distribución visual de los elementos,
+            pero no cambia su orden en el código HTML.
+            Debemos evitar utilizar los valores
+            inversos para corregir un orden
+            semántico incorrecto, especialmente
+            cuando intervienen tecnologías
+            de asistencia o navegación
+            mediante teclado.
+          </p>
+
+        </div>
+
+        <!-- ==========================================
+             6. FLEX-WRAP
+        ========================================== -->
+
+        <h2 id="flex-wrap">
+          Distribución en varias líneas
+        </h2>
+
+        <p>
+          Cuando un contenedor flexible tiene
+          muchos elementos, puede ocurrir que
+          no haya suficiente espacio para
+          mostrarlos todos en una sola fila.
+        </p>
+
+        <p>
+          La propiedad <code>flex-wrap</code>
+          permite decidir si los elementos
+          deben mantenerse en una única
+          línea o pueden distribuirse
+          en varias.
+        </p>
+
+        <h3>Valores principales</h3>
+
+        <div class="tabla-responsive">
+
+          <table class="tabla-apuntes">
+
+            <thead>
+              <tr>
+                <th>Valor</th>
+                <th>Comportamiento</th>
+              </tr>
+            </thead>
+
+            <tbody>
+
+              <tr>
+                <td><code>nowrap</code></td>
+                <td>
+                  Mantiene los elementos
+                  en una sola línea.
+                  Es el valor predeterminado.
+                </td>
+              </tr>
+
+              <tr>
+                <td><code>wrap</code></td>
+                <td>
+                  Permite que los elementos
+                  pasen a nuevas líneas
+                  cuando sea necesario.
+                </td>
+              </tr>
+
+              <tr>
+                <td><code>wrap-reverse</code></td>
+                <td>
+                  Permite varias líneas,
+                  pero invierte el sentido
+                  del eje transversal.
+                </td>
+              </tr>
+
+            </tbody>
+
+          </table>
+
+        </div>
+
+        <h3>flex-wrap: nowrap</h3>
+
+        <p>
+          Es el valor predeterminado.
+          Los elementos permanecen en
+          una única línea.
+        </p>
+
+        <p>
+          Dependiendo de sus dimensiones
+          y de otras propiedades flexibles,
+          pueden reducir su tamaño
+          o llegar a desbordar el contenedor.
+        </p>
+
+        <div class="codigo-ejemplo">
+
+          <div class="codigo-cabecera">
+            <span>CSS</span>
+            <button class="boton-copiar" type="button">
+              Copiar
+            </button>
+          </div>
+
+          <pre><code>.contenedor {
+  display: flex;
+  flex-wrap: nowrap;
+  gap: 10px;
+  overflow-x: auto;
+}
+
+.contenedor .elemento {
+  flex: 0 0 125px;
+}</code></pre>
+
+        </div>
+
+        <div class="demo-flexbox">
+
+          <strong>Resultado visual</strong>
+
+          <div class="demo-contenedor demo-wrap-base demo-nowrap">
+
+            <div class="demo-elemento">1</div>
+            <div class="demo-elemento">2</div>
+            <div class="demo-elemento">3</div>
+            <div class="demo-elemento">4</div>
+            <div class="demo-elemento">5</div>
+
+          </div>
+
+          <p class="demo-explicacion">
+            Los elementos se mantienen
+            en una sola línea. En esta
+            demostración tienen una base
+            fija de 125 píxeles y el
+            contenedor permite desplazarse
+            horizontalmente si no caben.
+          </p>
+
+        </div>
+
+        <h3>flex-wrap: wrap</h3>
+
+        <p>
+          Permite que los elementos pasen
+          a la siguiente línea cuando
+          el espacio disponible no
+          sea suficiente.
+        </p>
+
+        <div class="codigo-ejemplo">
+
+          <div class="codigo-cabecera">
+            <span>CSS</span>
+            <button class="boton-copiar" type="button">
+              Copiar
+            </button>
+          </div>
+
+          <pre><code>.contenedor {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.contenedor .elemento {
+  flex: 0 0 125px;
+}</code></pre>
+
+        </div>
+
+        <div class="demo-flexbox">
+
+          <strong>Resultado visual</strong>
+
+          <div class="demo-contenedor demo-wrap-base demo-wrap">
+
+            <div class="demo-elemento">1</div>
+            <div class="demo-elemento">2</div>
+            <div class="demo-elemento">3</div>
+            <div class="demo-elemento">4</div>
+            <div class="demo-elemento">5</div>
+
+          </div>
+
+          <p class="demo-explicacion">
+            Cuando los elementos ya no
+            caben en la primera fila,
+            los siguientes pasan
+            automáticamente a otra.
+          </p>
+
+        </div>
+
+        <h3>flex-wrap: wrap-reverse</h3>
+
+        <p>
+          También permite distribuir
+          los elementos en varias líneas,
+          pero invierte la dirección
+          del eje transversal.
+        </p>
+
+        <p>
+          En una distribución habitual
+          de izquierda a derecha,
+          las nuevas líneas se colocan
+          por encima de las anteriores.
+        </p>
+
+        <div class="codigo-ejemplo">
+
+          <div class="codigo-cabecera">
+            <span>CSS</span>
+            <button class="boton-copiar" type="button">
+              Copiar
+            </button>
+          </div>
+
+          <pre><code>.contenedor {
+  display: flex;
+  flex-wrap: wrap-reverse;
+  gap: 10px;
+}
+
+.contenedor .elemento {
+  flex: 0 0 125px;
+}</code></pre>
+
+        </div>
+
+        <div class="demo-flexbox">
+
+          <strong>Resultado visual</strong>
+
+          <div class="demo-contenedor demo-wrap-base demo-wrap-reverse">
+
+            <div class="demo-elemento">1</div>
+            <div class="demo-elemento">2</div>
+            <div class="demo-elemento">3</div>
+            <div class="demo-elemento">4</div>
+            <div class="demo-elemento">5</div>
+
+          </div>
+
+          <p class="demo-explicacion">
+            Las líneas se distribuyen
+            en sentido inverso al de
+            <code>wrap</code>. La cantidad
+            de elementos que cabe en cada
+            línea depende del ancho
+            disponible.
+          </p>
+
+        </div>
+
+        <div class="caja caja-atencion">
+
+          <span class="caja-titulo">⚠️ Atención</span>
+
+          <p>
+            <code>flex-wrap: wrap</code>
+            no garantiza que aparezca
+            un número concreto de elementos
+            por fila. El resultado depende
+            del ancho del contenedor,
+            del tamaño de los elementos
+            y del espacio que los separa.
+          </p>
+
+        </div>
+
+        <h3>Ejemplo DAW: botones de StudyFlow</h3>
+
+        <p>
+          Imaginemos que en StudyFlow
+          queremos mostrar un conjunto
+          de accesos rápidos a diferentes
+          secciones de la aplicación.
+        </p>
+
+        <p>
+          Podemos utilizar Flexbox para
+          distribuir estos enlaces en
+          una fila y permitir que pasen
+          a otra cuando el espacio
+          disponible sea insuficiente.
+        </p>
+
+        <div class="codigo-ejemplo">
+
+          <div class="codigo-cabecera">
+            <span>HTML + CSS</span>
+            <button class="boton-copiar" type="button">
+              Copiar
+            </button>
+          </div>
+
+          <pre><code>&lt;nav class="accesos-studyflow" aria-label="Accesos rápidos"&gt;
+
+  &lt;a href="#asignaturas"&gt;Asignaturas&lt;/a&gt;
+
+  &lt;a href="#actividades"&gt;Actividades&lt;/a&gt;
+
+  &lt;a href="#calendario"&gt;Calendario&lt;/a&gt;
+
+  &lt;a href="#mensajes"&gt;Mensajes&lt;/a&gt;
+
+  &lt;a href="#perfil"&gt;Mi perfil&lt;/a&gt;
+
+&lt;/nav&gt;
+
+&lt;style&gt;
+
+  .accesos-studyflow {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+  }
+
+  .accesos-studyflow a {
+    display: inline-block;
+    padding: 12px 18px;
+    border: 1px solid #85c79b;
+    border-radius: 7px;
+    background-color: #e4f3e9;
+    color: #195c36;
+    text-decoration: none;
+  }
+
+&lt;/style&gt;</code></pre>
+
+        </div>
+
+        <div class="demo-flexbox">
+
+          <strong>Resultado visual: accesos rápidos de StudyFlow</strong>
+
+          <nav
+            class="demo-studyflow"
+            aria-label="Demostración de accesos rápidos de StudyFlow"
+          >
+
+            <a href="#flex-wrap">Asignaturas</a>
+            <a href="#flex-wrap">Actividades</a>
+            <a href="#flex-wrap">Calendario</a>
+            <a href="#flex-wrap">Mensajes</a>
+            <a href="#flex-wrap">Mi perfil</a>
+
+          </nav>
+
+          <p class="demo-explicacion">
+            Los enlaces se organizan
+            mediante <code>display: flex</code>.
+            Con <code>flex-wrap: wrap</code>,
+            pueden pasar a nuevas filas
+            cuando el ancho disponible
+            se reduce.
+          </p>
+
+        </div>
+
+        <div class="caja caja-ejemplo">
+
+          <span class="caja-titulo">💻 Ejemplo DAW</span>
+
+          <p>
+            En una aplicación como StudyFlow,
+            Flexbox permite organizar grupos
+            de enlaces y botones sin establecer
+            posiciones fijas para cada elemento.
+            Esto facilita la adaptación
+            de la interfaz a diferentes
+            tamaños de pantalla.
+          </p>
+
+        </div>
+
+        <!-- ==========================================
+             REFLEXIÓN FINAL
+        ========================================== -->
+
+        <div class="actividad-reflexion">
+
+          <h3>💭 Piensa</h3>
+
+          <p>
+            Estás diseñando una barra de
+            navegación para StudyFlow con
+            seis enlaces. En una pantalla
+            grande caben todos en una fila,
+            pero en una pantalla estrecha
+            algunos dejan de tener espacio.
+            ¿Qué propiedades de Flexbox
+            utilizarías para organizar
+            los enlaces y permitir que
+            pasen a una segunda línea?
+          </p>
+
+          <details class="solucion-desplegable">
+
+            <summary>Ver respuesta orientativa</summary>
+
+            <div class="contenido-solucion">
+
+              <p>
+                Aplicaría
+                <code>display: flex</code>
+                al contenedor de los enlaces
+                para activar Flexbox.
+              </p>
+
+              <p>
+                Después utilizaría
+                <code>flex-wrap: wrap</code>
+                para permitir que los enlaces
+                pasen a una nueva línea
+                cuando no haya suficiente
+                espacio disponible.
+              </p>
+
+              <p>
+                Finalmente, añadiría
+                <code>gap</code> para mantener
+                una separación uniforme
+                entre los elementos.
+              </p>
+
+            </div>
+
+          </details>
+
+        </div>
+
+      </section>
+
+      <!-- ==========================================
+           NAVEGACIÓN INFERIOR
+      ========================================== -->
+
+      <nav
+        class="navegacion-paginas"
+        aria-label="Navegación entre apartados"
+      >
+
+        <a
+          class="nav-pagina nav-anterior"
+          href="../6-3/index.html"
+        >
+
+          <span class="nav-etiqueta">← Anterior</span>
+
+          <strong>
+            6.3 Flotación de elementos y control del flujo
+          </strong>
+
+        </a>
+
+        <a
+          class="nav-pagina nav-siguiente"
+          href="../6-5/index.html"
+        >
+
+          <span class="nav-etiqueta">Siguiente →</span>
+
+          <strong>
+            6.5 Distribución y alineación con Flexbox
+          </strong>
+
+        </a>
+
+      </nav>
+
+    </main>
+
+    <!-- ==========================================
+         ÍNDICE DERECHO
+    ========================================== -->
+
+    <aside class="indice-derecho">
+
+      <h2>En esta página</h2>
+
+      <nav aria-label="Índice del apartado">
+
+        <ul>
+
+          <li>
+            <a href="#que-es-flexbox">
+              Qué es Flexbox
+            </a>
+          </li>
+
+          <li>
+            <a href="#contenedor-flex">
+              Contenedor y elementos flexibles
+            </a>
+          </li>
+
+          <li>
+            <a href="#ejes-flexbox">
+              Eje principal y eje transversal
+            </a>
+          </li>
+
+          <li>
+            <a href="#display-flex">
+              display: flex e inline-flex
+            </a>
+          </li>
+
+          <li>
+            <a href="#flex-direction">
+              Dirección de los elementos
+            </a>
+          </li>
+
+          <li>
+            <a href="#flex-wrap">
+              Distribución en varias líneas
+            </a>
+          </li>
+
+        </ul>
+
+      </nav>
+
+    </aside>
+
+  </div>
+
+  <!-- ==========================================
+       PIE DE PÁGINA
+  ========================================== -->
+
+  <footer>
+
+    <p>
+      © Eva Ballestero Cubeles ·
+      Apuntes de Informática
+    </p>
+
+    <p>
+      Contenidos publicados bajo licencia
+      Creative Commons BY-NC-SA 4.0
+    </p>
+
+    <img
+      src="../../../img/licencias/cc-by-nc-sa.png"
+      alt="Licencia Creative Commons Reconocimiento-NoComercial-CompartirIgual 4.0"
+    >
+
+  </footer>
+
+  <!-- ==========================================
+       JAVASCRIPT
+  ========================================== -->
+
+  <script src="../../../js/modulos.js"></script>
+
+  <script>
+
+    /* ==========================================
+       MENÚ SUPERIOR DE MÓDULOS
+    ========================================== */
+
+    const menuModulos = document.getElementById("menuModulos");
+
+    if (menuModulos && typeof modulos !== "undefined") {
+
+      const listaModulos = Array.isArray(modulos)
+        ? modulos
+        : Object.values(modulos);
+
+      listaModulos.forEach(modulo => {
+
+        if (!modulo.activo) {
+          return;
+        }
+
+        const enlace = document.createElement("a");
+
+        enlace.textContent = modulo.nombre;
+
+        enlace.href = "../../../" + modulo.carpeta + "/index.html";
+
+        menuModulos.appendChild(enlace);
+
+      });
+
+    }
+
+    /* ==========================================
+       MODO CLARO Y OSCURO
+    ========================================== */
+
+    const botonTema = document.getElementById("botonTema");
+
+    const temaGuardado = localStorage.getItem("tema");
+
+    if (temaGuardado === "oscuro") {
+
+      document.body.classList.add("modo-oscuro");
+
+      botonTema.textContent = "🌙";
+
+    } else {
+
+      botonTema.textContent = "☀️";
+
+    }
+
+    botonTema.addEventListener("click", () => {
+
+      document.body.classList.toggle("modo-oscuro");
+
+      const modoOscuro = document.body.classList.contains(
+        "modo-oscuro"
+      );
+
+      localStorage.setItem(
+        "tema",
+        modoOscuro ? "oscuro" : "claro"
+      );
+
+      botonTema.textContent = modoOscuro ? "🌙" : "☀️";
+
+    });
+
+    /* ==========================================
+       MENÚS DESPLEGABLES
+    ========================================== */
+
+    document.querySelectorAll(".boton-desplegar").forEach(boton => {
+
+      boton.addEventListener("click", () => {
+
+        const idSubmenu = boton.dataset.target;
+
+        const submenu = document.getElementById(idSubmenu);
+
+        if (!submenu) {
+          return;
+        }
+
+        const abierto = submenu.classList.toggle(
+          "submenu-abierto"
+        );
+
+        boton.setAttribute(
+          "aria-expanded",
+          String(abierto)
+        );
+
+        boton.textContent = abierto ? "⌄" : "›";
+
+      });
+
+    });
+
+    /* ==========================================
+       BOTONES PARA COPIAR CÓDIGO
+    ========================================== */
+
+    document.querySelectorAll(".codigo-ejemplo").forEach(bloque => {
+
+      const boton = bloque.querySelector(".boton-copiar");
+
+      const codigo = bloque.querySelector("pre code");
+
+      if (!boton || !codigo) {
+        return;
+      }
+
+      boton.addEventListener("click", async () => {
+
+        const texto = codigo.textContent;
+
+        try {
+
+          await navigator.clipboard.writeText(texto);
+
+          boton.textContent = "✓ Copiado";
+
+          setTimeout(() => {
+
+            boton.textContent = "Copiar";
+
+          }, 2000);
+
+        } catch (error) {
+
+          boton.textContent = "Error al copiar";
+
+          setTimeout(() => {
+
+            boton.textContent = "Copiar";
+
+          }, 2000);
+
+        }
+
+      });
+
+    });
+
+  </script>
+
+</body>
+</html>
