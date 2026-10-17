@@ -3091,24 +3091,33 @@
        PIE DE PÁGINA
   ========================================== -->
 
-  <footer>
+<footer class="footer">
 
-    <p>
-      © Eva Ballestero Cubeles ·
-      Apuntes de Informática
-    </p>
+  <p>
+    Material elaborado por
+    <strong>Eva Ballestero Cubeles</strong>
+    · Licencia
+    <span class="licencia">CC BY-NC-SA 4.0</span>
 
-    <p>
-      Contenidos publicados bajo licencia
-      Creative Commons BY-NC-SA 4.0
-    </p>
-
-    <img
-      src="../../../img/licencias/cc-by-nc-sa.png"
-      alt="Licencia Creative Commons Reconocimiento-NoComercial-CompartirIgual 4.0"
+    <a
+      class="enlace-licencia"
+      href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.es"
+      target="_blank"
+      rel="license noopener noreferrer"
+      aria-label="Licencia Creative Commons BY-NC-SA 4.0"
     >
 
-  </footer>
+      <img
+        class="icono-licencia"
+        src="../../../img/licencias/cc-by-nc-sa.png"
+        alt="Licencia Creative Commons BY-NC-SA 4.0"
+      >
+
+    </a>
+
+  </p>
+
+</footer>
 
   <!-- ==========================================
        JAVASCRIPT
@@ -3138,9 +3147,12 @@
 
         const enlace = document.createElement("a");
 
-        enlace.textContent = modulo.nombre;
+        enlace.textContent = modulo.siglas;
 
         enlace.href = "../../../" + modulo.carpeta + "/index.html";
+        if (modulo.siglas === "DIW") {
+          enlace.style.color = "var(--verde-principal)";
+        }
 
         menuModulos.appendChild(enlace);
 
