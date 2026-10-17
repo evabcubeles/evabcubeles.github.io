@@ -538,6 +538,22 @@
       justify-content: space-evenly;
     }
 
+    /* ==========================================
+   DEMOSTRACIÓN JUSTIFY-CONTENT EN COLUMNA
+========================================== */
+
+.demo-justify-columna {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: flex-start;
+  gap: 10px;
+  min-height: 300px;
+}
+
+.demo-justify-columna .demo-elemento {
+  flex-shrink: 0;
+}
     /* align-items */
 
     .demo-altura {
@@ -580,14 +596,14 @@
 
     /* align-content */
 
-    .demo-multilinea {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 10px;
-      width: 100%;
-      max-width: 390px;
-      height: 280px;
-    }
+.demo-multilinea {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  width: 100%;
+  max-width: 430px;
+  height: 280px;
+}
 
     .demo-multilinea .demo-elemento {
       flex: 0 0 105px;
@@ -1970,6 +1986,31 @@
 
         </div>
 
+        <div class="demo-flexbox">
+
+  <strong>
+    Resultado visual: justify-content con flex-direction: column
+  </strong>
+
+  <div class="demo-contenedor demo-justify-columna">
+
+    <div class="demo-elemento">1</div>
+
+    <div class="demo-elemento">2</div>
+
+    <div class="demo-elemento">3</div>
+
+  </div>
+
+  <p class="demo-explicacion">
+    Al utilizar <code>flex-direction: column</code>,
+    el eje principal pasa a ser vertical.
+    Por eso, <code>justify-content: center</code>
+    centra el conjunto de elementos verticalmente
+    dentro del contenedor.
+  </p>
+
+</div>
         <div class="caja caja-atencion">
 
           <span class="caja-titulo">⚠️ Atención</span>
@@ -2288,6 +2329,31 @@
           <code>align-content</code> distribuye
           las líneas dentro del contenedor.
         </p>
+        <div class="caja caja-importante">
+
+  <span class="caja-titulo">📌 Importante</span>
+
+  <p>
+    Cuando utilizamos <code>align-content: stretch</code>,
+    el espacio disponible se reparte aumentando el tamaño
+    transversal de las líneas flexibles.
+  </p>
+
+  <p>
+    Los elementos pueden estirarse dentro de esas líneas
+    si tienen un tamaño transversal automático y su
+    alineación lo permite, por ejemplo, mediante
+    <code>align-items: stretch</code>.
+  </p>
+
+  <p>
+    Por tanto, <code>align-content</code> distribuye
+    las líneas, mientras que <code>align-items</code>
+    controla la alineación de los elementos dentro
+    de cada línea.
+  </p>
+
+</div>
 
         <div class="codigo-ejemplo">
 
@@ -2827,13 +2893,30 @@
 
         </div>
 
-        <p>
-          El reparto de la reducción no depende
-          únicamente del número indicado en
-          <code>flex-shrink</code>. El navegador
-          también tiene en cuenta los tamaños
-          base de los elementos y sus límites.
-        </p>
+<p>
+  El reparto de la reducción no depende únicamente
+  del valor indicado en <code>flex-shrink</code>.
+  El navegador también tiene en cuenta el tamaño
+  base de cada elemento y sus restricciones.
+</p>
+
+<div class="caja caja-importante">
+
+  <span class="caja-titulo">📌 Importante</span>
+
+  <p>
+    Un elemento con <code>flex-shrink: 2</code>
+    no tiene por qué perder exactamente el doble
+    de píxeles que otro con <code>flex-shrink: 1</code>.
+  </p>
+
+  <p>
+    La reducción se calcula teniendo en cuenta
+    tanto los factores de contracción como los
+    tamaños base de los elementos.
+  </p>
+
+</div>
 
         <div class="caja caja-atencion">
 
@@ -3129,27 +3212,108 @@
 
         </div>
 
-        <div class="caja caja-atencion">
+<div class="caja caja-atencion">
 
-          <span class="caja-titulo">⚠️ Atención: accesibilidad</span>
+  <span class="caja-titulo">⚠️ Atención: accesibilidad</span>
 
-          <p>
-            <code>order</code> modifica la
-            presentación visual, pero no cambia
-            el orden de los elementos en el HTML
-            ni necesariamente su secuencia de
-            navegación mediante teclado.
-            Por ello, no debemos utilizarlo para
-            reorganizar contenidos cuyo orden
-            sea importante para la comprensión
-            o la interacción.
-          </p>
+  <p>
+    La propiedad <code>order</code> modifica únicamente
+    el orden visual de los elementos.
+  </p>
 
-        </div>
+  <p>
+    No cambia su posición en el código HTML ni el
+    orden de lectura del documento. En los elementos
+    interactivos, tampoco modifica el orden de
+    tabulación del teclado.
+  </p>
 
-        <!-- ==========================================
+  <p>
+    Por ello, no debemos utilizar <code>order</code>
+    para alterar el orden lógico de contenidos o
+    controles importantes para la comprensión
+    o la navegación de una página web.
+  </p>
+
+</div>
+         <!-- ==========================================
              7. APLICACIONES PRÁCTICAS
         ========================================== -->
+        <h3>¿Dónde se aplica cada propiedad de Flexbox?</h3>
+
+<p>
+  Antes de combinar las propiedades de Flexbox,
+  conviene recordar cuáles se aplican al contenedor
+  y cuáles a los elementos flexibles.
+</p>
+
+<div class="tabla-responsive">
+
+  <table class="tabla-apuntes">
+
+    <thead>
+      <tr>
+        <th>Propiedades del contenedor</th>
+        <th>Propiedades de los elementos</th>
+      </tr>
+    </thead>
+
+    <tbody>
+
+      <tr>
+        <td><code>display: flex</code></td>
+        <td><code>align-self</code></td>
+      </tr>
+
+      <tr>
+        <td><code>flex-direction</code></td>
+        <td><code>flex-grow</code></td>
+      </tr>
+
+      <tr>
+        <td><code>flex-wrap</code></td>
+        <td><code>flex-shrink</code></td>
+      </tr>
+
+      <tr>
+        <td><code>justify-content</code></td>
+        <td><code>flex-basis</code></td>
+      </tr>
+
+      <tr>
+        <td><code>align-items</code></td>
+        <td><code>flex</code></td>
+      </tr>
+
+      <tr>
+        <td><code>align-content</code></td>
+        <td><code>order</code></td>
+      </tr>
+
+      <tr>
+        <td><code>gap</code></td>
+        <td><code>margin</code></td>
+      </tr>
+
+    </tbody>
+
+  </table>
+
+</div>
+
+<div class="caja caja-importante">
+
+  <span class="caja-titulo">📌 Recuerda</span>
+
+  <p>
+    Las propiedades del contenedor organizan
+    el conjunto de elementos flexibles.
+    Las propiedades de los elementos permiten
+    modificar su tamaño, alineación individual
+    u orden visual.
+  </p>
+
+</div>
 
         <h2 id="ejemplos-flexbox">
           Aplicaciones prácticas de Flexbox
@@ -3185,6 +3349,30 @@
           y <code>margin-left: auto</code>
           sobre el grupo de enlaces.
         </p>
+        <div class="caja caja-importante">
+
+  <span class="caja-titulo">📌 Márgenes automáticos en Flexbox</span>
+
+  <p>
+    En un contenedor flexible, un margen automático
+    puede absorber el espacio libre disponible
+    sobre el eje correspondiente.
+  </p>
+
+  <p>
+    En este ejemplo, <code>margin-left: auto</code>
+    desplaza el grupo de enlaces hacia la derecha
+    cuando existe espacio horizontal libre.
+  </p>
+
+  <p>
+    Esta técnica resulta especialmente útil para
+    separar elementos dentro de barras de navegación
+    sin necesidad de modificar la distribución
+    de todos los elementos del contenedor.
+  </p>
+
+</div>
 
         <div class="codigo-ejemplo">
 
