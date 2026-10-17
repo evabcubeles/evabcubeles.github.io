@@ -556,10 +556,6 @@
   font-weight: 700;
 }
 
-    .demo-numero-linea.superior {
-      padding-bottom: 8px;
-    }
-
 .linea-1 { left: 0; }
 .linea-2 { left: 33.333%; }
 .linea-3 { left: 66.666%; }
@@ -3301,26 +3297,78 @@
             </button>
           </div>
 
-          <pre><code>&lt;section class="cursos"&gt;
+          <pre><code>
+&lt;section class="cursos"&gt;
 
   &lt;article class="curso"&gt;
     &lt;h3&gt;HTML&lt;/h3&gt;
-    &lt;p&gt;Estructura de páginas web.&lt;/p&gt;
+    &lt;p&gt;Aprende a estructurar el contenido de una página web.&lt;/p&gt;
+    &lt;span class="etiqueta-curso"&gt;Estructura&lt;/span&gt;
   &lt;/article&gt;
 
   &lt;article class="curso"&gt;
     &lt;h3&gt;CSS&lt;/h3&gt;
-    &lt;p&gt;Diseño de interfaces web.&lt;/p&gt;
+    &lt;p&gt;Diseña interfaces atractivas y organiza sus elementos.&lt;/p&gt;
+    &lt;span class="etiqueta-curso"&gt;Diseño&lt;/span&gt;
   &lt;/article&gt;
 
   &lt;article class="curso"&gt;
     &lt;h3&gt;JavaScript&lt;/h3&gt;
-    &lt;p&gt;Interactividad en el navegador.&lt;/p&gt;
+    &lt;p&gt;Añade comportamiento e interactividad a tus aplicaciones.&lt;/p&gt;
+    &lt;span class="etiqueta-curso"&gt;Programación&lt;/span&gt;
   &lt;/article&gt;
 
 &lt;/section&gt;
 
 &lt;style&gt;
+.cursos {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  gap: 14px;
+}
+
+.curso {
+  min-width: 0;
+  padding: 18px;
+  border: 1px solid #b8d8c3;
+  border-radius: 9px;
+  background-color: #f8fcf9;
+  color: #254536;
+  border-radius: 9px;
+}
+
+.curso h3 {
+  margin: 0 0 12px;
+  font-size: 17px;
+}
+
+.curso p {
+  margin: 0 0 14px;
+  font-size: 15px;
+  line-height: 1.6;
+}
+
+.etiqueta-curso {
+  display: inline-block;
+  padding: 6px 10px;
+  border-radius: 20px;
+  background-color: #e4f3e9;
+  color: #195c36;
+  font-size: 13px;
+  font-weight: 700;
+}
+
+/* Adaptación a pantallas estrechas */
+
+@media (max-width: 760px) {
+
+  .cursos {
+    grid-template-columns: 1fr;
+  }
+
+}
+&lt;/style&gt;
+
 .cursos {
   display: grid;
   grid-template-columns: 1fr 1fr 1fr;
