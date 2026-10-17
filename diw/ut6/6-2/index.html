@@ -701,6 +701,14 @@
       font-weight: 600;
       text-align: center;
     }
+    .demo-static .demo-elemento {
+  position: static;
+  margin-bottom: 8px;
+}
+
+.demo-static .demo-elemento:last-child {
+  margin-bottom: 0;
+}
 
     .demo-fila {
       display: flex;
@@ -737,14 +745,14 @@
       line-height: 1.5;
     }
 
-    .demo-absolute {
-      position: absolute;
-      right: 16px;
-      bottom: 16px;
-      background: #dceafe;
-      border-color: #729bd7;
-      color: #244e87;
-    }
+.demo-absolute {
+  position: absolute;
+  top: 15px;
+  right: 15px;
+  background: #dceafe;
+  border-color: #729bd7;
+  color: #244e87;
+}
 
     .demo-tarjeta {
       position: relative;
@@ -1649,25 +1657,27 @@
 
         </div>
 
-        <div class="demo-posicion">
+<div class="demo-posicion">
 
-          <strong>Resultado visual</strong>
+  <strong>Resultado visual</strong>
 
-          <div class="demo-fila">
-            <div class="demo-elemento">Elemento A</div>
-            <div class="demo-elemento">Elemento B</div>
-            <div class="demo-elemento">Elemento C</div>
-          </div>
+  <div class="demo-static">
 
-          <p class="demo-explicacion">
-            Estos elementos se muestran en una fila porque
-            el contenedor de la demostración utiliza Flexbox.
-            Cada elemento mantiene <code>position: static</code>:
-            su posición depende del sistema de distribución
-            establecido por su contenedor.
-          </p>
+    <div class="demo-elemento">Elemento A</div>
+    <div class="demo-elemento">Elemento B</div>
+    <div class="demo-elemento">Elemento C</div>
 
-        </div>
+  </div>
+
+  <p class="demo-explicacion">
+    Los tres elementos aparecen uno debajo de otro
+    porque son elementos de bloque y siguen el
+    flujo normal del documento. Todos mantienen
+    su posicionamiento predeterminado:
+    <code>position: static</code>.
+  </p>
+
+</div>
 
         <div class="caja caja-importante">
 
@@ -1865,15 +1875,15 @@
 
           </div>
 
-          <p class="demo-explicacion">
-            La etiqueta aparece situada cerca de la esquina
-            inferior derecha de esta demostración porque
-            sus reglas visuales utilizan
-            <code>right</code> y <code>bottom</code>.
-            En el ejemplo de código anterior se utiliza
-            <code>top</code> y <code>right</code>,
-            lo que la situaría en la esquina superior derecha.
-          </p>
+<p class="demo-explicacion">
+  La etiqueta aparece situada en la esquina
+  superior derecha del contenedor, a
+  <strong>15 píxeles del borde superior</strong>
+  y <strong>15 píxeles del borde derecho</strong>.
+  Esto es posible porque el contenedor utiliza
+  <code>position: relative</code> y la etiqueta
+  utiliza <code>position: absolute</code>.
+</p>
 
         </div>
 
