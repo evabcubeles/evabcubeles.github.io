@@ -1,0 +1,2733 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <meta
+    name="description"
+    content="6.3 - Flotación de elementos y control del flujo. Propiedades float, clear, overflow y usos actuales."
+  >
+
+  <title>6.3 - Flotación de elementos y control del flujo</title>
+
+  <link rel="icon" type="image/png" href="../../../img/favicon.png?v=5">
+  <link rel="stylesheet" href="../../../css/estilos.css">
+
+  <style>
+
+    /* ==========================================
+       ESTRUCTURA GENERAL
+    ========================================== */
+
+    .pagina-ut {
+      display: grid;
+      grid-template-columns: 280px 1fr 260px;
+      min-height: calc(100vh - 68px);
+    }
+
+    /* ==========================================
+       COLUMNA IZQUIERDA
+    ========================================== */
+
+    .sidebar {
+      border-right: 1px solid var(--borde);
+      background-color: var(--fondo-pagina);
+      padding: 12px 10px 30px;
+      position: sticky;
+      top: 68px;
+      height: calc(100vh - 68px);
+      overflow-y: auto;
+    }
+
+    .sidebar-modulo {
+      display: block;
+      margin-bottom: 8px;
+      padding: 8px 14px;
+      color: #626873;
+      font-size: 17px;
+      font-weight: 700;
+      line-height: 1.3;
+      text-decoration: none;
+      border-radius: 6px;
+      transition: color .2s ease, background-color .2s ease;
+    }
+
+    .sidebar-modulo:hover {
+      color: var(--verde-principal);
+      background-color: #f3f4f6;
+    }
+
+    body.modo-oscuro .sidebar-modulo:hover {
+      background-color: #273244;
+    }
+
+    .sidebar-ut-cerrada {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      padding: 13px 14px;
+      color: #626873;
+      text-decoration: none;
+      font-size: 16px;
+      font-weight: 650;
+      line-height: 1.35;
+      border-radius: 6px;
+      transition: background-color .2s ease, color .2s ease;
+    }
+
+    .sidebar-ut-cerrada:hover {
+      background-color: #f3f4f6;
+      color: var(--verde-principal);
+    }
+
+    body.modo-oscuro .sidebar-ut-cerrada:hover {
+      background-color: #273244;
+    }
+
+    .menu-desplegable {
+      width: 100%;
+    }
+
+    .menu-cabecera {
+      display: flex;
+      align-items: center;
+      gap: 4px;
+      width: 100%;
+      border-radius: 6px;
+    }
+
+    .menu-cabecera-activa {
+      background-color: #f1f1f1;
+    }
+
+    .menu-cabecera-activa > .menu-titulo {
+      color: var(--verde-principal);
+    }
+
+    .menu-titulo {
+      flex: 1;
+      display: block;
+      padding: 11px 8px 11px 14px;
+      color: #626873;
+      font-size: 16px;
+      font-weight: 650;
+      line-height: 1.4;
+      text-decoration: none;
+    }
+
+    .menu-titulo:hover {
+      color: var(--verde-principal);
+    }
+
+    .boton-desplegar {
+      width: 36px;
+      height: 36px;
+      margin-right: 5px;
+      padding: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+      border: 0;
+      border-radius: 6px;
+      background: transparent;
+      color: #777;
+      font-family: inherit;
+      font-size: 24px;
+      line-height: 1;
+      cursor: pointer;
+    }
+
+    .boton-desplegar:hover {
+      background-color: #e5e7eb;
+      color: var(--verde-principal);
+    }
+
+    .submenu {
+      display: none;
+    }
+
+    .submenu.submenu-abierto {
+      display: block;
+    }
+
+    .menu-apartado {
+      margin-left: 14px;
+    }
+
+    .menu-apartado .menu-titulo {
+      padding-top: 9px;
+      padding-bottom: 9px;
+      font-size: 15px;
+      font-weight: 600;
+    }
+
+    .enlace-apartado-simple {
+      display: block;
+      margin-left: 14px;
+      padding: 10px 14px;
+      color: #626873;
+      font-size: 15px;
+      font-weight: 600;
+      line-height: 1.4;
+      text-decoration: none;
+      border-radius: 6px;
+      transition: background-color .2s ease, color .2s ease;
+    }
+
+    .enlace-apartado-simple:hover {
+      background-color: #f3f4f6;
+      color: var(--verde-principal);
+    }
+
+    .submenu-apartados {
+      margin: 2px 0 5px 28px;
+      border-left: 2px solid #e0e3e7;
+    }
+
+    .submenu-apartados a {
+      display: block;
+      padding: 7px 10px;
+      color: #777d87;
+      font-size: 14px;
+      font-weight: 500;
+      line-height: 1.35;
+      text-decoration: none;
+    }
+
+    .submenu-apartados a:hover {
+      color: var(--verde-principal);
+    }
+
+    body.modo-oscuro .menu-cabecera-activa {
+      background-color: #273244;
+    }
+
+    body.modo-oscuro .boton-desplegar:hover {
+      background-color: #334155;
+    }
+
+    body.modo-oscuro .enlace-apartado-simple:hover {
+      background-color: #273244;
+    }
+
+    body.modo-oscuro .submenu-apartados {
+      border-left-color: #3a4659;
+    }
+
+    /* ==========================================
+       ZONA CENTRAL
+    ========================================== */
+
+    .contenido-ut {
+      padding: 28px 34px 70px;
+      max-width: 1150px;
+      width: 100%;
+      min-width: 0;
+    }
+
+    .migas {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 30px;
+      font-size: 14px;
+    }
+
+    .miga-inicio {
+      text-decoration: none;
+      font-size: 18px;
+    }
+
+    .miga-separador {
+      color: #999;
+      font-size: 22px;
+    }
+
+    .miga-modulo {
+      color: var(--texto-secundario);
+      text-decoration: none;
+    }
+
+    .miga-modulo:hover {
+      color: var(--verde-principal);
+    }
+
+    .miga-actual {
+      padding: 8px 14px;
+      background-color: #f3f3f3;
+      border-radius: 24px;
+      color: var(--verde-principal);
+    }
+
+    body.modo-oscuro .miga-actual {
+      background-color: #273244;
+    }
+
+    .contenido-ut h1 {
+      margin: 0 0 30px;
+      font-size: clamp(38px, 5vw, 58px);
+      line-height: 1.12;
+    }
+
+    /* ==========================================
+       CONTENIDO DE LOS APARTADOS
+    ========================================== */
+
+    .apartado-ut {
+      margin-top: 55px;
+      scroll-margin-top: 95px;
+    }
+
+    .apartado-ut h2 {
+      margin: 0 0 24px;
+      font-size: 32px;
+      line-height: 1.2;
+      scroll-margin-top: 95px;
+    }
+
+    .apartado-ut h3 {
+      margin: 34px 0 16px;
+      font-size: 24px;
+      line-height: 1.3;
+    }
+
+    .apartado-ut p {
+      margin: 0 0 18px;
+      font-size: 18px;
+      line-height: 1.75;
+    }
+
+    .apartado-ut ul,
+    .apartado-ut ol {
+      margin: 16px 0 24px;
+      padding-left: 28px;
+    }
+
+    .apartado-ut li {
+      margin-bottom: 10px;
+      font-size: 17px;
+      line-height: 1.6;
+    }
+
+    /* ==========================================
+       CAJAS DIDÁCTICAS
+    ========================================== */
+
+    .caja {
+      margin: 28px 0;
+      padding: 18px 20px;
+      border-left: 5px solid;
+      border-radius: 8px;
+      line-height: 1.65;
+    }
+
+    .caja p {
+      margin: 0;
+      font-size: 17px;
+    }
+
+    .caja-titulo {
+      display: block;
+      margin-bottom: 8px;
+      font-size: 17px;
+      font-weight: 700;
+    }
+
+    .caja-importante {
+      background-color: #eef8f1;
+      border-left-color: #2f9e5b;
+    }
+
+    .caja-atencion {
+      background-color: #fff7e8;
+      border-left-color: #e09b27;
+    }
+
+    .caja-ejemplo {
+      background-color: #eef5ff;
+      border-left-color: #3f7acb;
+    }
+
+    body.modo-oscuro .caja-importante {
+      background-color: #20372a;
+    }
+
+    body.modo-oscuro .caja-atencion {
+      background-color: #3b3020;
+    }
+
+    body.modo-oscuro .caja-ejemplo {
+      background-color: #23344a;
+    }
+
+    /* ==========================================
+       TABLAS
+    ========================================== */
+
+    .tabla-responsive {
+      width: 100%;
+      margin: 28px 0;
+      overflow-x: auto;
+    }
+
+    .tabla-apuntes {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 16px;
+    }
+
+    .tabla-apuntes th,
+    .tabla-apuntes td {
+      padding: 14px 16px;
+      border: 1px solid var(--borde);
+      text-align: left;
+      vertical-align: top;
+      line-height: 1.55;
+    }
+
+    .tabla-apuntes th {
+      background-color: #f1f3f5;
+      font-weight: 700;
+    }
+
+    body.modo-oscuro .tabla-apuntes th {
+      background-color: #273244;
+    }
+
+    /* ==========================================
+       ACTIVIDAD DE REFLEXIÓN
+    ========================================== */
+
+    .actividad-reflexion {
+      margin: 32px 0;
+      padding: 22px 24px;
+      background-color: #f7f8fa;
+      border: 1px solid var(--borde);
+      border-radius: 10px;
+    }
+
+    .actividad-reflexion h3 {
+      margin: 0 0 12px;
+      color: var(--verde-principal);
+      font-size: 20px;
+    }
+
+    .actividad-reflexion p {
+      margin: 0;
+      font-size: 17px;
+      line-height: 1.65;
+    }
+
+    body.modo-oscuro .actividad-reflexion {
+      background-color: #232d3d;
+    }
+
+    .solucion-desplegable {
+      margin-top: 20px;
+    }
+
+    .solucion-desplegable summary {
+      display: inline-block;
+      padding: 10px 16px;
+      background-color: #eef8f1;
+      border: 1px solid #b9dfc6;
+      border-radius: 7px;
+      color: var(--verde-principal);
+      font-size: 16px;
+      font-weight: 700;
+      cursor: pointer;
+      user-select: none;
+    }
+
+    .solucion-desplegable summary:hover {
+      background-color: #e2f3e7;
+    }
+
+    .contenido-solucion {
+      margin-top: 16px;
+      padding: 18px 20px;
+      background-color: var(--fondo-pagina);
+      border-left: 4px solid var(--verde-principal);
+      border-radius: 6px;
+    }
+
+    .contenido-solucion p {
+      margin: 0 0 12px;
+      font-size: 16px;
+      line-height: 1.65;
+    }
+
+    .contenido-solucion p:last-child {
+      margin-bottom: 0;
+    }
+
+    body.modo-oscuro .solucion-desplegable summary {
+      background-color: #20372a;
+      border-color: #315d40;
+    }
+
+    /* ==========================================
+       COLUMNA DERECHA
+    ========================================== */
+
+    .indice-derecho {
+      padding: 28px 22px;
+      border-left: 1px solid var(--borde);
+      position: sticky;
+      top: 68px;
+      height: calc(100vh - 68px);
+    }
+
+    .indice-derecho h2 {
+      margin: 8px 0 20px;
+      font-size: 17px;
+      color: #555b65;
+    }
+
+    body.modo-oscuro .indice-derecho h2 {
+      color: #d1d5db;
+    }
+
+    .indice-derecho ul {
+      margin: 0;
+      padding-left: 18px;
+    }
+
+    .indice-derecho li {
+      margin-bottom: 12px;
+    }
+
+    .indice-derecho a {
+      color: var(--texto-secundario);
+      text-decoration: none;
+      font-size: 14px;
+      line-height: 1.4;
+    }
+
+    .indice-derecho a:hover {
+      color: var(--verde-principal);
+    }
+
+    /* ==========================================
+       NAVEGACIÓN ANTERIOR / SIGUIENTE
+    ========================================== */
+
+    .navegacion-paginas {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 20px;
+      margin-top: 50px;
+    }
+
+    .nav-pagina {
+      min-height: 100px;
+      padding: 18px 20px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      border: 1px solid var(--borde);
+      border-radius: 8px;
+      text-decoration: none;
+      background-color: var(--fondo-tarjeta);
+    }
+
+    .nav-anterior {
+      align-items: flex-start;
+      text-align: left;
+    }
+
+    .nav-siguiente {
+      align-items: flex-end;
+      text-align: right;
+    }
+
+    .nav-etiqueta {
+      margin-bottom: 5px;
+      color: var(--texto-secundario);
+      font-size: 14px;
+    }
+
+    .nav-pagina strong {
+      color: var(--verde-principal);
+      font-size: 16px;
+      line-height: 1.4;
+    }
+
+    .nav-pagina:hover {
+      border-color: var(--verde-principal);
+    }
+
+    /* ==========================================
+       BLOQUES DE CÓDIGO
+    ========================================== */
+
+    .codigo-ejemplo {
+      margin: 24px 0 30px;
+      border: 1px solid var(--borde);
+      border-radius: 9px;
+      overflow: hidden;
+      background: #172033;
+    }
+
+    .codigo-cabecera {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      padding: 10px 14px;
+      background: #202b3d;
+      color: #e5e7eb;
+      font-size: 14px;
+      font-weight: 700;
+    }
+
+    .boton-copiar {
+      padding: 6px 10px;
+      border: 1px solid #526078;
+      border-radius: 6px;
+      background: transparent;
+      color: #e5e7eb;
+      font: inherit;
+      cursor: pointer;
+    }
+
+    .boton-copiar:hover {
+      background: #2d3a50;
+    }
+
+    .codigo-ejemplo pre {
+      margin: 0;
+      padding: 18px;
+      overflow-x: auto;
+    }
+
+    .codigo-ejemplo code {
+      color: #f3f4f6;
+      font-family: Consolas, "Courier New", monospace;
+      font-size: 15px;
+      line-height: 1.65;
+    }
+
+    /* ==========================================
+       DEMOSTRACIONES VISUALES DEL 6.3
+    ========================================== */
+
+    .demo-flotacion {
+      margin: 24px 0 30px;
+      padding: 22px;
+      border: 1px solid var(--borde);
+      border-radius: 10px;
+      background: var(--fondo-tarjeta);
+    }
+
+    .demo-flotacion > strong {
+      display: block;
+      margin-bottom: 16px;
+      font-size: 17px;
+    }
+
+    .demo-flotacion p {
+      margin: 0 0 12px;
+      font-size: 16px;
+      line-height: 1.65;
+    }
+
+    .demo-foto {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-sizing: border-box;
+      width: 116px;
+      min-height: 90px;
+      padding: 12px;
+      border: 1px solid #85c79b;
+      border-radius: 7px;
+      background: #e4f3e9;
+      color: #195c36;
+      font-size: 15px;
+      font-weight: 700;
+      text-align: center;
+    }
+
+    .demo-foto-izquierda {
+      float: left;
+      margin: 0 18px 12px 0;
+    }
+
+    .demo-foto-derecha {
+      float: right;
+      margin: 0 0 12px 18px;
+    }
+
+    .demo-limpio::after {
+      content: "";
+      display: block;
+      clear: both;
+    }
+
+    .demo-clear {
+      clear: both;
+      padding: 12px;
+      border: 1px dashed #729bd7;
+      border-radius: 6px;
+      background: #eaf2ff;
+      color: #244e87;
+    }
+
+    .demo-contenedor-flotante {
+      display: flow-root;
+      padding: 14px;
+      border: 2px dashed #9ca3af;
+      border-radius: 8px;
+    }
+
+    .demo-overflow {
+      width: 100%;
+      max-width: 480px;
+      overflow-x: auto;
+      border: 1px solid var(--borde);
+      border-radius: 6px;
+    }
+
+    .demo-tabla-ancha {
+      min-width: 650px;
+      border-collapse: collapse;
+    }
+
+    .demo-tabla-ancha th,
+    .demo-tabla-ancha td {
+      padding: 12px;
+      border: 1px solid var(--borde);
+      text-align: left;
+    }
+
+    .demo-tabla-ancha th {
+      background: #eef8f1;
+      color: #195c36;
+    }
+
+    .demo-explicacion {
+      margin-top: 16px !important;
+      color: var(--texto-secundario);
+      font-size: 15px !important;
+    }
+
+    body.modo-oscuro .demo-foto {
+      background: #203b2b;
+      color: #b5edc7;
+      border-color: #397a50;
+    }
+
+    body.modo-oscuro .demo-clear {
+      background: #233b59;
+      color: #d6e7ff;
+      border-color: #557daf;
+    }
+
+    body.modo-oscuro .demo-tabla-ancha th {
+      background: #203b2b;
+      color: #b5edc7;
+    }
+
+    /* ==========================================
+       RESPONSIVE DE LA PLANTILLA
+    ========================================== */
+
+    @media (max-width: 1100px) {
+
+      .pagina-ut {
+        grid-template-columns: 250px minmax(0, 1fr);
+      }
+
+      .indice-derecho {
+        display: none;
+      }
+
+    }
+
+    @media (max-width: 760px) {
+
+      .pagina-ut {
+        display: block;
+      }
+
+      .sidebar {
+        position: static;
+        width: 100%;
+        height: auto;
+        border-right: 0;
+        border-bottom: 1px solid var(--borde);
+      }
+
+      .contenido-ut {
+        padding: 28px 20px 60px;
+      }
+
+      .contenido-ut h1 {
+        font-size: 36px;
+      }
+
+      .navegacion-paginas {
+        grid-template-columns: 1fr;
+      }
+
+      .nav-siguiente {
+        align-items: flex-start;
+        text-align: left;
+      }
+
+    }
+
+  </style>
+</head>
+
+<body>
+
+  <!-- ==========================================
+       CABECERA SUPERIOR
+  ========================================== -->
+
+  <header class="navbar">
+
+    <a class="inicio" href="../../../index.html">
+      <img
+        src="../../../img/profesora-castana.png?v=2"
+        alt=""
+        class="icono-profesora"
+      >
+      <span>Inicio</span>
+    </a>
+
+    <nav
+      id="menuModulos"
+      class="menu-modulos"
+      aria-label="Módulos formativos"
+    ></nav>
+
+    <button
+      id="botonTema"
+      class="boton-tema"
+      type="button"
+      aria-label="Cambiar entre modo claro y oscuro"
+      title="Cambiar tema"
+    >☀️</button>
+
+  </header>
+
+  <div class="pagina-ut">
+
+    <!-- ==========================================
+         MENÚ LATERAL IZQUIERDO
+    ========================================== -->
+
+    <aside class="sidebar">
+
+      <a class="sidebar-modulo" href="../../index.html">
+        Diseño de interfaces web
+      </a>
+
+      <!-- UNIDADES ANTERIORES -->
+
+      <a class="sidebar-ut-cerrada" href="../../ut1/index.html">
+        <span>UT1 - Fundamentos del diseño de interfaces web</span>
+        <span>›</span>
+      </a>
+
+      <a class="sidebar-ut-cerrada" href="../../ut2/index.html">
+        <span>UT2 - Color, tipografía, iconografía e identidad visual</span>
+        <span>›</span>
+      </a>
+
+      <a class="sidebar-ut-cerrada" href="../../ut3/index.html">
+        <span>UT3 - Planificación, arquitectura y prototipado de interfaces</span>
+        <span>›</span>
+      </a>
+
+      <a class="sidebar-ut-cerrada" href="../../ut4/index.html">
+        <span>UT4 - HTML: estructura y contenido de interfaces web</span>
+        <span>›</span>
+      </a>
+
+      <a class="sidebar-ut-cerrada" href="../../ut5/index.html">
+        <span>UT5 - CSS: fundamentos y diseño visual</span>
+        <span>›</span>
+      </a>
+
+      <!-- ==========================================
+           UT6 ACTIVA
+      ========================================== -->
+
+      <div class="menu-desplegable">
+
+        <div class="menu-cabecera menu-cabecera-activa">
+
+          <a class="menu-titulo" href="../index.html">
+            UT6 - CSS: maquetación y diseño avanzado
+          </a>
+
+          <button
+            class="boton-desplegar"
+            type="button"
+            data-target="submenu-ut6"
+            aria-expanded="true"
+            aria-label="Mostrar u ocultar UT6"
+          >⌄</button>
+
+        </div>
+
+        <div id="submenu-ut6" class="submenu submenu-abierto">
+
+          <!-- 6.1 -->
+
+          <div class="menu-desplegable menu-apartado">
+
+            <div class="menu-cabecera">
+
+              <a class="menu-titulo" href="../6-1/index.html">
+                6.1 Flujo normal del documento y propiedad display
+              </a>
+
+              <button
+                class="boton-desplegar"
+                type="button"
+                data-target="submenu-6-1"
+                aria-expanded="false"
+                aria-label="Mostrar u ocultar los subapartados del 6.1"
+              >›</button>
+
+            </div>
+
+            <div id="submenu-6-1" class="submenu submenu-apartados">
+
+              <a href="../6-1/index.html#flujo-normal">
+                El flujo normal del documento
+              </a>
+
+              <a href="../6-1/index.html#elementos-bloque-linea">
+                Elementos de bloque y en línea
+              </a>
+
+              <a href="../6-1/index.html#propiedad-display">
+                La propiedad display
+              </a>
+
+              <a href="../6-1/index.html#inline-block">
+                display: inline-block
+              </a>
+
+              <a href="../6-1/index.html#display-none">
+                display: none y visibilidad
+              </a>
+
+              <a href="../6-1/index.html#buenas-practicas-display">
+                Buenas prácticas de distribución
+              </a>
+
+            </div>
+
+          </div>
+
+          <!-- 6.2 -->
+
+          <div class="menu-desplegable menu-apartado">
+
+            <div class="menu-cabecera">
+
+              <a class="menu-titulo" href="../6-2/index.html">
+                6.2 Posicionamiento de elementos en CSS
+              </a>
+
+              <button
+                class="boton-desplegar"
+                type="button"
+                data-target="submenu-6-2"
+                aria-expanded="false"
+                aria-label="Mostrar u ocultar los subapartados del 6.2"
+              >›</button>
+
+            </div>
+
+            <div id="submenu-6-2" class="submenu submenu-apartados">
+
+              <a href="../6-2/index.html#position">
+                La propiedad position
+              </a>
+
+              <a href="../6-2/index.html#static">
+                Posicionamiento static
+              </a>
+
+              <a href="../6-2/index.html#relative">
+                Posicionamiento relative
+              </a>
+
+              <a href="../6-2/index.html#absolute">
+                Posicionamiento absolute
+              </a>
+
+              <a href="../6-2/index.html#fixed">
+                Posicionamiento fixed
+              </a>
+
+              <a href="../6-2/index.html#sticky">
+                Posicionamiento sticky
+              </a>
+
+              <a href="../6-2/index.html#z-index">
+                Superposición y z-index
+              </a>
+
+            </div>
+
+          </div>
+
+          <!-- ==========================================
+               6.3 ACTIVO
+          ========================================== -->
+
+          <div class="menu-desplegable menu-apartado">
+
+            <div class="menu-cabecera menu-cabecera-activa">
+
+              <a class="menu-titulo" href="index.html">
+                6.3 Flotación de elementos y control del flujo
+              </a>
+
+              <button
+                class="boton-desplegar"
+                type="button"
+                data-target="submenu-6-3"
+                aria-expanded="true"
+                aria-label="Mostrar u ocultar los subapartados del 6.3"
+              >⌄</button>
+
+            </div>
+
+            <div
+              id="submenu-6-3"
+              class="submenu submenu-apartados submenu-abierto"
+            >
+
+              <a href="#float">
+                La propiedad float
+              </a>
+
+              <a href="#float-left-right">
+                Flotación a izquierda y derecha
+              </a>
+
+              <a href="#clear">
+                La propiedad clear
+              </a>
+
+              <a href="#overflow">
+                Overflow y desbordamiento
+              </a>
+
+              <a href="#usos-actuales-float">
+                Usos actuales de float
+              </a>
+
+            </div>
+
+          </div>
+
+          <!-- 6.4 -->
+
+          <div class="menu-desplegable menu-apartado">
+
+            <div class="menu-cabecera">
+
+              <a class="menu-titulo" href="../6-4/index.html">
+                6.4 Introducción a Flexbox
+              </a>
+
+              <button
+                class="boton-desplegar"
+                type="button"
+                data-target="submenu-6-4"
+                aria-expanded="false"
+                aria-label="Mostrar u ocultar los subapartados del 6.4"
+              >›</button>
+
+            </div>
+
+            <div id="submenu-6-4" class="submenu submenu-apartados">
+
+              <a href="../6-4/index.html#que-es-flexbox">
+                Qué es Flexbox
+              </a>
+
+              <a href="../6-4/index.html#contenedor-flex">
+                Contenedor y elementos flexibles
+              </a>
+
+              <a href="../6-4/index.html#ejes-flexbox">
+                Eje principal y eje transversal
+              </a>
+
+              <a href="../6-4/index.html#display-flex">
+                display: flex e inline-flex
+              </a>
+
+              <a href="../6-4/index.html#flex-direction">
+                Dirección de los elementos
+              </a>
+
+              <a href="../6-4/index.html#flex-wrap">
+                Distribución en varias líneas
+              </a>
+
+            </div>
+
+          </div>
+
+          <!-- 6.5 -->
+
+          <div class="menu-desplegable menu-apartado">
+
+            <div class="menu-cabecera">
+
+              <a class="menu-titulo" href="../6-5/index.html">
+                6.5 Distribución y alineación con Flexbox
+              </a>
+
+              <button
+                class="boton-desplegar"
+                type="button"
+                data-target="submenu-6-5"
+                aria-expanded="false"
+                aria-label="Mostrar u ocultar los subapartados del 6.5"
+              >›</button>
+
+            </div>
+
+            <div id="submenu-6-5" class="submenu submenu-apartados">
+
+              <a href="../6-5/index.html#justify-content">justify-content</a>
+              <a href="../6-5/index.html#align-items">align-items</a>
+              <a href="../6-5/index.html#align-content">align-content y align-self</a>
+              <a href="../6-5/index.html#gap">Espaciado con gap</a>
+              <a href="../6-5/index.html#flex-grow-shrink-basis">flex-grow, flex-shrink y flex-basis</a>
+              <a href="../6-5/index.html#order">Orden visual de los elementos</a>
+              <a href="../6-5/index.html#ejemplos-flexbox">Aplicaciones prácticas de Flexbox</a>
+
+            </div>
+
+          </div>
+
+          <!-- 6.6 -->
+
+          <div class="menu-desplegable menu-apartado">
+
+            <div class="menu-cabecera">
+
+              <a class="menu-titulo" href="../6-6/index.html">
+                6.6 Introducción a CSS Grid
+              </a>
+
+              <button
+                class="boton-desplegar"
+                type="button"
+                data-target="submenu-6-6"
+                aria-expanded="false"
+                aria-label="Mostrar u ocultar los subapartados del 6.6"
+              >›</button>
+
+            </div>
+
+            <div id="submenu-6-6" class="submenu submenu-apartados">
+
+              <a href="../6-6/index.html#que-es-grid">Qué es CSS Grid</a>
+              <a href="../6-6/index.html#contenedor-grid">Contenedor y elementos Grid</a>
+              <a href="../6-6/index.html#filas-columnas">Filas, columnas y líneas</a>
+              <a href="../6-6/index.html#display-grid">display: grid e inline-grid</a>
+              <a href="../6-6/index.html#grid-template">grid-template-columns y rows</a>
+              <a href="../6-6/index.html#unidad-fr">La unidad fr</a>
+              <a href="../6-6/index.html#gap-grid">Separación entre celdas</a>
+
+            </div>
+
+          </div>
+
+          <!-- 6.7 -->
+
+          <div class="menu-desplegable menu-apartado">
+
+            <div class="menu-cabecera">
+
+              <a class="menu-titulo" href="../6-7/index.html">
+                6.7 Distribución y alineación con CSS Grid
+              </a>
+
+              <button
+                class="boton-desplegar"
+                type="button"
+                data-target="submenu-6-7"
+                aria-expanded="false"
+                aria-label="Mostrar u ocultar los subapartados del 6.7"
+              >›</button>
+
+            </div>
+
+            <div id="submenu-6-7" class="submenu submenu-apartados">
+
+              <a href="../6-7/index.html#grid-column-row">grid-column y grid-row</a>
+              <a href="../6-7/index.html#grid-template-areas">Áreas de la cuadrícula</a>
+              <a href="../6-7/index.html#colocacion-automatica">Colocación automática</a>
+              <a href="../6-7/index.html#alineacion-grid">Alineación en Grid</a>
+              <a href="../6-7/index.html#repeat-minmax">repeat() y minmax()</a>
+              <a href="../6-7/index.html#ejemplos-grid">Aplicaciones prácticas de Grid</a>
+
+            </div>
+
+          </div>
+
+          <!-- 6.8 -->
+
+          <div class="menu-desplegable menu-apartado">
+
+            <div class="menu-cabecera">
+
+              <a class="menu-titulo" href="../6-8/index.html">
+                6.8 Maquetación avanzada: combinación de técnicas
+              </a>
+
+              <button
+                class="boton-desplegar"
+                type="button"
+                data-target="submenu-6-8"
+                aria-expanded="false"
+                aria-label="Mostrar u ocultar los subapartados del 6.8"
+              >›</button>
+
+            </div>
+
+            <div id="submenu-6-8" class="submenu submenu-apartados">
+
+              <a href="../6-8/index.html#flexbox-vs-grid">Cuándo utilizar Flexbox o Grid</a>
+              <a href="../6-8/index.html#combinacion-tecnicas">Combinación de técnicas</a>
+              <a href="../6-8/index.html#maquetacion-pagina">Estructura de una página web</a>
+              <a href="../6-8/index.html#anidamiento">Contenedores anidados</a>
+              <a href="../6-8/index.html#buenas-practicas">Buenas prácticas de maquetación</a>
+              <a href="../6-8/index.html#studyflow">Aplicación al proyecto StudyFlow</a>
+
+            </div>
+
+          </div>
+
+          <!-- RESUMEN Y ACTIVIDADES -->
+
+          <a class="enlace-apartado-simple" href="../resumen/index.html">
+            ✏️ Resumen de la UT6
+          </a>
+
+          <a class="enlace-apartado-simple" href="../actividades/index.html">
+            📝 Actividades de la UT6
+          </a>
+
+        </div>
+
+      </div>
+
+      <!-- UNIDADES POSTERIORES -->
+
+      <a class="sidebar-ut-cerrada" href="../../ut7/index.html">
+        <span>UT7 - Diseño web responsive</span>
+        <span>›</span>
+      </a>
+
+      <a class="sidebar-ut-cerrada" href="../../ut8/index.html">
+        <span>UT8 - Recursos gráficos e imágenes para la web</span>
+        <span>›</span>
+      </a>
+
+      <a class="sidebar-ut-cerrada" href="../../ut9/index.html">
+        <span>UT9 - Audio, vídeo, animaciones e interactividad</span>
+        <span>›</span>
+      </a>
+
+      <a class="sidebar-ut-cerrada" href="../../ut10/index.html">
+        <span>UT10 - Accesibilidad web</span>
+        <span>›</span>
+      </a>
+
+      <a class="sidebar-ut-cerrada" href="../../ut11/index.html">
+        <span>UT11 - Usabilidad y evaluación de interfaces web</span>
+        <span>›</span>
+      </a>
+
+    </aside>
+
+    <!-- ==========================================
+         CONTENIDO CENTRAL
+    ========================================== -->
+
+    <main class="contenido-ut">
+
+      <!-- MIGAS DE NAVEGACIÓN -->
+
+      <div class="migas">
+
+        <a
+          class="miga-inicio"
+          href="../../../index.html"
+          aria-label="Volver a la página principal"
+        >🏠</a>
+
+        <span class="miga-separador">›</span>
+
+        <a class="miga-modulo" href="../../index.html">
+          DIW
+        </a>
+
+        <span class="miga-separador">›</span>
+
+        <a class="miga-modulo" href="../index.html">
+          UT6
+        </a>
+
+        <span class="miga-separador">›</span>
+
+        <span class="miga-actual">6.3</span>
+
+      </div>
+
+      <h1>6.3 Flotación de elementos y control del flujo</h1>
+
+      <!-- ==========================================
+           INTRODUCCIÓN
+      ========================================== -->
+
+      <section class="apartado-ut">
+
+        <p>
+          En los apartados anteriores hemos estudiado cómo se
+          distribuyen los elementos HTML siguiendo el
+          <strong>flujo normal del documento</strong> y cómo
+          podemos modificar su posición mediante
+          <code>display</code> y <code>position</code>.
+        </p>
+
+        <p>
+          Sin embargo, en determinadas situaciones necesitamos
+          que un elemento se sitúe a un lado mientras el texto
+          se distribuye a su alrededor. Por ejemplo, cuando
+          una noticia incorpora una fotografía y queremos
+          que los párrafos la rodeen.
+        </p>
+
+        <p>
+          Para conseguir este comportamiento, CSS dispone
+          de la propiedad <code>float</code>. También
+          estudiaremos <code>clear</code>, que permite
+          controlar la relación entre los elementos flotantes
+          y los que aparecen después, y <code>overflow</code>,
+          que gestiona el desbordamiento del contenido.
+        </p>
+
+        <div class="caja caja-importante">
+
+          <span class="caja-titulo">📌 Importante</span>
+
+          <p>
+            Aunque <code>float</code> se utilizó durante años
+            para construir diseños completos, actualmente
+            su uso principal es permitir que el texto rodee
+            imágenes u otros elementos. Para organizar
+            columnas, tarjetas y menús es preferible
+            utilizar Flexbox o CSS Grid.
+          </p>
+
+        </div>
+
+        <!-- ==========================================
+             1. LA PROPIEDAD FLOAT
+        ========================================== -->
+
+        <h2 id="float">La propiedad float</h2>
+
+        <p>
+          La propiedad <code>float</code> permite desplazar
+          un elemento hacia uno de los lados de su contenedor,
+          de forma que el contenido que lo rodea pueda
+          distribuirse junto a él.
+        </p>
+
+        <p>
+          Cuando aplicamos <code>float</code>, el elemento
+          deja de ocupar su lugar habitual en el flujo de
+          bloques. No obstante, sigue influyendo en la
+          distribución de las líneas de texto que aparecen
+          a su alrededor.
+        </p>
+
+        <h3>Valores principales</h3>
+
+        <div class="tabla-responsive">
+
+          <table class="tabla-apuntes">
+
+            <thead>
+              <tr>
+                <th>Valor</th>
+                <th>Significado</th>
+              </tr>
+            </thead>
+
+            <tbody>
+
+              <tr>
+                <td><code>none</code></td>
+                <td>
+                  El elemento no flota. Es el valor
+                  predeterminado.
+                </td>
+              </tr>
+
+              <tr>
+                <td><code>left</code></td>
+                <td>
+                  El elemento flota hacia la izquierda
+                  y el contenido puede rodearlo por la derecha.
+                </td>
+              </tr>
+
+              <tr>
+                <td><code>right</code></td>
+                <td>
+                  El elemento flota hacia la derecha
+                  y el contenido puede rodearlo por la izquierda.
+                </td>
+              </tr>
+
+            </tbody>
+
+          </table>
+
+        </div>
+
+        <h3>Primer ejemplo: una imagen flotante</h3>
+
+        <p>
+          Imaginemos una noticia en la que queremos
+          colocar una imagen a la izquierda del texto.
+        </p>
+
+        <div class="codigo-ejemplo">
+
+          <div class="codigo-cabecera">
+            <span>HTML + CSS</span>
+            <button class="boton-copiar" type="button">
+              Copiar
+            </button>
+          </div>
+
+          <pre><code>&lt;article class="noticia"&gt;
+
+  &lt;img
+    src="aula.jpg"
+    alt="Alumnado trabajando en el aula"
+  &gt;
+
+  &lt;p&gt;
+    El alumnado de Desarrollo de Aplicaciones Web
+    está preparando nuevos proyectos.
+  &lt;/p&gt;
+
+  &lt;p&gt;
+    Durante las próximas semanas se desarrollarán
+    distintas actividades prácticas.
+  &lt;/p&gt;
+
+&lt;/article&gt;
+
+&lt;style&gt;
+
+  .noticia img {
+    float: left;
+    width: 150px;
+    margin-right: 20px;
+    margin-bottom: 10px;
+  }
+
+&lt;/style&gt;</code></pre>
+
+        </div>
+
+        <div class="demo-flotacion">
+
+          <strong>Resultado visual</strong>
+
+          <div class="demo-limpio">
+
+            <div class="demo-foto demo-foto-izquierda">
+              Imagen
+            </div>
+
+            <p>
+              El alumnado de Desarrollo de Aplicaciones Web
+              está preparando nuevos proyectos. El texto
+              comienza a la derecha de la imagen porque
+              esta utiliza la propiedad
+              <code>float: left</code>.
+            </p>
+
+            <p>
+              Durante las próximas semanas se desarrollarán
+              distintas actividades prácticas. Cuando el
+              texto alcanza la parte inferior de la imagen,
+              puede volver a ocupar todo el ancho disponible.
+            </p>
+
+          </div>
+
+          <p class="demo-explicacion">
+            La imagen flota a la izquierda y el texto
+            se distribuye a su alrededor.
+          </p>
+
+        </div>
+
+        <h3>¿Para qué sirve el margen?</h3>
+
+        <p>
+          Cuando una imagen flota junto al texto,
+          es recomendable añadir márgenes para evitar
+          que ambos contenidos queden demasiado juntos.
+        </p>
+
+        <div class="codigo-ejemplo">
+
+          <div class="codigo-cabecera">
+            <span>CSS</span>
+            <button class="boton-copiar" type="button">
+              Copiar
+            </button>
+          </div>
+
+          <pre><code>.noticia img {
+  float: left;
+  width: 150px;
+  margin: 0 20px 12px 0;
+}</code></pre>
+
+        </div>
+
+        <p>
+          En este caso, el margen derecho de
+          <strong>20 píxeles</strong> separa la imagen
+          del texto y el margen inferior de
+          <strong>12 píxeles</strong> añade espacio
+          debajo de ella.
+        </p>
+
+        <!-- ==========================================
+             2. IZQUIERDA Y DERECHA
+        ========================================== -->
+
+        <h2 id="float-left-right">
+          Flotación a izquierda y derecha
+        </h2>
+
+        <p>
+          Los valores <code>left</code> y
+          <code>right</code> permiten elegir
+          hacia qué lado del contenedor se desplaza
+          el elemento flotante.
+        </p>
+
+        <h3>Flotación a la izquierda</h3>
+
+        <div class="codigo-ejemplo">
+
+          <div class="codigo-cabecera">
+            <span>CSS</span>
+            <button class="boton-copiar" type="button">
+              Copiar
+            </button>
+          </div>
+
+          <pre><code>.imagen {
+  float: left;
+  width: 120px;
+  margin: 0 18px 12px 0;
+}</code></pre>
+
+        </div>
+
+        <div class="demo-flotacion">
+
+          <strong>Resultado visual</strong>
+
+          <div class="demo-limpio">
+
+            <div class="demo-foto demo-foto-izquierda">
+              Izquierda
+            </div>
+
+            <p>
+              La imagen aparece en el lado izquierdo
+              del contenedor. El texto se distribuye
+              por el espacio que queda disponible
+              a su derecha.
+            </p>
+
+            <p>
+              Si el texto continúa y supera la altura
+              de la imagen, podrá utilizar también
+              el espacio situado debajo de ella.
+            </p>
+
+          </div>
+
+        </div>
+
+        <h3>Flotación a la derecha</h3>
+
+        <div class="codigo-ejemplo">
+
+          <div class="codigo-cabecera">
+            <span>CSS</span>
+            <button class="boton-copiar" type="button">
+              Copiar
+            </button>
+          </div>
+
+          <pre><code>.imagen {
+  float: right;
+  width: 120px;
+  margin: 0 0 12px 18px;
+}</code></pre>
+
+        </div>
+
+        <div class="demo-flotacion">
+
+          <strong>Resultado visual</strong>
+
+          <div class="demo-limpio">
+
+            <div class="demo-foto demo-foto-derecha">
+              Derecha
+            </div>
+
+            <p>
+              Ahora la imagen aparece en el lado
+              derecho del contenedor. El texto
+              se distribuye a su izquierda.
+            </p>
+
+            <p>
+              Observa que el margen se aplica
+              en el lado izquierdo de la imagen
+              para separar correctamente
+              ambos contenidos.
+            </p>
+
+          </div>
+
+        </div>
+
+        <div class="caja caja-atencion">
+
+          <span class="caja-titulo">⚠️ Atención</span>
+
+          <p>
+            <code>float</code> no equivale a
+            <code>text-align</code>.
+            La primera propiedad modifica
+            la flotación del elemento; la segunda
+            controla la alineación del contenido
+            en línea dentro de un bloque.
+          </p>
+
+        </div>
+
+        <h3>Flotación y espacio disponible</h3>
+
+        <p>
+          Si el contenedor no tiene suficiente anchura
+          para colocar varios elementos flotantes
+          uno junto a otro, estos pueden pasar
+          a una posición inferior.
+        </p>
+
+        <p>
+          Por este motivo, utilizar
+          <code>float</code> para crear diseños
+          de columnas puede provocar resultados
+          difíciles de controlar.
+        </p>
+
+        <div class="caja caja-importante">
+
+          <span class="caja-titulo">📌 Idea clave</span>
+
+          <p>
+            La finalidad principal de
+            <code>float</code> es permitir
+            que el contenido rodee un elemento,
+            no crear una estructura completa
+            de filas y columnas.
+          </p>
+
+        </div>
+
+        <!-- ==========================================
+             3. CLEAR
+        ========================================== -->
+
+        <h2 id="clear">La propiedad clear</h2>
+
+        <p>
+          Cuando utilizamos elementos flotantes,
+          el contenido posterior puede situarse
+          junto a ellos si queda espacio disponible.
+        </p>
+
+        <p>
+          En algunas situaciones necesitamos
+          impedir ese comportamiento. Para ello
+          utilizamos la propiedad
+          <code>clear</code>.
+        </p>
+
+        <p>
+          <code>clear</code> indica que un elemento
+          no debe situarse junto a determinados
+          elementos flotantes anteriores.
+        </p>
+
+        <h3>Valores principales</h3>
+
+        <div class="tabla-responsive">
+
+          <table class="tabla-apuntes">
+
+            <thead>
+              <tr>
+                <th>Valor</th>
+                <th>Comportamiento</th>
+              </tr>
+            </thead>
+
+            <tbody>
+
+              <tr>
+                <td><code>none</code></td>
+                <td>
+                  No aplica ninguna separación especial
+                  respecto a los flotantes.
+                </td>
+              </tr>
+
+              <tr>
+                <td><code>left</code></td>
+                <td>
+                  Impide que el elemento quede junto
+                  a flotantes situados a la izquierda.
+                </td>
+              </tr>
+
+              <tr>
+                <td><code>right</code></td>
+                <td>
+                  Impide que el elemento quede junto
+                  a flotantes situados a la derecha.
+                </td>
+              </tr>
+
+              <tr>
+                <td><code>both</code></td>
+                <td>
+                  Impide que el elemento quede junto
+                  a flotantes de cualquiera de los dos lados.
+                </td>
+              </tr>
+
+            </tbody>
+
+          </table>
+
+        </div>
+
+        <h3>Ejemplo con clear: both</h3>
+
+        <p>
+          Supongamos que tenemos una imagen flotante
+          y queremos que la siguiente sección
+          comience completamente debajo de ella.
+        </p>
+
+        <div class="codigo-ejemplo">
+
+          <div class="codigo-cabecera">
+            <span>HTML + CSS</span>
+            <button class="boton-copiar" type="button">
+              Copiar
+            </button>
+          </div>
+
+          <pre><code>&lt;div class="contenedor"&gt;
+
+  &lt;div class="imagen"&gt;Imagen&lt;/div&gt;
+
+  &lt;p&gt;
+    Texto que puede rodear la imagen.
+  &lt;/p&gt;
+
+  &lt;div class="nueva-seccion"&gt;
+    Nueva sección
+  &lt;/div&gt;
+
+&lt;/div&gt;
+
+&lt;style&gt;
+
+  .imagen {
+    float: left;
+    width: 120px;
+    height: 90px;
+    margin-right: 18px;
+  }
+
+  .nueva-seccion {
+    clear: both;
+  }
+
+&lt;/style&gt;</code></pre>
+
+        </div>
+
+        <div class="demo-flotacion">
+
+          <strong>Resultado visual</strong>
+
+          <div class="demo-limpio">
+
+            <div class="demo-foto demo-foto-izquierda">
+              Imagen
+            </div>
+
+            <p>
+              Este texto puede aparecer a la derecha
+              de la imagen flotante.
+            </p>
+
+            <div class="demo-clear">
+              Nueva sección con <code>clear: both</code>
+            </div>
+
+          </div>
+
+          <p class="demo-explicacion">
+            La nueva sección comienza debajo
+            del elemento flotante.
+          </p>
+
+        </div>
+
+        <h3>¿Qué ocurre con la altura del contenedor?</h3>
+
+        <p>
+          Un problema clásico aparece cuando
+          un contenedor contiene únicamente
+          elementos flotantes.
+        </p>
+
+        <p>
+          En esa situación, los flotantes no
+          contribuyen de la manera habitual
+          al cálculo de la altura automática
+          del contenedor. Como consecuencia,
+          el borde o el fondo del contenedor
+          puede no rodearlos completamente.
+        </p>
+
+        <p>
+          Una solución moderna consiste
+          en utilizar <code>display: flow-root</code>,
+          que crea un nuevo
+          <strong>contexto de formato de bloque</strong>.
+        </p>
+
+        <div class="codigo-ejemplo">
+
+          <div class="codigo-cabecera">
+            <span>CSS</span>
+            <button class="boton-copiar" type="button">
+              Copiar
+            </button>
+          </div>
+
+          <pre><code>.galeria {
+  display: flow-root;
+  border: 2px solid #999;
+  padding: 14px;
+}
+
+.galeria img {
+  float: left;
+  width: 120px;
+  margin-right: 16px;
+}</code></pre>
+
+        </div>
+
+        <div class="demo-flotacion">
+
+          <strong>Resultado visual</strong>
+
+          <div class="demo-contenedor-flotante">
+
+            <div class="demo-foto demo-foto-izquierda">
+              Flotante
+            </div>
+
+            <p>
+              El borde del contenedor rodea
+              correctamente la imagen flotante.
+            </p>
+
+          </div>
+
+          <p class="demo-explicacion">
+            Esta demostración utiliza
+            <code>display: flow-root</code>
+            para contener la flotación.
+          </p>
+
+        </div>
+
+        <h3>La técnica clearfix</h3>
+
+        <p>
+          Antes de utilizarse habitualmente
+          <code>flow-root</code>, era frecuente
+          resolver este problema mediante
+          un pseudoelemento con
+          <code>clear: both</code>.
+        </p>
+
+        <div class="codigo-ejemplo">
+
+          <div class="codigo-cabecera">
+            <span>CSS</span>
+            <button class="boton-copiar" type="button">
+              Copiar
+            </button>
+          </div>
+
+          <pre><code>.contenedor::after {
+  content: "";
+  display: block;
+  clear: both;
+}</code></pre>
+
+        </div>
+
+        <p>
+          Esta técnica se conoce como
+          <strong>clearfix</strong>.
+          Es útil conocerla porque todavía
+          aparece en hojas de estilo de
+          proyectos antiguos.
+        </p>
+
+        <div class="caja caja-importante">
+
+          <span class="caja-titulo">📌 Importante</span>
+
+          <p>
+            <code>clear</code> controla la posición
+            de un elemento respecto a los flotantes.
+            <code>display: flow-root</code>
+            crea un contexto de formato que,
+            entre otros efectos, permite
+            contener los flotantes interiores.
+            Son soluciones relacionadas,
+            pero no equivalentes.
+          </p>
+
+        </div>
+
+        <!-- ==========================================
+             4. OVERFLOW
+        ========================================== -->
+
+        <h2 id="overflow">Overflow y desbordamiento</h2>
+
+        <p>
+          El <strong>desbordamiento</strong>
+          ocurre cuando el contenido de un elemento
+          supera el espacio disponible dentro
+          de su contenedor.
+        </p>
+
+        <p>
+          CSS permite controlar esta situación
+          mediante la propiedad
+          <code>overflow</code>.
+        </p>
+
+        <p>
+          Esta propiedad no es exclusiva
+          de los elementos flotantes.
+          También se utiliza en tablas anchas,
+          fragmentos de código y paneles
+          con desplazamiento.
+        </p>
+
+        <h3>Valores principales de overflow</h3>
+
+        <div class="tabla-responsive">
+
+          <table class="tabla-apuntes">
+
+            <thead>
+              <tr>
+                <th>Valor</th>
+                <th>Comportamiento</th>
+              </tr>
+            </thead>
+
+            <tbody>
+
+              <tr>
+                <td><code>visible</code></td>
+                <td>
+                  El contenido puede sobresalir
+                  de los límites del contenedor.
+                </td>
+              </tr>
+
+              <tr>
+                <td><code>hidden</code></td>
+                <td>
+                  Recorta el contenido que excede
+                  los límites y no muestra barras
+                  de desplazamiento.
+                </td>
+              </tr>
+
+              <tr>
+                <td><code>scroll</code></td>
+                <td>
+                  Permite el desplazamiento y
+                  puede mostrar barras incluso
+                  cuando no son necesarias.
+                </td>
+              </tr>
+
+              <tr>
+                <td><code>auto</code></td>
+                <td>
+                  Permite el desplazamiento cuando
+                  el contenido lo necesita.
+                </td>
+              </tr>
+
+            </tbody>
+
+          </table>
+
+        </div>
+
+        <h3>Ejemplo: tabla con desplazamiento horizontal</h3>
+
+        <p>
+          En una aplicación web puede haber
+          tablas con muchas columnas.
+          En lugar de permitir que desborden
+          toda la página, podemos crear
+          un contenedor con desplazamiento
+          horizontal.
+        </p>
+
+        <div class="codigo-ejemplo">
+
+          <div class="codigo-cabecera">
+            <span>HTML + CSS</span>
+            <button class="boton-copiar" type="button">
+              Copiar
+            </button>
+          </div>
+
+          <pre><code>&lt;div class="tabla-contenedor"&gt;
+
+  &lt;table&gt;
+    &lt;tr&gt;
+      &lt;th&gt;Asignatura&lt;/th&gt;
+      &lt;th&gt;Profesorado&lt;/th&gt;
+      &lt;th&gt;Horario&lt;/th&gt;
+      &lt;th&gt;Evaluación&lt;/th&gt;
+    &lt;/tr&gt;
+  &lt;/table&gt;
+
+&lt;/div&gt;
+
+&lt;style&gt;
+
+  .tabla-contenedor {
+    max-width: 100%;
+    overflow-x: auto;
+  }
+
+  .tabla-contenedor table {
+    min-width: 650px;
+  }
+
+&lt;/style&gt;</code></pre>
+
+        </div>
+
+        <div class="demo-flotacion">
+
+          <strong>Resultado visual</strong>
+
+          <div class="demo-overflow">
+
+            <table class="demo-tabla-ancha">
+
+              <thead>
+                <tr>
+                  <th>Asignatura</th>
+                  <th>Profesorado</th>
+                  <th>Horario</th>
+                  <th>Evaluación</th>
+                </tr>
+              </thead>
+
+              <tbody>
+                <tr>
+                  <td>Diseño de Interfaces Web</td>
+                  <td>Departamento de Informática</td>
+                  <td>Turno de tarde</td>
+                  <td>Continua</td>
+                </tr>
+              </tbody>
+
+            </table>
+
+          </div>
+
+          <p class="demo-explicacion">
+            Si el contenido supera la anchura
+            disponible, se puede desplazar
+            horizontalmente sin desbordar
+            toda la página.
+          </p>
+
+        </div>
+
+        <h3>Overflow y flotación: relación y diferencias</h3>
+
+        <p>
+          Históricamente se utilizaba
+          <code>overflow: hidden</code>
+          para conseguir que un contenedor
+          englobase sus elementos flotantes.
+        </p>
+
+        <p>
+          Aunque puede funcionar,
+          tiene un inconveniente importante:
+          <strong>recorta el contenido que sobresale</strong>,
+          como sombras, etiquetas o elementos
+          posicionados fuera de sus límites.
+        </p>
+
+        <p>
+          Para contener flotantes sin provocar
+          ese recorte, actualmente suele ser
+          más adecuado utilizar
+          <code>display: flow-root</code>.
+        </p>
+
+        <div class="caja caja-atencion">
+
+          <span class="caja-titulo">⚠️ Atención</span>
+
+          <p>
+            No utilices <code>overflow: hidden</code>
+            indiscriminadamente para solucionar
+            problemas de maquetación.
+            Puede ocultar contenido que
+            debería permanecer visible.
+          </p>
+
+        </div>
+
+        <!-- ==========================================
+             5. USOS ACTUALES
+        ========================================== -->
+
+        <h2 id="usos-actuales-float">
+          Usos actuales de float
+        </h2>
+
+        <p>
+          Durante los primeros años del diseño web
+          con CSS, era frecuente utilizar
+          <code>float</code> para construir
+          cabeceras, columnas y menús completos.
+        </p>
+
+        <p>
+          Sin embargo, estas soluciones requerían
+          correcciones adicionales con
+          <code>clear</code> y podían resultar
+          difíciles de mantener.
+        </p>
+
+        <p>
+          Actualmente disponemos de herramientas
+          específicas para distribuir elementos:
+          <strong>Flexbox</strong> y
+          <strong>CSS Grid</strong>.
+        </p>
+
+        <h3>¿Qué técnica debemos utilizar?</h3>
+
+        <div class="tabla-responsive">
+
+          <table class="tabla-apuntes">
+
+            <thead>
+              <tr>
+                <th>Necesidad</th>
+                <th>Técnica recomendada</th>
+              </tr>
+            </thead>
+
+            <tbody>
+
+              <tr>
+                <td>
+                  Que el texto rodee una fotografía.
+                </td>
+                <td><code>float</code></td>
+              </tr>
+
+              <tr>
+                <td>
+                  Separar una sección de elementos
+                  flotantes anteriores.
+                </td>
+                <td><code>clear</code></td>
+              </tr>
+
+              <tr>
+                <td>
+                  Contener elementos flotantes
+                  dentro de un bloque.
+                </td>
+                <td><code>display: flow-root</code></td>
+              </tr>
+
+              <tr>
+                <td>
+                  Gestionar contenido demasiado
+                  ancho o alto.
+                </td>
+                <td><code>overflow</code></td>
+              </tr>
+
+              <tr>
+                <td>
+                  Distribuir botones o tarjetas
+                  en una fila.
+                </td>
+                <td>Flexbox</td>
+              </tr>
+
+              <tr>
+                <td>
+                  Crear la estructura principal
+                  de una página web.
+                </td>
+                <td>CSS Grid</td>
+              </tr>
+
+            </tbody>
+
+          </table>
+
+        </div>
+
+        <h3>Ejemplo DAW: noticias de StudyFlow</h3>
+
+        <p>
+          En nuestro proyecto StudyFlow podemos
+          utilizar una imagen flotante dentro
+          de una noticia, permitiendo que
+          el texto se distribuya a su alrededor.
+        </p>
+
+        <p>
+          En cambio, para organizar las tarjetas
+          de asignaturas, los botones y la
+          estructura general de la aplicación,
+          utilizaremos Flexbox o CSS Grid.
+        </p>
+
+        <div class="codigo-ejemplo">
+
+          <div class="codigo-cabecera">
+            <span>HTML + CSS</span>
+            <button class="boton-copiar" type="button">
+              Copiar
+            </button>
+          </div>
+
+          <pre><code>&lt;article class="noticia-studyflow"&gt;
+
+  &lt;img
+    src="aula.jpg"
+    alt="Alumnado trabajando en el aula"
+  &gt;
+
+  &lt;h3&gt;Nuevos recursos para el curso&lt;/h3&gt;
+
+  &lt;p&gt;
+    Ya están disponibles los materiales
+    de apoyo para las asignaturas.
+  &lt;/p&gt;
+
+  &lt;p&gt;
+    Consulta las actividades y las fechas
+    de entrega en StudyFlow.
+  &lt;/p&gt;
+
+&lt;/article&gt;
+
+&lt;style&gt;
+
+  .noticia-studyflow {
+    display: flow-root;
+  }
+
+  .noticia-studyflow img {
+    float: left;
+    width: 150px;
+    margin: 0 18px 12px 0;
+  }
+
+&lt;/style&gt;</code></pre>
+
+        </div>
+
+        <div class="caja caja-ejemplo">
+
+          <span class="caja-titulo">💻 Ejemplo DAW</span>
+
+          <p>
+            En una interfaz profesional,
+            cada técnica debe utilizarse
+            para el problema que resuelve mejor.
+            <code>float</code> es adecuado para
+            integrar imágenes dentro del texto;
+            Flexbox y Grid permiten crear
+            distribuciones más complejas,
+            controlables y fáciles de mantener.
+          </p>
+
+        </div>
+
+        <!-- ==========================================
+             COMPROBACIÓN DE COMPRENSIÓN
+        ========================================== -->
+
+        <div class="actividad-reflexion">
+
+          <h3>💭 Piensa</h3>
+
+          <p>
+            Estás diseñando StudyFlow y necesitas
+            colocar cuatro tarjetas de asignaturas
+            una junto a otra.
+            Un compañero propone utilizar
+            <code>float: left</code> en todas ellas.
+            ¿Es la técnica más adecuada?
+            ¿En qué situación sí utilizarías
+            <code>float</code>?
+          </p>
+
+          <details class="solucion-desplegable">
+
+            <summary>Ver una posible solución</summary>
+
+            <div class="contenido-solucion">
+
+              <p>
+                Para distribuir tarjetas es preferible
+                utilizar <strong>Flexbox o CSS Grid</strong>,
+                porque permiten controlar la alineación,
+                el espaciado y la distribución
+                de los elementos.
+              </p>
+
+              <p>
+                Utilizaría <code>float</code> cuando
+                necesitase que el texto de una noticia
+                rodease una imagen, por ejemplo.
+              </p>
+
+            </div>
+
+          </details>
+
+        </div>
+
+        <!-- ==========================================
+             RESUMEN DEL APARTADO
+        ========================================== -->
+
+        <h3>Resumen del apartado</h3>
+
+        <p>
+          En este apartado hemos aprendido que
+          <code>float</code> permite colocar un
+          elemento a un lado para que el contenido
+          pueda rodearlo.
+        </p>
+
+        <p>
+          También hemos estudiado
+          <code>clear</code>, que controla
+          la posición de los elementos posteriores
+          respecto a los flotantes, y
+          <code>overflow</code>, que gestiona
+          el contenido que supera los límites
+          de un contenedor.
+        </p>
+
+        <p>
+          Por último, hemos conocido
+          <code>display: flow-root</code>
+          como solución moderna para contener
+          elementos flotantes y hemos comprobado
+          por qué Flexbox y Grid son más adecuados
+          para la maquetación general.
+        </p>
+
+        <p>
+          En el siguiente apartado comenzaremos
+          a estudiar <strong>Flexbox</strong>,
+          una herramienta creada específicamente
+          para distribuir y alinear elementos
+          dentro de una interfaz web.
+        </p>
+
+      </section>
+
+      <!-- ==========================================
+           NAVEGACIÓN ANTERIOR / SIGUIENTE
+      ========================================== -->
+
+      <nav
+        class="navegacion-paginas"
+        aria-label="Navegación entre apartados"
+      >
+
+        <a
+          class="nav-pagina nav-anterior"
+          href="../6-2/index.html"
+        >
+
+          <span class="nav-etiqueta">
+            ‹ Apartado anterior
+          </span>
+
+          <strong>
+            6.2 Posicionamiento de elementos en CSS
+          </strong>
+
+        </a>
+
+        <a
+          class="nav-pagina nav-siguiente"
+          href="../6-4/index.html"
+        >
+
+          <span class="nav-etiqueta">
+            Siguiente apartado ›
+          </span>
+
+          <strong>
+            6.4 Introducción a Flexbox
+          </strong>
+
+        </a>
+
+      </nav>
+
+    </main>
+
+    <!-- ==========================================
+         ÍNDICE DERECHO
+    ========================================== -->
+
+    <aside class="indice-derecho">
+
+      <h2>Contenidos del apartado</h2>
+
+      <ul>
+
+        <li>
+          <a href="#float">
+            La propiedad float
+          </a>
+        </li>
+
+        <li>
+          <a href="#float-left-right">
+            Flotación a izquierda y derecha
+          </a>
+        </li>
+
+        <li>
+          <a href="#clear">
+            La propiedad clear
+          </a>
+        </li>
+
+        <li>
+          <a href="#overflow">
+            Overflow y desbordamiento
+          </a>
+        </li>
+
+        <li>
+          <a href="#usos-actuales-float">
+            Usos actuales de float
+          </a>
+        </li>
+
+      </ul>
+
+    </aside>
+
+  </div>
+
+  <!-- ==========================================
+       PIE DE PÁGINA
+  ========================================== -->
+
+  <footer class="footer">
+
+    <p>
+      Material elaborado por
+      <strong>Eva Ballestero Cubeles</strong>
+      · Licencia
+      <span class="licencia">CC BY-NC-SA 4.0</span>
+
+      <a
+        class="enlace-licencia"
+        href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.es"
+        target="_blank"
+        rel="license noopener noreferrer"
+        aria-label="Licencia Creative Commons BY-NC-SA 4.0"
+      >
+
+        <img
+          class="icono-licencia"
+          src="../../../img/licencias/cc-by-nc-sa.png"
+          alt="Licencia Creative Commons BY-NC-SA 4.0"
+        >
+
+      </a>
+
+    </p>
+
+  </footer>
+
+  <!-- ==========================================
+       JAVASCRIPT
+  ========================================== -->
+
+  <script src="../../../js/modulos.js"></script>
+
+  <script>
+
+    /* ==========================================
+       MENÚ SUPERIOR DE MÓDULOS
+    ========================================== */
+
+    const menuModulos =
+      document.getElementById("menuModulos");
+
+    const botonTema =
+      document.getElementById("botonTema");
+
+    if (typeof modulos !== "undefined") {
+
+      const modulosActivos =
+        modulos.filter(modulo => modulo.activo === true);
+
+      modulosActivos.forEach(modulo => {
+
+        const enlace =
+          document.createElement("a");
+
+        enlace.href =
+          `../../../${modulo.carpeta}/index.html`;
+
+        enlace.textContent =
+          modulo.siglas;
+
+        enlace.title =
+          modulo.nombre;
+
+        if (modulo.siglas === "DIW") {
+          enlace.style.color =
+            "var(--verde-principal)";
+        }
+
+        menuModulos.appendChild(enlace);
+
+      });
+
+    }
+
+    /* ==========================================
+       MODO CLARO Y OSCURO
+    ========================================== */
+
+    const temaGuardado =
+      localStorage.getItem("tema");
+
+    if (temaGuardado === "oscuro") {
+
+      document.body.classList.add("modo-oscuro");
+
+      botonTema.textContent = "🌙";
+
+    }
+
+    botonTema.addEventListener("click", () => {
+
+      document.body.classList.toggle("modo-oscuro");
+
+      const estaOscuro =
+        document.body.classList.contains("modo-oscuro");
+
+      botonTema.textContent =
+        estaOscuro ? "🌙" : "☀️";
+
+      localStorage.setItem(
+        "tema",
+        estaOscuro ? "oscuro" : "claro"
+      );
+
+    });
+
+    /* ==========================================
+       MENÚS DESPLEGABLES LATERALES
+    ========================================== */
+
+    const botonesDesplegar =
+      document.querySelectorAll(".boton-desplegar");
+
+    botonesDesplegar.forEach((boton) => {
+
+      boton.addEventListener("click", () => {
+
+        const idSubmenu =
+          boton.getAttribute("data-target");
+
+        const submenu =
+          document.getElementById(idSubmenu);
+
+        if (!submenu) {
+          return;
+        }
+
+        const estaAbierto =
+          submenu.classList.contains("submenu-abierto");
+
+        if (estaAbierto) {
+
+          submenu.classList.remove("submenu-abierto");
+
+          boton.textContent = "›";
+
+          boton.setAttribute(
+            "aria-expanded",
+            "false"
+          );
+
+        } else {
+
+          submenu.classList.add("submenu-abierto");
+
+          boton.textContent = "⌄";
+
+          boton.setAttribute(
+            "aria-expanded",
+            "true"
+          );
+
+        }
+
+      });
+
+    });
+
+    /* ==========================================
+       BOTONES PARA COPIAR CÓDIGO
+    ========================================== */
+
+    const botonesCopiar =
+      document.querySelectorAll(".boton-copiar");
+
+    botonesCopiar.forEach((boton) => {
+
+      boton.addEventListener("click", async () => {
+
+        const bloque =
+          boton.closest(".codigo-ejemplo");
+
+        const codigo =
+          bloque.querySelector("pre code");
+
+        if (!codigo) {
+          return;
+        }
+
+        const texto =
+          codigo.textContent;
+
+        try {
+
+          await navigator.clipboard.writeText(texto);
+
+          boton.textContent = "¡Copiado!";
+
+          setTimeout(() => {
+            boton.textContent = "Copiar";
+          }, 1800);
+
+        } catch (error) {
+
+          boton.textContent = "Error al copiar";
+
+          setTimeout(() => {
+            boton.textContent = "Copiar";
+          }, 1800);
+
+        }
+
+      });
+
+    });
+
+  </script>
+
+</body>
+</html>
