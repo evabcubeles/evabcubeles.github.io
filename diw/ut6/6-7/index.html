@@ -682,6 +682,15 @@
       align-items: center;
       justify-content: center;
     }
+    .demo-posicion-c {
+      grid-column: 1;
+      grid-row: 2;
+    }
+
+    .demo-posicion-d {
+      grid-column: 2;
+      grid-row: 2;
+    }
 
     /* Elemento que ocupa todas las columnas */
 
@@ -738,13 +747,14 @@
       gap: 10px;
     }
 
-    .demo-auto-columnas {
-      display: grid;
-      grid-auto-flow: column;
-      grid-auto-columns: minmax(100px, 1fr);
-      gap: 10px;
-      overflow-x: auto;
-    }
+.demo-auto-columnas {
+  display: grid;
+  grid-template-rows: repeat(2, 70px);
+  grid-auto-flow: column;
+  grid-auto-columns: minmax(100px, 1fr);
+  gap: 10px;
+  overflow-x: auto;
+}
 
     /* Alineación de elementos dentro de sus celdas */
 
@@ -1911,8 +1921,8 @@
           <pre><code>&lt;div class="contenedor"&gt;
   &lt;div class="elemento destacado"&gt;A&lt;/div&gt;
   &lt;div class="elemento lateral"&gt;B&lt;/div&gt;
-  &lt;div class="elemento"&gt;C&lt;/div&gt;
-  &lt;div class="elemento"&gt;D&lt;/div&gt;
+  &lt;div class="elemento c"&gt;C&lt;/div&gt;
+  &lt;div class="elemento d"&gt;D&lt;/div&gt;
 &lt;/div&gt;
 
 &lt;style&gt;
@@ -1931,6 +1941,15 @@
   .lateral {
     grid-column: 3;
     grid-row: 1 / 3;
+  }
+  .c {
+    grid-column: 1;
+    grid-row: 2;
+  }
+
+  .d {
+    grid-column: 2;
+    grid-row: 2;
   }
 &lt;/style&gt;</code></pre>
 
@@ -1953,11 +1972,11 @@
               B — Dos filas
             </div>
 
-            <div class="demo-elemento">
+            <div class="demo-elemento demo-posicion-c">
               C
             </div>
 
-            <div class="demo-elemento">
+            <div class="demo-elemento demo-posicion-d">
               D
             </div>
 
@@ -2417,10 +2436,7 @@
             por columnas
           </strong>
 
-          <div
-            class="demo-contenedor demo-auto-columnas"
-            style="grid-template-rows: repeat(2, 70px);"
-          >
+<div class="demo-contenedor demo-auto-columnas">
 
             <div class="demo-elemento">1</div>
             <div class="demo-elemento">2</div>
@@ -2755,6 +2771,28 @@
           Estas propiedades no alinean individualmente
           cada elemento dentro de su celda.
         </p>
+
+        <div class="caja caja-importante">
+
+  <span class="caja-titulo">📌 Importante</span>
+
+  <p>
+    Para que los efectos de
+    <code>justify-content</code> y
+    <code>align-content</code> resulten visibles,
+    debe existir espacio libre en el eje
+    correspondiente.
+  </p>
+
+  <p>
+    Por ejemplo, si las columnas ocupan
+    todo el ancho disponible, aplicar
+    <code>justify-content: space-between</code>
+    no producirá una separación adicional
+    entre ellas.
+  </p>
+
+</div>
 
         <div class="codigo-ejemplo">
 
