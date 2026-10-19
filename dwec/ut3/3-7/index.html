@@ -3310,6 +3310,11 @@ console.log("¡Fin de la cuenta atrás!");</code></pre>
 
           enlace.href = `../../../${modulo.carpeta}/index.html`;
           enlace.textContent = modulo.siglas;
+          enlace.title = modulo.nombre;
+
+if (modulo.siglas === "DWEC") {
+  enlace.style.color = "var(--verde-principal)";
+}
 
           menuModulos.appendChild(enlace);
 
