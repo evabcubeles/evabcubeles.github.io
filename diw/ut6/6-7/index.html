@@ -3465,6 +3465,43 @@
   <script src="../../../js/modulos.js"></script>
 
   <script>
+    
+/* ==========================================
+   MENÚ SUPERIOR DE MÓDULOS
+========================================== */
+
+const menuModulos = document.getElementById("menuModulos");
+
+if (typeof modulos !== "undefined" && menuModulos) {
+
+  const listaModulos = Array.isArray(modulos)
+    ? modulos
+    : Object.values(modulos);
+
+  listaModulos.forEach(modulo => {
+
+    if (!modulo || !modulo.activo) {
+      return;
+    }
+
+    const enlace = document.createElement("a");
+
+    enlace.textContent = modulo.siglas;
+
+    enlace.title = modulo.nombre || modulo.siglas;
+
+    enlace.href = "../../../" + modulo.carpeta + "/index.html";
+
+    if (modulo.siglas === "DIW") {
+      enlace.style.color = "var(--verde-principal)";
+    }
+
+    menuModulos.appendChild(enlace);
+
+  });
+
+}
+
 
     /* ==========================================
        MENÚS DESPLEGABLES
