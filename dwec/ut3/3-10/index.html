@@ -3136,6 +3136,11 @@ Especial
 
           enlace.textContent =
             modulo.siglas;
+          enlace.title = modulo.nombre;
+
+if (modulo.siglas === "DWEC") {
+  enlace.style.color = "var(--verde-principal)";
+}
 
           menuModulos.appendChild(enlace);
 
