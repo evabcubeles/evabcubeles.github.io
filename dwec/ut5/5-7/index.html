@@ -1,0 +1,2549 @@
+
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<meta content="5.7 Parámetros por defecto y parámetros rest. DWEC UT5." name="description"/>
+<title>5.7 Parámetros por defecto y parámetros rest | DWEC</title>
+<link href="../../../img/favicon.png?v=5" rel="icon" type="image/png"/>
+<link href="../../../css/estilos.css" rel="stylesheet"/>
+
+<style>
+    /* ESTRUCTURA GENERAL */
+    .pagina-ut {
+      display: grid;
+      grid-template-columns: 280px minmax(0, 1fr) 260px;
+      min-height: calc(100vh - 68px);
+    }
+
+    /* MENÚ IZQUIERDO */
+    .sidebar {
+      border-right: 1px solid var(--borde);
+      background-color: var(--fondo-pagina);
+      padding: 12px 10px 30px;
+      position: sticky;
+      top: 68px;
+      height: calc(100vh - 68px);
+      overflow-y: auto;
+    }
+
+    .sidebar-modulo {
+      display: block;
+      margin-bottom: 8px;
+      padding: 8px 14px;
+      color: #626873;
+      font-size: 17px;
+      font-weight: 700;
+      line-height: 1.3;
+      text-decoration: none;
+      border-radius: 6px;
+    }
+
+    .sidebar-modulo:hover,
+    .menu-titulo:hover,
+    .enlace-apartado-simple:hover,
+    .submenu-apartados a:hover {
+      color: var(--verde-principal);
+    }
+
+    .menu-desplegable {
+      width: 100%;
+    }
+
+    .menu-cabecera {
+      display: flex;
+      align-items: center;
+      gap: 4px;
+      width: 100%;
+      border-radius: 6px;
+    }
+
+    .menu-cabecera-activa {
+      background-color: #f1f1f1;
+    }
+
+    .menu-cabecera-activa > .menu-titulo {
+      color: var(--verde-principal);
+    }
+
+    .menu-titulo {
+      flex: 1;
+      display: block;
+      padding: 11px 8px 11px 14px;
+      color: #626873;
+      font-size: 16px;
+      font-weight: 650;
+      line-height: 1.4;
+      text-decoration: none;
+    }
+
+    .boton-desplegar {
+      width: 36px;
+      height: 36px;
+      margin-right: 5px;
+      padding: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+      border: 0;
+      border-radius: 6px;
+      background: transparent;
+      color: #777;
+      font-family: inherit;
+      font-size: 24px;
+      line-height: 1;
+      cursor: pointer;
+    }
+
+    .boton-desplegar:hover {
+      background-color: #e5e7eb;
+      color: var(--verde-principal);
+    }
+
+    .submenu {
+      display: none;
+    }
+
+    .submenu.submenu-abierto {
+      display: block;
+    }
+
+    .menu-apartado {
+      margin-left: 14px;
+    }
+
+    .menu-apartado .menu-titulo {
+      padding-top: 9px;
+      padding-bottom: 9px;
+      font-size: 15px;
+      font-weight: 600;
+    }
+
+    .enlace-apartado-simple {
+      display: block;
+      margin-left: 14px;
+      padding: 10px 14px;
+      color: #626873;
+      font-size: 15px;
+      font-weight: 600;
+      line-height: 1.4;
+      text-decoration: none;
+      border-radius: 6px;
+    }
+
+    .submenu-apartados {
+      margin: 2px 0 5px 28px;
+      border-left: 2px solid #e0e3e7;
+    }
+
+    .submenu-apartados a {
+      display: block;
+      padding: 7px 10px;
+      color: #777d87;
+      font-size: 14px;
+      font-weight: 500;
+      line-height: 1.35;
+      text-decoration: none;
+    }
+
+    .sidebar-ut-cerrada {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      padding: 13px 14px;
+      color: #626873;
+      text-decoration: none;
+      font-size: 16px;
+      font-weight: 650;
+      line-height: 1.35;
+      border-radius: 6px;
+    }
+
+    .sidebar-ut-cerrada:hover,
+    .enlace-apartado-simple:hover {
+      background-color: #f3f4f6;
+    }
+
+    body.modo-oscuro .menu-cabecera-activa,
+    body.modo-oscuro .sidebar-ut-cerrada:hover,
+    body.modo-oscuro .enlace-apartado-simple:hover {
+      background-color: #273244;
+    }
+
+    body.modo-oscuro .boton-desplegar:hover {
+      background-color: #334155;
+    }
+
+    body.modo-oscuro .submenu-apartados {
+      border-left-color: #3a4659;
+    }
+
+    /* CONTENIDO CENTRAL */
+    .contenido-ut {
+      padding: 28px 34px 70px;
+      max-width: 1150px;
+      width: 100%;
+      min-width: 0;
+    }
+
+    .migas {
+      display: flex;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-bottom: 30px;
+      font-size: 14px;
+    }
+
+    .miga-inicio {
+      text-decoration: none;
+      font-size: 18px;
+    }
+
+    .miga-separador {
+      color: #999;
+      font-size: 22px;
+    }
+
+    .miga-modulo {
+      color: var(--texto-secundario);
+      text-decoration: none;
+    }
+
+    .miga-modulo:hover {
+      color: var(--verde-principal);
+    }
+
+    .miga-actual {
+      padding: 8px 14px;
+      background-color: #f3f3f3;
+      border-radius: 24px;
+      color: var(--verde-principal);
+    }
+
+    body.modo-oscuro .miga-actual {
+      background-color: #273244;
+    }
+
+    .contenido-ut h1 {
+      margin: 0 0 30px;
+      font-size: clamp(38px, 5vw, 58px);
+      line-height: 1.12;
+    }
+
+    .apartado-ut {
+      margin-top: 55px;
+      scroll-margin-top: 95px;
+    }
+
+    .apartado-ut h2 {
+      margin: 0 0 24px;
+      font-size: 32px;
+      line-height: 1.2;
+      scroll-margin-top: 95px;
+    }
+
+    .apartado-ut h3 {
+      margin: 34px 0 16px;
+      font-size: 24px;
+      line-height: 1.3;
+    }
+
+    .apartado-ut p {
+      margin: 0 0 18px;
+      font-size: 18px;
+      line-height: 1.75;
+    }
+
+    .apartado-ut ul,
+    .apartado-ut ol {
+      margin: 16px 0 24px;
+      padding-left: 28px;
+    }
+
+    .apartado-ut li {
+      margin-bottom: 10px;
+      font-size: 17px;
+      line-height: 1.6;
+    }
+
+    /* CAJAS DIDÁCTICAS */
+    .caja {
+      margin: 28px 0;
+      padding: 18px 20px;
+      border-left: 5px solid;
+      border-radius: 8px;
+      line-height: 1.65;
+    }
+
+    .caja p {
+      margin: 0 0 12px;
+      font-size: 17px;
+    }
+
+    .caja p:last-child {
+      margin-bottom: 0;
+    }
+
+    .caja-titulo {
+      display: block;
+      margin-bottom: 8px;
+      font-size: 17px;
+      font-weight: 700;
+    }
+
+    .caja-importante {
+      background-color: #eef8f1;
+      border-left-color: #2f9e5b;
+    }
+
+    .caja-atencion {
+      background-color: #fff7e8;
+      border-left-color: #e09b27;
+    }
+
+    .caja-ejemplo {
+      background-color: #eef5ff;
+      border-left-color: #3f7acb;
+    }
+
+    body.modo-oscuro .caja-importante {
+      background-color: #20372a;
+    }
+
+    body.modo-oscuro .caja-atencion {
+      background-color: #3b3020;
+    }
+
+    body.modo-oscuro .caja-ejemplo {
+      background-color: #23344a;
+    }
+
+    /* TABLAS */
+    .tabla-responsive {
+      width: 100%;
+      margin: 28px 0;
+      overflow-x: auto;
+    }
+
+    .tabla-apuntes {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 16px;
+    }
+
+    .tabla-apuntes th,
+    .tabla-apuntes td {
+      padding: 14px 16px;
+      border: 1px solid var(--borde);
+      text-align: left;
+      vertical-align: top;
+      line-height: 1.55;
+    }
+
+    .tabla-apuntes th {
+      background-color: #f1f3f5;
+      font-weight: 700;
+    }
+
+    body.modo-oscuro .tabla-apuntes th {
+      background-color: #273244;
+    }
+
+    /* ESQUEMAS */
+    .esquema-web {
+      max-width: 700px;
+      margin: 30px auto;
+    }
+
+    .esquema-fila {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 14px;
+      margin-top: 16px;
+    }
+
+    .esquema-caja {
+      padding: 18px 16px;
+      background-color: var(--fondo-tarjeta);
+      border: 1px solid var(--borde);
+      border-radius: 10px;
+      text-align: center;
+    }
+
+    .esquema-caja strong {
+      display: block;
+      margin-bottom: 5px;
+      color: var(--verde-principal);
+      font-size: 18px;
+      overflow-wrap: anywhere;
+    }
+
+    .esquema-caja span {
+      color: var(--texto-secundario);
+      font-size: 15px;
+      line-height: 1.45;
+    }
+
+    .esquema-flecha {
+      margin: 14px 0;
+      text-align: center;
+      font-size: 22px;
+      color: var(--verde-principal);
+    }
+
+    /* REFLEXIÓN Y SOLUCIONES */
+    .actividad-reflexion {
+      margin: 32px 0;
+      padding: 22px 24px;
+      background-color: #f7f8fa;
+      border: 1px solid var(--borde);
+      border-radius: 10px;
+    }
+
+    .actividad-reflexion h3 {
+      margin: 0 0 12px;
+      color: var(--verde-principal);
+      font-size: 20px;
+    }
+
+    .actividad-reflexion p {
+      margin: 0 0 14px;
+      font-size: 17px;
+      line-height: 1.65;
+    }
+
+    body.modo-oscuro .actividad-reflexion {
+      background-color: #232d3d;
+    }
+
+    .solucion-desplegable {
+      margin-top: 20px;
+    }
+
+    .solucion-desplegable summary {
+      display: inline-block;
+      padding: 10px 16px;
+      background-color: #eef8f1;
+      border: 1px solid #b9dfc6;
+      border-radius: 7px;
+      color: var(--verde-principal);
+      font-size: 16px;
+      font-weight: 700;
+      cursor: pointer;
+      user-select: none;
+    }
+
+    .solucion-desplegable summary:hover {
+      background-color: #e2f3e7;
+    }
+
+    .contenido-solucion {
+      margin-top: 16px;
+      padding: 18px 20px;
+      background-color: var(--fondo-pagina);
+      border-left: 4px solid var(--verde-principal);
+      border-radius: 6px;
+    }
+
+    .contenido-solucion p {
+      margin: 0 0 12px;
+      font-size: 16px;
+      line-height: 1.65;
+    }
+
+    body.modo-oscuro .solucion-desplegable summary {
+      background-color: #20372a;
+      border-color: #315d40;
+    }
+
+    /* BLOQUES DE CÓDIGO */
+    .bloque-codigo {
+      margin: 28px 0;
+      border: 1px solid #3b3b3b;
+      border-radius: 9px;
+      overflow: hidden;
+      background-color: #1e1e1e;
+    }
+
+    .cabecera-codigo {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      padding: 10px 14px;
+      background-color: #2b2b2b;
+      color: #f3f4f6;
+      font-size: 14px;
+    }
+
+    .lenguaje-codigo {
+      font-weight: 700;
+    }
+
+    .boton-copiar {
+      padding: 6px 11px;
+      border: 1px solid #5c5c5c;
+      border-radius: 6px;
+      background-color: #383838;
+      color: #f3f4f6;
+      font-family: inherit;
+      font-size: 13px;
+      cursor: pointer;
+    }
+
+    .boton-copiar:hover {
+      background-color: #484848;
+      border-color: #777;
+    }
+
+    .bloque-codigo pre {
+      margin: 0;
+      padding: 18px 20px;
+      overflow-x: auto;
+      tab-size: 2;
+    }
+
+    .bloque-codigo code {
+      color: #f5f5f5;
+      font-family: Consolas, "Courier New", monospace;
+      font-size: 15px;
+      line-height: 1.6;
+      white-space: pre;
+    }
+
+    /* ÍNDICE DERECHO */
+    .indice-derecho {
+      padding: 28px 22px 100px;
+      border-left: 1px solid var(--borde);
+      position: sticky;
+      top: 68px;
+      height: calc(100vh - 68px);
+      overflow-y: auto;
+      box-sizing: border-box;
+    }
+
+    .indice-derecho h2 {
+      margin: 8px 0 20px;
+      font-size: 17px;
+      color: #555b65;
+    }
+
+    body.modo-oscuro .indice-derecho h2 {
+      color: #d1d5db;
+    }
+
+    .indice-derecho ul {
+      margin: 0;
+      padding-left: 18px;
+    }
+
+    .indice-derecho li {
+      margin-bottom: 12px;
+    }
+
+    .indice-derecho a {
+      color: var(--texto-secundario);
+      text-decoration: none;
+      font-size: 14px;
+      line-height: 1.4;
+    }
+
+    .indice-derecho a:hover {
+      color: var(--verde-principal);
+    }
+
+    /* NAVEGACIÓN */
+    .navegacion-paginas {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 20px;
+      margin-top: 50px;
+    }
+
+    .nav-pagina {
+      min-height: 100px;
+      padding: 18px 20px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      border: 1px solid var(--borde);
+      border-radius: 8px;
+      text-decoration: none;
+      background-color: var(--fondo-tarjeta);
+    }
+
+    .nav-anterior {
+      align-items: flex-start;
+      text-align: left;
+    }
+
+    .nav-siguiente {
+      align-items: flex-end;
+      text-align: right;
+    }
+
+    .nav-etiqueta {
+      margin-bottom: 5px;
+      color: var(--texto-secundario);
+      font-size: 14px;
+    }
+
+    .nav-pagina strong {
+      color: var(--verde-principal);
+      font-size: 16px;
+      line-height: 1.4;
+    }
+
+    .nav-pagina:hover {
+      border-color: var(--verde-principal);
+    }
+
+    /* DISEÑO ADAPTABLE */
+    @media (max-width: 1100px) {
+      .pagina-ut {
+        grid-template-columns: 250px minmax(0, 1fr);
+      }
+
+      .indice-derecho {
+        display: none;
+      }
+    }
+
+    @media (max-width: 760px) {
+      .pagina-ut {
+        display: block;
+      }
+
+      .sidebar {
+        position: static;
+        width: 100%;
+        height: auto;
+        border-right: 0;
+        border-bottom: 1px solid var(--borde);
+      }
+
+      .contenido-ut {
+        padding: 28px 20px 60px;
+      }
+
+      .contenido-ut h1 {
+        font-size: 36px;
+      }
+
+      .navegacion-paginas,
+      .esquema-fila {
+        grid-template-columns: 1fr;
+      }
+
+      .nav-siguiente {
+        align-items: flex-start;
+        text-align: left;
+      }
+    }
+  </style>
+</head>
+<body>
+<!-- BARRA SUPERIOR -->
+<header class="navbar">
+<a class="inicio" href="../../../index.html">
+<img alt="" class="icono-profesora" src="../../../img/profesora-castana.png?v=2"/>
+<span>Inicio</span>
+</a>
+
+<nav aria-label="Módulos formativos" class="menu-modulos" id="menuModulos"></nav>
+<button aria-label="Cambiar entre modo claro y oscuro" class="boton-tema" id="botonTema" title="Cambiar tema" type="button">☀️</button>
+</header>
+
+<div class="pagina-ut">
+
+<!-- MENÚ LATERAL -->
+<aside class="sidebar">
+
+<a class="sidebar-modulo" href="../../index.html">
+  Desarrollo web en entorno cliente
+</a>
+
+<a class="sidebar-ut-cerrada" href="../../ut1/index.html">
+  <span>UT1 - Introducción al desarrollo web en entorno cliente</span>
+  <span>›</span>
+</a>
+
+<a class="sidebar-ut-cerrada" href="../../ut2/index.html">
+  <span>UT2 - Fundamentos de JavaScript: variables, tipos y operadores</span>
+  <span>›</span>
+</a>
+
+<a class="sidebar-ut-cerrada" href="../../ut3/index.html">
+  <span>UT3 - Estructuras de control en JavaScript</span>
+  <span>›</span>
+</a>
+
+<a class="sidebar-ut-cerrada" href="../../ut4/index.html">
+  <span>UT4 - Arrays y estructuras de datos en JavaScript</span>
+  <span>›</span>
+</a>
+
+<!-- UT5 -->
+<div class="menu-desplegable">
+
+  <div class="menu-cabecera menu-cabecera-activa">
+    <a class="menu-titulo" href="../index.html">
+      UT5 - Funciones en JavaScript
+    </a>
+    <button
+      aria-expanded="true"
+      aria-label="Mostrar u ocultar UT5"
+      class="boton-desplegar"
+      data-target="submenu-ut5"
+      type="button"
+    >⌄</button>
+  </div>
+
+  <div class="submenu submenu-abierto" id="submenu-ut5">
+
+    <!-- 5.1 -->
+    <div class="menu-desplegable menu-apartado">
+      <div class="menu-cabecera">
+        <a class="menu-titulo" href="../5-1/index.html">
+          5.1 Introducción a las funciones
+        </a>
+        <button
+          aria-expanded="false"
+          aria-label="Mostrar u ocultar los subapartados del 5.1"
+          class="boton-desplegar"
+          data-target="submenu-5-1"
+          type="button"
+        >›</button>
+      </div>
+
+      <div class="submenu submenu-apartados" id="submenu-5-1">
+        <a href="../5-1/index.html#que-es-funcion">Qué es una función</a>
+        <a href="../5-1/index.html#para-que-funciones">Para qué necesitamos funciones</a>
+        <a href="../5-1/index.html#reutilizacion">Reutilización del código</a>
+        <a href="../5-1/index.html#organizacion">Organización del programa</a>
+        <a href="../5-1/index.html#funciones-javascript">Las funciones en JavaScript</a>
+        <a href="../5-1/index.html#primer-ejemplo">Primer ejemplo de función</a>
+      </div>
+    </div>
+
+    <!-- 5.2 -->
+    <div class="menu-desplegable menu-apartado">
+      <div class="menu-cabecera">
+        <a class="menu-titulo" href="../5-2/index.html">
+          5.2 Declaración e invocación de funciones
+        </a>
+        <button
+          aria-expanded="false"
+          aria-label="Mostrar u ocultar los subapartados del 5.2"
+          class="boton-desplegar"
+          data-target="submenu-5-2"
+          type="button"
+        >›</button>
+      </div>
+
+      <div class="submenu submenu-apartados" id="submenu-5-2">
+        <a href="../5-2/index.html#declarar-funcion">Declarar una función</a>
+        <a href="../5-2/index.html#sintaxis">Sintaxis de una declaración</a>
+        <a href="../5-2/index.html#invocar-funcion">Invocar una función</a>
+        <a href="../5-2/index.html#orden-ejecucion">Orden de ejecución</a>
+        <a href="../5-2/index.html#llamadas-multiples">Llamar varias veces a una función</a>
+        <a href="../5-2/index.html#hoisting">Declaraciones y hoisting</a>
+        <a href="../5-2/index.html#funciones-entre-si">Funciones que llaman a otras funciones</a>
+        <a href="../5-2/index.html#errores-frecuentes">Errores frecuentes</a>
+        <a href="../5-2/index.html#buenas-practicas">Buenas prácticas</a>
+        <a href="../5-2/index.html#ejemplo-completo">Ejemplo práctico completo</a>
+      </div>
+    </div>
+
+    <!-- 5.3 -->
+    <div class="menu-desplegable menu-apartado">
+      <div class="menu-cabecera">
+        <a class="menu-titulo" href="../5-3/index.html">
+          5.3 Parámetros y argumentos
+        </a>
+        <button
+          aria-expanded="false"
+          aria-label="Mostrar u ocultar los subapartados del 5.3"
+          class="boton-desplegar"
+          data-target="submenu-5-3"
+          type="button"
+        >›</button>
+      </div>
+
+      <div class="submenu submenu-apartados" id="submenu-5-3">
+        <a href="../5-3/index.html#parametros-argumentos">Qué son los parámetros y argumentos</a>
+        <a href="../5-3/index.html#declaracion-parametros">Declarar funciones con parámetros</a>
+        <a href="../5-3/index.html#invocacion-argumentos">Invocar funciones con argumentos</a>
+        <a href="../5-3/index.html#varios-parametros">Funciones con varios parámetros</a>
+        <a href="../5-3/index.html#parametros-locales">Parámetros y variables locales</a>
+        <a href="../5-3/index.html#tipos-datos">Argumentos de distintos tipos</a>
+        <a href="../5-3/index.html#numero-argumentos">Número de argumentos</a>
+        <a href="../5-3/index.html#errores-frecuentes">Errores frecuentes</a>
+        <a href="../5-3/index.html#buenas-practicas">Buenas prácticas</a>
+        <a href="../5-3/index.html#ejemplo-completo">Ejemplo práctico completo</a>
+      </div>
+    </div>
+
+    <!-- 5.4 -->
+    <div class="menu-desplegable menu-apartado">
+      <div class="menu-cabecera">
+        <a class="menu-titulo" href="../5-4/index.html">
+          5.4 Valores de retorno y sentencia return
+        </a>
+        <button
+          aria-expanded="false"
+          aria-label="Mostrar u ocultar los subapartados del 5.4"
+          class="boton-desplegar"
+          data-target="submenu-5-4"
+          type="button"
+        >›</button>
+      </div>
+
+      <div class="submenu submenu-apartados" id="submenu-5-4">
+        <a href="../5-4/index.html#devolver-valor">Qué significa devolver un valor</a>
+        <a href="../5-4/index.html#sintaxis-return">Sintaxis de return</a>
+        <a href="../5-4/index.html#console-vs-return">console.log() y return</a>
+        <a href="../5-4/index.html#utilizar-retorno">Utilizar el valor devuelto</a>
+        <a href="../5-4/index.html#finaliza-ejecucion">return y la ejecución</a>
+        <a href="../5-4/index.html#sin-return">Funciones sin retorno explícito</a>
+        <a href="../5-4/index.html#tipos-retorno">Tipos de valores devueltos</a>
+        <a href="../5-4/index.html#errores-frecuentes">Errores frecuentes</a>
+        <a href="../5-4/index.html#buenas-practicas">Buenas prácticas</a>
+        <a href="../5-4/index.html#ejemplo-completo">Ejemplo práctico completo</a>
+      </div>
+    </div>
+
+    <!-- 5.5 -->
+    <div class="menu-desplegable menu-apartado">
+      <div class="menu-cabecera">
+        <a class="menu-titulo" href="../5-5/index.html">
+          5.5 Ámbito de las variables en las funciones
+        </a>
+        <button
+          aria-expanded="false"
+          aria-label="Mostrar u ocultar los subapartados del 5.5"
+          class="boton-desplegar"
+          data-target="submenu-5-5"
+          type="button"
+        >›</button>
+      </div>
+
+      <div class="submenu submenu-apartados" id="submenu-5-5">
+        <a href="../5-5/index.html#que-es-ambito">Qué es el ámbito de una variable</a>
+        <a href="../5-5/index.html#ambito-global">Ámbito global</a>
+        <a href="../5-5/index.html#ambito-local">Ámbito local de función</a>
+        <a href="../5-5/index.html#parametros-locales">Parámetros y variables locales</a>
+        <a href="../5-5/index.html#acceso-variables">Acceso a variables externas</a>
+        <a href="../5-5/index.html#ambito-bloque">Ámbito de bloque</a>
+        <a href="../5-5/index.html#var-let-const">Diferencias entre var, let y const</a>
+        <a href="../5-5/index.html#sombreado">Sombreado de variables</a>
+        <a href="../5-5/index.html#errores-frecuentes">Errores frecuentes</a>
+        <a href="../5-5/index.html#buenas-practicas">Buenas prácticas</a>
+        <a href="../5-5/index.html#ejemplo-completo">Ejemplo práctico completo</a>
+      </div>
+    </div>
+
+    <!-- 5.6 -->
+    <a class="enlace-apartado-simple" href="../5-6/index.html">
+      5.6 Paso de valores y referencias a funciones
+    </a>
+
+    <!-- 5.7 ACTIVO -->
+    <div class="menu-desplegable menu-apartado">
+      <div class="menu-cabecera menu-cabecera-activa">
+        <a class="menu-titulo" href="index.html">
+          5.7 Parámetros por defecto y parámetros rest
+        </a>
+        <button
+          aria-expanded="true"
+          aria-label="Mostrar u ocultar los subapartados del 5.7"
+          class="boton-desplegar"
+          data-target="submenu-5-7"
+          type="button"
+        >⌄</button>
+      </div>
+
+      <div class="submenu submenu-apartados submenu-abierto" id="submenu-5-7">
+        <a href="#argumentos-omitidos">Argumentos omitidos</a>
+        <a href="#parametros-defecto">Parámetros por defecto</a>
+        <a href="#undefined-null">undefined, null y otros valores</a>
+        <a href="#orden-parametros">Orden de los parámetros</a>
+        <a href="#introduccion-rest">Argumentos variables</a>
+        <a href="#sintaxis-rest">Sintaxis rest (...)</a>
+        <a href="#rest-calculos">Cálculos con rest</a>
+        <a href="#combinar-parametros">Combinar parámetros</a>
+        <a href="#rest-spread">Rest y spread</a>
+        <a href="#errores-frecuentes">Errores y buenas prácticas</a>
+        <a href="#comparacion">Comparación</a>
+        <a href="#ejemplo-completo">Ejemplo práctico completo</a>
+      </div>
+    </div>
+
+    <!-- 5.8 A 5.12 -->
+    <a class="enlace-apartado-simple" href="../5-8/index.html">
+      5.8 Expresiones de función y funciones flecha
+    </a>
+
+    <a class="enlace-apartado-simple" href="../5-9/index.html">
+      5.9 Funciones como valores y funciones callback
+    </a>
+
+    <a class="enlace-apartado-simple" href="../5-10/index.html">
+      5.10 Funciones predefinidas y métodos de JavaScript
+    </a>
+
+    <a class="enlace-apartado-simple" href="../5-11/index.html">
+      5.11 Funciones recursivas
+    </a>
+
+    <a class="enlace-apartado-simple" href="../5-12/index.html">
+      5.12 Organización modular de un programa
+    </a>
+
+    <a class="enlace-apartado-simple" href="../resumen/index.html">
+      ✏️ Resumen de la UT5
+    </a>
+
+    <!-- ACTIVIDADES -->
+    <div class="menu-desplegable menu-apartado">
+      <div class="menu-cabecera">
+        <a class="menu-titulo" href="../actividades/index.html">
+          📝 Actividades de la UT5
+        </a>
+        <button
+          aria-expanded="false"
+          aria-label="Mostrar u ocultar las actividades de la UT5"
+          class="boton-desplegar"
+          data-target="submenu-actividades"
+          type="button"
+        >›</button>
+      </div>
+
+      <div class="submenu submenu-apartados" id="submenu-actividades">
+        <a href="../actividades/index.html#actividades-practicas">
+          💻 Actividades prácticas
+        </a>
+        <a href="../actividades/index.html#reto-final">
+          🧩 Reto final
+        </a>
+        <a href="../actividades/index.html#autoevaluacion">
+          ✅ Autoevaluación
+        </a>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<!-- RESTO DE UNIDADES -->
+<a class="sidebar-ut-cerrada" href="../../ut6/index.html">
+  <span>UT6 - Objetos y Programación Orientada a Objetos en JavaScript</span>
+  <span>›</span>
+</a>
+
+<a class="sidebar-ut-cerrada" href="../../ut7/index.html">
+  <span>UT7 - Objetos predefinidos y modelo del navegador (BOM)</span>
+  <span>›</span>
+</a>
+
+<a class="sidebar-ut-cerrada" href="../../ut8/index.html">
+  <span>UT8 - Aplicaciones web interactivas: DOM, eventos y formularios</span>
+  <span>›</span>
+</a>
+
+<a class="sidebar-ut-cerrada" href="../../ut9/index.html">
+  <span>UT9 - Comunicación asíncrona y peticiones al servidor</span>
+  <span>›</span>
+</a>
+
+<a class="sidebar-ut-cerrada" href="../../ut10/index.html">
+  <span>UT10 - Introducción a React</span>
+  <span>›</span>
+</a>
+
+</aside>
+
+<!-- CONTENIDO PRINCIPAL -->
+<main class="contenido-ut">
+<div class="migas"><a aria-label="Inicio" class="miga-inicio" href="../../../index.html">🏠</a><span class="miga-separador">›</span><a class="miga-modulo" href="../../index.html">DWEC</a><span class="miga-separador">›</span><a class="miga-modulo" href="../index.html">UT5</a><span class="miga-separador">›</span><span class="miga-actual">5.7</span></div>
+<h1>5.7 Parámetros por defecto y parámetros rest</h1>
+<section class="apartado-ut">
+<p>
+          En el apartado anterior hemos estudiado qué ocurre cuando una
+          función recibe números, cadenas, objetos o arrays. Ahora vamos
+          a aprender a diseñar funciones más flexibles: algunas podrán
+          funcionar aunque no proporcionemos todos sus argumentos y
+          otras podrán recibir <strong>tantos argumentos como
+          necesitemos</strong>.
+        </p>
+<p>
+          Imagina una tienda online. Al calcular los gastos de envío
+          queremos utilizar una tarifa habitual si no se indica otra.
+          Por otra parte, para calcular el total de varios precios no
+          sabemos de antemano si recibiremos dos, tres o diez productos.
+        </p>
+<p>
+          JavaScript ofrece dos herramientas muy útiles para resolver
+          estas situaciones: los <strong>parámetros por defecto</strong>
+          y los <strong>parámetros rest</strong>.
+        </p>
+<div class="caja caja-importante">
+<span class="caja-titulo">📌 Importante</span>
+<p>
+            Un parámetro por defecto proporciona un valor alternativo
+            cuando el argumento recibido es <code>undefined</code>.
+            Un parámetro rest, escrito con <code>...</code>, reúne
+            los argumentos restantes en un <strong>array</strong>.
+            Aunque ambos se escriben en la declaración de una función,
+            resuelven problemas diferentes.
+          </p>
+</div>
+<!-- 1 -->
+<h2 id="argumentos-omitidos">
+          Qué ocurre cuando faltan argumentos
+        </h2>
+<p>
+          En JavaScript podemos invocar una función con menos argumentos
+          de los parámetros que declara. Los parámetros para los que
+          no se proporciona un argumento reciben el valor
+          <code>undefined</code>.
+        </p>
+<div class="bloque-codigo">
+<div class="cabecera-codigo">
+<span class="lenguaje-codigo">JavaScript</span>
+<button class="boton-copiar" type="button">
+              📋 Copiar código
+            </button>
+</div>
+<pre><code>function saludar(nombre, ciudad) {
+  console.log("Hola, " + nombre);
+  console.log("Ciudad: " + ciudad);
+}
+
+saludar("Lucía");</code></pre>
+</div>
+<p><strong>Salida por consola:</strong></p>
+<div class="bloque-codigo">
+<div class="cabecera-codigo">
+<span class="lenguaje-codigo">Consola</span>
+<button class="boton-copiar" type="button">
+              📋 Copiar código
+            </button>
+</div>
+<pre><code>Hola, Lucía
+Ciudad: undefined</code></pre>
+</div>
+<p>
+          El primer argumento, <code>"Lucía"</code>, se asigna a
+          <code>nombre</code>. Como no hemos proporcionado un segundo
+          argumento, <code>ciudad</code> vale
+          <code>undefined</code>.
+        </p>
+<p>
+          El programa no genera un error automáticamente, pero puede
+          producir mensajes poco útiles o resultados inesperados.
+        </p>
+<h3>
+          Un problema frecuente: operar con un argumento que falta
+        </h3>
+<div class="bloque-codigo">
+<div class="cabecera-codigo">
+<span class="lenguaje-codigo">JavaScript</span>
+<button class="boton-copiar" type="button">
+              📋 Copiar código
+            </button>
+</div>
+<pre><code>function calcularPrecio(precio, unidades) {
+  return precio * unidades;
+}
+
+console.log(calcularPrecio(25));</code></pre>
+</div>
+<p><strong>Salida por consola:</strong></p>
+<div class="bloque-codigo">
+<div class="cabecera-codigo">
+<span class="lenguaje-codigo">Consola</span>
+<button class="boton-copiar" type="button">
+              📋 Copiar código
+            </button>
+</div>
+<pre><code>NaN</code></pre>
+</div>
+<p>
+  La operación es <code>25 * undefined</code>.
+  Como no puede obtenerse un resultado numérico válido,
+  JavaScript devuelve <code>NaN</code>
+  (<em>Not a Number</em>).
+</p>
+<p>
+  Aunque <code>NaN</code> significa
+  <em>Not a Number</em>, en JavaScript es un
+  valor especial del tipo <code>number</code>
+  que indica que una operación numérica no ha
+  producido un resultado válido.
+</p>
+<div class="caja caja-atencion">
+<span class="caja-titulo">⚠️ Atención</span>
+<p>
+            Que JavaScript permita omitir argumentos no significa
+            que la función pueda trabajar correctamente sin ellos.
+            Debemos decidir cuáles son obligatorios y cuáles pueden
+            tener un valor predeterminado.
+          </p>
+</div>
+<!-- 2 -->
+<h2 id="parametros-defecto">
+          Declarar parámetros por defecto
+        </h2>
+<p>
+          Un <strong>parámetro por defecto</strong> se declara
+          escribiendo <code>=</code> y un valor en la lista de
+          parámetros. Ese valor se utilizará si, al invocar la función,
+          el argumento correspondiente es <code>undefined</code>.
+        </p>
+<div class="bloque-codigo">
+<div class="cabecera-codigo">
+<span class="lenguaje-codigo">JavaScript</span>
+<button class="boton-copiar" type="button">
+              📋 Copiar código
+            </button>
+</div>
+<pre><code>function saludar(nombre = "visitante") {
+  console.log("Hola, " + nombre);
+}
+
+saludar("Marcos");
+saludar();</code></pre>
+</div>
+<p><strong>Salida por consola:</strong></p>
+<div class="bloque-codigo">
+<div class="cabecera-codigo">
+<span class="lenguaje-codigo">Consola</span>
+<button class="boton-copiar" type="button">
+              📋 Copiar código
+            </button>
+</div>
+<pre><code>Hola, Marcos
+Hola, visitante</code></pre>
+</div>
+<p>
+          En la primera llamada se proporciona un nombre y se utiliza
+          ese argumento. En la segunda no se proporciona ninguno,
+          por lo que se aplica <code>"visitante"</code>.
+        </p>
+<h3>Varios parámetros con valores predeterminados</h3>
+<div class="bloque-codigo">
+<div class="cabecera-codigo">
+<span class="lenguaje-codigo">JavaScript</span>
+<button class="boton-copiar" type="button">
+              📋 Copiar código
+            </button>
+</div>
+<pre><code>function calcularImporte(precio, unidades = 1, descuento = 0) {
+  const subtotal = precio * unidades;
+  return subtotal - subtotal * descuento / 100;
+}
+
+console.log(calcularImporte(40));
+console.log(calcularImporte(40, 3));
+console.log(calcularImporte(40, 3, 10));</code></pre>
+</div>
+<p><strong>Salida por consola:</strong></p>
+<div class="bloque-codigo">
+<div class="cabecera-codigo">
+<span class="lenguaje-codigo">Consola</span>
+<button class="boton-copiar" type="button">
+              📋 Copiar código
+            </button>
+</div>
+<pre><code>40
+120
+108</code></pre>
+</div>
+<p>Vamos a analizar cada llamada:</p>
+<ul>
+<li>
+<code>calcularImporte(40)</code>: se utiliza una unidad
+            y un descuento del 0 %.
+          </li>
+<li>
+<code>calcularImporte(40, 3)</code>: se utilizan tres
+            unidades y un descuento del 0 %.
+          </li>
+<li>
+<code>calcularImporte(40, 3, 10)</code>: los tres
+            argumentos proporcionados sustituyen los valores
+            predeterminados.
+          </li>
+</ul>
+<p>
+          De este modo, una sola función permite realizar varias
+          operaciones sin obligarnos a escribir siempre todos
+          los argumentos.
+        </p>
+<h3>Valores por defecto y return</h3>
+<p>
+          Los parámetros por defecto no modifican el funcionamiento
+          de <code>return</code>. La función calcula un resultado
+          y lo devuelve al programa que la invoca.
+        </p>
+<div class="bloque-codigo">
+<div class="cabecera-codigo">
+<span class="lenguaje-codigo">JavaScript</span>
+<button class="boton-copiar" type="button">
+              📋 Copiar código
+            </button>
+</div>
+<pre><code>function calcularEnvio(importe, costeEnvio = 4.95) {
+  return importe + costeEnvio;
+}
+
+const totalNormal = calcularEnvio(30);
+const totalUrgente = calcularEnvio(30, 9.95);
+
+console.log(totalNormal.toFixed(2) + " €");
+console.log(totalUrgente.toFixed(2) + " €");</code></pre>
+</div>
+<p><strong>Salida por consola:</strong></p>
+<div class="bloque-codigo">
+<div class="cabecera-codigo">
+<span class="lenguaje-codigo">Consola</span>
+<button class="boton-copiar" type="button">
+              📋 Copiar código
+            </button>
+</div>
+<pre><code>34.95 €
+39.95 €</code></pre>
+</div>
+<div class="caja caja-ejemplo">
+<span class="caja-titulo">💻 Ejemplo DAW</span>
+<p>
+            En una aplicación de comercio electrónico, los valores
+            por defecto resultan útiles para establecer cantidades
+            iniciales, gastos de envío habituales, descuentos del 0 %
+            o mensajes alternativos. Así evitamos repetir argumentos
+            que casi siempre tienen el mismo valor.
+          </p>
+</div>
+
+<!-- 3 -->
+<h2 id="undefined-null">
+          Diferencia entre undefined, null y otros valores
+        </h2>
+<p>
+          Una cuestión especialmente importante es
+          <strong>cuándo se aplica exactamente</strong> el valor
+          por defecto.
+        </p>
+<p>
+          Se utiliza si no se pasa ningún argumento o si se pasa
+          explícitamente <code>undefined</code>. No se aplica
+          automáticamente con <code>null</code>, <code>0</code>,
+          <code>false</code> ni con una cadena vacía.
+        </p>
+<div class="bloque-codigo">
+<div class="cabecera-codigo">
+<span class="lenguaje-codigo">JavaScript</span>
+<button class="boton-copiar" type="button">
+              📋 Copiar código
+            </button>
+</div>
+<pre><code>function mostrarValor(valor = "predeterminado") {
+  console.log(valor);
+}
+
+mostrarValor();
+mostrarValor(undefined);
+mostrarValor(null);
+mostrarValor(0);
+mostrarValor(false);
+mostrarValor("");</code></pre>
+</div>
+<p><strong>Salida por consola:</strong></p>
+<div class="bloque-codigo">
+<div class="cabecera-codigo">
+<span class="lenguaje-codigo">Consola</span>
+<button class="boton-copiar" type="button">
+              📋 Copiar código
+            </button>
+</div>
+<pre><code>predeterminado
+predeterminado
+null
+0
+false
+</code></pre>
+</div>
+<p>
+          La última llamada muestra una línea vacía, porque el
+          argumento es la cadena <code>""</code>. Esta cadena
+          es un valor válido, aunque no contenga caracteres.
+        </p>
+<div class="caja caja-atencion">
+<span class="caja-titulo">⚠️ Atención</span>
+<p>
+            No confundas un <strong>argumento ausente</strong>
+            con un argumento que contiene un valor considerado falso
+            (<code>0</code>, <code>false</code> o <code>""</code>).
+            Los parámetros por defecto conservan estos últimos valores.
+          </p>
+</div>
+<h3>
+          Por qué no siempre conviene utilizar el operador ||
+        </h3>
+<p>
+          Antes de los parámetros por defecto era habitual utilizar
+          el operador <code>||</code> para proporcionar valores
+          alternativos. Sin embargo, este operador puede producir
+          resultados no deseados.
+        </p>
+<div class="bloque-codigo">
+<div class="cabecera-codigo">
+<span class="lenguaje-codigo">JavaScript</span>
+<button class="boton-copiar" type="button">
+              📋 Copiar código
+            </button>
+</div>
+<pre><code>function mostrarCantidad(cantidad) {
+  const resultado = cantidad || 10;
+  console.log(resultado);
+}
+
+mostrarCantidad(0);</code></pre>
+</div>
+<p><strong>Salida por consola:</strong></p>
+<div class="bloque-codigo">
+<div class="cabecera-codigo">
+<span class="lenguaje-codigo">Consola</span>
+<button class="boton-copiar" type="button">
+              📋 Copiar código
+            </button>
+</div>
+<pre><code>10</code></pre>
+</div>
+<p>
+          Aunque hemos proporcionado <code>0</code>, el operador
+          <code>||</code> elige <code>10</code> porque
+          <code>0</code> es un valor <em>falsy</em>.
+          Si cero es un dato válido, ese comportamiento no es adecuado.
+        </p>
+<p>
+          Podemos resolverlo utilizando un parámetro por defecto:
+        </p>
+<div class="bloque-codigo">
+<div class="cabecera-codigo">
+<span class="lenguaje-codigo">JavaScript</span>
+<button class="boton-copiar" type="button">
+              📋 Copiar código
+            </button>
+</div>
+<pre><code>function mostrarCantidad(cantidad = 10) {
+  console.log(cantidad);
+}
+
+mostrarCantidad(0);
+mostrarCantidad();</code></pre>
+</div>
+<p><strong>Salida por consola:</strong></p>
+<div class="bloque-codigo">
+<div class="cabecera-codigo">
+<span class="lenguaje-codigo">Consola</span>
+<button class="boton-copiar" type="button">
+              📋 Copiar código
+            </button>
+</div>
+<pre><code>0
+10</code></pre>
+</div>
+<p>
+          El parámetro por defecto permite distinguir correctamente
+          entre el valor <code>0</code> y un argumento omitido.
+        </p>
+
+<!-- 4 -->
+<h2 id="orden-parametros">
+          Orden y dependencia de los parámetros
+        </h2>
+<p>
+          Normalmente colocamos primero los parámetros que deben recibir
+          un argumento y después los que tienen valores predeterminados.
+          Es una recomendación de claridad, no una obligación
+          sintáctica de JavaScript.
+        </p>
+<div class="bloque-codigo">
+<div class="cabecera-codigo">
+<span class="lenguaje-codigo">JavaScript</span>
+<button class="boton-copiar" type="button">
+              📋 Copiar código
+            </button>
+</div>
+<pre><code>function crearFicha(nombre, categoria = "General", activo = true) {
+  console.log(nombre + " | " + categoria + " | " + activo);
+}
+
+crearFicha("Teclado");
+crearFicha("Ratón", "Periféricos");
+crearFicha("Monitor", "Pantallas", false);</code></pre>
+</div>
+<p><strong>Salida por consola:</strong></p>
+<div class="bloque-codigo">
+<div class="cabecera-codigo">
+<span class="lenguaje-codigo">Consola</span>
+<button class="boton-copiar" type="button">
+              📋 Copiar código
+            </button>
+</div>
+<pre><code>Teclado | General | true
+Ratón | Periféricos | true
+Monitor | Pantallas | false</code></pre>
+</div>
+<h3>Saltar un parámetro para utilizar el siguiente</h3>
+<p>
+          Los argumentos se asignan <strong>por posición</strong>.
+          Si queremos conservar el valor por defecto de un parámetro
+          intermedio y proporcionar uno posterior, podemos pasar
+          <code>undefined</code> en esa posición.
+        </p>
+<div class="bloque-codigo">
+<div class="cabecera-codigo">
+<span class="lenguaje-codigo">JavaScript</span>
+<button class="boton-copiar" type="button">
+              📋 Copiar código
+            </button>
+</div>
+<pre><code>function registrarUsuario(nombre, idioma = "es", avisos = true) {
+  console.log(nombre + " - " + idioma + " - " + avisos);
+}
+
+registrarUsuario("Ana", undefined, false);</code></pre>
+</div>
+<p><strong>Salida por consola:</strong></p>
+<div class="bloque-codigo">
+<div class="cabecera-codigo">
+<span class="lenguaje-codigo">Consola</span>
+<button class="boton-copiar" type="button">
+              📋 Copiar código
+            </button>
+</div>
+<pre><code>Ana - es - false</code></pre>
+</div>
+<p>
+          El segundo parámetro utiliza su valor por defecto, mientras
+          que el tercero recibe <code>false</code>.
+        </p>
+<p>
+          Cuando hay muchos parámetros opcionales, suele ser más
+          legible utilizar un objeto de opciones. Estudiaremos este
+          patrón más adelante.
+        </p>
+<h3>
+          Un valor por defecto puede depender de un parámetro anterior
+        </h3>
+<div class="bloque-codigo">
+<div class="cabecera-codigo">
+<span class="lenguaje-codigo">JavaScript</span>
+<button class="boton-copiar" type="button">
+              📋 Copiar código
+            </button>
+</div>
+<pre><code>function calcularPrecioFinal(precio, impuesto = precio * 0.21) {
+  return precio + impuesto;
+}
+
+console.log(calcularPrecioFinal(100));
+console.log(calcularPrecioFinal(100, 10));</code></pre>
+</div>
+<p><strong>Salida por consola:</strong></p>
+<div class="bloque-codigo">
+<div class="cabecera-codigo">
+<span class="lenguaje-codigo">Consola</span>
+<button class="boton-copiar" type="button">
+              📋 Copiar código
+            </button>
+</div>
+<pre><code>121
+110</code></pre>
+</div>
+<p>
+          El valor por defecto de <code>impuesto</code> se calcula
+          a partir del parámetro <code>precio</code>, que ya está
+          disponible. La expresión predeterminada se evalúa cuando
+          hace falta, durante la llamada.
+        </p>
+<div class="caja caja-importante">
+<span class="caja-titulo">📌 Importante</span>
+<p>
+            Los valores por defecto pueden ser expresiones,
+            no solamente números o cadenas fijas.
+            Para evitar errores y mejorar la comprensión,
+            utiliza expresiones sencillas y evita depender
+            de parámetros declarados después.
+          </p>
+</div>
+
+<!-- 5 -->
+<h2 id="introduccion-rest">
+          Funciones con un número variable de argumentos
+        </h2>
+<p>
+          Hasta ahora hemos declarado funciones con una cantidad fija
+          de parámetros. Pero hay situaciones en las que no sabemos
+          cuántos valores recibiremos: sumar importes, calcular
+          promedios, registrar mensajes o procesar una lista variable
+          de productos.
+        </p>
+<p>
+          Podríamos escribir una función con tres parámetros,
+          pero dejaría de servir si necesitáramos sumar cuatro
+          o cinco cantidades.
+        </p>
+<div class="bloque-codigo">
+<div class="cabecera-codigo">
+<span class="lenguaje-codigo">JavaScript</span>
+<button class="boton-copiar" type="button">
+              📋 Copiar código
+            </button>
+</div>
+<pre><code>function sumarTres(a, b, c) {
+  return a + b + c;
+}
+
+console.log(sumarTres(10, 20, 30));</code></pre>
+</div>
+<p><strong>Salida por consola:</strong></p>
+<div class="bloque-codigo">
+<div class="cabecera-codigo">
+<span class="lenguaje-codigo">Consola</span>
+<button class="boton-copiar" type="button">
+              📋 Copiar código
+            </button>
+</div>
+<pre><code>60</code></pre>
+</div>
+<p>
+          Para resolver este problema utilizamos los
+          <strong>parámetros rest</strong>.
+        </p>
+
+<!-- 6 -->
+<h2 id="sintaxis-rest">
+          Sintaxis del parámetro rest (...)
+        </h2>
+<p>
+          Un parámetro rest se escribe anteponiendo tres puntos
+          <code>...</code> al nombre del parámetro.
+          Recoge todos los argumentos que le correspondan y
+          los almacena en un <strong>array</strong>.
+        </p>
+<div class="bloque-codigo">
+<div class="cabecera-codigo">
+<span class="lenguaje-codigo">JavaScript</span>
+<button class="boton-copiar" type="button">
+              📋 Copiar código
+            </button>
+</div>
+<pre><code>function mostrarProductos(...productos) {
+  console.log(productos);
+}
+
+mostrarProductos("Teclado", "Ratón", "Monitor");
+mostrarProductos("Webcam");
+mostrarProductos();</code></pre>
+</div>
+<p><strong>Salida por consola:</strong></p>
+<div class="bloque-codigo">
+<div class="cabecera-codigo">
+<span class="lenguaje-codigo">Consola</span>
+<button class="boton-copiar" type="button">
+              📋 Copiar código
+            </button>
+</div>
+<pre><code>["Teclado", "Ratón", "Monitor"]
+["Webcam"]
+[]</code></pre>
+</div>
+<p>
+          En la primera llamada, <code>productos</code> es un array
+          con tres elementos. En la segunda contiene uno.
+          En la tercera es un array vacío.
+        </p>
+<p>
+  Para comprenderlo mejor, observa este ejemplo:
+</p>
+<div class="bloque-codigo">
+<div class="cabecera-codigo">
+<span class="lenguaje-codigo">JavaScript</span>
+<button class="boton-copiar" type="button">
+      📋 Copiar código
+    </button>
+</div>
+<pre><code>function mostrarDatos(...datos) {
+  console.log(datos);
+}
+
+mostrarDatos(10, 20, 30);</code></pre>
+</div>
+<p>
+  En este caso, los tres argumentos
+  <code>10</code>, <code>20</code> y
+  <code>30</code> se agrupan automáticamente
+  en un único array.
+</p>
+<p>
+  Por tanto, dentro de la función,
+  el parámetro <code>datos</code> contiene:
+</p>
+<div class="bloque-codigo">
+<div class="cabecera-codigo">
+<span class="lenguaje-codigo">Consola</span>
+<button class="boton-copiar" type="button">
+      📋 Copiar código
+    </button>
+</div>
+<pre><code>[10, 20, 30]</code></pre>
+</div>
+<p>
+          Como se trata de un array, podemos utilizar propiedades
+          y métodos conocidos, como <code>length</code>,
+          <code>for...of</code>, <code>push()</code>
+          o <code>reduce()</code>.
+        </p>
+<h3>Recorrer los argumentos recibidos</h3>
+<div class="bloque-codigo">
+<div class="cabecera-codigo">
+<span class="lenguaje-codigo">JavaScript</span>
+<button class="boton-copiar" type="button">
+              📋 Copiar código
+            </button>
+</div>
+<pre><code>function listarProductos(...productos) {
+  console.log("Total de productos: " + productos.length);
+
+  for (const producto of productos) {
+    console.log("- " + producto);
+  }
+}
+
+listarProductos("Teclado", "Ratón", "Monitor");</code></pre>
+</div>
+<p><strong>Salida por consola:</strong></p>
+<div class="bloque-codigo">
+<div class="cabecera-codigo">
+<span class="lenguaje-codigo">Consola</span>
+<button class="boton-copiar" type="button">
+              📋 Copiar código
+            </button>
+</div>
+<pre><code>Total de productos: 3
+- Teclado
+- Ratón
+- Monitor</code></pre>
+</div>
+<div class="caja caja-importante">
+<span class="caja-titulo">📌 Importante</span>
+<p>
+            Los tres puntos <code>...</code> del parámetro rest
+            no significan que la función reciba un array directamente
+            como argumento. Significan que JavaScript
+            <strong>agrupa varios argumentos en un array</strong>
+            dentro de la función.
+          </p>
+</div>
+<!-- 7 -->
+<h2 id="rest-calculos">
+          Utilizar rest para realizar cálculos
+        </h2>
+<p>
+          Vamos a desarrollar una función que sume cualquier cantidad
+          de importes. Para ello recorreremos el array recibido
+          y acumularemos sus valores.
+        </p>
+<div class="bloque-codigo">
+<div class="cabecera-codigo">
+<span class="lenguaje-codigo">JavaScript</span>
+<button class="boton-copiar" type="button">
+              📋 Copiar código
+            </button>
+</div>
+<pre><code>function sumarImportes(...importes) {
+  let total = 0;
+
+  for (const importe of importes) {
+    total += importe;
+  }
+
+  return total;
+}
+
+console.log(sumarImportes(10, 20));
+console.log(sumarImportes(10, 20, 5, 15));
+console.log(sumarImportes());</code></pre>
+</div>
+<p><strong>Salida por consola:</strong></p>
+<div class="bloque-codigo">
+<div class="cabecera-codigo">
+<span class="lenguaje-codigo">Consola</span>
+<button class="boton-copiar" type="button">
+              📋 Copiar código
+            </button>
+</div>
+<pre><code>30
+50
+0</code></pre>
+</div>
+<h3>Análisis paso a paso</h3>
+<ol>
+<li>
+            El parámetro <code>importes</code> contiene un array
+            con los argumentos recibidos.
+          </li>
+<li>
+            La variable <code>total</code> comienza en
+            <code>0</code>.
+          </li>
+<li>
+            El bucle <code>for...of</code> recorre cada importe
+            y lo añade al acumulador.
+          </li>
+<li>
+            La sentencia <code>return</code> devuelve la suma final.
+          </li>
+<li>
+            Si no recibimos argumentos, el bucle no se ejecuta
+            y la función devuelve <code>0</code>.
+          </li>
+</ol>
+<h3>Calcular una media con rest</h3>
+<p>
+          Para calcular una media, además de sumar los valores,
+          necesitamos saber cuántos se han recibido.
+          Debemos controlar el caso del array vacío para evitar
+          una división entre cero.
+        </p>
+<div class="bloque-codigo">
+<div class="cabecera-codigo">
+<span class="lenguaje-codigo">JavaScript</span>
+<button class="boton-copiar" type="button">
+              📋 Copiar código
+            </button>
+</div>
+<pre><code>function calcularMedia(...notas) {
+  if (notas.length === 0) {
+    return null;
+  }
+
+  let suma = 0;
+
+  for (const nota of notas) {
+    suma += nota;
+  }
+
+  return suma / notas.length;
+}
+
+console.log(calcularMedia(6, 8, 10));
+console.log(calcularMedia(5, 7));
+console.log(calcularMedia());</code></pre>
+</div>
+<p><strong>Salida por consola:</strong></p>
+<div class="bloque-codigo">
+<div class="cabecera-codigo">
+<span class="lenguaje-codigo">Consola</span>
+<button class="boton-copiar" type="button">
+              📋 Copiar código
+            </button>
+</div>
+<pre><code>8
+6
+null</code></pre>
+</div>
+<p>
+          Hemos decidido devolver <code>null</code> cuando no existen
+          notas, porque no tiene sentido calcular una media sin datos.
+          Es una decisión de diseño de nuestra función; también
+          podríamos optar por mostrar un mensaje o lanzar un error,
+          según los requisitos.
+        </p>
+<div class="caja caja-ejemplo">
+<span class="caja-titulo">💻 Ejemplo DAW</span>
+<p>
+            Una plataforma educativa puede utilizar una función
+            con rest para calcular la media de un conjunto variable
+            de calificaciones, sin tener que declarar una función
+            diferente para cada número de actividades.
+          </p>
+</div>
+
+<!-- 8 -->
+<h2 id="combinar-parametros">
+          Combinar parámetros normales, por defecto y rest
+        </h2>
+<p>
+          Una función puede tener parámetros normales, parámetros
+          con valores por defecto y un parámetro rest.
+          El parámetro rest debe colocarse
+          <strong>siempre en último lugar</strong>.
+        </p>
+<div class="bloque-codigo">
+<div class="cabecera-codigo">
+<span class="lenguaje-codigo">JavaScript</span>
+<button class="boton-copiar" type="button">
+              📋 Copiar código
+            </button>
+</div>
+<pre><code>function registrarPedido(cliente, envio = "estándar", ...productos) {
+  console.log("Cliente: " + cliente);
+  console.log("Envío: " + envio);
+  console.log("Productos: " + productos.join(", "));
+}
+
+registrarPedido("Laura", "urgente", "Teclado", "Ratón");
+registrarPedido("Pablo", undefined, "Monitor");</code></pre>
+</div>
+<p><strong>Salida por consola:</strong></p>
+<div class="bloque-codigo">
+<div class="cabecera-codigo">
+<span class="lenguaje-codigo">Consola</span>
+<button class="boton-copiar" type="button">
+              📋 Copiar código
+            </button>
+</div>
+<pre><code>Cliente: Laura
+Envío: urgente
+Productos: Teclado, Ratón
+Cliente: Pablo
+Envío: estándar
+Productos: Monitor</code></pre>
+</div>
+<p>
+          En la primera llamada, <code>cliente</code> recibe
+          <code>"Laura"</code>, <code>envio</code> recibe
+          <code>"urgente"</code> y <code>productos</code>
+          reúne los dos argumentos restantes.
+        </p>
+<p>
+          En la segunda llamada, <code>undefined</code> activa
+          el envío predeterminado.
+        </p>
+<h3>Restricciones importantes</h3>
+<ul>
+<li>
+            Una función solo puede declarar
+            <strong>un parámetro rest</strong>.
+          </li>
+<li>
+            El parámetro rest debe ser
+            <strong>el último</strong> de la lista.
+          </li>
+<li>
+            No puede tener un valor por defecto propio, porque ya
+            recibe un array vacío cuando no quedan argumentos.
+          </li>
+</ul>
+<div class="bloque-codigo">
+<div class="cabecera-codigo">
+<span class="lenguaje-codigo">JavaScript</span>
+<button class="boton-copiar" type="button">
+              📋 Copiar código
+            </button>
+</div>
+<pre><code>// Incorrecto: rest no puede ir antes de otro parámetro.
+// function ejemplo(...numeros, nombre) { }
+
+// Incorrecto: rest no puede tener un valor por defecto.
+// function ejemplo(...numeros = []) { }
+
+// Correcto:
+function ejemplo(nombre, ...numeros) {
+  console.log(nombre, numeros);
+}</code></pre>
+</div>
+<div class="caja caja-atencion">
+<span class="caja-titulo">⚠️ Atención</span>
+<p>
+            El código incorrecto de los comentarios es ilustrativo:
+            si intentaras declararlo sin comentar, JavaScript
+            produciría un <code>SyntaxError</code>.
+            Recuerda que el parámetro rest debe ocupar
+            la última posición.
+          </p>
+</div>
+<!-- 9 -->
+<h2 id="rest-spread">
+          Diferencia entre rest y spread
+        </h2>
+<p>
+          Los tres puntos <code>...</code> también aparecen
+          en otra característica de JavaScript:
+          la <strong>sintaxis spread</strong> (expansión).
+        </p>
+<p>
+          Aunque comparten el mismo símbolo, su función depende
+          del lugar donde se escriben.
+        </p>
+<ul>
+<li>
+<strong>Rest:</strong> en la declaración de parámetros,
+            <strong>agrupa</strong> argumentos en un array.
+          </li>
+<li>
+<strong>Spread:</strong> en una llamada a función
+            o en determinadas expresiones,
+            <strong>expande</strong> los elementos de un iterable,
+            como un array.
+          </li>
+</ul>
+<div class="bloque-codigo">
+<div class="cabecera-codigo">
+<span class="lenguaje-codigo">JavaScript</span>
+<button class="boton-copiar" type="button">
+              📋 Copiar código
+            </button>
+</div>
+<pre><code>function sumar(...numeros) { // Rest: agrupa
+  let total = 0;
+
+  for (const numero of numeros) {
+    total += numero;
+  }
+
+  return total;
+}
+
+const importes = [10, 20, 30];
+
+console.log(sumar(...importes)); // Spread: expande</code></pre>
+</div>
+<p><strong>Salida por consola:</strong></p>
+<div class="bloque-codigo">
+<div class="cabecera-codigo">
+<span class="lenguaje-codigo">Consola</span>
+<button class="boton-copiar" type="button">
+              📋 Copiar código
+            </button>
+</div>
+<pre><code>60</code></pre>
+</div>
+<p>
+          En <code>function sumar(...numeros)</code>, rest crea
+          el array de parámetros.
+        </p>
+<p>
+          En <code>sumar(...importes)</code>, spread toma los
+          elementos del array <code>importes</code> y los
+          proporciona como argumentos individuales.
+        </p>
+<h3>Qué ocurre si no utilizamos spread</h3>
+<div class="bloque-codigo">
+<div class="cabecera-codigo">
+<span class="lenguaje-codigo">JavaScript</span>
+<button class="boton-copiar" type="button">
+              📋 Copiar código
+            </button>
+</div>
+<pre><code>function contarArgumentos(...valores) {
+  console.log(valores.length);
+}
+
+const numeros = [10, 20, 30];
+
+contarArgumentos(numeros);
+contarArgumentos(...numeros);</code></pre>
+</div>
+<p><strong>Salida por consola:</strong></p>
+<div class="bloque-codigo">
+<div class="cabecera-codigo">
+<span class="lenguaje-codigo">Consola</span>
+<button class="boton-copiar" type="button">
+              📋 Copiar código
+            </button>
+</div>
+<pre><code>1
+3</code></pre>
+</div>
+<p>
+          La primera llamada pasa <strong>un único argumento</strong>:
+          el array completo.
+        </p>
+<p>
+          La segunda pasa <strong>tres argumentos</strong>:
+          sus elementos individuales.
+        </p>
+<div class="caja caja-importante">
+<span class="caja-titulo">📌 Importante</span>
+<p>
+    Aunque rest y spread utilizan los mismos
+    tres puntos (<code>...</code>), realizan
+    operaciones diferentes:
+  </p>
+<ul>
+<li>
+<strong>Rest agrupa:</strong>
+      varios argumentos se convierten en un array.
+    </li>
+<li>
+<strong>Spread expande:</strong>
+      los elementos de un array se proporcionan
+      como argumentos individuales.
+    </li>
+</ul>
+<p>
+    Recuerda: <strong>rest agrupa y spread expande</strong>.
+  </p>
+</div>
+
+<!-- 10 -->
+<h2 id="errores-frecuentes">
+          Errores frecuentes y buenas prácticas
+        </h2>
+<h3>1. Confundir un argumento omitido con null</h3>
+<p>
+          El valor por defecto no se aplica cuando se pasa
+          <code>null</code>. Si una aplicación permite ese valor,
+          hay que decidir expresamente cómo tratarlo.
+        </p>
+<h3>2. Pensar que rest es un número o una cadena</h3>
+<p>
+          Rest siempre construye un array con los argumentos
+          restantes. Para obtener su suma, media o concatenación,
+          debemos recorrerlo o utilizar los métodos correspondientes.
+        </p>
+<h3>3. Olvidar el orden de los argumentos</h3>
+<p>
+          Los argumentos se asignan por posición. Un parámetro
+          opcional intermedio puede requerir pasar
+          <code>undefined</code> para conservar su valor
+          predeterminado.
+        </p>
+<h3>4. No comprobar si se han recibido datos</h3>
+<p>
+          Antes de calcular una media, un máximo o un mínimo
+          con rest, comprueba si el array contiene elementos.
+          De lo contrario, podrías obtener <code>NaN</code>,
+          <code>Infinity</code> u otro resultado no deseado.
+        </p>
+<h3>5. No validar los tipos de datos</h3>
+<p>
+          Rest permite recibir una cantidad variable de argumentos,
+          pero no garantiza que todos sean números.
+          En aplicaciones reales debemos validar los datos cuando
+          proceden de formularios, peticiones o entradas del usuario.
+        </p>
+<div class="bloque-codigo">
+<div class="cabecera-codigo">
+<span class="lenguaje-codigo">JavaScript</span>
+<button class="boton-copiar" type="button">
+              📋 Copiar código
+            </button>
+</div>
+<pre><code>function sumarNumeros(...valores) {
+  for (const valor of valores) {
+    if (typeof valor !== "number" || !Number.isFinite(valor)) {
+      return null;
+    }
+  }
+
+  let suma = 0;
+
+  for (const valor of valores) {
+    suma += valor;
+  }
+
+  return suma;
+}
+
+console.log(sumarNumeros(10, 20, 5));
+console.log(sumarNumeros(10, "20"));</code></pre>
+</div>
+<p><strong>Salida por consola:</strong></p>
+<div class="bloque-codigo">
+<div class="cabecera-codigo">
+<span class="lenguaje-codigo">Consola</span>
+<button class="boton-copiar" type="button">
+              📋 Copiar código
+            </button>
+</div>
+<pre><code>35
+null</code></pre>
+</div>
+<p>
+          Esta versión devuelve <code>null</code> si encuentra
+          un valor que no sea un número finito.
+          Así evitamos que una cadena convierta la suma en una
+          concatenación inesperada.
+        </p>
+<div class="caja caja-atencion">
+<span class="caja-titulo">⚠️ Atención</span>
+<p>
+            Los parámetros por defecto y rest mejoran la flexibilidad
+            de las funciones, pero no sustituyen la validación
+            de datos. Una función puede recibir argumentos válidos
+            en cantidad y, aun así, recibir valores incorrectos
+            en tipo o contenido.
+          </p>
+</div>
+<!-- 11 -->
+<h2 id="comparacion">
+          Comparación entre parámetros habituales, por defecto y rest
+        </h2>
+<div class="tabla-responsive">
+<table>
+<thead>
+<tr>
+<th>Tipo de parámetro</th>
+<th>Ejemplo</th>
+<th>Comportamiento</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Habitual</td>
+<td><code>precio</code></td>
+<td>
+                  Recibe el argumento de su posición;
+                  si falta, vale <code>undefined</code>.
+                </td>
+</tr>
+<tr>
+<td>Por defecto</td>
+<td><code>unidades = 1</code></td>
+<td>
+                  Utiliza <code>1</code> cuando recibe
+                  <code>undefined</code>.
+                </td>
+</tr>
+<tr>
+<td>Rest</td>
+<td><code>...precios</code></td>
+<td>
+                  Reúne los argumentos restantes en un array
+                  y debe ir al final.
+                </td>
+</tr>
+</tbody>
+</table>
+</div>
+
+<!-- 12 -->
+<h2 id="ejemplo-completo">
+          Ejemplo práctico completo: calcular presupuestos
+          de una tienda online
+        </h2>
+<p>
+          Vamos a reunir los conceptos en un pequeño programa
+          de una tienda tecnológica.
+        </p>
+<p>
+          Queremos calcular presupuestos a partir de una cantidad
+          variable de precios y aplicar, si no se indica lo contrario,
+          un descuento del <strong>0 %</strong> y unos gastos
+          de envío de <strong>4,95 €</strong>.
+        </p>
+<p>
+          Para facilitar las llamadas, diseñaremos dos funciones:
+          una suma importes mediante rest y otra calcula el presupuesto
+          con parámetros por defecto.
+        </p>
+<div class="bloque-codigo">
+<div class="cabecera-codigo">
+<span class="lenguaje-codigo">JavaScript</span>
+<button class="boton-copiar" type="button">
+              📋 Copiar código
+            </button>
+</div>
+<pre><code>// Suma cualquier cantidad de importes.
+function sumarImportes(...importes) {
+  let total = 0;
+
+  for (const importe of importes) {
+    total += importe;
+  }
+
+  return total;
+}
+
+// Aplica descuento y añade gastos de envío.
+function calcularPresupuesto(subtotal, descuento = 0, envio = 4.95) {
+  const importeDescuento = subtotal * descuento / 100;
+  return subtotal - importeDescuento + envio;
+}
+
+// Productos seleccionados.
+const preciosCarrito = [50, 20, 150];
+
+// Spread envía cada precio como argumento individual.
+const subtotal = sumarImportes(...preciosCarrito);
+
+const presupuestoNormal = calcularPresupuesto(subtotal);
+const presupuestoPromocion = calcularPresupuesto(subtotal, 10);
+const presupuestoRecogida = calcularPresupuesto(subtotal, 10, 0);
+
+console.log("Subtotal: " + subtotal.toFixed(2) + " €");
+console.log("Normal: " + presupuestoNormal.toFixed(2) + " €");
+console.log("Promoción: " + presupuestoPromocion.toFixed(2) + " €");
+console.log("Recogida: " + presupuestoRecogida.toFixed(2) + " €");</code></pre>
+</div>
+<p><strong>Salida por consola:</strong></p>
+<div class="bloque-codigo">
+<div class="cabecera-codigo">
+<span class="lenguaje-codigo">Consola</span>
+<button class="boton-copiar" type="button">
+              📋 Copiar código
+            </button>
+</div>
+<pre><code>Subtotal: 220.00 €
+Normal: 224.95 €
+Promoción: 202.95 €
+Recogida: 198.00 €</code></pre>
+</div>
+<h3>Análisis paso a paso</h3>
+<ol>
+<li>
+            El array <code>preciosCarrito</code> contiene tres precios:
+            50, 20 y 150 euros.
+          </li>
+<li>
+<code>sumarImportes(...preciosCarrito)</code> utiliza
+            spread para enviar los tres precios como argumentos separados.
+          </li>
+<li>
+            El parámetro rest <code>...importes</code> los reúne
+            en un array y devuelve un subtotal de
+            <strong>220 €</strong>.
+          </li>
+<li>
+<code>calcularPresupuesto(subtotal)</code> utiliza
+            los valores predeterminados: descuento 0 % y envío 4,95 €.
+            Resultado: <strong>224,95 €</strong>.
+          </li>
+<li>
+<code>calcularPresupuesto(subtotal, 10)</code> aplica
+            un descuento del 10 % (22 €) y mantiene el envío
+            de 4,95 €. Resultado: <strong>202,95 €</strong>.
+          </li>
+<li>
+<code>calcularPresupuesto(subtotal, 10, 0)</code> aplica
+            el mismo descuento, pero establece el envío en 0 €.
+            Resultado: <strong>198 €</strong>.
+          </li>
+</ol>
+<div class="caja caja-ejemplo">
+<span class="caja-titulo">💻 Ejemplo DAW</span>
+<p>
+            Este patrón puede utilizarse en el desarrollo de un carrito
+            de compra, una calculadora de presupuestos o una herramienta
+            de facturación.
+          </p>
+<p>
+            La función que suma importes acepta una cantidad variable
+            de productos; la función que calcula el presupuesto permite
+            configurar únicamente las opciones necesarias.
+          </p>
+</div>
+<!-- PIENSA -->
+<h3>💭 Piensa</h3>
+<p>
+          Observa el siguiente programa <strong>sin ejecutarlo</strong>.
+          Intenta responder a las preguntas antes de consultar
+          la solución.
+        </p>
+<div class="bloque-codigo">
+<div class="cabecera-codigo">
+<span class="lenguaje-codigo">JavaScript</span>
+<button class="boton-copiar" type="button">
+              📋 Copiar código
+            </button>
+</div>
+<pre><code>function crearMensaje(usuario = "Invitado", ...acciones) {
+  console.log("Usuario: " + usuario);
+  console.log("Acciones: " + acciones.length);
+  console.log(acciones.join(" | "));
+}
+
+const historial = ["entrar", "consultar", "salir"];
+
+crearMensaje("Lucía", ...historial);
+crearMensaje(undefined, "entrar");
+crearMensaje("Mario");</code></pre>
+</div>
+<ol>
+<li>
+            ¿Qué valor recibe el parámetro <code>usuario</code>
+            en cada llamada?
+          </li>
+<li>
+            ¿Qué contiene el array <code>acciones</code>
+            en cada caso?
+          </li>
+<li>
+            ¿Por qué se utiliza <code>...</code>
+            delante de <code>historial</code>?
+          </li>
+<li>
+            ¿Cuántas acciones se mostrarán en cada llamada?
+          </li>
+<li>
+            ¿Qué mostrará <code>join(" | ")</code>
+            cuando el array esté vacío?
+          </li>
+<li>
+            ¿Cuál será la salida completa de la consola?
+          </li>
+</ol>
+<details>
+<summary>Ver solución razonada</summary>
+<div class="solucion">
+<p>
+<strong>1.</strong> En la primera llamada,
+              <code>usuario</code> recibe <code>"Lucía"</code>;
+              en la segunda, <code>undefined</code> activa
+              el valor <code>"Invitado"</code>;
+              en la tercera, recibe <code>"Mario"</code>.
+            </p>
+<p>
+<strong>2.</strong> Los arrays <code>acciones</code>
+              son, respectivamente:
+              <code>["entrar", "consultar", "salir"]</code>,
+              <code>["entrar"]</code> y <code>[]</code>.
+            </p>
+<p>
+<strong>3.</strong> <code>...historial</code> es spread:
+              expande los tres elementos del array para proporcionarlos
+              como argumentos individuales.
+            </p>
+<p>
+<strong>4.</strong> Se muestran 3, 1 y 0 acciones.
+            </p>
+<p>
+<strong>5.</strong> Cuando el array está vacío,
+              <code>join(" | ")</code> devuelve una cadena vacía
+              y <code>console.log()</code> muestra una línea
+              en blanco.
+            </p>
+<p>
+<strong>6.</strong> La salida completa es:
+            </p>
+<div class="bloque-codigo">
+<div class="cabecera-codigo">
+<span class="lenguaje-codigo">Consola</span>
+<button class="boton-copiar" type="button">
+                  📋 Copiar código
+                </button>
+</div>
+<pre><code>Usuario: Lucía
+Acciones: 3
+entrar | consultar | salir
+Usuario: Invitado
+Acciones: 1
+entrar
+Usuario: Mario
+Acciones: 0
+</code></pre>
+</div>
+<p>
+              La última línea de la salida está vacía porque
+              no se proporcionan acciones en la tercera llamada.
+            </p>
+</div>
+</details>
+</section>
+
+<!-- NAVEGACIÓN ENTRE APARTADOS -->
+<nav aria-label="Navegación entre apartados" class="navegacion-paginas">
+<a class="nav-pagina nav-anterior" href="../5-6/index.html">
+<span class="nav-etiqueta">Anterior</span>
+<strong>
+            ‹ 5.6 Paso de valores y referencias a funciones
+          </strong>
+</a>
+<a class="nav-pagina nav-siguiente" href="../5-8/index.html">
+<span class="nav-etiqueta">Siguiente</span>
+<strong>
+            5.8 Expresiones de función y funciones flecha ›
+          </strong>
+</a>
+</nav>
+</main>
+
+<!-- ÍNDICE DERECHO -->
+<aside aria-label="Índice del apartado" class="indice-derecho">
+<h2>Contenidos del apartado</h2>
+<ul>
+<li>
+<a href="#argumentos-omitidos">
+            Argumentos omitidos
+          </a>
+</li>
+<li>
+<a href="#parametros-defecto">
+            Parámetros por defecto
+          </a>
+</li>
+<li>
+<a href="#undefined-null">
+            undefined, null y otros valores
+          </a>
+</li>
+<li>
+<a href="#orden-parametros">
+            Orden de los parámetros
+          </a>
+</li>
+<li>
+<a href="#introduccion-rest">
+            Argumentos variables
+          </a>
+</li>
+<li>
+<a href="#sintaxis-rest">
+            Sintaxis rest (...)
+          </a>
+</li>
+<li>
+<a href="#rest-calculos">
+            Cálculos con rest
+          </a>
+</li>
+<li>
+<a href="#combinar-parametros">
+            Combinar parámetros
+          </a>
+</li>
+<li>
+<a href="#rest-spread">
+            Rest y spread
+          </a>
+</li>
+<li>
+<a href="#errores-frecuentes">
+            Errores y buenas prácticas
+          </a>
+</li>
+<li>
+<a href="#comparacion">
+            Comparación
+          </a>
+</li>
+<li>
+<a href="#ejemplo-completo">
+            Ejemplo práctico completo
+          </a>
+</li>
+</ul>
+</aside>
+</div>
+
+<!-- PIE DE PÁGINA -->
+<footer class="footer">
+<p>
+      Material elaborado por
+      <strong>Eva Ballestero Cubeles</strong>
+      · Licencia
+      <span class="licencia">CC BY-NC-SA 4.0</span>
+<a aria-label="Licencia Creative Commons BY-NC-SA 4.0" class="enlace-licencia" href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.es" rel="license noopener noreferrer" target="_blank">
+<img alt="Licencia Creative Commons BY-NC-SA 4.0" class="icono-licencia" src="../../../img/licencias/cc-by-nc-sa.png"/>
+</a>
+</p>
+</footer>
+
+<!-- JAVASCRIPT COMÚN -->
+<script src="../../../js/modulos.js"></script>
+<script>
+    const menuModulos = document.getElementById("menuModulos");
+    const botonTema = document.getElementById("botonTema");
+
+    const modulosActivos =
+      modulos.filter(modulo => modulo.activo === true);
+
+    modulosActivos.forEach(modulo => {
+      const enlace = document.createElement("a");
+
+      enlace.href = `../../../${modulo.carpeta}/index.html`;
+      enlace.textContent = modulo.siglas;
+      enlace.title = modulo.nombre;
+
+      if (modulo.siglas === "DWEC") {
+        enlace.style.color = "var(--verde-principal)";
+      }
+
+      menuModulos.appendChild(enlace);
+    });
+
+    /* MODO OSCURO */
+    const temaGuardado = localStorage.getItem("tema");
+
+    if (temaGuardado === "oscuro") {
+      document.body.classList.add("modo-oscuro");
+      botonTema.textContent = "🌙";
+    }
+
+    botonTema.addEventListener("click", () => {
+      document.body.classList.toggle("modo-oscuro");
+
+      const estaOscuro =
+        document.body.classList.contains("modo-oscuro");
+
+      botonTema.textContent = estaOscuro ? "🌙" : "☀️";
+
+      localStorage.setItem(
+        "tema",
+        estaOscuro ? "oscuro" : "claro"
+      );
+    });
+
+    /* MENÚS DESPLEGABLES */
+    const botonesDesplegar =
+      document.querySelectorAll(".boton-desplegar");
+
+    botonesDesplegar.forEach(boton => {
+      boton.addEventListener("click", () => {
+        const idSubmenu = boton.getAttribute("data-target");
+        const submenu = document.getElementById(idSubmenu);
+
+        if (!submenu) return;
+
+        const estaAbierto =
+          submenu.classList.contains("submenu-abierto");
+
+        submenu.classList.toggle("submenu-abierto");
+
+        boton.textContent = estaAbierto ? "›" : "⌄";
+        boton.setAttribute(
+          "aria-expanded",
+          estaAbierto ? "false" : "true"
+        );
+      });
+    });
+
+    /* COPIAR BLOQUES DE CÓDIGO */
+    document.addEventListener("click", async evento => {
+      const boton = evento.target.closest(".boton-copiar");
+
+      if (!boton) return;
+
+      const bloque = boton.closest(".bloque-codigo");
+      if (!bloque) return;
+
+      const codigo = bloque.querySelector("code");
+      if (!codigo) return;
+
+      const textoOriginal = boton.textContent;
+
+      try {
+        await navigator.clipboard.writeText(codigo.textContent);
+        boton.textContent = "✔ Copiado";
+      } catch (error) {
+        boton.textContent = "Error al copiar";
+      }
+
+      setTimeout(() => {
+        boton.textContent = textoOriginal;
+      }, 1600);
+    });
+  </script>
+</body>
+</html>
