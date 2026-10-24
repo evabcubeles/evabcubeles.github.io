@@ -718,9 +718,9 @@
         text-align: left;
       }
 
-      .esquema-fila {
-        grid-template-columns: 1fr;
-      }
+.esquema-fila {
+  grid-template-columns: 1fr !important;
+}
     }
   </style>
 </head>
@@ -1903,17 +1903,29 @@ function mostrarBienvenida() {
           </table>
         </div>
 
-        <div class="caja caja-atencion">
-          <span class="caja-titulo">⚠️ Atención</span>
-          <p>
-            No todas las formas de crear funciones se comportan igual
-            respecto al hoisting. Por ejemplo, las funciones asignadas
-            a variables declaradas con <code>const</code> o
-            <code>let</code> no pueden utilizarse antes de que se
-            ejecute su inicialización. Estudiaremos esas expresiones
-            de función en el apartado 5.8.
-          </p>
-        </div>
+<div class="caja caja-atencion">
+  <span class="caja-titulo">⚠️ Atención</span>
+  <p>
+    El hoisting no afecta de la misma manera a todas las formas
+    de crear funciones.
+  </p>
+  <p>
+    Las declaraciones realizadas mediante
+    <code>function nombreFuncion() { }</code>
+    pueden utilizarse antes de su posición en el código,
+    siempre que estén disponibles en el ámbito correspondiente.
+  </p>
+  <p>
+    Sin embargo, cuando asignamos una función a una variable
+    declarada con <code>let</code> o <code>const</code>,
+    no podemos utilizar esa variable antes de que se
+    ejecute su inicialización.
+  </p>
+  <p>
+    Estudiaremos estas diferencias con mayor profundidad
+    en el apartado 5.8.
+  </p>
+</div>
 
         <p>
           Aunque JavaScript permita llamar a determinadas funciones
@@ -2021,32 +2033,39 @@ Fin del informe</code></pre>
           </li>
         </ol>
 
-        <div class="esquema-web">
-          <div class="esquema-fila">
+<div class="esquema-web">
 
-            <div class="esquema-caja">
-              <strong>mostrarInforme()</strong>
-              <span>
-                Coordina la generación del informe.
-              </span>
-            </div>
+  <div class="esquema-caja">
+    <strong>mostrarInforme()</strong>
+    <span>
+      Función principal que coordina el informe.
+    </span>
+  </div>
 
-            <div class="esquema-caja">
-              <strong>mostrarCabecera()</strong>
-              <span>
-                Presenta el título y el separador.
-              </span>
-            </div>
+  <p style="text-align: center; margin: 12px 0;">
+    ↓ Realiza llamadas a ↓
+  </p>
 
-            <div class="esquema-caja">
-              <strong>mostrarProductos()</strong>
-              <span>
-                Presenta los productos disponibles.
-              </span>
-            </div>
+  <div class="esquema-fila"
+       style="grid-template-columns: repeat(2, 1fr);">
 
-          </div>
-        </div>
+    <div class="esquema-caja">
+      <strong>mostrarCabecera()</strong>
+      <span>
+        Muestra el título y el separador.
+      </span>
+    </div>
+
+    <div class="esquema-caja">
+      <strong>mostrarProductos()</strong>
+      <span>
+        Muestra los productos disponibles.
+      </span>
+    </div>
+
+  </div>
+
+</div>
 
         <p>
           Observa que cada función tiene una responsabilidad
@@ -2257,6 +2276,60 @@ console.log("Programa terminado");</code></pre>
             llaves se encuentran en su posición adecuada.
           </p>
         </div>
+        <h3>6. Intentar ejecutar un valor que no es una función</h3>
+
+<p>
+  No todos los valores almacenados en una variable
+  pueden ejecutarse mediante paréntesis.
+</p>
+
+<p>
+  Si una variable contiene, por ejemplo, un número
+  e intentamos utilizarla como si fuera una función,
+  JavaScript producirá un error.
+</p>
+
+<div class="bloque-codigo">
+  <div class="cabecera-codigo">
+    <span class="lenguaje-codigo">JavaScript</span>
+    <button class="boton-copiar" type="button">
+      📋 Copiar código
+    </button>
+  </div>
+  <pre><code>const precio = 25;
+
+precio(); // Error: precio no es una función</code></pre>
+</div>
+
+<p>
+  En este caso, JavaScript mostrará un error similar a:
+</p>
+
+<div class="bloque-codigo">
+  <div class="cabecera-codigo">
+    <span class="lenguaje-codigo">Consola</span>
+    <button class="boton-copiar" type="button">
+      📋 Copiar código
+    </button>
+  </div>
+  <pre><code>TypeError: precio is not a function</code></pre>
+</div>
+
+<p>
+  La variable <code>precio</code> contiene el número
+  <code>25</code>, no una función. Por tanto,
+  no podemos invocarla mediante <code>precio()</code>.
+</p>
+
+<div class="caja caja-importante">
+  <span class="caja-titulo">📌 Importante</span>
+  <p>
+    Un <code>ReferenceError</code> puede producirse cuando
+    intentamos utilizar un identificador que no está definido.
+    Un <code>TypeError</code> puede producirse cuando
+    intentamos ejecutar un valor que no es una función.
+  </p>
+</div>
 
         <!-- ==========================================
              BUENAS PRÁCTICAS
