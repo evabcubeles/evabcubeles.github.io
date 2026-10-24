@@ -2323,6 +2323,18 @@ producto.mostrarNombre();</code></pre>
 // Este código produce un error.
 const teclado = new Producto("Teclado");</code></pre>
 </div>
+  
+<p><strong>Salida por consola:</strong></p>
+
+<div class="bloque-codigo">
+  <div class="cabecera-codigo">
+    <span class="lenguaje-codigo">Consola</span>
+    <button class="boton-copiar" type="button">📋 Copiar código</button>
+  </div>
+  <pre><code>TypeError: Producto is not a constructor</code></pre>
+</div>
+
+
 
 <p>
   Al intentar ejecutar <code>new Producto("Teclado")</code>,
@@ -2330,6 +2342,13 @@ const teclado = new Producto("Teclado");</code></pre>
   porque <code>Producto</code> es una función flecha
   y no puede utilizarse como constructor.
 </p>
+
+<p>
+  El mensaje exacto del error puede variar según
+  el navegador o el entorno de ejecución, pero
+  el tipo de error será <code>TypeError</code>.
+</p>
+
 
 <div class="caja caja-atencion">
   <span class="caja-titulo">⚠️ Atención</span>
