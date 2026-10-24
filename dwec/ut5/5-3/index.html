@@ -1727,10 +1727,22 @@ mostrarTotal(20);</code></pre>
           <code>undefined</code>.
         </p>
 
-        <p>
-          La multiplicación produce <code>NaN</code>,
-          que representa un resultado numérico no válido.
-        </p>
+<p>
+  La multiplicación produce <code>NaN</code>,
+  que significa <em>Not a Number</em>
+  («no es un número»). Se trata de un valor especial
+  de JavaScript que indica que una operación numérica
+  no ha producido un resultado numérico válido.
+</p>
+
+<div class="caja caja-importante">
+  <span class="caja-titulo">📌 Importante</span>
+  <p>
+    Aunque su nombre pueda resultar confuso,
+    <code>NaN</code> pertenece al tipo de dato
+    <code>number</code> en JavaScript.
+  </p>
+</div>
 
         <div class="bloque-codigo">
           <div class="cabecera-codigo">
@@ -1770,11 +1782,24 @@ mostrarNombre("Sara", 25, "Zaragoza");</code></pre>
           <pre><code>Nombre: Sara</code></pre>
         </div>
 
-        <p>
-          La función únicamente utiliza el primer argumento
-          porque solo hemos declarado un parámetro.
-          Los demás argumentos no se utilizan en este ejemplo.
-        </p>
+<p>
+  La función únicamente utiliza el primer argumento
+  porque solo hemos declarado un parámetro.
+  Los demás argumentos no se utilizan en este ejemplo.
+</p>
+
+<p>
+  Esto no significa que JavaScript descarte necesariamente
+  los argumentos adicionales. Existen mecanismos que permiten
+  acceder a ellos, aunque no se hayan asignado a parámetros
+  declarados individualmente.
+</p>
+
+<p>
+  En el apartado 5.7 estudiaremos los
+  <strong>parámetros rest</strong>, que permiten
+  recoger varios argumentos en un único parámetro.
+</p>
 
         <div class="tabla-responsive">
           <table class="tabla-apuntes">
