@@ -1967,11 +1967,12 @@ console.log(categorias.length);</code></pre>
 3</code></pre>
         </div>
 
-        <p>
-          La función devuelve un único valor
-          que, en este caso, es una referencia
-          a un array con tres elementos.
-        </p>
+<p>
+  La función devuelve un array con tres elementos.
+  Podemos almacenar ese resultado en una variable
+  y acceder posteriormente a sus elementos
+  mediante sus índices.
+</p>
 
         <div class="caja caja-importante">
           <span class="caja-titulo">📌 Importante</span>
@@ -2525,21 +2526,57 @@ TOTAL: 152.46 €</code></pre>
           las funciones de cálculo.
         </p>
 
-        <div class="caja caja-importante">
-          <span class="caja-titulo">📌 Importante</span>
-          <p>
-            El método <code>toFixed(2)</code>
-            se utiliza aquí para mostrar dos
-            decimales en los importes.
-          </p>
-          <p>
-            Lo estudiaremos con más detalle
-            en el apartado 5.10. Este método
-            devuelve una cadena con el número
-            formateado y no modifica el valor
-            numérico original.
-          </p>
-        </div>
+<div class="caja caja-importante">
+  <span class="caja-titulo">📌 Importante</span>
+
+  <p>
+    El método <code>toFixed(2)</code>
+    se utiliza aquí para mostrar dos
+    decimales en los importes.
+  </p>
+
+  <p>
+    Por ejemplo, observa la diferencia
+    entre mostrar directamente un número
+    y utilizar <code>toFixed(2)</code>:
+  </p>
+
+  <div class="bloque-codigo">
+    <div class="cabecera-codigo">
+      <span class="lenguaje-codigo">JavaScript</span>
+      <button class="boton-copiar" type="button">
+        📋 Copiar código
+      </button>
+    </div>
+    <pre><code>const precio = 140;
+
+console.log(precio);
+console.log(precio.toFixed(2));</code></pre>
+  </div>
+
+  <p>
+    La consola mostrará:
+  </p>
+
+  <div class="bloque-codigo">
+    <div class="cabecera-codigo">
+      <span class="lenguaje-codigo">Consola</span>
+      <button class="boton-copiar" type="button">
+        📋 Copiar código
+      </button>
+    </div>
+    <pre><code>140
+140.00</code></pre>
+  </div>
+
+  <p>
+    Lo estudiaremos con más detalle
+    en el apartado 5.10. Este método
+    devuelve una cadena de texto con
+    el número formateado y no modifica
+    el valor numérico original.
+  </p>
+</div>
 
         <p>
           En aplicaciones comerciales reales,
