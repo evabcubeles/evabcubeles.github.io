@@ -651,12 +651,20 @@ console.log(calcularPrecio(25));</code></pre>
           <pre><code>NaN</code></pre>
         </div>
 
-        <p>
-          La operación es <code>25 * undefined</code>.
-          Como no puede obtenerse un resultado numérico válido,
-          JavaScript devuelve <code>NaN</code>
-          (<em>Not a Number</em>).
-        </p>
+<p>
+  La operación es <code>25 * undefined</code>.
+  Como no puede obtenerse un resultado numérico válido,
+  JavaScript devuelve <code>NaN</code>
+  (<em>Not a Number</em>).
+</p>
+
+<p>
+  Aunque <code>NaN</code> significa
+  <em>Not a Number</em>, en JavaScript es un
+  valor especial del tipo <code>number</code>
+  que indica que una operación numérica no ha
+  producido un resultado válido.
+</p>
 
         <div class="caja caja-atencion">
           <span class="caja-titulo">⚠️ Atención</span>
@@ -1208,6 +1216,45 @@ mostrarProductos();</code></pre>
           con tres elementos. En la segunda contiene uno.
           En la tercera es un array vacío.
         </p>
+        <p>
+  Para comprenderlo mejor, observa este ejemplo:
+</p>
+
+<div class="bloque-codigo">
+  <div class="cabecera-codigo">
+    <span>JavaScript</span>
+    <button class="boton-copiar" type="button">
+      📋 Copiar código
+    </button>
+  </div>
+  <pre><code>function mostrarDatos(...datos) {
+  console.log(datos);
+}
+
+mostrarDatos(10, 20, 30);</code></pre>
+</div>
+
+<p>
+  En este caso, los tres argumentos
+  <code>10</code>, <code>20</code> y
+  <code>30</code> se agrupan automáticamente
+  en un único array.
+</p>
+
+<p>
+  Por tanto, dentro de la función,
+  el parámetro <code>datos</code> contiene:
+</p>
+
+<div class="bloque-codigo">
+  <div class="cabecera-codigo">
+    <span>Consola</span>
+    <button class="boton-copiar" type="button">
+      📋 Copiar código
+    </button>
+  </div>
+  <pre><code>[10, 20, 30]</code></pre>
+</div>
 
         <p>
           Como se trata de un array, podemos utilizar propiedades
@@ -1621,16 +1668,32 @@ contarArgumentos(...numeros);</code></pre>
           sus elementos individuales.
         </p>
 
-        <div class="caja caja-importante">
-          <span class="caja-titulo">📌 Importante</span>
-          <p>
-            El operador <code>...</code> se interpreta según
-            el contexto. En la lista de parámetros de una función
-            hablamos de <strong>rest</strong>; al expandir
-            elementos en una llamada hablamos de
-            <strong>spread</strong>. No son operaciones equivalentes.
-          </p>
-        </div>
+<div class="caja caja-importante">
+  <span class="caja-titulo">📌 Importante</span>
+
+  <p>
+    Aunque rest y spread utilizan los mismos
+    tres puntos (<code>...</code>), realizan
+    operaciones diferentes:
+  </p>
+
+  <ul>
+    <li>
+      <strong>Rest agrupa:</strong>
+      varios argumentos se convierten en un array.
+    </li>
+
+    <li>
+      <strong>Spread expande:</strong>
+      los elementos de un array se proporcionan
+      como argumentos individuales.
+    </li>
+  </ul>
+
+  <p>
+    Recuerda: <strong>rest agrupa y spread expande</strong>.
+  </p>
+</div>
 
         <!-- 10 -->
         <h2 id="errores-frecuentes">
