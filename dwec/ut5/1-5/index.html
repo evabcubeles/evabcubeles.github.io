@@ -1,0 +1,3152 @@
+
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+  <meta charset="UTF-8">
+
+  <meta
+    name="viewport"
+    content="width=device-width, initial-scale=1.0"
+  >
+
+  <meta
+    name="description"
+    content="5.1 - Introducción a las funciones en JavaScript."
+  >
+
+  <title>5.1 - Introducción a las funciones</title>
+
+  <link
+    rel="icon"
+    type="image/png"
+    href="../../../img/favicon.png?v=5"
+  >
+
+  <link
+    rel="stylesheet"
+    href="../../../css/estilos.css"
+  >
+
+  <style>
+
+    /* ==========================================
+       ESTRUCTURA DE LA UT
+    ========================================== */
+
+    .pagina-ut {
+      display: grid;
+      grid-template-columns: 280px 1fr 260px;
+      min-height: calc(100vh - 68px);
+    }
+
+    /* ==========================================
+       COLUMNA IZQUIERDA
+    ========================================== */
+
+    .sidebar {
+      border-right: 1px solid var(--borde);
+      background-color: var(--fondo-pagina);
+      padding: 12px 10px 30px;
+      position: sticky;
+      top: 68px;
+      height: calc(100vh - 68px);
+      overflow-y: auto;
+    }
+
+    .sidebar-modulo {
+      display: block;
+      margin-bottom: 8px;
+      padding: 8px 14px;
+      color: #626873;
+      font-size: 17px;
+      font-weight: 700;
+      line-height: 1.3;
+      text-decoration: none;
+      border-radius: 6px;
+      transition:
+        color 0.2s ease,
+        background-color 0.2s ease;
+    }
+
+    .sidebar-modulo:hover {
+      color: var(--verde-principal);
+      background-color: #f3f4f6;
+    }
+
+    body.modo-oscuro .sidebar-modulo:hover {
+      background-color: #273244;
+    }
+
+    /* ==========================================
+       MENÚ LATERAL DESPLEGABLE
+    ========================================== */
+
+    .menu-desplegable {
+      width: 100%;
+    }
+
+    .menu-cabecera {
+      display: flex;
+      align-items: center;
+      gap: 4px;
+      width: 100%;
+      border-radius: 6px;
+    }
+
+    .menu-cabecera-activa {
+      background-color: #f1f1f1;
+    }
+
+    .menu-cabecera-activa > .menu-titulo {
+      color: var(--verde-principal);
+    }
+
+    .menu-titulo {
+      flex: 1;
+      display: block;
+      padding: 11px 8px 11px 14px;
+      color: #626873;
+      font-size: 16px;
+      font-weight: 650;
+      line-height: 1.4;
+      text-decoration: none;
+    }
+
+    .menu-titulo:hover {
+      color: var(--verde-principal);
+    }
+
+    .boton-desplegar {
+      width: 36px;
+      height: 36px;
+      margin-right: 5px;
+      padding: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+      border: 0;
+      border-radius: 6px;
+      background: transparent;
+      color: #777;
+      font-family: inherit;
+      font-size: 24px;
+      line-height: 1;
+      cursor: pointer;
+    }
+
+    .boton-desplegar:hover {
+      background-color: #e5e7eb;
+      color: var(--verde-principal);
+    }
+
+    .submenu {
+      display: none;
+    }
+
+    .submenu.submenu-abierto {
+      display: block;
+    }
+
+    .menu-apartado {
+      margin-left: 14px;
+    }
+
+    .menu-apartado .menu-titulo {
+      padding-top: 9px;
+      padding-bottom: 9px;
+      font-size: 15px;
+      font-weight: 600;
+    }
+
+    .submenu-apartados {
+      margin: 2px 0 5px 28px;
+      border-left: 2px solid #e0e3e7;
+    }
+
+    .submenu-apartados a {
+      display: block;
+      padding: 7px 10px;
+      color: #777d87;
+      font-size: 14px;
+      font-weight: 500;
+      line-height: 1.35;
+      text-decoration: none;
+    }
+
+    .submenu-apartados a:hover {
+      color: var(--verde-principal);
+    }
+
+    .enlace-apartado-simple {
+      display: block;
+      margin-left: 14px;
+      padding: 10px 14px;
+      color: #626873;
+      font-size: 15px;
+      font-weight: 600;
+      line-height: 1.4;
+      text-decoration: none;
+      border-radius: 6px;
+      transition:
+        background-color 0.2s ease,
+        color 0.2s ease;
+    }
+
+    .enlace-apartado-simple:hover {
+      background-color: #f3f4f6;
+      color: var(--verde-principal);
+    }
+
+    body.modo-oscuro .menu-cabecera-activa {
+      background-color: #273244;
+    }
+
+    body.modo-oscuro .boton-desplegar:hover {
+      background-color: #334155;
+    }
+
+    body.modo-oscuro .enlace-apartado-simple:hover {
+      background-color: #273244;
+    }
+
+    body.modo-oscuro .submenu-apartados {
+      border-left-color: #3a4659;
+    }
+
+    /* ==========================================
+       RESTO DE UT
+    ========================================== */
+
+    .sidebar-ut-cerrada {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      padding: 13px 14px;
+      color: #626873;
+      text-decoration: none;
+      font-size: 16px;
+      font-weight: 650;
+      line-height: 1.35;
+      border-radius: 6px;
+      transition:
+        background-color 0.2s ease,
+        color 0.2s ease;
+    }
+
+    .sidebar-ut-cerrada:hover {
+      background-color: #f3f4f6;
+      color: var(--verde-principal);
+    }
+
+    body.modo-oscuro .sidebar-ut-cerrada:hover {
+      background-color: #273244;
+    }
+
+    /* ==========================================
+       ZONA CENTRAL
+    ========================================== */
+
+    .contenido-ut {
+      padding: 28px 34px 70px;
+      max-width: 1150px;
+      width: 100%;
+      min-width: 0;
+      box-sizing: border-box;
+    }
+
+    .migas {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 30px;
+      font-size: 14px;
+    }
+
+    .miga-inicio {
+      text-decoration: none;
+      font-size: 18px;
+    }
+
+    .miga-separador {
+      color: #999;
+      font-size: 22px;
+    }
+
+    .miga-modulo {
+      color: var(--texto-secundario);
+      text-decoration: none;
+    }
+
+    .miga-modulo:hover {
+      color: var(--verde-principal);
+    }
+
+    .miga-actual {
+      padding: 8px 14px;
+      background-color: #f3f3f3;
+      border-radius: 24px;
+      color: var(--verde-principal);
+    }
+
+    body.modo-oscuro .miga-actual {
+      background-color: #273244;
+    }
+
+    .contenido-ut h1 {
+      margin: 0 0 30px;
+      font-size: clamp(38px, 5vw, 58px);
+      line-height: 1.12;
+    }
+
+    /* ==========================================
+       CONTENIDO DE LOS APARTADOS
+    ========================================== */
+
+    .apartado-ut {
+      margin-top: 55px;
+      scroll-margin-top: 95px;
+    }
+
+    .apartado-ut h2 {
+      margin: 0 0 24px;
+      font-size: 32px;
+      line-height: 1.2;
+      scroll-margin-top: 95px;
+    }
+
+    .apartado-ut h3 {
+      margin: 34px 0 16px;
+      font-size: 24px;
+      line-height: 1.3;
+    }
+
+    .apartado-ut p {
+      margin: 0 0 18px;
+      font-size: 18px;
+      line-height: 1.75;
+    }
+
+    .apartado-ut ul,
+    .apartado-ut ol {
+      margin: 16px 0 24px;
+      padding-left: 28px;
+    }
+
+    .apartado-ut li {
+      margin-bottom: 10px;
+      font-size: 17px;
+      line-height: 1.6;
+    }
+
+    .apartado-ut p code,
+    .apartado-ut li code,
+    .tabla-apuntes code {
+      font-family:
+        Consolas,
+        "Courier New",
+        monospace;
+      font-size: 0.9em;
+    }
+
+    /* ==========================================
+       CAJAS DE LOS APUNTES
+    ========================================== */
+
+    .caja {
+      margin: 28px 0;
+      padding: 18px 20px;
+      border-left: 5px solid;
+      border-radius: 8px;
+      line-height: 1.65;
+    }
+
+    .caja p {
+      margin: 0;
+      font-size: 17px;
+    }
+
+    .caja-titulo {
+      display: block;
+      margin-bottom: 8px;
+      font-size: 17px;
+      font-weight: 700;
+    }
+
+    .caja-importante {
+      background-color: #eef8f1;
+      border-left-color: #2f9e5b;
+    }
+
+    .caja-atencion {
+      background-color: #fff7e8;
+      border-left-color: #e09b27;
+    }
+
+    .caja-ejemplo {
+      background-color: #eef5ff;
+      border-left-color: #3f7acb;
+    }
+
+    .caja-curiosidad {
+      background-color: #f7f1ff;
+      border-left-color: #8b5cc7;
+    }
+
+    body.modo-oscuro .caja-importante {
+      background-color: #20372a;
+    }
+
+    body.modo-oscuro .caja-atencion {
+      background-color: #3b3020;
+    }
+
+    body.modo-oscuro .caja-ejemplo {
+      background-color: #23344a;
+    }
+
+    body.modo-oscuro .caja-curiosidad {
+      background-color: #332944;
+    }
+
+    /* ==========================================
+       TABLAS
+    ========================================== */
+
+    .tabla-responsive {
+      width: 100%;
+      margin: 28px 0;
+      overflow-x: auto;
+    }
+
+    .tabla-apuntes {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 16px;
+    }
+
+    .tabla-apuntes th,
+    .tabla-apuntes td {
+      padding: 14px 16px;
+      border: 1px solid var(--borde);
+      text-align: left;
+      vertical-align: top;
+      line-height: 1.55;
+    }
+
+    .tabla-apuntes th {
+      background-color: #f1f3f5;
+      font-weight: 700;
+    }
+
+    body.modo-oscuro .tabla-apuntes th {
+      background-color: #273244;
+    }
+
+    /* ==========================================
+       ESQUEMAS VISUALES
+    ========================================== */
+
+    .esquema-web {
+      max-width: 700px;
+      margin: 30px auto;
+    }
+
+    .esquema-fila {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 14px;
+      margin-top: 16px;
+    }
+
+    .esquema-caja {
+      padding: 18px 16px;
+      background-color: var(--fondo-tarjeta);
+      border: 1px solid var(--borde);
+      border-radius: 10px;
+      text-align: center;
+    }
+
+    .esquema-caja strong {
+      display: block;
+      margin-bottom: 5px;
+      color: var(--verde-principal);
+      font-size: 18px;
+    }
+
+    .esquema-caja span {
+      color: var(--texto-secundario);
+      font-size: 15px;
+      line-height: 1.45;
+    }
+
+    /* ==========================================
+       ACTIVIDAD DE REFLEXIÓN
+    ========================================== */
+
+    .actividad-reflexion {
+      margin: 32px 0;
+      padding: 22px 24px;
+      background-color: #f7f8fa;
+      border: 1px solid var(--borde);
+      border-radius: 10px;
+    }
+
+    .actividad-reflexion h3 {
+      margin: 0 0 12px;
+      color: var(--verde-principal);
+      font-size: 20px;
+    }
+
+    .actividad-reflexion p {
+      margin: 0 0 14px;
+      font-size: 17px;
+      line-height: 1.65;
+    }
+
+    body.modo-oscuro .actividad-reflexion {
+      background-color: #232d3d;
+    }
+
+    /* ==========================================
+       SOLUCIÓN DESPLEGABLE
+    ========================================== */
+
+    .solucion-desplegable {
+      margin-top: 20px;
+    }
+
+    .solucion-desplegable summary {
+      display: inline-block;
+      padding: 10px 16px;
+      background-color: #eef8f1;
+      border: 1px solid #b9dfc6;
+      border-radius: 7px;
+      color: var(--verde-principal);
+      font-size: 16px;
+      font-weight: 700;
+      cursor: pointer;
+      user-select: none;
+    }
+
+    .solucion-desplegable summary:hover {
+      background-color: #e2f3e7;
+    }
+
+    .contenido-solucion {
+      margin-top: 16px;
+      padding: 18px 20px;
+      background-color: var(--fondo-pagina);
+      border-left: 4px solid var(--verde-principal);
+      border-radius: 6px;
+    }
+
+    .contenido-solucion p {
+      margin: 0 0 12px;
+      font-size: 16px;
+      line-height: 1.65;
+    }
+
+    .contenido-solucion p:last-child {
+      margin-bottom: 0;
+    }
+
+    body.modo-oscuro .solucion-desplegable summary {
+      background-color: #20372a;
+      border-color: #315d40;
+    }
+
+    /* ==========================================
+       BLOQUES DE CÓDIGO DWEC
+    ========================================== */
+
+    .bloque-codigo {
+      margin: 28px 0;
+      border: 1px solid #3b3b3b;
+      border-radius: 9px;
+      overflow: hidden;
+      background-color: #1e1e1e;
+    }
+
+    .cabecera-codigo {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      padding: 10px 14px;
+      background-color: #2b2b2b;
+      color: #f3f4f6;
+      font-size: 14px;
+    }
+
+    .lenguaje-codigo {
+      font-weight: 700;
+    }
+
+    .boton-copiar {
+      padding: 6px 11px;
+      border: 1px solid #5c5c5c;
+      border-radius: 6px;
+      background-color: #383838;
+      color: #f3f4f6;
+      font-family: inherit;
+      font-size: 13px;
+      cursor: pointer;
+      transition:
+        background-color 0.2s ease,
+        border-color 0.2s ease;
+    }
+
+    .boton-copiar:hover {
+      background-color: #484848;
+      border-color: #777;
+    }
+
+    .bloque-codigo pre {
+      margin: 0;
+      padding: 18px 20px;
+      overflow-x: auto;
+      tab-size: 2;
+    }
+
+    .bloque-codigo code {
+      color: #f5f5f5;
+      font-family:
+        Consolas,
+        "Courier New",
+        monospace;
+      font-size: 15px;
+      line-height: 1.6;
+      white-space: pre;
+    }
+
+    /* ==========================================
+       COLUMNA DERECHA
+    ========================================== */
+
+    .indice-derecho {
+      padding: 28px 22px 100px;
+      border-left: 1px solid var(--borde);
+      position: sticky;
+      top: 68px;
+      height: calc(100vh - 68px);
+      overflow-y: auto;
+      box-sizing: border-box;
+    }
+
+    .indice-derecho h2 {
+      margin: 8px 0 20px;
+      font-size: 17px;
+      color: #555b65;
+    }
+
+    body.modo-oscuro .indice-derecho h2 {
+      color: #d1d5db;
+    }
+
+    .indice-derecho ul {
+      margin: 0;
+      padding-left: 18px;
+    }
+
+    .indice-derecho li {
+      margin-bottom: 12px;
+    }
+
+    .indice-derecho a {
+      color: var(--texto-secundario);
+      text-decoration: none;
+      font-size: 14px;
+      line-height: 1.4;
+    }
+
+    .indice-derecho a:hover {
+      color: var(--verde-principal);
+    }
+
+    /* ==========================================
+       NAVEGACIÓN ANTERIOR / SIGUIENTE
+    ========================================== */
+
+    .navegacion-paginas {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 20px;
+      margin-top: 50px;
+    }
+
+    .nav-pagina {
+      min-height: 100px;
+      padding: 18px 20px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      border: 1px solid var(--borde);
+      border-radius: 8px;
+      text-decoration: none;
+      background-color: var(--fondo-tarjeta);
+    }
+
+    .nav-anterior {
+      align-items: flex-start;
+      text-align: left;
+    }
+
+    .nav-siguiente {
+      align-items: flex-end;
+      text-align: right;
+    }
+
+    .nav-etiqueta {
+      margin-bottom: 5px;
+      color: var(--texto-secundario);
+      font-size: 14px;
+    }
+
+    .nav-pagina strong {
+      color: var(--verde-principal);
+      font-size: 16px;
+      line-height: 1.4;
+    }
+
+    .nav-pagina:hover {
+      border-color: var(--verde-principal);
+    }
+
+    /* ==========================================
+       RESPONSIVE
+    ========================================== */
+
+    @media (max-width: 1100px) {
+
+      .pagina-ut {
+        grid-template-columns: 250px minmax(0, 1fr);
+      }
+
+      .indice-derecho {
+        display: none;
+      }
+
+    }
+
+    @media (max-width: 760px) {
+
+      .pagina-ut {
+        display: block;
+      }
+
+      .sidebar {
+        position: static;
+        width: 100%;
+        height: auto;
+        border-right: 0;
+        border-bottom: 1px solid var(--borde);
+        box-sizing: border-box;
+      }
+
+      .contenido-ut {
+        padding: 28px 20px 60px;
+      }
+
+      .contenido-ut h1 {
+        font-size: 36px;
+      }
+
+      .navegacion-paginas {
+        grid-template-columns: 1fr;
+      }
+
+      .nav-siguiente {
+        align-items: flex-start;
+        text-align: left;
+      }
+
+      .esquema-fila {
+        grid-template-columns: 1fr;
+      }
+
+    }
+
+  </style>
+
+</head>
+
+<body>
+
+  <!-- ==========================================
+       BARRA SUPERIOR
+  ========================================== -->
+
+  <header class="navbar">
+
+    <a class="inicio" href="../../../index.html">
+
+      <img
+        src="../../../img/profesora-castana.png?v=2"
+        alt=""
+        class="icono-profesora"
+      >
+
+      <span>Inicio</span>
+
+    </a>
+
+    <nav
+      id="menuModulos"
+      class="menu-modulos"
+      aria-label="Módulos formativos"
+    ></nav>
+
+    <button
+      id="botonTema"
+      class="boton-tema"
+      type="button"
+      aria-label="Cambiar entre modo claro y oscuro"
+      title="Cambiar tema"
+    >
+      ☀️
+    </button>
+
+  </header>
+
+  <div class="pagina-ut">
+
+    <!-- ==========================================
+         MENÚ LATERAL
+    ========================================== -->
+
+    <aside class="sidebar">
+
+      <a class="sidebar-modulo" href="../../index.html">
+        Desarrollo web en entorno cliente
+      </a>
+
+      <!-- UT1 -->
+
+      <a class="sidebar-ut-cerrada" href="../../ut1/index.html">
+        <span>UT1 - Introducción al desarrollo web en entorno cliente</span>
+        <span>›</span>
+      </a>
+
+      <!-- UT2 -->
+
+      <a class="sidebar-ut-cerrada" href="../../ut2/index.html">
+        <span>UT2 - Fundamentos de JavaScript: variables, tipos y operadores</span>
+        <span>›</span>
+      </a>
+
+      <!-- UT3 -->
+
+      <a class="sidebar-ut-cerrada" href="../../ut3/index.html">
+        <span>UT3 - Estructuras de control en JavaScript</span>
+        <span>›</span>
+      </a>
+
+      <!-- UT4 -->
+
+      <a class="sidebar-ut-cerrada" href="../../ut4/index.html">
+        <span>UT4 - Arrays y estructuras de datos en JavaScript</span>
+        <span>›</span>
+      </a>
+
+      <!-- ==========================================
+           UT5 ACTIVA
+      ========================================== -->
+
+      <div class="menu-desplegable">
+
+        <div class="menu-cabecera menu-cabecera-activa">
+
+          <a class="menu-titulo" href="../index.html">
+            UT5 - Funciones en JavaScript
+          </a>
+
+          <button
+            class="boton-desplegar"
+            type="button"
+            data-target="submenu-ut5"
+            aria-expanded="true"
+            aria-label="Mostrar u ocultar UT5"
+          >
+            ⌄
+          </button>
+
+        </div>
+
+        <div
+          id="submenu-ut5"
+          class="submenu submenu-abierto"
+        >
+
+          <!-- ==========================================
+               5.1 ACTIVO
+          ========================================== -->
+
+          <div class="menu-desplegable menu-apartado">
+
+            <div class="menu-cabecera menu-cabecera-activa">
+
+              <a class="menu-titulo" href="index.html">
+                5.1 Introducción a las funciones
+              </a>
+
+              <button
+                class="boton-desplegar"
+                type="button"
+                data-target="submenu-5-1"
+                aria-expanded="true"
+                aria-label="Mostrar u ocultar los subapartados del 5.1"
+              >
+                ⌄
+              </button>
+
+            </div>
+
+            <div
+              id="submenu-5-1"
+              class="submenu submenu-apartados submenu-abierto"
+            >
+
+              <a href="#que-es">
+                Qué es una función
+              </a>
+
+              <a href="#para-que">
+                Para qué necesitamos funciones
+              </a>
+
+              <a href="#reutilizacion">
+                Reutilización del código
+              </a>
+
+              <a href="#organizacion">
+                Organización del programa
+              </a>
+
+              <a href="#funciones-javascript">
+                Las funciones en JavaScript
+              </a>
+
+              <a href="#ejemplo">
+                Primer ejemplo de función
+              </a>
+
+            </div>
+
+          </div>
+
+          <!-- ==========================================
+               5.2
+          ========================================== -->
+
+          <div class="menu-desplegable menu-apartado">
+
+            <div class="menu-cabecera">
+
+              <a class="menu-titulo" href="../5-2/index.html">
+                5.2 Declaración e invocación de funciones
+              </a>
+
+              <button
+                class="boton-desplegar"
+                type="button"
+                data-target="submenu-5-2"
+                aria-expanded="false"
+              >
+                ›
+              </button>
+
+            </div>
+
+            <div id="submenu-5-2" class="submenu submenu-apartados">
+
+              <a href="../5-2/index.html#declaracion">
+                Declarar una función
+              </a>
+
+              <a href="../5-2/index.html#sintaxis">
+                Sintaxis de una declaración
+              </a>
+
+              <a href="../5-2/index.html#invocacion">
+                Invocar una función
+              </a>
+
+              <a href="../5-2/index.html#ejecucion">
+                Orden de ejecución
+              </a>
+
+              <a href="../5-2/index.html#varias-llamadas">
+                Realizar varias llamadas
+              </a>
+
+              <a href="../5-2/index.html#hoisting">
+                Declaraciones y hoisting
+              </a>
+
+              <a href="../5-2/index.html#errores">
+                Errores frecuentes
+              </a>
+
+            </div>
+
+          </div>
+
+          <!-- ==========================================
+               5.3
+          ========================================== -->
+
+          <div class="menu-desplegable menu-apartado">
+
+            <div class="menu-cabecera">
+
+              <a class="menu-titulo" href="../5-3/index.html">
+                5.3 Parámetros y argumentos de las funciones
+              </a>
+
+              <button
+                class="boton-desplegar"
+                type="button"
+                data-target="submenu-5-3"
+                aria-expanded="false"
+              >
+                ›
+              </button>
+
+            </div>
+
+            <div id="submenu-5-3" class="submenu submenu-apartados">
+
+              <a href="../5-3/index.html#parametros">
+                Qué son los parámetros
+              </a>
+
+              <a href="../5-3/index.html#argumentos">
+                Qué son los argumentos
+              </a>
+
+              <a href="../5-3/index.html#diferencias">
+                Diferencias entre parámetros y argumentos
+              </a>
+
+              <a href="../5-3/index.html#varios">
+                Funciones con varios parámetros
+              </a>
+
+              <a href="../5-3/index.html#orden">
+                Importancia del orden
+              </a>
+
+              <a href="../5-3/index.html#faltantes">
+                Argumentos omitidos
+              </a>
+
+              <a href="../5-3/index.html#ejemplos">
+                Ejemplos prácticos
+              </a>
+
+            </div>
+
+          </div>
+
+          <!-- ==========================================
+               5.4
+          ========================================== -->
+
+          <div class="menu-desplegable menu-apartado">
+
+            <div class="menu-cabecera">
+
+              <a class="menu-titulo" href="../5-4/index.html">
+                5.4 Valores de retorno y sentencia return
+              </a>
+
+              <button
+                class="boton-desplegar"
+                type="button"
+                data-target="submenu-5-4"
+                aria-expanded="false"
+              >
+                ›
+              </button>
+
+            </div>
+
+            <div id="submenu-5-4" class="submenu submenu-apartados">
+
+              <a href="../5-4/index.html#return">
+                La sentencia return
+              </a>
+
+              <a href="../5-4/index.html#devolver">
+                Devolver un resultado
+              </a>
+
+              <a href="../5-4/index.html#utilizar">
+                Utilizar el valor devuelto
+              </a>
+
+              <a href="../5-4/index.html#console">
+                Diferencia entre return y console.log()
+              </a>
+
+              <a href="../5-4/index.html#undefined">
+                Funciones sin retorno explícito
+              </a>
+
+              <a href="../5-4/index.html#finalizacion">
+                Finalización de la función
+              </a>
+
+              <a href="../5-4/index.html#ejemplos">
+                Ejemplos prácticos
+              </a>
+
+            </div>
+
+          </div>
+
+          <!-- ==========================================
+               5.5
+          ========================================== -->
+
+          <div class="menu-desplegable menu-apartado">
+
+            <div class="menu-cabecera">
+
+              <a class="menu-titulo" href="../5-5/index.html">
+                5.5 Ámbito de las variables en las funciones
+              </a>
+
+              <button
+                class="boton-desplegar"
+                type="button"
+                data-target="submenu-5-5"
+                aria-expanded="false"
+              >
+                ›
+              </button>
+
+            </div>
+
+            <div id="submenu-5-5" class="submenu submenu-apartados">
+
+              <a href="../5-5/index.html#scope">
+                Qué es el ámbito o scope
+              </a>
+
+              <a href="../5-5/index.html#global">
+                Variables globales
+              </a>
+
+              <a href="../5-5/index.html#local">
+                Variables locales
+              </a>
+
+              <a href="../5-5/index.html#bloque">
+                Ámbito de bloque
+              </a>
+
+              <a href="../5-5/index.html#let-const">
+                let, const y var
+              </a>
+
+              <a href="../5-5/index.html#sombreado">
+                Sombreado de variables
+              </a>
+
+              <a href="../5-5/index.html#errores">
+                Errores frecuentes
+              </a>
+
+            </div>
+
+          </div>
+
+          <!-- ==========================================
+               5.6
+          ========================================== -->
+
+          <div class="menu-desplegable menu-apartado">
+
+            <div class="menu-cabecera">
+
+              <a class="menu-titulo" href="../5-6/index.html">
+                5.6 Paso de valores y referencias a funciones
+              </a>
+
+              <button
+                class="boton-desplegar"
+                type="button"
+                data-target="submenu-5-6"
+                aria-expanded="false"
+              >
+                ›
+              </button>
+
+            </div>
+
+            <div id="submenu-5-6" class="submenu submenu-apartados">
+
+              <a href="../5-6/index.html#primitivos">
+                Tipos primitivos como argumentos
+              </a>
+
+              <a href="../5-6/index.html#objetos">
+                Objetos y arrays como argumentos
+              </a>
+
+              <a href="../5-6/index.html#modificacion">
+                Modificación de los datos
+              </a>
+
+              <a href="../5-6/index.html#reasignacion">
+                Reasignación de parámetros
+              </a>
+
+              <a href="../5-6/index.html#copias">
+                Copias de arrays
+              </a>
+
+              <a href="../5-6/index.html#buenas-practicas">
+                Buenas prácticas
+              </a>
+
+            </div>
+
+          </div>
+
+          <!-- ==========================================
+               5.7
+          ========================================== -->
+
+          <div class="menu-desplegable menu-apartado">
+
+            <div class="menu-cabecera">
+
+              <a class="menu-titulo" href="../5-7/index.html">
+                5.7 Parámetros por defecto y parámetros rest
+              </a>
+
+              <button
+                class="boton-desplegar"
+                type="button"
+                data-target="submenu-5-7"
+                aria-expanded="false"
+              >
+                ›
+              </button>
+
+            </div>
+
+            <div id="submenu-5-7" class="submenu submenu-apartados">
+
+              <a href="../5-7/index.html#defecto">
+                Parámetros por defecto
+              </a>
+
+              <a href="../5-7/index.html#undefined">
+                Valores omitidos y undefined
+              </a>
+
+              <a href="../5-7/index.html#rest">
+                Parámetros rest
+              </a>
+
+              <a href="../5-7/index.html#sintaxis-rest">
+                Sintaxis del operador rest
+              </a>
+
+              <a href="../5-7/index.html#varios-argumentos">
+                Número variable de argumentos
+              </a>
+
+              <a href="../5-7/index.html#ejemplos">
+                Ejemplos prácticos
+              </a>
+
+            </div>
+
+          </div>
+
+          <!-- ==========================================
+               5.8
+          ========================================== -->
+
+          <div class="menu-desplegable menu-apartado">
+
+            <div class="menu-cabecera">
+
+              <a class="menu-titulo" href="../5-8/index.html">
+                5.8 Expresiones de función y funciones flecha
+              </a>
+
+              <button
+                class="boton-desplegar"
+                type="button"
+                data-target="submenu-5-8"
+                aria-expanded="false"
+              >
+                ›
+              </button>
+
+            </div>
+
+            <div id="submenu-5-8" class="submenu submenu-apartados">
+
+              <a href="../5-8/index.html#expresiones">
+                Expresiones de función
+              </a>
+
+              <a href="../5-8/index.html#anonimas">
+                Funciones anónimas
+              </a>
+
+              <a href="../5-8/index.html#flecha">
+                Funciones flecha
+              </a>
+
+              <a href="../5-8/index.html#sintaxis">
+                Sintaxis de las funciones flecha
+              </a>
+
+              <a href="../5-8/index.html#retorno-implicito">
+                Retorno implícito
+              </a>
+
+              <a href="../5-8/index.html#diferencias">
+                Diferencias entre funciones tradicionales y flecha
+              </a>
+
+              <a href="../5-8/index.html#ejemplos">
+                Ejemplos prácticos
+              </a>
+
+            </div>
+
+          </div>
+
+          <!-- ==========================================
+               5.9
+          ========================================== -->
+
+          <div class="menu-desplegable menu-apartado">
+
+            <div class="menu-cabecera">
+
+              <a class="menu-titulo" href="../5-9/index.html">
+                5.9 Funciones callback y funciones de orden superior
+              </a>
+
+              <button
+                class="boton-desplegar"
+                type="button"
+                data-target="submenu-5-9"
+                aria-expanded="false"
+              >
+                ›
+              </button>
+
+            </div>
+
+            <div id="submenu-5-9" class="submenu submenu-apartados">
+
+              <a href="../5-9/index.html#funciones-valores">
+                Las funciones como valores
+              </a>
+
+              <a href="../5-9/index.html#callback">
+                Qué es una función callback
+              </a>
+
+              <a href="../5-9/index.html#pasar-funcion">
+                Pasar una función como argumento
+              </a>
+
+              <a href="../5-9/index.html#orden-superior">
+                Funciones de orden superior
+              </a>
+
+              <a href="../5-9/index.html#arrays">
+                Callbacks en métodos de arrays
+              </a>
+
+              <a href="../5-9/index.html#reduce">
+                El método reduce()
+              </a>
+
+              <a href="../5-9/index.html#ejemplos">
+                Ejemplos prácticos
+              </a>
+
+            </div>
+
+          </div>
+
+          <!-- ==========================================
+               5.10
+          ========================================== -->
+
+          <div class="menu-desplegable menu-apartado">
+
+            <div class="menu-cabecera">
+
+              <a class="menu-titulo" href="../5-10/index.html">
+                5.10 Funciones predefinidas y métodos de JavaScript
+              </a>
+
+              <button
+                class="boton-desplegar"
+                type="button"
+                data-target="submenu-5-10"
+                aria-expanded="false"
+              >
+                ›
+              </button>
+
+            </div>
+
+            <div id="submenu-5-10" class="submenu submenu-apartados">
+
+              <a href="../5-10/index.html#predefinidas">
+                Funciones predefinidas
+              </a>
+
+              <a href="../5-10/index.html#funciones-metodos">
+                Diferencia entre funciones y métodos
+              </a>
+
+              <a href="../5-10/index.html#numeros">
+                Funciones relacionadas con números
+              </a>
+
+              <a href="../5-10/index.html#cadenas">
+                Métodos de cadenas de texto
+              </a>
+
+              <a href="../5-10/index.html#arrays">
+                Métodos de arrays
+              </a>
+
+              <a href="../5-10/index.html#globales">
+                Funciones y propiedades globales
+              </a>
+
+              <a href="../5-10/index.html#uri">
+                Codificación de componentes de URL
+              </a>
+
+              <a href="../5-10/index.html#eval">
+                Riesgos de eval()
+              </a>
+
+            </div>
+
+          </div>
+
+          <!-- ==========================================
+               5.11
+          ========================================== -->
+
+          <div class="menu-desplegable menu-apartado">
+
+            <div class="menu-cabecera">
+
+              <a class="menu-titulo" href="../5-11/index.html">
+                5.11 Funciones recursivas
+              </a>
+
+              <button
+                class="boton-desplegar"
+                type="button"
+                data-target="submenu-5-11"
+                aria-expanded="false"
+              >
+                ›
+              </button>
+
+            </div>
+
+            <div id="submenu-5-11" class="submenu submenu-apartados">
+
+              <a href="../5-11/index.html#recursividad">
+                Qué es la recursividad
+              </a>
+
+              <a href="../5-11/index.html#caso-base">
+                El caso base
+              </a>
+
+              <a href="../5-11/index.html#caso-recursivo">
+                El caso recursivo
+              </a>
+
+              <a href="../5-11/index.html#factorial">
+                Cálculo del factorial
+              </a>
+
+              <a href="../5-11/index.html#fibonacci">
+                Sucesión de Fibonacci
+              </a>
+
+              <a href="../5-11/index.html#riesgos">
+                Riesgos de la recursividad
+              </a>
+
+              <a href="../5-11/index.html#iteracion">
+                Recursividad frente a iteración
+              </a>
+
+            </div>
+
+          </div>
+
+          <!-- ==========================================
+               5.12
+          ========================================== -->
+
+          <div class="menu-desplegable menu-apartado">
+
+            <div class="menu-cabecera">
+
+              <a class="menu-titulo" href="../5-12/index.html">
+                5.12 Organización y reutilización del código mediante funciones
+              </a>
+
+              <button
+                class="boton-desplegar"
+                type="button"
+                data-target="submenu-5-12"
+                aria-expanded="false"
+              >
+                ›
+              </button>
+
+            </div>
+
+            <div id="submenu-5-12" class="submenu submenu-apartados">
+
+              <a href="../5-12/index.html#analizar">
+                Analizar el problema
+              </a>
+
+              <a href="../5-12/index.html#dividir">
+                Dividir el programa en funciones
+              </a>
+
+              <a href="../5-12/index.html#responsabilidad">
+                Responsabilidad de cada función
+              </a>
+
+              <a href="../5-12/index.html#reutilizar">
+                Reutilización del código
+              </a>
+
+              <a href="../5-12/index.html#nombres">
+                Nombres y organización
+              </a>
+
+              <a href="../5-12/index.html#documentacion">
+                Documentación de funciones
+              </a>
+
+              <a href="../5-12/index.html#pruebas">
+                Pruebas y depuración
+              </a>
+
+              <a href="../5-12/index.html#ejemplo">
+                Ejemplo práctico completo
+              </a>
+
+            </div>
+
+          </div>
+
+          <!-- RESUMEN -->
+
+          <a
+            class="enlace-apartado-simple"
+            href="../resumen/index.html"
+          >
+            ✏️ Resumen de la UT5
+          </a>
+
+          <!-- ACTIVIDADES -->
+
+          <div class="menu-desplegable menu-apartado">
+
+            <div class="menu-cabecera">
+
+              <a
+                class="menu-titulo"
+                href="../actividades/index.html"
+              >
+                📝 Actividades de la UT5
+              </a>
+
+              <button
+                class="boton-desplegar"
+                type="button"
+                data-target="submenu-actividades"
+                aria-expanded="false"
+              >
+                ›
+              </button>
+
+            </div>
+
+            <div
+              id="submenu-actividades"
+              class="submenu submenu-apartados"
+            >
+
+              <a href="../actividades/index.html#actividades-practicas">
+                💻 Actividades prácticas
+              </a>
+
+              <a href="../actividades/index.html#reto-final">
+                🧩 Reto final
+              </a>
+
+              <a href="../actividades/index.html#autoevaluacion">
+                ✅ Autoevaluación
+              </a>
+
+            </div>
+
+          </div>
+
+        </div>
+
+      </div>
+
+      <!-- ==========================================
+           RESTO DE UT
+      ========================================== -->
+
+      <a class="sidebar-ut-cerrada" href="../../ut6/index.html">
+        <span>UT6 - Objetos y Programación Orientada a Objetos en JavaScript</span>
+        <span>›</span>
+      </a>
+
+      <a class="sidebar-ut-cerrada" href="../../ut7/index.html">
+        <span>UT7 - Objetos predefinidos y modelo del navegador (BOM)</span>
+        <span>›</span>
+      </a>
+
+      <a class="sidebar-ut-cerrada" href="../../ut8/index.html">
+        <span>UT8 - Aplicaciones web interactivas: DOM, eventos y formularios</span>
+        <span>›</span>
+      </a>
+
+      <a class="sidebar-ut-cerrada" href="../../ut9/index.html">
+        <span>UT9 - Comunicación asíncrona y peticiones al servidor</span>
+        <span>›</span>
+      </a>
+
+      <a class="sidebar-ut-cerrada" href="../../ut10/index.html">
+        <span>UT10 - Introducción a React</span>
+        <span>›</span>
+      </a>
+
+    </aside>
+
+    <!-- ==========================================
+         CONTENIDO CENTRAL
+    ========================================== -->
+
+    <main class="contenido-ut">
+
+      <div class="migas">
+
+        <a
+          class="miga-inicio"
+          href="../../../index.html"
+          aria-label="Volver a la página principal"
+        >
+          🏠
+        </a>
+
+        <span class="miga-separador">›</span>
+
+        <a class="miga-modulo" href="../../index.html">
+          DWEC
+        </a>
+
+        <span class="miga-separador">›</span>
+
+        <a class="miga-modulo" href="../index.html">
+          UT5
+        </a>
+
+        <span class="miga-separador">›</span>
+
+        <span class="miga-actual">
+          5.1
+        </span>
+
+      </div>
+
+      <h1>
+        5.1 Introducción a las funciones
+      </h1>
+
+      <section class="apartado-ut">
+
+        <p>
+          Hasta ahora hemos aprendido a utilizar variables,
+          operadores, estructuras de control y arrays para
+          desarrollar programas en JavaScript. Con estas
+          herramientas podemos realizar cálculos, tomar decisiones,
+          repetir instrucciones y trabajar con conjuntos de datos.
+        </p>
+
+        <p>
+          Sin embargo, a medida que desarrollamos aplicaciones
+          más completas, aparecen nuevas necesidades. Por ejemplo,
+          puede que tengamos que realizar el mismo cálculo en
+          diferentes partes del programa, comprobar repetidamente
+          determinados datos o ejecutar varias instrucciones
+          cada vez que se produce una situación concreta.
+        </p>
+
+        <p>
+          Si escribimos todas esas instrucciones una y otra vez,
+          el programa puede resultar difícil de comprender,
+          modificar y mantener. Para resolver este problema
+          utilizamos las <strong>funciones</strong>.
+        </p>
+
+        <div class="caja caja-importante">
+
+          <span class="caja-titulo">
+            📌 Importante
+          </span>
+
+          <p>
+            Una <strong>función</strong> es un bloque de código
+            que agrupa instrucciones destinadas a realizar
+            una tarea determinada y que puede ejecutarse
+            cuando el programa lo necesita.
+          </p>
+
+        </div>
+
+        <!-- ==========================================
+             QUÉ ES UNA FUNCIÓN
+        ========================================== -->
+
+        <h2 id="que-es">
+          Qué es una función
+        </h2>
+
+        <p>
+          Una función permite reunir varias instrucciones
+          bajo un mismo nombre para utilizarlas como
+          una unidad dentro de un programa.
+        </p>
+
+        <p>
+          En lugar de escribir repetidamente todas las
+          instrucciones necesarias para realizar una tarea,
+          podemos definir una función y solicitar su
+          ejecución cuando sea necesario.
+        </p>
+
+        <p>
+          Imagina que estamos desarrollando una aplicación
+          para gestionar los pedidos de una tienda online.
+          La aplicación necesita realizar operaciones como:
+        </p>
+
+        <ul>
+          <li>calcular el importe total de un pedido;</li>
+          <li>comprobar si un producto está disponible;</li>
+          <li>aplicar un descuento;</li>
+          <li>mostrar un mensaje de confirmación;</li>
+          <li>calcular los gastos de envío.</li>
+        </ul>
+
+        <p>
+          Cada una de estas operaciones puede organizarse
+          mediante una función diferente. De esta manera,
+          el programa queda dividido en partes más pequeñas
+          y resulta más sencillo comprender qué hace cada una.
+        </p>
+
+        <h3>Una función como tarea independiente</h3>
+
+        <p>
+          Podemos imaginar una función como una pequeña
+          herramienta dentro de nuestra aplicación.
+          Cada herramienta tiene una responsabilidad
+          concreta y podemos utilizarla cuando la
+          necesitemos.
+        </p>
+
+        <div class="esquema-web">
+
+          <div class="esquema-fila">
+
+            <div class="esquema-caja">
+
+              <strong>Calcular</strong>
+
+              <span>
+                Realizar operaciones con datos
+              </span>
+
+            </div>
+
+            <div class="esquema-caja">
+
+              <strong>Comprobar</strong>
+
+              <span>
+                Verificar condiciones
+              </span>
+
+            </div>
+
+            <div class="esquema-caja">
+
+              <strong>Mostrar</strong>
+
+              <span>
+                Presentar información
+              </span>
+
+            </div>
+
+          </div>
+
+        </div>
+
+        <p>
+          Esta separación no significa que las funciones
+          trabajen siempre de forma aislada. Una función
+          puede utilizar información, devolver resultados
+          e incluso llamar a otras funciones.
+        </p>
+
+        <p>
+          Lo importante es comprender que cada función
+          permite <strong>identificar y organizar una
+          operación concreta</strong> dentro de un
+          programa más amplio.
+        </p>
+
+        <!-- ==========================================
+             PARA QUÉ NECESITAMOS FUNCIONES
+        ========================================== -->
+
+        <h2 id="para-que">
+          Para qué necesitamos funciones
+        </h2>
+
+        <p>
+          Las funciones son fundamentales porque permiten
+          resolver problemas habituales que aparecen
+          cuando los programas empiezan a crecer.
+        </p>
+
+        <p>
+          Para comprenderlo, imaginemos que queremos
+          mostrar un mensaje de bienvenida en diferentes
+          momentos de una aplicación.
+        </p>
+
+        <h3>Un programa sin funciones</h3>
+
+        <p>
+          Podríamos escribir las mismas instrucciones
+          cada vez que necesitáramos mostrar el mensaje:
+        </p>
+
+        <div class="bloque-codigo">
+
+          <div class="cabecera-codigo">
+            <span class="lenguaje-codigo">JavaScript</span>
+            <button class="boton-copiar" type="button">
+              📋 Copiar código
+            </button>
+          </div>
+
+          <pre><code>console.log("Bienvenido a la aplicación");
+console.log("Esperamos que disfrutes de la experiencia");
+
+// Otras instrucciones del programa
+
+console.log("Bienvenido a la aplicación");
+console.log("Esperamos que disfrutes de la experiencia");
+
+// Más instrucciones del programa
+
+console.log("Bienvenido a la aplicación");
+console.log("Esperamos que disfrutes de la experiencia");</code></pre>
+
+        </div>
+
+        <p>
+          Este código funciona, pero presenta varios
+          inconvenientes:
+        </p>
+
+        <ul>
+          <li>
+            <strong>Repetición:</strong> escribimos
+            las mismas instrucciones varias veces.
+          </li>
+
+          <li>
+            <strong>Mantenimiento:</strong> si queremos
+            modificar el mensaje, debemos localizar
+            y cambiar todas sus apariciones.
+          </li>
+
+          <li>
+            <strong>Legibilidad:</strong> el programa
+            contiene más instrucciones de las necesarias
+            y puede resultar más difícil de seguir.
+          </li>
+
+          <li>
+            <strong>Riesgo de errores:</strong> podemos
+            modificar unas copias y olvidar otras.
+          </li>
+        </ul>
+
+        <h3>El mismo programa utilizando una función</h3>
+
+        <p>
+          Podemos agrupar las instrucciones repetidas
+          dentro de una función llamada
+          <code>mostrarBienvenida()</code>.
+        </p>
+
+        <div class="bloque-codigo">
+
+          <div class="cabecera-codigo">
+            <span class="lenguaje-codigo">JavaScript</span>
+            <button class="boton-copiar" type="button">
+              📋 Copiar código
+            </button>
+          </div>
+
+          <pre><code>function mostrarBienvenida() {
+  console.log("Bienvenido a la aplicación");
+  console.log("Esperamos que disfrutes de la experiencia");
+}
+
+// Primera llamada
+mostrarBienvenida();
+
+// Otras instrucciones del programa
+
+// Segunda llamada
+mostrarBienvenida();
+
+// Más instrucciones del programa
+
+// Tercera llamada
+mostrarBienvenida();</code></pre>
+
+        </div>
+
+        <p>
+          Ahora las instrucciones que muestran el mensaje
+          están escritas una sola vez. Cada vez que
+          necesitamos ejecutarlas, utilizamos el nombre
+          de la función seguido de paréntesis.
+        </p>
+
+        <p>
+          Si queremos cambiar el mensaje, únicamente
+          tendremos que modificar las instrucciones
+          que aparecen dentro de la función.
+        </p>
+
+        <div class="caja caja-atencion">
+
+          <span class="caja-titulo">
+            ⚠️ Atención
+          </span>
+
+          <p>
+            <strong>Definir una función no significa
+            ejecutarla inmediatamente.</strong>
+            En este ejemplo, las instrucciones de
+            <code>mostrarBienvenida()</code> se ejecutan
+            cuando realizamos una llamada a la función.
+            Estudiaremos esta diferencia con detalle
+            en el apartado 5.2.
+          </p>
+
+        </div>
+
+        <!-- ==========================================
+             REUTILIZACIÓN DEL CÓDIGO
+        ========================================== -->
+
+        <h2 id="reutilizacion">
+          Reutilización del código
+        </h2>
+
+        <p>
+          Una de las principales ventajas de las funciones
+          es la <strong>reutilización del código</strong>.
+          Consiste en escribir una solución una sola vez
+          y poder utilizarla en diferentes partes
+          del programa.
+        </p>
+
+        <p>
+          Esto resulta especialmente útil cuando una
+          operación debe realizarse repetidamente
+          o cuando diferentes partes de una aplicación
+          necesitan aplicar la misma lógica.
+        </p>
+
+        <h3>Ejemplo: calcular un descuento</h3>
+
+        <p>
+          Supongamos que una tienda online aplica un
+          descuento del 10 % sobre determinados productos.
+        </p>
+
+        <p>
+          Si realizamos el cálculo directamente cada
+          vez que lo necesitamos, podríamos escribir:
+        </p>
+
+        <div class="bloque-codigo">
+
+          <div class="cabecera-codigo">
+            <span class="lenguaje-codigo">JavaScript</span>
+            <button class="boton-copiar" type="button">
+              📋 Copiar código
+            </button>
+          </div>
+
+          <pre><code>const precio1 = 100;
+const precioFinal1 = precio1 - precio1 * 0.10;
+
+const precio2 = 250;
+const precioFinal2 = precio2 - precio2 * 0.10;
+
+const precio3 = 80;
+const precioFinal3 = precio3 - precio3 * 0.10;
+
+console.log(precioFinal1); // 90
+console.log(precioFinal2); // 225
+console.log(precioFinal3); // 72</code></pre>
+
+        </div>
+
+        <p>
+          Aunque el programa es correcto, estamos
+          repitiendo la misma operación matemática
+          para cada producto.
+        </p>
+
+        <p>
+          Podemos evitarlo creando una función que
+          reciba el precio y calcule el descuento.
+        </p>
+
+        <div class="bloque-codigo">
+
+          <div class="cabecera-codigo">
+            <span class="lenguaje-codigo">JavaScript</span>
+            <button class="boton-copiar" type="button">
+              📋 Copiar código
+            </button>
+          </div>
+
+          <pre><code>function calcularDescuento(precio) {
+  return precio - precio * 0.10;
+}
+
+console.log(calcularDescuento(100)); // 90
+console.log(calcularDescuento(250)); // 225
+console.log(calcularDescuento(80));  // 72</code></pre>
+
+        </div>
+
+        <p>
+          En este segundo ejemplo, la operación
+          matemática está definida una sola vez.
+          Podemos utilizar la función con diferentes
+          precios sin repetir el cálculo.
+        </p>
+
+        <p>
+          Observa que hemos introducido dos elementos
+          nuevos:
+        </p>
+
+        <ul>
+          <li>
+            <code>precio</code> es un
+            <strong>parámetro</strong>, que permite
+            proporcionar un dato a la función.
+          </li>
+
+          <li>
+            <code>return</code> permite
+            <strong>devolver un resultado</strong>
+            al código que ha llamado a la función.
+          </li>
+        </ul>
+
+        <p>
+          Por ahora basta con comprender su finalidad
+          general. Los parámetros y los valores de
+          retorno se estudiarán detalladamente en
+          los apartados 5.3 y 5.4.
+        </p>
+
+        <div class="caja caja-importante">
+
+          <span class="caja-titulo">
+            📌 Importante
+          </span>
+
+          <p>
+            Reutilizar código no consiste únicamente
+            en escribir menos instrucciones. También
+            permite <strong>centralizar la lógica
+            de una operación</strong>, facilitar
+            los cambios y reducir las posibilidades
+            de introducir errores.
+          </p>
+
+        </div>
+
+        <!-- ==========================================
+             ORGANIZACIÓN DEL PROGRAMA
+        ========================================== -->
+
+        <h2 id="organizacion">
+          Organización del programa
+        </h2>
+
+        <p>
+          Además de reutilizar instrucciones, las funciones
+          permiten <strong>dividir un programa complejo
+          en tareas más pequeñas</strong>.
+        </p>
+
+        <p>
+          Esta forma de trabajar facilita la comprensión
+          del código, porque podemos analizar cada
+          operación por separado antes de estudiar
+          cómo se relaciona con las demás.
+        </p>
+
+        <h3>Dividir un problema en tareas</h3>
+
+        <p>
+          Imagina que tenemos que desarrollar una aplicación
+          que gestione las calificaciones de un grupo
+          de estudiantes.
+        </p>
+
+        <p>
+          La aplicación podría necesitar:
+        </p>
+
+        <ul>
+          <li>calcular la nota media de un estudiante;</li>
+          <li>determinar si ha aprobado;</li>
+          <li>obtener la calificación más alta;</li>
+          <li>contar el número de aprobados;</li>
+          <li>mostrar un resumen de resultados.</li>
+        </ul>
+
+        <p>
+          En lugar de desarrollar todas estas operaciones
+          en un único bloque de instrucciones, podemos
+          plantear una función para cada tarea.
+        </p>
+
+        <div class="tabla-responsive">
+
+          <table class="tabla-apuntes">
+
+            <thead>
+              <tr>
+                <th>Tarea</th>
+                <th>Posible función</th>
+                <th>Responsabilidad</th>
+              </tr>
+            </thead>
+
+            <tbody>
+
+              <tr>
+                <td>Calcular la media</td>
+                <td><code>calcularMedia()</code></td>
+                <td>
+                  Obtener la media aritmética de
+                  un conjunto de calificaciones.
+                </td>
+              </tr>
+
+              <tr>
+                <td>Comprobar el aprobado</td>
+                <td><code>estaAprobado()</code></td>
+                <td>
+                  Determinar si una nota alcanza
+                  el mínimo establecido.
+                </td>
+              </tr>
+
+              <tr>
+                <td>Buscar la nota máxima</td>
+                <td><code>obtenerNotaMaxima()</code></td>
+                <td>
+                  Identificar la calificación más alta.
+                </td>
+              </tr>
+
+              <tr>
+                <td>Contar aprobados</td>
+                <td><code>contarAprobados()</code></td>
+                <td>
+                  Contabilizar las calificaciones
+                  que cumplen la condición.
+                </td>
+              </tr>
+
+              <tr>
+                <td>Mostrar resultados</td>
+                <td><code>mostrarResumen()</code></td>
+                <td>
+                  Presentar la información obtenida.
+                </td>
+              </tr>
+
+            </tbody>
+
+          </table>
+
+        </div>
+
+        <p>
+          Esta tabla representa una posible organización
+          del programa. Todavía no estamos implementando
+          todas esas funciones, sino identificando
+          las tareas que sería conveniente separar.
+        </p>
+
+        <h3>Ventajas de organizar el código en funciones</h3>
+
+        <p>
+          Dividir un programa en funciones proporciona
+          varias ventajas importantes:
+        </p>
+
+        <ul>
+
+          <li>
+            <strong>Legibilidad:</strong> los nombres
+            de las funciones ayudan a comprender
+            qué operaciones realiza el programa.
+          </li>
+
+          <li>
+            <strong>Mantenimiento:</strong> resulta
+            más sencillo localizar y modificar
+            una operación concreta.
+          </li>
+
+          <li>
+            <strong>Reutilización:</strong> una misma
+            función puede utilizarse desde diferentes
+            partes de la aplicación.
+          </li>
+
+          <li>
+            <strong>Pruebas:</strong> podemos comprobar
+            el comportamiento de una función de forma
+            individual.
+          </li>
+
+          <li>
+            <strong>Depuración:</strong> cuando aparece
+            un error, es más fácil identificar
+            en qué operación se produce.
+          </li>
+
+          <li>
+            <strong>Trabajo en equipo:</strong> diferentes
+            personas pueden encargarse de desarrollar
+            distintas funcionalidades, siempre que
+            exista una organización adecuada.
+          </li>
+
+        </ul>
+
+        <div class="caja caja-ejemplo">
+
+          <span class="caja-titulo">
+            💻 Ejemplo DAW
+          </span>
+
+          <p>
+            En una aplicación web de gestión de pedidos,
+            podemos utilizar una función para calcular
+            el subtotal, otra para aplicar descuentos
+            y otra para calcular los gastos de envío.
+            Así, cada operación tiene una responsabilidad
+            concreta y puede modificarse sin tener
+            que reescribir todo el programa.
+          </p>
+
+        </div>
+
+        <p>
+          Este planteamiento se relaciona con la
+          <strong>programación modular</strong>,
+          que consiste en organizar un programa
+          en componentes con responsabilidades
+          definidas. Las funciones son una herramienta
+          fundamental para conseguirlo, aunque
+          la modularidad también puede implicar
+          otros mecanismos de organización.
+        </p>
+
+        <!-- ==========================================
+             LAS FUNCIONES EN JAVASCRIPT
+        ========================================== -->
+
+        <h2 id="funciones-javascript">
+          Las funciones en JavaScript
+        </h2>
+
+        <p>
+          JavaScript permite crear nuestras propias
+          funciones para realizar operaciones
+          adaptadas a las necesidades de una aplicación.
+        </p>
+
+        <p>
+          También dispone de numerosas funciones
+          y métodos ya existentes que podemos utilizar
+          sin tener que implementarlos desde cero.
+        </p>
+
+        <h3>Funciones creadas por el programador</h3>
+
+        <p>
+          Son aquellas que definimos para resolver
+          tareas específicas de nuestro programa.
+        </p>
+
+        <p>
+          Por ejemplo, podemos crear una función
+          que muestre un mensaje:
+        </p>
+
+        <div class="bloque-codigo">
+
+          <div class="cabecera-codigo">
+            <span class="lenguaje-codigo">JavaScript</span>
+            <button class="boton-copiar" type="button">
+              📋 Copiar código
+            </button>
+          </div>
+
+          <pre><code>function mostrarMensaje() {
+  console.log("Estamos aprendiendo funciones");
+}
+
+mostrarMensaje();</code></pre>
+
+        </div>
+
+        <p>
+          La función <code>mostrarMensaje()</code>
+          ha sido creada expresamente para este programa.
+          Su finalidad es mostrar un texto en la consola.
+        </p>
+
+        <h3>Funciones y métodos disponibles en JavaScript</h3>
+
+        <p>
+          Durante las unidades anteriores ya hemos
+          utilizado operaciones que se invocan mediante
+          paréntesis, aunque todavía no hayamos
+          estudiado las funciones en profundidad.
+        </p>
+
+        <div class="bloque-codigo">
+
+          <div class="cabecera-codigo">
+            <span class="lenguaje-codigo">JavaScript</span>
+            <button class="boton-copiar" type="button">
+              📋 Copiar código
+            </button>
+          </div>
+
+          <pre><code>const numero = Number("25");
+
+console.log(numero);
+
+const mayor = Math.max(10, 30, 20);
+
+console.log(mayor);
+
+const frutas = ["manzana", "pera"];
+
+frutas.push("naranja");
+
+console.log(frutas);</code></pre>
+
+        </div>
+
+        <p>
+          En este ejemplo encontramos diferentes
+          operaciones:
+        </p>
+
+        <ul>
+
+          <li>
+            <code>Number("25")</code> realiza una
+            conversión a un valor numérico.
+          </li>
+
+          <li>
+            <code>Math.max(10, 30, 20)</code> devuelve
+            el mayor de los números proporcionados.
+          </li>
+
+          <li>
+            <code>frutas.push("naranja")</code> añade
+            un elemento al final del array.
+          </li>
+
+          <li>
+            <code>console.log()</code> permite mostrar
+            información en la consola.
+          </li>
+
+        </ul>
+
+        <p>
+          Algunas de estas operaciones son funciones
+          globales, mientras que otras son
+          <strong>métodos asociados a objetos</strong>.
+          Estudiaremos con mayor detalle esta distinción
+          en el apartado 5.10.
+        </p>
+
+        <div class="caja caja-atencion">
+
+          <span class="caja-titulo">
+            ⚠️ Atención
+          </span>
+
+          <p>
+            No todas las operaciones que utilizamos
+            mediante paréntesis son funciones globales.
+            Por ejemplo, <code>console.log()</code>,
+            <code>Math.max()</code> y
+            <code>push()</code> son métodos.
+            Un método es una función asociada
+            a un objeto o a su prototipo.
+          </p>
+
+        </div>
+
+        <h3>Características generales de las funciones</h3>
+
+        <p>
+          Aunque existen distintas formas de crear
+          funciones en JavaScript, muchas comparten
+          estas características:
+        </p>
+
+        <ul>
+
+          <li>
+            Pueden tener un <strong>nombre</strong>
+            que permita identificarlas.
+          </li>
+
+          <li>
+            Pueden recibir <strong>datos de entrada</strong>
+            mediante parámetros.
+          </li>
+
+          <li>
+            Contienen instrucciones que realizan
+            una determinada operación.
+          </li>
+
+          <li>
+            Pueden <strong>devolver un resultado</strong>
+            al código que las utiliza.
+          </li>
+
+          <li>
+            Pueden ejecutarse tantas veces como
+            sea necesario.
+          </li>
+
+          <li>
+            Pueden llamar a otras funciones.
+          </li>
+
+        </ul>
+
+        <p>
+          No todas las funciones necesitan recibir
+          parámetros ni devolver un resultado explícito.
+          Su estructura dependerá de la tarea
+          que deban realizar.
+        </p>
+
+        <!-- ==========================================
+             PRIMER EJEMPLO DE FUNCIÓN
+        ========================================== -->
+
+        <h2 id="ejemplo">
+          Primer ejemplo de función
+        </h2>
+
+        <p>
+          Vamos a estudiar un ejemplo sencillo
+          para identificar los elementos básicos
+          de una función en JavaScript.
+        </p>
+
+        <p>
+          Queremos desarrollar un programa que muestre
+          un saludo de bienvenida a los estudiantes
+          del módulo DWEC.
+        </p>
+
+        <div class="bloque-codigo">
+
+          <div class="cabecera-codigo">
+            <span class="lenguaje-codigo">JavaScript</span>
+            <button class="boton-copiar" type="button">
+              📋 Copiar código
+            </button>
+          </div>
+
+          <pre><code>function saludar() {
+  console.log("Bienvenidos a DWEC");
+}
+
+saludar();</code></pre>
+
+        </div>
+
+        <p>
+          Al ejecutar este programa, la consola
+          mostrará el siguiente mensaje:
+        </p>
+
+        <div class="bloque-codigo">
+
+          <div class="cabecera-codigo">
+            <span class="lenguaje-codigo">Consola</span>
+            <button class="boton-copiar" type="button">
+              📋 Copiar código
+            </button>
+          </div>
+
+          <pre><code>Bienvenidos a DWEC</code></pre>
+
+        </div>
+
+        <h3>Elementos de la función</h3>
+
+        <p>
+          Vamos a analizar las partes que aparecen
+          en el ejemplo anterior.
+        </p>
+
+        <div class="tabla-responsive">
+
+          <table class="tabla-apuntes">
+
+            <thead>
+              <tr>
+                <th>Elemento</th>
+                <th>Significado</th>
+              </tr>
+            </thead>
+
+            <tbody>
+
+              <tr>
+                <td><code>function</code></td>
+                <td>
+                  Palabra reservada utilizada para
+                  declarar una función.
+                </td>
+              </tr>
+
+              <tr>
+                <td><code>saludar</code></td>
+                <td>
+                  Nombre de la función.
+                </td>
+              </tr>
+
+              <tr>
+                <td><code>()</code></td>
+                <td>
+                  Paréntesis en los que pueden
+                  declararse los parámetros.
+                  En este ejemplo están vacíos.
+                </td>
+              </tr>
+
+              <tr>
+                <td><code>{ }</code></td>
+                <td>
+                  Llaves que delimitan el cuerpo
+                  de la función.
+                </td>
+              </tr>
+
+              <tr>
+                <td><code>console.log(...)</code></td>
+                <td>
+                  Instrucción que se ejecutará
+                  cuando llamemos a la función.
+                </td>
+              </tr>
+
+              <tr>
+                <td><code>saludar();</code></td>
+                <td>
+                  Llamada o invocación que
+                  ejecuta la función.
+                </td>
+              </tr>
+
+            </tbody>
+
+          </table>
+
+        </div>
+
+        <h3>Qué ocurre durante la ejecución</h3>
+
+        <p>
+          Podemos describir el funcionamiento
+          del programa en tres pasos:
+        </p>
+
+        <ol>
+
+          <li>
+            JavaScript procesa la declaración
+            de la función <code>saludar()</code>.
+          </li>
+
+          <li>
+            Cuando encuentra la instrucción
+            <code>saludar();</code>, se realiza
+            una llamada a la función.
+          </li>
+
+          <li>
+            Se ejecutan las instrucciones
+            de su cuerpo y aparece el mensaje
+            en la consola.
+          </li>
+
+        </ol>
+
+        <p>
+          Una vez finalizada la ejecución de
+          la función, el programa continúa
+          con las instrucciones que correspondan.
+        </p>
+
+        <h3>Ejecutar una función varias veces</h3>
+
+        <p>
+          Podemos llamar a una misma función
+          tantas veces como necesitemos.
+        </p>
+
+        <div class="bloque-codigo">
+
+          <div class="cabecera-codigo">
+            <span class="lenguaje-codigo">JavaScript</span>
+            <button class="boton-copiar" type="button">
+              📋 Copiar código
+            </button>
+          </div>
+
+          <pre><code>function saludar() {
+  console.log("Bienvenidos a DWEC");
+}
+
+console.log("Inicio del programa");
+
+saludar();
+saludar();
+saludar();
+
+console.log("Fin del programa");</code></pre>
+
+        </div>
+
+        <p>
+          La salida será:
+        </p>
+
+        <div class="bloque-codigo">
+
+          <div class="cabecera-codigo">
+            <span class="lenguaje-codigo">Consola</span>
+            <button class="boton-copiar" type="button">
+              📋 Copiar código
+            </button>
+          </div>
+
+          <pre><code>Inicio del programa
+Bienvenidos a DWEC
+Bienvenidos a DWEC
+Bienvenidos a DWEC
+Fin del programa</code></pre>
+
+        </div>
+
+        <p>
+          Observa que la función se ha definido
+          una sola vez, pero sus instrucciones
+          se han ejecutado tres veces.
+        </p>
+
+        <div class="caja caja-importante">
+
+          <span class="caja-titulo">
+            📌 Importante
+          </span>
+
+          <p>
+            Debemos distinguir entre
+            <strong>declarar una función</strong>,
+            que consiste en definir las instrucciones
+            que realizará, e
+            <strong>invocar una función</strong>,
+            que consiste en solicitar su ejecución.
+            Esta diferencia será el punto de partida
+            del siguiente apartado.
+          </p>
+
+        </div>
+
+        <!-- ==========================================
+             ACTIVIDAD DE REFLEXIÓN
+        ========================================== -->
+
+        <div class="actividad-reflexion">
+
+          <h3>
+            💭 Piensa
+          </h3>
+
+          <p>
+            Imagina que estás desarrollando una aplicación
+            web para gestionar las reservas de habitaciones
+            de un hotel.
+          </p>
+
+          <p>
+            La aplicación debe comprobar la disponibilidad,
+            calcular el precio de una estancia, aplicar
+            descuentos y mostrar un resumen de la reserva.
+          </p>
+
+          <p>
+            <strong>¿Qué funciones crearías para organizar
+            estas operaciones? ¿Qué ventajas tendría
+            utilizar funciones en lugar de escribir
+            todas las instrucciones seguidas?</strong>
+          </p>
+
+          <details class="solucion-desplegable">
+
+            <summary>
+              Ver una posible solución
+            </summary>
+
+            <div class="contenido-solucion">
+
+              <p>
+                Podríamos organizar el programa mediante
+                funciones como
+                <code>comprobarDisponibilidad()</code>,
+                <code>calcularPrecio()</code>,
+                <code>aplicarDescuento()</code> y
+                <code>mostrarResumen()</code>.
+              </p>
+
+              <p>
+                Cada función tendría una responsabilidad
+                concreta. Por ejemplo,
+                <code>calcularPrecio()</code> se
+                encargaría de calcular el importe
+                de una estancia a partir de los
+                datos necesarios.
+              </p>
+
+              <p>
+                Esta organización permitiría reutilizar
+                operaciones, localizar errores con mayor
+                facilidad y modificar determinadas
+                funcionalidades sin tener que revisar
+                todo el programa.
+              </p>
+
+              <p>
+                Además, el código sería más comprensible,
+                porque los nombres de las funciones
+                ayudarían a identificar las tareas
+                que realiza la aplicación.
+              </p>
+
+            </div>
+
+          </details>
+
+        </div>
+
+      </section>
+
+      <!-- ==========================================
+           NAVEGACIÓN
+      ========================================== -->
+
+      <nav class="navegacion-paginas">
+
+        <a
+          class="nav-pagina nav-anterior"
+          href="../index.html"
+        >
+
+          <span class="nav-etiqueta">
+            Anterior
+          </span>
+
+          <strong>
+            ‹ UT5 - Funciones en JavaScript
+          </strong>
+
+        </a>
+
+        <a
+          class="nav-pagina nav-siguiente"
+          href="../5-2/index.html"
+        >
+
+          <span class="nav-etiqueta">
+            Siguiente
+          </span>
+
+          <strong>
+            5.2 Declaración e invocación de funciones ›
+          </strong>
+
+        </a>
+
+      </nav>
+
+    </main>
+
+    <!-- ==========================================
+         ÍNDICE DERECHO
+    ========================================== -->
+
+    <aside class="indice-derecho">
+
+      <h2>
+        Contenidos del apartado
+      </h2>
+
+      <ul>
+
+        <li>
+          <a href="#que-es">
+            Qué es una función
+          </a>
+        </li>
+
+        <li>
+          <a href="#para-que">
+            Para qué necesitamos funciones
+          </a>
+        </li>
+
+        <li>
+          <a href="#reutilizacion">
+            Reutilización del código
+          </a>
+        </li>
+
+        <li>
+          <a href="#organizacion">
+            Organización del programa
+          </a>
+        </li>
+
+        <li>
+          <a href="#funciones-javascript">
+            Las funciones en JavaScript
+          </a>
+        </li>
+
+        <li>
+          <a href="#ejemplo">
+            Primer ejemplo de función
+          </a>
+        </li>
+
+      </ul>
+
+    </aside>
+
+  </div>
+
+  <!-- ==========================================
+       PIE DE PÁGINA
+  ========================================== -->
+
+  <footer class="footer">
+
+    <p>
+
+      Material elaborado por
+      <strong>Eva Ballestero Cubeles</strong>
+
+      · Licencia
+
+      <span class="licencia">
+        CC BY-NC-SA 4.0
+      </span>
+
+      <a
+        class="enlace-licencia"
+        href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.es"
+        target="_blank"
+        rel="license noopener noreferrer"
+        aria-label="Licencia Creative Commons BY-NC-SA 4.0"
+      >
+
+        <img
+          class="icono-licencia"
+          src="../../../img/licencias/cc-by-nc-sa.png"
+          alt="Licencia Creative Commons BY-NC-SA 4.0"
+        >
+
+      </a>
+
+    </p>
+
+  </footer>
+
+  <!-- ==========================================
+       JAVASCRIPT COMÚN
+  ========================================== -->
+
+  <script src="../../../js/modulos.js"></script>
+
+  <script>
+
+    const menuModulos =
+      document.getElementById("menuModulos");
+
+    const botonTema =
+      document.getElementById("botonTema");
+
+    const modulosActivos =
+      modulos.filter(modulo => modulo.activo === true);
+
+    modulosActivos.forEach(modulo => {
+
+      const enlace =
+        document.createElement("a");
+
+      enlace.href =
+        `../../../${modulo.carpeta}/index.html`;
+
+      enlace.textContent =
+        modulo.siglas;
+
+      enlace.title =
+        modulo.nombre;
+
+      if (modulo.siglas === "DWEC") {
+
+        enlace.style.color =
+          "var(--verde-principal)";
+
+      }
+
+      menuModulos.appendChild(enlace);
+
+    });
+
+    /* ==========================================
+       MODO OSCURO
+    ========================================== */
+
+    const temaGuardado =
+      localStorage.getItem("tema");
+
+    if (temaGuardado === "oscuro") {
+
+      document.body.classList.add("modo-oscuro");
+
+      botonTema.textContent = "🌙";
+
+    }
+
+    botonTema.addEventListener("click", () => {
+
+      document.body.classList.toggle("modo-oscuro");
+
+      const estaOscuro =
+        document.body.classList.contains("modo-oscuro");
+
+      botonTema.textContent =
+        estaOscuro ? "🌙" : "☀️";
+
+      localStorage.setItem(
+        "tema",
+        estaOscuro ? "oscuro" : "claro"
+      );
+
+    });
+
+    /* ==========================================
+       MENÚS DESPLEGABLES
+    ========================================== */
+
+    const botonesDesplegar =
+      document.querySelectorAll(".boton-desplegar");
+
+    botonesDesplegar.forEach((boton) => {
+
+      boton.addEventListener("click", () => {
+
+        const idSubmenu =
+          boton.getAttribute("data-target");
+
+        const submenu =
+          document.getElementById(idSubmenu);
+
+        if (!submenu) {
+          return;
+        }
+
+        const estaAbierto =
+          submenu.classList.contains("submenu-abierto");
+
+        if (estaAbierto) {
+
+          submenu.classList.remove("submenu-abierto");
+
+          boton.textContent = "›";
+
+          boton.setAttribute(
+            "aria-expanded",
+            "false"
+          );
+
+        } else {
+
+          submenu.classList.add("submenu-abierto");
+
+          boton.textContent = "⌄";
+
+          boton.setAttribute(
+            "aria-expanded",
+            "true"
+          );
+
+        }
+
+      });
+
+    });
+
+    /* ==========================================
+       COPIAR BLOQUES DE CÓDIGO
+    ========================================== */
+
+    document.addEventListener("click", async (evento) => {
+
+      const boton =
+        evento.target.closest(".boton-copiar");
+
+      if (!boton) {
+        return;
+      }
+
+      const bloque =
+        boton.closest(".bloque-codigo");
+
+      if (!bloque) {
+        return;
+      }
+
+      const codigo =
+        bloque.querySelector("code");
+
+      if (!codigo) {
+        return;
+      }
+
+      const textoOriginal =
+        boton.textContent;
+
+      try {
+
+        await navigator.clipboard.writeText(
+          codigo.innerText
+        );
+
+        boton.textContent = "✔ Copiado";
+
+        setTimeout(() => {
+
+          boton.textContent =
+            textoOriginal;
+
+        }, 1600);
+
+      } catch (error) {
+
+        boton.textContent = "Error al copiar";
+
+        setTimeout(() => {
+
+          boton.textContent =
+            textoOriginal;
+
+        }, 1600);
+
+      }
+
+    });
+
+  </script>
+
+</body>
+
+</html>
