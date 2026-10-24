@@ -1427,13 +1427,14 @@ console.log(producto.precio);</code></pre>
           y <code>stock</code>.
         </p>
 
-        <p>
-          La variable <code>producto</code>
-          no contiene directamente cada una de esas
-          propiedades como valores independientes.
-          Contiene un <strong>valor de referencia</strong>
-          que permite acceder al objeto.
-        </p>
+<p>
+  Cuando asignamos un objeto a una variable,
+  esta almacena un <strong>valor de referencia</strong>
+  que permite acceder a dicho objeto.
+  Por eso, dos variables diferentes pueden
+  hacer referencia al mismo objeto y
+  compartir sus propiedades.
+</p>
 
         <h3>Dos variables pueden acceder al mismo objeto</h3>
 
@@ -2794,11 +2795,19 @@ function mostrarCarrito(productos) {
   for (const producto of productos) {
     const subtotal = calcularSubtotal(producto);
 
+    let unidad = "unidades";
+
+    if (producto.cantidad === 1) {
+      unidad = "unidad";
+    }
+
     console.log(
       producto.nombre +
       " - " +
       producto.cantidad +
-      " unidades - " +
+      " " +
+      unidad +
+      " - " +
       subtotal.toFixed(2) +
       " €"
     );
@@ -2847,14 +2856,14 @@ console.log("Total final: " + calcularTotal(carrito).toFixed(2) + " €");</code
           </div>
           <pre><code>CARRITO INICIAL
 Teclado - 2 unidades - 100.00 €
-Ratón - 1 unidades - 20.00 €
+Ratón - 1 unidad - 20.00 €
 Total inicial: 120.00 €
 Precio original: 50 €
 Precio rebajado: 45 €
 CARRITO ACTUALIZADO
 Teclado - 2 unidades - 100.00 €
-Ratón - 1 unidades - 20.00 €
-Monitor - 1 unidades - 150.00 €
+Ratón - 1 unidad - 20.00 €
+Monitor - 1 unidad - 150.00 €
 Total final: 270.00 €</code></pre>
         </div>
 
