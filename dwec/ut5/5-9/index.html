@@ -1338,6 +1338,49 @@ console.log(calcular(10, 5, multiplicar));</code></pre>
   </p>
 </div>
 
+<h3>Funciones de orden superior</h3>
+
+<p>
+  Una función que recibe otra función como argumento
+  o que devuelve una función como resultado se denomina
+  <strong>función de orden superior</strong>
+  (<em>higher-order function</em>).
+</p>
+
+<p>
+  En el ejemplo anterior, <code>calcular()</code>
+  es una función de orden superior porque recibe
+  otra función mediante el parámetro
+  <code>operacion</code>.
+</p>
+
+<p>
+  Las funciones <code>sumar()</code> y
+  <code>multiplicar()</code> se utilizan como
+  argumentos de <code>calcular()</code>.
+</p>
+
+<div class="caja caja-importante">
+  <span class="caja-titulo">📌 Importante</span>
+
+  <p>
+    Una <strong>función de orden superior</strong>
+    es una función que recibe otras funciones
+    como argumentos o devuelve funciones.
+  </p>
+
+  <p>
+    Una <strong>callback</strong> es la función
+    que se proporciona a otra función para
+    que esta pueda ejecutarla.
+  </p>
+
+  <p>
+    Por tanto, ambos conceptos están relacionados,
+    pero no significan lo mismo.
+  </p>
+</div>
+
 <!-- 4 -->
 <h2 id="que-es-callback">Qué es una función callback</h2>
 
@@ -1906,13 +1949,24 @@ console.log(cuadrado);</code></pre>
   o seleccionar elementos de un array.
 </p>
 
+
 <p>
   Vamos a introducir tres métodos muy utilizados:
   <code>forEach()</code>, <code>map()</code>
   y <code>filter()</code>.
-  Los estudiaremos aquí desde el punto de vista
-  de las funciones callback.
 </p>
+
+<p>
+  El objetivo de estos ejemplos es comprender
+  <strong>cómo los métodos de los arrays reciben
+  y ejecutan funciones callback</strong>.
+  No pretendemos estudiar aquí todas las
+  características de estos métodos,
+  sino observar cómo se utilizan las funciones
+  como argumentos en situaciones habituales
+  del desarrollo web.
+</p>
+
 
 <h3>forEach(): ejecutar una función por cada elemento</h3>
 
@@ -2567,10 +2621,12 @@ const crearProducto = (nombre, precio) => ({
   precio
 });
 
-// Callback para aplicar un descuento del 10 %.
+// Función que utilizaremos como callback
+// para aplicar un descuento del 10 %.
 const aplicarDescuento = precio => precio * 0.90;
 
-// Callback para aplicar un IVA del 21 %.
+// Función que utilizaremos como callback
+// para aplicar un IVA del 21 %.
 const aplicarIVA = precio => precio * 1.21;
 
 // Función que recibe y ejecuta una callback.
@@ -2672,6 +2728,21 @@ Precio final con IVA: 108.90 €</code></pre>
     su propiedad <code>precio</code>.
   </li>
 </ol>
+  
+<p>
+  Observa que <code>aplicarDescuento</code>
+  y <code>aplicarIVA</code> son funciones
+  normales definidas mediante la sintaxis
+  de funciones flecha.
+</p>
+
+<p>
+  Actúan como <strong>callbacks</strong>
+  cuando las pasamos como argumentos
+  a <code>procesarPrecio()</code>,
+  que es una <strong>función de orden superior</strong>.
+</p>
+
 
 <div class="caja caja-importante">
   <span class="caja-titulo">📌 Importante</span>
