@@ -1,0 +1,3267 @@
+
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="5.5 - Ámbito de las variables en las funciones de JavaScript.">
+  <title>5.5 - Ámbito de las variables en las funciones</title>
+
+  <link rel="icon" type="image/png" href="../../../img/favicon.png?v=5">
+  <link rel="stylesheet" href="../../../css/estilos.css">
+
+  <style>
+    /* ESTRUCTURA GENERAL */
+    .pagina-ut {
+      display: grid;
+      grid-template-columns: 280px minmax(0, 1fr) 260px;
+      min-height: calc(100vh - 68px);
+    }
+
+    /* MENÚ IZQUIERDO */
+    .sidebar {
+      border-right: 1px solid var(--borde);
+      background-color: var(--fondo-pagina);
+      padding: 12px 10px 30px;
+      position: sticky;
+      top: 68px;
+      height: calc(100vh - 68px);
+      overflow-y: auto;
+    }
+
+    .sidebar-modulo {
+      display: block;
+      margin-bottom: 8px;
+      padding: 8px 14px;
+      color: #626873;
+      font-size: 17px;
+      font-weight: 700;
+      line-height: 1.3;
+      text-decoration: none;
+      border-radius: 6px;
+    }
+
+    .sidebar-modulo:hover,
+    .menu-titulo:hover,
+    .enlace-apartado-simple:hover,
+    .submenu-apartados a:hover {
+      color: var(--verde-principal);
+    }
+
+    .menu-desplegable {
+      width: 100%;
+    }
+
+    .menu-cabecera {
+      display: flex;
+      align-items: center;
+      gap: 4px;
+      width: 100%;
+      border-radius: 6px;
+    }
+
+    .menu-cabecera-activa {
+      background-color: #f1f1f1;
+    }
+
+    .menu-cabecera-activa > .menu-titulo {
+      color: var(--verde-principal);
+    }
+
+    .menu-titulo {
+      flex: 1;
+      display: block;
+      padding: 11px 8px 11px 14px;
+      color: #626873;
+      font-size: 16px;
+      font-weight: 650;
+      line-height: 1.4;
+      text-decoration: none;
+    }
+
+    .boton-desplegar {
+      width: 36px;
+      height: 36px;
+      margin-right: 5px;
+      padding: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+      border: 0;
+      border-radius: 6px;
+      background: transparent;
+      color: #777;
+      font-family: inherit;
+      font-size: 24px;
+      line-height: 1;
+      cursor: pointer;
+    }
+
+    .boton-desplegar:hover {
+      background-color: #e5e7eb;
+      color: var(--verde-principal);
+    }
+
+    .submenu {
+      display: none;
+    }
+
+    .submenu.submenu-abierto {
+      display: block;
+    }
+
+    .menu-apartado {
+      margin-left: 14px;
+    }
+
+    .menu-apartado .menu-titulo {
+      padding-top: 9px;
+      padding-bottom: 9px;
+      font-size: 15px;
+      font-weight: 600;
+    }
+
+    .enlace-apartado-simple {
+      display: block;
+      margin-left: 14px;
+      padding: 10px 14px;
+      color: #626873;
+      font-size: 15px;
+      font-weight: 600;
+      line-height: 1.4;
+      text-decoration: none;
+      border-radius: 6px;
+    }
+
+    .submenu-apartados {
+      margin: 2px 0 5px 28px;
+      border-left: 2px solid #e0e3e7;
+    }
+
+    .submenu-apartados a {
+      display: block;
+      padding: 7px 10px;
+      color: #777d87;
+      font-size: 14px;
+      font-weight: 500;
+      line-height: 1.35;
+      text-decoration: none;
+    }
+
+    .sidebar-ut-cerrada {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      padding: 13px 14px;
+      color: #626873;
+      text-decoration: none;
+      font-size: 16px;
+      font-weight: 650;
+      line-height: 1.35;
+      border-radius: 6px;
+    }
+
+    .sidebar-ut-cerrada:hover,
+    .enlace-apartado-simple:hover {
+      background-color: #f3f4f6;
+    }
+
+    body.modo-oscuro .menu-cabecera-activa,
+    body.modo-oscuro .sidebar-ut-cerrada:hover,
+    body.modo-oscuro .enlace-apartado-simple:hover {
+      background-color: #273244;
+    }
+
+    body.modo-oscuro .boton-desplegar:hover {
+      background-color: #334155;
+    }
+
+    body.modo-oscuro .submenu-apartados {
+      border-left-color: #3a4659;
+    }
+
+    /* CONTENIDO CENTRAL */
+    .contenido-ut {
+      padding: 28px 34px 70px;
+      max-width: 1150px;
+      width: 100%;
+      min-width: 0;
+    }
+
+    .migas {
+      display: flex;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-bottom: 30px;
+      font-size: 14px;
+    }
+
+    .miga-inicio {
+      text-decoration: none;
+      font-size: 18px;
+    }
+
+    .miga-separador {
+      color: #999;
+      font-size: 22px;
+    }
+
+    .miga-modulo {
+      color: var(--texto-secundario);
+      text-decoration: none;
+    }
+
+    .miga-modulo:hover {
+      color: var(--verde-principal);
+    }
+
+    .miga-actual {
+      padding: 8px 14px;
+      background-color: #f3f3f3;
+      border-radius: 24px;
+      color: var(--verde-principal);
+    }
+
+    body.modo-oscuro .miga-actual {
+      background-color: #273244;
+    }
+
+    .contenido-ut h1 {
+      margin: 0 0 30px;
+      font-size: clamp(38px, 5vw, 58px);
+      line-height: 1.12;
+    }
+
+    .apartado-ut {
+      margin-top: 55px;
+      scroll-margin-top: 95px;
+    }
+
+    .apartado-ut h2 {
+      margin: 0 0 24px;
+      font-size: 32px;
+      line-height: 1.2;
+      scroll-margin-top: 95px;
+    }
+
+    .apartado-ut h3 {
+      margin: 34px 0 16px;
+      font-size: 24px;
+      line-height: 1.3;
+    }
+
+    .apartado-ut p {
+      margin: 0 0 18px;
+      font-size: 18px;
+      line-height: 1.75;
+    }
+
+    .apartado-ut ul,
+    .apartado-ut ol {
+      margin: 16px 0 24px;
+      padding-left: 28px;
+    }
+
+    .apartado-ut li {
+      margin-bottom: 10px;
+      font-size: 17px;
+      line-height: 1.6;
+    }
+
+    /* CAJAS DIDÁCTICAS */
+    .caja {
+      margin: 28px 0;
+      padding: 18px 20px;
+      border-left: 5px solid;
+      border-radius: 8px;
+      line-height: 1.65;
+    }
+
+    .caja p {
+      margin: 0 0 12px;
+      font-size: 17px;
+    }
+
+    .caja p:last-child {
+      margin-bottom: 0;
+    }
+
+    .caja-titulo {
+      display: block;
+      margin-bottom: 8px;
+      font-size: 17px;
+      font-weight: 700;
+    }
+
+    .caja-importante {
+      background-color: #eef8f1;
+      border-left-color: #2f9e5b;
+    }
+
+    .caja-atencion {
+      background-color: #fff7e8;
+      border-left-color: #e09b27;
+    }
+
+    .caja-ejemplo {
+      background-color: #eef5ff;
+      border-left-color: #3f7acb;
+    }
+
+    body.modo-oscuro .caja-importante {
+      background-color: #20372a;
+    }
+
+    body.modo-oscuro .caja-atencion {
+      background-color: #3b3020;
+    }
+
+    body.modo-oscuro .caja-ejemplo {
+      background-color: #23344a;
+    }
+
+    /* TABLAS */
+    .tabla-responsive {
+      width: 100%;
+      margin: 28px 0;
+      overflow-x: auto;
+    }
+
+    .tabla-apuntes {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 16px;
+    }
+
+    .tabla-apuntes th,
+    .tabla-apuntes td {
+      padding: 14px 16px;
+      border: 1px solid var(--borde);
+      text-align: left;
+      vertical-align: top;
+      line-height: 1.55;
+    }
+
+    .tabla-apuntes th {
+      background-color: #f1f3f5;
+      font-weight: 700;
+    }
+
+    body.modo-oscuro .tabla-apuntes th {
+      background-color: #273244;
+    }
+
+    /* ESQUEMAS */
+    .esquema-web {
+      max-width: 700px;
+      margin: 30px auto;
+    }
+
+    .esquema-fila {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 14px;
+      margin-top: 16px;
+    }
+
+    .esquema-caja {
+      padding: 18px 16px;
+      background-color: var(--fondo-tarjeta);
+      border: 1px solid var(--borde);
+      border-radius: 10px;
+      text-align: center;
+    }
+
+    .esquema-caja strong {
+      display: block;
+      margin-bottom: 5px;
+      color: var(--verde-principal);
+      font-size: 18px;
+      overflow-wrap: anywhere;
+    }
+
+    .esquema-caja span {
+      color: var(--texto-secundario);
+      font-size: 15px;
+      line-height: 1.45;
+    }
+
+    .esquema-flecha {
+      margin: 14px 0;
+      text-align: center;
+      font-size: 22px;
+      color: var(--verde-principal);
+    }
+
+    /* REFLEXIÓN Y SOLUCIONES */
+    .actividad-reflexion {
+      margin: 32px 0;
+      padding: 22px 24px;
+      background-color: #f7f8fa;
+      border: 1px solid var(--borde);
+      border-radius: 10px;
+    }
+
+    .actividad-reflexion h3 {
+      margin: 0 0 12px;
+      color: var(--verde-principal);
+      font-size: 20px;
+    }
+
+    .actividad-reflexion p {
+      margin: 0 0 14px;
+      font-size: 17px;
+      line-height: 1.65;
+    }
+
+    body.modo-oscuro .actividad-reflexion {
+      background-color: #232d3d;
+    }
+
+    .solucion-desplegable {
+      margin-top: 20px;
+    }
+
+    .solucion-desplegable summary {
+      display: inline-block;
+      padding: 10px 16px;
+      background-color: #eef8f1;
+      border: 1px solid #b9dfc6;
+      border-radius: 7px;
+      color: var(--verde-principal);
+      font-size: 16px;
+      font-weight: 700;
+      cursor: pointer;
+      user-select: none;
+    }
+
+    .solucion-desplegable summary:hover {
+      background-color: #e2f3e7;
+    }
+
+    .contenido-solucion {
+      margin-top: 16px;
+      padding: 18px 20px;
+      background-color: var(--fondo-pagina);
+      border-left: 4px solid var(--verde-principal);
+      border-radius: 6px;
+    }
+
+    .contenido-solucion p {
+      margin: 0 0 12px;
+      font-size: 16px;
+      line-height: 1.65;
+    }
+
+    body.modo-oscuro .solucion-desplegable summary {
+      background-color: #20372a;
+      border-color: #315d40;
+    }
+
+    /* BLOQUES DE CÓDIGO */
+    .bloque-codigo {
+      margin: 28px 0;
+      border: 1px solid #3b3b3b;
+      border-radius: 9px;
+      overflow: hidden;
+      background-color: #1e1e1e;
+    }
+
+    .cabecera-codigo {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      padding: 10px 14px;
+      background-color: #2b2b2b;
+      color: #f3f4f6;
+      font-size: 14px;
+    }
+
+    .lenguaje-codigo {
+      font-weight: 700;
+    }
+
+    .boton-copiar {
+      padding: 6px 11px;
+      border: 1px solid #5c5c5c;
+      border-radius: 6px;
+      background-color: #383838;
+      color: #f3f4f6;
+      font-family: inherit;
+      font-size: 13px;
+      cursor: pointer;
+    }
+
+    .boton-copiar:hover {
+      background-color: #484848;
+      border-color: #777;
+    }
+
+    .bloque-codigo pre {
+      margin: 0;
+      padding: 18px 20px;
+      overflow-x: auto;
+      tab-size: 2;
+    }
+
+    .bloque-codigo code {
+      color: #f5f5f5;
+      font-family: Consolas, "Courier New", monospace;
+      font-size: 15px;
+      line-height: 1.6;
+      white-space: pre;
+    }
+
+    /* ÍNDICE DERECHO */
+    .indice-derecho {
+      padding: 28px 22px 100px;
+      border-left: 1px solid var(--borde);
+      position: sticky;
+      top: 68px;
+      height: calc(100vh - 68px);
+      overflow-y: auto;
+      box-sizing: border-box;
+    }
+
+    .indice-derecho h2 {
+      margin: 8px 0 20px;
+      font-size: 17px;
+      color: #555b65;
+    }
+
+    body.modo-oscuro .indice-derecho h2 {
+      color: #d1d5db;
+    }
+
+    .indice-derecho ul {
+      margin: 0;
+      padding-left: 18px;
+    }
+
+    .indice-derecho li {
+      margin-bottom: 12px;
+    }
+
+    .indice-derecho a {
+      color: var(--texto-secundario);
+      text-decoration: none;
+      font-size: 14px;
+      line-height: 1.4;
+    }
+
+    .indice-derecho a:hover {
+      color: var(--verde-principal);
+    }
+
+    /* NAVEGACIÓN */
+    .navegacion-paginas {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 20px;
+      margin-top: 50px;
+    }
+
+    .nav-pagina {
+      min-height: 100px;
+      padding: 18px 20px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      border: 1px solid var(--borde);
+      border-radius: 8px;
+      text-decoration: none;
+      background-color: var(--fondo-tarjeta);
+    }
+
+    .nav-anterior {
+      align-items: flex-start;
+      text-align: left;
+    }
+
+    .nav-siguiente {
+      align-items: flex-end;
+      text-align: right;
+    }
+
+    .nav-etiqueta {
+      margin-bottom: 5px;
+      color: var(--texto-secundario);
+      font-size: 14px;
+    }
+
+    .nav-pagina strong {
+      color: var(--verde-principal);
+      font-size: 16px;
+      line-height: 1.4;
+    }
+
+    .nav-pagina:hover {
+      border-color: var(--verde-principal);
+    }
+
+    /* DISEÑO ADAPTABLE */
+    @media (max-width: 1100px) {
+      .pagina-ut {
+        grid-template-columns: 250px minmax(0, 1fr);
+      }
+
+      .indice-derecho {
+        display: none;
+      }
+    }
+
+    @media (max-width: 760px) {
+      .pagina-ut {
+        display: block;
+      }
+
+      .sidebar {
+        position: static;
+        width: 100%;
+        height: auto;
+        border-right: 0;
+        border-bottom: 1px solid var(--borde);
+      }
+
+      .contenido-ut {
+        padding: 28px 20px 60px;
+      }
+
+      .contenido-ut h1 {
+        font-size: 36px;
+      }
+
+      .navegacion-paginas,
+      .esquema-fila {
+        grid-template-columns: 1fr;
+      }
+
+      .nav-siguiente {
+        align-items: flex-start;
+        text-align: left;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+  <!-- BARRA SUPERIOR -->
+  <header class="navbar">
+    <a class="inicio" href="../../../index.html">
+      <img
+        src="../../../img/profesora-castana.png?v=2"
+        alt=""
+        class="icono-profesora"
+      >
+      <span>Inicio</span>
+    </a>
+
+    <nav
+      id="menuModulos"
+      class="menu-modulos"
+      aria-label="Módulos formativos"
+    ></nav>
+
+    <button
+      id="botonTema"
+      class="boton-tema"
+      type="button"
+      aria-label="Cambiar entre modo claro y oscuro"
+      title="Cambiar tema"
+    >☀️</button>
+  </header>
+
+  <div class="pagina-ut">
+
+    <!-- MENÚ LATERAL -->
+    <aside class="sidebar">
+
+      <a class="sidebar-modulo" href="../../index.html">
+        Desarrollo web en entorno cliente
+      </a>
+
+      <a class="sidebar-ut-cerrada" href="../../ut1/index.html">
+        <span>UT1 - Introducción al desarrollo web en entorno cliente</span>
+        <span>›</span>
+      </a>
+
+      <a class="sidebar-ut-cerrada" href="../../ut2/index.html">
+        <span>UT2 - Fundamentos de JavaScript: variables, tipos y operadores</span>
+        <span>›</span>
+      </a>
+
+      <a class="sidebar-ut-cerrada" href="../../ut3/index.html">
+        <span>UT3 - Estructuras de control en JavaScript</span>
+        <span>›</span>
+      </a>
+
+      <a class="sidebar-ut-cerrada" href="../../ut4/index.html">
+        <span>UT4 - Arrays y estructuras de datos en JavaScript</span>
+        <span>›</span>
+      </a>
+
+      <!-- UT5 -->
+      <div class="menu-desplegable">
+
+        <div class="menu-cabecera menu-cabecera-activa">
+          <a class="menu-titulo" href="../index.html">
+            UT5 - Funciones en JavaScript
+          </a>
+
+          <button
+            class="boton-desplegar"
+            type="button"
+            data-target="submenu-ut5"
+            aria-expanded="true"
+            aria-label="Mostrar u ocultar UT5"
+          >⌄</button>
+        </div>
+
+        <div id="submenu-ut5" class="submenu submenu-abierto">
+
+          <!-- 5.1 -->
+          <div class="menu-desplegable menu-apartado">
+            <div class="menu-cabecera">
+              <a class="menu-titulo" href="../5-1/index.html">
+                5.1 Introducción a las funciones
+              </a>
+
+              <button
+                class="boton-desplegar"
+                type="button"
+                data-target="submenu-5-1"
+                aria-expanded="false"
+                aria-label="Mostrar u ocultar los subapartados del 5.1"
+              >›</button>
+            </div>
+
+            <div id="submenu-5-1" class="submenu submenu-apartados">
+              <a href="../5-1/index.html#que-es-funcion">Qué es una función</a>
+              <a href="../5-1/index.html#para-que-funciones">Para qué necesitamos funciones</a>
+              <a href="../5-1/index.html#reutilizacion">Reutilización del código</a>
+              <a href="../5-1/index.html#organizacion">Organización del programa</a>
+              <a href="../5-1/index.html#funciones-javascript">Las funciones en JavaScript</a>
+              <a href="../5-1/index.html#primer-ejemplo">Primer ejemplo de función</a>
+            </div>
+          </div>
+
+          <!-- 5.2 -->
+          <div class="menu-desplegable menu-apartado">
+            <div class="menu-cabecera">
+              <a class="menu-titulo" href="../5-2/index.html">
+                5.2 Declaración e invocación de funciones
+              </a>
+
+              <button
+                class="boton-desplegar"
+                type="button"
+                data-target="submenu-5-2"
+                aria-expanded="false"
+                aria-label="Mostrar u ocultar los subapartados del 5.2"
+              >›</button>
+            </div>
+
+            <div id="submenu-5-2" class="submenu submenu-apartados">
+              <a href="../5-2/index.html#declarar-funcion">Declarar una función</a>
+              <a href="../5-2/index.html#sintaxis">Sintaxis de una declaración</a>
+              <a href="../5-2/index.html#invocar-funcion">Invocar una función</a>
+              <a href="../5-2/index.html#orden-ejecucion">Orden de ejecución</a>
+              <a href="../5-2/index.html#llamadas-multiples">Llamar varias veces a una función</a>
+              <a href="../5-2/index.html#hoisting">Declaraciones y hoisting</a>
+              <a href="../5-2/index.html#funciones-entre-si">Funciones que llaman a otras funciones</a>
+              <a href="../5-2/index.html#errores-frecuentes">Errores frecuentes</a>
+              <a href="../5-2/index.html#buenas-practicas">Buenas prácticas</a>
+              <a href="../5-2/index.html#ejemplo-completo">Ejemplo práctico completo</a>
+            </div>
+          </div>
+
+          <!-- 5.3 -->
+          <div class="menu-desplegable menu-apartado">
+            <div class="menu-cabecera">
+              <a class="menu-titulo" href="../5-3/index.html">
+                5.3 Parámetros y argumentos
+              </a>
+
+              <button
+                class="boton-desplegar"
+                type="button"
+                data-target="submenu-5-3"
+                aria-expanded="false"
+                aria-label="Mostrar u ocultar los subapartados del 5.3"
+              >›</button>
+            </div>
+
+            <div id="submenu-5-3" class="submenu submenu-apartados">
+              <a href="../5-3/index.html#parametros-argumentos">Qué son los parámetros y argumentos</a>
+              <a href="../5-3/index.html#declaracion-parametros">Declarar funciones con parámetros</a>
+              <a href="../5-3/index.html#invocacion-argumentos">Invocar funciones con argumentos</a>
+              <a href="../5-3/index.html#varios-parametros">Funciones con varios parámetros</a>
+              <a href="../5-3/index.html#parametros-locales">Parámetros y variables locales</a>
+              <a href="../5-3/index.html#tipos-datos">Argumentos de distintos tipos</a>
+              <a href="../5-3/index.html#numero-argumentos">Número de argumentos</a>
+              <a href="../5-3/index.html#errores-frecuentes">Errores frecuentes</a>
+              <a href="../5-3/index.html#buenas-practicas">Buenas prácticas</a>
+              <a href="../5-3/index.html#ejemplo-completo">Ejemplo práctico completo</a>
+            </div>
+          </div>
+
+          <!-- 5.4 -->
+          <div class="menu-desplegable menu-apartado">
+            <div class="menu-cabecera">
+              <a class="menu-titulo" href="../5-4/index.html">
+                5.4 Valores de retorno y sentencia return
+              </a>
+
+              <button
+                class="boton-desplegar"
+                type="button"
+                data-target="submenu-5-4"
+                aria-expanded="false"
+                aria-label="Mostrar u ocultar los subapartados del 5.4"
+              >›</button>
+            </div>
+
+            <div id="submenu-5-4" class="submenu submenu-apartados">
+              <a href="../5-4/index.html#devolver-valor">Qué significa devolver un valor</a>
+              <a href="../5-4/index.html#sintaxis-return">Sintaxis de return</a>
+              <a href="../5-4/index.html#console-vs-return">console.log() y return</a>
+              <a href="../5-4/index.html#utilizar-retorno">Utilizar el valor devuelto</a>
+              <a href="../5-4/index.html#finaliza-ejecucion">return y la ejecución</a>
+              <a href="../5-4/index.html#sin-return">Funciones sin retorno explícito</a>
+              <a href="../5-4/index.html#tipos-retorno">Tipos de valores devueltos</a>
+              <a href="../5-4/index.html#errores-frecuentes">Errores frecuentes</a>
+              <a href="../5-4/index.html#buenas-practicas">Buenas prácticas</a>
+              <a href="../5-4/index.html#ejemplo-completo">Ejemplo práctico completo</a>
+            </div>
+          </div>
+
+          <!-- 5.5 ACTIVO -->
+          <div class="menu-desplegable menu-apartado">
+            <div class="menu-cabecera menu-cabecera-activa">
+              <a class="menu-titulo" href="index.html">
+                5.5 Ámbito de las variables en las funciones
+              </a>
+
+              <button
+                class="boton-desplegar"
+                type="button"
+                data-target="submenu-5-5"
+                aria-expanded="true"
+                aria-label="Mostrar u ocultar los subapartados del 5.5"
+              >⌄</button>
+            </div>
+
+            <div
+              id="submenu-5-5"
+              class="submenu submenu-apartados submenu-abierto"
+            >
+              <a href="#que-es-ambito">Qué es el ámbito de una variable</a>
+              <a href="#ambito-global">Ámbito global</a>
+              <a href="#ambito-local">Ámbito local de función</a>
+              <a href="#parametros-locales">Parámetros y variables locales</a>
+              <a href="#acceso-variables">Acceso a variables externas</a>
+              <a href="#ambito-bloque">Ámbito de bloque</a>
+              <a href="#var-let-const">Diferencias entre var, let y const</a>
+              <a href="#sombreado">Sombreado de variables</a>
+              <a href="#errores-frecuentes">Errores frecuentes</a>
+              <a href="#buenas-practicas">Buenas prácticas</a>
+              <a href="#ejemplo-completo">Ejemplo práctico completo</a>
+            </div>
+          </div>
+
+          <a class="enlace-apartado-simple" href="../5-6/index.html">
+            5.6 Paso de valores y referencias a funciones
+          </a>
+
+          <a class="enlace-apartado-simple" href="../5-7/index.html">
+            5.7 Parámetros por defecto y parámetros rest
+          </a>
+
+          <a class="enlace-apartado-simple" href="../5-8/index.html">
+            5.8 Expresiones de función y funciones flecha
+          </a>
+
+          <a class="enlace-apartado-simple" href="../5-9/index.html">
+            5.9 Funciones como valores y funciones callback
+          </a>
+
+          <a class="enlace-apartado-simple" href="../5-10/index.html">
+            5.10 Funciones predefinidas y métodos de JavaScript
+          </a>
+
+          <a class="enlace-apartado-simple" href="../5-11/index.html">
+            5.11 Funciones recursivas
+          </a>
+
+          <a class="enlace-apartado-simple" href="../5-12/index.html">
+            5.12 Organización modular de un programa
+          </a>
+
+          <a class="enlace-apartado-simple" href="../resumen/index.html">
+            ✏️ Resumen de la UT5
+          </a>
+
+          <div class="menu-desplegable menu-apartado">
+            <div class="menu-cabecera">
+              <a class="menu-titulo" href="../actividades/index.html">
+                📝 Actividades de la UT5
+              </a>
+
+              <button
+                class="boton-desplegar"
+                type="button"
+                data-target="submenu-actividades"
+                aria-expanded="false"
+                aria-label="Mostrar u ocultar las actividades de la UT5"
+              >›</button>
+            </div>
+
+            <div id="submenu-actividades" class="submenu submenu-apartados">
+              <a href="../actividades/index.html#actividades-practicas">
+                💻 Actividades prácticas
+              </a>
+              <a href="../actividades/index.html#reto-final">
+                🧩 Reto final
+              </a>
+              <a href="../actividades/index.html#autoevaluacion">
+                ✅ Autoevaluación
+              </a>
+            </div>
+          </div>
+
+        </div>
+      </div>
+
+      <a class="sidebar-ut-cerrada" href="../../ut6/index.html">
+        <span>UT6 - Objetos y Programación Orientada a Objetos en JavaScript</span>
+        <span>›</span>
+      </a>
+
+      <a class="sidebar-ut-cerrada" href="../../ut7/index.html">
+        <span>UT7 - Objetos predefinidos y modelo del navegador (BOM)</span>
+        <span>›</span>
+      </a>
+
+      <a class="sidebar-ut-cerrada" href="../../ut8/index.html">
+        <span>UT8 - Aplicaciones web interactivas: DOM, eventos y formularios</span>
+        <span>›</span>
+      </a>
+
+      <a class="sidebar-ut-cerrada" href="../../ut9/index.html">
+        <span>UT9 - Comunicación asíncrona y peticiones al servidor</span>
+        <span>›</span>
+      </a>
+
+      <a class="sidebar-ut-cerrada" href="../../ut10/index.html">
+        <span>UT10 - Introducción a React</span>
+        <span>›</span>
+      </a>
+
+    </aside>
+
+    <!-- CONTENIDO PRINCIPAL -->
+    <main class="contenido-ut">
+
+      <div class="migas">
+        <a class="miga-inicio" href="../../../index.html" aria-label="Inicio">🏠</a>
+        <span class="miga-separador">›</span>
+        <a class="miga-modulo" href="../../index.html">DWEC</a>
+        <span class="miga-separador">›</span>
+        <a class="miga-modulo" href="../index.html">UT5</a>
+        <span class="miga-separador">›</span>
+        <span class="miga-actual">5.5</span>
+      </div>
+
+      <h1>5.5 Ámbito de las variables en las funciones</h1>
+
+      <section class="apartado-ut">
+
+        <p>
+          En los apartados anteriores hemos aprendido a declarar
+          funciones, proporcionarles datos mediante parámetros
+          y recuperar resultados utilizando la sentencia
+          <code>return</code>.
+        </p>
+
+        <p>
+          Sin embargo, cuando trabajamos con funciones surge
+          una pregunta importante:
+          <strong>¿podemos utilizar cualquier variable desde
+          cualquier parte de un programa?</strong>
+        </p>
+
+        <p>
+          Imagina que estamos desarrollando una tienda online.
+          Tenemos una función que calcula el importe de un producto
+          y otra que muestra los datos de un pedido.
+          Cada una puede necesitar sus propias variables para
+          realizar los cálculos.
+        </p>
+
+        <p>
+          Si todas las variables estuvieran disponibles en cualquier
+          lugar, podrían producirse conflictos entre sus nombres,
+          modificaciones accidentales y errores difíciles de localizar.
+        </p>
+
+        <p>
+          Para evitar estos problemas, JavaScript establece reglas
+          que determinan <strong>dónde puede utilizarse cada
+          variable</strong>. Estas reglas están relacionadas con
+          el concepto de <strong>ámbito</strong>.
+        </p>
+
+        <div class="caja caja-importante">
+          <span class="caja-titulo">📌 Importante</span>
+          <p>
+            El <strong>ámbito de una variable</strong>, también
+            denominado <em>scope</em>, determina las zonas del
+            programa desde las que podemos acceder a ella.
+          </p>
+          <p>
+            Una variable puede existir dentro de una función
+            o de un bloque y no estar disponible fuera de ellos.
+          </p>
+        </div>
+
+        <!-- 1. QUÉ ES EL ÁMBITO -->
+        <h2 id="que-es-ambito">
+          Qué es el ámbito de una variable
+        </h2>
+
+        <p>
+          Cuando declaramos una variable, JavaScript determina
+          en qué parte del código puede utilizarse su nombre.
+          Esa zona se conoce como <strong>ámbito de la variable</strong>.
+        </p>
+
+        <p>
+          Observa este ejemplo:
+        </p>
+
+        <div class="bloque-codigo">
+          <div class="cabecera-codigo">
+            <span class="lenguaje-codigo">JavaScript</span>
+            <button class="boton-copiar" type="button">📋 Copiar código</button>
+          </div>
+          <pre><code>function mostrarProducto() {
+  const producto = "Teclado";
+
+  console.log(producto);
+}
+
+mostrarProducto();</code></pre>
+        </div>
+
+        <p>
+          La consola mostrará:
+        </p>
+
+        <div class="bloque-codigo">
+          <div class="cabecera-codigo">
+            <span class="lenguaje-codigo">Consola</span>
+            <button class="boton-copiar" type="button">📋 Copiar código</button>
+          </div>
+          <pre><code>Teclado</code></pre>
+        </div>
+
+        <p>
+          La variable <code>producto</code> se declara dentro
+          de <code>mostrarProducto()</code>.
+          Por tanto, podemos utilizarla dentro de esa función.
+        </p>
+
+        <p>
+          Pero ¿qué ocurriría si intentáramos acceder a ella
+          desde fuera?
+        </p>
+
+        <div class="bloque-codigo">
+          <div class="cabecera-codigo">
+            <span class="lenguaje-codigo">JavaScript</span>
+            <button class="boton-copiar" type="button">📋 Copiar código</button>
+          </div>
+          <pre><code>function mostrarProducto() {
+  const producto = "Teclado";
+
+  console.log(producto);
+}
+
+mostrarProducto();
+
+console.log(producto);</code></pre>
+        </div>
+
+        <p>
+          La primera instrucción <code>console.log()</code>
+          muestra <code>Teclado</code>, pero la última produce
+          un error similar al siguiente:
+        </p>
+
+        <div class="bloque-codigo">
+          <div class="cabecera-codigo">
+            <span class="lenguaje-codigo">Consola</span>
+            <button class="boton-copiar" type="button">📋 Copiar código</button>
+          </div>
+          <pre><code>Teclado
+ReferenceError: producto is not defined</code></pre>
+        </div>
+
+        <p>
+          El error se produce porque la variable
+          <code>producto</code> pertenece al ámbito
+          de la función y no está disponible fuera de ella.
+        </p>
+
+        <div class="caja caja-atencion">
+          <span class="caja-titulo">⚠️ Atención</span>
+          <p>
+            Que una función haya terminado de ejecutarse
+            no significa que las variables declaradas
+            dentro de ella pasen a estar disponibles
+            en el resto del programa.
+          </p>
+        </div>
+
+        <p>
+          En este apartado distinguiremos principalmente
+          tres situaciones: variables de ámbito global,
+          variables locales de función y variables
+          de ámbito de bloque.
+        </p>
+
+        <div class="esquema-web">
+          <div class="esquema-fila">
+            <div class="esquema-caja">
+              <strong>Global</strong>
+              <span>Declarada fuera de las funciones y accesible desde los ámbitos internos cuando no está ocultada</span>
+            </div>
+            <div class="esquema-caja">
+              <strong>Función</strong>
+              <span>Declarada dentro de una función y limitada a su ámbito</span>
+            </div>
+            <div class="esquema-caja">
+              <strong>Bloque</strong>
+              <span>Declarada con let o const dentro de un bloque delimitado por llaves</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- 2. ÁMBITO GLOBAL -->
+        <h2 id="ambito-global">
+          Ámbito global
+        </h2>
+
+        <p>
+          Una variable tiene <strong>ámbito global</strong>
+          cuando se declara en el nivel superior de un script
+          clásico, fuera de cualquier función o bloque.
+        </p>
+
+        <p>
+          En los ejemplos sencillos de esta unidad,
+          estas variables pueden utilizarse tanto en el
+          código principal como dentro de las funciones,
+          siempre que otra declaración más cercana
+          no oculte su nombre.
+        </p>
+
+        <h3>Acceder a una variable global desde una función</h3>
+
+        <div class="bloque-codigo">
+          <div class="cabecera-codigo">
+            <span class="lenguaje-codigo">JavaScript</span>
+            <button class="boton-copiar" type="button">📋 Copiar código</button>
+          </div>
+          <pre><code>const nombreTienda = "TecnoDAW";
+
+function mostrarBienvenida() {
+  console.log("Bienvenido a " + nombreTienda);
+}
+
+mostrarBienvenida();
+
+console.log(nombreTienda);</code></pre>
+        </div>
+
+        <p>
+          La consola mostrará:
+        </p>
+
+        <div class="bloque-codigo">
+          <div class="cabecera-codigo">
+            <span class="lenguaje-codigo">Consola</span>
+            <button class="boton-copiar" type="button">📋 Copiar código</button>
+          </div>
+          <pre><code>Bienvenido a TecnoDAW
+TecnoDAW</code></pre>
+        </div>
+
+        <p>
+          La variable <code>nombreTienda</code> se ha declarado
+          fuera de la función. Por eso podemos acceder
+          a ella desde <code>mostrarBienvenida()</code>
+          y desde el código principal.
+        </p>
+
+        <h3>Modificar una variable global</h3>
+
+        <p>
+          Si una variable global se declara con <code>let</code>,
+          una función también puede modificarla.
+        </p>
+
+        <div class="bloque-codigo">
+          <div class="cabecera-codigo">
+            <span class="lenguaje-codigo">JavaScript</span>
+            <button class="boton-copiar" type="button">📋 Copiar código</button>
+          </div>
+          <pre><code>let contador = 0;
+
+function incrementarContador() {
+  contador = contador + 1;
+}
+
+incrementarContador();
+incrementarContador();
+
+console.log(contador);</code></pre>
+        </div>
+
+        <p>
+          La salida será:
+        </p>
+
+        <div class="bloque-codigo">
+          <div class="cabecera-codigo">
+            <span class="lenguaje-codigo">Consola</span>
+            <button class="boton-copiar" type="button">📋 Copiar código</button>
+          </div>
+          <pre><code>2</code></pre>
+        </div>
+
+        <p>
+          Cada llamada modifica la misma variable
+          <code>contador</code>. No se crea un contador
+          independiente para cada ejecución.
+        </p>
+
+        <div class="caja caja-atencion">
+          <span class="caja-titulo">⚠️ Atención</span>
+          <p>
+            Aunque las variables globales pueden resultar útiles,
+            utilizar demasiadas aumenta el riesgo de que distintas
+            funciones modifiquen los mismos datos sin que
+            resulte evidente.
+          </p>
+          <p>
+            Por ello, conviene limitar su uso y preferir
+            parámetros y valores de retorno cuando una
+            función necesita recibir o proporcionar información.
+          </p>
+        </div>
+
+        <div class="caja caja-importante">
+          <span class="caja-titulo">📌 Importante</span>
+          <p>
+            En estos ejemplos trabajamos con scripts clásicos.
+            En los módulos de JavaScript, las declaraciones
+            del nivel superior pertenecen al ámbito del módulo,
+            no al ámbito global compartido.
+          </p>
+          <p>
+            Más adelante estudiaremos cómo organizar
+            y reutilizar código mediante módulos.
+          </p>
+        </div>
+
+        <!-- 3. ÁMBITO LOCAL -->
+        <h2 id="ambito-local">
+          Ámbito local de una función
+        </h2>
+
+        <p>
+          Una variable declarada dentro de una función
+          pertenece a su <strong>ámbito local</strong>.
+          Esto significa que su nombre puede utilizarse
+          dentro de la función, pero no directamente
+          desde el código exterior.
+        </p>
+
+        <p>
+          Observa el siguiente ejemplo:
+        </p>
+
+        <div class="bloque-codigo">
+          <div class="cabecera-codigo">
+            <span class="lenguaje-codigo">JavaScript</span>
+            <button class="boton-copiar" type="button">📋 Copiar código</button>
+          </div>
+          <pre><code>function calcularSubtotal(precio, cantidad) {
+  const subtotal = precio * cantidad;
+
+  console.log("Subtotal: " + subtotal + " €");
+}
+
+calcularSubtotal(25, 3);</code></pre>
+        </div>
+
+        <p>
+          La consola mostrará:
+        </p>
+
+        <div class="bloque-codigo">
+          <div class="cabecera-codigo">
+            <span class="lenguaje-codigo">Consola</span>
+            <button class="boton-copiar" type="button">📋 Copiar código</button>
+          </div>
+          <pre><code>Subtotal: 75 €</code></pre>
+        </div>
+
+        <p>
+          La variable <code>subtotal</code> se declara
+          dentro de <code>calcularSubtotal()</code>.
+          Podemos utilizarla durante la ejecución
+          de la función, pero su nombre no es
+          accesible directamente fuera de ella.
+        </p>
+
+        <h3>Utilizar return para recuperar un resultado</h3>
+
+        <p>
+          En el apartado 5.4 aprendimos que una función
+          puede devolver un valor mediante <code>return</code>.
+          Este mecanismo nos permite recuperar un resultado
+          sin tener que acceder a sus variables locales.
+        </p>
+
+        <div class="bloque-codigo">
+          <div class="cabecera-codigo">
+            <span class="lenguaje-codigo">JavaScript</span>
+            <button class="boton-copiar" type="button">📋 Copiar código</button>
+          </div>
+          <pre><code>function calcularSubtotal(precio, cantidad) {
+  const subtotal = precio * cantidad;
+
+  return subtotal;
+}
+
+const importePedido = calcularSubtotal(25, 3);
+
+console.log(importePedido);</code></pre>
+        </div>
+
+        <p>
+          La salida será:
+        </p>
+
+        <div class="bloque-codigo">
+          <div class="cabecera-codigo">
+            <span class="lenguaje-codigo">Consola</span>
+            <button class="boton-copiar" type="button">📋 Copiar código</button>
+          </div>
+          <pre><code>75</code></pre>
+        </div>
+
+        <p>
+          Aunque <code>subtotal</code> es una variable
+          local, su valor se devuelve y se almacena
+          en otra variable llamada <code>importePedido</code>.
+        </p>
+
+        <p>
+          Debemos distinguir entre <strong>acceder a una
+          variable local</strong> y <strong>recibir el valor
+          que una función devuelve</strong>. Son operaciones
+          diferentes.
+        </p>
+
+        <div class="caja caja-importante">
+          <span class="caja-titulo">📌 Importante</span>
+          <p>
+            La sentencia <code>return</code> no convierte
+            una variable local en global.
+            Simplemente devuelve un valor a la llamada
+            de la función.
+          </p>
+        </div>
+
+        <h3>Variables locales en llamadas diferentes</h3>
+
+        <p>
+          Cada vez que invocamos una función, se realiza
+          una nueva ejecución con sus propios parámetros
+          y variables locales.
+        </p>
+
+        <div class="bloque-codigo">
+          <div class="cabecera-codigo">
+            <span class="lenguaje-codigo">JavaScript</span>
+            <button class="boton-copiar" type="button">📋 Copiar código</button>
+          </div>
+          <pre><code>function calcularDoble(numero) {
+  const resultado = numero * 2;
+
+  return resultado;
+}
+
+console.log(calcularDoble(4));
+console.log(calcularDoble(7));
+console.log(calcularDoble(10));</code></pre>
+        </div>
+
+        <p>
+          La consola mostrará:
+        </p>
+
+        <div class="bloque-codigo">
+          <div class="cabecera-codigo">
+            <span class="lenguaje-codigo">Consola</span>
+            <button class="boton-copiar" type="button">📋 Copiar código</button>
+          </div>
+          <pre><code>8
+14
+20</code></pre>
+        </div>
+
+        <p>
+          En cada llamada, el parámetro <code>numero</code>
+          recibe un valor diferente y la variable local
+          <code>resultado</code> se utiliza para calcular
+          la respuesta correspondiente.
+        </p>
+
+        <p>
+          Estas ejecuciones no comparten automáticamente
+          una misma variable local <code>resultado</code>.
+        </p>
+
+        <!-- 4. PARÁMETROS Y VARIABLES LOCALES -->
+        <h2 id="parametros-locales">
+          Parámetros y variables locales
+        </h2>
+
+        <p>
+          Los parámetros de una función también tienen
+          un ámbito limitado. Sus nombres pertenecen
+          al ámbito de la función y pueden utilizarse
+          dentro de ella.
+        </p>
+
+        <p>
+          Por tanto, tanto los parámetros como las variables
+          declaradas dentro de una función forman parte
+          de la información con la que trabaja esa función.
+        </p>
+
+        <div class="bloque-codigo">
+          <div class="cabecera-codigo">
+            <span class="lenguaje-codigo">JavaScript</span>
+            <button class="boton-copiar" type="button">📋 Copiar código</button>
+          </div>
+          <pre><code>function mostrarPedido(producto, cantidad) {
+  const mensaje = producto + ": " + cantidad + " unidades";
+
+  console.log(mensaje);
+}
+
+mostrarPedido("Ratón", 3);</code></pre>
+        </div>
+
+        <p>
+          La consola mostrará:
+        </p>
+
+        <div class="bloque-codigo">
+          <div class="cabecera-codigo">
+            <span class="lenguaje-codigo">Consola</span>
+            <button class="boton-copiar" type="button">📋 Copiar código</button>
+          </div>
+          <pre><code>Ratón: 3 unidades</code></pre>
+        </div>
+
+        <p>
+          En este ejemplo tenemos tres nombres locales:
+        </p>
+
+        <ul>
+          <li>
+            <code>producto</code>: parámetro que recibe
+            el nombre del producto.
+          </li>
+          <li>
+            <code>cantidad</code>: parámetro que recibe
+            el número de unidades.
+          </li>
+          <li>
+            <code>mensaje</code>: variable local que
+            almacena el texto que se mostrará.
+          </li>
+        </ul>
+
+        <p>
+          Los tres pueden utilizarse dentro de
+          <code>mostrarPedido()</code>, pero no están
+          disponibles directamente fuera de ella.
+        </p>
+
+        <h3>El nombre del argumento y el del parámetro</h3>
+
+        <p>
+          Recuerda que el argumento es el valor
+          proporcionado durante la llamada y el parámetro
+          es el nombre utilizado dentro de la función.
+        </p>
+
+        <div class="bloque-codigo">
+          <div class="cabecera-codigo">
+            <span class="lenguaje-codigo">JavaScript</span>
+            <button class="boton-copiar" type="button">📋 Copiar código</button>
+          </div>
+          <pre><code>const precioProducto = 30;
+
+function calcularIVA(precio) {
+  return precio * 0.21;
+}
+
+const iva = calcularIVA(precioProducto);
+
+console.log(iva);
+console.log(precioProducto);</code></pre>
+        </div>
+
+        <p>
+          La consola mostrará:
+        </p>
+
+        <div class="bloque-codigo">
+          <div class="cabecera-codigo">
+            <span class="lenguaje-codigo">Consola</span>
+            <button class="boton-copiar" type="button">📋 Copiar código</button>
+          </div>
+          <pre><code>6.3
+30</code></pre>
+        </div>
+
+        <p>
+          La variable <code>precioProducto</code>
+          se utiliza como argumento.
+          Dentro de la función, el valor recibido
+          se utiliza mediante el parámetro
+          <code>precio</code>.
+        </p>
+
+        <p>
+          Ambos nombres pertenecen a ámbitos distintos.
+          No es necesario que el argumento y el parámetro
+          tengan el mismo nombre.
+        </p>
+
+        <div class="caja caja-ejemplo">
+          <span class="caja-titulo">💻 Ejemplo DAW</span>
+          <p>
+            Una aplicación web puede obtener el precio
+            de un producto desde un formulario y enviarlo
+            a una función mediante un argumento.
+          </p>
+          <p>
+            La función utiliza su propio parámetro
+            para calcular el resultado, sin depender
+            del nombre de la variable utilizada
+            en el formulario.
+          </p>
+        </div>
+
+        <!-- 5. ACCESO A VARIABLES EXTERNAS -->
+        <h2 id="acceso-variables">
+          Acceso a variables de ámbitos externos
+        </h2>
+
+        <p>
+          Hasta ahora hemos visto que una función puede
+          acceder a variables globales y que sus variables
+          locales no están disponibles desde fuera.
+        </p>
+
+        <p>
+          Esta diferencia se debe a que JavaScript busca
+          los nombres de las variables siguiendo
+          las relaciones entre los ámbitos.
+        </p>
+
+        <p>
+          Cuando utilizamos un nombre, JavaScript
+          comienza buscándolo en el ámbito actual.
+          Si no lo encuentra, continúa por los ámbitos
+          exteriores en los que se ha definido ese código.
+        </p>
+
+        <h3>Buscar una variable en un ámbito exterior</h3>
+
+        <div class="bloque-codigo">
+          <div class="cabecera-codigo">
+            <span class="lenguaje-codigo">JavaScript</span>
+            <button class="boton-copiar" type="button">📋 Copiar código</button>
+          </div>
+          <pre><code>const tienda = "TecnoDAW";
+
+function mostrarProducto() {
+  const producto = "Monitor";
+
+  console.log(tienda);
+  console.log(producto);
+}
+
+mostrarProducto();</code></pre>
+        </div>
+
+        <p>
+          La consola mostrará:
+        </p>
+
+        <div class="bloque-codigo">
+          <div class="cabecera-codigo">
+            <span class="lenguaje-codigo">Consola</span>
+            <button class="boton-copiar" type="button">📋 Copiar código</button>
+          </div>
+          <pre><code>TecnoDAW
+Monitor</code></pre>
+        </div>
+
+        <p>
+          Al buscar <code>producto</code>, JavaScript
+          encuentra la variable dentro de la función.
+        </p>
+
+        <p>
+          En cambio, al buscar <code>tienda</code>,
+          no encuentra una declaración local con
+          ese nombre y continúa buscando en el
+          ámbito exterior.
+        </p>
+
+        <div class="esquema-web">
+          <div class="esquema-caja">
+            <strong>Ámbito exterior</strong>
+            <span>const tienda = "TecnoDAW"</span>
+          </div>
+
+          <div class="esquema-flecha">↓ Accesible desde el interior</div>
+
+          <div class="esquema-caja">
+            <strong>Ámbito de mostrarProducto()</strong>
+            <span>const producto = "Monitor"</span>
+          </div>
+
+          <div class="esquema-flecha">↑ No accesible directamente desde fuera</div>
+
+          <div class="esquema-caja">
+            <strong>Regla fundamental</strong>
+            <span>Un ámbito interno puede consultar nombres de ámbitos exteriores; el acceso inverso no es automático</span>
+          </div>
+        </div>
+
+        <h3>Funciones declaradas dentro de otras funciones</h3>
+
+        <p>
+          JavaScript también permite declarar una función
+          dentro de otra. En ese caso, la función interna
+          puede acceder a variables de la función exterior.
+        </p>
+
+        <div class="bloque-codigo">
+          <div class="cabecera-codigo">
+            <span class="lenguaje-codigo">JavaScript</span>
+            <button class="boton-copiar" type="button">📋 Copiar código</button>
+          </div>
+          <pre><code>function mostrarPedido() {
+  const producto = "Teclado";
+
+  function mostrarDetalle() {
+    console.log("Producto: " + producto);
+  }
+
+  mostrarDetalle();
+}
+
+mostrarPedido();</code></pre>
+        </div>
+
+        <p>
+          La consola mostrará:
+        </p>
+
+        <div class="bloque-codigo">
+          <div class="cabecera-codigo">
+            <span class="lenguaje-codigo">Consola</span>
+            <button class="boton-copiar" type="button">📋 Copiar código</button>
+          </div>
+          <pre><code>Producto: Teclado</code></pre>
+        </div>
+
+        <p>
+          <code>mostrarDetalle()</code> puede utilizar
+          <code>producto</code> porque se ha definido
+          dentro de <code>mostrarPedido()</code>.
+        </p>
+
+        <p>
+          Esta forma de buscar variables se conoce como
+          <strong>ámbito léxico</strong>: el acceso depende
+          del lugar donde está escrito y definido
+          el código, no simplemente del lugar desde
+          el que se llama a una función.
+        </p>
+
+        <div class="caja caja-importante">
+          <span class="caja-titulo">📌 Importante</span>
+          <p>
+            Una función puede acceder a nombres
+            declarados en sus ámbitos exteriores,
+            pero no puede acceder automáticamente
+            a las variables locales de cualquier
+            otra función.
+          </p>
+        </div>
+
+        <!-- 6. ÁMBITO DE BLOQUE -->
+        <h2 id="ambito-bloque">
+          Ámbito de bloque
+        </h2>
+
+        <p>
+          En JavaScript, las llaves
+          <code>{ }</code> pueden delimitar
+          un <strong>bloque de instrucciones</strong>.
+        </p>
+
+        <p>
+          Ya hemos utilizado bloques al trabajar
+          con estructuras como <code>if</code>,
+          <code>for</code> y <code>while</code>.
+        </p>
+
+        <p>
+          Las variables declaradas con <code>let</code>
+          y <code>const</code> dentro de un bloque
+          tienen <strong>ámbito de bloque</strong>.
+          Esto significa que no podemos acceder
+          directamente a ellas desde fuera de ese bloque.
+        </p>
+
+        <h3>Variables declaradas dentro de un if</h3>
+
+        <div class="bloque-codigo">
+          <div class="cabecera-codigo">
+            <span class="lenguaje-codigo">JavaScript</span>
+            <button class="boton-copiar" type="button">📋 Copiar código</button>
+          </div>
+          <pre><code>const precio = 120;
+
+if (precio >= 100) {
+  const descuento = 10;
+
+  console.log("Descuento: " + descuento + " €");
+}
+
+console.log("Precio: " + precio + " €");</code></pre>
+        </div>
+
+        <p>
+          La consola mostrará:
+        </p>
+
+        <div class="bloque-codigo">
+          <div class="cabecera-codigo">
+            <span class="lenguaje-codigo">Consola</span>
+            <button class="boton-copiar" type="button">📋 Copiar código</button>
+          </div>
+          <pre><code>Descuento: 10 €
+Precio: 120 €</code></pre>
+        </div>
+
+        <p>
+          La variable <code>descuento</code> se declara
+          dentro del bloque del <code>if</code>.
+          Por tanto, solo puede utilizarse
+          dentro de ese bloque.
+        </p>
+
+        <p>
+          Si después intentamos ejecutar
+          <code>console.log(descuento);</code>
+          fuera del bloque, se producirá
+          un <code>ReferenceError</code>.
+        </p>
+
+        <h3>Variables declaradas dentro de un bucle</h3>
+
+        <div class="bloque-codigo">
+          <div class="cabecera-codigo">
+            <span class="lenguaje-codigo">JavaScript</span>
+            <button class="boton-copiar" type="button">📋 Copiar código</button>
+          </div>
+          <pre><code>for (let i = 1; i <= 3; i++) {
+  console.log("Iteración " + i);
+}</code></pre>
+        </div>
+
+        <p>
+          La consola mostrará:
+        </p>
+
+        <div class="bloque-codigo">
+          <div class="cabecera-codigo">
+            <span class="lenguaje-codigo">Consola</span>
+            <button class="boton-copiar" type="button">📋 Copiar código</button>
+          </div>
+          <pre><code>Iteración 1
+Iteración 2
+Iteración 3</code></pre>
+        </div>
+
+        <p>
+          La variable <code>i</code> se declara
+          con <code>let</code> en el encabezado
+          del bucle. Su ámbito está asociado
+          al propio <code>for</code>.
+        </p>
+
+        <p>
+          Por eso, si intentamos acceder a
+          <code>i</code> después del bucle,
+          se producirá un error.
+        </p>
+
+        <h3>Bloques dentro de funciones</h3>
+
+        <p>
+          Una función puede contener varios bloques
+          y cada uno puede tener sus propias variables.
+        </p>
+
+        <div class="bloque-codigo">
+          <div class="cabecera-codigo">
+            <span class="lenguaje-codigo">JavaScript</span>
+            <button class="boton-copiar" type="button">📋 Copiar código</button>
+          </div>
+          <pre><code>function comprobarStock(stock) {
+  const producto = "Monitor";
+
+  if (stock > 0) {
+    const mensaje = "Disponible";
+
+    console.log(producto + ": " + mensaje);
+  }
+
+  console.log("Comprobación terminada");
+}
+
+comprobarStock(5);</code></pre>
+        </div>
+
+        <p>
+          La consola mostrará:
+        </p>
+
+        <div class="bloque-codigo">
+          <div class="cabecera-codigo">
+            <span class="lenguaje-codigo">Consola</span>
+            <button class="boton-copiar" type="button">📋 Copiar código</button>
+          </div>
+          <pre><code>Monitor: Disponible
+Comprobación terminada</code></pre>
+        </div>
+
+        <p>
+          <code>producto</code> pertenece al ámbito
+          de la función y puede utilizarse
+          dentro del bloque <code>if</code>.
+        </p>
+
+        <p>
+          En cambio, <code>mensaje</code> pertenece
+          al ámbito del bloque <code>if</code>
+          y no puede utilizarse directamente
+          después de su llave de cierre.
+        </p>
+
+        <div class="caja caja-atencion">
+          <span class="caja-titulo">⚠️ Atención</span>
+          <p>
+            No debemos confundir el ámbito de función
+            con el ámbito de bloque.
+            Una función puede contener bloques más
+            pequeños que limitan todavía más
+            el acceso a determinadas variables.
+          </p>
+        </div>
+
+        <!-- 7. VAR, LET Y CONST -->
+        <h2 id="var-let-const">
+          Diferencias entre var, let y const
+        </h2>
+
+        <p>
+          En la UT2 estudiamos las palabras clave
+          <code>var</code>, <code>let</code>
+          y <code>const</code> para declarar variables.
+        </p>
+
+        <p>
+          Ahora vamos a profundizar en una diferencia
+          especialmente importante:
+          <strong>no todas establecen el mismo ámbito</strong>.
+        </p>
+
+        <div class="tabla-responsive">
+          <table class="tabla-apuntes">
+            <thead>
+              <tr>
+                <th>Declaración</th>
+                <th>Ámbito habitual</th>
+                <th>¿Permite reasignación?</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><code>var</code></td>
+                <td>Función o global, según dónde se declare.</td>
+                <td>Sí.</td>
+              </tr>
+              <tr>
+                <td><code>let</code></td>
+                <td>Bloque.</td>
+                <td>Sí.</td>
+              </tr>
+              <tr>
+                <td><code>const</code></td>
+                <td>Bloque.</td>
+                <td>No permite reasignar la variable.</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <h3>Comportamiento de var dentro de un bloque</h3>
+
+        <p>
+          Las variables declaradas con <code>var</code>
+          no quedan limitadas por un bloque
+          <code>if</code> de la misma manera
+          que las declaradas con <code>let</code>
+          o <code>const</code>.
+        </p>
+
+        <div class="bloque-codigo">
+          <div class="cabecera-codigo">
+            <span class="lenguaje-codigo">JavaScript</span>
+            <button class="boton-copiar" type="button">📋 Copiar código</button>
+          </div>
+          <pre><code>function mostrarEjemplo() {
+  if (true) {
+    var mensaje = "Hola";
+  }
+
+  console.log(mensaje);
+}
+
+mostrarEjemplo();</code></pre>
+        </div>
+
+        <p>
+          La consola mostrará:
+        </p>
+
+        <div class="bloque-codigo">
+          <div class="cabecera-codigo">
+            <span class="lenguaje-codigo">Consola</span>
+            <button class="boton-copiar" type="button">📋 Copiar código</button>
+          </div>
+          <pre><code>Hola</code></pre>
+        </div>
+
+        <p>
+          Aunque <code>mensaje</code> se ha declarado
+          dentro del <code>if</code>, su ámbito
+          corresponde a la función
+          <code>mostrarEjemplo()</code>.
+        </p>
+
+        <h3>Comportamiento de let dentro de un bloque</h3>
+
+        <p>
+          Si utilizamos <code>let</code>,
+          el resultado es diferente:
+        </p>
+
+        <div class="bloque-codigo">
+          <div class="cabecera-codigo">
+            <span class="lenguaje-codigo">JavaScript</span>
+            <button class="boton-copiar" type="button">📋 Copiar código</button>
+          </div>
+          <pre><code>function mostrarEjemplo() {
+  if (true) {
+    let mensaje = "Hola";
+
+    console.log(mensaje);
+  }
+}
+
+mostrarEjemplo();</code></pre>
+        </div>
+
+        <p>
+          La consola mostrará:
+        </p>
+
+        <div class="bloque-codigo">
+          <div class="cabecera-codigo">
+            <span class="lenguaje-codigo">Consola</span>
+            <button class="boton-copiar" type="button">📋 Copiar código</button>
+          </div>
+          <pre><code>Hola</code></pre>
+        </div>
+
+        <p>
+          En este caso, <code>mensaje</code>
+          solo está disponible dentro
+          del bloque <code>if</code>.
+        </p>
+
+        <p>
+          Si colocáramos
+          <code>console.log(mensaje);</code>
+          después de la llave de cierre
+          del <code>if</code>, se produciría
+          un <code>ReferenceError</code>.
+        </p>
+
+        <h3>Comportamiento de const</h3>
+
+        <p>
+          <code>const</code> tiene el mismo
+          tipo de ámbito de bloque que
+          <code>let</code>, pero además impide
+          reasignar la variable.
+        </p>
+
+        <div class="bloque-codigo">
+          <div class="cabecera-codigo">
+            <span class="lenguaje-codigo">JavaScript</span>
+            <button class="boton-copiar" type="button">📋 Copiar código</button>
+          </div>
+          <pre><code>function mostrarProducto() {
+  const producto = "Ratón";
+
+  console.log(producto);
+}
+
+mostrarProducto();</code></pre>
+        </div>
+
+        <p>
+          La consola mostrará <code>Ratón</code>.
+          La variable <code>producto</code>
+          pertenece al ámbito de la función.
+        </p>
+
+        <p>
+          Si intentáramos asignarle otro valor
+          mediante <code>producto = "Teclado";</code>,
+          JavaScript produciría un error
+          porque fue declarada con <code>const</code>.
+        </p>
+
+        <div class="caja caja-importante">
+          <span class="caja-titulo">📌 Importante</span>
+          <p>
+            En el código JavaScript moderno se recomienda
+            utilizar <code>const</code> cuando no sea
+            necesario reasignar una variable y
+            <code>let</code> cuando sí sea necesario.
+          </p>
+          <p>
+            Generalmente conviene evitar <code>var</code>
+            en código nuevo, porque su comportamiento
+            respecto al ámbito puede provocar
+            confusiones y errores.
+          </p>
+        </div>
+
+        <!-- 8. SOMBREADO -->
+        <h2 id="sombreado">
+          Variables con el mismo nombre en distintos ámbitos
+        </h2>
+
+        <p>
+          En JavaScript es posible declarar variables
+          con el mismo nombre en ámbitos diferentes.
+          Esto no significa necesariamente que
+          estemos trabajando con una única variable.
+        </p>
+
+        <p>
+          Cuando una declaración interna tiene
+          el mismo nombre que otra exterior,
+          la declaración interna <strong>oculta</strong>
+          la exterior dentro de su propio ámbito.
+        </p>
+
+        <p>
+          Este comportamiento se conoce como
+          <strong>sombreado de variables</strong>
+          o <em>variable shadowing</em>.
+        </p>
+
+        <h3>Una variable local oculta una global</h3>
+
+        <div class="bloque-codigo">
+          <div class="cabecera-codigo">
+            <span class="lenguaje-codigo">JavaScript</span>
+            <button class="boton-copiar" type="button">📋 Copiar código</button>
+          </div>
+          <pre><code>const mensaje = "Mensaje global";
+
+function mostrarMensaje() {
+  const mensaje = "Mensaje local";
+
+  console.log(mensaje);
+}
+
+mostrarMensaje();
+
+console.log(mensaje);</code></pre>
+        </div>
+
+        <p>
+          La consola mostrará:
+        </p>
+
+        <div class="bloque-codigo">
+          <div class="cabecera-codigo">
+            <span class="lenguaje-codigo">Consola</span>
+            <button class="boton-copiar" type="button">📋 Copiar código</button>
+          </div>
+          <pre><code>Mensaje local
+Mensaje global</code></pre>
+        </div>
+
+        <p>
+          Dentro de <code>mostrarMensaje()</code>,
+          JavaScript encuentra primero la variable
+          local <code>mensaje</code>.
+          Por eso muestra <code>Mensaje local</code>.
+        </p>
+
+        <p>
+          Fuera de la función, la declaración
+          local no está disponible y se utiliza
+          la variable exterior.
+        </p>
+
+        <h3>El mismo nombre en dos funciones diferentes</h3>
+
+        <div class="bloque-codigo">
+          <div class="cabecera-codigo">
+            <span class="lenguaje-codigo">JavaScript</span>
+            <button class="boton-copiar" type="button">📋 Copiar código</button>
+          </div>
+          <pre><code>function mostrarCliente() {
+  const nombre = "Ana";
+
+  console.log(nombre);
+}
+
+function mostrarVendedor() {
+  const nombre = "Carlos";
+
+  console.log(nombre);
+}
+
+mostrarCliente();
+mostrarVendedor();</code></pre>
+        </div>
+
+        <p>
+          La consola mostrará:
+        </p>
+
+        <div class="bloque-codigo">
+          <div class="cabecera-codigo">
+            <span class="lenguaje-codigo">Consola</span>
+            <button class="boton-copiar" type="button">📋 Copiar código</button>
+          </div>
+          <pre><code>Ana
+Carlos</code></pre>
+        </div>
+
+        <p>
+          Las dos funciones declaran una variable
+          llamada <code>nombre</code>, pero cada
+          declaración pertenece a un ámbito diferente.
+        </p>
+
+        <p>
+          Por tanto, no existe un conflicto entre ellas.
+        </p>
+
+        <div class="caja caja-atencion">
+          <span class="caja-titulo">⚠️ Atención</span>
+          <p>
+            Aunque el sombreado es válido,
+            utilizar repetidamente el mismo nombre
+            en ámbitos anidados puede dificultar
+            la lectura del programa.
+          </p>
+          <p>
+            Conviene utilizar nombres claros
+            y evitar ocultar variables exteriores
+            cuando pueda generar confusión.
+          </p>
+        </div>
+
+        <!-- 9. ERRORES FRECUENTES -->
+        <h2 id="errores-frecuentes">
+          Errores frecuentes relacionados con el ámbito
+        </h2>
+
+        <p>
+          Comprender el ámbito de las variables
+          es fundamental para evitar errores
+          al desarrollar programas con funciones.
+        </p>
+
+        <h3>1. Intentar acceder a una variable local desde fuera</h3>
+
+        <div class="bloque-codigo">
+          <div class="cabecera-codigo">
+            <span class="lenguaje-codigo">JavaScript</span>
+            <button class="boton-copiar" type="button">📋 Copiar código</button>
+          </div>
+          <pre><code>function calcularTotal() {
+  const total = 100;
+}
+
+calcularTotal();
+
+console.log(total);</code></pre>
+        </div>
+
+        <p>
+          Este programa produce un
+          <code>ReferenceError</code> porque
+          <code>total</code> solo está declarada
+          dentro de la función.
+        </p>
+
+        <p>
+          Si necesitamos recuperar ese valor,
+          podemos utilizar <code>return</code>:
+        </p>
+
+        <div class="bloque-codigo">
+          <div class="cabecera-codigo">
+            <span class="lenguaje-codigo">JavaScript</span>
+            <button class="boton-copiar" type="button">📋 Copiar código</button>
+          </div>
+          <pre><code>function calcularTotal() {
+  const total = 100;
+
+  return total;
+}
+
+const resultado = calcularTotal();
+
+console.log(resultado);</code></pre>
+        </div>
+
+        <p>
+          Ahora la consola muestra <code>100</code>.
+        </p>
+
+        <h3>2. Pensar que dos variables con el mismo nombre son la misma</h3>
+
+        <div class="bloque-codigo">
+          <div class="cabecera-codigo">
+            <span class="lenguaje-codigo">JavaScript</span>
+            <button class="boton-copiar" type="button">📋 Copiar código</button>
+          </div>
+          <pre><code>let cantidad = 5;
+
+function mostrarCantidad() {
+  let cantidad = 10;
+
+  console.log(cantidad);
+}
+
+mostrarCantidad();
+
+console.log(cantidad);</code></pre>
+        </div>
+
+        <p>
+          La salida será:
+        </p>
+
+        <div class="bloque-codigo">
+          <div class="cabecera-codigo">
+            <span class="lenguaje-codigo">Consola</span>
+            <button class="boton-copiar" type="button">📋 Copiar código</button>
+          </div>
+          <pre><code>10
+5</code></pre>
+        </div>
+
+        <p>
+          La variable local oculta a la exterior
+          dentro de la función. No estamos
+          modificando la variable exterior.
+        </p>
+
+        <h3>3. Utilizar una variable de bloque fuera de él</h3>
+
+        <div class="bloque-codigo">
+          <div class="cabecera-codigo">
+            <span class="lenguaje-codigo">JavaScript</span>
+            <button class="boton-copiar" type="button">📋 Copiar código</button>
+          </div>
+          <pre><code>if (true) {
+  const estado = "Disponible";
+}
+
+console.log(estado);</code></pre>
+        </div>
+
+        <p>
+          Este código produce un
+          <code>ReferenceError</code>.
+          La variable <code>estado</code>
+          se ha declarado dentro del bloque
+          <code>if</code>.
+        </p>
+
+        <h3>4. Utilizar una variable antes de declararla</h3>
+
+        <p>
+          Con <code>let</code> y <code>const</code>,
+          no podemos acceder a una variable
+          antes de que se ejecute su declaración.
+        </p>
+
+        <div class="bloque-codigo">
+          <div class="cabecera-codigo">
+            <span class="lenguaje-codigo">JavaScript</span>
+            <button class="boton-copiar" type="button">📋 Copiar código</button>
+          </div>
+          <pre><code>function mostrarPrecio() {
+  console.log(precio);
+
+  const precio = 50;
+}
+
+mostrarPrecio();</code></pre>
+        </div>
+
+        <p>
+          El programa produce un
+          <code>ReferenceError</code> porque
+          intentamos acceder a <code>precio</code>
+          antes de que su declaración haya sido
+          inicializada.
+        </p>
+
+        <p>
+          El intervalo entre el comienzo del ámbito
+          y la inicialización de una variable
+          <code>let</code> o <code>const</code>
+          se conoce como <strong>zona muerta temporal</strong>
+          o <em>Temporal Dead Zone (TDZ)</em>.
+        </p>
+
+        <p>
+          Para corregirlo, declaramos la variable
+          antes de utilizarla.
+        </p>
+
+        <div class="bloque-codigo">
+          <div class="cabecera-codigo">
+            <span class="lenguaje-codigo">JavaScript</span>
+            <button class="boton-copiar" type="button">📋 Copiar código</button>
+          </div>
+          <pre><code>function mostrarPrecio() {
+  const precio = 50;
+
+  console.log(precio);
+}
+
+mostrarPrecio();</code></pre>
+        </div>
+
+        <p>
+          Ahora la consola mostrará <code>50</code>.
+        </p>
+
+        <h3>5. Modificar una variable global sin necesidad</h3>
+
+        <div class="bloque-codigo">
+          <div class="cabecera-codigo">
+            <span class="lenguaje-codigo">JavaScript</span>
+            <button class="boton-copiar" type="button">📋 Copiar código</button>
+          </div>
+          <pre><code>let total = 0;
+
+function calcularImporte(precio, cantidad) {
+  total = precio * cantidad;
+}
+
+calcularImporte(20, 3);
+
+console.log(total);</code></pre>
+        </div>
+
+        <p>
+          Este programa funciona y muestra
+          <code>60</code>, pero la función
+          modifica directamente una variable exterior.
+        </p>
+
+        <p>
+          Una alternativa más reutilizable consiste
+          en devolver el resultado:
+        </p>
+
+        <div class="bloque-codigo">
+          <div class="cabecera-codigo">
+            <span class="lenguaje-codigo">JavaScript</span>
+            <button class="boton-copiar" type="button">📋 Copiar código</button>
+          </div>
+          <pre><code>function calcularImporte(precio, cantidad) {
+  return precio * cantidad;
+}
+
+const total = calcularImporte(20, 3);
+
+console.log(total);</code></pre>
+        </div>
+
+        <p>
+          La salida sigue siendo <code>60</code>,
+          pero ahora la función no depende
+          de una variable global para
+          comunicar su resultado.
+        </p>
+
+        <div class="caja caja-atencion">
+          <span class="caja-titulo">⚠️ Atención</span>
+          <p>
+            No todos los errores de ámbito
+            producen inmediatamente un mensaje
+            de error en la consola.
+          </p>
+          <p>
+            En ocasiones, el programa funciona,
+            pero utiliza o modifica una variable
+            distinta de la que esperábamos.
+          </p>
+        </div>
+
+        <!-- 10. BUENAS PRÁCTICAS -->
+        <h2 id="buenas-practicas">
+          Buenas prácticas al trabajar con variables
+        </h2>
+
+        <p>
+          Para escribir funciones claras y
+          fáciles de mantener, conviene organizar
+          adecuadamente el ámbito de sus variables.
+        </p>
+
+        <ul>
+          <li>
+            <strong>Preferir variables locales:</strong>
+            declarar los datos dentro de la función
+            o del bloque donde se necesitan.
+          </li>
+          <li>
+            <strong>Limitar las variables globales:</strong>
+            evitar que distintas funciones dependan
+            innecesariamente de datos compartidos.
+          </li>
+          <li>
+            <strong>Utilizar parámetros:</strong>
+            proporcionar a las funciones los datos
+            que necesitan para trabajar.
+          </li>
+          <li>
+            <strong>Utilizar return:</strong>
+            devolver los resultados que otras partes
+            del programa necesitan.
+          </li>
+          <li>
+            <strong>Preferir const y let:</strong>
+            utilizar <code>const</code> cuando no
+            se necesite reasignación y
+            <code>let</code> cuando sí.
+          </li>
+          <li>
+            <strong>Evitar nombres ambiguos:</strong>
+            escoger nombres descriptivos y reducir
+            el sombreado innecesario.
+          </li>
+          <li>
+            <strong>Declarar cerca del uso:</strong>
+            situar las variables en el ámbito
+            más reducido que permita
+            utilizarlas correctamente.
+          </li>
+        </ul>
+
+        <h3>Comparación entre dos formas de organizar un cálculo</h3>
+
+        <p>
+          Observa esta primera versión:
+        </p>
+
+        <div class="bloque-codigo">
+          <div class="cabecera-codigo">
+            <span class="lenguaje-codigo">JavaScript</span>
+            <button class="boton-copiar" type="button">📋 Copiar código</button>
+          </div>
+          <pre><code>let precio = 25;
+let cantidad = 4;
+let total = 0;
+
+function calcularTotal() {
+  total = precio * cantidad;
+}
+
+calcularTotal();
+
+console.log(total);</code></pre>
+        </div>
+
+        <p>
+          Esta función depende de tres variables
+          exteriores. Si alguna cambia, el resultado
+          de la función también puede cambiar.
+        </p>
+
+        <p>
+          Ahora observa una versión que utiliza
+          parámetros y un valor de retorno:
+        </p>
+
+        <div class="bloque-codigo">
+          <div class="cabecera-codigo">
+            <span class="lenguaje-codigo">JavaScript</span>
+            <button class="boton-copiar" type="button">📋 Copiar código</button>
+          </div>
+          <pre><code>function calcularTotal(precio, cantidad) {
+  const importe = precio * cantidad;
+
+  return importe;
+}
+
+const total = calcularTotal(25, 4);
+
+console.log(total);</code></pre>
+        </div>
+
+        <p>
+          Las dos versiones muestran <code>100</code>,
+          pero la segunda presenta varias ventajas:
+        </p>
+
+        <ul>
+          <li>
+            La función recibe explícitamente
+            los datos necesarios.
+          </li>
+          <li>
+            El cálculo se realiza mediante
+            una variable local.
+          </li>
+          <li>
+            El resultado se devuelve
+            mediante <code>return</code>.
+          </li>
+          <li>
+            La función puede reutilizarse
+            con diferentes precios y cantidades.
+          </li>
+        </ul>
+
+        <div class="caja caja-ejemplo">
+          <span class="caja-titulo">💻 Ejemplo DAW</span>
+          <p>
+            En una aplicación de comercio electrónico,
+            las funciones de cálculo deberían poder
+            trabajar con distintos productos
+            sin depender de variables globales
+            específicas de cada pedido.
+          </p>
+          <p>
+            Esta organización facilita las pruebas,
+            la reutilización del código y
+            el mantenimiento de la aplicación.
+          </p>
+        </div>
+
+        <!-- 11. EJEMPLO COMPLETO -->
+        <h2 id="ejemplo-completo">
+          Ejemplo práctico completo: gestionar un pedido de una tienda online
+        </h2>
+
+        <p>
+          Vamos a aplicar los conceptos estudiados
+          mediante un programa que gestione
+          un pedido sencillo de una tienda online.
+        </p>
+
+        <p>
+          En el apartado 5.4 utilizamos
+          <code>return</code> para comunicar
+          resultados entre funciones.
+          Ahora prestaremos especial atención
+          a <strong>dónde se declaran las variables
+          y desde dónde pueden utilizarse</strong>.
+        </p>
+
+        <p>
+          Nuestro programa debe:
+        </p>
+
+        <ul>
+          <li>identificar la tienda;</li>
+          <li>calcular el subtotal de un producto;</li>
+          <li>aplicar un descuento cuando corresponda;</li>
+          <li>calcular el importe final;</li>
+          <li>mostrar un resumen del pedido.</li>
+        </ul>
+
+        <p>
+          Utilizaremos una constante exterior
+          para el nombre de la tienda y varias
+          funciones con parámetros y variables locales
+          para realizar las operaciones.
+        </p>
+
+        <div class="bloque-codigo">
+          <div class="cabecera-codigo">
+            <span class="lenguaje-codigo">JavaScript</span>
+            <button class="boton-copiar" type="button">📋 Copiar código</button>
+          </div>
+          <pre><code>// Constante del ámbito exterior
+const nombreTienda = "TecnoDAW";
+
+// Calcula el subtotal
+function calcularSubtotal(precio, cantidad) {
+  const subtotal = precio * cantidad;
+
+  return subtotal;
+}
+
+// Calcula el descuento
+function calcularDescuento(subtotal) {
+  if (subtotal >= 100) {
+    const porcentaje = 0.10;
+
+    return subtotal * porcentaje;
+  }
+
+  return 0;
+}
+
+// Calcula el importe final
+function calcularTotal(subtotal, descuento) {
+  const total = subtotal - descuento;
+
+  return total;
+}
+
+// Muestra la información del pedido
+function mostrarResumen(producto, subtotal, descuento, total) {
+  const titulo = "RESUMEN DEL PEDIDO";
+
+  console.log(titulo);
+  console.log("Tienda: " + nombreTienda);
+  console.log("Producto: " + producto);
+  console.log("Subtotal: " + subtotal.toFixed(2) + " €");
+  console.log("Descuento: " + descuento.toFixed(2) + " €");
+  console.log("Total: " + total.toFixed(2) + " €");
+}
+
+// Programa principal
+const producto = "Monitor";
+const precio = 150;
+const cantidad = 2;
+
+const subtotal = calcularSubtotal(precio, cantidad);
+const descuento = calcularDescuento(subtotal);
+const total = calcularTotal(subtotal, descuento);
+
+mostrarResumen(producto, subtotal, descuento, total);</code></pre>
+        </div>
+
+        <p>
+          La salida completa será:
+        </p>
+
+        <div class="bloque-codigo">
+          <div class="cabecera-codigo">
+            <span class="lenguaje-codigo">Consola</span>
+            <button class="boton-copiar" type="button">📋 Copiar código</button>
+          </div>
+          <pre><code>RESUMEN DEL PEDIDO
+Tienda: TecnoDAW
+Producto: Monitor
+Subtotal: 300.00 €
+Descuento: 30.00 €
+Total: 270.00 €</code></pre>
+        </div>
+
+        <h3>Análisis paso a paso</h3>
+
+        <p>
+          Vamos a comprobar cómo se organiza
+          la información en los distintos ámbitos.
+        </p>
+
+        <div class="tabla-responsive">
+          <table class="tabla-apuntes">
+            <thead>
+              <tr>
+                <th>Variable</th>
+                <th>Ámbito</th>
+                <th>Finalidad</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><code>nombreTienda</code></td>
+                <td>Exterior a las funciones.</td>
+                <td>Identificar la tienda.</td>
+              </tr>
+              <tr>
+                <td><code>precio</code> y <code>cantidad</code> (parámetros)</td>
+                <td>Función <code>calcularSubtotal()</code>.</td>
+                <td>Recibir los datos del cálculo.</td>
+              </tr>
+              <tr>
+                <td><code>subtotal</code> (local)</td>
+                <td>Función <code>calcularSubtotal()</code>.</td>
+                <td>Guardar el producto del precio por la cantidad.</td>
+              </tr>
+              <tr>
+                <td><code>porcentaje</code></td>
+                <td>Bloque <code>if</code> de <code>calcularDescuento()</code>.</td>
+                <td>Representar el descuento del 10 %.</td>
+              </tr>
+              <tr>
+                <td><code>total</code> (local)</td>
+                <td>Función <code>calcularTotal()</code>.</td>
+                <td>Calcular el importe final.</td>
+              </tr>
+              <tr>
+                <td><code>titulo</code></td>
+                <td>Función <code>mostrarResumen()</code>.</td>
+                <td>Guardar el encabezado del resumen.</td>
+              </tr>
+              <tr>
+                <td><code>producto</code>, <code>precio</code>, <code>cantidad</code>, <code>subtotal</code>, <code>descuento</code> y <code>total</code> del programa principal</td>
+                <td>Ámbito exterior a las funciones.</td>
+                <td>Organizar los datos y resultados del pedido.</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <h3>¿Por qué no hay conflictos entre los nombres?</h3>
+
+        <p>
+          En este programa aparecen varias declaraciones
+          que utilizan nombres como <code>subtotal</code>
+          y <code>total</code>.
+        </p>
+
+        <p>
+          Por ejemplo, <code>calcularTotal()</code>
+          declara una variable local llamada
+          <code>total</code>, mientras que el programa
+          principal también declara una variable
+          con ese nombre.
+        </p>
+
+        <p>
+          No existe un conflicto porque pertenecen
+          a ámbitos diferentes.
+        </p>
+
+        <p>
+          La función calcula su propio resultado
+          y lo devuelve mediante <code>return</code>.
+          Después, el programa principal almacena
+          ese valor en su variable <code>total</code>.
+        </p>
+
+        <h3>¿Qué sucede con la variable porcentaje?</h3>
+
+        <p>
+          La variable <code>porcentaje</code>
+          solo se declara cuando se ejecuta
+          el bloque <code>if</code> y únicamente
+          puede utilizarse dentro de él.
+        </p>
+
+        <p>
+          En nuestro ejemplo, el subtotal es
+          <code>300</code>, por lo que se cumple
+          la condición <code>subtotal >= 100</code>.
+        </p>
+
+        <p>
+          Se calcula entonces el 10 % de descuento:
+          <code>300 * 0.10 = 30</code>.
+        </p>
+
+        <p>
+          La función devuelve <code>30</code>
+          y no es necesario acceder directamente
+          a la variable local <code>porcentaje</code>
+          desde el resto del programa.
+        </p>
+
+        <h3>¿Qué ventajas ofrece esta organización?</h3>
+
+        <p>
+          Cada función utiliza sus propios parámetros
+          y variables locales para realizar
+          una tarea concreta.
+        </p>
+
+        <p>
+          Los resultados se comunican mediante
+          valores de retorno, y las funciones
+          no necesitan modificar variables
+          exteriores para realizar los cálculos.
+        </p>
+
+        <p>
+          Esto facilita que podamos utilizar
+          las mismas funciones para otros pedidos
+          con diferentes productos, precios
+          y cantidades.
+        </p>
+
+        <div class="caja caja-importante">
+          <span class="caja-titulo">📌 Importante</span>
+          <p>
+            Una buena organización del ámbito
+            permite que las funciones trabajen
+            de forma más independiente.
+          </p>
+          <p>
+            Siempre que sea posible, conviene
+            proporcionar los datos mediante parámetros,
+            realizar los cálculos con variables locales
+            y devolver los resultados mediante
+            <code>return</code>.
+          </p>
+        </div>
+
+        <p>
+          En el siguiente apartado estudiaremos
+          qué sucede cuando proporcionamos a una
+          función distintos tipos de valores,
+          especialmente al trabajar con
+          arrays y objetos.
+        </p>
+
+        <!-- ACTIVIDAD DE REFLEXIÓN -->
+        <div class="actividad-reflexion">
+
+          <h3>💭 Piensa</h3>
+
+          <p>
+            Observa el siguiente programa
+            <strong>sin ejecutarlo</strong>:
+          </p>
+
+          <div class="bloque-codigo">
+            <div class="cabecera-codigo">
+              <span class="lenguaje-codigo">JavaScript</span>
+              <button class="boton-copiar" type="button">📋 Copiar código</button>
+            </div>
+            <pre><code>const tienda = "TecnoDAW";
+let cantidad = 2;
+
+function calcularPedido(precio) {
+  const cantidad = 3;
+  const subtotal = precio * cantidad;
+
+  if (subtotal >= 100) {
+    const descuento = 10;
+
+    console.log("Descuento: " + descuento);
+  }
+
+  console.log("Tienda: " + tienda);
+
+  return subtotal;
+}
+
+const total = calcularPedido(40);
+
+console.log(total);
+console.log(cantidad);</code></pre>
+          </div>
+
+          <p>
+            Responde a las siguientes preguntas:
+          </p>
+
+          <ol>
+            <li>
+              ¿Qué variables están declaradas
+              fuera de la función?
+            </li>
+            <li>
+              ¿Qué variables y parámetros
+              pertenecen al ámbito de
+              <code>calcularPedido()</code>?
+            </li>
+            <li>
+              ¿Por qué podemos utilizar
+              <code>tienda</code> dentro
+              de la función?
+            </li>
+            <li>
+              ¿Qué valor tiene <code>cantidad</code>
+              dentro de la función y cuál
+              tiene fuera de ella?
+            </li>
+            <li>
+              ¿Qué mensajes aparecerán
+              en la consola y en qué orden?
+            </li>
+            <li>
+              ¿Qué ocurriría si añadiéramos
+              <code>console.log(descuento);</code>
+              después del bloque <code>if</code>,
+              dentro de la función?
+            </li>
+          </ol>
+
+          <details class="solucion-desplegable">
+            <summary>Ver una posible solución</summary>
+
+            <div class="contenido-solucion">
+
+              <p>
+                <strong>1.</strong> Fuera de la función
+                se declaran <code>tienda</code>,
+                <code>cantidad</code> y, después
+                de la llamada, <code>total</code>.
+              </p>
+
+              <p>
+                <strong>2.</strong> El parámetro
+                <code>precio</code> y las variables
+                <code>cantidad</code> y
+                <code>subtotal</code> pertenecen
+                al ámbito de la función.
+                <code>descuento</code> pertenece
+                específicamente al bloque
+                <code>if</code>.
+              </p>
+
+              <p>
+                <strong>3.</strong> La función puede
+                utilizar <code>tienda</code>
+                porque está declarada en un ámbito
+                exterior accesible desde ella.
+              </p>
+
+              <p>
+                <strong>4.</strong> Dentro de la función,
+                <code>cantidad</code> vale
+                <code>3</code>. Fuera de ella,
+                la variable exterior
+                <code>cantidad</code> sigue
+                valiendo <code>2</code>.
+              </p>
+
+              <p>
+                <strong>5.</strong> La salida
+                completa será:
+              </p>
+
+              <div class="bloque-codigo">
+                <div class="cabecera-codigo">
+                  <span class="lenguaje-codigo">Consola</span>
+                  <button class="boton-copiar" type="button">📋 Copiar código</button>
+                </div>
+                <pre><code>Descuento: 10
+Tienda: TecnoDAW
+120
+2</code></pre>
+              </div>
+
+              <p>
+                El subtotal se calcula mediante
+                <code>40 * 3 = 120</code>.
+                Como es mayor o igual que
+                <code>100</code>, se ejecuta
+                el bloque del descuento.
+              </p>
+
+              <p>
+                Después se muestra el nombre
+                de la tienda y la función
+                devuelve <code>120</code>.
+                Finalmente, el programa principal
+                muestra <code>120</code> y
+                la cantidad exterior
+                <code>2</code>.
+              </p>
+
+              <p>
+                <strong>6.</strong> Si añadimos
+                <code>console.log(descuento);</code>
+                después del bloque
+                <code>if</code>, se producirá
+                un <code>ReferenceError</code>.
+              </p>
+
+              <p>
+                Esto sucede porque
+                <code>descuento</code> fue
+                declarada con <code>const</code>
+                dentro del bloque y no
+                puede utilizarse fuera de él.
+              </p>
+
+            </div>
+          </details>
+
+        </div>
+
+      </section>
+
+      <!-- NAVEGACIÓN ANTERIOR / SIGUIENTE -->
+      <nav class="navegacion-paginas">
+
+        <a
+          class="nav-pagina nav-anterior"
+          href="../5-4/index.html"
+        >
+          <span class="nav-etiqueta">Anterior</span>
+          <strong>‹ 5.4 Valores de retorno y sentencia return</strong>
+        </a>
+
+        <a
+          class="nav-pagina nav-siguiente"
+          href="../5-6/index.html"
+        >
+          <span class="nav-etiqueta">Siguiente</span>
+          <strong>5.6 Paso de valores y referencias a funciones ›</strong>
+        </a>
+
+      </nav>
+
+    </main>
+
+    <!-- ÍNDICE DERECHO -->
+    <aside class="indice-derecho">
+      <h2>Contenidos del apartado</h2>
+
+      <ul>
+        <li>
+          <a href="#que-es-ambito">
+            Qué es el ámbito de una variable
+          </a>
+        </li>
+        <li>
+          <a href="#ambito-global">
+            Ámbito global
+          </a>
+        </li>
+        <li>
+          <a href="#ambito-local">
+            Ámbito local de función
+          </a>
+        </li>
+        <li>
+          <a href="#parametros-locales">
+            Parámetros y variables locales
+          </a>
+        </li>
+        <li>
+          <a href="#acceso-variables">
+            Acceso a variables externas
+          </a>
+        </li>
+        <li>
+          <a href="#ambito-bloque">
+            Ámbito de bloque
+          </a>
+        </li>
+        <li>
+          <a href="#var-let-const">
+            Diferencias entre var, let y const
+          </a>
+        </li>
+        <li>
+          <a href="#sombreado">
+            Sombreado de variables
+          </a>
+        </li>
+        <li>
+          <a href="#errores-frecuentes">
+            Errores frecuentes
+          </a>
+        </li>
+        <li>
+          <a href="#buenas-practicas">
+            Buenas prácticas
+          </a>
+        </li>
+        <li>
+          <a href="#ejemplo-completo">
+            Ejemplo práctico completo
+          </a>
+        </li>
+      </ul>
+    </aside>
+
+  </div>
+
+  <!-- PIE DE PÁGINA -->
+  <footer class="footer">
+    <p>
+      Material elaborado por
+      <strong>Eva Ballestero Cubeles</strong>
+      · Licencia
+      <span class="licencia">CC BY-NC-SA 4.0</span>
+
+      <a
+        class="enlace-licencia"
+        href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.es"
+        target="_blank"
+        rel="license noopener noreferrer"
+        aria-label="Licencia Creative Commons BY-NC-SA 4.0"
+      >
+        <img
+          class="icono-licencia"
+          src="../../../img/licencias/cc-by-nc-sa.png"
+          alt="Licencia Creative Commons BY-NC-SA 4.0"
+        >
+      </a>
+    </p>
+  </footer>
+
+  <!-- JAVASCRIPT COMÚN -->
+  <script src="../../../js/modulos.js"></script>
+
+  <script>
+    const menuModulos = document.getElementById("menuModulos");
+    const botonTema = document.getElementById("botonTema");
+
+    const modulosActivos =
+      modulos.filter(modulo => modulo.activo === true);
+
+    modulosActivos.forEach(modulo => {
+      const enlace = document.createElement("a");
+
+      enlace.href = `../../../${modulo.carpeta}/index.html`;
+      enlace.textContent = modulo.siglas;
+      enlace.title = modulo.nombre;
+
+      if (modulo.siglas === "DWEC") {
+        enlace.style.color = "var(--verde-principal)";
+      }
+
+      menuModulos.appendChild(enlace);
+    });
+
+    /* MODO OSCURO */
+    const temaGuardado = localStorage.getItem("tema");
+
+    if (temaGuardado === "oscuro") {
+      document.body.classList.add("modo-oscuro");
+      botonTema.textContent = "🌙";
+    }
+
+    botonTema.addEventListener("click", () => {
+      document.body.classList.toggle("modo-oscuro");
+
+      const estaOscuro =
+        document.body.classList.contains("modo-oscuro");
+
+      botonTema.textContent = estaOscuro ? "🌙" : "☀️";
+
+      localStorage.setItem(
+        "tema",
+        estaOscuro ? "oscuro" : "claro"
+      );
+    });
+
+    /* MENÚS DESPLEGABLES */
+    const botonesDesplegar =
+      document.querySelectorAll(".boton-desplegar");
+
+    botonesDesplegar.forEach(boton => {
+      boton.addEventListener("click", () => {
+        const idSubmenu = boton.getAttribute("data-target");
+        const submenu = document.getElementById(idSubmenu);
+
+        if (!submenu) return;
+
+        const estaAbierto =
+          submenu.classList.contains("submenu-abierto");
+
+        submenu.classList.toggle("submenu-abierto");
+
+        boton.textContent = estaAbierto ? "›" : "⌄";
+        boton.setAttribute(
+          "aria-expanded",
+          estaAbierto ? "false" : "true"
+        );
+      });
+    });
+
+    /* COPIAR BLOQUES DE CÓDIGO */
+    document.addEventListener("click", async evento => {
+      const boton = evento.target.closest(".boton-copiar");
+
+      if (!boton) return;
+
+      const bloque = boton.closest(".bloque-codigo");
+      if (!bloque) return;
+
+      const codigo = bloque.querySelector("code");
+      if (!codigo) return;
+
+      const textoOriginal = boton.textContent;
+
+      try {
+        await navigator.clipboard.writeText(codigo.textContent);
+        boton.textContent = "✔ Copiado";
+      } catch (error) {
+        boton.textContent = "Error al copiar";
+      }
+
+      setTimeout(() => {
+        boton.textContent = textoOriginal;
+      }, 1600);
+    });
+  </script>
+
+</body>
+</html>
