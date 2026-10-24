@@ -1,0 +1,2196 @@
+
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="DWEC UT5 - Parámetros por defecto y parámetros rest en JavaScript">
+  <title>5.7 Parámetros por defecto y parámetros rest | DWEC</title>
+  <link rel="icon" type="image/png" href="../../../img/favicon.png?v=5">
+  <link rel="stylesheet" href="../../../css/estilos.css">
+
+  <style>
+    .pagina-ut {
+      display: grid;
+      grid-template-columns: 280px minmax(0, 1fr) 260px;
+      min-height: calc(100vh - 68px);
+    }
+
+    .sidebar {
+      border-right: 1px solid var(--borde);
+      background-color: var(--fondo-pagina);
+      padding: 12px 10px 30px;
+      position: sticky;
+      top: 68px;
+      height: calc(100vh - 68px);
+      overflow-y: auto;
+    }
+
+    .sidebar-modulo {
+      display: block;
+      margin-bottom: 8px;
+      padding: 8px 14px;
+      color: #626873;
+      font-size: 17px;
+      font-weight: 700;
+      text-decoration: none;
+      border-radius: 6px;
+    }
+
+    .sidebar-modulo:hover,
+    .menu-titulo:hover,
+    .enlace-apartado-simple:hover,
+    .submenu-apartados a:hover {
+      color: var(--verde-principal, #16835d);
+    }
+
+    .menu-titulo {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      width: 100%;
+      padding: 10px 14px;
+      border: 0;
+      border-radius: 6px;
+      background: transparent;
+      color: inherit;
+      font: inherit;
+      font-weight: 700;
+      text-align: left;
+      cursor: pointer;
+    }
+
+    .menu-titulo .flecha {
+      transition: transform .2s ease;
+    }
+
+    .menu-titulo[aria-expanded="true"] .flecha {
+      transform: rotate(90deg);
+    }
+
+    .submenu-apartados {
+      list-style: none;
+      padding: 0 0 0 12px;
+      margin: 2px 0 10px;
+    }
+
+    .submenu-apartados[hidden] {
+      display: none;
+    }
+
+    .submenu-apartados a,
+    .enlace-apartado-simple {
+      display: block;
+      padding: 8px 12px;
+      margin: 2px 0;
+      border-radius: 6px;
+      color: inherit;
+      text-decoration: none;
+      font-size: .91rem;
+      line-height: 1.4;
+    }
+
+    .submenu-apartados a.enlace-apartado-activo {
+      background: rgba(22, 131, 93, .12);
+      color: var(--verde-principal, #16835d);
+      font-weight: 700;
+    }
+
+    .contenido-ut {
+      min-width: 0;
+      width: 100%;
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 30px 42px 70px;
+      box-sizing: border-box;
+    }
+
+    .migas {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: 9px;
+      margin-bottom: 24px;
+      font-size: .88rem;
+      color: #777;
+    }
+
+    .migas a {
+      color: inherit;
+      text-decoration: none;
+    }
+
+    .migas a:hover {
+      text-decoration: underline;
+    }
+
+    .contenido-ut h1 {
+      margin: 0 0 22px;
+      line-height: 1.25;
+      font-size: clamp(1.8rem, 3vw, 2.45rem);
+    }
+
+    .apartado-ut h2 {
+      margin-top: 45px;
+      margin-bottom: 16px;
+      padding-bottom: 10px;
+      border-bottom: 1px solid var(--borde, #ddd);
+      font-size: 1.55rem;
+      scroll-margin-top: 90px;
+    }
+
+    .apartado-ut h3 {
+      margin-top: 28px;
+      margin-bottom: 12px;
+      font-size: 1.16rem;
+    }
+
+    .apartado-ut p,
+    .apartado-ut li {
+      line-height: 1.8;
+    }
+
+    .apartado-ut p {
+      margin: 14px 0;
+    }
+
+    .apartado-ut ul,
+    .apartado-ut ol {
+      padding-left: 26px;
+      margin: 16px 0;
+    }
+
+    .apartado-ut li {
+      margin-bottom: 8px;
+    }
+
+    .apartado-ut code:not(pre code) {
+      padding: 2px 5px;
+      border-radius: 4px;
+      background: rgba(128, 128, 128, .12);
+      font-size: .92em;
+    }
+
+    .bloque-codigo {
+      margin: 18px 0 24px;
+      border: 1px solid #303b4b;
+      border-radius: 9px;
+      overflow: hidden;
+      background: #17202c;
+    }
+
+    .cabecera-codigo {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 12px;
+      padding: 9px 14px;
+      background: #253244;
+      color: #e5eaf0;
+      font-size: .82rem;
+    }
+
+    .boton-copiar {
+      padding: 5px 10px;
+      border: 1px solid #627084;
+      border-radius: 5px;
+      background: transparent;
+      color: #f2f4f7;
+      cursor: pointer;
+      font: inherit;
+    }
+
+    .boton-copiar:hover {
+      background: #34445a;
+    }
+
+    .bloque-codigo pre {
+      margin: 0;
+      padding: 18px;
+      overflow-x: auto;
+      color: #f1f5f9;
+      font-size: .91rem;
+      line-height: 1.65;
+      tab-size: 2;
+    }
+
+    .bloque-codigo code {
+      font-family: Consolas, "Courier New", monospace;
+      white-space: pre;
+    }
+
+    .caja {
+      margin: 22px 0;
+      padding: 17px 20px;
+      border-left: 4px solid;
+      border-radius: 7px;
+    }
+
+    .caja-titulo {
+      display: block;
+      margin-bottom: 8px;
+      font-weight: 700;
+    }
+
+    .caja p {
+      margin: 0;
+    }
+
+    .caja-importante {
+      border-color: #2685c5;
+      background: rgba(38, 133, 197, .09);
+    }
+
+    .caja-atencion {
+      border-color: #e4a526;
+      background: rgba(228, 165, 38, .11);
+    }
+
+    .caja-ejemplo {
+      border-color: #249b72;
+      background: rgba(36, 155, 114, .09);
+    }
+
+    .tabla-responsive {
+      overflow-x: auto;
+      margin: 22px 0;
+    }
+
+    .tabla-responsive table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: .94rem;
+    }
+
+    .tabla-responsive th,
+    .tabla-responsive td {
+      padding: 13px;
+      border: 1px solid var(--borde, #ddd);
+      text-align: left;
+      vertical-align: top;
+      line-height: 1.6;
+    }
+
+    .tabla-responsive th {
+      background: rgba(128, 128, 128, .1);
+    }
+
+    .apartado-ut details {
+      margin: 20px 0;
+      border: 1px solid var(--borde, #ddd);
+      border-radius: 8px;
+      overflow: hidden;
+    }
+
+    .apartado-ut summary {
+      padding: 15px 18px;
+      cursor: pointer;
+      font-weight: 700;
+      background: rgba(128, 128, 128, .07);
+    }
+
+    .solucion {
+      padding: 12px 20px 20px;
+    }
+
+    .indice-derecho {
+      position: sticky;
+      top: 68px;
+      align-self: start;
+      height: calc(100vh - 68px);
+      overflow-y: auto;
+      padding: 28px 18px;
+      border-left: 1px solid var(--borde, #ddd);
+      box-sizing: border-box;
+    }
+
+    .indice-derecho h2 {
+      margin: 0 0 16px;
+      font-size: .96rem;
+    }
+
+    .indice-derecho ul {
+      list-style: none;
+      margin: 0;
+      padding: 0;
+    }
+
+    .indice-derecho li {
+      margin-bottom: 11px;
+    }
+
+    .indice-derecho a {
+      color: inherit;
+      text-decoration: none;
+      font-size: .85rem;
+      line-height: 1.45;
+    }
+
+    .indice-derecho a:hover {
+      color: var(--verde-principal, #16835d);
+    }
+
+    .navegacion-paginas {
+      display: flex;
+      justify-content: space-between;
+      gap: 18px;
+      margin-top: 55px;
+      padding-top: 24px;
+      border-top: 1px solid var(--borde, #ddd);
+    }
+
+    .nav-pagina {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+      flex: 1;
+      padding: 16px;
+      border: 1px solid var(--borde, #ddd);
+      border-radius: 9px;
+      color: inherit;
+      text-decoration: none;
+    }
+
+    .nav-pagina:hover {
+      border-color: var(--verde-principal, #16835d);
+    }
+
+    .nav-etiqueta {
+      color: #888;
+      font-size: .8rem;
+    }
+
+    .nav-siguiente {
+      text-align: right;
+    }
+
+    @media (max-width: 1150px) {
+      .pagina-ut {
+        grid-template-columns: 250px minmax(0, 1fr);
+      }
+
+      .indice-derecho {
+        display: none;
+      }
+    }
+
+    @media (max-width: 760px) {
+      .pagina-ut {
+        display: block;
+      }
+
+      .sidebar {
+        position: static;
+        height: auto;
+        max-height: 350px;
+        border-right: 0;
+        border-bottom: 1px solid var(--borde, #ddd);
+      }
+
+      .contenido-ut {
+        padding: 24px 18px 55px;
+      }
+
+      .navegacion-paginas {
+        flex-direction: column;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+  <div class="pagina-ut">
+
+    <!-- MENÚ LATERAL IZQUIERDO -->
+    <aside class="sidebar" aria-label="Navegación de DWEC">
+      <a class="sidebar-modulo" href="../../index.html">
+        Desarrollo Web en Entorno Cliente
+      </a>
+
+      <nav>
+        <button class="menu-titulo" type="button" aria-expanded="false"
+                aria-controls="submenu-ut1">
+          <span>UT1. Introducción a DWEC</span>
+          <span class="flecha">›</span>
+        </button>
+        <ul class="submenu-apartados" id="submenu-ut1" hidden>
+          <li><a href="../../ut1/index.html">Ver unidad</a></li>
+        </ul>
+
+        <button class="menu-titulo" type="button" aria-expanded="false"
+                aria-controls="submenu-ut2">
+          <span>UT2. JavaScript: fundamentos</span>
+          <span class="flecha">›</span>
+        </button>
+        <ul class="submenu-apartados" id="submenu-ut2" hidden>
+          <li><a href="../../ut2/index.html">Ver unidad</a></li>
+        </ul>
+
+        <button class="menu-titulo" type="button" aria-expanded="false"
+                aria-controls="submenu-ut3">
+          <span>UT3. Estructuras de control</span>
+          <span class="flecha">›</span>
+        </button>
+        <ul class="submenu-apartados" id="submenu-ut3" hidden>
+          <li><a href="../../ut3/index.html">Ver unidad</a></li>
+        </ul>
+
+        <button class="menu-titulo" type="button" aria-expanded="false"
+                aria-controls="submenu-ut4">
+          <span>UT4</span>
+          <span class="flecha">›</span>
+        </button>
+        <ul class="submenu-apartados" id="submenu-ut4" hidden>
+          <li><a href="../../ut4/index.html">Ver unidad</a></li>
+        </ul>
+
+        <button class="menu-titulo" type="button" aria-expanded="true"
+                aria-controls="submenu-ut5">
+          <span>UT5. Funciones en JavaScript</span>
+          <span class="flecha">›</span>
+        </button>
+
+        <ul class="submenu-apartados" id="submenu-ut5">
+          <li>
+            <a href="../5-1/index.html">
+              5.1 Introducción a las funciones
+            </a>
+          </li>
+          <li>
+            <a href="../5-2/index.html">
+              5.2 Declaración e invocación de funciones
+            </a>
+          </li>
+          <li>
+            <a href="../5-3/index.html">
+              5.3 Parámetros y argumentos
+            </a>
+          </li>
+          <li>
+            <a href="../5-4/index.html">
+              5.4 Valores de retorno y sentencia return
+            </a>
+          </li>
+          <li>
+            <a href="../5-5/index.html">
+              5.5 Ámbito de las variables en las funciones
+            </a>
+          </li>
+          <li>
+            <a href="../5-6/index.html">
+              5.6 Paso de valores y referencias a funciones
+            </a>
+          </li>
+          <li>
+            <a href="../5-7/index.html"
+               class="enlace-apartado-activo"
+               aria-current="page">
+              5.7 Parámetros por defecto y parámetros rest
+            </a>
+          </li>
+          <li>
+            <a href="../5-8/index.html">
+              5.8 Expresiones de función y funciones flecha
+            </a>
+          </li>
+          <li>
+            <a href="../5-9/index.html">
+              5.9 Funciones callback y funciones de orden superior
+            </a>
+          </li>
+          <li>
+            <a href="../5-10/index.html">
+              5.10 Funciones predefinidas y métodos de JavaScript
+            </a>
+          </li>
+          <li>
+            <a href="../5-11/index.html">
+              5.11 Funciones recursivas
+            </a>
+          </li>
+          <li>
+            <a href="../5-12/index.html">
+              5.12 Organización y reutilización del código
+            </a>
+          </li>
+        </ul>
+      </nav>
+    </aside>
+
+    <!-- CONTENIDO PRINCIPAL -->
+    <main class="contenido-ut" id="contenido-principal">
+
+      <div class="migas">
+        <a href="../../../index.html" aria-label="Inicio">🏠</a>
+        <span>›</span>
+        <a href="../../index.html">DWEC</a>
+        <span>›</span>
+        <a href="../index.html">UT5</a>
+        <span>›</span>
+        <span>5.7</span>
+      </div>
+
+      <h1>5.7 Parámetros por defecto y parámetros rest</h1>
+
+      <section class="apartado-ut">
+
+        <p>
+          En el apartado anterior hemos estudiado qué ocurre cuando una
+          función recibe números, cadenas, objetos o arrays. Ahora vamos
+          a aprender a diseñar funciones más flexibles: algunas podrán
+          funcionar aunque no proporcionemos todos sus argumentos y
+          otras podrán recibir <strong>tantos argumentos como
+          necesitemos</strong>.
+        </p>
+
+        <p>
+          Imagina una tienda online. Al calcular los gastos de envío
+          queremos utilizar una tarifa habitual si no se indica otra.
+          Por otra parte, para calcular el total de varios precios no
+          sabemos de antemano si recibiremos dos, tres o diez productos.
+        </p>
+
+        <p>
+          JavaScript ofrece dos herramientas muy útiles para resolver
+          estas situaciones: los <strong>parámetros por defecto</strong>
+          y los <strong>parámetros rest</strong>.
+        </p>
+
+        <div class="caja caja-importante">
+          <span class="caja-titulo">📌 Importante</span>
+          <p>
+            Un parámetro por defecto proporciona un valor alternativo
+            cuando el argumento recibido es <code>undefined</code>.
+            Un parámetro rest, escrito con <code>...</code>, reúne
+            los argumentos restantes en un <strong>array</strong>.
+            Aunque ambos se escriben en la declaración de una función,
+            resuelven problemas diferentes.
+          </p>
+        </div>
+
+        <!-- 1 -->
+        <h2 id="argumentos-omitidos">
+          Qué ocurre cuando faltan argumentos
+        </h2>
+
+        <p>
+          En JavaScript podemos invocar una función con menos argumentos
+          de los parámetros que declara. Los parámetros para los que
+          no se proporciona un argumento reciben el valor
+          <code>undefined</code>.
+        </p>
+
+        <div class="bloque-codigo">
+          <div class="cabecera-codigo">
+            <span>JavaScript</span>
+            <button class="boton-copiar" type="button">
+              📋 Copiar código
+            </button>
+          </div>
+          <pre><code>function saludar(nombre, ciudad) {
+  console.log("Hola, " + nombre);
+  console.log("Ciudad: " + ciudad);
+}
+
+saludar("Lucía");</code></pre>
+        </div>
+
+        <p><strong>Salida por consola:</strong></p>
+
+        <div class="bloque-codigo">
+          <div class="cabecera-codigo">
+            <span>Consola</span>
+            <button class="boton-copiar" type="button">
+              📋 Copiar código
+            </button>
+          </div>
+          <pre><code>Hola, Lucía
+Ciudad: undefined</code></pre>
+        </div>
+
+        <p>
+          El primer argumento, <code>"Lucía"</code>, se asigna a
+          <code>nombre</code>. Como no hemos proporcionado un segundo
+          argumento, <code>ciudad</code> vale
+          <code>undefined</code>.
+        </p>
+
+        <p>
+          El programa no genera un error automáticamente, pero puede
+          producir mensajes poco útiles o resultados inesperados.
+        </p>
+
+        <h3>
+          Un problema frecuente: operar con un argumento que falta
+        </h3>
+
+        <div class="bloque-codigo">
+          <div class="cabecera-codigo">
+            <span>JavaScript</span>
+            <button class="boton-copiar" type="button">
+              📋 Copiar código
+            </button>
+          </div>
+          <pre><code>function calcularPrecio(precio, unidades) {
+  return precio * unidades;
+}
+
+console.log(calcularPrecio(25));</code></pre>
+        </div>
+
+        <p><strong>Salida por consola:</strong></p>
+
+        <div class="bloque-codigo">
+          <div class="cabecera-codigo">
+            <span>Consola</span>
+            <button class="boton-copiar" type="button">
+              📋 Copiar código
+            </button>
+          </div>
+          <pre><code>NaN</code></pre>
+        </div>
+
+        <p>
+          La operación es <code>25 * undefined</code>.
+          Como no puede obtenerse un resultado numérico válido,
+          JavaScript devuelve <code>NaN</code>
+          (<em>Not a Number</em>).
+        </p>
+
+        <div class="caja caja-atencion">
+          <span class="caja-titulo">⚠️ Atención</span>
+          <p>
+            Que JavaScript permita omitir argumentos no significa
+            que la función pueda trabajar correctamente sin ellos.
+            Debemos decidir cuáles son obligatorios y cuáles pueden
+            tener un valor predeterminado.
+          </p>
+        </div>
+
+        <!-- 2 -->
+        <h2 id="parametros-defecto">
+          Declarar parámetros por defecto
+        </h2>
+
+        <p>
+          Un <strong>parámetro por defecto</strong> se declara
+          escribiendo <code>=</code> y un valor en la lista de
+          parámetros. Ese valor se utilizará si, al invocar la función,
+          el argumento correspondiente es <code>undefined</code>.
+        </p>
+
+        <div class="bloque-codigo">
+          <div class="cabecera-codigo">
+            <span>JavaScript</span>
+            <button class="boton-copiar" type="button">
+              📋 Copiar código
+            </button>
+          </div>
+          <pre><code>function saludar(nombre = "visitante") {
+  console.log("Hola, " + nombre);
+}
+
+saludar("Marcos");
+saludar();</code></pre>
+        </div>
+
+        <p><strong>Salida por consola:</strong></p>
+
+        <div class="bloque-codigo">
+          <div class="cabecera-codigo">
+            <span>Consola</span>
+            <button class="boton-copiar" type="button">
+              📋 Copiar código
+            </button>
+          </div>
+          <pre><code>Hola, Marcos
+Hola, visitante</code></pre>
+        </div>
+
+        <p>
+          En la primera llamada se proporciona un nombre y se utiliza
+          ese argumento. En la segunda no se proporciona ninguno,
+          por lo que se aplica <code>"visitante"</code>.
+        </p>
+
+        <h3>Varios parámetros con valores predeterminados</h3>
+
+        <div class="bloque-codigo">
+          <div class="cabecera-codigo">
+            <span>JavaScript</span>
+            <button class="boton-copiar" type="button">
+              📋 Copiar código
+            </button>
+          </div>
+          <pre><code>function calcularImporte(precio, unidades = 1, descuento = 0) {
+  const subtotal = precio * unidades;
+  return subtotal - subtotal * descuento / 100;
+}
+
+console.log(calcularImporte(40));
+console.log(calcularImporte(40, 3));
+console.log(calcularImporte(40, 3, 10));</code></pre>
+        </div>
+
+        <p><strong>Salida por consola:</strong></p>
+
+        <div class="bloque-codigo">
+          <div class="cabecera-codigo">
+            <span>Consola</span>
+            <button class="boton-copiar" type="button">
+              📋 Copiar código
+            </button>
+          </div>
+          <pre><code>40
+120
+108</code></pre>
+        </div>
+
+        <p>Vamos a analizar cada llamada:</p>
+
+        <ul>
+          <li>
+            <code>calcularImporte(40)</code>: se utiliza una unidad
+            y un descuento del 0 %.
+          </li>
+          <li>
+            <code>calcularImporte(40, 3)</code>: se utilizan tres
+            unidades y un descuento del 0 %.
+          </li>
+          <li>
+            <code>calcularImporte(40, 3, 10)</code>: los tres
+            argumentos proporcionados sustituyen los valores
+            predeterminados.
+          </li>
+        </ul>
+
+        <p>
+          De este modo, una sola función permite realizar varias
+          operaciones sin obligarnos a escribir siempre todos
+          los argumentos.
+        </p>
+
+        <h3>Valores por defecto y return</h3>
+
+        <p>
+          Los parámetros por defecto no modifican el funcionamiento
+          de <code>return</code>. La función calcula un resultado
+          y lo devuelve al programa que la invoca.
+        </p>
+
+        <div class="bloque-codigo">
+          <div class="cabecera-codigo">
+            <span>JavaScript</span>
+            <button class="boton-copiar" type="button">
+              📋 Copiar código
+            </button>
+          </div>
+          <pre><code>function calcularEnvio(importe, costeEnvio = 4.95) {
+  return importe + costeEnvio;
+}
+
+const totalNormal = calcularEnvio(30);
+const totalUrgente = calcularEnvio(30, 9.95);
+
+console.log(totalNormal.toFixed(2) + " €");
+console.log(totalUrgente.toFixed(2) + " €");</code></pre>
+        </div>
+
+        <p><strong>Salida por consola:</strong></p>
+
+        <div class="bloque-codigo">
+          <div class="cabecera-codigo">
+            <span>Consola</span>
+            <button class="boton-copiar" type="button">
+              📋 Copiar código
+            </button>
+          </div>
+          <pre><code>34.95 €
+39.95 €</code></pre>
+        </div>
+
+        <div class="caja caja-ejemplo">
+          <span class="caja-titulo">💻 Ejemplo DAW</span>
+          <p>
+            En una aplicación de comercio electrónico, los valores
+            por defecto resultan útiles para establecer cantidades
+            iniciales, gastos de envío habituales, descuentos del 0 %
+            o mensajes alternativos. Así evitamos repetir argumentos
+            que casi siempre tienen el mismo valor.
+          </p>
+        </div>
+
+        <!-- 3 -->
+        <h2 id="undefined-null">
+          Diferencia entre undefined, null y otros valores
+        </h2>
+
+        <p>
+          Una cuestión especialmente importante es
+          <strong>cuándo se aplica exactamente</strong> el valor
+          por defecto.
+        </p>
+
+        <p>
+          Se utiliza si no se pasa ningún argumento o si se pasa
+          explícitamente <code>undefined</code>. No se aplica
+          automáticamente con <code>null</code>, <code>0</code>,
+          <code>false</code> ni con una cadena vacía.
+        </p>
+
+        <div class="bloque-codigo">
+          <div class="cabecera-codigo">
+            <span>JavaScript</span>
+            <button class="boton-copiar" type="button">
+              📋 Copiar código
+            </button>
+          </div>
+          <pre><code>function mostrarValor(valor = "predeterminado") {
+  console.log(valor);
+}
+
+mostrarValor();
+mostrarValor(undefined);
+mostrarValor(null);
+mostrarValor(0);
+mostrarValor(false);
+mostrarValor("");</code></pre>
+        </div>
+
+        <p><strong>Salida por consola:</strong></p>
+
+        <div class="bloque-codigo">
+          <div class="cabecera-codigo">
+            <span>Consola</span>
+            <button class="boton-copiar" type="button">
+              📋 Copiar código
+            </button>
+          </div>
+          <pre><code>predeterminado
+predeterminado
+null
+0
+false
+</code></pre>
+        </div>
+
+        <p>
+          La última llamada muestra una línea vacía, porque el
+          argumento es la cadena <code>""</code>. Esta cadena
+          es un valor válido, aunque no contenga caracteres.
+        </p>
+
+        <div class="caja caja-atencion">
+          <span class="caja-titulo">⚠️ Atención</span>
+          <p>
+            No confundas un <strong>argumento ausente</strong>
+            con un argumento que contiene un valor considerado falso
+            (<code>0</code>, <code>false</code> o <code>""</code>).
+            Los parámetros por defecto conservan estos últimos valores.
+          </p>
+        </div>
+
+        <h3>
+          Por qué no siempre conviene utilizar el operador ||
+        </h3>
+
+        <p>
+          Antes de los parámetros por defecto era habitual utilizar
+          el operador <code>||</code> para proporcionar valores
+          alternativos. Sin embargo, este operador puede producir
+          resultados no deseados.
+        </p>
+
+        <div class="bloque-codigo">
+          <div class="cabecera-codigo">
+            <span>JavaScript</span>
+            <button class="boton-copiar" type="button">
+              📋 Copiar código
+            </button>
+          </div>
+          <pre><code>function mostrarCantidad(cantidad) {
+  const resultado = cantidad || 10;
+  console.log(resultado);
+}
+
+mostrarCantidad(0);</code></pre>
+        </div>
+
+        <p><strong>Salida por consola:</strong></p>
+
+        <div class="bloque-codigo">
+          <div class="cabecera-codigo">
+            <span>Consola</span>
+            <button class="boton-copiar" type="button">
+              📋 Copiar código
+            </button>
+          </div>
+          <pre><code>10</code></pre>
+        </div>
+
+        <p>
+          Aunque hemos proporcionado <code>0</code>, el operador
+          <code>||</code> elige <code>10</code> porque
+          <code>0</code> es un valor <em>falsy</em>.
+          Si cero es un dato válido, ese comportamiento no es adecuado.
+        </p>
+
+        <p>
+          Podemos resolverlo utilizando un parámetro por defecto:
+        </p>
+
+        <div class="bloque-codigo">
+          <div class="cabecera-codigo">
+            <span>JavaScript</span>
+            <button class="boton-copiar" type="button">
+              📋 Copiar código
+            </button>
+          </div>
+          <pre><code>function mostrarCantidad(cantidad = 10) {
+  console.log(cantidad);
+}
+
+mostrarCantidad(0);
+mostrarCantidad();</code></pre>
+        </div>
+
+        <p><strong>Salida por consola:</strong></p>
+
+        <div class="bloque-codigo">
+          <div class="cabecera-codigo">
+            <span>Consola</span>
+            <button class="boton-copiar" type="button">
+              📋 Copiar código
+            </button>
+          </div>
+          <pre><code>0
+10</code></pre>
+        </div>
+
+        <p>
+          El parámetro por defecto permite distinguir correctamente
+          entre el valor <code>0</code> y un argumento omitido.
+        </p>
+
+        <!-- 4 -->
+        <h2 id="orden-parametros">
+          Orden y dependencia de los parámetros
+        </h2>
+
+        <p>
+          Normalmente colocamos primero los parámetros que deben recibir
+          un argumento y después los que tienen valores predeterminados.
+          Es una recomendación de claridad, no una obligación
+          sintáctica de JavaScript.
+        </p>
+
+        <div class="bloque-codigo">
+          <div class="cabecera-codigo">
+            <span>JavaScript</span>
+            <button class="boton-copiar" type="button">
+              📋 Copiar código
+            </button>
+          </div>
+          <pre><code>function crearFicha(nombre, categoria = "General", activo = true) {
+  console.log(nombre + " | " + categoria + " | " + activo);
+}
+
+crearFicha("Teclado");
+crearFicha("Ratón", "Periféricos");
+crearFicha("Monitor", "Pantallas", false);</code></pre>
+        </div>
+
+        <p><strong>Salida por consola:</strong></p>
+
+        <div class="bloque-codigo">
+          <div class="cabecera-codigo">
+            <span>Consola</span>
+            <button class="boton-copiar" type="button">
+              📋 Copiar código
+            </button>
+          </div>
+          <pre><code>Teclado | General | true
+Ratón | Periféricos | true
+Monitor | Pantallas | false</code></pre>
+        </div>
+
+        <h3>Saltar un parámetro para utilizar el siguiente</h3>
+
+        <p>
+          Los argumentos se asignan <strong>por posición</strong>.
+          Si queremos conservar el valor por defecto de un parámetro
+          intermedio y proporcionar uno posterior, podemos pasar
+          <code>undefined</code> en esa posición.
+        </p>
+
+        <div class="bloque-codigo">
+          <div class="cabecera-codigo">
+            <span>JavaScript</span>
+            <button class="boton-copiar" type="button">
+              📋 Copiar código
+            </button>
+          </div>
+          <pre><code>function registrarUsuario(nombre, idioma = "es", avisos = true) {
+  console.log(nombre + " - " + idioma + " - " + avisos);
+}
+
+registrarUsuario("Ana", undefined, false);</code></pre>
+        </div>
+
+        <p><strong>Salida por consola:</strong></p>
+
+        <div class="bloque-codigo">
+          <div class="cabecera-codigo">
+            <span>Consola</span>
+            <button class="boton-copiar" type="button">
+              📋 Copiar código
+            </button>
+          </div>
+          <pre><code>Ana - es - false</code></pre>
+        </div>
+
+        <p>
+          El segundo parámetro utiliza su valor por defecto, mientras
+          que el tercero recibe <code>false</code>.
+        </p>
+
+        <p>
+          Cuando hay muchos parámetros opcionales, suele ser más
+          legible utilizar un objeto de opciones. Estudiaremos este
+          patrón más adelante.
+        </p>
+
+        <h3>
+          Un valor por defecto puede depender de un parámetro anterior
+        </h3>
+
+        <div class="bloque-codigo">
+          <div class="cabecera-codigo">
+            <span>JavaScript</span>
+            <button class="boton-copiar" type="button">
+              📋 Copiar código
+            </button>
+          </div>
+          <pre><code>function calcularPrecioFinal(precio, impuesto = precio * 0.21) {
+  return precio + impuesto;
+}
+
+console.log(calcularPrecioFinal(100));
+console.log(calcularPrecioFinal(100, 10));</code></pre>
+        </div>
+
+        <p><strong>Salida por consola:</strong></p>
+
+        <div class="bloque-codigo">
+          <div class="cabecera-codigo">
+            <span>Consola</span>
+            <button class="boton-copiar" type="button">
+              📋 Copiar código
+            </button>
+          </div>
+          <pre><code>121
+110</code></pre>
+        </div>
+
+        <p>
+          El valor por defecto de <code>impuesto</code> se calcula
+          a partir del parámetro <code>precio</code>, que ya está
+          disponible. La expresión predeterminada se evalúa cuando
+          hace falta, durante la llamada.
+        </p>
+
+        <div class="caja caja-importante">
+          <span class="caja-titulo">📌 Importante</span>
+          <p>
+            Los valores por defecto pueden ser expresiones,
+            no solamente números o cadenas fijas.
+            Para evitar errores y mejorar la comprensión,
+            utiliza expresiones sencillas y evita depender
+            de parámetros declarados después.
+          </p>
+        </div>
+
+        <!-- 5 -->
+        <h2 id="introduccion-rest">
+          Funciones con un número variable de argumentos
+        </h2>
+
+        <p>
+          Hasta ahora hemos declarado funciones con una cantidad fija
+          de parámetros. Pero hay situaciones en las que no sabemos
+          cuántos valores recibiremos: sumar importes, calcular
+          promedios, registrar mensajes o procesar una lista variable
+          de productos.
+        </p>
+
+        <p>
+          Podríamos escribir una función con tres parámetros,
+          pero dejaría de servir si necesitáramos sumar cuatro
+          o cinco cantidades.
+        </p>
+
+        <div class="bloque-codigo">
+          <div class="cabecera-codigo">
+            <span>JavaScript</span>
+            <button class="boton-copiar" type="button">
+              📋 Copiar código
+            </button>
+          </div>
+          <pre><code>function sumarTres(a, b, c) {
+  return a + b + c;
+}
+
+console.log(sumarTres(10, 20, 30));</code></pre>
+        </div>
+
+        <p><strong>Salida por consola:</strong></p>
+
+        <div class="bloque-codigo">
+          <div class="cabecera-codigo">
+            <span>Consola</span>
+            <button class="boton-copiar" type="button">
+              📋 Copiar código
+            </button>
+          </div>
+          <pre><code>60</code></pre>
+        </div>
+
+        <p>
+          Para resolver este problema utilizamos los
+          <strong>parámetros rest</strong>.
+        </p>
+
+        <!-- 6 -->
+        <h2 id="sintaxis-rest">
+          Sintaxis del parámetro rest (...)
+        </h2>
+
+        <p>
+          Un parámetro rest se escribe anteponiendo tres puntos
+          <code>...</code> al nombre del parámetro.
+          Recoge todos los argumentos que le correspondan y
+          los almacena en un <strong>array</strong>.
+        </p>
+
+        <div class="bloque-codigo">
+          <div class="cabecera-codigo">
+            <span>JavaScript</span>
+            <button class="boton-copiar" type="button">
+              📋 Copiar código
+            </button>
+          </div>
+          <pre><code>function mostrarProductos(...productos) {
+  console.log(productos);
+}
+
+mostrarProductos("Teclado", "Ratón", "Monitor");
+mostrarProductos("Webcam");
+mostrarProductos();</code></pre>
+        </div>
+
+        <p><strong>Salida por consola:</strong></p>
+
+        <div class="bloque-codigo">
+          <div class="cabecera-codigo">
+            <span>Consola</span>
+            <button class="boton-copiar" type="button">
+              📋 Copiar código
+            </button>
+          </div>
+          <pre><code>["Teclado", "Ratón", "Monitor"]
+["Webcam"]
+[]</code></pre>
+        </div>
+
+        <p>
+          En la primera llamada, <code>productos</code> es un array
+          con tres elementos. En la segunda contiene uno.
+          En la tercera es un array vacío.
+        </p>
+
+        <p>
+          Como se trata de un array, podemos utilizar propiedades
+          y métodos conocidos, como <code>length</code>,
+          <code>for...of</code>, <code>push()</code>
+          o <code>reduce()</code>.
+        </p>
+
+        <h3>Recorrer los argumentos recibidos</h3>
+
+        <div class="bloque-codigo">
+          <div class="cabecera-codigo">
+            <span>JavaScript</span>
+            <button class="boton-copiar" type="button">
+              📋 Copiar código
+            </button>
+          </div>
+          <pre><code>function listarProductos(...productos) {
+  console.log("Total de productos: " + productos.length);
+
+  for (const producto of productos) {
+    console.log("- " + producto);
+  }
+}
+
+listarProductos("Teclado", "Ratón", "Monitor");</code></pre>
+        </div>
+
+        <p><strong>Salida por consola:</strong></p>
+
+        <div class="bloque-codigo">
+          <div class="cabecera-codigo">
+            <span>Consola</span>
+            <button class="boton-copiar" type="button">
+              📋 Copiar código
+            </button>
+          </div>
+          <pre><code>Total de productos: 3
+- Teclado
+- Ratón
+- Monitor</code></pre>
+        </div>
+
+        <div class="caja caja-importante">
+          <span class="caja-titulo">📌 Importante</span>
+          <p>
+            Los tres puntos <code>...</code> del parámetro rest
+            no significan que la función reciba un array directamente
+            como argumento. Significan que JavaScript
+            <strong>agrupa varios argumentos en un array</strong>
+            dentro de la función.
+          </p>
+        </div>
+
+        <!-- 7 -->
+        <h2 id="rest-calculos">
+          Utilizar rest para realizar cálculos
+        </h2>
+
+        <p>
+          Vamos a desarrollar una función que sume cualquier cantidad
+          de importes. Para ello recorreremos el array recibido
+          y acumularemos sus valores.
+        </p>
+
+        <div class="bloque-codigo">
+          <div class="cabecera-codigo">
+            <span>JavaScript</span>
+            <button class="boton-copiar" type="button">
+              📋 Copiar código
+            </button>
+          </div>
+          <pre><code>function sumarImportes(...importes) {
+  let total = 0;
+
+  for (const importe of importes) {
+    total += importe;
+  }
+
+  return total;
+}
+
+console.log(sumarImportes(10, 20));
+console.log(sumarImportes(10, 20, 5, 15));
+console.log(sumarImportes());</code></pre>
+        </div>
+
+        <p><strong>Salida por consola:</strong></p>
+
+        <div class="bloque-codigo">
+          <div class="cabecera-codigo">
+            <span>Consola</span>
+            <button class="boton-copiar" type="button">
+              📋 Copiar código
+            </button>
+          </div>
+          <pre><code>30
+50
+0</code></pre>
+        </div>
+
+        <h3>Análisis paso a paso</h3>
+
+        <ol>
+          <li>
+            El parámetro <code>importes</code> contiene un array
+            con los argumentos recibidos.
+          </li>
+          <li>
+            La variable <code>total</code> comienza en
+            <code>0</code>.
+          </li>
+          <li>
+            El bucle <code>for...of</code> recorre cada importe
+            y lo añade al acumulador.
+          </li>
+          <li>
+            La sentencia <code>return</code> devuelve la suma final.
+          </li>
+          <li>
+            Si no recibimos argumentos, el bucle no se ejecuta
+            y la función devuelve <code>0</code>.
+          </li>
+        </ol>
+
+        <h3>Calcular una media con rest</h3>
+
+        <p>
+          Para calcular una media, además de sumar los valores,
+          necesitamos saber cuántos se han recibido.
+          Debemos controlar el caso del array vacío para evitar
+          una división entre cero.
+        </p>
+
+        <div class="bloque-codigo">
+          <div class="cabecera-codigo">
+            <span>JavaScript</span>
+            <button class="boton-copiar" type="button">
+              📋 Copiar código
+            </button>
+          </div>
+          <pre><code>function calcularMedia(...notas) {
+  if (notas.length === 0) {
+    return null;
+  }
+
+  let suma = 0;
+
+  for (const nota of notas) {
+    suma += nota;
+  }
+
+  return suma / notas.length;
+}
+
+console.log(calcularMedia(6, 8, 10));
+console.log(calcularMedia(5, 7));
+console.log(calcularMedia());</code></pre>
+        </div>
+
+        <p><strong>Salida por consola:</strong></p>
+
+        <div class="bloque-codigo">
+          <div class="cabecera-codigo">
+            <span>Consola</span>
+            <button class="boton-copiar" type="button">
+              📋 Copiar código
+            </button>
+          </div>
+          <pre><code>8
+6
+null</code></pre>
+        </div>
+
+        <p>
+          Hemos decidido devolver <code>null</code> cuando no existen
+          notas, porque no tiene sentido calcular una media sin datos.
+          Es una decisión de diseño de nuestra función; también
+          podríamos optar por mostrar un mensaje o lanzar un error,
+          según los requisitos.
+        </p>
+
+        <div class="caja caja-ejemplo">
+          <span class="caja-titulo">💻 Ejemplo DAW</span>
+          <p>
+            Una plataforma educativa puede utilizar una función
+            con rest para calcular la media de un conjunto variable
+            de calificaciones, sin tener que declarar una función
+            diferente para cada número de actividades.
+          </p>
+        </div>
+
+        <!-- 8 -->
+        <h2 id="combinar-parametros">
+          Combinar parámetros normales, por defecto y rest
+        </h2>
+
+        <p>
+          Una función puede tener parámetros normales, parámetros
+          con valores por defecto y un parámetro rest.
+          El parámetro rest debe colocarse
+          <strong>siempre en último lugar</strong>.
+        </p>
+
+        <div class="bloque-codigo">
+          <div class="cabecera-codigo">
+            <span>JavaScript</span>
+            <button class="boton-copiar" type="button">
+              📋 Copiar código
+            </button>
+          </div>
+          <pre><code>function registrarPedido(cliente, envio = "estándar", ...productos) {
+  console.log("Cliente: " + cliente);
+  console.log("Envío: " + envio);
+  console.log("Productos: " + productos.join(", "));
+}
+
+registrarPedido("Laura", "urgente", "Teclado", "Ratón");
+registrarPedido("Pablo", undefined, "Monitor");</code></pre>
+        </div>
+
+        <p><strong>Salida por consola:</strong></p>
+
+        <div class="bloque-codigo">
+          <div class="cabecera-codigo">
+            <span>Consola</span>
+            <button class="boton-copiar" type="button">
+              📋 Copiar código
+            </button>
+          </div>
+          <pre><code>Cliente: Laura
+Envío: urgente
+Productos: Teclado, Ratón
+Cliente: Pablo
+Envío: estándar
+Productos: Monitor</code></pre>
+        </div>
+
+        <p>
+          En la primera llamada, <code>cliente</code> recibe
+          <code>"Laura"</code>, <code>envio</code> recibe
+          <code>"urgente"</code> y <code>productos</code>
+          reúne los dos argumentos restantes.
+        </p>
+
+        <p>
+          En la segunda llamada, <code>undefined</code> activa
+          el envío predeterminado.
+        </p>
+
+        <h3>Restricciones importantes</h3>
+
+        <ul>
+          <li>
+            Una función solo puede declarar
+            <strong>un parámetro rest</strong>.
+          </li>
+          <li>
+            El parámetro rest debe ser
+            <strong>el último</strong> de la lista.
+          </li>
+          <li>
+            No puede tener un valor por defecto propio, porque ya
+            recibe un array vacío cuando no quedan argumentos.
+          </li>
+        </ul>
+
+        <div class="bloque-codigo">
+          <div class="cabecera-codigo">
+            <span>JavaScript</span>
+            <button class="boton-copiar" type="button">
+              📋 Copiar código
+            </button>
+          </div>
+          <pre><code>// Incorrecto: rest no puede ir antes de otro parámetro.
+// function ejemplo(...numeros, nombre) { }
+
+// Incorrecto: rest no puede tener un valor por defecto.
+// function ejemplo(...numeros = []) { }
+
+// Correcto:
+function ejemplo(nombre, ...numeros) {
+  console.log(nombre, numeros);
+}</code></pre>
+        </div>
+
+        <div class="caja caja-atencion">
+          <span class="caja-titulo">⚠️ Atención</span>
+          <p>
+            El código incorrecto de los comentarios es ilustrativo:
+            si intentaras declararlo sin comentar, JavaScript
+            produciría un <code>SyntaxError</code>.
+            Recuerda que el parámetro rest debe ocupar
+            la última posición.
+          </p>
+        </div>
+
+        <!-- 9 -->
+        <h2 id="rest-spread">
+          Diferencia entre rest y spread
+        </h2>
+
+        <p>
+          Los tres puntos <code>...</code> también aparecen
+          en otra característica de JavaScript:
+          la <strong>sintaxis spread</strong> (expansión).
+        </p>
+
+        <p>
+          Aunque comparten el mismo símbolo, su función depende
+          del lugar donde se escriben.
+        </p>
+
+        <ul>
+          <li>
+            <strong>Rest:</strong> en la declaración de parámetros,
+            <strong>agrupa</strong> argumentos en un array.
+          </li>
+          <li>
+            <strong>Spread:</strong> en una llamada a función
+            o en determinadas expresiones,
+            <strong>expande</strong> los elementos de un iterable,
+            como un array.
+          </li>
+        </ul>
+
+        <div class="bloque-codigo">
+          <div class="cabecera-codigo">
+            <span>JavaScript</span>
+            <button class="boton-copiar" type="button">
+              📋 Copiar código
+            </button>
+          </div>
+          <pre><code>function sumar(...numeros) { // Rest: agrupa
+  let total = 0;
+
+  for (const numero of numeros) {
+    total += numero;
+  }
+
+  return total;
+}
+
+const importes = [10, 20, 30];
+
+console.log(sumar(...importes)); // Spread: expande</code></pre>
+        </div>
+
+        <p><strong>Salida por consola:</strong></p>
+
+        <div class="bloque-codigo">
+          <div class="cabecera-codigo">
+            <span>Consola</span>
+            <button class="boton-copiar" type="button">
+              📋 Copiar código
+            </button>
+          </div>
+          <pre><code>60</code></pre>
+        </div>
+
+        <p>
+          En <code>function sumar(...numeros)</code>, rest crea
+          el array de parámetros.
+        </p>
+
+        <p>
+          En <code>sumar(...importes)</code>, spread toma los
+          elementos del array <code>importes</code> y los
+          proporciona como argumentos individuales.
+        </p>
+
+        <h3>Qué ocurre si no utilizamos spread</h3>
+
+        <div class="bloque-codigo">
+          <div class="cabecera-codigo">
+            <span>JavaScript</span>
+            <button class="boton-copiar" type="button">
+              📋 Copiar código
+            </button>
+          </div>
+          <pre><code>function contarArgumentos(...valores) {
+  console.log(valores.length);
+}
+
+const numeros = [10, 20, 30];
+
+contarArgumentos(numeros);
+contarArgumentos(...numeros);</code></pre>
+        </div>
+
+        <p><strong>Salida por consola:</strong></p>
+
+        <div class="bloque-codigo">
+          <div class="cabecera-codigo">
+            <span>Consola</span>
+            <button class="boton-copiar" type="button">
+              📋 Copiar código
+            </button>
+          </div>
+          <pre><code>1
+3</code></pre>
+        </div>
+
+        <p>
+          La primera llamada pasa <strong>un único argumento</strong>:
+          el array completo.
+        </p>
+
+        <p>
+          La segunda pasa <strong>tres argumentos</strong>:
+          sus elementos individuales.
+        </p>
+
+        <div class="caja caja-importante">
+          <span class="caja-titulo">📌 Importante</span>
+          <p>
+            El operador <code>...</code> se interpreta según
+            el contexto. En la lista de parámetros de una función
+            hablamos de <strong>rest</strong>; al expandir
+            elementos en una llamada hablamos de
+            <strong>spread</strong>. No son operaciones equivalentes.
+          </p>
+        </div>
+
+        <!-- 10 -->
+        <h2 id="errores-frecuentes">
+          Errores frecuentes y buenas prácticas
+        </h2>
+
+        <h3>1. Confundir un argumento omitido con null</h3>
+
+        <p>
+          El valor por defecto no se aplica cuando se pasa
+          <code>null</code>. Si una aplicación permite ese valor,
+          hay que decidir expresamente cómo tratarlo.
+        </p>
+
+        <h3>2. Pensar que rest es un número o una cadena</h3>
+
+        <p>
+          Rest siempre construye un array con los argumentos
+          restantes. Para obtener su suma, media o concatenación,
+          debemos recorrerlo o utilizar los métodos correspondientes.
+        </p>
+
+        <h3>3. Olvidar el orden de los argumentos</h3>
+
+        <p>
+          Los argumentos se asignan por posición. Un parámetro
+          opcional intermedio puede requerir pasar
+          <code>undefined</code> para conservar su valor
+          predeterminado.
+        </p>
+
+        <h3>4. No comprobar si se han recibido datos</h3>
+
+        <p>
+          Antes de calcular una media, un máximo o un mínimo
+          con rest, comprueba si el array contiene elementos.
+          De lo contrario, podrías obtener <code>NaN</code>,
+          <code>Infinity</code> u otro resultado no deseado.
+        </p>
+
+        <h3>5. No validar los tipos de datos</h3>
+
+        <p>
+          Rest permite recibir una cantidad variable de argumentos,
+          pero no garantiza que todos sean números.
+          En aplicaciones reales debemos validar los datos cuando
+          proceden de formularios, peticiones o entradas del usuario.
+        </p>
+
+        <div class="bloque-codigo">
+          <div class="cabecera-codigo">
+            <span>JavaScript</span>
+            <button class="boton-copiar" type="button">
+              📋 Copiar código
+            </button>
+          </div>
+          <pre><code>function sumarNumeros(...valores) {
+  for (const valor of valores) {
+    if (typeof valor !== "number" || !Number.isFinite(valor)) {
+      return null;
+    }
+  }
+
+  let suma = 0;
+
+  for (const valor of valores) {
+    suma += valor;
+  }
+
+  return suma;
+}
+
+console.log(sumarNumeros(10, 20, 5));
+console.log(sumarNumeros(10, "20"));</code></pre>
+        </div>
+
+        <p><strong>Salida por consola:</strong></p>
+
+        <div class="bloque-codigo">
+          <div class="cabecera-codigo">
+            <span>Consola</span>
+            <button class="boton-copiar" type="button">
+              📋 Copiar código
+            </button>
+          </div>
+          <pre><code>35
+null</code></pre>
+        </div>
+
+        <p>
+          Esta versión devuelve <code>null</code> si encuentra
+          un valor que no sea un número finito.
+          Así evitamos que una cadena convierta la suma en una
+          concatenación inesperada.
+        </p>
+
+        <div class="caja caja-atencion">
+          <span class="caja-titulo">⚠️ Atención</span>
+          <p>
+            Los parámetros por defecto y rest mejoran la flexibilidad
+            de las funciones, pero no sustituyen la validación
+            de datos. Una función puede recibir argumentos válidos
+            en cantidad y, aun así, recibir valores incorrectos
+            en tipo o contenido.
+          </p>
+        </div>
+
+        <!-- 11 -->
+        <h2 id="comparacion">
+          Comparación entre parámetros habituales, por defecto y rest
+        </h2>
+
+        <div class="tabla-responsive">
+          <table>
+            <thead>
+              <tr>
+                <th>Tipo de parámetro</th>
+                <th>Ejemplo</th>
+                <th>Comportamiento</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>Habitual</td>
+                <td><code>precio</code></td>
+                <td>
+                  Recibe el argumento de su posición;
+                  si falta, vale <code>undefined</code>.
+                </td>
+              </tr>
+              <tr>
+                <td>Por defecto</td>
+                <td><code>unidades = 1</code></td>
+                <td>
+                  Utiliza <code>1</code> cuando recibe
+                  <code>undefined</code>.
+                </td>
+              </tr>
+              <tr>
+                <td>Rest</td>
+                <td><code>...precios</code></td>
+                <td>
+                  Reúne los argumentos restantes en un array
+                  y debe ir al final.
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <p>
+          La elección depende de las necesidades de la función:
+          parámetros habituales para datos que esperamos recibir,
+          parámetros por defecto para valores opcionales y rest
+          para cantidades variables de argumentos.
+        </p>
+
+        <!-- 12 -->
+        <h2 id="ejemplo-completo">
+          Ejemplo práctico completo: calcular presupuestos
+          de una tienda online
+        </h2>
+
+        <p>
+          Vamos a reunir los conceptos en un pequeño programa
+          de una tienda tecnológica.
+        </p>
+
+        <p>
+          Queremos calcular presupuestos a partir de una cantidad
+          variable de precios y aplicar, si no se indica lo contrario,
+          un descuento del <strong>0 %</strong> y unos gastos
+          de envío de <strong>4,95 €</strong>.
+        </p>
+
+        <p>
+          Para facilitar las llamadas, diseñaremos dos funciones:
+          una suma importes mediante rest y otra calcula el presupuesto
+          con parámetros por defecto.
+        </p>
+
+        <div class="bloque-codigo">
+          <div class="cabecera-codigo">
+            <span>JavaScript</span>
+            <button class="boton-copiar" type="button">
+              📋 Copiar código
+            </button>
+          </div>
+          <pre><code>// Suma cualquier cantidad de importes.
+function sumarImportes(...importes) {
+  let total = 0;
+
+  for (const importe of importes) {
+    total += importe;
+  }
+
+  return total;
+}
+
+// Aplica descuento y añade gastos de envío.
+function calcularPresupuesto(subtotal, descuento = 0, envio = 4.95) {
+  const importeDescuento = subtotal * descuento / 100;
+  return subtotal - importeDescuento + envio;
+}
+
+// Productos seleccionados.
+const preciosCarrito = [50, 20, 150];
+
+// Spread envía cada precio como argumento individual.
+const subtotal = sumarImportes(...preciosCarrito);
+
+const presupuestoNormal = calcularPresupuesto(subtotal);
+const presupuestoPromocion = calcularPresupuesto(subtotal, 10);
+const presupuestoRecogida = calcularPresupuesto(subtotal, 10, 0);
+
+console.log("Subtotal: " + subtotal.toFixed(2) + " €");
+console.log("Normal: " + presupuestoNormal.toFixed(2) + " €");
+console.log("Promoción: " + presupuestoPromocion.toFixed(2) + " €");
+console.log("Recogida: " + presupuestoRecogida.toFixed(2) + " €");</code></pre>
+        </div>
+
+        <p><strong>Salida por consola:</strong></p>
+
+        <div class="bloque-codigo">
+          <div class="cabecera-codigo">
+            <span>Consola</span>
+            <button class="boton-copiar" type="button">
+              📋 Copiar código
+            </button>
+          </div>
+          <pre><code>Subtotal: 220.00 €
+Normal: 224.95 €
+Promoción: 202.95 €
+Recogida: 198.00 €</code></pre>
+        </div>
+
+        <h3>Análisis paso a paso</h3>
+
+        <ol>
+          <li>
+            El array <code>preciosCarrito</code> contiene tres precios:
+            50, 20 y 150 euros.
+          </li>
+          <li>
+            <code>sumarImportes(...preciosCarrito)</code> utiliza
+            spread para enviar los tres precios como argumentos separados.
+          </li>
+          <li>
+            El parámetro rest <code>...importes</code> los reúne
+            en un array y devuelve un subtotal de
+            <strong>220 €</strong>.
+          </li>
+          <li>
+            <code>calcularPresupuesto(subtotal)</code> utiliza
+            los valores predeterminados: descuento 0 % y envío 4,95 €.
+            Resultado: <strong>224,95 €</strong>.
+          </li>
+          <li>
+            <code>calcularPresupuesto(subtotal, 10)</code> aplica
+            un descuento del 10 % (22 €) y mantiene el envío
+            de 4,95 €. Resultado: <strong>202,95 €</strong>.
+          </li>
+          <li>
+            <code>calcularPresupuesto(subtotal, 10, 0)</code> aplica
+            el mismo descuento, pero establece el envío en 0 €.
+            Resultado: <strong>198 €</strong>.
+          </li>
+        </ol>
+
+        <div class="caja caja-ejemplo">
+          <span class="caja-titulo">💻 Ejemplo DAW</span>
+          <p>
+            Este patrón puede utilizarse en el desarrollo de un carrito
+            de compra, una calculadora de presupuestos o una herramienta
+            de facturación.
+          </p>
+          <p>
+            La función que suma importes acepta una cantidad variable
+            de productos; la función que calcula el presupuesto permite
+            configurar únicamente las opciones necesarias.
+          </p>
+        </div>
+
+        <!-- PIENSA -->
+        <h3>💭 Piensa</h3>
+
+        <p>
+          Observa el siguiente programa <strong>sin ejecutarlo</strong>.
+          Intenta responder a las preguntas antes de consultar
+          la solución.
+        </p>
+
+        <div class="bloque-codigo">
+          <div class="cabecera-codigo">
+            <span>JavaScript</span>
+            <button class="boton-copiar" type="button">
+              📋 Copiar código
+            </button>
+          </div>
+          <pre><code>function crearMensaje(usuario = "Invitado", ...acciones) {
+  console.log("Usuario: " + usuario);
+  console.log("Acciones: " + acciones.length);
+  console.log(acciones.join(" | "));
+}
+
+const historial = ["entrar", "consultar", "salir"];
+
+crearMensaje("Lucía", ...historial);
+crearMensaje(undefined, "entrar");
+crearMensaje("Mario");</code></pre>
+        </div>
+
+        <ol>
+          <li>
+            ¿Qué valor recibe el parámetro <code>usuario</code>
+            en cada llamada?
+          </li>
+          <li>
+            ¿Qué contiene el array <code>acciones</code>
+            en cada caso?
+          </li>
+          <li>
+            ¿Por qué se utiliza <code>...</code>
+            delante de <code>historial</code>?
+          </li>
+          <li>
+            ¿Cuántas acciones se mostrarán en cada llamada?
+          </li>
+          <li>
+            ¿Qué mostrará <code>join(" | ")</code>
+            cuando el array esté vacío?
+          </li>
+          <li>
+            ¿Cuál será la salida completa de la consola?
+          </li>
+        </ol>
+
+        <details>
+          <summary>Ver solución razonada</summary>
+
+          <div class="solucion">
+            <p>
+              <strong>1.</strong> En la primera llamada,
+              <code>usuario</code> recibe <code>"Lucía"</code>;
+              en la segunda, <code>undefined</code> activa
+              el valor <code>"Invitado"</code>;
+              en la tercera, recibe <code>"Mario"</code>.
+            </p>
+
+            <p>
+              <strong>2.</strong> Los arrays <code>acciones</code>
+              son, respectivamente:
+              <code>["entrar", "consultar", "salir"]</code>,
+              <code>["entrar"]</code> y <code>[]</code>.
+            </p>
+
+            <p>
+              <strong>3.</strong> <code>...historial</code> es spread:
+              expande los tres elementos del array para proporcionarlos
+              como argumentos individuales.
+            </p>
+
+            <p>
+              <strong>4.</strong> Se muestran 3, 1 y 0 acciones.
+            </p>
+
+            <p>
+              <strong>5.</strong> Cuando el array está vacío,
+              <code>join(" | ")</code> devuelve una cadena vacía
+              y <code>console.log()</code> muestra una línea
+              en blanco.
+            </p>
+
+            <p>
+              <strong>6.</strong> La salida completa es:
+            </p>
+
+            <div class="bloque-codigo">
+              <div class="cabecera-codigo">
+                <span>Consola</span>
+                <button class="boton-copiar" type="button">
+                  📋 Copiar código
+                </button>
+              </div>
+              <pre><code>Usuario: Lucía
+Acciones: 3
+entrar | consultar | salir
+Usuario: Invitado
+Acciones: 1
+entrar
+Usuario: Mario
+Acciones: 0
+</code></pre>
+            </div>
+
+            <p>
+              La última línea de la salida está vacía porque
+              no se proporcionan acciones en la tercera llamada.
+            </p>
+          </div>
+        </details>
+
+      </section>
+
+      <!-- NAVEGACIÓN ENTRE APARTADOS -->
+      <nav class="navegacion-paginas" aria-label="Navegación entre apartados">
+        <a class="nav-pagina nav-anterior" href="../5-6/index.html">
+          <span class="nav-etiqueta">Anterior</span>
+          <strong>
+            ‹ 5.6 Paso de valores y referencias a funciones
+          </strong>
+        </a>
+
+        <a class="nav-pagina nav-siguiente" href="../5-8/index.html">
+          <span class="nav-etiqueta">Siguiente</span>
+          <strong>
+            5.8 Expresiones de función y funciones flecha ›
+          </strong>
+        </a>
+      </nav>
+
+    </main>
+
+    <!-- ÍNDICE DERECHO -->
+    <aside class="indice-derecho" aria-label="Índice del apartado">
+      <h2>Contenidos del apartado</h2>
+
+      <ul>
+        <li>
+          <a href="#argumentos-omitidos">
+            Argumentos omitidos
+          </a>
+        </li>
+        <li>
+          <a href="#parametros-defecto">
+            Parámetros por defecto
+          </a>
+        </li>
+        <li>
+          <a href="#undefined-null">
+            undefined, null y otros valores
+          </a>
+        </li>
+        <li>
+          <a href="#orden-parametros">
+            Orden de los parámetros
+          </a>
+        </li>
+        <li>
+          <a href="#introduccion-rest">
+            Argumentos variables
+          </a>
+        </li>
+        <li>
+          <a href="#sintaxis-rest">
+            Sintaxis rest (...)
+          </a>
+        </li>
+        <li>
+          <a href="#rest-calculos">
+            Cálculos con rest
+          </a>
+        </li>
+        <li>
+          <a href="#combinar-parametros">
+            Combinar parámetros
+          </a>
+        </li>
+        <li>
+          <a href="#rest-spread">
+            Rest y spread
+          </a>
+        </li>
+        <li>
+          <a href="#errores-frecuentes">
+            Errores y buenas prácticas
+          </a>
+        </li>
+        <li>
+          <a href="#comparacion">
+            Comparación
+          </a>
+        </li>
+        <li>
+          <a href="#ejemplo-completo">
+            Ejemplo práctico completo
+          </a>
+        </li>
+      </ul>
+    </aside>
+
+  </div>
+
+  <script src="../../../js/modulos.js"></script>
+
+  <script>
+    // Menús desplegables del panel lateral.
+    document.querySelectorAll(".menu-titulo").forEach(function (boton) {
+      boton.addEventListener("click", function () {
+        const id = boton.getAttribute("aria-controls");
+        const submenu = document.getElementById(id);
+
+        if (!submenu) {
+          return;
+        }
+
+        const abierto = boton.getAttribute("aria-expanded") === "true";
+
+        boton.setAttribute("aria-expanded", String(!abierto));
+        submenu.hidden = abierto;
+      });
+    });
+
+    // Copiar código al portapapeles.
+    document.querySelectorAll(".boton-copiar").forEach(function (boton) {
+      boton.addEventListener("click", async function () {
+        const bloque = boton.closest(".bloque-codigo");
+        const codigo = bloque ? bloque.querySelector("pre code") : null;
+
+        if (!codigo) {
+          return;
+        }
+
+        const texto = codigo.textContent;
+        const textoOriginal = boton.textContent;
+
+        try {
+          if (navigator.clipboard && window.isSecureContext) {
+            await navigator.clipboard.writeText(texto);
+          } else {
+            const area = document.createElement("textarea");
+            area.value = texto;
+            area.style.position = "fixed";
+            area.style.opacity = "0";
+            document.body.appendChild(area);
+            area.select();
+
+            const copiado = document.execCommand("copy");
+            area.remove();
+
+            if (!copiado) {
+              throw new Error("No se ha podido copiar el código.");
+            }
+          }
+
+          boton.textContent = "✓ Copiado";
+
+          setTimeout(function () {
+            boton.textContent = textoOriginal;
+          }, 1800);
+        } catch (error) {
+          boton.textContent = "No se pudo copiar";
+
+          setTimeout(function () {
+            boton.textContent = textoOriginal;
+          }, 1800);
+        }
+      });
+    });
+  </script>
+
+</body>
+</html>
