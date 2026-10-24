@@ -1,0 +1,2838 @@
+
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="5.11 Funciones recursivas. DWEC UT5.">
+<title>5.11 Funciones recursivas | DWEC</title>
+<link rel="icon" type="image/png" href="../../../img/favicon.png?v=5">
+<link rel="stylesheet" href="../../../css/estilos.css">
+
+<style>
+/* ESTRUCTURA GENERAL */
+.pagina-ut {
+  display: grid;
+  grid-template-columns: 280px minmax(0, 1fr) 260px;
+  min-height: calc(100vh - 68px);
+}
+
+/* MENÚ LATERAL */
+.sidebar {
+  border-right: 1px solid var(--borde);
+  background-color: var(--fondo-pagina);
+  padding: 12px 10px 30px;
+  position: sticky;
+  top: 68px;
+  height: calc(100vh - 68px);
+  overflow-y: auto;
+}
+
+.sidebar-modulo {
+  display: block;
+  margin-bottom: 8px;
+  padding: 8px 14px;
+  color: #626873;
+  font-size: 17px;
+  font-weight: 700;
+  line-height: 1.3;
+  text-decoration: none;
+  border-radius: 6px;
+}
+
+.sidebar-modulo:hover,
+.menu-titulo:hover,
+.enlace-apartado-simple:hover,
+.submenu a:hover {
+  color: var(--verde-principal);
+}
+
+.sidebar-modulo-activo {
+  color: var(--verde-principal);
+}
+
+.sidebar-ut-cerrada {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  padding: 11px 12px;
+  margin: 5px 0;
+  border-radius: 7px;
+  color: var(--texto-principal);
+  text-decoration: none;
+  font-size: 13px;
+  font-weight: 600;
+  line-height: 1.45;
+}
+
+.sidebar-ut-cerrada:hover {
+  background: rgba(30, 130, 85, 0.08);
+}
+
+.menu-desplegable {
+  margin: 4px 0;
+}
+
+.menu-cabecera {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border-radius: 7px;
+}
+
+.menu-cabecera-activa {
+  background: rgba(30, 130, 85, 0.10);
+}
+
+.menu-titulo {
+  display: block;
+  flex: 1;
+  min-width: 0;
+  padding: 10px 8px 10px 12px;
+  text-decoration: none;
+  color: var(--texto-principal);
+  font-size: 13px;
+  font-weight: 600;
+  line-height: 1.45;
+}
+
+.menu-cabecera-activa > .menu-titulo {
+  color: var(--verde-principal);
+}
+
+.boton-desplegar {
+  border: 0;
+  background: transparent;
+  color: var(--texto-principal);
+  cursor: pointer;
+  font-size: 19px;
+  padding: 6px 11px;
+  flex-shrink: 0;
+}
+
+.submenu {
+  display: none;
+  padding: 4px 0 7px 13px;
+}
+
+.submenu-abierto {
+  display: block;
+}
+
+.submenu a {
+  display: block;
+  padding: 7px 9px;
+  border-radius: 5px;
+  text-decoration: none;
+  color: var(--texto-secundario);
+  font-size: 12px;
+  line-height: 1.45;
+}
+
+.submenu a:hover {
+  background: rgba(30, 130, 85, 0.07);
+}
+
+.enlace-apartado-simple {
+  display: block;
+  padding: 9px 12px;
+  margin: 2px 0;
+  text-decoration: none;
+  color: var(--texto-principal);
+  font-size: 13px;
+  line-height: 1.45;
+  border-radius: 6px;
+}
+
+.menu-apartado {
+  margin-left: 7px;
+}
+
+/* CONTENIDO PRINCIPAL */
+.contenido-ut {
+  min-width: 0;
+  max-width: 1050px;
+  width: 100%;
+  margin: 0 auto;
+  padding: 30px 42px 55px;
+  box-sizing: border-box;
+}
+
+.migas {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 9px;
+  margin-bottom: 23px;
+  font-size: 13px;
+  color: var(--texto-secundario);
+}
+
+.migas a {
+  color: var(--verde-principal);
+  text-decoration: none;
+}
+
+.miga-separador {
+  color: #9299a2;
+}
+
+.miga-actual {
+  font-weight: 600;
+}
+
+.contenido-ut h1 {
+  margin: 0 0 26px;
+  font-size: clamp(27px, 3vw, 36px);
+  line-height: 1.25;
+  color: var(--texto-principal);
+}
+
+.apartado-ut {
+  font-size: 15px;
+  line-height: 1.85;
+  color: var(--texto-principal);
+}
+
+.apartado-ut h2 {
+  margin: 46px 0 17px;
+  padding-bottom: 9px;
+  border-bottom: 1px solid var(--borde);
+  font-size: 23px;
+  line-height: 1.4;
+  color: var(--texto-principal);
+  scroll-margin-top: 90px;
+}
+
+.apartado-ut h3 {
+  margin: 27px 0 12px;
+  font-size: 18px;
+  line-height: 1.4;
+  color: var(--texto-principal);
+}
+
+.apartado-ut p {
+  margin: 0 0 17px;
+}
+
+.apartado-ut ul,
+.apartado-ut ol {
+  margin: 0 0 20px;
+  padding-left: 25px;
+}
+
+.apartado-ut li {
+  margin-bottom: 7px;
+}
+
+.apartado-ut strong {
+  font-weight: 700;
+}
+
+.apartado-ut code:not(pre code) {
+  padding: 2px 5px;
+  border-radius: 4px;
+  font-size: 0.91em;
+  background: rgba(120, 130, 140, 0.12);
+  overflow-wrap: anywhere;
+}
+
+/* CAJAS PEDAGÓGICAS */
+.caja {
+  margin: 23px 0;
+  padding: 18px 21px;
+  border-radius: 8px;
+  border-left: 4px solid;
+}
+
+.caja p:last-child,
+.caja ul:last-child,
+.caja ol:last-child {
+  margin-bottom: 0;
+}
+
+.caja-titulo {
+  display: block;
+  margin-bottom: 8px;
+  font-weight: 700;
+  font-size: 15px;
+}
+
+.caja-importante {
+  background: rgba(35, 145, 95, 0.09);
+  border-color: #269765;
+}
+
+.caja-atencion {
+  background: rgba(225, 155, 45, 0.10);
+  border-color: #e1a12d;
+}
+
+.caja-ejemplo {
+  background: rgba(50, 125, 205, 0.08);
+  border-color: #468bd0;
+}
+
+/* CÓDIGO */
+.bloque-codigo {
+  margin: 19px 0 24px;
+  border: 1px solid var(--borde);
+  border-radius: 9px;
+  overflow: hidden;
+  background: #17212b;
+}
+
+.cabecera-codigo {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 12px;
+  padding: 8px 14px;
+  background: #24313d;
+  color: #e2e8f0;
+  font-size: 12px;
+  font-weight: 600;
+}
+
+.boton-copiar {
+  border: 1px solid #64748b;
+  border-radius: 5px;
+  background: transparent;
+  color: #f1f5f9;
+  cursor: pointer;
+  padding: 5px 10px;
+  font: inherit;
+  font-size: 11px;
+}
+
+.boton-copiar:hover {
+  background: #405166;
+}
+
+.bloque-codigo pre {
+  margin: 0;
+  padding: 18px;
+  overflow-x: auto;
+  color: #e2e8f0;
+  font-size: 13px;
+  line-height: 1.75;
+  tab-size: 2;
+}
+
+.bloque-codigo pre code {
+  font-family: Consolas, "Courier New", monospace;
+  white-space: pre;
+}
+
+.bloque-codigo-salida {
+  background: #111b24;
+}
+
+.bloque-codigo-salida .cabecera-codigo {
+  background: #1d2935;
+}
+
+/* TABLAS */
+.tabla-contenedor {
+  width: 100%;
+  overflow-x: auto;
+  margin: 20px 0 25px;
+}
+
+.tabla-contenedor table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 14px;
+  line-height: 1.6;
+}
+
+.tabla-contenedor th,
+.tabla-contenedor td {
+  padding: 12px 13px;
+  border: 1px solid var(--borde);
+  text-align: left;
+  vertical-align: top;
+}
+
+.tabla-contenedor th {
+  background: rgba(100, 130, 140, 0.11);
+  font-weight: 700;
+}
+
+/* ACTIVIDAD PIENSA */
+.actividad-piensa {
+  margin: 38px 0 25px;
+  padding: 22px;
+  border: 1px solid var(--borde);
+  border-radius: 10px;
+  background: rgba(110, 120, 130, 0.05);
+}
+
+.actividad-piensa h3 {
+  margin-top: 0;
+  font-size: 20px;
+}
+
+.actividad-piensa details {
+  margin-top: 23px;
+  border: 1px solid var(--borde);
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+.actividad-piensa summary {
+  padding: 12px 16px;
+  cursor: pointer;
+  font-weight: 700;
+  color: var(--verde-principal);
+}
+
+.actividad-piensa .solucion {
+  padding: 18px;
+  border-top: 1px solid var(--borde);
+}
+
+/* NAVEGACIÓN INFERIOR */
+.navegacion-paginas {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 15px;
+  margin-top: 45px;
+}
+
+.nav-pagina {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  padding: 15px 18px;
+  border: 1px solid var(--borde);
+  border-radius: 8px;
+  color: var(--texto-principal);
+  text-decoration: none;
+  line-height: 1.5;
+}
+
+.nav-pagina:hover {
+  border-color: var(--verde-principal);
+  color: var(--verde-principal);
+}
+
+.nav-etiqueta {
+  color: var(--texto-secundario);
+  font-size: 12px;
+}
+
+.nav-siguiente {
+  text-align: right;
+}
+
+/* ÍNDICE DERECHO */
+.indice-derecho {
+  position: sticky;
+  top: 68px;
+  height: calc(100vh - 68px);
+  overflow-y: auto;
+  padding: 28px 17px;
+  border-left: 1px solid var(--borde);
+  box-sizing: border-box;
+}
+
+.indice-derecho h2 {
+  margin: 0 0 15px;
+  font-size: 14px;
+  color: var(--texto-principal);
+}
+
+.indice-derecho ul {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.indice-derecho li {
+  margin-bottom: 4px;
+}
+
+.indice-derecho a {
+  display: block;
+  padding: 7px 8px;
+  color: var(--texto-secundario);
+  text-decoration: none;
+  font-size: 12px;
+  line-height: 1.45;
+  border-radius: 5px;
+}
+
+.indice-derecho a:hover {
+  color: var(--verde-principal);
+  background: rgba(30, 130, 85, 0.07);
+}
+
+/* ADAPTACIÓN RESPONSIVE */
+@media (max-width: 1250px) {
+  .pagina-ut {
+    grid-template-columns: 250px minmax(0, 1fr);
+  }
+
+  .indice-derecho {
+    display: none;
+  }
+}
+
+@media (max-width: 760px) {
+  .pagina-ut {
+    display: block;
+  }
+
+  .sidebar {
+    position: static;
+    height: auto;
+    max-height: 320px;
+    border-right: 0;
+    border-bottom: 1px solid var(--borde);
+  }
+
+  .contenido-ut {
+    padding: 25px 20px 45px;
+  }
+
+  .navegacion-paginas {
+    grid-template-columns: 1fr;
+  }
+
+  .nav-siguiente {
+    text-align: left;
+  }
+
+  .apartado-ut h2 {
+    font-size: 21px;
+  }
+}
+</style>
+</head>
+
+<body>
+
+<!-- CABECERA -->
+<header class="header">
+  <div class="header-contenido">
+    <a class="logo" href="../../../index.html">
+      <img src="../../../img/logo.png" alt="Inicio">
+    </a>
+
+    <nav class="menu-modulos" id="menuModulos"
+         aria-label="Módulos formativos"></nav>
+
+    <button id="botonTema" type="button"
+            aria-label="Cambiar modo claro u oscuro">☀️</button>
+  </div>
+</header>
+
+<div class="pagina-ut">
+
+<!-- MENÚ LATERAL -->
+<aside class="sidebar" aria-label="Navegación de DWEC">
+
+  <a class="sidebar-modulo sidebar-modulo-activo"
+     href="../../index.html">
+    Desarrollo Web en Entorno Cliente
+  </a>
+
+  <a class="sidebar-ut-cerrada" href="../../ut1/index.html">
+    <span>UT1 - Arquitecturas y herramientas de programación</span>
+    <span>›</span>
+  </a>
+
+  <a class="sidebar-ut-cerrada" href="../../ut2/index.html">
+    <span>UT2 - Fundamentos de JavaScript</span>
+    <span>›</span>
+  </a>
+
+  <a class="sidebar-ut-cerrada" href="../../ut3/index.html">
+    <span>UT3 - Estructuras de control</span>
+    <span>›</span>
+  </a>
+
+  <a class="sidebar-ut-cerrada" href="../../ut4/index.html">
+    <span>UT4 - Arrays y estructuras de datos</span>
+    <span>›</span>
+  </a>
+
+  <!-- UT5 ABIERTA -->
+  <div class="menu-desplegable">
+    <div class="menu-cabecera menu-cabecera-activa">
+      <a class="menu-titulo" href="../index.html">
+        UT5 - Funciones en JavaScript
+      </a>
+      <button
+        class="boton-desplegar"
+        type="button"
+        data-target="submenu-ut5"
+        aria-expanded="true"
+        aria-label="Mostrar u ocultar UT5"
+      >⌄</button>
+    </div>
+
+    <div class="submenu submenu-abierto" id="submenu-ut5">
+
+      <a class="enlace-apartado-simple" href="../5-1/index.html">
+        5.1 Introducción a las funciones
+      </a>
+
+      <a class="enlace-apartado-simple" href="../5-2/index.html">
+        5.2 Declaración e invocación de funciones
+      </a>
+
+      <a class="enlace-apartado-simple" href="../5-3/index.html">
+        5.3 Parámetros y argumentos
+      </a>
+
+      <a class="enlace-apartado-simple" href="../5-4/index.html">
+        5.4 Valores de retorno y sentencia return
+      </a>
+
+      <a class="enlace-apartado-simple" href="../5-5/index.html">
+        5.5 Ámbito de las variables en las funciones
+      </a>
+
+      <a class="enlace-apartado-simple" href="../5-6/index.html">
+        5.6 Paso de valores y referencias a funciones
+      </a>
+
+      <a class="enlace-apartado-simple" href="../5-7/index.html">
+        5.7 Parámetros por defecto y parámetros rest
+      </a>
+
+      <a class="enlace-apartado-simple" href="../5-8/index.html">
+        5.8 Expresiones de función y funciones flecha
+      </a>
+
+      <a class="enlace-apartado-simple" href="../5-9/index.html">
+        5.9 Funciones como valores y funciones callback
+      </a>
+
+      <a class="enlace-apartado-simple" href="../5-10/index.html">
+        5.10 Funciones predefinidas y métodos de JavaScript
+      </a>
+
+      <!-- 5.11 ACTIVO -->
+      <div class="menu-desplegable menu-apartado">
+        <div class="menu-cabecera menu-cabecera-activa">
+          <a class="menu-titulo" href="index.html">
+            5.11 Funciones recursivas
+          </a>
+          <button
+            class="boton-desplegar"
+            type="button"
+            data-target="submenu-5-11"
+            aria-expanded="true"
+            aria-label="Mostrar u ocultar los subapartados del 5.11"
+          >⌄</button>
+        </div>
+
+        <div class="submenu submenu-apartados submenu-abierto"
+             id="submenu-5-11">
+          <a href="#concepto">Qué es la recursividad</a>
+          <a href="#estructura">Estructura de una función recursiva</a>
+          <a href="#cuenta-atras">Primer ejemplo: cuenta atrás</a>
+          <a href="#seguimiento">Seguimiento de las llamadas</a>
+          <a href="#factorial">Cálculo del factorial</a>
+          <a href="#pila">Pila de ejecución</a>
+          <a href="#sumatorio">Sumatorio recursivo</a>
+          <a href="#arrays">Recursividad con arrays</a>
+          <a href="#problemas">Cómo plantear un problema recursivo</a>
+          <a href="#recursividad-iteracion">Recursividad e iteración</a>
+          <a href="#errores">Errores frecuentes</a>
+          <a href="#ejemplo-practico">Ejemplo práctico DAW</a>
+        </div>
+      </div>
+
+      <a class="enlace-apartado-simple" href="../5-12/index.html">
+        5.12 Organización modular de un programa
+      </a>
+
+      <a class="enlace-apartado-simple" href="../resumen/index.html">
+        ✏️ Resumen de la UT5
+      </a>
+
+      <!-- ACTIVIDADES -->
+      <div class="menu-desplegable menu-apartado">
+        <div class="menu-cabecera">
+          <a class="menu-titulo" href="../actividades/index.html">
+            📝 Actividades de la UT5
+          </a>
+          <button
+            class="boton-desplegar"
+            type="button"
+            data-target="submenu-actividades"
+            aria-expanded="false"
+            aria-label="Mostrar u ocultar las actividades de la UT5"
+          >›</button>
+        </div>
+
+        <div class="submenu submenu-apartados"
+             id="submenu-actividades">
+          <a href="../actividades/index.html#actividades-practicas">
+            💻 Actividades prácticas
+          </a>
+          <a href="../actividades/index.html#reto-final">
+            🧩 Reto final
+          </a>
+          <a href="../actividades/index.html#autoevaluacion">
+            ✅ Autoevaluación
+          </a>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <a class="sidebar-ut-cerrada" href="../../ut6/index.html">
+    <span>UT6 - Objetos y Programación Orientada a Objetos en JavaScript</span>
+    <span>›</span>
+  </a>
+
+  <a class="sidebar-ut-cerrada" href="../../ut7/index.html">
+    <span>UT7 - Manipulación del DOM</span>
+    <span>›</span>
+  </a>
+
+  <a class="sidebar-ut-cerrada" href="../../ut8/index.html">
+    <span>UT8 - Eventos en JavaScript</span>
+    <span>›</span>
+  </a>
+
+  <a class="sidebar-ut-cerrada" href="../../ut9/index.html">
+    <span>UT9 - Programación asíncrona</span>
+    <span>›</span>
+  </a>
+
+  <a class="sidebar-ut-cerrada" href="../../ut10/index.html">
+    <span>UT10 - Aplicaciones web en entorno cliente</span>
+    <span>›</span>
+  </a>
+
+</aside>
+
+<!-- CONTENIDO PRINCIPAL -->
+<main class="contenido-ut">
+
+<div class="migas">
+  <a aria-label="Inicio" class="miga-inicio"
+     href="../../../index.html">🏠</a>
+  <span class="miga-separador">›</span>
+  <a class="miga-modulo" href="../../index.html">DWEC</a>
+  <span class="miga-separador">›</span>
+  <a class="miga-modulo" href="../index.html">UT5</a>
+  <span class="miga-separador">›</span>
+  <span class="miga-actual">5.11</span>
+</div>
+
+<h1>5.11 Funciones recursivas</h1>
+
+<section class="apartado-ut">
+
+<p>
+  Hasta ahora hemos utilizado funciones que realizan una tarea
+  y devuelven un resultado. También hemos aprendido a pasarles
+  argumentos, trabajar con variables locales y utilizar
+  funciones como valores.
+</p>
+
+<p>
+  Sin embargo, existe una técnica de programación en la que
+  <strong>una función puede llamarse a sí misma</strong>
+  para resolver un problema. Esta técnica recibe el nombre
+  de <strong>recursividad</strong>.
+</p>
+
+<p>
+  La recursividad resulta especialmente útil cuando un problema
+  puede dividirse en otros problemas más pequeños
+  que tienen la misma estructura que el original.
+</p>
+
+<p>
+  En este apartado aprenderemos cómo funcionan las llamadas
+  recursivas, por qué es imprescindible establecer una
+  condición de finalización y cómo aplicar esta técnica
+  a problemas habituales de programación.
+</p>
+
+<div class="caja caja-importante">
+  <span class="caja-titulo">📌 Importante</span>
+  <p>
+    Una función recursiva es una función que
+    <strong>se llama a sí misma, directa o indirectamente,
+    para resolver un problema mediante versiones más pequeñas
+    de ese mismo problema</strong>.
+  </p>
+  <p>
+    Para que funcione correctamente, debe existir una condición
+    que permita detener las llamadas.
+  </p>
+</div>
+
+<!-- 1 -->
+<h2 id="concepto">Qué es la recursividad</h2>
+
+<p>
+  Imagina que queremos mostrar los números desde
+  <code>5</code> hasta <code>1</code>.
+  Una forma de hacerlo sería utilizar un bucle.
+</p>
+
+<div class="bloque-codigo">
+  <div class="cabecera-codigo">
+    <span>JavaScript — Solución con un bucle</span>
+    <button class="boton-copiar" type="button">Copiar código</button>
+  </div>
+  <pre><code>for (let numero = 5; numero &gt;= 1; numero--) {
+  console.log(numero);
+}</code></pre>
+</div>
+
+<p>
+  Este programa comienza en <code>5</code> y reduce
+  el valor de <code>numero</code> en cada iteración,
+  hasta llegar a <code>1</code>.
+</p>
+
+<p>
+  También podemos resolverlo mediante una función
+  que muestre un número y después se llame a sí misma
+  con el número anterior.
+</p>
+
+<div class="bloque-codigo">
+  <div class="cabecera-codigo">
+    <span>JavaScript — Primera función recursiva</span>
+    <button class="boton-copiar" type="button">Copiar código</button>
+  </div>
+  <pre><code>function cuentaAtras(numero) {
+  if (numero === 0) {
+    return;
+  }
+
+  console.log(numero);
+
+  cuentaAtras(numero - 1);
+}
+
+cuentaAtras(5);</code></pre>
+</div>
+
+<div class="bloque-codigo bloque-codigo-salida">
+  <div class="cabecera-codigo">
+    <span>Resultado en consola</span>
+  </div>
+  <pre><code>5
+4
+3
+2
+1</code></pre>
+</div>
+
+<p>
+  Observa que dentro de <code>cuentaAtras()</code>
+  aparece una llamada a la propia función:
+</p>
+
+<div class="bloque-codigo">
+  <div class="cabecera-codigo">
+    <span>JavaScript — Llamada recursiva</span>
+    <button class="boton-copiar" type="button">Copiar código</button>
+  </div>
+  <pre><code>cuentaAtras(numero - 1);</code></pre>
+</div>
+
+<p>
+  Cada llamada recibe un valor más pequeño.
+  Cuando el valor llega a <code>0</code>,
+  la función termina y no realiza nuevas llamadas.
+</p>
+
+<div class="caja caja-ejemplo">
+  <span class="caja-titulo">💻 Ejemplo DAW</span>
+  <p>
+    La recursividad puede utilizarse para recorrer estructuras
+    jerárquicas, como categorías y subcategorías de una tienda
+    online, carpetas que contienen otras carpetas o comentarios
+    que tienen respuestas anidadas.
+  </p>
+</div>
+
+<!-- 2 -->
+<h2 id="estructura">Estructura de una función recursiva</h2>
+
+<p>
+  Aunque las funciones recursivas pueden resolver problemas
+  muy diferentes, normalmente contienen dos elementos
+  fundamentales:
+</p>
+
+<ol>
+  <li>
+    <strong>Caso base:</strong> condición que permite
+    terminar la función sin realizar otra llamada recursiva.
+  </li>
+  <li>
+    <strong>Caso recursivo:</strong> parte de la función
+    que vuelve a llamarse para resolver una versión
+    más pequeña del problema.
+  </li>
+</ol>
+
+<p>
+  Podemos representar su estructura general así:
+</p>
+
+<div class="bloque-codigo">
+  <div class="cabecera-codigo">
+    <span>JavaScript — Estructura general</span>
+    <button class="boton-copiar" type="button">Copiar código</button>
+  </div>
+  <pre><code>function funcionRecursiva(valor) {
+  // Caso base
+  if (condicionDeFinalizacion) {
+    return resultadoBase;
+  }
+
+  // Caso recursivo
+  return funcionRecursiva(valorMasPequeno);
+}</code></pre>
+</div>
+
+<p>
+  Este código representa únicamente un esquema.
+  Las condiciones, los parámetros y los resultados
+  dependerán del problema que queramos resolver.
+</p>
+
+<h3>El caso base</h3>
+
+<p>
+  El caso base establece cuándo debe finalizar
+  la recursividad. Es el punto en el que el problema
+  ya puede resolverse directamente.
+</p>
+
+<p>
+  En el ejemplo de la cuenta atrás, el caso base es:
+</p>
+
+<div class="bloque-codigo">
+  <div class="cabecera-codigo">
+    <span>JavaScript — Caso base</span>
+    <button class="boton-copiar" type="button">Copiar código</button>
+  </div>
+  <pre><code>if (numero === 0) {
+  return;
+}</code></pre>
+</div>
+
+<p>
+  Cuando <code>numero</code> vale <code>0</code>,
+  se ejecuta <code>return</code>, finaliza esa llamada
+  y no se vuelve a invocar la función.
+</p>
+
+<h3>El caso recursivo</h3>
+
+<p>
+  El caso recursivo realiza una nueva llamada
+  utilizando datos que acercan el problema
+  al caso base.
+</p>
+
+<div class="bloque-codigo">
+  <div class="cabecera-codigo">
+    <span>JavaScript — Caso recursivo</span>
+    <button class="boton-copiar" type="button">Copiar código</button>
+  </div>
+  <pre><code>cuentaAtras(numero - 1);</code></pre>
+</div>
+
+<p>
+  En este caso, cada llamada reduce
+  <code>numero</code> en una unidad.
+</p>
+
+<div class="caja caja-atencion">
+  <span class="caja-titulo">⚠️ Atención</span>
+  <p>
+    <strong>No basta con incluir un caso base.</strong>
+    También debemos asegurarnos de que cada llamada
+    recursiva se aproxima a él.
+  </p>
+  <p>
+    Si el argumento no cambia o cambia en la dirección
+    equivocada, la función puede continuar llamándose
+    hasta agotar la pila de ejecución.
+  </p>
+</div>
+
+<!-- 3 -->
+<h2 id="cuenta-atras">Primer ejemplo: cuenta atrás</h2>
+
+<p>
+  Vamos a analizar con detalle el ejemplo anterior.
+</p>
+
+<div class="bloque-codigo">
+  <div class="cabecera-codigo">
+    <span>JavaScript — Cuenta atrás</span>
+    <button class="boton-copiar" type="button">Copiar código</button>
+  </div>
+  <pre><code>function cuentaAtras(numero) {
+  if (numero === 0) {
+    return;
+  }
+
+  console.log(numero);
+
+  cuentaAtras(numero - 1);
+}
+
+cuentaAtras(3);</code></pre>
+</div>
+
+<p>
+  La primera llamada recibe el argumento
+  <code>3</code>.
+</p>
+
+<p>
+  Como <code>3 !== 0</code>, se muestra
+  el número <code>3</code> y se realiza
+  una nueva llamada con <code>2</code>.
+</p>
+
+<p>
+  La segunda llamada muestra <code>2</code>
+  y vuelve a llamar a la función con <code>1</code>.
+  Después ocurre lo mismo con <code>1</code>.
+</p>
+
+<p>
+  Finalmente, la llamada que recibe <code>0</code>
+  cumple el caso base y termina.
+</p>
+
+<div class="bloque-codigo bloque-codigo-salida">
+  <div class="cabecera-codigo">
+    <span>Resultado en consola</span>
+  </div>
+  <pre><code>3
+2
+1</code></pre>
+</div>
+
+<h3>¿Qué sucede si no establecemos el caso base?</h3>
+
+<p>
+  Considera el siguiente ejemplo incorrecto:
+</p>
+
+<div class="bloque-codigo">
+  <div class="cabecera-codigo">
+    <span>JavaScript — Ejemplo incorrecto, no ejecutar</span>
+    <button class="boton-copiar" type="button">Copiar código</button>
+  </div>
+  <pre><code>function cuentaAtras(numero) {
+  console.log(numero);
+
+  cuentaAtras(numero - 1);
+}
+
+// No ejecutar:
+// cuentaAtras(3);</code></pre>
+</div>
+
+<p>
+  Esta función no contiene ninguna condición
+  de finalización. Por tanto, continuaría llamándose
+  con valores cada vez menores.
+</p>
+
+<p>
+  En algún momento, JavaScript interrumpiría
+  la ejecución porque se habría superado
+  el espacio disponible para las llamadas.
+</p>
+
+<div class="caja caja-importante">
+  <span class="caja-titulo">📌 Importante</span>
+  <p>
+    Toda función recursiva debe tener un
+    <strong>caso base alcanzable</strong>.
+    Además, el caso recursivo debe modificar
+    los datos de forma que se llegue a él.
+  </p>
+</div>
+
+<!-- 4 -->
+<h2 id="seguimiento">Seguimiento de las llamadas recursivas</h2>
+
+<p>
+  Una de las principales dificultades al aprender
+  recursividad es comprender qué sucede durante
+  las distintas llamadas.
+</p>
+
+<p>
+  Para ello, resulta útil seguir paso a paso
+  los argumentos que recibe la función.
+</p>
+
+<div class="bloque-codigo">
+  <div class="cabecera-codigo">
+    <span>JavaScript — Seguimiento de llamadas</span>
+    <button class="boton-copiar" type="button">Copiar código</button>
+  </div>
+  <pre><code>function mostrar(numero) {
+  if (numero === 0) {
+    console.log("Fin");
+    return;
+  }
+
+  console.log("Número:", numero);
+
+  mostrar(numero - 1);
+}
+
+mostrar(3);</code></pre>
+</div>
+
+<div class="tabla-contenedor">
+  <table>
+    <thead>
+      <tr>
+        <th>Llamada</th>
+        <th>Valor recibido</th>
+        <th>Acción</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>1</td>
+        <td><code>3</code></td>
+        <td>Muestra 3 y llama con 2.</td>
+      </tr>
+      <tr>
+        <td>2</td>
+        <td><code>2</code></td>
+        <td>Muestra 2 y llama con 1.</td>
+      </tr>
+      <tr>
+        <td>3</td>
+        <td><code>1</code></td>
+        <td>Muestra 1 y llama con 0.</td>
+      </tr>
+      <tr>
+        <td>4</td>
+        <td><code>0</code></td>
+        <td>Muestra «Fin» y termina.</td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<div class="bloque-codigo bloque-codigo-salida">
+  <div class="cabecera-codigo">
+    <span>Resultado en consola</span>
+  </div>
+  <pre><code>Número: 3
+Número: 2
+Número: 1
+Fin</code></pre>
+</div>
+
+<p>
+  En este ejemplo, las instrucciones
+  <code>console.log()</code> aparecen
+  <strong>antes de la llamada recursiva</strong>.
+  Por eso los números se muestran mientras
+  se van realizando las llamadas.
+</p>
+
+<h3>¿Y si mostramos el número después de la llamada?</h3>
+
+<p>
+  Observa este pequeño cambio:
+</p>
+
+<div class="bloque-codigo">
+  <div class="cabecera-codigo">
+    <span>JavaScript — Instrucción después de la llamada</span>
+    <button class="boton-copiar" type="button">Copiar código</button>
+  </div>
+  <pre><code>function mostrar(numero) {
+  if (numero === 0) {
+    return;
+  }
+
+  mostrar(numero - 1);
+
+  console.log(numero);
+}
+
+mostrar(3);</code></pre>
+</div>
+
+<div class="bloque-codigo bloque-codigo-salida">
+  <div class="cabecera-codigo">
+    <span>Resultado en consola</span>
+  </div>
+  <pre><code>1
+2
+3</code></pre>
+</div>
+
+<p>
+  Ahora los números aparecen en orden ascendente.
+  ¿Por qué?
+</p>
+
+<p>
+  Porque cada llamada queda esperando a que termine
+  la siguiente. Cuando se alcanza el caso base,
+  las llamadas comienzan a finalizar en orden inverso.
+</p>
+
+<div class="caja caja-importante">
+  <span class="caja-titulo">📌 Importante</span>
+  <p>
+    La posición de las instrucciones respecto
+    a la llamada recursiva influye en el resultado.
+  </p>
+  <p>
+    Una instrucción situada <strong>antes</strong>
+    se ejecuta al avanzar en las llamadas.
+    Una instrucción situada <strong>después</strong>
+    se ejecuta cuando esas llamadas van terminando.
+  </p>
+</div>
+
+<!-- 5 -->
+<h2 id="factorial">Cálculo del factorial de un número</h2>
+
+<p>
+  Uno de los ejemplos clásicos para comprender
+  la recursividad es el cálculo del factorial.
+</p>
+
+<p>
+  El <strong>factorial</strong> de un número entero
+  no negativo se obtiene multiplicando ese número
+  por todos los enteros positivos menores que él.
+</p>
+
+<p>
+  Por ejemplo:
+</p>
+
+<ul>
+  <li><code>3! = 3 × 2 × 1 = 6</code></li>
+  <li><code>4! = 4 × 3 × 2 × 1 = 24</code></li>
+  <li><code>5! = 5 × 4 × 3 × 2 × 1 = 120</code></li>
+</ul>
+
+<p>
+  Por definición, el factorial de cero
+  también es igual a uno:
+  <code>0! = 1</code>.
+</p>
+
+<h3>Resolución mediante recursividad</h3>
+
+<p>
+  Observa que podemos expresar el factorial
+  de <code>5</code> de la siguiente manera:
+</p>
+
+<p>
+  <code>5! = 5 × 4!</code>
+</p>
+
+<p>
+  Del mismo modo:
+</p>
+
+<p>
+  <code>4! = 4 × 3!</code>
+</p>
+
+<p>
+  Es decir, el cálculo de un factorial depende
+  del factorial del número anterior.
+  Esta relación permite utilizar una función recursiva.
+</p>
+
+<div class="bloque-codigo">
+  <div class="cabecera-codigo">
+    <span>JavaScript — Factorial recursivo</span>
+    <button class="boton-copiar" type="button">Copiar código</button>
+  </div>
+  <pre><code>function factorial(numero) {
+  if (numero === 0) {
+    return 1;
+  }
+
+  return numero * factorial(numero - 1);
+}
+
+console.log(factorial(4));</code></pre>
+</div>
+
+<div class="bloque-codigo bloque-codigo-salida">
+  <div class="cabecera-codigo">
+    <span>Resultado en consola</span>
+  </div>
+  <pre><code>24</code></pre>
+</div>
+
+<p>
+  La función contiene los dos elementos
+  fundamentales de la recursividad:
+</p>
+
+<ul>
+  <li>
+    <strong>Caso base:</strong> si el número es
+    <code>0</code>, devuelve <code>1</code>.
+  </li>
+  <li>
+    <strong>Caso recursivo:</strong> devuelve
+    el número multiplicado por el factorial
+    del número anterior.
+  </li>
+</ul>
+
+<h3>Seguimiento del factorial de 4</h3>
+
+<p>
+  Para comprender cómo se obtiene el resultado,
+  podemos desarrollar las llamadas:
+</p>
+
+<div class="bloque-codigo bloque-codigo-salida">
+  <div class="cabecera-codigo">
+    <span>Desarrollo de las llamadas</span>
+  </div>
+  <pre><code>factorial(4)
+= 4 * factorial(3)
+= 4 * 3 * factorial(2)
+= 4 * 3 * 2 * factorial(1)
+= 4 * 3 * 2 * 1 * factorial(0)
+= 4 * 3 * 2 * 1 * 1
+= 24</code></pre>
+</div>
+
+<p>
+  Primero se realizan las llamadas hasta alcanzar
+  <code>factorial(0)</code>. Después se van
+  calculando los resultados pendientes.
+</p>
+
+<h3>Validación de los argumentos</h3>
+
+<p>
+  El ejemplo anterior presupone que recibe
+  un entero no negativo.
+</p>
+
+<p>
+  Sin embargo, una función destinada a utilizarse
+  en una aplicación debe comprobar los valores
+  recibidos para evitar comportamientos incorrectos.
+</p>
+
+<div class="bloque-codigo">
+  <div class="cabecera-codigo">
+    <span>JavaScript — Factorial con validación</span>
+    <button class="boton-copiar" type="button">Copiar código</button>
+  </div>
+  <pre><code>function factorial(numero) {
+  if (!Number.isInteger(numero) || numero &lt; 0) {
+    return NaN;
+  }
+
+  if (numero === 0) {
+    return 1;
+  }
+
+  return numero * factorial(numero - 1);
+}
+
+console.log(factorial(5));
+console.log(factorial(0));
+console.log(factorial(-3));
+console.log(factorial(2.5));</code></pre>
+</div>
+
+<div class="bloque-codigo bloque-codigo-salida">
+  <div class="cabecera-codigo">
+    <span>Resultado en consola</span>
+  </div>
+  <pre><code>120
+1
+NaN
+NaN</code></pre>
+</div>
+
+<p>
+  Utilizamos <code>Number.isInteger()</code>
+  para comprobar que el argumento sea un entero
+  y verificamos que no sea negativo.
+</p>
+
+<div class="caja caja-atencion">
+  <span class="caja-titulo">⚠️ Atención</span>
+  <p>
+    Esta validación evita valores negativos
+    y decimales, pero no elimina las limitaciones
+    de la recursividad ni de la precisión numérica.
+  </p>
+  <p>
+    Por ejemplo, los factoriales crecen muy deprisa.
+    En JavaScript, <code>171!</code> supera el rango
+    finito del tipo <code>Number</code> y produce
+    <code>Infinity</code>.
+  </p>
+</div>
+
+<!-- 6 -->
+<h2 id="pila">La pila de ejecución y las llamadas recursivas</h2>
+
+<p>
+  Para comprender completamente la recursividad,
+  debemos conocer cómo gestiona JavaScript
+  las llamadas a funciones.
+</p>
+
+<p>
+  Cuando se invoca una función, JavaScript
+  necesita conservar información sobre esa llamada,
+  como sus parámetros, variables locales y
+  el punto al que debe regresar cuando termine.
+</p>
+
+<p>
+  Esta información se organiza mediante
+  una estructura denominada
+  <strong>pila de llamadas</strong>
+  o <em>call stack</em>.
+</p>
+
+<p>
+  Podemos imaginarla como una pila de platos:
+  el último que colocamos es el primero que retiramos.
+</p>
+
+<h3>Ejemplo de funcionamiento</h3>
+
+<div class="bloque-codigo">
+  <div class="cabecera-codigo">
+    <span>JavaScript — Entrada y salida de llamadas</span>
+    <button class="boton-copiar" type="button">Copiar código</button>
+  </div>
+  <pre><code>function explorar(numero) {
+  console.log("Entrando:", numero);
+
+  if (numero === 0) {
+    return;
+  }
+
+  explorar(numero - 1);
+
+  console.log("Saliendo:", numero);
+}
+
+explorar(2);</code></pre>
+</div>
+
+<div class="bloque-codigo bloque-codigo-salida">
+  <div class="cabecera-codigo">
+    <span>Resultado en consola</span>
+  </div>
+  <pre><code>Entrando: 2
+Entrando: 1
+Entrando: 0
+Saliendo: 1
+Saliendo: 2</code></pre>
+</div>
+
+<p>
+  El programa comienza ejecutando
+  <code>explorar(2)</code>, que llama a
+  <code>explorar(1)</code>. Esta, a su vez,
+  llama a <code>explorar(0)</code>.
+</p>
+
+<p>
+  Cuando se alcanza el caso base,
+  la última llamada termina.
+  Después se reanuda <code>explorar(1)</code>
+  y, finalmente, <code>explorar(2)</code>.
+</p>
+
+<div class="tabla-contenedor">
+  <table>
+    <thead>
+      <tr>
+        <th>Momento</th>
+        <th>Qué sucede</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>1</td>
+        <td>Comienza <code>explorar(2)</code>.</td>
+      </tr>
+      <tr>
+        <td>2</td>
+        <td>Se llama a <code>explorar(1)</code>.</td>
+      </tr>
+      <tr>
+        <td>3</td>
+        <td>Se llama a <code>explorar(0)</code>.</td>
+      </tr>
+      <tr>
+        <td>4</td>
+        <td><code>explorar(0)</code> termina.</td>
+      </tr>
+      <tr>
+        <td>5</td>
+        <td>Se reanuda y termina <code>explorar(1)</code>.</td>
+      </tr>
+      <tr>
+        <td>6</td>
+        <td>Se reanuda y termina <code>explorar(2)</code>.</td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<h3>Desbordamiento de la pila</h3>
+
+<p>
+  La pila de llamadas tiene una capacidad limitada.
+  Si una función realiza demasiadas llamadas
+  anidadas, puede producirse un error.
+</p>
+
+<p>
+  En muchos navegadores, el mensaje será similar a:
+</p>
+
+<div class="bloque-codigo bloque-codigo-salida">
+  <div class="cabecera-codigo">
+    <span>Posible mensaje de error</span>
+  </div>
+  <pre><code>RangeError: Maximum call stack size exceeded</code></pre>
+</div>
+
+<p>
+  Este error puede producirse cuando no existe
+  un caso base adecuado, cuando no se alcanza
+  o cuando la recursividad es demasiado profunda.
+</p>
+
+<div class="caja caja-importante">
+  <span class="caja-titulo">📌 Importante</span>
+  <p>
+    Cada llamada recursiva necesita recursos.
+    Por eso, <strong>una solución recursiva
+    no siempre es la más adecuada</strong>,
+    especialmente si puede necesitar
+    una cantidad muy elevada de llamadas.
+  </p>
+</div>
+
+<!-- 7 -->
+<h2 id="sumatorio">Ejemplo: sumatorio recursivo</h2>
+
+<p>
+  Vamos a resolver otro problema:
+  calcular la suma de todos los números enteros
+  desde <code>1</code> hasta un número dado.
+</p>
+
+<p>
+  Por ejemplo, si el número es <code>4</code>,
+  el resultado será:
+</p>
+
+<p>
+  <code>1 + 2 + 3 + 4 = 10</code>
+</p>
+
+<p>
+  Podemos observar que:
+</p>
+
+<p>
+  <code>suma(4) = 4 + suma(3)</code>
+</p>
+
+<p>
+  Por tanto, podemos construir una función
+  que se llame a sí misma con el número anterior.
+</p>
+
+<div class="bloque-codigo">
+  <div class="cabecera-codigo">
+    <span>JavaScript — Sumatorio recursivo</span>
+    <button class="boton-copiar" type="button">Copiar código</button>
+  </div>
+  <pre><code>function sumarHasta(numero) {
+  if (numero === 0) {
+    return 0;
+  }
+
+  return numero + sumarHasta(numero - 1);
+}
+
+console.log(sumarHasta(4));
+console.log(sumarHasta(6));</code></pre>
+</div>
+
+<div class="bloque-codigo bloque-codigo-salida">
+  <div class="cabecera-codigo">
+    <span>Resultado en consola</span>
+  </div>
+  <pre><code>10
+21</code></pre>
+</div>
+
+<p>
+  Para <code>sumarHasta(4)</code>, el proceso es:
+</p>
+
+<div class="bloque-codigo bloque-codigo-salida">
+  <div class="cabecera-codigo">
+    <span>Desarrollo del cálculo</span>
+  </div>
+  <pre><code>sumarHasta(4)
+= 4 + sumarHasta(3)
+= 4 + 3 + sumarHasta(2)
+= 4 + 3 + 2 + sumarHasta(1)
+= 4 + 3 + 2 + 1 + sumarHasta(0)
+= 4 + 3 + 2 + 1 + 0
+= 10</code></pre>
+</div>
+
+<p>
+  El caso base devuelve <code>0</code>
+  porque es el valor que no modifica
+  una suma.
+</p>
+
+<div class="caja caja-atencion">
+  <span class="caja-titulo">⚠️ Atención</span>
+  <p>
+    Esta implementación está pensada para
+    enteros no negativos.
+  </p>
+  <p>
+    Si utilizamos un valor negativo,
+    la función se alejará de <code>0</code>
+    y no alcanzará el caso base.
+    En una aplicación real debemos validar
+    el argumento antes de iniciar el cálculo.
+  </p>
+</div>
+
+<!-- 8 -->
+<h2 id="arrays">Recursividad con arrays</h2>
+
+<p>
+  La recursividad no se utiliza únicamente
+  para realizar operaciones matemáticas.
+  También puede aplicarse a estructuras
+  de datos, como los arrays.
+</p>
+
+<p>
+  Vamos a crear una función que calcule
+  la suma de los elementos de un array.
+</p>
+
+<h3>Sumar elementos utilizando un índice</h3>
+
+<div class="bloque-codigo">
+  <div class="cabecera-codigo">
+    <span>JavaScript — Suma recursiva de un array</span>
+    <button class="boton-copiar" type="button">Copiar código</button>
+  </div>
+  <pre><code>function sumarArray(numeros, indice = 0) {
+  if (indice === numeros.length) {
+    return 0;
+  }
+
+  return numeros[indice] +
+         sumarArray(numeros, indice + 1);
+}
+
+const cantidades = [10, 20, 30, 40];
+
+console.log(sumarArray(cantidades));</code></pre>
+</div>
+
+<div class="bloque-codigo bloque-codigo-salida">
+  <div class="cabecera-codigo">
+    <span>Resultado en consola</span>
+  </div>
+  <pre><code>100</code></pre>
+</div>
+
+<p>
+  En esta función intervienen dos parámetros:
+</p>
+
+<ul>
+  <li>
+    <code>numeros</code>: array cuyos elementos
+    queremos sumar.
+  </li>
+  <li>
+    <code>indice</code>: posición del elemento
+    que estamos procesando. Su valor inicial
+    es <code>0</code>.
+  </li>
+</ul>
+
+<p>
+  El caso base se alcanza cuando
+  <code>indice === numeros.length</code>.
+  En ese momento ya hemos procesado
+  todos los elementos y devolvemos <code>0</code>.
+</p>
+
+<p>
+  En cada llamada sumamos el elemento actual
+  al resultado de procesar los elementos restantes.
+</p>
+
+<div class="tabla-contenedor">
+  <table>
+    <thead>
+      <tr>
+        <th>Índice</th>
+        <th>Elemento</th>
+        <th>Operación pendiente</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>0</td>
+        <td>10</td>
+        <td><code>10 + sumarArray(..., 1)</code></td>
+      </tr>
+      <tr>
+        <td>1</td>
+        <td>20</td>
+        <td><code>20 + sumarArray(..., 2)</code></td>
+      </tr>
+      <tr>
+        <td>2</td>
+        <td>30</td>
+        <td><code>30 + sumarArray(..., 3)</code></td>
+      </tr>
+      <tr>
+        <td>3</td>
+        <td>40</td>
+        <td><code>40 + sumarArray(..., 4)</code></td>
+      </tr>
+      <tr>
+        <td>4</td>
+        <td>—</td>
+        <td>Devuelve <code>0</code>.</td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<h3>¿Qué sucede si el array está vacío?</h3>
+
+<p>
+  Si llamamos a la función con un array vacío,
+  su longitud es <code>0</code>.
+  Como el índice inicial también es <code>0</code>,
+  se cumple inmediatamente el caso base.
+</p>
+
+<div class="bloque-codigo">
+  <div class="cabecera-codigo">
+    <span>JavaScript — Array vacío</span>
+    <button class="boton-copiar" type="button">Copiar código</button>
+  </div>
+  <pre><code>console.log(sumarArray([]));</code></pre>
+</div>
+
+<div class="bloque-codigo bloque-codigo-salida">
+  <div class="cabecera-codigo">
+    <span>Resultado en consola</span>
+  </div>
+  <pre><code>0</code></pre>
+</div>
+
+<p>
+  Este comportamiento es correcto:
+  la suma de los elementos de un array vacío
+  es <code>0</code>.
+</p>
+
+<div class="caja caja-ejemplo">
+  <span class="caja-titulo">💻 Ejemplo DAW</span>
+  <p>
+    En una aplicación de gestión de pedidos,
+    podríamos utilizar una función de este tipo
+    para calcular el importe total de un array
+    de cantidades.
+  </p>
+  <p>
+    No obstante, para sumar un array sencillo
+    normalmente resultaría más directo
+    utilizar un bucle o <code>reduce()</code>.
+    La recursividad se vuelve especialmente
+    interesante cuando los datos contienen
+    estructuras anidadas.
+  </p>
+</div>
+
+<!-- 9 -->
+<h2 id="problemas">Cómo plantear un problema recursivo</h2>
+
+<p>
+  Antes de escribir una función recursiva,
+  conviene analizar el problema y responder
+  a varias preguntas.
+</p>
+
+<ol>
+  <li>
+    <strong>¿Cuál es el problema más sencillo?</strong>
+    Debemos identificar una situación
+    que podamos resolver directamente.
+  </li>
+  <li>
+    <strong>¿Cuál será el caso base?</strong>
+    Necesitamos una condición que detenga
+    las llamadas.
+  </li>
+  <li>
+    <strong>¿Cómo reducimos el problema?</strong>
+    Cada llamada debe trabajar con una versión
+    más pequeña o más próxima al caso base.
+  </li>
+  <li>
+    <strong>¿Qué devuelve cada llamada?</strong>
+    Debemos decidir cómo combinar los resultados.
+  </li>
+  <li>
+    <strong>¿Podemos garantizar que terminará?</strong>
+    Es necesario comprobar que el caso base
+    se alcanzará con las entradas admitidas.
+  </li>
+</ol>
+
+<p>
+  Por ejemplo, para calcular el factorial:
+</p>
+
+<div class="tabla-contenedor">
+  <table>
+    <thead>
+      <tr>
+        <th>Pregunta</th>
+        <th>Respuesta</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>¿Cuál es el caso más sencillo?</td>
+        <td>Calcular <code>0!</code>.</td>
+      </tr>
+      <tr>
+        <td>¿Cuál es el caso base?</td>
+        <td>Si <code>numero === 0</code>, devolver 1.</td>
+      </tr>
+      <tr>
+        <td>¿Cómo se reduce el problema?</td>
+        <td>Calculando el factorial de <code>numero - 1</code>.</td>
+      </tr>
+      <tr>
+        <td>¿Cómo se combinan los resultados?</td>
+        <td>Multiplicando el número por el resultado recursivo.</td>
+      </tr>
+      <tr>
+        <td>¿Cuándo termina?</td>
+        <td>Cuando el argumento llega a cero.</td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<div class="caja caja-importante">
+  <span class="caja-titulo">📌 Importante</span>
+  <p>
+    Para diseñar correctamente una función recursiva,
+    no debemos pensar solamente en que
+    «la función se llama a sí misma».
+  </p>
+  <p>
+    Debemos identificar <strong>qué problema más pequeño
+    resuelve cada llamada</strong> y
+    <strong>cómo se obtiene la solución del problema original</strong>.
+  </p>
+</div>
+
+<!-- 10 -->
+<h2 id="recursividad-iteracion">Recursividad frente a iteración</h2>
+
+<p>
+  Muchos problemas pueden resolverse tanto
+  mediante recursividad como mediante
+  estructuras repetitivas, como
+  <code>for</code> y <code>while</code>.
+</p>
+
+<p>
+  Vamos a comparar ambas técnicas
+  utilizando el factorial.
+</p>
+
+<h3>Solución iterativa</h3>
+
+<div class="bloque-codigo">
+  <div class="cabecera-codigo">
+    <span>JavaScript — Factorial con un bucle</span>
+    <button class="boton-copiar" type="button">Copiar código</button>
+  </div>
+  <pre><code>function factorialIterativo(numero) {
+  let resultado = 1;
+
+  for (let i = 2; i &lt;= numero; i++) {
+    resultado *= i;
+  }
+
+  return resultado;
+}
+
+console.log(factorialIterativo(5));</code></pre>
+</div>
+
+<div class="bloque-codigo bloque-codigo-salida">
+  <div class="cabecera-codigo">
+    <span>Resultado en consola</span>
+  </div>
+  <pre><code>120</code></pre>
+</div>
+
+<h3>Solución recursiva</h3>
+
+<div class="bloque-codigo">
+  <div class="cabecera-codigo">
+    <span>JavaScript — Factorial recursivo</span>
+    <button class="boton-copiar" type="button">Copiar código</button>
+  </div>
+  <pre><code>function factorialRecursivo(numero) {
+  if (numero === 0) {
+    return 1;
+  }
+
+  return numero * factorialRecursivo(numero - 1);
+}
+
+console.log(factorialRecursivo(5));</code></pre>
+</div>
+
+<div class="bloque-codigo bloque-codigo-salida">
+  <div class="cabecera-codigo">
+    <span>Resultado en consola</span>
+  </div>
+  <pre><code>120</code></pre>
+</div>
+
+<p>
+  Ambas funciones producen el mismo resultado
+  para el valor utilizado.
+</p>
+
+<p>
+  Sin embargo, existen diferencias importantes:
+</p>
+
+<div class="tabla-contenedor">
+  <table>
+    <thead>
+      <tr>
+        <th>Aspecto</th>
+        <th>Iteración</th>
+        <th>Recursividad</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>Funcionamiento</td>
+        <td>Repite instrucciones mediante un bucle.</td>
+        <td>Realiza nuevas llamadas a funciones.</td>
+      </tr>
+      <tr>
+        <td>Finalización</td>
+        <td>Depende de la condición del bucle.</td>
+        <td>Depende del caso base.</td>
+      </tr>
+      <tr>
+        <td>Memoria</td>
+        <td>Puede necesitar poca memoria adicional.</td>
+        <td>Las llamadas anidadas ocupan espacio en la pila.</td>
+      </tr>
+      <tr>
+        <td>Legibilidad</td>
+        <td>Suele ser clara para recorridos lineales.</td>
+        <td>Puede ser más clara para estructuras jerárquicas.</td>
+      </tr>
+      <tr>
+        <td>Riesgos</td>
+        <td>Bucles que no terminan.</td>
+        <td>Llamadas sin fin o desbordamiento de pila.</td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<p>
+  Por tanto, no debemos pensar que la recursividad
+  es siempre mejor que un bucle, ni al contrario.
+  La elección depende de las características
+  del problema.
+</p>
+
+<div class="caja caja-atencion">
+  <span class="caja-titulo">⚠️ Atención</span>
+  <p>
+    La recursividad no hace automáticamente
+    que un programa sea más eficiente.
+  </p>
+  <p>
+    Para recorrer una secuencia muy larga,
+    un bucle suele ser más adecuado
+    si no necesitamos llamadas anidadas.
+  </p>
+</div>
+
+<!-- 11 -->
+<h2 id="errores">Errores frecuentes y buenas prácticas</h2>
+
+<h3>1. Olvidar el caso base</h3>
+
+<p>
+  Si no existe una condición de finalización,
+  las llamadas continuarán indefinidamente
+  hasta producir un error.
+</p>
+
+<div class="bloque-codigo">
+  <div class="cabecera-codigo">
+    <span>JavaScript — Incorrecto, no ejecutar</span>
+    <button class="boton-copiar" type="button">Copiar código</button>
+  </div>
+  <pre><code>function repetir(numero) {
+  repetir(numero - 1);
+}
+
+// No ejecutar:
+// repetir(5);</code></pre>
+</div>
+
+<h3>2. No avanzar hacia el caso base</h3>
+
+<p>
+  Aunque exista una condición de finalización,
+  la función puede no alcanzarla.
+</p>
+
+<div class="bloque-codigo">
+  <div class="cabecera-codigo">
+    <span>JavaScript — Incorrecto, no ejecutar</span>
+    <button class="boton-copiar" type="button">Copiar código</button>
+  </div>
+  <pre><code>function cuentaAtras(numero) {
+  if (numero === 0) {
+    return;
+  }
+
+  cuentaAtras(numero + 1);
+}
+
+// No ejecutar:
+// cuentaAtras(5);</code></pre>
+</div>
+
+<p>
+  En este ejemplo, el número aumenta,
+  por lo que se aleja del caso base.
+</p>
+
+<h3>3. Olvidar devolver el resultado recursivo</h3>
+
+<p>
+  Cuando necesitamos obtener un resultado,
+  es habitual que debamos utilizar
+  <code>return</code> para propagarlo.
+</p>
+
+<div class="bloque-codigo">
+  <div class="cabecera-codigo">
+    <span>JavaScript — Ejemplo incorrecto</span>
+    <button class="boton-copiar" type="button">Copiar código</button>
+  </div>
+  <pre><code>function sumar(numero) {
+  if (numero === 0) {
+    return 0;
+  }
+
+  numero + sumar(numero - 1);
+}
+
+console.log(sumar(3));</code></pre>
+</div>
+
+<div class="bloque-codigo bloque-codigo-salida">
+  <div class="cabecera-codigo">
+    <span>Resultado en consola</span>
+  </div>
+  <pre><code>undefined</code></pre>
+</div>
+
+<p>
+  El problema es que se calcula una expresión,
+  pero no se devuelve su resultado.
+</p>
+
+<p>
+  La versión correcta sería:
+</p>
+
+<div class="bloque-codigo">
+  <div class="cabecera-codigo">
+    <span>JavaScript — Ejemplo corregido</span>
+    <button class="boton-copiar" type="button">Copiar código</button>
+  </div>
+  <pre><code>function sumar(numero) {
+  if (numero === 0) {
+    return 0;
+  }
+
+  return numero + sumar(numero - 1);
+}
+
+console.log(sumar(3));</code></pre>
+</div>
+
+<div class="bloque-codigo bloque-codigo-salida">
+  <div class="cabecera-codigo">
+    <span>Resultado en consola</span>
+  </div>
+  <pre><code>6</code></pre>
+</div>
+
+<h3>4. No validar los argumentos</h3>
+
+<p>
+  Una función diseñada para trabajar con
+  enteros no negativos puede fallar
+  si recibe números negativos, decimales
+  o valores que no son numéricos.
+</p>
+
+<p>
+  Conviene validar las entradas utilizando,
+  cuando corresponda,
+  <code>Number.isInteger()</code>,
+  <code>Number.isFinite()</code>
+  u otras comprobaciones.
+</p>
+
+<h3>5. Utilizar recursividad innecesariamente</h3>
+
+<p>
+  Si una operación puede expresarse claramente
+  mediante un bucle sencillo,
+  no es obligatorio convertirla
+  en una función recursiva.
+</p>
+
+<p>
+  La recursividad debe ayudarnos a resolver
+  y comprender el problema,
+  no complicarlo.
+</p>
+
+<div class="caja caja-importante">
+  <span class="caja-titulo">📌 Importante</span>
+  <p>
+    Antes de dar por terminada una función recursiva,
+    comprueba siempre:
+  </p>
+  <ul>
+    <li>Que tiene un caso base.</li>
+    <li>Que ese caso base puede alcanzarse.</li>
+    <li>Que los argumentos se modifican correctamente.</li>
+    <li>Que devuelve los resultados necesarios.</li>
+    <li>Que las entradas están validadas.</li>
+    <li>Que la profundidad de llamadas es razonable.</li>
+  </ul>
+</div>
+
+<!-- 12 -->
+<h2 id="ejemplo-practico">Ejemplo práctico completo: categorías de una tienda online</h2>
+
+<p>
+  Vamos a aplicar la recursividad a un ejemplo
+  relacionado con el desarrollo web.
+</p>
+
+<p>
+  Imagina una tienda online de productos informáticos
+  que organiza su catálogo mediante categorías
+  y subcategorías.
+</p>
+
+<p>
+  Algunas categorías contienen productos,
+  pero también pueden contener otras categorías.
+  Por ejemplo:
+</p>
+
+<div class="bloque-codigo bloque-codigo-salida">
+  <div class="cabecera-codigo">
+    <span>Estructura del catálogo</span>
+  </div>
+  <pre><code>Informática
+├── Ordenadores
+│   ├── Portátiles
+│   └── Sobremesa
+└── Periféricos
+    ├── Teclados
+    └── Ratones</code></pre>
+</div>
+
+<p>
+  El objetivo es mostrar todas las categorías,
+  independientemente del nivel de profundidad
+  en el que se encuentren.
+</p>
+
+<h3>1. Representación de los datos</h3>
+
+<p>
+  Utilizaremos un objeto que contiene
+  el nombre de la categoría y un array
+  de subcategorías.
+</p>
+
+<p>
+  Cada subcategoría tiene la misma estructura
+  que la categoría principal.
+  Esta característica hace que la recursividad
+  resulte especialmente apropiada.
+</p>
+
+<div class="bloque-codigo">
+  <div class="cabecera-codigo">
+    <span>JavaScript — Datos del catálogo</span>
+    <button class="boton-copiar" type="button">Copiar código</button>
+  </div>
+  <pre><code>const catalogo = {
+  nombre: "Informática",
+  subcategorias: [
+    {
+      nombre: "Ordenadores",
+      subcategorias: [
+        {
+          nombre: "Portátiles",
+          subcategorias: []
+        },
+        {
+          nombre: "Sobremesa",
+          subcategorias: []
+        }
+      ]
+    },
+    {
+      nombre: "Periféricos",
+      subcategorias: [
+        {
+          nombre: "Teclados",
+          subcategorias: []
+        },
+        {
+          nombre: "Ratones",
+          subcategorias: []
+        }
+      ]
+    }
+  ]
+};</code></pre>
+</div>
+
+<h3>2. Crear la función recursiva</h3>
+
+<p>
+  Vamos a escribir una función que muestre
+  el nombre de una categoría y, a continuación,
+  recorra sus subcategorías.
+</p>
+
+<p>
+  Para indicar visualmente la profundidad,
+  utilizaremos un segundo parámetro llamado
+  <code>nivel</code>, cuyo valor inicial
+  será <code>0</code>.
+</p>
+
+<div class="bloque-codigo">
+  <div class="cabecera-codigo">
+    <span>JavaScript — Función recursiva</span>
+    <button class="boton-copiar" type="button">Copiar código</button>
+  </div>
+  <pre><code>function mostrarCategorias(categoria, nivel = 0) {
+  const sangria = "  ".repeat(nivel);
+
+  console.log(sangria + categoria.nombre);
+
+  for (const subcategoria of categoria.subcategorias) {
+    mostrarCategorias(subcategoria, nivel + 1);
+  }
+}</code></pre>
+</div>
+
+<p>
+  La función realiza tres operaciones:
+</p>
+
+<ol>
+  <li>
+    Calcula una sangría según el nivel
+    de profundidad.
+  </li>
+  <li>
+    Muestra el nombre de la categoría actual.
+  </li>
+  <li>
+    Recorre sus subcategorías y llama
+    a la propia función para cada una.
+  </li>
+</ol>
+
+<p>
+  En este ejemplo, el caso base es
+  <strong>implícito</strong>: cuando una categoría
+  tiene el array <code>subcategorias</code> vacío,
+  el bucle no realiza ninguna iteración y
+  no se producen nuevas llamadas recursivas.
+</p>
+
+<h3>3. Ejecutar el programa completo</h3>
+
+<div class="bloque-codigo">
+  <div class="cabecera-codigo">
+    <span>JavaScript — Ejemplo completo</span>
+    <button class="boton-copiar" type="button">Copiar código</button>
+  </div>
+  <pre><code>const catalogo = {
+  nombre: "Informática",
+  subcategorias: [
+    {
+      nombre: "Ordenadores",
+      subcategorias: [
+        { nombre: "Portátiles", subcategorias: [] },
+        { nombre: "Sobremesa", subcategorias: [] }
+      ]
+    },
+    {
+      nombre: "Periféricos",
+      subcategorias: [
+        { nombre: "Teclados", subcategorias: [] },
+        { nombre: "Ratones", subcategorias: [] }
+      ]
+    }
+  ]
+};
+
+function mostrarCategorias(categoria, nivel = 0) {
+  const sangria = "  ".repeat(nivel);
+
+  console.log(sangria + categoria.nombre);
+
+  for (const subcategoria of categoria.subcategorias) {
+    mostrarCategorias(subcategoria, nivel + 1);
+  }
+}
+
+mostrarCategorias(catalogo);</code></pre>
+</div>
+
+<div class="bloque-codigo bloque-codigo-salida">
+  <div class="cabecera-codigo">
+    <span>Resultado en consola</span>
+  </div>
+  <pre><code>Informática
+  Ordenadores
+    Portátiles
+    Sobremesa
+  Periféricos
+    Teclados
+    Ratones</code></pre>
+</div>
+
+<h3>4. ¿Por qué es útil la recursividad en este caso?</h3>
+
+<p>
+  La función no necesita conocer de antemano
+  cuántos niveles de subcategorías existen.
+</p>
+
+<p>
+  Si añadimos una categoría dentro de
+  <code>Portátiles</code>, por ejemplo
+  <code>Gaming</code>, la misma función
+  podrá mostrarla sin modificar su lógica.
+</p>
+
+<p>
+  Esto es posible porque cada elemento
+  tiene una estructura semejante
+  y la función vuelve a aplicarse
+  a sus elementos hijos.
+</p>
+
+<div class="caja caja-ejemplo">
+  <span class="caja-titulo">💻 Ejemplo DAW</span>
+  <p>
+    Esta técnica puede utilizarse en aplicaciones web
+    para procesar menús multinivel, categorías
+    de comercio electrónico, estructuras de carpetas
+    o comentarios con respuestas anidadas.
+  </p>
+  <p>
+    En una interfaz real, la información obtenida
+    podría utilizarse para construir elementos HTML
+    y mostrarlos en la página.
+    Esa interacción con el documento se estudiará
+    al trabajar con el DOM.
+  </p>
+</div>
+
+<div class="caja caja-atencion">
+  <span class="caja-titulo">⚠️ Atención</span>
+  <p>
+    Este ejemplo supone que los datos forman
+    una jerarquía válida y que cada categoría
+    contiene un array <code>subcategorias</code>.
+  </p>
+  <p>
+    Si los objetos contuvieran referencias circulares
+    —por ejemplo, una categoría que vuelve a apuntar
+    a una categoría anterior—, necesitaríamos
+    controles adicionales para evitar llamadas
+    repetidas indefinidamente.
+  </p>
+</div>
+
+<!-- ACTIVIDAD FINAL -->
+<div class="actividad-piensa">
+
+  <h3>💭 Piensa</h3>
+
+  <p>
+    Observa el siguiente programa sin ejecutarlo.
+    Después responde a las preguntas
+    y comprueba tus respuestas.
+  </p>
+
+  <div class="bloque-codigo">
+    <div class="cabecera-codigo">
+      <span>JavaScript — Analiza el programa</span>
+      <button class="boton-copiar" type="button">Copiar código</button>
+    </div>
+    <pre><code>function calcular(numero) {
+  if (numero === 0) {
+    return 0;
+  }
+
+  return numero + calcular(numero - 1);
+}
+
+function mostrar(numero) {
+  if (numero === 0) {
+    console.log("Fin");
+    return;
+  }
+
+  console.log("Inicio:", numero);
+
+  mostrar(numero - 1);
+
+  console.log("Final:", numero);
+}
+
+console.log("Resultado:", calcular(3));
+
+mostrar(2);</code></pre>
+  </div>
+
+  <ol>
+    <li>
+      ¿Qué función o funciones del programa
+      son recursivas? Justifica tu respuesta.
+    </li>
+    <li>
+      ¿Cuál es el caso base de
+      <code>calcular()</code>?
+    </li>
+    <li>
+      ¿Qué valor devuelve
+      <code>calcular(3)</code>?
+      Explica cómo se obtiene.
+    </li>
+    <li>
+      ¿Qué sucedería si eliminásemos
+      la condición <code>numero === 0</code>
+      de <code>calcular()</code>?
+    </li>
+    <li>
+      ¿Cuál es el caso base de
+      <code>mostrar()</code>?
+    </li>
+    <li>
+      ¿Cuántas veces se invoca
+      <code>mostrar()</code> al ejecutar
+      <code>mostrar(2)</code>, incluyendo
+      la llamada inicial?
+    </li>
+    <li>
+      ¿Por qué los mensajes que comienzan
+      por <code>"Final:"</code>
+      aparecen en orden ascendente?
+    </li>
+    <li>
+      Escribe el orden exacto de todos
+      los mensajes que aparecerán en consola.
+    </li>
+    <li>
+      Modifica <code>calcular()</code>
+      para que devuelva la suma de los números
+      desde <code>1</code> hasta <code>5</code>.
+      ¿Qué resultado esperas obtener?
+    </li>
+  </ol>
+
+  <details>
+    <summary>Ver solución razonada</summary>
+
+    <div class="solucion">
+
+      <p>
+        <strong>1. Funciones recursivas.</strong>
+        Tanto <code>calcular()</code> como
+        <code>mostrar()</code> son recursivas,
+        porque ambas se llaman a sí mismas.
+      </p>
+
+      <p>
+        <strong>2. Caso base de calcular().</strong>
+        Se alcanza cuando <code>numero === 0</code>.
+        En ese momento devuelve <code>0</code>
+        y no realiza nuevas llamadas.
+      </p>
+
+      <p>
+        <strong>3. Resultado de calcular(3).</strong>
+        Devuelve <code>6</code>.
+      </p>
+
+      <div class="bloque-codigo bloque-codigo-salida">
+        <div class="cabecera-codigo">
+          <span>Desarrollo del cálculo</span>
+        </div>
+        <pre><code>calcular(3)
+= 3 + calcular(2)
+= 3 + 2 + calcular(1)
+= 3 + 2 + 1 + calcular(0)
+= 3 + 2 + 1 + 0
+= 6</code></pre>
+      </div>
+
+      <p>
+        <strong>4. Eliminar el caso base.</strong>
+        La función continuaría realizando
+        llamadas recursivas sin alcanzar
+        una condición de finalización.
+        Finalmente, se produciría
+        un error por desbordamiento de la pila.
+      </p>
+
+      <p>
+        <strong>5. Caso base de mostrar().</strong>
+        Se alcanza cuando <code>numero === 0</code>.
+        En ese momento muestra <code>"Fin"</code>
+        y ejecuta <code>return</code>.
+      </p>
+
+      <p>
+        <strong>6. Número de llamadas.</strong>
+        Se realizan tres llamadas:
+        <code>mostrar(2)</code>,
+        <code>mostrar(1)</code> y
+        <code>mostrar(0)</code>.
+      </p>
+
+      <p>
+        <strong>7. Orden de los mensajes "Final:".</strong>
+        Estos mensajes aparecen después
+        de la llamada recursiva.
+        Por tanto, se ejecutan cuando
+        las llamadas pendientes van terminando,
+        empezando por la más reciente.
+      </p>
+
+      <p>
+        <strong>8. Resultado completo en consola.</strong>
+      </p>
+
+      <div class="bloque-codigo bloque-codigo-salida">
+        <div class="cabecera-codigo">
+          <span>Resultado en consola</span>
+        </div>
+        <pre><code>Resultado: 6
+Inicio: 2
+Inicio: 1
+Fin
+Final: 1
+Final: 2</code></pre>
+      </div>
+
+      <p>
+        <strong>9. Suma de 1 a 5.</strong>
+        No es necesario cambiar la definición
+        de la función. Basta con invocarla
+        utilizando el argumento <code>5</code>.
+      </p>
+
+      <div class="bloque-codigo">
+        <div class="cabecera-codigo">
+          <span>JavaScript — Comprobación</span>
+          <button class="boton-copiar" type="button">Copiar código</button>
+        </div>
+        <pre><code>console.log(calcular(5));</code></pre>
+      </div>
+
+      <div class="bloque-codigo bloque-codigo-salida">
+        <div class="cabecera-codigo">
+          <span>Resultado en consola</span>
+        </div>
+        <pre><code>15</code></pre>
+      </div>
+
+      <p>
+        El resultado se obtiene sumando
+        <code>5 + 4 + 3 + 2 + 1 + 0</code>.
+      </p>
+
+    </div>
+  </details>
+
+</div>
+
+</section>
+
+<!-- NAVEGACIÓN ENTRE APARTADOS -->
+<nav aria-label="Navegación entre apartados"
+     class="navegacion-paginas">
+
+  <a class="nav-pagina nav-anterior"
+     href="../5-10/index.html">
+    <span class="nav-etiqueta">Anterior</span>
+    <strong>
+      ‹ 5.10 Funciones predefinidas y métodos de JavaScript
+    </strong>
+  </a>
+
+  <a class="nav-pagina nav-siguiente"
+     href="../5-12/index.html">
+    <span class="nav-etiqueta">Siguiente</span>
+    <strong>
+      5.12 Organización modular de un programa ›
+    </strong>
+  </a>
+
+</nav>
+
+</main>
+
+<!-- ÍNDICE DERECHO -->
+<aside aria-label="Índice del apartado"
+       class="indice-derecho">
+  <h2>Contenidos del apartado</h2>
+
+  <ul>
+    <li><a href="#concepto">Qué es la recursividad</a></li>
+    <li><a href="#estructura">Estructura de una función recursiva</a></li>
+    <li><a href="#cuenta-atras">Primer ejemplo: cuenta atrás</a></li>
+    <li><a href="#seguimiento">Seguimiento de las llamadas</a></li>
+    <li><a href="#factorial">Cálculo del factorial</a></li>
+    <li><a href="#pila">Pila de ejecución</a></li>
+    <li><a href="#sumatorio">Sumatorio recursivo</a></li>
+    <li><a href="#arrays">Recursividad con arrays</a></li>
+    <li><a href="#problemas">Cómo plantear un problema recursivo</a></li>
+    <li><a href="#recursividad-iteracion">Recursividad e iteración</a></li>
+    <li><a href="#errores">Errores frecuentes</a></li>
+    <li><a href="#ejemplo-practico">Ejemplo práctico DAW</a></li>
+  </ul>
+</aside>
+
+</div>
+
+<!-- PIE DE PÁGINA -->
+<footer class="footer">
+  <p>
+    Material elaborado por
+    <strong>Eva Ballestero Cubeles</strong>
+    · Licencia
+    <span class="licencia">CC BY-NC-SA 4.0</span>
+    <a
+      aria-label="Licencia Creative Commons BY-NC-SA 4.0"
+      class="enlace-licencia"
+      href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.es"
+      rel="license noopener noreferrer"
+      target="_blank"
+    >
+      <img
+        alt="Licencia Creative Commons BY-NC-SA 4.0"
+        class="icono-licencia"
+        src="../../../img/licencias/cc-by-nc-sa.png"
+      >
+    </a>
+  </p>
+</footer>
+
+<!-- JAVASCRIPT COMÚN -->
+<script src="../../../js/modulos.js"></script>
+
+<script>
+  const menuModulos = document.getElementById("menuModulos");
+  const botonTema = document.getElementById("botonTema");
+
+  /* MÓDULOS ACTIVOS */
+  if (typeof modulos !== "undefined" && menuModulos) {
+    const modulosActivos =
+      modulos.filter(modulo => modulo.activo === true);
+
+    modulosActivos.forEach(modulo => {
+      const enlace = document.createElement("a");
+
+      enlace.href = `../../../${modulo.carpeta}/index.html`;
+      enlace.textContent = modulo.siglas;
+      enlace.title = modulo.nombre;
+
+      if (modulo.siglas === "DWEC") {
+        enlace.style.color = "var(--verde-principal)";
+      }
+
+      menuModulos.appendChild(enlace);
+    });
+  }
+
+  /* MODO OSCURO */
+  const temaGuardado = localStorage.getItem("tema");
+
+  if (temaGuardado === "oscuro") {
+    document.body.classList.add("modo-oscuro");
+    botonTema.textContent = "🌙";
+  }
+
+  botonTema.addEventListener("click", () => {
+    document.body.classList.toggle("modo-oscuro");
+
+    const oscuro =
+      document.body.classList.contains("modo-oscuro");
+
+    localStorage.setItem(
+      "tema",
+      oscuro ? "oscuro" : "claro"
+    );
+
+    botonTema.textContent = oscuro ? "🌙" : "☀️";
+  });
+
+  /* MENÚS DESPLEGABLES */
+  document.querySelectorAll(".boton-desplegar")
+    .forEach(boton => {
+      boton.addEventListener("click", () => {
+        const destino = boton.dataset.target;
+        const submenu = document.getElementById(destino);
+
+        if (!submenu) {
+          return;
+        }
+
+        const abierto =
+          submenu.classList.toggle("submenu-abierto");
+
+        boton.setAttribute(
+          "aria-expanded",
+          String(abierto)
+        );
+
+        boton.textContent = abierto ? "⌄" : "›";
+      });
+    });
+
+  /* COPIAR CÓDIGO */
+  document.querySelectorAll(".boton-copiar")
+    .forEach(boton => {
+      boton.addEventListener("click", async () => {
+        const bloque = boton.closest(".bloque-codigo");
+        const codigo = bloque?.querySelector("pre code");
+
+        if (!codigo) {
+          return;
+        }
+
+        const texto = codigo.textContent;
+
+        try {
+          await navigator.clipboard.writeText(texto);
+
+          boton.textContent = "✓ Copiado";
+
+          setTimeout(() => {
+            boton.textContent = "Copiar código";
+          }, 1800);
+        } catch (error) {
+          const seleccion = window.getSelection();
+          const rango = document.createRange();
+
+          rango.selectNodeContents(codigo);
+          seleccion.removeAllRanges();
+          seleccion.addRange(rango);
+
+          boton.textContent = "Seleccionado";
+
+          setTimeout(() => {
+            seleccion.removeAllRanges();
+            boton.textContent = "Copiar código";
+          }, 1800);
+        }
+      });
+    });
+</script>
+
+</body>
+</html>
