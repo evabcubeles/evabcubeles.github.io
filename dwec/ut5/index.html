@@ -1,0 +1,1832 @@
+
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+  <meta charset="UTF-8">
+
+  <meta
+    name="viewport"
+    content="width=device-width, initial-scale=1.0"
+  >
+
+  <meta
+    name="description"
+    content="UT5 - Funciones en JavaScript."
+  >
+
+  <title>UT5 - Funciones en JavaScript</title>
+
+  <link rel="icon" type="image/png" href="../../img/favicon.png?v=5">
+
+  <link rel="stylesheet" href="../../css/estilos.css">
+
+  <style>
+
+    /* ==========================================
+       ESTRUCTURA DE LA UT
+    ========================================== */
+
+    .pagina-ut {
+      display: grid;
+      grid-template-columns: 280px 1fr 260px;
+      min-height: calc(100vh - 68px);
+    }
+
+    /* ==========================================
+       COLUMNA IZQUIERDA
+    ========================================== */
+
+    .sidebar {
+      border-right: 1px solid var(--borde);
+      background-color: var(--fondo-pagina);
+      padding: 12px 10px 30px;
+      position: sticky;
+      top: 68px;
+      height: calc(100vh - 68px);
+      overflow-y: auto;
+    }
+
+    .sidebar-modulo {
+      display: block;
+      margin-bottom: 8px;
+      padding: 8px 14px;
+      color: #626873;
+      font-size: 17px;
+      font-weight: 700;
+      line-height: 1.3;
+      text-decoration: none;
+      border-radius: 6px;
+      transition:
+        color 0.2s ease,
+        background-color 0.2s ease;
+    }
+
+    .sidebar-modulo:hover {
+      color: var(--verde-principal);
+      background-color: #f3f4f6;
+    }
+
+    body.modo-oscuro .sidebar-modulo:hover {
+      background-color: #273244;
+    }
+
+    /* ==========================================
+       MENÚ LATERAL DESPLEGABLE
+    ========================================== */
+
+    .menu-desplegable {
+      width: 100%;
+    }
+
+    .menu-cabecera {
+      display: flex;
+      align-items: center;
+      gap: 4px;
+      width: 100%;
+      border-radius: 6px;
+    }
+
+    .menu-cabecera-activa {
+      background-color: #f1f1f1;
+    }
+
+    .menu-cabecera-activa > .menu-titulo {
+      color: var(--verde-principal);
+    }
+
+    .menu-titulo {
+      flex: 1;
+      display: block;
+      padding: 11px 8px 11px 14px;
+      color: #626873;
+      font-size: 16px;
+      font-weight: 650;
+      line-height: 1.4;
+      text-decoration: none;
+    }
+
+    .menu-titulo:hover {
+      color: var(--verde-principal);
+    }
+
+    .boton-desplegar {
+      width: 36px;
+      height: 36px;
+      margin-right: 5px;
+      padding: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+      border: 0;
+      border-radius: 6px;
+      background: transparent;
+      color: #777;
+      font-family: inherit;
+      font-size: 24px;
+      line-height: 1;
+      cursor: pointer;
+    }
+
+    .boton-desplegar:hover {
+      background-color: #e5e7eb;
+      color: var(--verde-principal);
+    }
+
+    .submenu {
+      display: none;
+    }
+
+    .submenu.submenu-abierto {
+      display: block;
+    }
+
+    .menu-apartado {
+      margin-left: 14px;
+    }
+
+    .menu-apartado .menu-titulo {
+      padding-top: 9px;
+      padding-bottom: 9px;
+      font-size: 15px;
+      font-weight: 600;
+    }
+
+    .submenu-apartados {
+      margin: 2px 0 5px 28px;
+      border-left: 2px solid #e0e3e7;
+    }
+
+    .submenu-apartados a {
+      display: block;
+      padding: 7px 10px;
+      color: #777d87;
+      font-size: 14px;
+      font-weight: 500;
+      line-height: 1.35;
+      text-decoration: none;
+    }
+
+    .submenu-apartados a:hover {
+      color: var(--verde-principal);
+    }
+
+    .enlace-apartado-simple {
+      display: block;
+      margin-left: 14px;
+      padding: 10px 14px;
+      color: #626873;
+      font-size: 15px;
+      font-weight: 600;
+      line-height: 1.4;
+      text-decoration: none;
+      border-radius: 6px;
+      transition:
+        background-color 0.2s ease,
+        color 0.2s ease;
+    }
+
+    .enlace-apartado-simple:hover {
+      background-color: #f3f4f6;
+      color: var(--verde-principal);
+    }
+
+    body.modo-oscuro .menu-cabecera-activa {
+      background-color: #273244;
+    }
+
+    body.modo-oscuro .boton-desplegar:hover {
+      background-color: #334155;
+    }
+
+    body.modo-oscuro .enlace-apartado-simple:hover {
+      background-color: #273244;
+    }
+
+    body.modo-oscuro .submenu-apartados {
+      border-left-color: #3a4659;
+    }
+
+    /* ==========================================
+       RESTO DE UT
+    ========================================== */
+
+    .sidebar-ut-cerrada {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      padding: 13px 14px;
+      color: #626873;
+      text-decoration: none;
+      font-size: 16px;
+      font-weight: 650;
+      line-height: 1.35;
+      border-radius: 6px;
+      transition:
+        background-color 0.2s ease,
+        color 0.2s ease;
+    }
+
+    .sidebar-ut-cerrada:hover {
+      background-color: #f3f4f6;
+      color: var(--verde-principal);
+    }
+
+    body.modo-oscuro .sidebar-ut-cerrada:hover {
+      background-color: #273244;
+    }
+
+    /* ==========================================
+       ZONA CENTRAL
+    ========================================== */
+
+    .contenido-ut {
+      padding: 28px 34px 70px;
+      max-width: 1150px;
+      width: 100%;
+    }
+
+    .migas {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 30px;
+      font-size: 14px;
+    }
+
+    .miga-inicio {
+      text-decoration: none;
+      font-size: 18px;
+    }
+
+    .miga-separador {
+      color: #999;
+      font-size: 22px;
+    }
+
+    .miga-modulo {
+      color: var(--texto-secundario);
+      text-decoration: none;
+    }
+
+    .miga-modulo:hover {
+      color: var(--verde-principal);
+    }
+
+    .miga-actual {
+      padding: 8px 14px;
+      background-color: #f3f3f3;
+      border-radius: 24px;
+      color: var(--verde-principal);
+    }
+
+    body.modo-oscuro .miga-actual {
+      background-color: #273244;
+    }
+
+    .contenido-ut h1 {
+      margin: 0 0 30px;
+      font-size: clamp(38px, 5vw, 58px);
+      line-height: 1.12;
+    }
+
+    .introduccion-ut {
+      max-width: 980px;
+      font-size: 19px;
+      line-height: 1.75;
+    }
+
+    .introduccion-ut p {
+      margin: 0 0 20px;
+    }
+
+    /* ==========================================
+       BLOQUES DE CÓDIGO
+    ========================================== */
+
+    .bloque-codigo {
+      margin: 28px 0;
+      border: 1px solid var(--borde);
+      border-radius: 8px;
+      overflow: hidden;
+      background-color: #1e1e1e;
+    }
+
+    .cabecera-codigo {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      padding: 10px 14px;
+      background-color: #2b2b2b;
+      color: #f3f4f6;
+      font-size: 14px;
+    }
+
+    .lenguaje-codigo {
+      font-weight: 700;
+    }
+
+    .boton-copiar {
+      padding: 6px 10px;
+      border: 1px solid #555;
+      border-radius: 6px;
+      background-color: #383838;
+      color: #f3f4f6;
+      font-family: inherit;
+      font-size: 13px;
+      cursor: pointer;
+    }
+
+    .boton-copiar:hover {
+      background-color: #484848;
+    }
+
+    .bloque-codigo pre {
+      margin: 0;
+      padding: 18px 20px;
+      overflow-x: auto;
+    }
+
+    .bloque-codigo code {
+      color: #f5f5f5;
+      font-family:
+        Consolas,
+        "Courier New",
+        monospace;
+      font-size: 15px;
+      line-height: 1.6;
+    }
+
+    /* ==========================================
+       COLUMNA DERECHA
+    ========================================== */
+
+    .indice-derecho {
+      padding: 28px 22px 100px;
+      border-left: 1px solid var(--borde);
+      position: sticky;
+      top: 68px;
+      height: calc(100vh - 68px);
+      overflow-y: auto;
+      box-sizing: border-box;
+    }
+
+    .indice-derecho h2 {
+      margin: 8px 0 20px;
+      font-size: 17px;
+      color: #555b65;
+    }
+
+    body.modo-oscuro .indice-derecho h2 {
+      color: #d1d5db;
+    }
+
+    .indice-derecho ul {
+      margin: 0;
+      padding-left: 18px;
+    }
+
+    .indice-derecho li {
+      margin-bottom: 12px;
+    }
+
+    .indice-derecho a {
+      color: var(--texto-secundario);
+      text-decoration: none;
+      font-size: 14px;
+      line-height: 1.4;
+    }
+
+    .indice-derecho a:hover {
+      color: var(--verde-principal);
+    }
+
+    /* ==========================================
+       NAVEGACIÓN ANTERIOR / SIGUIENTE
+    ========================================== */
+
+    .navegacion-paginas {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 20px;
+      margin-top: 50px;
+    }
+
+    .nav-pagina {
+      min-height: 100px;
+      padding: 18px 20px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      border: 1px solid var(--borde);
+      border-radius: 8px;
+      text-decoration: none;
+      background-color: var(--fondo-tarjeta);
+    }
+
+    .nav-anterior {
+      align-items: flex-start;
+      text-align: left;
+    }
+
+    .nav-siguiente {
+      align-items: flex-end;
+      text-align: right;
+    }
+
+    .nav-etiqueta {
+      margin-bottom: 5px;
+      color: var(--texto-secundario);
+      font-size: 14px;
+    }
+
+    .nav-pagina strong {
+      color: var(--verde-principal);
+      font-size: 16px;
+      line-height: 1.4;
+    }
+
+    .nav-pagina:hover {
+      border-color: var(--verde-principal);
+    }
+
+    /* ==========================================
+       RESPONSIVE
+    ========================================== */
+
+    @media (max-width: 1100px) {
+
+      .pagina-ut {
+        grid-template-columns: 250px 1fr;
+      }
+
+      .indice-derecho {
+        display: none;
+      }
+
+    }
+
+    @media (max-width: 760px) {
+
+      .pagina-ut {
+        display: block;
+      }
+
+      .sidebar {
+        position: static;
+        width: 100%;
+        height: auto;
+        border-right: 0;
+        border-bottom: 1px solid var(--borde);
+      }
+
+      .contenido-ut {
+        padding: 28px 20px 60px;
+      }
+
+      .contenido-ut h1 {
+        font-size: 36px;
+      }
+
+      .navegacion-paginas {
+        grid-template-columns: 1fr;
+      }
+
+      .nav-siguiente {
+        align-items: flex-start;
+        text-align: left;
+      }
+
+    }
+
+  </style>
+
+</head>
+
+<body>
+
+  <!-- ==========================================
+       BARRA SUPERIOR
+  ========================================== -->
+
+  <header class="navbar">
+
+    <a class="inicio" href="../../index.html">
+
+      <img
+        src="../../img/profesora-castana.png?v=2"
+        alt=""
+        class="icono-profesora"
+      >
+
+      <span>Inicio</span>
+
+    </a>
+
+    <nav
+      id="menuModulos"
+      class="menu-modulos"
+      aria-label="Módulos formativos"
+    ></nav>
+
+    <button
+      id="botonTema"
+      class="boton-tema"
+      type="button"
+      aria-label="Cambiar entre modo claro y oscuro"
+      title="Cambiar tema"
+    >
+      ☀️
+    </button>
+
+  </header>
+
+  <div class="pagina-ut">
+
+    <!-- ==========================================
+         COLUMNA IZQUIERDA
+    ========================================== -->
+
+    <aside class="sidebar">
+
+      <a class="sidebar-modulo" href="../index.html">
+        Desarrollo web en entorno cliente
+      </a>
+
+      <!-- UT1 CERRADA -->
+
+      <a class="sidebar-ut-cerrada" href="../ut1/index.html">
+        <span>UT1 - Introducción al desarrollo web en entorno cliente</span>
+        <span>›</span>
+      </a>
+
+      <!-- UT2 CERRADA -->
+
+      <a class="sidebar-ut-cerrada" href="../ut2/index.html">
+        <span>UT2 - Fundamentos de JavaScript: variables, tipos y operadores</span>
+        <span>›</span>
+      </a>
+
+      <!-- UT3 CERRADA -->
+
+      <a class="sidebar-ut-cerrada" href="../ut3/index.html">
+        <span>UT3 - Estructuras de control en JavaScript</span>
+        <span>›</span>
+      </a>
+
+      <!-- UT4 CERRADA -->
+
+      <a class="sidebar-ut-cerrada" href="../ut4/index.html">
+        <span>UT4 - Arrays y estructuras de datos en JavaScript</span>
+        <span>›</span>
+      </a>
+
+      <!-- ==========================================
+           UT5 ACTIVA
+      ========================================== -->
+
+      <div class="menu-desplegable">
+
+        <div class="menu-cabecera menu-cabecera-activa">
+
+          <a class="menu-titulo" href="index.html">
+            UT5 - Funciones en JavaScript
+          </a>
+
+          <button
+            class="boton-desplegar"
+            type="button"
+            data-target="submenu-ut5"
+            aria-expanded="true"
+            aria-label="Mostrar u ocultar UT5"
+          >
+            ⌄
+          </button>
+
+        </div>
+
+        <div id="submenu-ut5" class="submenu submenu-abierto">
+
+          <!-- 5.1 -->
+
+          <div class="menu-desplegable menu-apartado">
+
+            <div class="menu-cabecera">
+
+              <a class="menu-titulo" href="5-1/index.html">
+                5.1 Introducción a las funciones
+              </a>
+
+              <button
+                class="boton-desplegar"
+                type="button"
+                data-target="submenu-5-1"
+                aria-expanded="false"
+                aria-label="Mostrar u ocultar los subapartados del 5.1"
+              >
+                ›
+              </button>
+
+            </div>
+
+            <div
+              id="submenu-5-1"
+              class="submenu submenu-apartados"
+            >
+              <a href="5-1/index.html#que-es">
+                Qué es una función
+              </a>
+
+              <a href="5-1/index.html#para-que">
+                Para qué necesitamos funciones
+              </a>
+
+              <a href="5-1/index.html#reutilizacion">
+                Reutilización del código
+              </a>
+
+              <a href="5-1/index.html#organizacion">
+                Organización del programa
+              </a>
+
+              <a href="5-1/index.html#funciones-javascript">
+                Las funciones en JavaScript
+              </a>
+
+              <a href="5-1/index.html#ejemplo">
+                Primer ejemplo de función
+              </a>
+            </div>
+
+          </div>
+
+          <!-- 5.2 -->
+
+          <div class="menu-desplegable menu-apartado">
+
+            <div class="menu-cabecera">
+
+              <a class="menu-titulo" href="5-2/index.html">
+                5.2 Declaración e invocación de funciones
+              </a>
+
+              <button
+                class="boton-desplegar"
+                type="button"
+                data-target="submenu-5-2"
+                aria-expanded="false"
+                aria-label="Mostrar u ocultar los subapartados del 5.2"
+              >
+                ›
+              </button>
+
+            </div>
+
+            <div
+              id="submenu-5-2"
+              class="submenu submenu-apartados"
+            >
+              <a href="5-2/index.html#declaracion">
+                Declarar una función
+              </a>
+
+              <a href="5-2/index.html#sintaxis">
+                Sintaxis de una declaración
+              </a>
+
+              <a href="5-2/index.html#invocacion">
+                Invocar una función
+              </a>
+
+              <a href="5-2/index.html#ejecucion">
+                Orden de ejecución
+              </a>
+
+              <a href="5-2/index.html#varias-llamadas">
+                Realizar varias llamadas
+              </a>
+
+              <a href="5-2/index.html#hoisting">
+                Declaraciones y hoisting
+              </a>
+
+              <a href="5-2/index.html#errores">
+                Errores frecuentes
+              </a>
+            </div>
+
+          </div>
+
+          <!-- 5.3 -->
+
+          <div class="menu-desplegable menu-apartado">
+
+            <div class="menu-cabecera">
+
+              <a class="menu-titulo" href="5-3/index.html">
+                5.3 Parámetros y argumentos de las funciones
+              </a>
+
+              <button
+                class="boton-desplegar"
+                type="button"
+                data-target="submenu-5-3"
+                aria-expanded="false"
+                aria-label="Mostrar u ocultar los subapartados del 5.3"
+              >
+                ›
+              </button>
+
+            </div>
+
+            <div
+              id="submenu-5-3"
+              class="submenu submenu-apartados"
+            >
+              <a href="5-3/index.html#parametros">
+                Qué son los parámetros
+              </a>
+
+              <a href="5-3/index.html#argumentos">
+                Qué son los argumentos
+              </a>
+
+              <a href="5-3/index.html#diferencias">
+                Diferencias entre parámetros y argumentos
+              </a>
+
+              <a href="5-3/index.html#varios">
+                Funciones con varios parámetros
+              </a>
+
+              <a href="5-3/index.html#orden">
+                Importancia del orden
+              </a>
+
+              <a href="5-3/index.html#faltantes">
+                Argumentos omitidos
+              </a>
+
+              <a href="5-3/index.html#ejemplos">
+                Ejemplos prácticos
+              </a>
+            </div>
+
+          </div>
+
+          <!-- 5.4 -->
+
+          <div class="menu-desplegable menu-apartado">
+
+            <div class="menu-cabecera">
+
+              <a class="menu-titulo" href="5-4/index.html">
+                5.4 Valores de retorno y sentencia return
+              </a>
+
+              <button
+                class="boton-desplegar"
+                type="button"
+                data-target="submenu-5-4"
+                aria-expanded="false"
+                aria-label="Mostrar u ocultar los subapartados del 5.4"
+              >
+                ›
+              </button>
+
+            </div>
+
+            <div
+              id="submenu-5-4"
+              class="submenu submenu-apartados"
+            >
+              <a href="5-4/index.html#return">
+                La sentencia return
+              </a>
+
+              <a href="5-4/index.html#devolver">
+                Devolver un resultado
+              </a>
+
+              <a href="5-4/index.html#utilizar">
+                Utilizar el valor devuelto
+              </a>
+
+              <a href="5-4/index.html#console">
+                Diferencia entre return y console.log()
+              </a>
+
+              <a href="5-4/index.html#undefined">
+                Funciones sin retorno explícito
+              </a>
+
+              <a href="5-4/index.html#finalizacion">
+                Finalización de la función
+              </a>
+
+              <a href="5-4/index.html#ejemplos">
+                Ejemplos prácticos
+              </a>
+            </div>
+
+          </div>
+
+          <!-- 5.5 -->
+
+          <div class="menu-desplegable menu-apartado">
+
+            <div class="menu-cabecera">
+
+              <a class="menu-titulo" href="5-5/index.html">
+                5.5 Ámbito de las variables en las funciones
+              </a>
+
+              <button
+                class="boton-desplegar"
+                type="button"
+                data-target="submenu-5-5"
+                aria-expanded="false"
+                aria-label="Mostrar u ocultar los subapartados del 5.5"
+              >
+                ›
+              </button>
+
+            </div>
+
+            <div
+              id="submenu-5-5"
+              class="submenu submenu-apartados"
+            >
+              <a href="5-5/index.html#scope">
+                Qué es el ámbito o scope
+              </a>
+
+              <a href="5-5/index.html#global">
+                Variables globales
+              </a>
+
+              <a href="5-5/index.html#local">
+                Variables locales
+              </a>
+
+              <a href="5-5/index.html#bloque">
+                Ámbito de bloque
+              </a>
+
+              <a href="5-5/index.html#let-const">
+                let, const y var
+              </a>
+
+              <a href="5-5/index.html#sombreado">
+                Sombreado de variables
+              </a>
+
+              <a href="5-5/index.html#errores">
+                Errores frecuentes
+              </a>
+            </div>
+
+          </div>
+
+          <!-- 5.6 -->
+
+          <div class="menu-desplegable menu-apartado">
+
+            <div class="menu-cabecera">
+
+              <a class="menu-titulo" href="5-6/index.html">
+                5.6 Paso de valores y referencias a funciones
+              </a>
+
+              <button
+                class="boton-desplegar"
+                type="button"
+                data-target="submenu-5-6"
+                aria-expanded="false"
+                aria-label="Mostrar u ocultar los subapartados del 5.6"
+              >
+                ›
+              </button>
+
+            </div>
+
+            <div
+              id="submenu-5-6"
+              class="submenu submenu-apartados"
+            >
+              <a href="5-6/index.html#primitivos">
+                Tipos primitivos como argumentos
+              </a>
+
+              <a href="5-6/index.html#objetos">
+                Objetos y arrays como argumentos
+              </a>
+
+              <a href="5-6/index.html#modificacion">
+                Modificación de los datos
+              </a>
+
+              <a href="5-6/index.html#reasignacion">
+                Reasignación de parámetros
+              </a>
+
+              <a href="5-6/index.html#copias">
+                Copias de arrays
+              </a>
+
+              <a href="5-6/index.html#buenas-practicas">
+                Buenas prácticas
+              </a>
+            </div>
+
+          </div>
+
+          <!-- 5.7 -->
+
+          <div class="menu-desplegable menu-apartado">
+
+            <div class="menu-cabecera">
+
+              <a class="menu-titulo" href="5-7/index.html">
+                5.7 Parámetros por defecto y parámetros rest
+              </a>
+
+              <button
+                class="boton-desplegar"
+                type="button"
+                data-target="submenu-5-7"
+                aria-expanded="false"
+                aria-label="Mostrar u ocultar los subapartados del 5.7"
+              >
+                ›
+              </button>
+
+            </div>
+
+            <div
+              id="submenu-5-7"
+              class="submenu submenu-apartados"
+            >
+              <a href="5-7/index.html#defecto">
+                Parámetros por defecto
+              </a>
+
+              <a href="5-7/index.html#undefined">
+                Valores omitidos y undefined
+              </a>
+
+              <a href="5-7/index.html#rest">
+                Parámetros rest
+              </a>
+
+              <a href="5-7/index.html#sintaxis-rest">
+                Sintaxis del operador rest
+              </a>
+
+              <a href="5-7/index.html#varios-argumentos">
+                Número variable de argumentos
+              </a>
+
+              <a href="5-7/index.html#ejemplos">
+                Ejemplos prácticos
+              </a>
+            </div>
+
+          </div>
+
+          <!-- 5.8 -->
+
+          <div class="menu-desplegable menu-apartado">
+
+            <div class="menu-cabecera">
+
+              <a class="menu-titulo" href="5-8/index.html">
+                5.8 Expresiones de función y funciones flecha
+              </a>
+
+              <button
+                class="boton-desplegar"
+                type="button"
+                data-target="submenu-5-8"
+                aria-expanded="false"
+                aria-label="Mostrar u ocultar los subapartados del 5.8"
+              >
+                ›
+              </button>
+
+            </div>
+
+            <div
+              id="submenu-5-8"
+              class="submenu submenu-apartados"
+            >
+              <a href="5-8/index.html#expresiones">
+                Expresiones de función
+              </a>
+
+              <a href="5-8/index.html#anonimas">
+                Funciones anónimas
+              </a>
+
+              <a href="5-8/index.html#flecha">
+                Funciones flecha
+              </a>
+
+              <a href="5-8/index.html#sintaxis">
+                Sintaxis de las funciones flecha
+              </a>
+
+              <a href="5-8/index.html#retorno-implicito">
+                Retorno implícito
+              </a>
+
+              <a href="5-8/index.html#diferencias">
+                Diferencias entre funciones tradicionales y flecha
+              </a>
+
+              <a href="5-8/index.html#ejemplos">
+                Ejemplos prácticos
+              </a>
+            </div>
+
+          </div>
+
+          <!-- 5.9 -->
+
+          <div class="menu-desplegable menu-apartado">
+
+            <div class="menu-cabecera">
+
+              <a class="menu-titulo" href="5-9/index.html">
+                5.9 Funciones callback y funciones de orden superior
+              </a>
+
+              <button
+                class="boton-desplegar"
+                type="button"
+                data-target="submenu-5-9"
+                aria-expanded="false"
+                aria-label="Mostrar u ocultar los subapartados del 5.9"
+              >
+                ›
+              </button>
+
+            </div>
+
+            <div
+              id="submenu-5-9"
+              class="submenu submenu-apartados"
+            >
+              <a href="5-9/index.html#funciones-valores">
+                Las funciones como valores
+              </a>
+
+              <a href="5-9/index.html#callback">
+                Qué es una función callback
+              </a>
+
+              <a href="5-9/index.html#pasar-funcion">
+                Pasar una función como argumento
+              </a>
+
+              <a href="5-9/index.html#orden-superior">
+                Funciones de orden superior
+              </a>
+
+              <a href="5-9/index.html#arrays">
+                Callbacks en métodos de arrays
+              </a>
+
+              <a href="5-9/index.html#reduce">
+                El método reduce()
+              </a>
+
+              <a href="5-9/index.html#ejemplos">
+                Ejemplos prácticos
+              </a>
+            </div>
+
+          </div>
+
+          <!-- 5.10 -->
+
+          <div class="menu-desplegable menu-apartado">
+
+            <div class="menu-cabecera">
+
+              <a class="menu-titulo" href="5-10/index.html">
+                5.10 Funciones predefinidas y métodos de JavaScript
+              </a>
+
+              <button
+                class="boton-desplegar"
+                type="button"
+                data-target="submenu-5-10"
+                aria-expanded="false"
+                aria-label="Mostrar u ocultar los subapartados del 5.10"
+              >
+                ›
+              </button>
+
+            </div>
+
+            <div
+              id="submenu-5-10"
+              class="submenu submenu-apartados"
+            >
+              <a href="5-10/index.html#predefinidas">
+                Funciones predefinidas
+              </a>
+
+              <a href="5-10/index.html#funciones-metodos">
+                Diferencia entre funciones y métodos
+              </a>
+
+              <a href="5-10/index.html#numeros">
+                Funciones relacionadas con números
+              </a>
+
+              <a href="5-10/index.html#cadenas">
+                Métodos de cadenas de texto
+              </a>
+
+              <a href="5-10/index.html#arrays">
+                Métodos de arrays
+              </a>
+
+              <a href="5-10/index.html#globales">
+                Funciones y propiedades globales
+              </a>
+
+              <a href="5-10/index.html#uri">
+                Codificación de componentes de URL
+              </a>
+
+              <a href="5-10/index.html#eval">
+                Riesgos de eval()
+              </a>
+            </div>
+
+          </div>
+
+          <!-- 5.11 -->
+
+          <div class="menu-desplegable menu-apartado">
+
+            <div class="menu-cabecera">
+
+              <a class="menu-titulo" href="5-11/index.html">
+                5.11 Funciones recursivas
+              </a>
+
+              <button
+                class="boton-desplegar"
+                type="button"
+                data-target="submenu-5-11"
+                aria-expanded="false"
+                aria-label="Mostrar u ocultar los subapartados del 5.11"
+              >
+                ›
+              </button>
+
+            </div>
+
+            <div
+              id="submenu-5-11"
+              class="submenu submenu-apartados"
+            >
+              <a href="5-11/index.html#recursividad">
+                Qué es la recursividad
+              </a>
+
+              <a href="5-11/index.html#caso-base">
+                El caso base
+              </a>
+
+              <a href="5-11/index.html#caso-recursivo">
+                El caso recursivo
+              </a>
+
+              <a href="5-11/index.html#factorial">
+                Cálculo del factorial
+              </a>
+
+              <a href="5-11/index.html#fibonacci">
+                Sucesión de Fibonacci
+              </a>
+
+              <a href="5-11/index.html#riesgos">
+                Riesgos de la recursividad
+              </a>
+
+              <a href="5-11/index.html#iteracion">
+                Recursividad frente a iteración
+              </a>
+            </div>
+
+          </div>
+
+          <!-- 5.12 -->
+
+          <div class="menu-desplegable menu-apartado">
+
+            <div class="menu-cabecera">
+
+              <a class="menu-titulo" href="5-12/index.html">
+                5.12 Organización y reutilización del código mediante funciones
+              </a>
+
+              <button
+                class="boton-desplegar"
+                type="button"
+                data-target="submenu-5-12"
+                aria-expanded="false"
+                aria-label="Mostrar u ocultar los subapartados del 5.12"
+              >
+                ›
+              </button>
+
+            </div>
+
+            <div
+              id="submenu-5-12"
+              class="submenu submenu-apartados"
+            >
+              <a href="5-12/index.html#analizar">
+                Analizar el problema
+              </a>
+
+              <a href="5-12/index.html#dividir">
+                Dividir el programa en funciones
+              </a>
+
+              <a href="5-12/index.html#responsabilidad">
+                Responsabilidad de cada función
+              </a>
+
+              <a href="5-12/index.html#reutilizar">
+                Reutilización del código
+              </a>
+
+              <a href="5-12/index.html#nombres">
+                Nombres y organización
+              </a>
+
+              <a href="5-12/index.html#documentacion">
+                Documentación de funciones
+              </a>
+
+              <a href="5-12/index.html#pruebas">
+                Pruebas y depuración
+              </a>
+
+              <a href="5-12/index.html#ejemplo">
+                Ejemplo práctico completo
+              </a>
+            </div>
+
+          </div>
+
+          <!-- RESUMEN -->
+
+          <a
+            class="enlace-apartado-simple"
+            href="resumen/index.html"
+          >
+            ✏️ Resumen de la UT5
+          </a>
+
+          <!-- ACTIVIDADES -->
+
+          <div class="menu-desplegable menu-apartado">
+
+            <div class="menu-cabecera">
+
+              <a
+                class="menu-titulo"
+                href="actividades/index.html"
+              >
+                📝 Actividades de la UT5
+              </a>
+
+              <button
+                class="boton-desplegar"
+                type="button"
+                data-target="submenu-actividades"
+                aria-expanded="false"
+                aria-label="Mostrar u ocultar las actividades de la UT5"
+              >
+                ›
+              </button>
+
+            </div>
+
+            <div
+              id="submenu-actividades"
+              class="submenu submenu-apartados"
+            >
+
+              <a href="actividades/index.html#actividades-practicas">
+                💻 Actividades prácticas
+              </a>
+
+              <a href="actividades/index.html#reto-final">
+                🧩 Reto final
+              </a>
+
+              <a href="actividades/index.html#autoevaluacion">
+                ✅ Autoevaluación
+              </a>
+
+            </div>
+
+          </div>
+
+        </div>
+
+      </div>
+
+      <!-- ==========================================
+           RESTO DE UT
+      ========================================== -->
+
+      <a class="sidebar-ut-cerrada" href="../ut6/index.html">
+        <span>UT6 - Objetos y Programación Orientada a Objetos en JavaScript</span>
+        <span>›</span>
+      </a>
+
+      <a class="sidebar-ut-cerrada" href="../ut7/index.html">
+        <span>UT7 - Objetos predefinidos y modelo del navegador (BOM)</span>
+        <span>›</span>
+      </a>
+
+      <a class="sidebar-ut-cerrada" href="../ut8/index.html">
+        <span>UT8 - Aplicaciones web interactivas: DOM, eventos y formularios</span>
+        <span>›</span>
+      </a>
+
+      <a class="sidebar-ut-cerrada" href="../ut9/index.html">
+        <span>UT9 - Comunicación asíncrona y peticiones al servidor</span>
+        <span>›</span>
+      </a>
+
+      <a class="sidebar-ut-cerrada" href="../ut10/index.html">
+        <span>UT10 - Introducción a React</span>
+        <span>›</span>
+      </a>
+
+    </aside>
+
+    <!-- ==========================================
+         ZONA CENTRAL
+    ========================================== -->
+
+    <main class="contenido-ut">
+
+      <div class="migas">
+
+        <a
+          class="miga-inicio"
+          href="../../index.html"
+          aria-label="Volver a la página principal"
+        >
+          🏠
+        </a>
+
+        <span class="miga-separador">›</span>
+
+        <a class="miga-modulo" href="../index.html">
+          DWEC
+        </a>
+
+        <span class="miga-separador">›</span>
+
+        <span class="miga-actual">
+          UT5
+        </span>
+
+      </div>
+
+      <h1>
+        UT5 - Funciones en JavaScript
+      </h1>
+
+      <div class="introduccion-ut">
+
+        <p>
+          En las unidades anteriores hemos aprendido a utilizar variables,
+          operadores, estructuras de control y arrays para desarrollar
+          programas en JavaScript. Estas herramientas nos permiten resolver
+          numerosos problemas, pero a medida que los programas crecen,
+          resulta necesario <strong>organizar mejor el código y evitar
+          repetir las mismas instrucciones</strong>.
+        </p>
+
+        <p>
+          En esta unidad aprenderemos a trabajar con
+          <strong>funciones</strong>, uno de los elementos fundamentales
+          de la programación. Una función permite agrupar un conjunto
+          de instrucciones que realizan una tarea determinada y
+          ejecutarlas cuando sea necesario. Gracias a las funciones
+          podremos dividir problemas complejos en partes más pequeñas,
+          reutilizar soluciones y facilitar el mantenimiento
+          de nuestras aplicaciones.
+        </p>
+
+        <p>
+          Comenzaremos estudiando qué es una función, cómo se declara
+          y cómo se invoca. Después aprenderemos a utilizar
+          <strong>parámetros y argumentos</strong> para proporcionar
+          información a las funciones y la sentencia
+          <code>return</code> para devolver resultados.
+          También analizaremos el ámbito de las variables y
+          comprenderemos cómo se comportan los valores primitivos,
+          los objetos y los arrays cuando se utilizan como argumentos.
+        </p>
+
+        <p>
+          A continuación, conoceremos características modernas
+          de JavaScript, como los parámetros por defecto,
+          los parámetros rest, las expresiones de función
+          y las <strong>funciones flecha</strong>.
+          Estudiaremos también las funciones callback y
+          las funciones de orden superior, que nos permitirán
+          comprender con mayor profundidad algunos de los
+          métodos de arrays utilizados en la UT4.
+        </p>
+
+        <p>
+          Finalmente, trabajaremos con funciones predefinidas
+          del lenguaje, aprenderemos a resolver determinados
+          problemas mediante funciones recursivas y aplicaremos
+          todos los conocimientos adquiridos para
+          <strong>organizar programas en funciones pequeñas,
+          comprensibles y reutilizables</strong>.
+          Durante toda la unidad prestaremos especial atención
+          a las buenas prácticas, la documentación,
+          las pruebas y la depuración del código.
+        </p>
+
+      </div>
+
+      <!-- ==========================================
+           NAVEGACIÓN
+      ========================================== -->
+
+      <nav class="navegacion-paginas">
+
+        <a
+          class="nav-pagina nav-anterior"
+          href="../ut4/actividades/index.html"
+        >
+
+          <span class="nav-etiqueta">
+            Anterior
+          </span>
+
+          <strong>
+            ‹ 📝 Actividades de la UT4
+          </strong>
+
+        </a>
+
+        <a
+          class="nav-pagina nav-siguiente"
+          href="5-1/index.html"
+        >
+
+          <span class="nav-etiqueta">
+            Siguiente
+          </span>
+
+          <strong>
+            5.1 Introducción a las funciones ›
+          </strong>
+
+        </a>
+
+      </nav>
+
+    </main>
+
+    <!-- ==========================================
+         COLUMNA DERECHA
+    ========================================== -->
+
+    <aside class="indice-derecho">
+
+      <h2>
+        Contenidos de la UT5
+      </h2>
+
+      <ul>
+
+        <li>
+          <a href="5-1/index.html">
+            5.1 Introducción a las funciones
+          </a>
+        </li>
+
+        <li>
+          <a href="5-2/index.html">
+            5.2 Declaración e invocación de funciones
+          </a>
+        </li>
+
+        <li>
+          <a href="5-3/index.html">
+            5.3 Parámetros y argumentos de las funciones
+          </a>
+        </li>
+
+        <li>
+          <a href="5-4/index.html">
+            5.4 Valores de retorno y sentencia return
+          </a>
+        </li>
+
+        <li>
+          <a href="5-5/index.html">
+            5.5 Ámbito de las variables en las funciones
+          </a>
+        </li>
+
+        <li>
+          <a href="5-6/index.html">
+            5.6 Paso de valores y referencias a funciones
+          </a>
+        </li>
+
+        <li>
+          <a href="5-7/index.html">
+            5.7 Parámetros por defecto y parámetros rest
+          </a>
+        </li>
+
+        <li>
+          <a href="5-8/index.html">
+            5.8 Expresiones de función y funciones flecha
+          </a>
+        </li>
+
+        <li>
+          <a href="5-9/index.html">
+            5.9 Funciones callback y funciones de orden superior
+          </a>
+        </li>
+
+        <li>
+          <a href="5-10/index.html">
+            5.10 Funciones predefinidas y métodos de JavaScript
+          </a>
+        </li>
+
+        <li>
+          <a href="5-11/index.html">
+            5.11 Funciones recursivas
+          </a>
+        </li>
+
+        <li>
+          <a href="5-12/index.html">
+            5.12 Organización y reutilización del código mediante funciones
+          </a>
+        </li>
+
+        <li>
+          <a href="resumen/index.html">
+            ✏️ Resumen de la UT5
+          </a>
+        </li>
+
+        <li>
+          <a href="actividades/index.html">
+            📝 Actividades de la UT5
+          </a>
+        </li>
+
+      </ul>
+
+    </aside>
+
+  </div>
+
+  <!-- ==========================================
+       PIE DE PÁGINA
+  ========================================== -->
+
+  <footer class="footer">
+
+    <p>
+
+      Material elaborado por
+      <strong>Eva Ballestero Cubeles</strong>
+
+      - Licencia
+
+      <span class="licencia">
+        CC BY-NC-SA 4.0
+      </span>
+
+      <a
+        class="enlace-licencia"
+        href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.es"
+        target="_blank"
+        rel="license noopener noreferrer"
+        aria-label="Licencia Creative Commons BY-NC-SA 4.0"
+      >
+
+        <img
+          class="icono-licencia"
+          src="../../img/licencias/cc-by-nc-sa.png"
+          alt="Licencia Creative Commons BY-NC-SA 4.0"
+        >
+
+      </a>
+
+    </p>
+
+  </footer>
+
+  <!-- ==========================================
+       JAVASCRIPT COMÚN
+  ========================================== -->
+
+  <script src="../../js/modulos.js"></script>
+
+  <script>
+
+    const menuModulos =
+      document.getElementById("menuModulos");
+
+    const botonTema =
+      document.getElementById("botonTema");
+
+    const modulosActivos =
+      modulos.filter(modulo => modulo.activo === true);
+
+    modulosActivos.forEach(modulo => {
+
+      const enlace =
+        document.createElement("a");
+
+      enlace.href =
+        `../../${modulo.carpeta}/index.html`;
+
+      enlace.textContent =
+        modulo.siglas;
+
+      enlace.title =
+        modulo.nombre;
+
+      if (modulo.siglas === "DWEC") {
+
+        enlace.style.color =
+          "var(--verde-principal)";
+
+      }
+
+      menuModulos.appendChild(enlace);
+
+    });
+
+    /* ==========================================
+       MODO OSCURO
+    ========================================== */
+
+    const temaGuardado =
+      localStorage.getItem("tema");
+
+    if (temaGuardado === "oscuro") {
+
+      document.body.classList.add("modo-oscuro");
+
+      botonTema.textContent = "🌙";
+
+    }
+
+    botonTema.addEventListener("click", () => {
+
+      document.body.classList.toggle("modo-oscuro");
+
+      const estaOscuro =
+        document.body.classList.contains("modo-oscuro");
+
+      botonTema.textContent =
+        estaOscuro ? "🌙" : "☀️";
+
+      localStorage.setItem(
+        "tema",
+        estaOscuro ? "oscuro" : "claro"
+      );
+
+    });
+
+    /* ==========================================
+       MENÚS DESPLEGABLES
+    ========================================== */
+
+    const botonesDesplegar =
+      document.querySelectorAll(".boton-desplegar");
+
+    botonesDesplegar.forEach((boton) => {
+
+      boton.addEventListener("click", () => {
+
+        const idSubmenu =
+          boton.getAttribute("data-target");
+
+        const submenu =
+          document.getElementById(idSubmenu);
+
+        if (!submenu) {
+          return;
+        }
+
+        const estaAbierto =
+          submenu.classList.contains("submenu-abierto");
+
+        if (estaAbierto) {
+
+          submenu.classList.remove("submenu-abierto");
+
+          boton.textContent = "›";
+
+          boton.setAttribute(
+            "aria-expanded",
+            "false"
+          );
+
+        } else {
+
+          submenu.classList.add("submenu-abierto");
+
+          boton.textContent = "⌄";
+
+          boton.setAttribute(
+            "aria-expanded",
+            "true"
+          );
+
+        }
+
+      });
+
+    });
+
+    /* ==========================================
+       COPIAR CÓDIGO
+       Se utilizará en las páginas de contenidos
+    ========================================== */
+
+    document.addEventListener("click", async (evento) => {
+
+      const boton =
+        evento.target.closest(".boton-copiar");
+
+      if (!boton) {
+        return;
+      }
+
+      const bloque =
+        boton.closest(".bloque-codigo");
+
+      const codigo =
+        bloque.querySelector("code");
+
+      try {
+
+        await navigator.clipboard.writeText(
+          codigo.textContent
+        );
+
+        const textoOriginal =
+          boton.textContent;
+
+        boton.textContent =
+          "✔ Copiado";
+
+        setTimeout(() => {
+
+          boton.textContent =
+            textoOriginal;
+
+        }, 1600);
+
+      } catch (error) {
+
+        boton.textContent =
+          "Error al copiar";
+
+      }
+
+    });
+
+  </script>
+
+</body>
+
+</html>
