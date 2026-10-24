@@ -1280,6 +1280,54 @@ console.log(saludar("Ana"));</code></pre>
   declaración, pero podemos utilizarla mediante
   la variable <code>saludar</code>.
 </p>
+  
+<h3>El nombre inferido de una función anónima</h3>
+
+<p>
+  Aunque una función anónima no tiene un nombre escrito
+  después de <code>function</code>, JavaScript puede
+  inferirlo a partir de la variable a la que se asigna.
+</p>
+
+<div class="bloque-codigo">
+  <div class="cabecera-codigo">
+    <span class="lenguaje-codigo">JavaScript</span>
+    <button class="boton-copiar" type="button">📋 Copiar código</button>
+  </div>
+  <pre><code>const saludar = function(nombre) {
+  return "Hola, " + nombre;
+};
+
+console.log(saludar.name);</code></pre>
+</div>
+
+<p><strong>Salida por consola:</strong></p>
+
+<div class="bloque-codigo">
+  <div class="cabecera-codigo">
+    <span class="lenguaje-codigo">Consola</span>
+    <button class="boton-copiar" type="button">📋 Copiar código</button>
+  </div>
+  <pre><code>saludar</code></pre>
+</div>
+
+<p>
+  La propiedad <code>name</code> permite consultar
+  el nombre de la función. En este caso,
+  JavaScript ha inferido el nombre
+  <code>saludar</code> a partir de la variable.
+</p>
+
+<div class="caja caja-importante">
+  <span class="caja-titulo">📌 Importante</span>
+  <p>
+    Una función puede ser anónima en su sintaxis
+    y tener un nombre inferido por JavaScript.
+    Esto facilita identificarla durante
+    la depuración del programa.
+  </p>
+</div>
+
 
 <h3>Expresiones de función con nombre</h3>
 
@@ -1408,12 +1456,24 @@ const sumar = function(a, b) {
     mediante <code>const</code> debe inicializarse
     antes de utilizarse.
   </p>
-  <p>
-    Esto no significa que las variables declaradas
-    con <code>const</code> no participen en el hoisting:
-    existen desde la preparación del ámbito, pero
-    permanecen sin inicializar hasta llegar a su declaración.
-  </p>
+
+<p>
+  El comportamiento también depende de cómo se declare
+  la variable. Con <code>let</code> y <code>const</code>,
+  no podemos acceder a ella antes de su inicialización,
+  porque se encuentra en la denominada
+  <strong>zona muerta temporal</strong>
+  (<em>Temporal Dead Zone</em>).
+</p>
+
+<p>
+  Con <code>var</code>, la variable está disponible
+  inicialmente con el valor <code>undefined</code>,
+  pero intentar ejecutarla como función antes
+  de asignarle una función produce un
+  <code>TypeError</code>.
+</p>
+
 </div>
 
 <h3>Ejemplo comparativo</h3>
@@ -2125,6 +2185,96 @@ producto.mostrarNombre();</code></pre>
   <code>producto</code> como valor de
   <code>this</code>.
 </p>
+  
+<h3>Cómo utiliza this una función flecha</h3>
+
+<p>
+  Las funciones flecha utilizan el valor de
+  <code>this</code> del contexto en el que
+  han sido creadas. Este comportamiento
+  se denomina <strong>this léxico</strong>.
+</p>
+
+<p>
+  Observa el siguiente ejemplo, donde una función
+  flecha se define dentro de un método tradicional.
+</p>
+
+<div class="bloque-codigo">
+  <div class="cabecera-codigo">
+    <span class="lenguaje-codigo">JavaScript</span>
+    <button class="boton-copiar" type="button">📋 Copiar código</button>
+  </div>
+  <pre><code>const producto = {
+  nombre: "Teclado",
+
+  mostrarNombre: function() {
+    const obtenerNombre = () => this.nombre;
+
+    console.log(obtenerNombre());
+  }
+};
+
+producto.mostrarNombre();</code></pre>
+</div>
+
+<p><strong>Salida por consola:</strong></p>
+
+<div class="bloque-codigo">
+  <div class="cabecera-codigo">
+    <span class="lenguaje-codigo">Consola</span>
+    <button class="boton-copiar" type="button">📋 Copiar código</button>
+  </div>
+  <pre><code>Teclado</code></pre>
+</div>
+
+<h3>Análisis paso a paso</h3>
+
+<ol>
+  <li>
+    El objeto <code>producto</code> tiene una
+    propiedad <code>nombre</code> y un método
+    llamado <code>mostrarNombre</code>.
+  </li>
+  <li>
+    Cuando ejecutamos
+    <code>producto.mostrarNombre()</code>,
+    el valor de <code>this</code> dentro
+    del método tradicional es
+    el objeto <code>producto</code>.
+  </li>
+  <li>
+    Dentro del método se crea la función
+    flecha <code>obtenerNombre</code>.
+  </li>
+  <li>
+    Como la función flecha no tiene
+    su propio <code>this</code>,
+    utiliza el de su contexto exterior,
+    que en esta llamada corresponde
+    al objeto <code>producto</code>.
+  </li>
+  <li>
+    Por tanto, <code>this.nombre</code>
+    devuelve <code>"Teclado"</code>.
+  </li>
+</ol>
+
+<div class="caja caja-ejemplo">
+  <span class="caja-titulo">💻 Ejemplo DAW</span>
+  <p>
+    Este comportamiento resulta útil cuando
+    necesitamos crear una función interna
+    que conserve el <code>this</code>
+    del método exterior.
+  </p>
+  <p>
+    Más adelante veremos cómo se utiliza
+    en el trabajo con objetos, eventos
+    y programación orientada a objetos.
+  </p>
+</div>
+
 
 <div class="caja caja-importante">
   <span class="caja-titulo">📌 Importante</span>
@@ -2139,6 +2289,60 @@ producto.mostrarNombre();</code></pre>
     propio. Estudiaremos este comportamiento
     con mayor profundidad en la unidad
     de programación orientada a objetos.
+  </p>
+</div>
+
+<h3>Las funciones flecha no pueden utilizarse como constructores</h3>
+
+<p>
+  Otra diferencia importante es que las funciones
+  flecha <strong>no pueden utilizarse como constructores</strong>
+  mediante el operador <code>new</code>.
+</p>
+
+<p>
+  Un constructor permite crear objetos utilizando
+  una función o una clase. Estudiaremos este concepto
+  con mayor profundidad en la unidad de
+  programación orientada a objetos.
+</p>
+
+<p>
+  Observa el siguiente ejemplo:
+</p>
+
+<div class="bloque-codigo">
+  <div class="cabecera-codigo">
+    <span class="lenguaje-codigo">JavaScript</span>
+    <button class="boton-copiar" type="button">📋 Copiar código</button>
+  </div>
+  <pre><code>const Producto = (nombre) => {
+  this.nombre = nombre;
+};
+
+// Este código produce un error.
+const teclado = new Producto("Teclado");</code></pre>
+</div>
+
+<p>
+  Al intentar ejecutar <code>new Producto("Teclado")</code>,
+  JavaScript produce un <code>TypeError</code>
+  porque <code>Producto</code> es una función flecha
+  y no puede utilizarse como constructor.
+</p>
+
+<div class="caja caja-atencion">
+  <span class="caja-titulo">⚠️ Atención</span>
+  <p>
+    Las funciones flecha no tienen un
+    <code>this</code> propio y tampoco
+    pueden utilizarse con <code>new</code>.
+  </p>
+  <p>
+    Por tanto, no debemos considerarlas
+    un sustituto universal de las funciones
+    tradicionales. Su elección depende
+    de las necesidades del programa.
   </p>
 </div>
 
