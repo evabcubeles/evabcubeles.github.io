@@ -1032,9 +1032,10 @@ body.modo-oscuro .indice-derecho h2 {
 <h2 id="funciones-predefinidas">Qué son las funciones predefinidas</h2>
 
 <p>
-  Una <strong>función predefinida</strong> es una función
-  que ya está disponible en el entorno de programación
-  y que podemos utilizar sin tener que implementarla nosotros.
+Una <strong>función predefinida</strong> es una función
+que JavaScript o el entorno en el que se ejecuta
+pone a nuestra disposición y que podemos utilizar
+sin necesidad de programarla desde cero.
 </p>
 
 <p>
@@ -1761,7 +1762,55 @@ false</code></pre>
   <code>Number.isNaN()</code> no convierte
   automáticamente esa cadena.
 </p>
+<h3>Comprobar números enteros con Number.isInteger()</h3>
 
+<p>
+  El método <code>Number.isInteger()</code>
+  permite comprobar si un valor es un número entero.
+  Devuelve <code>true</code> cuando el valor es
+  un número entero y <code>false</code> en caso contrario.
+</p>
+
+<div class="bloque-codigo">
+  <div class="cabecera-codigo">
+    <span class="lenguaje-codigo">JavaScript</span>
+    <button class="boton-copiar" type="button">📋 Copiar código</button>
+  </div>
+  <pre><code>console.log(Number.isInteger(5));
+console.log(Number.isInteger(5.5));
+console.log(Number.isInteger(-3));
+console.log(Number.isInteger("5"));</code></pre>
+</div>
+
+<p><strong>Salida por consola:</strong></p>
+
+<div class="bloque-codigo">
+  <div class="cabecera-codigo">
+    <span class="lenguaje-codigo">Consola</span>
+    <button class="boton-copiar" type="button">📋 Copiar código</button>
+  </div>
+  <pre><code>true
+false
+true
+false</code></pre>
+</div>
+
+<p>
+  Observa que <code>-3</code> también es un número entero.
+  Además, la cadena <code>"5"</code> devuelve
+  <code>false</code>, porque <code>Number.isInteger()</code>
+  no convierte automáticamente textos en números.
+</p>
+
+<div class="caja caja-importante">
+  <span class="caja-titulo">📌 Importante</span>
+  <p>
+    Un número entero no tiene por qué ser positivo.
+    Si necesitamos validar una cantidad de productos,
+    podemos combinar <code>Number.isInteger(cantidad)</code>
+    con <code>cantidad &gt; 0</code>.
+  </p>
+</div>
 <h3>Validar números finitos</h3>
 
 <p>
