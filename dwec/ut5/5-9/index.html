@@ -1,0 +1,3073 @@
+
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="5.9 Funciones como valores y funciones callback. DWEC UT5.">
+<title>5.9 Funciones como valores y funciones callback | DWEC</title>
+<link rel="icon" type="image/png" href="../../../img/favicon.png?v=5">
+<link rel="stylesheet" href="../../../css/estilos.css">
+
+<style>
+/* ESTRUCTURA GENERAL */
+.pagina-ut {
+  display: grid;
+  grid-template-columns: 280px minmax(0, 1fr) 260px;
+  min-height: calc(100vh - 68px);
+}
+
+/* MENÚ LATERAL */
+.sidebar {
+  border-right: 1px solid var(--borde);
+  background-color: var(--fondo-pagina);
+  padding: 12px 10px 30px;
+  position: sticky;
+  top: 68px;
+  height: calc(100vh - 68px);
+  overflow-y: auto;
+}
+
+.sidebar-modulo {
+  display: block;
+  margin-bottom: 8px;
+  padding: 8px 14px;
+  color: #626873;
+  font-size: 17px;
+  font-weight: 700;
+  line-height: 1.3;
+  text-decoration: none;
+  border-radius: 6px;
+}
+
+.sidebar-modulo:hover,
+.menu-titulo:hover,
+.enlace-apartado-simple:hover,
+.submenu-apartados a:hover {
+  color: var(--verde-principal);
+}
+
+.menu-desplegable { width: 100%; }
+
+.menu-cabecera {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  width: 100%;
+  border-radius: 6px;
+}
+
+.menu-cabecera-activa {
+  background-color: #f1f1f1;
+}
+
+.menu-cabecera-activa > .menu-titulo {
+  color: var(--verde-principal);
+}
+
+.menu-titulo {
+  flex: 1;
+  display: block;
+  padding: 11px 8px 11px 14px;
+  color: #626873;
+  font-size: 16px;
+  font-weight: 650;
+  line-height: 1.4;
+  text-decoration: none;
+}
+
+.boton-desplegar {
+  width: 36px;
+  height: 36px;
+  margin-right: 5px;
+  padding: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  border: 0;
+  border-radius: 6px;
+  background: transparent;
+  color: #777;
+  font-family: inherit;
+  font-size: 24px;
+  line-height: 1;
+  cursor: pointer;
+}
+
+.boton-desplegar:hover {
+  background-color: #e5e7eb;
+  color: var(--verde-principal);
+}
+
+.submenu { display: none; }
+.submenu.submenu-abierto { display: block; }
+
+.menu-apartado { margin-left: 14px; }
+
+.menu-apartado .menu-titulo {
+  padding-top: 9px;
+  padding-bottom: 9px;
+  font-size: 15px;
+  font-weight: 600;
+}
+
+.enlace-apartado-simple {
+  display: block;
+  margin-left: 14px;
+  padding: 10px 14px;
+  color: #626873;
+  font-size: 15px;
+  font-weight: 600;
+  line-height: 1.4;
+  text-decoration: none;
+  border-radius: 6px;
+}
+
+.submenu-apartados {
+  margin: 2px 0 5px 28px;
+  border-left: 2px solid #e0e3e7;
+}
+
+.submenu-apartados a {
+  display: block;
+  padding: 7px 10px;
+  color: #777d87;
+  font-size: 14px;
+  font-weight: 500;
+  line-height: 1.35;
+  text-decoration: none;
+}
+
+.sidebar-ut-cerrada {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 13px 14px;
+  color: #626873;
+  text-decoration: none;
+  font-size: 16px;
+  font-weight: 650;
+  line-height: 1.35;
+  border-radius: 6px;
+}
+
+.sidebar-ut-cerrada:hover,
+.enlace-apartado-simple:hover {
+  background-color: #f3f4f6;
+}
+
+body.modo-oscuro .menu-cabecera-activa,
+body.modo-oscuro .sidebar-ut-cerrada:hover,
+body.modo-oscuro .enlace-apartado-simple:hover {
+  background-color: #273244;
+}
+
+body.modo-oscuro .boton-desplegar:hover {
+  background-color: #334155;
+}
+
+body.modo-oscuro .submenu-apartados {
+  border-left-color: #3a4659;
+}
+
+/* CONTENIDO CENTRAL */
+.contenido-ut {
+  padding: 28px 34px 70px;
+  max-width: 1150px;
+  width: 100%;
+  min-width: 0;
+}
+
+.migas {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-bottom: 30px;
+  font-size: 14px;
+}
+
+.miga-inicio {
+  text-decoration: none;
+  font-size: 18px;
+}
+
+.miga-separador {
+  color: #999;
+  font-size: 22px;
+}
+
+.miga-modulo {
+  color: var(--texto-secundario);
+  text-decoration: none;
+}
+
+.miga-modulo:hover {
+  color: var(--verde-principal);
+}
+
+.miga-actual {
+  padding: 8px 14px;
+  background-color: #f3f3f3;
+  border-radius: 24px;
+  color: var(--verde-principal);
+}
+
+body.modo-oscuro .miga-actual {
+  background-color: #273244;
+}
+
+.contenido-ut h1 {
+  margin: 0 0 30px;
+  font-size: clamp(38px, 5vw, 58px);
+  line-height: 1.12;
+}
+
+.apartado-ut {
+  margin-top: 55px;
+  scroll-margin-top: 95px;
+}
+
+.apartado-ut h2 {
+  margin: 0 0 24px;
+  font-size: 32px;
+  line-height: 1.2;
+  scroll-margin-top: 95px;
+}
+
+.apartado-ut h3 {
+  margin: 34px 0 16px;
+  font-size: 24px;
+  line-height: 1.3;
+}
+
+.apartado-ut p {
+  margin: 0 0 18px;
+  font-size: 18px;
+  line-height: 1.75;
+}
+
+.apartado-ut ul,
+.apartado-ut ol {
+  margin: 16px 0 24px;
+  padding-left: 28px;
+}
+
+.apartado-ut li {
+  margin-bottom: 10px;
+  font-size: 17px;
+  line-height: 1.6;
+}
+
+/* CAJAS DIDÁCTICAS */
+.caja {
+  margin: 28px 0;
+  padding: 18px 20px;
+  border-left: 5px solid;
+  border-radius: 8px;
+  line-height: 1.65;
+}
+
+.caja p {
+  margin: 0 0 12px;
+  font-size: 17px;
+}
+
+.caja p:last-child { margin-bottom: 0; }
+
+.caja-titulo {
+  display: block;
+  margin-bottom: 8px;
+  font-size: 17px;
+  font-weight: 700;
+}
+
+.caja-importante {
+  background-color: #eef8f1;
+  border-left-color: #2f9e5b;
+}
+
+.caja-atencion {
+  background-color: #fff7e8;
+  border-left-color: #e09b27;
+}
+
+.caja-ejemplo {
+  background-color: #eef5ff;
+  border-left-color: #3f7acb;
+}
+
+body.modo-oscuro .caja-importante {
+  background-color: #20372a;
+}
+
+body.modo-oscuro .caja-atencion {
+  background-color: #3b3020;
+}
+
+body.modo-oscuro .caja-ejemplo {
+  background-color: #23344a;
+}
+
+/* TABLAS */
+.tabla-responsive {
+  width: 100%;
+  margin: 28px 0;
+  overflow-x: auto;
+}
+
+.tabla-apuntes {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 16px;
+}
+
+.tabla-apuntes th,
+.tabla-apuntes td {
+  padding: 14px 16px;
+  border: 1px solid var(--borde);
+  text-align: left;
+  vertical-align: top;
+  line-height: 1.55;
+}
+
+.tabla-apuntes th {
+  background-color: #f1f3f5;
+  font-weight: 700;
+}
+
+body.modo-oscuro .tabla-apuntes th {
+  background-color: #273244;
+}
+
+/* ESQUEMAS */
+.esquema-web {
+  max-width: 700px;
+  margin: 30px auto;
+}
+
+.esquema-fila {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 14px;
+  margin-top: 16px;
+}
+
+.esquema-caja {
+  padding: 18px 16px;
+  background-color: var(--fondo-tarjeta);
+  border: 1px solid var(--borde);
+  border-radius: 10px;
+  text-align: center;
+}
+
+.esquema-caja strong {
+  display: block;
+  margin-bottom: 5px;
+  color: var(--verde-principal);
+  font-size: 18px;
+  overflow-wrap: anywhere;
+}
+
+.esquema-caja span {
+  color: var(--texto-secundario);
+  font-size: 15px;
+  line-height: 1.45;
+}
+
+.esquema-flecha {
+  margin: 14px 0;
+  text-align: center;
+  font-size: 22px;
+  color: var(--verde-principal);
+}
+
+/* REFLEXIÓN Y SOLUCIONES */
+.actividad-reflexion {
+  margin: 32px 0;
+  padding: 22px 24px;
+  background-color: #f7f8fa;
+  border: 1px solid var(--borde);
+  border-radius: 10px;
+}
+
+.actividad-reflexion h3 {
+  margin: 0 0 12px;
+  color: var(--verde-principal);
+  font-size: 20px;
+}
+
+.actividad-reflexion p {
+  margin: 0 0 14px;
+  font-size: 17px;
+  line-height: 1.65;
+}
+
+body.modo-oscuro .actividad-reflexion {
+  background-color: #232d3d;
+}
+
+.solucion-desplegable {
+  margin-top: 20px;
+}
+
+.solucion-desplegable summary {
+  display: inline-block;
+  padding: 10px 16px;
+  background-color: #eef8f1;
+  border: 1px solid #b9dfc6;
+  border-radius: 7px;
+  color: var(--verde-principal);
+  font-size: 16px;
+  font-weight: 700;
+  cursor: pointer;
+  user-select: none;
+}
+
+.solucion-desplegable summary:hover {
+  background-color: #e2f3e7;
+}
+
+.contenido-solucion {
+  margin-top: 16px;
+  padding: 18px 20px;
+  background-color: var(--fondo-pagina);
+  border-left: 4px solid var(--verde-principal);
+  border-radius: 6px;
+}
+
+.contenido-solucion p {
+  margin: 0 0 12px;
+  font-size: 16px;
+  line-height: 1.65;
+}
+
+body.modo-oscuro .solucion-desplegable summary {
+  background-color: #20372a;
+  border-color: #315d40;
+}
+
+/* BLOQUES DE CÓDIGO */
+.bloque-codigo {
+  margin: 28px 0;
+  border: 1px solid #3b3b3b;
+  border-radius: 9px;
+  overflow: hidden;
+  background-color: #1e1e1e;
+}
+
+.cabecera-codigo {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 10px 14px;
+  background-color: #2b2b2b;
+  color: #f3f4f6;
+  font-size: 14px;
+}
+
+.lenguaje-codigo {
+  font-weight: 700;
+}
+
+.boton-copiar {
+  padding: 6px 11px;
+  border: 1px solid #5c5c5c;
+  border-radius: 6px;
+  background-color: #383838;
+  color: #f3f4f6;
+  font-family: inherit;
+  font-size: 13px;
+  cursor: pointer;
+}
+
+.boton-copiar:hover {
+  background-color: #484848;
+  border-color: #777;
+}
+
+.bloque-codigo pre {
+  margin: 0;
+  padding: 18px 20px;
+  overflow-x: auto;
+  tab-size: 2;
+}
+
+.bloque-codigo code {
+  color: #f5f5f5;
+  font-family: Consolas, "Courier New", monospace;
+  font-size: 15px;
+  line-height: 1.6;
+  white-space: pre;
+}
+
+/* ÍNDICE DERECHO */
+.indice-derecho {
+  padding: 28px 22px 100px;
+  border-left: 1px solid var(--borde);
+  position: sticky;
+  top: 68px;
+  height: calc(100vh - 68px);
+  overflow-y: auto;
+  box-sizing: border-box;
+}
+
+.indice-derecho h2 {
+  margin: 8px 0 20px;
+  font-size: 17px;
+  color: #555b65;
+}
+
+body.modo-oscuro .indice-derecho h2 {
+  color: #d1d5db;
+}
+
+.indice-derecho ul {
+  margin: 0;
+  padding-left: 18px;
+}
+
+.indice-derecho li {
+  margin-bottom: 12px;
+}
+
+.indice-derecho a {
+  color: var(--texto-secundario);
+  text-decoration: none;
+  font-size: 14px;
+  line-height: 1.4;
+}
+
+.indice-derecho a:hover {
+  color: var(--verde-principal);
+}
+
+/* NAVEGACIÓN */
+.navegacion-paginas {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 20px;
+  margin-top: 50px;
+}
+
+.nav-pagina {
+  min-height: 100px;
+  padding: 18px 20px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  border: 1px solid var(--borde);
+  border-radius: 8px;
+  text-decoration: none;
+  background-color: var(--fondo-tarjeta);
+}
+
+.nav-anterior {
+  align-items: flex-start;
+  text-align: left;
+}
+
+.nav-siguiente {
+  align-items: flex-end;
+  text-align: right;
+}
+
+.nav-etiqueta {
+  margin-bottom: 5px;
+  color: var(--texto-secundario);
+  font-size: 14px;
+}
+
+.nav-pagina strong {
+  color: var(--verde-principal);
+  font-size: 16px;
+  line-height: 1.4;
+}
+
+.nav-pagina:hover {
+  border-color: var(--verde-principal);
+}
+
+/* DISEÑO ADAPTABLE */
+@media (max-width: 1100px) {
+  .pagina-ut {
+    grid-template-columns: 250px minmax(0, 1fr);
+  }
+
+  .indice-derecho {
+    display: none;
+  }
+}
+
+@media (max-width: 760px) {
+  .pagina-ut {
+    display: block;
+  }
+
+  .sidebar {
+    position: static;
+    width: 100%;
+    height: auto;
+    border-right: 0;
+    border-bottom: 1px solid var(--borde);
+  }
+
+  .contenido-ut {
+    padding: 28px 20px 60px;
+  }
+
+  .contenido-ut h1 {
+    font-size: 36px;
+  }
+
+  .navegacion-paginas,
+  .esquema-fila {
+    grid-template-columns: 1fr;
+  }
+
+  .nav-siguiente {
+    align-items: flex-start;
+    text-align: left;
+  }
+
+  .actividad-reflexion {
+    padding: 18px 16px;
+  }
+}
+</style>
+</head>
+
+<body>
+
+<!-- BARRA SUPERIOR -->
+<header class="navbar">
+  <a class="inicio" href="../../../index.html">
+    <img
+      alt=""
+      class="icono-profesora"
+      src="../../../img/profesora-castana.png?v=2"
+    >
+    <span>Inicio</span>
+  </a>
+
+  <nav
+    aria-label="Módulos formativos"
+    class="menu-modulos"
+    id="menuModulos"
+  ></nav>
+
+  <button
+    aria-label="Cambiar entre modo claro y oscuro"
+    class="boton-tema"
+    id="botonTema"
+    title="Cambiar tema"
+    type="button"
+  >☀️</button>
+</header>
+
+<div class="pagina-ut">
+
+<!-- MENÚ LATERAL -->
+<aside class="sidebar">
+
+  <a class="sidebar-modulo" href="../../index.html">
+    Desarrollo web en entorno cliente
+  </a>
+
+  <a class="sidebar-ut-cerrada" href="../../ut1/index.html">
+    <span>UT1 - Introducción al desarrollo web en entorno cliente</span>
+    <span>›</span>
+  </a>
+
+  <a class="sidebar-ut-cerrada" href="../../ut2/index.html">
+    <span>UT2 - Fundamentos de JavaScript: variables, tipos y operadores</span>
+    <span>›</span>
+  </a>
+
+  <a class="sidebar-ut-cerrada" href="../../ut3/index.html">
+    <span>UT3 - Estructuras de control en JavaScript</span>
+    <span>›</span>
+  </a>
+
+  <a class="sidebar-ut-cerrada" href="../../ut4/index.html">
+    <span>UT4 - Arrays y estructuras de datos en JavaScript</span>
+    <span>›</span>
+  </a>
+
+  <!-- UT5 -->
+  <div class="menu-desplegable">
+
+    <div class="menu-cabecera menu-cabecera-activa">
+      <a class="menu-titulo" href="../index.html">
+        UT5 - Funciones en JavaScript
+      </a>
+      <button
+        aria-expanded="true"
+        aria-label="Mostrar u ocultar UT5"
+        class="boton-desplegar"
+        data-target="submenu-ut5"
+        type="button"
+      >⌄</button>
+    </div>
+
+    <div class="submenu submenu-abierto" id="submenu-ut5">
+
+      <!-- 5.1 -->
+      <div class="menu-desplegable menu-apartado">
+        <div class="menu-cabecera">
+          <a class="menu-titulo" href="../5-1/index.html">
+            5.1 Introducción a las funciones
+          </a>
+          <button
+            aria-expanded="false"
+            aria-label="Mostrar u ocultar los subapartados del 5.1"
+            class="boton-desplegar"
+            data-target="submenu-5-1"
+            type="button"
+          >›</button>
+        </div>
+        <div class="submenu submenu-apartados" id="submenu-5-1">
+          <a href="../5-1/index.html#que-es-funcion">Qué es una función</a>
+          <a href="../5-1/index.html#para-que-funciones">Para qué necesitamos funciones</a>
+          <a href="../5-1/index.html#reutilizacion">Reutilización del código</a>
+          <a href="../5-1/index.html#organizacion">Organización del programa</a>
+          <a href="../5-1/index.html#funciones-javascript">Las funciones en JavaScript</a>
+          <a href="../5-1/index.html#primer-ejemplo">Primer ejemplo de función</a>
+        </div>
+      </div>
+
+      <!-- 5.2 -->
+      <div class="menu-desplegable menu-apartado">
+        <div class="menu-cabecera">
+          <a class="menu-titulo" href="../5-2/index.html">
+            5.2 Declaración e invocación de funciones
+          </a>
+          <button
+            aria-expanded="false"
+            aria-label="Mostrar u ocultar los subapartados del 5.2"
+            class="boton-desplegar"
+            data-target="submenu-5-2"
+            type="button"
+          >›</button>
+        </div>
+        <div class="submenu submenu-apartados" id="submenu-5-2">
+          <a href="../5-2/index.html#declarar-funcion">Declarar una función</a>
+          <a href="../5-2/index.html#sintaxis">Sintaxis de una declaración</a>
+          <a href="../5-2/index.html#invocar-funcion">Invocar una función</a>
+          <a href="../5-2/index.html#orden-ejecucion">Orden de ejecución</a>
+          <a href="../5-2/index.html#llamadas-multiples">Llamar varias veces a una función</a>
+          <a href="../5-2/index.html#hoisting">Declaraciones y hoisting</a>
+          <a href="../5-2/index.html#funciones-entre-si">Funciones que llaman a otras funciones</a>
+          <a href="../5-2/index.html#errores-frecuentes">Errores frecuentes</a>
+          <a href="../5-2/index.html#buenas-practicas">Buenas prácticas</a>
+          <a href="../5-2/index.html#ejemplo-completo">Ejemplo práctico completo</a>
+        </div>
+      </div>
+
+      <!-- 5.3 -->
+      <div class="menu-desplegable menu-apartado">
+        <div class="menu-cabecera">
+          <a class="menu-titulo" href="../5-3/index.html">
+            5.3 Parámetros y argumentos
+          </a>
+          <button
+            aria-expanded="false"
+            aria-label="Mostrar u ocultar los subapartados del 5.3"
+            class="boton-desplegar"
+            data-target="submenu-5-3"
+            type="button"
+          >›</button>
+        </div>
+        <div class="submenu submenu-apartados" id="submenu-5-3">
+          <a href="../5-3/index.html#parametros-argumentos">Qué son los parámetros y argumentos</a>
+          <a href="../5-3/index.html#declaracion-parametros">Declarar funciones con parámetros</a>
+          <a href="../5-3/index.html#invocacion-argumentos">Invocar funciones con argumentos</a>
+          <a href="../5-3/index.html#varios-parametros">Funciones con varios parámetros</a>
+          <a href="../5-3/index.html#parametros-locales">Parámetros y variables locales</a>
+          <a href="../5-3/index.html#tipos-datos">Argumentos de distintos tipos</a>
+          <a href="../5-3/index.html#numero-argumentos">Número de argumentos</a>
+          <a href="../5-3/index.html#errores-frecuentes">Errores frecuentes</a>
+          <a href="../5-3/index.html#buenas-practicas">Buenas prácticas</a>
+          <a href="../5-3/index.html#ejemplo-completo">Ejemplo práctico completo</a>
+        </div>
+      </div>
+
+      <!-- 5.4 -->
+      <div class="menu-desplegable menu-apartado">
+        <div class="menu-cabecera">
+          <a class="menu-titulo" href="../5-4/index.html">
+            5.4 Valores de retorno y sentencia return
+          </a>
+          <button
+            aria-expanded="false"
+            aria-label="Mostrar u ocultar los subapartados del 5.4"
+            class="boton-desplegar"
+            data-target="submenu-5-4"
+            type="button"
+          >›</button>
+        </div>
+        <div class="submenu submenu-apartados" id="submenu-5-4">
+          <a href="../5-4/index.html#devolver-valor">Qué significa devolver un valor</a>
+          <a href="../5-4/index.html#sintaxis-return">Sintaxis de return</a>
+          <a href="../5-4/index.html#console-vs-return">console.log() y return</a>
+          <a href="../5-4/index.html#utilizar-retorno">Utilizar el valor devuelto</a>
+          <a href="../5-4/index.html#finaliza-ejecucion">return y la ejecución</a>
+          <a href="../5-4/index.html#sin-return">Funciones sin retorno explícito</a>
+          <a href="../5-4/index.html#tipos-retorno">Tipos de valores devueltos</a>
+          <a href="../5-4/index.html#errores-frecuentes">Errores frecuentes</a>
+          <a href="../5-4/index.html#buenas-practicas">Buenas prácticas</a>
+          <a href="../5-4/index.html#ejemplo-completo">Ejemplo práctico completo</a>
+        </div>
+      </div>
+
+      <!-- 5.5 -->
+      <div class="menu-desplegable menu-apartado">
+        <div class="menu-cabecera">
+          <a class="menu-titulo" href="../5-5/index.html">
+            5.5 Ámbito de las variables en las funciones
+          </a>
+          <button
+            aria-expanded="false"
+            aria-label="Mostrar u ocultar los subapartados del 5.5"
+            class="boton-desplegar"
+            data-target="submenu-5-5"
+            type="button"
+          >›</button>
+        </div>
+        <div class="submenu submenu-apartados" id="submenu-5-5">
+          <a href="../5-5/index.html#que-es-ambito">Qué es el ámbito de una variable</a>
+          <a href="../5-5/index.html#ambito-global">Ámbito global</a>
+          <a href="../5-5/index.html#ambito-local">Ámbito local de función</a>
+          <a href="../5-5/index.html#parametros-locales">Parámetros y variables locales</a>
+          <a href="../5-5/index.html#acceso-variables">Acceso a variables externas</a>
+          <a href="../5-5/index.html#ambito-bloque">Ámbito de bloque</a>
+          <a href="../5-5/index.html#var-let-const">Diferencias entre var, let y const</a>
+          <a href="../5-5/index.html#sombreado">Sombreado de variables</a>
+          <a href="../5-5/index.html#errores-frecuentes">Errores frecuentes</a>
+          <a href="../5-5/index.html#buenas-practicas">Buenas prácticas</a>
+          <a href="../5-5/index.html#ejemplo-completo">Ejemplo práctico completo</a>
+        </div>
+      </div>
+
+      <a class="enlace-apartado-simple" href="../5-6/index.html">
+        5.6 Paso de valores y referencias a funciones
+      </a>
+
+      <a class="enlace-apartado-simple" href="../5-7/index.html">
+        5.7 Parámetros por defecto y parámetros rest
+      </a>
+
+      <a class="enlace-apartado-simple" href="../5-8/index.html">
+        5.8 Expresiones de función y funciones flecha
+      </a>
+
+      <!-- 5.9 ACTIVO -->
+      <div class="menu-desplegable menu-apartado">
+        <div class="menu-cabecera menu-cabecera-activa">
+          <a class="menu-titulo" href="index.html">
+            5.9 Funciones como valores y funciones callback
+          </a>
+          <button
+            aria-expanded="true"
+            aria-label="Mostrar u ocultar los subapartados del 5.9"
+            class="boton-desplegar"
+            data-target="submenu-5-9"
+            type="button"
+          >⌄</button>
+        </div>
+
+        <div class="submenu submenu-apartados submenu-abierto" id="submenu-5-9">
+          <a href="#funciones-valores">Las funciones como valores</a>
+          <a href="#asignar-funciones">Asignar funciones a variables</a>
+          <a href="#pasar-funciones">Pasar funciones como argumentos</a>
+          <a href="#que-es-callback">Qué es una función callback</a>
+          <a href="#ejecucion-callback">Cómo se ejecuta una callback</a>
+          <a href="#callbacks-parametros">Callbacks con parámetros</a>
+          <a href="#callbacks-retorno">Callbacks y valores de retorno</a>
+          <a href="#callbacks-anonimas">Callbacks anónimas y flecha</a>
+          <a href="#callbacks-arrays">Callbacks con arrays</a>
+          <a href="#callbacks-eventos">Callbacks y eventos</a>
+          <a href="#sincronia-asincronia">Callbacks síncronas y asíncronas</a>
+          <a href="#errores-frecuentes">Errores y buenas prácticas</a>
+          <a href="#ejemplo-completo">Ejemplo práctico completo</a>
+        </div>
+      </div>
+
+      <a class="enlace-apartado-simple" href="../5-10/index.html">
+        5.10 Funciones predefinidas y métodos de JavaScript
+      </a>
+
+      <a class="enlace-apartado-simple" href="../5-11/index.html">
+        5.11 Funciones recursivas
+      </a>
+
+      <a class="enlace-apartado-simple" href="../5-12/index.html">
+        5.12 Organización modular de un programa
+      </a>
+
+      <a class="enlace-apartado-simple" href="../resumen/index.html">
+        ✏️ Resumen de la UT5
+      </a>
+
+      <!-- ACTIVIDADES -->
+      <div class="menu-desplegable menu-apartado">
+        <div class="menu-cabecera">
+          <a class="menu-titulo" href="../actividades/index.html">
+            📝 Actividades de la UT5
+          </a>
+          <button
+            aria-expanded="false"
+            aria-label="Mostrar u ocultar las actividades de la UT5"
+            class="boton-desplegar"
+            data-target="submenu-actividades"
+            type="button"
+          >›</button>
+        </div>
+
+        <div class="submenu submenu-apartados" id="submenu-actividades">
+          <a href="../actividades/index.html#actividades-practicas">
+            💻 Actividades prácticas
+          </a>
+          <a href="../actividades/index.html#reto-final">
+            🧩 Reto final
+          </a>
+          <a href="../actividades/index.html#autoevaluacion">
+            ✅ Autoevaluación
+          </a>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- RESTO DE UNIDADES -->
+  <a class="sidebar-ut-cerrada" href="../../ut6/index.html">
+    <span>UT6 - Objetos y Programación Orientada a Objetos en JavaScript</span>
+    <span>›</span>
+  </a>
+
+  <a class="sidebar-ut-cerrada" href="../../ut7/index.html">
+    <span>UT7 - Objetos predefinidos y modelo del navegador (BOM)</span>
+    <span>›</span>
+  </a>
+
+  <a class="sidebar-ut-cerrada" href="../../ut8/index.html">
+    <span>UT8 - Aplicaciones web interactivas: DOM, eventos y formularios</span>
+    <span>›</span>
+  </a>
+
+  <a class="sidebar-ut-cerrada" href="../../ut9/index.html">
+    <span>UT9 - Comunicación asíncrona y peticiones al servidor</span>
+    <span>›</span>
+  </a>
+
+  <a class="sidebar-ut-cerrada" href="../../ut10/index.html">
+    <span>UT10 - Introducción a React</span>
+    <span>›</span>
+  </a>
+
+</aside>
+
+<!-- CONTENIDO PRINCIPAL -->
+<main class="contenido-ut">
+
+<div class="migas">
+  <a aria-label="Inicio" class="miga-inicio" href="../../../index.html">🏠</a>
+  <span class="miga-separador">›</span>
+  <a class="miga-modulo" href="../../index.html">DWEC</a>
+  <span class="miga-separador">›</span>
+  <a class="miga-modulo" href="../index.html">UT5</a>
+  <span class="miga-separador">›</span>
+  <span class="miga-actual">5.9</span>
+</div>
+
+<h1>5.9 Funciones como valores y funciones callback</h1>
+
+<section class="apartado-ut">
+
+<p>
+  En los apartados anteriores hemos aprendido a declarar funciones,
+  utilizar parámetros, devolver resultados y definir funciones
+  mediante expresiones y funciones flecha.
+</p>
+
+<p>
+  Ahora vamos a estudiar una característica especialmente importante
+  de JavaScript: <strong>las funciones también pueden utilizarse
+  como valores</strong>. Esto significa que podemos guardarlas
+  en variables, pasarlas como argumentos a otras funciones
+  y devolverlas como resultado.
+</p>
+
+<p>
+  Esta posibilidad es fundamental para comprender las
+  <strong>funciones callback</strong>, que aparecen constantemente
+  en el desarrollo web: al procesar arrays, responder a eventos,
+  gestionar formularios o realizar operaciones asíncronas.
+</p>
+
+<div class="caja caja-importante">
+  <span class="caja-titulo">📌 Importante</span>
+  <p>
+    Una <strong>función callback</strong> es una función que
+    se proporciona a otra función para que esta pueda
+    ejecutarla cuando corresponda.
+  </p>
+  <p>
+    La idea fundamental es distinguir entre
+    <strong>pasar una función</strong> y
+    <strong>ejecutar una función</strong>.
+  </p>
+</div>
+
+<!-- 1 -->
+<h2 id="funciones-valores">Las funciones como valores en JavaScript</h2>
+
+<p>
+  Habitualmente utilizamos variables para guardar números,
+  cadenas de texto, valores booleanos, arrays u objetos.
+  Sin embargo, en JavaScript también podemos guardar
+  <strong>funciones</strong>.
+</p>
+
+<p>
+  Esto es posible porque JavaScript trata las funciones
+  como valores que pueden almacenarse, transmitirse
+  y utilizarse en diferentes partes del programa.
+  Se dice que las funciones son
+  <strong>ciudadanos de primera clase</strong>
+  (<em>first-class functions</em>).
+</p>
+
+<p>
+  Observa el siguiente ejemplo:
+</p>
+
+<div class="bloque-codigo">
+  <div class="cabecera-codigo">
+    <span class="lenguaje-codigo">JavaScript</span>
+    <button class="boton-copiar" type="button">📋 Copiar código</button>
+  </div>
+  <pre><code>function saludar(nombre) {
+  return "Hola, " + nombre;
+}
+
+const mensaje = saludar;
+
+console.log(mensaje("Ana"));
+console.log(typeof mensaje);</code></pre>
+</div>
+
+<p><strong>Salida por consola:</strong></p>
+
+<div class="bloque-codigo">
+  <div class="cabecera-codigo">
+    <span class="lenguaje-codigo">Consola</span>
+    <button class="boton-copiar" type="button">📋 Copiar código</button>
+  </div>
+  <pre><code>Hola, Ana
+function</code></pre>
+</div>
+
+<p>
+  La instrucción <code>const mensaje = saludar;</code>
+  no ejecuta la función. Guarda en la variable
+  <code>mensaje</code> una referencia a la misma función.
+</p>
+
+<p>
+  Por tanto, podemos invocarla utilizando
+  <code>mensaje("Ana")</code> o
+  <code>saludar("Ana")</code>.
+  Ambas llamadas ejecutan la misma función.
+</p>
+
+<div class="caja caja-importante">
+  <span class="caja-titulo">📌 Importante</span>
+  <p>
+    Las funciones son valores en JavaScript.
+    Por eso pueden asignarse a variables,
+    guardarse en estructuras de datos,
+    pasarse como argumentos y devolverse
+    desde otras funciones.
+  </p>
+</div>
+
+<!-- 2 -->
+<h2 id="asignar-funciones">Asignar funciones a variables</h2>
+
+<p>
+  Vamos a profundizar en la diferencia entre guardar
+  una función y guardar el resultado de ejecutarla.
+</p>
+
+<h3>Guardar una función sin ejecutarla</h3>
+
+<div class="bloque-codigo">
+  <div class="cabecera-codigo">
+    <span class="lenguaje-codigo">JavaScript</span>
+    <button class="boton-copiar" type="button">📋 Copiar código</button>
+  </div>
+  <pre><code>function calcularDoble(numero) {
+  return numero * 2;
+}
+
+const operacion = calcularDoble;
+
+console.log(operacion(5));
+console.log(operacion(12));</code></pre>
+</div>
+
+<p><strong>Salida por consola:</strong></p>
+
+<div class="bloque-codigo">
+  <div class="cabecera-codigo">
+    <span class="lenguaje-codigo">Consola</span>
+    <button class="boton-copiar" type="button">📋 Copiar código</button>
+  </div>
+  <pre><code>10
+24</code></pre>
+</div>
+
+<p>
+  La variable <code>operacion</code> contiene una función.
+  Podemos ejecutarla tantas veces como necesitemos
+  y utilizar diferentes argumentos.
+</p>
+
+<h3>Guardar el resultado de una función</h3>
+
+<div class="bloque-codigo">
+  <div class="cabecera-codigo">
+    <span class="lenguaje-codigo">JavaScript</span>
+    <button class="boton-copiar" type="button">📋 Copiar código</button>
+  </div>
+  <pre><code>function calcularDoble(numero) {
+  return numero * 2;
+}
+
+const resultado = calcularDoble(5);
+
+console.log(resultado);
+console.log(typeof resultado);</code></pre>
+</div>
+
+<p><strong>Salida por consola:</strong></p>
+
+<div class="bloque-codigo">
+  <div class="cabecera-codigo">
+    <span class="lenguaje-codigo">Consola</span>
+    <button class="boton-copiar" type="button">📋 Copiar código</button>
+  </div>
+  <pre><code>10
+number</code></pre>
+</div>
+
+<p>
+  Ahora sí hemos ejecutado <code>calcularDoble(5)</code>.
+  La función devuelve <code>10</code> y ese número
+  queda almacenado en <code>resultado</code>.
+</p>
+
+<div class="tabla-responsive">
+  <table class="tabla-apuntes">
+    <thead>
+      <tr>
+        <th>Expresión</th>
+        <th>Qué sucede</th>
+        <th>Qué obtenemos</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><code>calcularDoble</code></td>
+        <td>Accedemos a la función sin ejecutarla</td>
+        <td>Una función</td>
+      </tr>
+      <tr>
+        <td><code>calcularDoble(5)</code></td>
+        <td>Invocamos la función con el argumento 5</td>
+        <td>El número 10</td>
+      </tr>
+      <tr>
+        <td><code>const f = calcularDoble;</code></td>
+        <td>Guardamos la función en otra variable</td>
+        <td>Una referencia a la función</td>
+      </tr>
+      <tr>
+        <td><code>const r = calcularDoble(5);</code></td>
+        <td>Guardamos el resultado de la llamada</td>
+        <td>El número 10</td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<div class="caja caja-atencion">
+  <span class="caja-titulo">⚠️ Atención</span>
+  <p>
+    Los paréntesis cambian el significado:
+  </p>
+  <p>
+    <code>const funcion = calcularDoble;</code>
+    guarda la función.
+  </p>
+  <p>
+    <code>const resultado = calcularDoble(5);</code>
+    ejecuta la función y guarda el resultado.
+  </p>
+</div>
+
+<!-- 3 -->
+<h2 id="pasar-funciones">Pasar funciones como argumentos</h2>
+
+<p>
+  Hasta ahora hemos enviado números, cadenas y objetos
+  como argumentos. Pero también podemos enviar
+  <strong>una función como argumento de otra función</strong>.
+</p>
+
+<p>
+  Esto permite que una función reciba instrucciones
+  sobre qué operación debe realizar.
+</p>
+
+<div class="bloque-codigo">
+  <div class="cabecera-codigo">
+    <span class="lenguaje-codigo">JavaScript</span>
+    <button class="boton-copiar" type="button">📋 Copiar código</button>
+  </div>
+  <pre><code>function sumar(a, b) {
+  return a + b;
+}
+
+function multiplicar(a, b) {
+  return a * b;
+}
+
+function calcular(a, b, operacion) {
+  return operacion(a, b);
+}
+
+console.log(calcular(10, 5, sumar));
+console.log(calcular(10, 5, multiplicar));</code></pre>
+</div>
+
+<p><strong>Salida por consola:</strong></p>
+
+<div class="bloque-codigo">
+  <div class="cabecera-codigo">
+    <span class="lenguaje-codigo">Consola</span>
+    <button class="boton-copiar" type="button">📋 Copiar código</button>
+  </div>
+  <pre><code>15
+50</code></pre>
+</div>
+
+<h3>Análisis paso a paso</h3>
+
+<ol>
+  <li>
+    Declaramos la función <code>sumar</code>,
+    que devuelve la suma de dos números.
+  </li>
+  <li>
+    Declaramos la función <code>multiplicar</code>,
+    que devuelve el producto de dos números.
+  </li>
+  <li>
+    La función <code>calcular</code> recibe tres parámetros:
+    dos números y una función llamada <code>operacion</code>.
+  </li>
+  <li>
+    Cuando escribimos <code>calcular(10, 5, sumar)</code>,
+    estamos pasando la función <code>sumar</code>
+    como tercer argumento, sin ejecutarla todavía.
+  </li>
+  <li>
+    Dentro de <code>calcular</code>,
+    la instrucción <code>operacion(a, b)</code>
+    ejecuta la función recibida.
+  </li>
+  <li>
+    En la segunda llamada pasamos
+    <code>multiplicar</code> y se realiza
+    una operación diferente.
+  </li>
+</ol>
+
+<p>
+  La función <code>calcular</code> no necesita saber
+  de antemano si realizará una suma o una multiplicación.
+  Simplemente ejecuta la función que recibe.
+</p>
+
+<div class="esquema-web">
+  <div class="esquema-fila">
+    <div class="esquema-caja">
+      <strong>Función externa</strong>
+      <span>calcular(10, 5, sumar)</span>
+    </div>
+    <div class="esquema-caja">
+      <strong>Función recibida</strong>
+      <span>operacion = sumar</span>
+    </div>
+    <div class="esquema-caja">
+      <strong>Resultado</strong>
+      <span>operacion(10, 5) → 15</span>
+    </div>
+  </div>
+</div>
+
+<div class="caja caja-ejemplo">
+  <span class="caja-titulo">💻 Ejemplo DAW</span>
+  <p>
+    En una aplicación de comercio electrónico
+    podríamos utilizar una función general
+    para calcular precios y pasarle diferentes
+    operaciones: aplicar un descuento,
+    añadir IVA o calcular un recargo.
+  </p>
+  <p>
+    Así evitamos repetir el código que organiza
+    la operación y cambiamos únicamente
+    la función encargada del cálculo.
+  </p>
+</div>
+
+<!-- 4 -->
+<h2 id="que-es-callback">Qué es una función callback</h2>
+
+<p>
+  Una <strong>función callback</strong> es una función
+  que pasamos a otra función para que esta pueda
+  invocarla en un momento determinado.
+</p>
+
+<p>
+  El término inglés <em>callback</em> suele traducirse
+  como «función de retorno de llamada», aunque
+  en programación es habitual utilizar directamente
+  la palabra <em>callback</em>.
+</p>
+
+<p>
+  Observa este ejemplo:
+</p>
+
+<div class="bloque-codigo">
+  <div class="cabecera-codigo">
+    <span class="lenguaje-codigo">JavaScript</span>
+    <button class="boton-copiar" type="button">📋 Copiar código</button>
+  </div>
+  <pre><code>function mostrarMensaje() {
+  console.log("Operación completada");
+}
+
+function ejecutarTarea(callback) {
+  console.log("Iniciando tarea");
+
+  callback();
+
+  console.log("Tarea finalizada");
+}
+
+ejecutarTarea(mostrarMensaje);</code></pre>
+</div>
+
+<p><strong>Salida por consola:</strong></p>
+
+<div class="bloque-codigo">
+  <div class="cabecera-codigo">
+    <span class="lenguaje-codigo">Consola</span>
+    <button class="boton-copiar" type="button">📋 Copiar código</button>
+  </div>
+  <pre><code>Iniciando tarea
+Operación completada
+Tarea finalizada</code></pre>
+</div>
+
+<p>
+  La función <code>mostrarMensaje</code>
+  es la <strong>callback</strong>.
+  Se pasa como argumento a <code>ejecutarTarea</code>.
+</p>
+
+<p>
+  Dentro de <code>ejecutarTarea</code>,
+  la instrucción <code>callback()</code>
+  ejecuta la función recibida.
+</p>
+
+<div class="caja caja-importante">
+  <span class="caja-titulo">📌 Importante</span>
+  <p>
+    Una callback no es un tipo especial de función
+    ni necesita una sintaxis diferente.
+  </p>
+  <p>
+    Puede ser una declaración tradicional,
+    una expresión de función o una función flecha.
+    Lo que la convierte en callback es
+    <strong>el papel que desempeña al ser
+    proporcionada a otra función</strong>.
+  </p>
+</div>
+
+<!-- 5 -->
+<h2 id="ejecucion-callback">Cómo y cuándo se ejecuta una callback</h2>
+
+<p>
+  Es importante comprender que pasar una función
+  como argumento <strong>no implica ejecutarla
+  inmediatamente</strong>.
+</p>
+
+<p>
+  La función que recibe la callback decide
+  cuándo invocarla y, dependiendo de su diseño,
+  incluso puede decidir no ejecutarla.
+</p>
+
+<h3>Ejecutar la callback dentro de otra función</h3>
+
+<div class="bloque-codigo">
+  <div class="cabecera-codigo">
+    <span class="lenguaje-codigo">JavaScript</span>
+    <button class="boton-copiar" type="button">📋 Copiar código</button>
+  </div>
+  <pre><code>function avisar() {
+  console.log("Aviso ejecutado");
+}
+
+function procesar(callback) {
+  console.log("Antes de la callback");
+
+  callback();
+
+  console.log("Después de la callback");
+}
+
+console.log("Inicio del programa");
+
+procesar(avisar);
+
+console.log("Fin del programa");</code></pre>
+</div>
+
+<p><strong>Salida por consola:</strong></p>
+
+<div class="bloque-codigo">
+  <div class="cabecera-codigo">
+    <span class="lenguaje-codigo">Consola</span>
+    <button class="boton-copiar" type="button">📋 Copiar código</button>
+  </div>
+  <pre><code>Inicio del programa
+Antes de la callback
+Aviso ejecutado
+Después de la callback
+Fin del programa</code></pre>
+</div>
+
+<p>
+  En este ejemplo, todas las instrucciones
+  se ejecutan de forma secuencial.
+  La callback se ejecuta exactamente
+  cuando aparece la instrucción
+  <code>callback()</code>.
+</p>
+
+<h3>Ejecutar una callback solo si se cumple una condición</h3>
+
+<div class="bloque-codigo">
+  <div class="cabecera-codigo">
+    <span class="lenguaje-codigo">JavaScript</span>
+    <button class="boton-copiar" type="button">📋 Copiar código</button>
+  </div>
+  <pre><code>function mostrarConfirmacion() {
+  console.log("Compra confirmada");
+}
+
+function procesarCompra(importe, callback) {
+  if (importe > 0) {
+    callback();
+  } else {
+    console.log("Importe no válido");
+  }
+}
+
+procesarCompra(50, mostrarConfirmacion);
+procesarCompra(0, mostrarConfirmacion);</code></pre>
+</div>
+
+<p><strong>Salida por consola:</strong></p>
+
+<div class="bloque-codigo">
+  <div class="cabecera-codigo">
+    <span class="lenguaje-codigo">Consola</span>
+    <button class="boton-copiar" type="button">📋 Copiar código</button>
+  </div>
+  <pre><code>Compra confirmada
+Importe no válido</code></pre>
+</div>
+
+<p>
+  En la primera llamada se ejecuta
+  <code>mostrarConfirmacion</code>.
+  En la segunda, la condición no se cumple
+  y la callback no llega a invocarse.
+</p>
+
+<div class="caja caja-atencion">
+  <span class="caja-titulo">⚠️ Atención</span>
+  <p>
+    Una callback <strong>no es necesariamente asíncrona</strong>.
+    También puede ejecutarse inmediatamente,
+    durante la ejecución de la función que la recibe.
+  </p>
+  <p>
+    Más adelante distinguiremos entre callbacks
+    síncronas y asíncronas.
+  </p>
+</div>
+
+<!-- 6 -->
+<h2 id="callbacks-parametros">Callbacks que reciben parámetros</h2>
+
+<p>
+  Una callback también puede recibir argumentos.
+  La función que la invoca es la encargada
+  de proporcionárselos.
+</p>
+
+<p>
+  Por ejemplo, podemos crear una función
+  que procese el nombre de un usuario
+  y permita elegir cómo mostrarlo.
+</p>
+
+<div class="bloque-codigo">
+  <div class="cabecera-codigo">
+    <span class="lenguaje-codigo">JavaScript</span>
+    <button class="boton-copiar" type="button">📋 Copiar código</button>
+  </div>
+  <pre><code>function mostrarMayusculas(nombre) {
+  console.log(nombre.toUpperCase());
+}
+
+function mostrarSaludo(nombre) {
+  console.log("Hola, " + nombre);
+}
+
+function procesarUsuario(nombre, callback) {
+  callback(nombre);
+}
+
+procesarUsuario("Laura", mostrarMayusculas);
+procesarUsuario("Carlos", mostrarSaludo);</code></pre>
+</div>
+
+<p><strong>Salida por consola:</strong></p>
+
+<div class="bloque-codigo">
+  <div class="cabecera-codigo">
+    <span class="lenguaje-codigo">Consola</span>
+    <button class="boton-copiar" type="button">📋 Copiar código</button>
+  </div>
+  <pre><code>LAURA
+Hola, Carlos</code></pre>
+</div>
+
+<p>
+  La función <code>procesarUsuario</code>
+  recibe el nombre y la callback.
+  Después ejecuta <code>callback(nombre)</code>.
+</p>
+
+<p>
+  En la primera llamada se ejecuta
+  <code>mostrarMayusculas("Laura")</code>.
+  En la segunda se ejecuta
+  <code>mostrarSaludo("Carlos")</code>.
+</p>
+
+<h3>Callbacks con varios argumentos</h3>
+
+<div class="bloque-codigo">
+  <div class="cabecera-codigo">
+    <span class="lenguaje-codigo">JavaScript</span>
+    <button class="boton-copiar" type="button">📋 Copiar código</button>
+  </div>
+  <pre><code>function mostrarPrecio(nombre, precio) {
+  console.log(nombre + ": " + precio + " €");
+}
+
+function procesarProducto(nombre, precio, callback) {
+  callback(nombre, precio);
+}
+
+procesarProducto("Teclado", 40, mostrarPrecio);</code></pre>
+</div>
+
+<p><strong>Salida por consola:</strong></p>
+
+<div class="bloque-codigo">
+  <div class="cabecera-codigo">
+    <span class="lenguaje-codigo">Consola</span>
+    <button class="boton-copiar" type="button">📋 Copiar código</button>
+  </div>
+  <pre><code>Teclado: 40 €</code></pre>
+</div>
+
+<div class="caja caja-importante">
+  <span class="caja-titulo">📌 Importante</span>
+  <p>
+    Cuando una función ejecuta una callback,
+    puede pasarle tantos argumentos como
+    necesite su diseño.
+  </p>
+  <p>
+    Debemos consultar cómo se invoca la callback
+    para saber qué datos recibirá.
+    No todas las callbacks tienen
+    los mismos parámetros.
+  </p>
+</div>
+
+<!-- 7 -->
+<h2 id="callbacks-retorno">Callbacks y valores de retorno</h2>
+
+<p>
+  Las callbacks también pueden devolver valores
+  mediante <code>return</code>.
+  La función que las ejecuta puede recoger
+  esos resultados y utilizarlos.
+</p>
+
+<p>
+  Vamos a crear una función general
+  para aplicar diferentes operaciones
+  a un precio.
+</p>
+
+<div class="bloque-codigo">
+  <div class="cabecera-codigo">
+    <span class="lenguaje-codigo">JavaScript</span>
+    <button class="boton-copiar" type="button">📋 Copiar código</button>
+  </div>
+  <pre><code>function aplicarDescuento(precio) {
+  return precio * 0.90;
+}
+
+function aplicarIVA(precio) {
+  return precio * 1.21;
+}
+
+function transformarPrecio(precio, callback) {
+  return callback(precio);
+}
+
+console.log(transformarPrecio(100, aplicarDescuento));
+console.log(transformarPrecio(100, aplicarIVA));</code></pre>
+</div>
+
+<p><strong>Salida por consola:</strong></p>
+
+<div class="bloque-codigo">
+  <div class="cabecera-codigo">
+    <span class="lenguaje-codigo">Consola</span>
+    <button class="boton-copiar" type="button">📋 Copiar código</button>
+  </div>
+  <pre><code>90
+121</code></pre>
+</div>
+
+<p>
+  La función <code>transformarPrecio</code>
+  no realiza directamente el descuento
+  ni el cálculo del IVA.
+</p>
+
+<p>
+  Ejecuta la callback recibida
+  y devuelve su resultado mediante
+  <code>return callback(precio)</code>.
+</p>
+
+<h3>El resultado de la callback no se devuelve automáticamente</h3>
+
+<p>
+  Observa esta diferencia:
+</p>
+
+<div class="bloque-codigo">
+  <div class="cabecera-codigo">
+    <span class="lenguaje-codigo">JavaScript</span>
+    <button class="boton-copiar" type="button">📋 Copiar código</button>
+  </div>
+  <pre><code>const duplicar = numero => numero * 2;
+
+function procesar1(numero, callback) {
+  callback(numero);
+}
+
+function procesar2(numero, callback) {
+  return callback(numero);
+}
+
+console.log(procesar1(5, duplicar));
+console.log(procesar2(5, duplicar));</code></pre>
+</div>
+
+<p><strong>Salida por consola:</strong></p>
+
+<div class="bloque-codigo">
+  <div class="cabecera-codigo">
+    <span class="lenguaje-codigo">Consola</span>
+    <button class="boton-copiar" type="button">📋 Copiar código</button>
+  </div>
+  <pre><code>undefined
+10</code></pre>
+</div>
+
+<p>
+  En ambos casos la callback calcula <code>10</code>.
+  Sin embargo, <code>procesar1</code>
+  no devuelve ese resultado.
+</p>
+
+<p>
+  En cambio, <code>procesar2</code>
+  utiliza <code>return</code> para devolver
+  el valor producido por la callback.
+</p>
+
+<div class="caja caja-atencion">
+  <span class="caja-titulo">⚠️ Atención</span>
+  <p>
+    Que una callback devuelva un valor
+    no significa que la función que la ejecuta
+    también lo devuelva automáticamente.
+  </p>
+  <p>
+    Si queremos propagar el resultado,
+    la función externa debe devolverlo
+    explícitamente.
+  </p>
+</div>
+
+<!-- 8 -->
+<h2 id="callbacks-anonimas">Callbacks anónimas y funciones flecha</h2>
+
+<p>
+  Hasta ahora hemos definido las callbacks
+  por separado y después las hemos pasado
+  como argumentos.
+</p>
+
+<p>
+  Sin embargo, también podemos escribir
+  la función directamente en el lugar
+  donde la necesitamos.
+</p>
+
+<h3>Callback mediante una función anónima</h3>
+
+<div class="bloque-codigo">
+  <div class="cabecera-codigo">
+    <span class="lenguaje-codigo">JavaScript</span>
+    <button class="boton-copiar" type="button">📋 Copiar código</button>
+  </div>
+  <pre><code>function ejecutar(callback) {
+  callback();
+}
+
+ejecutar(function() {
+  console.log("Callback ejecutada");
+});</code></pre>
+</div>
+
+<p><strong>Salida por consola:</strong></p>
+
+<div class="bloque-codigo">
+  <div class="cabecera-codigo">
+    <span class="lenguaje-codigo">Consola</span>
+    <button class="boton-copiar" type="button">📋 Copiar código</button>
+  </div>
+  <pre><code>Callback ejecutada</code></pre>
+</div>
+
+<p>
+  La función anónima se crea directamente
+  como argumento de <code>ejecutar</code>.
+  No necesitamos asignarla previamente
+  a una variable.
+</p>
+
+<h3>Callback mediante una función flecha</h3>
+
+<div class="bloque-codigo">
+  <div class="cabecera-codigo">
+    <span class="lenguaje-codigo">JavaScript</span>
+    <button class="boton-copiar" type="button">📋 Copiar código</button>
+  </div>
+  <pre><code>function ejecutar(callback) {
+  callback();
+}
+
+ejecutar(() => {
+  console.log("Callback ejecutada");
+});</code></pre>
+</div>
+
+<p><strong>Salida por consola:</strong></p>
+
+<div class="bloque-codigo">
+  <div class="cabecera-codigo">
+    <span class="lenguaje-codigo">Consola</span>
+    <button class="boton-copiar" type="button">📋 Copiar código</button>
+  </div>
+  <pre><code>Callback ejecutada</code></pre>
+</div>
+
+<p>
+  Las dos versiones realizan la misma tarea.
+  La segunda utiliza la sintaxis de funciones
+  flecha estudiada en el apartado 5.8.
+</p>
+
+<h3>Funciones flecha con retorno implícito</h3>
+
+<p>
+  Cuando la callback simplemente calcula
+  y devuelve un resultado, podemos
+  escribirla de forma muy breve.
+</p>
+
+<div class="bloque-codigo">
+  <div class="cabecera-codigo">
+    <span class="lenguaje-codigo">JavaScript</span>
+    <button class="boton-copiar" type="button">📋 Copiar código</button>
+  </div>
+  <pre><code>function calcular(numero, callback) {
+  return callback(numero);
+}
+
+const doble = calcular(8, numero => numero * 2);
+
+const cuadrado = calcular(8, numero => numero * numero);
+
+console.log(doble);
+console.log(cuadrado);</code></pre>
+</div>
+
+<p><strong>Salida por consola:</strong></p>
+
+<div class="bloque-codigo">
+  <div class="cabecera-codigo">
+    <span class="lenguaje-codigo">Consola</span>
+    <button class="boton-copiar" type="button">📋 Copiar código</button>
+  </div>
+  <pre><code>16
+64</code></pre>
+</div>
+
+<div class="caja caja-ejemplo">
+  <span class="caja-titulo">💻 Ejemplo DAW</span>
+  <p>
+    En desarrollo web es muy frecuente
+    escribir funciones flecha directamente
+    como callbacks, especialmente cuando
+    la operación es breve y está relacionada
+    con un único lugar del programa.
+  </p>
+  <p>
+    Si una callback contiene muchas instrucciones
+    o se utiliza en varias partes de la aplicación,
+    puede ser preferible definirla por separado
+    y asignarle un nombre descriptivo.
+  </p>
+</div>
+
+<!-- 9 -->
+<h2 id="callbacks-arrays">Callbacks para trabajar con arrays</h2>
+
+<p>
+  Una aplicación muy habitual de las callbacks
+  es el procesamiento de arrays.
+</p>
+
+<p>
+  JavaScript proporciona métodos que reciben
+  funciones para recorrer, transformar
+  o seleccionar elementos de un array.
+</p>
+
+<p>
+  Vamos a introducir tres métodos muy utilizados:
+  <code>forEach()</code>, <code>map()</code>
+  y <code>filter()</code>.
+  Los estudiaremos aquí desde el punto de vista
+  de las funciones callback.
+</p>
+
+<h3>forEach(): ejecutar una función por cada elemento</h3>
+
+<div class="bloque-codigo">
+  <div class="cabecera-codigo">
+    <span class="lenguaje-codigo">JavaScript</span>
+    <button class="boton-copiar" type="button">📋 Copiar código</button>
+  </div>
+  <pre><code>const productos = ["Teclado", "Ratón", "Monitor"];
+
+productos.forEach(function(producto) {
+  console.log(producto);
+});</code></pre>
+</div>
+
+<p><strong>Salida por consola:</strong></p>
+
+<div class="bloque-codigo">
+  <div class="cabecera-codigo">
+    <span class="lenguaje-codigo">Consola</span>
+    <button class="boton-copiar" type="button">📋 Copiar código</button>
+  </div>
+  <pre><code>Teclado
+Ratón
+Monitor</code></pre>
+</div>
+
+<p>
+  El método <code>forEach()</code>
+  ejecuta la callback una vez por cada
+  elemento del array.
+</p>
+
+<p>
+  En cada ejecución, el parámetro
+  <code>producto</code> recibe
+  el elemento correspondiente.
+</p>
+
+<p>
+  También podemos escribirlo mediante
+  una función flecha:
+</p>
+
+<div class="bloque-codigo">
+  <div class="cabecera-codigo">
+    <span class="lenguaje-codigo">JavaScript</span>
+    <button class="boton-copiar" type="button">📋 Copiar código</button>
+  </div>
+  <pre><code>const productos = ["Teclado", "Ratón", "Monitor"];
+
+productos.forEach(producto => {
+  console.log(producto);
+});</code></pre>
+</div>
+
+<h3>map(): transformar los elementos de un array</h3>
+
+<p>
+  El método <code>map()</code>
+  utiliza una callback para obtener
+  un nuevo valor por cada elemento.
+</p>
+
+<p>
+  Devuelve un <strong>nuevo array</strong>
+  con los resultados.
+</p>
+
+<div class="bloque-codigo">
+  <div class="cabecera-codigo">
+    <span class="lenguaje-codigo">JavaScript</span>
+    <button class="boton-copiar" type="button">📋 Copiar código</button>
+  </div>
+  <pre><code>const precios = [10, 20, 30];
+
+const preciosConIVA = precios.map(precio => {
+  return precio * 1.21;
+});
+
+console.log(preciosConIVA);
+console.log(precios);</code></pre>
+</div>
+
+<p><strong>Salida por consola:</strong></p>
+
+<div class="bloque-codigo">
+  <div class="cabecera-codigo">
+    <span class="lenguaje-codigo">Consola</span>
+    <button class="boton-copiar" type="button">📋 Copiar código</button>
+  </div>
+  <pre><code>[12.1, 24.2, 36.3]
+[10, 20, 30]</code></pre>
+</div>
+
+<p>
+  El array original no se modifica
+  por esta operación.
+  <code>map()</code> construye otro array
+  utilizando los valores que devuelve
+  la callback.
+</p>
+
+<h3>filter(): seleccionar elementos mediante una condición</h3>
+
+<p>
+  El método <code>filter()</code>
+  utiliza una callback para decidir
+  qué elementos deben incluirse
+  en un nuevo array.
+</p>
+
+<div class="bloque-codigo">
+  <div class="cabecera-codigo">
+    <span class="lenguaje-codigo">JavaScript</span>
+    <button class="boton-copiar" type="button">📋 Copiar código</button>
+  </div>
+  <pre><code>const precios = [15, 80, 25, 120, 40];
+
+const preciosAltos = precios.filter(precio => {
+  return precio > 50;
+});
+
+console.log(preciosAltos);</code></pre>
+</div>
+
+<p><strong>Salida por consola:</strong></p>
+
+<div class="bloque-codigo">
+  <div class="cabecera-codigo">
+    <span class="lenguaje-codigo">Consola</span>
+    <button class="boton-copiar" type="button">📋 Copiar código</button>
+  </div>
+  <pre><code>[80, 120]</code></pre>
+</div>
+
+<p>
+  La callback devuelve <code>true</code>
+  cuando el precio supera 50.
+  Solo esos elementos se incluyen
+  en el array resultante.
+</p>
+
+<h3>Comparación de los tres métodos</h3>
+
+<div class="tabla-responsive">
+  <table class="tabla-apuntes">
+    <thead>
+      <tr>
+        <th>Método</th>
+        <th>Qué hace la callback</th>
+        <th>Resultado del método</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><code>forEach()</code></td>
+        <td>Ejecuta una operación por cada elemento</td>
+        <td>Devuelve <code>undefined</code></td>
+      </tr>
+      <tr>
+        <td><code>map()</code></td>
+        <td>Devuelve un valor transformado por cada elemento</td>
+        <td>Un nuevo array de resultados</td>
+      </tr>
+      <tr>
+        <td><code>filter()</code></td>
+        <td>Indica si cada elemento cumple una condición</td>
+        <td>Un nuevo array con los elementos seleccionados</td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<div class="caja caja-atencion">
+  <span class="caja-titulo">⚠️ Atención</span>
+  <p>
+    No confundas el valor que devuelve
+    una callback con el valor que devuelve
+    el método que la utiliza.
+  </p>
+  <p>
+    Por ejemplo, <code>map()</code> recoge
+    los valores devueltos por la callback
+    para construir un nuevo array,
+    mientras que <code>forEach()</code>
+    no devuelve un array de resultados.
+  </p>
+</div>
+
+<!-- 10 -->
+<h2 id="callbacks-eventos">Callbacks y eventos en una página web</h2>
+
+<p>
+  Las callbacks también son fundamentales
+  para crear páginas web interactivas.
+</p>
+
+<p>
+  Cuando una persona hace clic en un botón,
+  escribe en un campo o envía un formulario,
+  el navegador puede ejecutar una función
+  que hayamos registrado previamente.
+</p>
+
+<p>
+  Esa función actúa como callback
+  o <strong>manejador del evento</strong>.
+</p>
+
+<h3>Un ejemplo con un botón</h3>
+
+<p>
+  Imagina que tenemos este elemento HTML:
+</p>
+
+<div class="bloque-codigo">
+  <div class="cabecera-codigo">
+    <span class="lenguaje-codigo">HTML</span>
+    <button class="boton-copiar" type="button">📋 Copiar código</button>
+  </div>
+  <pre><code>&lt;button id="botonSaludar"&gt;Saludar&lt;/button&gt;</code></pre>
+</div>
+
+<p>
+  Podemos registrar una función para que
+  se ejecute cuando el usuario haga clic.
+</p>
+
+<div class="bloque-codigo">
+  <div class="cabecera-codigo">
+    <span class="lenguaje-codigo">JavaScript</span>
+    <button class="boton-copiar" type="button">📋 Copiar código</button>
+  </div>
+  <pre><code>const boton = document.getElementById("botonSaludar");
+
+function mostrarSaludo() {
+  console.log("Has pulsado el botón");
+}
+
+boton.addEventListener("click", mostrarSaludo);</code></pre>
+</div>
+
+<p>
+  Si el elemento existe y se pulsa una vez,
+  aparecerá el siguiente mensaje:
+</p>
+
+<div class="bloque-codigo">
+  <div class="cabecera-codigo">
+    <span class="lenguaje-codigo">Consola</span>
+    <button class="boton-copiar" type="button">📋 Copiar código</button>
+  </div>
+  <pre><code>Has pulsado el botón</code></pre>
+</div>
+
+<p>
+  La instrucción <code>addEventListener()</code>
+  registra la función <code>mostrarSaludo</code>
+  para el evento <code>click</code>.
+</p>
+
+<p>
+  La función no se ejecuta al registrarla.
+  El navegador la ejecutará cuando
+  se produzca el evento.
+</p>
+
+<h3>Utilizar una función flecha como callback</h3>
+
+<div class="bloque-codigo">
+  <div class="cabecera-codigo">
+    <span class="lenguaje-codigo">JavaScript</span>
+    <button class="boton-copiar" type="button">📋 Copiar código</button>
+  </div>
+  <pre><code>const boton = document.getElementById("botonSaludar");
+
+boton.addEventListener("click", () => {
+  console.log("Has pulsado el botón");
+});</code></pre>
+</div>
+
+<p>
+  Esta versión realiza la misma tarea,
+  pero utiliza una función flecha anónima.
+</p>
+
+<div class="caja caja-ejemplo">
+  <span class="caja-titulo">💻 Ejemplo DAW</span>
+  <p>
+    En una aplicación web utilizaremos
+    callbacks para responder a acciones
+    del usuario: añadir productos al carrito,
+    validar formularios, abrir menús
+    o actualizar información en pantalla.
+  </p>
+  <p>
+    En la unidad dedicada al DOM y los eventos
+    estudiaremos <code>addEventListener()</code>
+    y los manejadores de eventos
+    con mayor profundidad.
+  </p>
+</div>
+
+<!-- 11 -->
+<h2 id="sincronia-asincronia">Callbacks síncronas y asíncronas</h2>
+
+<p>
+  Hasta ahora, la mayoría de nuestras callbacks
+  se han ejecutado durante la propia llamada
+  a la función que las recibe.
+</p>
+
+<p>
+  Sin embargo, una callback también puede
+  registrarse para ejecutarse posteriormente,
+  cuando ocurra un evento o se complete
+  una operación.
+</p>
+
+<h3>Callback síncrona</h3>
+
+<p>
+  Una <strong>callback síncrona</strong>
+  se ejecuta durante la ejecución de la función
+  que la invoca, siguiendo el flujo
+  normal del programa.
+</p>
+
+<div class="bloque-codigo">
+  <div class="cabecera-codigo">
+    <span class="lenguaje-codigo">JavaScript</span>
+    <button class="boton-copiar" type="button">📋 Copiar código</button>
+  </div>
+  <pre><code>function ejecutar(callback) {
+  console.log("Paso 1");
+
+  callback();
+
+  console.log("Paso 3");
+}
+
+ejecutar(() => {
+  console.log("Paso 2");
+});</code></pre>
+</div>
+
+<p><strong>Salida por consola:</strong></p>
+
+<div class="bloque-codigo">
+  <div class="cabecera-codigo">
+    <span class="lenguaje-codigo">Consola</span>
+    <button class="boton-copiar" type="button">📋 Copiar código</button>
+  </div>
+  <pre><code>Paso 1
+Paso 2
+Paso 3</code></pre>
+</div>
+
+<h3>Callback asíncrona</h3>
+
+<p>
+  Una <strong>callback asíncrona</strong>,
+  en el sentido de una función programada
+  para ejecutarse posteriormente,
+  permite indicar qué código debe ejecutarse
+  cuando llegue el momento correspondiente.
+</p>
+
+<p>
+  Por ejemplo, <code>setTimeout()</code>
+  permite programar la ejecución
+  de una función después de que transcurra
+  al menos un tiempo determinado.
+</p>
+
+<div class="bloque-codigo">
+  <div class="cabecera-codigo">
+    <span class="lenguaje-codigo">JavaScript</span>
+    <button class="boton-copiar" type="button">📋 Copiar código</button>
+  </div>
+  <pre><code>console.log("Inicio");
+
+setTimeout(() => {
+  console.log("Callback del temporizador");
+}, 1000);
+
+console.log("Fin");</code></pre>
+</div>
+
+<p><strong>Salida por consola:</strong></p>
+
+<div class="bloque-codigo">
+  <div class="cabecera-codigo">
+    <span class="lenguaje-codigo">Consola</span>
+    <button class="boton-copiar" type="button">📋 Copiar código</button>
+  </div>
+  <pre><code>Inicio
+Fin
+Callback del temporizador</code></pre>
+</div>
+
+<p>
+  Primero aparece <code>Inicio</code>.
+  Después se registra la callback
+  del temporizador y continúa
+  la ejecución del programa.
+</p>
+
+<p>
+  Por eso aparece <code>Fin</code>
+  antes del mensaje de la callback.
+  Cuando el temporizador ha cumplido
+  el tiempo establecido y el entorno
+  puede atenderla, se ejecuta
+  la función registrada.
+</p>
+
+<div class="caja caja-atencion">
+  <span class="caja-titulo">⚠️ Atención</span>
+  <p>
+    <code>setTimeout(callback, 1000)</code>
+    no garantiza que la callback se ejecute
+    exactamente a los 1000 milisegundos.
+  </p>
+  <p>
+    Ese tiempo representa un retraso mínimo
+    aproximado. La ejecución real también
+    depende de la disponibilidad
+    del entorno de JavaScript.
+  </p>
+</div>
+
+<div class="caja caja-importante">
+  <span class="caja-titulo">📌 Importante</span>
+  <p>
+    Las callbacks pueden utilizarse tanto
+    en operaciones síncronas como asíncronas.
+  </p>
+  <p>
+    Además, una callback programada
+    para ejecutarse posteriormente
+    no necesita estar declarada
+    con la palabra <code>async</code>.
+    Son conceptos relacionados,
+    pero diferentes.
+  </p>
+  <p>
+    En la unidad de comunicación asíncrona
+    estudiaremos con más detalle
+    los temporizadores, las promesas
+    y las peticiones a servidores.
+  </p>
+</div>
+
+<!-- 12 -->
+<h2 id="errores-frecuentes">Errores frecuentes y buenas prácticas</h2>
+
+<h3>1. Ejecutar una función en lugar de pasarla</h3>
+
+<p>
+  Este es uno de los errores más frecuentes
+  cuando comenzamos a trabajar con callbacks.
+</p>
+
+<div class="bloque-codigo">
+  <div class="cabecera-codigo">
+    <span class="lenguaje-codigo">JavaScript</span>
+    <button class="boton-copiar" type="button">📋 Copiar código</button>
+  </div>
+  <pre><code>function avisar() {
+  console.log("Aviso");
+}
+
+function ejecutar(callback) {
+  callback();
+}
+
+// Correcto: pasamos la función.
+ejecutar(avisar);
+
+// Incorrecto: avisar() se ejecuta primero.
+// Después, ejecutar recibe undefined.
+// ejecutar(avisar());</code></pre>
+</div>
+
+<p>
+  En <code>ejecutar(avisar)</code>
+  pasamos la función.
+  En <code>ejecutar(avisar())</code>
+  ejecutamos primero <code>avisar</code>
+  y pasamos el valor que devuelve.
+</p>
+
+<p>
+  Como <code>avisar</code> no contiene
+  <code>return</code>, devuelve
+  <code>undefined</code>.
+  Si después intentamos ejecutar ese valor
+  mediante <code>callback()</code>,
+  se producirá un <code>TypeError</code>.
+</p>
+
+<h3>2. Confundir los parámetros de la función externa y la callback</h3>
+
+<p>
+  Cada función tiene sus propios parámetros.
+  La callback recibe los argumentos
+  que le proporciona la función
+  encargada de ejecutarla.
+</p>
+
+<h3>3. Olvidar devolver el resultado</h3>
+
+<p>
+  Si necesitamos utilizar el valor calculado
+  por una callback, debemos comprobar
+  que la función externa también
+  devuelve ese resultado.
+</p>
+
+<h3>4. Suponer que todas las callbacks se ejecutan inmediatamente</h3>
+
+<p>
+  Algunas callbacks se ejecutan
+  durante la llamada a la función externa.
+  Otras se registran para ejecutarse
+  posteriormente.
+</p>
+
+<p>
+  El momento de ejecución depende
+  de la función o del método
+  que recibe la callback.
+</p>
+
+<h3>5. No comprobar que el argumento es una función</h3>
+
+<p>
+  Cuando una función propia recibe
+  una callback que podría no proporcionarse,
+  podemos validar su tipo
+  antes de ejecutarla.
+</p>
+
+<div class="bloque-codigo">
+  <div class="cabecera-codigo">
+    <span class="lenguaje-codigo">JavaScript</span>
+    <button class="boton-copiar" type="button">📋 Copiar código</button>
+  </div>
+  <pre><code>function procesar(callback) {
+  if (typeof callback === "function") {
+    callback();
+  } else {
+    console.log("No se ha recibido una función");
+  }
+}
+
+procesar(() => console.log("Procesando"));
+procesar(25);</code></pre>
+</div>
+
+<p><strong>Salida por consola:</strong></p>
+
+<div class="bloque-codigo">
+  <div class="cabecera-codigo">
+    <span class="lenguaje-codigo">Consola</span>
+    <button class="boton-copiar" type="button">📋 Copiar código</button>
+  </div>
+  <pre><code>Procesando
+No se ha recibido una función</code></pre>
+</div>
+
+<h3>6. Escribir callbacks demasiado extensas</h3>
+
+<p>
+  Una callback pequeña suele resultar
+  fácil de comprender.
+  Sin embargo, una función anónima
+  con muchas instrucciones puede dificultar
+  la lectura y el mantenimiento.
+</p>
+
+<p>
+  Cuando la operación es compleja
+  o debe reutilizarse, conviene
+  definir una función con un nombre
+  que explique su responsabilidad.
+</p>
+
+<div class="caja caja-ejemplo">
+  <span class="caja-titulo">💻 Ejemplo DAW</span>
+  <p>
+    Si una aplicación necesita validar
+    un pedido, calcular impuestos
+    y actualizar varios elementos,
+    puede resultar más claro separar
+    esas tareas en funciones con nombres
+    descriptivos que incluir todo
+    el código en una única callback.
+  </p>
+  <p>
+    La finalidad de las callbacks
+    es facilitar la organización
+    y reutilización del código,
+    no complicar su estructura.
+  </p>
+</div>
+
+<!-- 13 -->
+<h2 id="ejemplo-completo">Ejemplo práctico completo: procesamiento de pedidos de una tienda online</h2>
+
+<p>
+  Vamos a reunir los conceptos aprendidos
+  mediante un ejemplo relacionado
+  con una tienda tecnológica.
+</p>
+
+<p>
+  Queremos crear una función que procese
+  el importe de un pedido y permita
+  aplicar diferentes operaciones
+  sin modificar su estructura principal.
+</p>
+
+<p>
+  Para ello utilizaremos callbacks
+  que calcularán descuentos,
+  añadirán IVA y mostrarán resultados.
+</p>
+
+<p>
+  El programa realizará las siguientes operaciones:
+</p>
+
+<ol>
+  <li>Crear un producto con su nombre y precio.</li>
+  <li>Aplicar una operación al precio mediante una callback.</li>
+  <li>Calcular el precio con descuento.</li>
+  <li>Calcular el precio con IVA.</li>
+  <li>Mostrar un resumen por consola.</li>
+</ol>
+
+<div class="bloque-codigo">
+  <div class="cabecera-codigo">
+    <span class="lenguaje-codigo">JavaScript</span>
+    <button class="boton-copiar" type="button">📋 Copiar código</button>
+  </div>
+  <pre><code>// Creamos un producto.
+const crearProducto = (nombre, precio) => ({
+  nombre,
+  precio
+});
+
+// Callback para aplicar un descuento del 10 %.
+const aplicarDescuento = precio => precio * 0.90;
+
+// Callback para aplicar un IVA del 21 %.
+const aplicarIVA = precio => precio * 1.21;
+
+// Función que recibe y ejecuta una callback.
+function procesarPrecio(precio, operacion) {
+  return operacion(precio);
+}
+
+// Función para mostrar un importe.
+const mostrarImporte = function(etiqueta, importe) {
+  console.log(
+    etiqueta + ": " + importe.toFixed(2) + " €"
+  );
+};
+
+// Creamos el producto.
+const producto = crearProducto("Teclado", 100);
+
+// Aplicamos el descuento.
+const precioDescuento = procesarPrecio(
+  producto.precio,
+  aplicarDescuento
+);
+
+// Aplicamos el IVA al precio descontado.
+const precioFinal = procesarPrecio(
+  precioDescuento,
+  aplicarIVA
+);
+
+// Mostramos los resultados.
+console.log("RESUMEN DEL PEDIDO");
+console.log("Producto: " + producto.nombre);
+
+mostrarImporte("Precio original", producto.precio);
+mostrarImporte("Con descuento", precioDescuento);
+mostrarImporte("Precio final con IVA", precioFinal);</code></pre>
+</div>
+
+<p><strong>Salida por consola:</strong></p>
+
+<div class="bloque-codigo">
+  <div class="cabecera-codigo">
+    <span class="lenguaje-codigo">Consola</span>
+    <button class="boton-copiar" type="button">📋 Copiar código</button>
+  </div>
+  <pre><code>RESUMEN DEL PEDIDO
+Producto: Teclado
+Precio original: 100.00 €
+Con descuento: 90.00 €
+Precio final con IVA: 108.90 €</code></pre>
+</div>
+
+<h3>Análisis paso a paso</h3>
+
+<ol>
+  <li>
+    <code>crearProducto()</code> es una función
+    flecha que devuelve un objeto con el nombre
+    y el precio del producto.
+  </li>
+  <li>
+    <code>aplicarDescuento()</code> es una función
+    flecha que calcula el precio tras aplicar
+    un descuento del 10 %.
+  </li>
+  <li>
+    <code>aplicarIVA()</code> es otra función
+    flecha que añade el 21 % de IVA.
+  </li>
+  <li>
+    <code>procesarPrecio()</code> recibe
+    un número y una callback llamada
+    <code>operacion</code>.
+  </li>
+  <li>
+    En la primera llamada a
+    <code>procesarPrecio()</code>,
+    pasamos <code>aplicarDescuento</code>.
+    El precio de 100 € se transforma
+    en <strong>90 €</strong>.
+  </li>
+  <li>
+    En la segunda llamada pasamos
+    <code>aplicarIVA</code>.
+    El IVA del 21 % sobre 90 €
+    produce <strong>108,90 €</strong>.
+  </li>
+  <li>
+    <code>mostrarImporte()</code>
+    es una expresión de función tradicional
+    que muestra los importes
+    con dos decimales.
+  </li>
+  <li>
+    El objeto <code>producto</code>
+    conserva su precio original de 100 €,
+    porque los cálculos se realizan
+    con valores numéricos y no modifican
+    su propiedad <code>precio</code>.
+  </li>
+</ol>
+
+<div class="caja caja-importante">
+  <span class="caja-titulo">📌 Importante</span>
+  <p>
+    La función <code>procesarPrecio()</code>
+    puede utilizar diferentes operaciones
+    sin modificar su código.
+  </p>
+  <p>
+    Esa es una de las principales ventajas
+    de las callbacks: permiten
+    <strong>separar el funcionamiento general
+    de una tarea de la operación concreta
+    que queremos realizar</strong>.
+  </p>
+</div>
+
+<div class="caja caja-ejemplo">
+  <span class="caja-titulo">💻 Ejemplo DAW</span>
+  <p>
+    En una tienda online real,
+    podríamos ampliar este sistema
+    con nuevas callbacks para aplicar
+    descuentos especiales, recargos
+    o diferentes reglas de cálculo.
+  </p>
+  <p>
+    También podríamos utilizar callbacks
+    para recorrer productos del carrito,
+    filtrar artículos disponibles
+    o responder al clic
+    del botón «Finalizar compra».
+  </p>
+</div>
+
+<!-- PIENSA -->
+<div class="actividad-reflexion">
+
+  <h3>💭 Piensa</h3>
+
+  <p>
+    Observa el siguiente programa
+    <strong>sin ejecutarlo</strong>.
+    Intenta responder a las preguntas
+    antes de consultar la solución.
+  </p>
+
+  <div class="bloque-codigo">
+    <div class="cabecera-codigo">
+      <span class="lenguaje-codigo">JavaScript</span>
+      <button class="boton-copiar" type="button">📋 Copiar código</button>
+    </div>
+    <pre><code>function calcular(precio, callback) {
+  console.log("Calculando...");
+  return callback(precio);
+}
+
+const descuento = precio => precio * 0.80;
+
+const iva = function(precio) {
+  return precio * 1.21;
+};
+
+const mostrarResultado = (nombre, precio) => {
+  console.log(nombre + ": " + precio.toFixed(2) + " €");
+};
+
+const precioOriginal = 100;
+
+const precioDescuento = calcular(
+  precioOriginal,
+  descuento
+);
+
+const precioFinal = calcular(
+  precioDescuento,
+  iva
+);
+
+mostrarResultado("Precio original", precioOriginal);
+mostrarResultado("Con descuento", precioDescuento);
+mostrarResultado("Con IVA", precioFinal);</code></pre>
+  </div>
+
+  <ol>
+    <li>
+      ¿Qué función está definida mediante
+      una declaración tradicional?
+    </li>
+    <li>
+      ¿Qué funciones utilizan
+      la sintaxis de funciones flecha?
+    </li>
+    <li>
+      ¿Qué función es una expresión
+      de función tradicional?
+    </li>
+    <li>
+      ¿Qué parámetro de
+      <code>calcular()</code>
+      representa la callback?
+    </li>
+    <li>
+      ¿Por qué escribimos
+      <code>calcular(precioOriginal, descuento)</code>
+      y no <code>calcular(precioOriginal, descuento())</code>?
+    </li>
+    <li>
+      ¿Cuántas veces se ejecuta
+      <code>calcular()</code> y qué callback
+      recibe en cada ocasión?
+    </li>
+    <li>
+      ¿Qué valores tendrán
+      <code>precioDescuento</code>
+      y <code>precioFinal</code>?
+    </li>
+    <li>
+      ¿Qué mensajes aparecerán
+      en la consola y en qué orden?
+    </li>
+  </ol>
+
+  <details class="solucion-desplegable">
+    <summary>Ver una posible solución</summary>
+
+    <div class="contenido-solucion">
+
+      <p>
+        <strong>1.</strong>
+        <code>calcular</code> es una declaración
+        tradicional porque utiliza
+        <code>function calcular(...)</code>.
+      </p>
+
+      <p>
+        <strong>2.</strong>
+        <code>descuento</code> y
+        <code>mostrarResultado</code>
+        son funciones flecha porque
+        utilizan el operador
+        <code>=&gt;</code>.
+      </p>
+
+      <p>
+        <strong>3.</strong>
+        <code>iva</code> es una expresión
+        de función tradicional.
+        Se crea con <code>function</code>
+        y se asigna a una variable
+        declarada mediante <code>const</code>.
+      </p>
+
+      <p>
+        <strong>4.</strong>
+        El parámetro <code>callback</code>
+        de <code>calcular()</code>
+        recibe la función que se utilizará
+        para transformar el precio.
+      </p>
+
+      <p>
+        <strong>5.</strong>
+        Escribimos <code>descuento</code>
+        sin paréntesis porque queremos
+        pasar la propia función.
+        Si escribiéramos
+        <code>descuento()</code>,
+        intentaríamos ejecutarla antes
+        de pasar el argumento.
+        Además, en este caso recibiría
+        <code>undefined</code> como precio
+        y produciría <code>NaN</code>.
+      </p>
+
+      <p>
+        <strong>6.</strong>
+        <code>calcular()</code> se ejecuta
+        dos veces. Primero recibe
+        <code>descuento</code>
+        y después recibe <code>iva</code>.
+      </p>
+
+      <p>
+        <strong>7.</strong>
+        El precio original es 100 €.
+        El descuento del 20 % produce
+        <code>precioDescuento = 80</code>.
+        Después se añade el 21 % de IVA:
+        <code>precioFinal = 96.8</code>.
+      </p>
+
+      <p>
+        <strong>8.</strong>
+        La salida completa será:
+      </p>
+
+      <div class="bloque-codigo">
+        <div class="cabecera-codigo">
+          <span class="lenguaje-codigo">Consola</span>
+          <button class="boton-copiar" type="button">📋 Copiar código</button>
+        </div>
+        <pre><code>Calculando...
+Calculando...
+Precio original: 100.00 €
+Con descuento: 80.00 €
+Con IVA: 96.80 €</code></pre>
+      </div>
+
+      <p>
+        Los dos primeros mensajes aparecen
+        porque <code>calcular()</code>
+        se ejecuta dos veces.
+        En cada llamada muestra
+        <code>"Calculando..."</code>
+        antes de invocar la callback.
+      </p>
+
+      <p>
+        Finalmente, las tres llamadas
+        a <code>mostrarResultado()</code>
+        muestran los importes
+        con dos decimales.
+      </p>
+
+    </div>
+  </details>
+
+</div>
+
+</section>
+
+<!-- NAVEGACIÓN ENTRE APARTADOS -->
+<nav aria-label="Navegación entre apartados" class="navegacion-paginas">
+
+  <a class="nav-pagina nav-anterior" href="../5-8/index.html">
+    <span class="nav-etiqueta">Anterior</span>
+    <strong>
+      ‹ 5.8 Expresiones de función y funciones flecha
+    </strong>
+  </a>
+
+  <a class="nav-pagina nav-siguiente" href="../5-10/index.html">
+    <span class="nav-etiqueta">Siguiente</span>
+    <strong>
+      5.10 Funciones predefinidas y métodos de JavaScript ›
+    </strong>
+  </a>
+
+</nav>
+
+</main>
+
+<!-- ÍNDICE DERECHO -->
+<aside aria-label="Índice del apartado" class="indice-derecho">
+  <h2>Contenidos del apartado</h2>
+
+  <ul>
+    <li><a href="#funciones-valores">Las funciones como valores</a></li>
+    <li><a href="#asignar-funciones">Asignar funciones a variables</a></li>
+    <li><a href="#pasar-funciones">Pasar funciones como argumentos</a></li>
+    <li><a href="#que-es-callback">Qué es una función callback</a></li>
+    <li><a href="#ejecucion-callback">Cómo se ejecuta una callback</a></li>
+    <li><a href="#callbacks-parametros">Callbacks con parámetros</a></li>
+    <li><a href="#callbacks-retorno">Callbacks y valores de retorno</a></li>
+    <li><a href="#callbacks-anonimas">Callbacks anónimas y flecha</a></li>
+    <li><a href="#callbacks-arrays">Callbacks con arrays</a></li>
+    <li><a href="#callbacks-eventos">Callbacks y eventos</a></li>
+    <li><a href="#sincronia-asincronia">Callbacks síncronas y asíncronas</a></li>
+    <li><a href="#errores-frecuentes">Errores y buenas prácticas</a></li>
+    <li><a href="#ejemplo-completo">Ejemplo práctico completo</a></li>
+  </ul>
+</aside>
+
+</div>
+
+<!-- PIE DE PÁGINA -->
+<footer class="footer">
+  <p>
+    Material elaborado por
+    <strong>Eva Ballestero Cubeles</strong>
+    · Licencia
+    <span class="licencia">CC BY-NC-SA 4.0</span>
+    <a
+      aria-label="Licencia Creative Commons BY-NC-SA 4.0"
+      class="enlace-licencia"
+      href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.es"
+      rel="license noopener noreferrer"
+      target="_blank"
+    >
+      <img
+        alt="Licencia Creative Commons BY-NC-SA 4.0"
+        class="icono-licencia"
+        src="../../../img/licencias/cc-by-nc-sa.png"
+      >
+    </a>
+  </p>
+</footer>
+
+<!-- JAVASCRIPT COMÚN -->
+<script src="../../../js/modulos.js"></script>
+
+<script>
+  const menuModulos = document.getElementById("menuModulos");
+  const botonTema = document.getElementById("botonTema");
+
+  const modulosActivos =
+    modulos.filter(modulo => modulo.activo === true);
+
+  modulosActivos.forEach(modulo => {
+    const enlace = document.createElement("a");
+
+    enlace.href = `../../../${modulo.carpeta}/index.html`;
+    enlace.textContent = modulo.siglas;
+    enlace.title = modulo.nombre;
+
+    if (modulo.siglas === "DWEC") {
+      enlace.style.color = "var(--verde-principal)";
+    }
+
+    menuModulos.appendChild(enlace);
+  });
+
+  /* MODO OSCURO */
+  const temaGuardado = localStorage.getItem("tema");
+
+  if (temaGuardado === "oscuro") {
+    document.body.classList.add("modo-oscuro");
+    botonTema.textContent = "🌙";
+  }
+
+  botonTema.addEventListener("click", () => {
+    document.body.classList.toggle("modo-oscuro");
+
+    const estaOscuro =
+      document.body.classList.contains("modo-oscuro");
+
+    botonTema.textContent = estaOscuro ? "🌙" : "☀️";
+
+    localStorage.setItem(
+      "tema",
+      estaOscuro ? "oscuro" : "claro"
+    );
+  });
+
+  /* MENÚS DESPLEGABLES */
+  const botonesDesplegar =
+    document.querySelectorAll(".boton-desplegar");
+
+  botonesDesplegar.forEach(boton => {
+    boton.addEventListener("click", () => {
+      const idSubmenu = boton.getAttribute("data-target");
+      const submenu = document.getElementById(idSubmenu);
+
+      if (!submenu) return;
+
+      const estaAbierto =
+        submenu.classList.contains("submenu-abierto");
+
+      submenu.classList.toggle("submenu-abierto");
+
+      boton.textContent = estaAbierto ? "›" : "⌄";
+
+      boton.setAttribute(
+        "aria-expanded",
+        estaAbierto ? "false" : "true"
+      );
+    });
+  });
+
+  /* COPIAR BLOQUES DE CÓDIGO */
+  document.addEventListener("click", async evento => {
+    const boton = evento.target.closest(".boton-copiar");
+
+    if (!boton) return;
+
+    const bloque = boton.closest(".bloque-codigo");
+    if (!bloque) return;
+
+    const codigo = bloque.querySelector("code");
+    if (!codigo) return;
+
+    const textoOriginal = boton.textContent;
+
+    try {
+      await navigator.clipboard.writeText(codigo.textContent);
+      boton.textContent = "✔ Copiado";
+    } catch (error) {
+      boton.textContent = "Error al copiar";
+    }
+
+    setTimeout(() => {
+      boton.textContent = textoOriginal;
+    }, 1600);
+  });
+</script>
+
+</body>
+</html>
