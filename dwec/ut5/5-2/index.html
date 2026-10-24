@@ -1,0 +1,2990 @@
+
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="5.2 - Declaración e invocación de funciones en JavaScript.">
+  <title>5.2 - Declaración e invocación de funciones</title>
+
+  <link rel="icon" type="image/png" href="../../../img/favicon.png?v=5">
+  <link rel="stylesheet" href="../../../css/estilos.css">
+
+  <style>
+    /* ==========================================
+       ESTRUCTURA DE LA UT
+    ========================================== */
+
+    .pagina-ut {
+      display: grid;
+      grid-template-columns: 280px 1fr 260px;
+      min-height: calc(100vh - 68px);
+    }
+
+    /* ==========================================
+       COLUMNA IZQUIERDA
+    ========================================== */
+
+    .sidebar {
+      border-right: 1px solid var(--borde);
+      background-color: var(--fondo-pagina);
+      padding: 12px 10px 30px;
+      position: sticky;
+      top: 68px;
+      height: calc(100vh - 68px);
+      overflow-y: auto;
+    }
+
+    .sidebar-modulo {
+      display: block;
+      margin-bottom: 8px;
+      padding: 8px 14px;
+      color: #626873;
+      font-size: 17px;
+      font-weight: 700;
+      line-height: 1.3;
+      text-decoration: none;
+      border-radius: 6px;
+      transition: color 0.2s ease, background-color 0.2s ease;
+    }
+
+    .sidebar-modulo:hover {
+      color: var(--verde-principal);
+      background-color: #f3f4f6;
+    }
+
+    body.modo-oscuro .sidebar-modulo:hover {
+      background-color: #273244;
+    }
+
+    /* ==========================================
+       MENÚ LATERAL DESPLEGABLE
+    ========================================== */
+
+    .menu-desplegable {
+      width: 100%;
+    }
+
+    .menu-cabecera {
+      display: flex;
+      align-items: center;
+      gap: 4px;
+      width: 100%;
+      border-radius: 6px;
+    }
+
+    .menu-cabecera-activa {
+      background-color: #f1f1f1;
+    }
+
+    .menu-cabecera-activa > .menu-titulo {
+      color: var(--verde-principal);
+    }
+
+    .menu-titulo {
+      flex: 1;
+      display: block;
+      padding: 11px 8px 11px 14px;
+      color: #626873;
+      font-size: 16px;
+      font-weight: 650;
+      line-height: 1.4;
+      text-decoration: none;
+    }
+
+    .menu-titulo:hover {
+      color: var(--verde-principal);
+    }
+
+    .boton-desplegar {
+      width: 36px;
+      height: 36px;
+      margin-right: 5px;
+      padding: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+      border: 0;
+      border-radius: 6px;
+      background: transparent;
+      color: #777;
+      font-family: inherit;
+      font-size: 24px;
+      line-height: 1;
+      cursor: pointer;
+    }
+
+    .boton-desplegar:hover {
+      background-color: #e5e7eb;
+      color: var(--verde-principal);
+    }
+
+    .submenu {
+      display: none;
+    }
+
+    .submenu.submenu-abierto {
+      display: block;
+    }
+
+    .menu-apartado {
+      margin-left: 14px;
+    }
+
+    .menu-apartado .menu-titulo {
+      padding-top: 9px;
+      padding-bottom: 9px;
+      font-size: 15px;
+      font-weight: 600;
+    }
+
+    .enlace-apartado-simple {
+      display: block;
+      margin-left: 14px;
+      padding: 10px 14px;
+      color: #626873;
+      font-size: 15px;
+      font-weight: 600;
+      line-height: 1.4;
+      text-decoration: none;
+      border-radius: 6px;
+      transition: background-color 0.2s ease, color 0.2s ease;
+    }
+
+    .enlace-apartado-simple:hover {
+      background-color: #f3f4f6;
+      color: var(--verde-principal);
+    }
+
+    .submenu-apartados {
+      margin: 2px 0 5px 28px;
+      border-left: 2px solid #e0e3e7;
+    }
+
+    .submenu-apartados a {
+      display: block;
+      padding: 7px 10px;
+      color: #777d87;
+      font-size: 14px;
+      font-weight: 500;
+      line-height: 1.35;
+      text-decoration: none;
+    }
+
+    .submenu-apartados a:hover {
+      color: var(--verde-principal);
+    }
+
+    body.modo-oscuro .menu-cabecera-activa {
+      background-color: #273244;
+    }
+
+    body.modo-oscuro .boton-desplegar:hover {
+      background-color: #334155;
+    }
+
+    body.modo-oscuro .enlace-apartado-simple:hover {
+      background-color: #273244;
+    }
+
+    body.modo-oscuro .submenu-apartados {
+      border-left-color: #3a4659;
+    }
+
+    /* ==========================================
+       RESTO DE UT
+    ========================================== */
+
+    .sidebar-ut-cerrada {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      padding: 13px 14px;
+      color: #626873;
+      text-decoration: none;
+      font-size: 16px;
+      font-weight: 650;
+      line-height: 1.35;
+      border-radius: 6px;
+      transition: background-color 0.2s ease, color 0.2s ease;
+    }
+
+    .sidebar-ut-cerrada:hover {
+      background-color: #f3f4f6;
+      color: var(--verde-principal);
+    }
+
+    body.modo-oscuro .sidebar-ut-cerrada:hover {
+      background-color: #273244;
+    }
+
+    /* ==========================================
+       ZONA CENTRAL
+    ========================================== */
+
+    .contenido-ut {
+      padding: 28px 34px 70px;
+      max-width: 1150px;
+      width: 100%;
+    }
+
+    .migas {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 30px;
+      font-size: 14px;
+    }
+
+    .miga-inicio {
+      text-decoration: none;
+      font-size: 18px;
+    }
+
+    .miga-separador {
+      color: #999;
+      font-size: 22px;
+    }
+
+    .miga-modulo {
+      color: var(--texto-secundario);
+      text-decoration: none;
+    }
+
+    .miga-modulo:hover {
+      color: var(--verde-principal);
+    }
+
+    .miga-actual {
+      padding: 8px 14px;
+      background-color: #f3f3f3;
+      border-radius: 24px;
+      color: var(--verde-principal);
+    }
+
+    body.modo-oscuro .miga-actual {
+      background-color: #273244;
+    }
+
+    .contenido-ut h1 {
+      margin: 0 0 30px;
+      font-size: clamp(38px, 5vw, 58px);
+      line-height: 1.12;
+    }
+
+    /* ==========================================
+       CONTENIDO DE LOS APARTADOS
+    ========================================== */
+
+    .apartado-ut {
+      margin-top: 55px;
+      scroll-margin-top: 95px;
+    }
+
+    .apartado-ut h2 {
+      margin: 0 0 24px;
+      font-size: 32px;
+      line-height: 1.2;
+      scroll-margin-top: 95px;
+    }
+
+    .apartado-ut h3 {
+      margin: 34px 0 16px;
+      font-size: 24px;
+      line-height: 1.3;
+    }
+
+    .apartado-ut p {
+      margin: 0 0 18px;
+      font-size: 18px;
+      line-height: 1.75;
+    }
+
+    .apartado-ut ul,
+    .apartado-ut ol {
+      margin: 16px 0 24px;
+      padding-left: 28px;
+    }
+
+    .apartado-ut li {
+      margin-bottom: 10px;
+      font-size: 17px;
+      line-height: 1.6;
+    }
+
+    /* ==========================================
+       CAJAS DE LOS APUNTES
+    ========================================== */
+
+    .caja {
+      margin: 28px 0;
+      padding: 18px 20px;
+      border-left: 5px solid;
+      border-radius: 8px;
+      line-height: 1.65;
+    }
+
+    .caja p {
+      margin: 0;
+      font-size: 17px;
+    }
+
+    .caja-titulo {
+      display: block;
+      margin-bottom: 8px;
+      font-size: 17px;
+      font-weight: 700;
+    }
+
+    .caja-importante {
+      background-color: #eef8f1;
+      border-left-color: #2f9e5b;
+    }
+
+    .caja-atencion {
+      background-color: #fff7e8;
+      border-left-color: #e09b27;
+    }
+
+    .caja-ejemplo {
+      background-color: #eef5ff;
+      border-left-color: #3f7acb;
+    }
+
+    .caja-curiosidad {
+      background-color: #f7f1ff;
+      border-left-color: #8b5cc7;
+    }
+
+    body.modo-oscuro .caja-importante {
+      background-color: #20372a;
+    }
+
+    body.modo-oscuro .caja-atencion {
+      background-color: #3b3020;
+    }
+
+    body.modo-oscuro .caja-ejemplo {
+      background-color: #23344a;
+    }
+
+    body.modo-oscuro .caja-curiosidad {
+      background-color: #332944;
+    }
+
+    /* ==========================================
+       TABLAS
+    ========================================== */
+
+    .tabla-responsive {
+      width: 100%;
+      margin: 28px 0;
+      overflow-x: auto;
+    }
+
+    .tabla-apuntes {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 16px;
+    }
+
+    .tabla-apuntes th,
+    .tabla-apuntes td {
+      padding: 14px 16px;
+      border: 1px solid var(--borde);
+      text-align: left;
+      vertical-align: top;
+      line-height: 1.55;
+    }
+
+    .tabla-apuntes th {
+      background-color: #f1f3f5;
+      font-weight: 700;
+    }
+
+    body.modo-oscuro .tabla-apuntes th {
+      background-color: #273244;
+    }
+
+    /* ==========================================
+       ESQUEMAS VISUALES
+    ========================================== */
+
+    .esquema-web {
+      max-width: 700px;
+      margin: 30px auto;
+    }
+
+    .esquema-fila {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 14px;
+      margin-top: 16px;
+    }
+
+    .esquema-caja {
+      padding: 18px 16px;
+      background-color: var(--fondo-tarjeta);
+      border: 1px solid var(--borde);
+      border-radius: 10px;
+      text-align: center;
+    }
+
+    .esquema-caja strong {
+      display: block;
+      margin-bottom: 5px;
+      color: var(--verde-principal);
+      font-size: 18px;
+    }
+
+    .esquema-caja span {
+      color: var(--texto-secundario);
+      font-size: 15px;
+      line-height: 1.45;
+    }
+
+    /* ==========================================
+       ACTIVIDAD DE REFLEXIÓN
+    ========================================== */
+
+    .actividad-reflexion {
+      margin: 32px 0;
+      padding: 22px 24px;
+      background-color: #f7f8fa;
+      border: 1px solid var(--borde);
+      border-radius: 10px;
+    }
+
+    .actividad-reflexion h3 {
+      margin: 0 0 12px;
+      color: var(--verde-principal);
+      font-size: 20px;
+    }
+
+    .actividad-reflexion p {
+      margin: 0 0 14px;
+      font-size: 17px;
+      line-height: 1.65;
+    }
+
+    body.modo-oscuro .actividad-reflexion {
+      background-color: #232d3d;
+    }
+
+    /* ==========================================
+       SOLUCIÓN DESPLEGABLE
+    ========================================== */
+
+    .solucion-desplegable {
+      margin-top: 20px;
+    }
+
+    .solucion-desplegable summary {
+      display: inline-block;
+      padding: 10px 16px;
+      background-color: #eef8f1;
+      border: 1px solid #b9dfc6;
+      border-radius: 7px;
+      color: var(--verde-principal);
+      font-size: 16px;
+      font-weight: 700;
+      cursor: pointer;
+      user-select: none;
+    }
+
+    .solucion-desplegable summary:hover {
+      background-color: #e2f3e7;
+    }
+
+    .contenido-solucion {
+      margin-top: 16px;
+      padding: 18px 20px;
+      background-color: var(--fondo-pagina);
+      border-left: 4px solid var(--verde-principal);
+      border-radius: 6px;
+    }
+
+    .contenido-solucion p {
+      margin: 0 0 12px;
+      font-size: 16px;
+      line-height: 1.65;
+    }
+
+    .contenido-solucion p:last-child {
+      margin-bottom: 0;
+    }
+
+    body.modo-oscuro .solucion-desplegable summary {
+      background-color: #20372a;
+      border-color: #315d40;
+    }
+
+    /* ==========================================
+       BLOQUES DE CÓDIGO DWEC
+    ========================================== */
+
+    .bloque-codigo {
+      margin: 28px 0;
+      border: 1px solid #3b3b3b;
+      border-radius: 9px;
+      overflow: hidden;
+      background-color: #1e1e1e;
+    }
+
+    .cabecera-codigo {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      padding: 10px 14px;
+      background-color: #2b2b2b;
+      color: #f3f4f6;
+      font-size: 14px;
+    }
+
+    .lenguaje-codigo {
+      font-weight: 700;
+    }
+
+    .boton-copiar {
+      padding: 6px 11px;
+      border: 1px solid #5c5c5c;
+      border-radius: 6px;
+      background-color: #383838;
+      color: #f3f4f6;
+      font-family: inherit;
+      font-size: 13px;
+      cursor: pointer;
+      transition: background-color 0.2s ease, border-color 0.2s ease;
+    }
+
+    .boton-copiar:hover {
+      background-color: #484848;
+      border-color: #777;
+    }
+
+    .bloque-codigo pre {
+      margin: 0;
+      padding: 18px 20px;
+      overflow-x: auto;
+      tab-size: 2;
+    }
+
+    .bloque-codigo code {
+      color: #f5f5f5;
+      font-family: Consolas, "Courier New", monospace;
+      font-size: 15px;
+      line-height: 1.6;
+      white-space: pre;
+    }
+
+    /* ==========================================
+       COLUMNA DERECHA
+    ========================================== */
+
+    .indice-derecho {
+      padding: 28px 22px 100px;
+      border-left: 1px solid var(--borde);
+      position: sticky;
+      top: 68px;
+      height: calc(100vh - 68px);
+      overflow-y: auto;
+      box-sizing: border-box;
+    }
+
+    .indice-derecho h2 {
+      margin: 8px 0 20px;
+      font-size: 17px;
+      color: #555b65;
+    }
+
+    body.modo-oscuro .indice-derecho h2 {
+      color: #d1d5db;
+    }
+
+    .indice-derecho ul {
+      margin: 0;
+      padding-left: 18px;
+    }
+
+    .indice-derecho li {
+      margin-bottom: 12px;
+    }
+
+    .indice-derecho a {
+      color: var(--texto-secundario);
+      text-decoration: none;
+      font-size: 14px;
+      line-height: 1.4;
+    }
+
+    .indice-derecho a:hover {
+      color: var(--verde-principal);
+    }
+
+    /* ==========================================
+       NAVEGACIÓN ANTERIOR / SIGUIENTE
+    ========================================== */
+
+    .navegacion-paginas {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 20px;
+      margin-top: 50px;
+    }
+
+    .nav-pagina {
+      min-height: 100px;
+      padding: 18px 20px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      border: 1px solid var(--borde);
+      border-radius: 8px;
+      text-decoration: none;
+      background-color: var(--fondo-tarjeta);
+    }
+
+    .nav-anterior {
+      align-items: flex-start;
+      text-align: left;
+    }
+
+    .nav-siguiente {
+      align-items: flex-end;
+      text-align: right;
+    }
+
+    .nav-etiqueta {
+      margin-bottom: 5px;
+      color: var(--texto-secundario);
+      font-size: 14px;
+    }
+
+    .nav-pagina strong {
+      color: var(--verde-principal);
+      font-size: 16px;
+      line-height: 1.4;
+    }
+
+    .nav-pagina:hover {
+      border-color: var(--verde-principal);
+    }
+
+    /* ==========================================
+       RESPONSIVE
+    ========================================== */
+
+    @media (max-width: 1100px) {
+      .pagina-ut {
+        grid-template-columns: 250px 1fr;
+      }
+
+      .indice-derecho {
+        display: none;
+      }
+    }
+
+    @media (max-width: 760px) {
+      .pagina-ut {
+        display: block;
+      }
+
+      .sidebar {
+        position: static;
+        width: 100%;
+        height: auto;
+        border-right: 0;
+        border-bottom: 1px solid var(--borde);
+      }
+
+      .contenido-ut {
+        padding: 28px 20px 60px;
+      }
+
+      .contenido-ut h1 {
+        font-size: 36px;
+      }
+
+      .navegacion-paginas {
+        grid-template-columns: 1fr;
+      }
+
+      .nav-siguiente {
+        align-items: flex-start;
+        text-align: left;
+      }
+
+      .esquema-fila {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+  <!-- ==========================================
+       BARRA SUPERIOR
+  ========================================== -->
+
+  <header class="navbar">
+
+    <a class="inicio" href="../../../index.html">
+      <img
+        src="../../../img/profesora-castana.png?v=2"
+        alt=""
+        class="icono-profesora"
+      >
+      <span>Inicio</span>
+    </a>
+
+    <nav
+      id="menuModulos"
+      class="menu-modulos"
+      aria-label="Módulos formativos"
+    ></nav>
+
+    <button
+      id="botonTema"
+      class="boton-tema"
+      type="button"
+      aria-label="Cambiar entre modo claro y oscuro"
+      title="Cambiar tema"
+    >
+      ☀️
+    </button>
+
+  </header>
+
+  <div class="pagina-ut">
+
+    <!-- ==========================================
+         MENÚ LATERAL
+    ========================================== -->
+
+    <aside class="sidebar">
+
+      <a class="sidebar-modulo" href="../../index.html">
+        Desarrollo web en entorno cliente
+      </a>
+
+      <a class="sidebar-ut-cerrada" href="../../ut1/index.html">
+        <span>UT1 - Introducción al desarrollo web en entorno cliente</span>
+        <span>›</span>
+      </a>
+
+      <a class="sidebar-ut-cerrada" href="../../ut2/index.html">
+        <span>UT2 - Fundamentos de JavaScript: variables, tipos y operadores</span>
+        <span>›</span>
+      </a>
+
+      <a class="sidebar-ut-cerrada" href="../../ut3/index.html">
+        <span>UT3 - Estructuras de control en JavaScript</span>
+        <span>›</span>
+      </a>
+
+      <a class="sidebar-ut-cerrada" href="../../ut4/index.html">
+        <span>UT4 - Arrays y estructuras de datos en JavaScript</span>
+        <span>›</span>
+      </a>
+
+      <!-- UT5 -->
+
+      <div class="menu-desplegable">
+
+        <div class="menu-cabecera menu-cabecera-activa">
+
+          <a class="menu-titulo" href="../index.html">
+            UT5 - Funciones en JavaScript
+          </a>
+
+          <button
+            class="boton-desplegar"
+            type="button"
+            data-target="submenu-ut5"
+            aria-expanded="true"
+            aria-label="Mostrar u ocultar UT5"
+          >
+            ⌄
+          </button>
+
+        </div>
+
+        <div id="submenu-ut5" class="submenu submenu-abierto">
+
+          <!-- 5.1 -->
+
+          <div class="menu-desplegable menu-apartado">
+
+            <div class="menu-cabecera">
+
+              <a class="menu-titulo" href="../5-1/index.html">
+                5.1 Introducción a las funciones
+              </a>
+
+              <button
+                class="boton-desplegar"
+                type="button"
+                data-target="submenu-5-1"
+                aria-expanded="false"
+                aria-label="Mostrar u ocultar los subapartados del 5.1"
+              >
+                ›
+              </button>
+
+            </div>
+
+            <div id="submenu-5-1" class="submenu submenu-apartados">
+
+              <a href="../5-1/index.html#que-es-funcion">
+                Qué es una función
+              </a>
+
+              <a href="../5-1/index.html#para-que-funciones">
+                Para qué necesitamos funciones
+              </a>
+
+              <a href="../5-1/index.html#reutilizacion">
+                Reutilización del código
+              </a>
+
+              <a href="../5-1/index.html#organizacion">
+                Organización del programa
+              </a>
+
+              <a href="../5-1/index.html#funciones-javascript">
+                Las funciones en JavaScript
+              </a>
+
+              <a href="../5-1/index.html#primer-ejemplo">
+                Primer ejemplo de función
+              </a>
+
+            </div>
+
+          </div>
+
+          <!-- 5.2 -->
+
+          <div class="menu-desplegable menu-apartado">
+
+            <div class="menu-cabecera menu-cabecera-activa">
+
+              <a class="menu-titulo" href="index.html">
+                5.2 Declaración e invocación de funciones
+              </a>
+
+              <button
+                class="boton-desplegar"
+                type="button"
+                data-target="submenu-5-2"
+                aria-expanded="true"
+                aria-label="Mostrar u ocultar los subapartados del 5.2"
+              >
+                ⌄
+              </button>
+
+            </div>
+
+            <div
+              id="submenu-5-2"
+              class="submenu submenu-apartados submenu-abierto"
+            >
+
+              <a href="#declarar-funcion">
+                Declarar una función
+              </a>
+
+              <a href="#sintaxis">
+                Sintaxis de una declaración
+              </a>
+
+              <a href="#invocar-funcion">
+                Invocar una función
+              </a>
+
+              <a href="#orden-ejecucion">
+                Orden de ejecución
+              </a>
+
+              <a href="#llamadas-multiples">
+                Llamar varias veces a una función
+              </a>
+
+              <a href="#hoisting">
+                Declaraciones y hoisting
+              </a>
+
+              <a href="#funciones-entre-si">
+                Funciones que llaman a otras funciones
+              </a>
+
+              <a href="#errores-frecuentes">
+                Errores frecuentes
+              </a>
+
+              <a href="#buenas-practicas">
+                Buenas prácticas
+              </a>
+
+              <a href="#ejemplo-completo">
+                Ejemplo práctico completo
+              </a>
+
+            </div>
+
+          </div>
+
+          <!-- 5.3 -->
+
+          <div class="menu-desplegable menu-apartado">
+
+            <div class="menu-cabecera">
+
+              <a class="menu-titulo" href="../5-3/index.html">
+                5.3 Parámetros y argumentos
+              </a>
+
+              <button
+                class="boton-desplegar"
+                type="button"
+                data-target="submenu-5-3"
+                aria-expanded="false"
+                aria-label="Mostrar u ocultar los subapartados del 5.3"
+              >
+                ›
+              </button>
+
+            </div>
+
+            <div id="submenu-5-3" class="submenu submenu-apartados">
+
+              <a href="../5-3/index.html">
+                Parámetros y argumentos
+              </a>
+
+            </div>
+
+          </div>
+
+          <!-- 5.4 -->
+
+          <a class="enlace-apartado-simple" href="../5-4/index.html">
+            5.4 Valores de retorno y sentencia return
+          </a>
+
+          <!-- 5.5 -->
+
+          <a class="enlace-apartado-simple" href="../5-5/index.html">
+            5.5 Ámbito de las variables en las funciones
+          </a>
+
+          <!-- 5.6 -->
+
+          <a class="enlace-apartado-simple" href="../5-6/index.html">
+            5.6 Paso de valores y referencias a funciones
+          </a>
+
+          <!-- 5.7 -->
+
+          <a class="enlace-apartado-simple" href="../5-7/index.html">
+            5.7 Parámetros por defecto y parámetros rest
+          </a>
+
+          <!-- 5.8 -->
+
+          <a class="enlace-apartado-simple" href="../5-8/index.html">
+            5.8 Expresiones de función y funciones flecha
+          </a>
+
+          <!-- 5.9 -->
+
+          <a class="enlace-apartado-simple" href="../5-9/index.html">
+            5.9 Funciones como valores y funciones callback
+          </a>
+
+          <!-- 5.10 -->
+
+          <a class="enlace-apartado-simple" href="../5-10/index.html">
+            5.10 Funciones predefinidas y métodos de JavaScript
+          </a>
+
+          <!-- 5.11 -->
+
+          <a class="enlace-apartado-simple" href="../5-11/index.html">
+            5.11 Funciones recursivas
+          </a>
+
+          <!-- 5.12 -->
+
+          <a class="enlace-apartado-simple" href="../5-12/index.html">
+            5.12 Organización modular de un programa
+          </a>
+
+          <!-- RESUMEN -->
+
+          <a class="enlace-apartado-simple" href="../resumen/index.html">
+            ✏️ Resumen de la UT5
+          </a>
+
+          <!-- ACTIVIDADES -->
+
+          <div class="menu-desplegable menu-apartado">
+
+            <div class="menu-cabecera">
+
+              <a class="menu-titulo" href="../actividades/index.html">
+                📝 Actividades de la UT5
+              </a>
+
+              <button
+                class="boton-desplegar"
+                type="button"
+                data-target="submenu-actividades"
+                aria-expanded="false"
+                aria-label="Mostrar u ocultar las actividades de la UT5"
+              >
+                ›
+              </button>
+
+            </div>
+
+            <div
+              id="submenu-actividades"
+              class="submenu submenu-apartados"
+            >
+
+              <a href="../actividades/index.html#actividades-practicas">
+                💻 Actividades prácticas
+              </a>
+
+              <a href="../actividades/index.html#reto-final">
+                🧩 Reto final
+              </a>
+
+              <a href="../actividades/index.html#autoevaluacion">
+                ✅ Autoevaluación
+              </a>
+
+            </div>
+
+          </div>
+
+        </div>
+
+      </div>
+
+      <!-- RESTO DE UT -->
+
+      <a class="sidebar-ut-cerrada" href="../../ut6/index.html">
+        <span>UT6 - Objetos y Programación Orientada a Objetos en JavaScript</span>
+        <span>›</span>
+      </a>
+
+      <a class="sidebar-ut-cerrada" href="../../ut7/index.html">
+        <span>UT7 - Objetos predefinidos y modelo del navegador (BOM)</span>
+        <span>›</span>
+      </a>
+
+      <a class="sidebar-ut-cerrada" href="../../ut8/index.html">
+        <span>UT8 - Aplicaciones web interactivas: DOM, eventos y formularios</span>
+        <span>›</span>
+      </a>
+
+      <a class="sidebar-ut-cerrada" href="../../ut9/index.html">
+        <span>UT9 - Comunicación asíncrona y peticiones al servidor</span>
+        <span>›</span>
+      </a>
+
+      <a class="sidebar-ut-cerrada" href="../../ut10/index.html">
+        <span>UT10 - Introducción a React</span>
+        <span>›</span>
+      </a>
+
+    </aside>
+
+    <!-- ==========================================
+         CONTENIDO
+    ========================================== -->
+
+    <main class="contenido-ut">
+
+      <div class="migas">
+
+        <a
+          class="miga-inicio"
+          href="../../../index.html"
+          aria-label="Volver a la página principal"
+        >
+          🏠
+        </a>
+
+        <span class="miga-separador">›</span>
+
+        <a class="miga-modulo" href="../../index.html">
+          DWEC
+        </a>
+
+        <span class="miga-separador">›</span>
+
+        <a class="miga-modulo" href="../index.html">
+          UT5
+        </a>
+
+        <span class="miga-separador">›</span>
+
+        <span class="miga-actual">
+          5.2
+        </span>
+
+      </div>
+
+      <h1>
+        5.2 Declaración e invocación de funciones
+      </h1>
+
+      <section class="apartado-ut">
+
+        <p>
+          En el apartado anterior hemos aprendido que las
+          <strong>funciones</strong> permiten agrupar instrucciones para
+          realizar una tarea y reutilizarlas en diferentes partes de un
+          programa.
+        </p>
+
+        <p>
+          Ahora vamos a estudiar cómo se crean y cómo se ejecutan las
+          funciones en JavaScript. Para ello, debemos comprender dos
+          operaciones fundamentales: <strong>declarar una función</strong>
+          e <strong>invocarla</strong>.
+        </p>
+
+        <p>
+          Aunque ambas operaciones están relacionadas, no significan
+          lo mismo. Podemos definir una función sin ejecutarla y también
+          podemos llamar varias veces a una función que ya hemos definido.
+        </p>
+
+        <div class="caja caja-importante">
+          <span class="caja-titulo">📌 Importante</span>
+          <p>
+            <strong>Declarar</strong> una función consiste en definir
+            las instrucciones que realizará.
+            <strong>Invocar</strong> una función consiste en solicitar
+            que se ejecuten esas instrucciones.
+          </p>
+        </div>
+
+        <!-- ==========================================
+             DECLARAR UNA FUNCIÓN
+        ========================================== -->
+
+        <h2 id="declarar-funcion">
+          Declarar una función
+        </h2>
+
+        <p>
+          La <strong>declaración de una función</strong> permite indicar
+          a JavaScript que existe una función con un determinado nombre
+          y un conjunto de instrucciones que forman su cuerpo.
+        </p>
+
+        <p>
+          Una de las formas de crear funciones es utilizar la palabra
+          reservada <code>function</code>, seguida del nombre que
+          queremos asignar a la función.
+        </p>
+
+        <p>
+          Observa el siguiente ejemplo:
+        </p>
+
+        <div class="bloque-codigo">
+          <div class="cabecera-codigo">
+            <span class="lenguaje-codigo">JavaScript</span>
+            <button class="boton-copiar" type="button">
+              📋 Copiar código
+            </button>
+          </div>
+          <pre><code>function mostrarSaludo() {
+  console.log("Hola, bienvenido a DWEC");
+}</code></pre>
+        </div>
+
+        <p>
+          Hemos declarado una función llamada
+          <code>mostrarSaludo()</code>. Su tarea será mostrar un
+          mensaje en la consola cuando se ejecute.
+        </p>
+
+        <p>
+          Sin embargo, si ejecutamos únicamente este código, el
+          mensaje todavía no aparecerá en la consola.
+        </p>
+
+        <p>
+          Esto sucede porque hemos indicado
+          <strong>qué debe hacer la función</strong>, pero aún no
+          hemos solicitado que realice esa tarea.
+        </p>
+
+        <div class="caja caja-atencion">
+          <span class="caja-titulo">⚠️ Atención</span>
+          <p>
+            Una declaración de función no ejecuta automáticamente las
+            instrucciones de su cuerpo. Para que se ejecuten, debe
+            producirse una llamada a la función.
+          </p>
+        </div>
+
+        <!-- ==========================================
+             SINTAXIS
+        ========================================== -->
+
+        <h2 id="sintaxis">
+          Sintaxis de una declaración de función
+        </h2>
+
+        <p>
+          La estructura básica de una declaración de función en
+          JavaScript es la siguiente:
+        </p>
+
+        <div class="bloque-codigo">
+          <div class="cabecera-codigo">
+            <span class="lenguaje-codigo">JavaScript</span>
+            <button class="boton-copiar" type="button">
+              📋 Copiar código
+            </button>
+          </div>
+          <pre><code>function nombreFuncion() {
+  // Instrucciones de la función
+}</code></pre>
+        </div>
+
+        <p>
+          Vamos a identificar sus elementos:
+        </p>
+
+        <div class="tabla-responsive">
+          <table class="tabla-apuntes">
+            <thead>
+              <tr>
+                <th>Elemento</th>
+                <th>Función que desempeña</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><code>function</code></td>
+                <td>
+                  Palabra reservada que permite realizar una
+                  declaración de función.
+                </td>
+              </tr>
+              <tr>
+                <td><code>nombreFuncion</code></td>
+                <td>
+                  Identificador que utilizaremos para referirnos
+                  a la función.
+                </td>
+              </tr>
+              <tr>
+                <td><code>()</code></td>
+                <td>
+                  Paréntesis en los que pueden declararse los
+                  parámetros. Por ahora los dejaremos vacíos.
+                </td>
+              </tr>
+              <tr>
+                <td><code>{ }</code></td>
+                <td>
+                  Llaves que delimitan el cuerpo de la función.
+                </td>
+              </tr>
+              <tr>
+                <td>Instrucciones</td>
+                <td>
+                  Código que se ejecutará cuando se invoque
+                  la función.
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <h3>El nombre de la función</h3>
+
+        <p>
+          El nombre de una función debe cumplir las reglas generales
+          de los identificadores de JavaScript.
+        </p>
+
+        <p>
+          Por ejemplo, puede contener letras, números,
+          <code>_</code> y <code>$</code>, pero no puede comenzar
+          por un número ni coincidir con una palabra reservada.
+        </p>
+
+        <p>
+          Además, JavaScript distingue entre mayúsculas y minúsculas.
+          Por tanto, <code>mostrarSaludo</code> y
+          <code>mostrarsaludo</code> son identificadores diferentes.
+        </p>
+
+        <p>
+          Es recomendable utilizar nombres descriptivos que permitan
+          comprender la tarea realizada por la función.
+        </p>
+
+        <div class="tabla-responsive">
+          <table class="tabla-apuntes">
+            <thead>
+              <tr>
+                <th>Nombre</th>
+                <th>Valoración</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><code>calcularTotal()</code></td>
+                <td>
+                  Adecuado: expresa claramente la operación.
+                </td>
+              </tr>
+              <tr>
+                <td><code>comprobarDisponibilidad()</code></td>
+                <td>
+                  Adecuado: identifica una tarea concreta.
+                </td>
+              </tr>
+              <tr>
+                <td><code>f1()</code></td>
+                <td>
+                  Poco descriptivo: no permite conocer su finalidad.
+                </td>
+              </tr>
+              <tr>
+                <td><code>2calcular()</code></td>
+                <td>
+                  Incorrecto: comienza por un número.
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <h3>El cuerpo de la función</h3>
+
+        <p>
+          El <strong>cuerpo</strong> está formado por las instrucciones
+          situadas entre las llaves. Estas instrucciones se ejecutan
+          cuando llamamos a la función.
+        </p>
+
+        <p>
+          Una función puede contener una o varias instrucciones,
+          incluyendo variables, operaciones matemáticas, condiciones,
+          bucles y llamadas a otras funciones.
+        </p>
+
+        <div class="bloque-codigo">
+          <div class="cabecera-codigo">
+            <span class="lenguaje-codigo">JavaScript</span>
+            <button class="boton-copiar" type="button">
+              📋 Copiar código
+            </button>
+          </div>
+          <pre><code>function mostrarInformacion() {
+  console.log("Módulo: DWEC");
+  console.log("Unidad: Funciones");
+  console.log("Lenguaje: JavaScript");
+}</code></pre>
+        </div>
+
+        <p>
+          En este caso, el cuerpo contiene tres instrucciones.
+          Cuando se invoque la función, se ejecutarán en ese orden.
+        </p>
+
+        <div class="caja caja-importante">
+          <span class="caja-titulo">📌 Importante</span>
+          <p>
+            En una declaración de función, los paréntesis son
+            obligatorios aunque no haya parámetros. Las llaves
+            delimitan el conjunto de instrucciones que forman
+            su cuerpo.
+          </p>
+        </div>
+
+        <!-- ==========================================
+             INVOCAR UNA FUNCIÓN
+        ========================================== -->
+
+        <h2 id="invocar-funcion">
+          Invocar una función
+        </h2>
+
+        <p>
+          Una vez declarada una función, podemos solicitar su ejecución
+          mediante una <strong>llamada</strong> o
+          <strong>invocación</strong>.
+        </p>
+
+        <p>
+          Para invocar una función, escribimos su nombre seguido de
+          paréntesis. Si no necesita argumentos, los paréntesis
+          permanecen vacíos.
+        </p>
+
+        <p>
+          Veamos un ejemplo completo:
+        </p>
+
+        <div class="bloque-codigo">
+          <div class="cabecera-codigo">
+            <span class="lenguaje-codigo">JavaScript</span>
+            <button class="boton-copiar" type="button">
+              📋 Copiar código
+            </button>
+          </div>
+          <pre><code>// Declaración de la función
+function mostrarSaludo() {
+  console.log("Hola, bienvenido a DWEC");
+}
+
+// Llamada a la función
+mostrarSaludo();</code></pre>
+        </div>
+
+        <p>
+          Al ejecutar el programa, la consola mostrará:
+        </p>
+
+        <div class="bloque-codigo">
+          <div class="cabecera-codigo">
+            <span class="lenguaje-codigo">Consola</span>
+            <button class="boton-copiar" type="button">
+              📋 Copiar código
+            </button>
+          </div>
+          <pre><code>Hola, bienvenido a DWEC</code></pre>
+        </div>
+
+        <p>
+          La primera parte del programa define la función.
+          La instrucción <code>mostrarSaludo();</code> provoca
+          que se ejecuten las instrucciones de su cuerpo.
+        </p>
+
+        <h3>La importancia de los paréntesis</h3>
+
+        <p>
+          Existe una diferencia fundamental entre escribir el nombre
+          de una función y escribirlo seguido de paréntesis.
+        </p>
+
+        <div class="bloque-codigo">
+          <div class="cabecera-codigo">
+            <span class="lenguaje-codigo">JavaScript</span>
+            <button class="boton-copiar" type="button">
+              📋 Copiar código
+            </button>
+          </div>
+          <pre><code>function saludar() {
+  console.log("Hola");
+}
+
+saludar;   // Referencia a la función, sin ejecutarla
+
+saludar(); // Llamada: ejecuta la función</code></pre>
+        </div>
+
+        <p>
+          La expresión <code>saludar</code> hace referencia a la
+          función como valor, pero no ejecuta su cuerpo.
+        </p>
+
+        <p>
+          En cambio, <code>saludar()</code> realiza una llamada.
+          Por eso, en este ejemplo el mensaje
+          <code>"Hola"</code> aparece una sola vez.
+        </p>
+
+        <p>
+          Más adelante estudiaremos cómo JavaScript permite utilizar
+          las funciones como valores y almacenarlas en variables.
+        </p>
+
+        <div class="caja caja-atencion">
+          <span class="caja-titulo">⚠️ Atención</span>
+          <p>
+            No debemos confundir <code>saludar</code> con
+            <code>saludar()</code>. La primera expresión hace
+            referencia a la función; la segunda solicita su ejecución.
+          </p>
+        </div>
+
+        <!-- ==========================================
+             ORDEN DE EJECUCIÓN
+        ========================================== -->
+
+        <h2 id="orden-ejecucion">
+          Orden de ejecución de un programa con funciones
+        </h2>
+
+        <p>
+          Cuando un programa contiene funciones, debemos distinguir
+          entre las instrucciones que aparecen en el código principal
+          y las que se encuentran dentro de cada función.
+        </p>
+
+        <p>
+          El programa ejecuta las instrucciones correspondientes y,
+          cuando encuentra una llamada a una función, comienza a
+          ejecutar el cuerpo de esa función.
+        </p>
+
+        <p>
+          Observa el siguiente ejemplo:
+        </p>
+
+        <div class="bloque-codigo">
+          <div class="cabecera-codigo">
+            <span class="lenguaje-codigo">JavaScript</span>
+            <button class="boton-copiar" type="button">
+              📋 Copiar código
+            </button>
+          </div>
+          <pre><code>function mostrarMensaje() {
+  console.log("Dentro de la función");
+}
+
+console.log("Inicio del programa");
+
+mostrarMensaje();
+
+console.log("Fin del programa");</code></pre>
+        </div>
+
+        <p>
+          La salida será:
+        </p>
+
+        <div class="bloque-codigo">
+          <div class="cabecera-codigo">
+            <span class="lenguaje-codigo">Consola</span>
+            <button class="boton-copiar" type="button">
+              📋 Copiar código
+            </button>
+          </div>
+          <pre><code>Inicio del programa
+Dentro de la función
+Fin del programa</code></pre>
+        </div>
+
+        <h3>Explicación paso a paso</h3>
+
+        <ol>
+          <li>
+            JavaScript dispone de la declaración de la función
+            <code>mostrarMensaje()</code>.
+          </li>
+          <li>
+            Se ejecuta el primer <code>console.log()</code>
+            del programa principal y aparece
+            <strong>Inicio del programa</strong>.
+          </li>
+          <li>
+            El programa encuentra la llamada
+            <code>mostrarMensaje();</code>.
+          </li>
+          <li>
+            Se ejecuta el cuerpo de la función y aparece
+            <strong>Dentro de la función</strong>.
+          </li>
+          <li>
+            Cuando termina la función, la ejecución continúa
+            después de la llamada.
+          </li>
+          <li>
+            Se ejecuta el último <code>console.log()</code>
+            y aparece <strong>Fin del programa</strong>.
+          </li>
+        </ol>
+
+        <div class="esquema-web">
+          <div class="esquema-fila">
+
+            <div class="esquema-caja">
+              <strong>1. Programa</strong>
+              <span>
+                Ejecuta las instrucciones hasta encontrar una llamada.
+              </span>
+            </div>
+
+            <div class="esquema-caja">
+              <strong>2. Función</strong>
+              <span>
+                Ejecuta las instrucciones de su cuerpo.
+              </span>
+            </div>
+
+            <div class="esquema-caja">
+              <strong>3. Continuación</strong>
+              <span>
+                Regresa al programa después de la llamada.
+              </span>
+            </div>
+
+          </div>
+        </div>
+
+        <p>
+          En estos ejemplos estamos trabajando con funciones
+          síncronas. Esto significa que la llamada se completa
+          antes de que el programa continúe con la siguiente
+          instrucción del código principal.
+        </p>
+
+        <p>
+          Más adelante estudiaremos situaciones en las que intervienen
+          operaciones asíncronas y el orden de ejecución requiere
+          un análisis diferente.
+        </p>
+
+        <div class="caja caja-importante">
+          <span class="caja-titulo">📌 Importante</span>
+          <p>
+            En una llamada síncrona, el programa ejecuta la función
+            y, cuando esta termina, continúa en la instrucción
+            situada después de la llamada.
+          </p>
+        </div>
+
+        <!-- ==========================================
+             LLAMADAS MÚLTIPLES
+        ========================================== -->
+
+        <h2 id="llamadas-multiples">
+          Llamar varias veces a una función
+        </h2>
+
+        <p>
+          Una función no está limitada a una única ejecución.
+          Podemos invocarla tantas veces como sea necesario
+          durante el funcionamiento del programa.
+        </p>
+
+        <p>
+          Esta característica es una de las principales razones
+          por las que las funciones permiten reutilizar código.
+        </p>
+
+        <div class="bloque-codigo">
+          <div class="cabecera-codigo">
+            <span class="lenguaje-codigo">JavaScript</span>
+            <button class="boton-copiar" type="button">
+              📋 Copiar código
+            </button>
+          </div>
+          <pre><code>function mostrarSeparador() {
+  console.log("--------------------");
+}
+
+console.log("Listado de productos");
+
+mostrarSeparador();
+
+console.log("Portátil");
+console.log("Monitor");
+
+mostrarSeparador();
+
+console.log("Fin del listado");
+
+mostrarSeparador();</code></pre>
+        </div>
+
+        <p>
+          El resultado será:
+        </p>
+
+        <div class="bloque-codigo">
+          <div class="cabecera-codigo">
+            <span class="lenguaje-codigo">Consola</span>
+            <button class="boton-copiar" type="button">
+              📋 Copiar código
+            </button>
+          </div>
+          <pre><code>Listado de productos
+--------------------
+Portátil
+Monitor
+--------------------
+Fin del listado
+--------------------</code></pre>
+        </div>
+
+        <p>
+          Hemos escrito las instrucciones de
+          <code>mostrarSeparador()</code> una sola vez, pero
+          hemos ejecutado la función en tres momentos distintos.
+        </p>
+
+        <h3>Invocar una función dentro de un bucle</h3>
+
+        <p>
+          También podemos combinar las funciones con las
+          estructuras de repetición que estudiamos en la UT3.
+        </p>
+
+        <div class="bloque-codigo">
+          <div class="cabecera-codigo">
+            <span class="lenguaje-codigo">JavaScript</span>
+            <button class="boton-copiar" type="button">
+              📋 Copiar código
+            </button>
+          </div>
+          <pre><code>function mostrarAviso() {
+  console.log("Recuerda guardar los cambios");
+}
+
+for (let i = 0; i &lt; 3; i++) {
+  mostrarAviso();
+}</code></pre>
+        </div>
+
+        <p>
+          En cada iteración del bucle se realiza una nueva llamada
+          a la función. Por tanto, el mensaje se mostrará tres veces:
+        </p>
+
+        <div class="bloque-codigo">
+          <div class="cabecera-codigo">
+            <span class="lenguaje-codigo">Consola</span>
+            <button class="boton-copiar" type="button">
+              📋 Copiar código
+            </button>
+          </div>
+          <pre><code>Recuerda guardar los cambios
+Recuerda guardar los cambios
+Recuerda guardar los cambios</code></pre>
+        </div>
+
+        <div class="caja caja-ejemplo">
+          <span class="caja-titulo">💻 Ejemplo DAW</span>
+          <p>
+            En una aplicación de gestión de productos, podemos
+            crear una función que muestre la cabecera de un informe.
+            Cada vez que generemos un nuevo informe, llamaremos a
+            esa función en lugar de repetir todas las instrucciones
+            necesarias para construir la cabecera.
+          </p>
+        </div>
+
+        <!-- ==========================================
+             HOISTING
+        ========================================== -->
+
+        <h2 id="hoisting">
+          Declaraciones de funciones y hoisting
+        </h2>
+
+        <p>
+          Hasta ahora hemos escrito las declaraciones de funciones
+          antes de sus llamadas. Esta es una forma clara de organizar
+          los ejemplos, pero JavaScript permite una característica
+          que conviene conocer.
+        </p>
+
+        <p>
+          Las <strong>declaraciones de funciones</strong> se procesan
+          durante la preparación del entorno de ejecución. Por eso,
+          dentro del ámbito correspondiente, normalmente podemos
+          llamar a una función antes de que aparezca su declaración
+          en el código.
+        </p>
+
+        <p>
+          Este comportamiento forma parte de lo que habitualmente
+          se denomina <strong>hoisting</strong> o elevación.
+        </p>
+
+        <div class="bloque-codigo">
+          <div class="cabecera-codigo">
+            <span class="lenguaje-codigo">JavaScript</span>
+            <button class="boton-copiar" type="button">
+              📋 Copiar código
+            </button>
+          </div>
+          <pre><code>mostrarBienvenida();
+
+function mostrarBienvenida() {
+  console.log("Bienvenidos al curso");
+}</code></pre>
+        </div>
+
+        <p>
+          Aunque la llamada aparece antes que la declaración,
+          este programa funciona y muestra:
+        </p>
+
+        <div class="bloque-codigo">
+          <div class="cabecera-codigo">
+            <span class="lenguaje-codigo">Consola</span>
+            <button class="boton-copiar" type="button">
+              📋 Copiar código
+            </button>
+          </div>
+          <pre><code>Bienvenidos al curso</code></pre>
+        </div>
+
+        <h3>¿Significa que JavaScript mueve el código?</h3>
+
+        <p>
+          No debemos interpretar el hoisting como si JavaScript
+          desplazara físicamente las instrucciones hasta el principio
+          del archivo.
+        </p>
+
+        <p>
+          Lo que ocurre es que, al preparar el entorno de ejecución,
+          el motor registra las declaraciones de funciones y permite
+          utilizarlas antes de alcanzar su posición textual.
+        </p>
+
+        <p>
+          Para entenderlo, podemos comparar estas dos formas de
+          escribir un mismo programa.
+        </p>
+
+        <div class="tabla-responsive">
+          <table class="tabla-apuntes">
+            <thead>
+              <tr>
+                <th>Declaración antes de la llamada</th>
+                <th>Llamada antes de la declaración</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>
+                  Primero definimos la función y después la invocamos.
+                </td>
+                <td>
+                  Primero aparece la llamada y después la declaración.
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  Es una organización fácil de seguir.
+                </td>
+                <td>
+                  También funciona con las declaraciones de funciones
+                  habituales, dentro de su ámbito.
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  No necesitamos conocer el hoisting para comprender
+                  el orden del código.
+                </td>
+                <td>
+                  Debemos conocer el comportamiento de las
+                  declaraciones durante la preparación de la ejecución.
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <div class="caja caja-atencion">
+          <span class="caja-titulo">⚠️ Atención</span>
+          <p>
+            No todas las formas de crear funciones se comportan igual
+            respecto al hoisting. Por ejemplo, las funciones asignadas
+            a variables declaradas con <code>const</code> o
+            <code>let</code> no pueden utilizarse antes de que se
+            ejecute su inicialización. Estudiaremos esas expresiones
+            de función en el apartado 5.8.
+          </p>
+        </div>
+
+        <p>
+          Aunque JavaScript permita llamar a determinadas funciones
+          antes de su declaración, en los primeros programas resulta
+          recomendable mantener una organización que facilite
+          la lectura y comprensión del código.
+        </p>
+
+        <!-- ==========================================
+             FUNCIONES QUE LLAMAN A OTRAS
+        ========================================== -->
+
+        <h2 id="funciones-entre-si">
+          Funciones que llaman a otras funciones
+        </h2>
+
+        <p>
+          Las funciones no solo pueden ser llamadas desde el código
+          principal. También pueden invocarse desde el cuerpo
+          de otras funciones.
+        </p>
+
+        <p>
+          Esta posibilidad permite dividir una operación compleja
+          en tareas más pequeñas y coordinar su ejecución.
+        </p>
+
+        <p>
+          Imaginemos que queremos mostrar un pequeño informe
+          de una tienda online.
+        </p>
+
+        <div class="bloque-codigo">
+          <div class="cabecera-codigo">
+            <span class="lenguaje-codigo">JavaScript</span>
+            <button class="boton-copiar" type="button">
+              📋 Copiar código
+            </button>
+          </div>
+          <pre><code>function mostrarCabecera() {
+  console.log("TIENDA ONLINE");
+  console.log("----------------");
+}
+
+function mostrarProductos() {
+  console.log("1. Portátil");
+  console.log("2. Monitor");
+}
+
+function mostrarInforme() {
+  mostrarCabecera();
+  mostrarProductos();
+  console.log("Fin del informe");
+}
+
+mostrarInforme();</code></pre>
+        </div>
+
+        <p>
+          Al ejecutar <code>mostrarInforme()</code>, esta función
+          llama a otras dos funciones.
+        </p>
+
+        <p>
+          La salida será:
+        </p>
+
+        <div class="bloque-codigo">
+          <div class="cabecera-codigo">
+            <span class="lenguaje-codigo">Consola</span>
+            <button class="boton-copiar" type="button">
+              📋 Copiar código
+            </button>
+          </div>
+          <pre><code>TIENDA ONLINE
+----------------
+1. Portátil
+2. Monitor
+Fin del informe</code></pre>
+        </div>
+
+        <h3>Cómo se desarrolla la ejecución</h3>
+
+        <ol>
+          <li>
+            El programa llama a <code>mostrarInforme()</code>.
+          </li>
+          <li>
+            Dentro de esta función se llama a
+            <code>mostrarCabecera()</code>.
+          </li>
+          <li>
+            Se muestran el título y el separador.
+          </li>
+          <li>
+            La ejecución regresa a <code>mostrarInforme()</code>.
+          </li>
+          <li>
+            Se llama a <code>mostrarProductos()</code> y se
+            muestran los dos productos.
+          </li>
+          <li>
+            La ejecución vuelve a <code>mostrarInforme()</code>
+            y se muestra el mensaje final.
+          </li>
+        </ol>
+
+        <div class="esquema-web">
+          <div class="esquema-fila">
+
+            <div class="esquema-caja">
+              <strong>mostrarInforme()</strong>
+              <span>
+                Coordina la generación del informe.
+              </span>
+            </div>
+
+            <div class="esquema-caja">
+              <strong>mostrarCabecera()</strong>
+              <span>
+                Presenta el título y el separador.
+              </span>
+            </div>
+
+            <div class="esquema-caja">
+              <strong>mostrarProductos()</strong>
+              <span>
+                Presenta los productos disponibles.
+              </span>
+            </div>
+
+          </div>
+        </div>
+
+        <p>
+          Observa que cada función tiene una responsabilidad
+          concreta. La función principal se encarga de organizar
+          las llamadas, mientras que las otras realizan tareas
+          específicas.
+        </p>
+
+        <div class="caja caja-importante">
+          <span class="caja-titulo">📌 Importante</span>
+          <p>
+            Una función puede llamar a otras funciones. Cuando una
+            llamada termina, la ejecución continúa en el punto
+            desde el que se realizó. Este comportamiento permite
+            construir programas organizados mediante funciones
+            que colaboran entre sí.
+          </p>
+        </div>
+
+        <!-- ==========================================
+             ERRORES FRECUENTES
+        ========================================== -->
+
+        <h2 id="errores-frecuentes">
+          Errores frecuentes al declarar e invocar funciones
+        </h2>
+
+        <p>
+          Al comenzar a trabajar con funciones es habitual cometer
+          algunos errores de sintaxis o confundir la declaración
+          con la llamada.
+        </p>
+
+        <p>
+          Vamos a estudiar los más frecuentes.
+        </p>
+
+        <h3>1. Olvidar los paréntesis en la llamada</h3>
+
+        <p>
+          Observa este programa:
+        </p>
+
+        <div class="bloque-codigo">
+          <div class="cabecera-codigo">
+            <span class="lenguaje-codigo">JavaScript</span>
+            <button class="boton-copiar" type="button">
+              📋 Copiar código
+            </button>
+          </div>
+          <pre><code>function mostrarMensaje() {
+  console.log("Mensaje de prueba");
+}
+
+mostrarMensaje; // No ejecuta la función</code></pre>
+        </div>
+
+        <p>
+          El programa no muestra el mensaje porque
+          <code>mostrarMensaje</code> es una referencia a la
+          función, no una llamada.
+        </p>
+
+        <p>
+          Para ejecutarla debemos escribir:
+        </p>
+
+        <div class="bloque-codigo">
+          <div class="cabecera-codigo">
+            <span class="lenguaje-codigo">JavaScript</span>
+            <button class="boton-copiar" type="button">
+              📋 Copiar código
+            </button>
+          </div>
+          <pre><code>mostrarMensaje();</code></pre>
+        </div>
+
+        <h3>2. Escribir incorrectamente el nombre</h3>
+
+        <p>
+          JavaScript distingue entre mayúsculas y minúsculas,
+          por lo que el nombre utilizado en la llamada debe
+          coincidir con el de la declaración.
+        </p>
+
+        <div class="bloque-codigo">
+          <div class="cabecera-codigo">
+            <span class="lenguaje-codigo">JavaScript</span>
+            <button class="boton-copiar" type="button">
+              📋 Copiar código
+            </button>
+          </div>
+          <pre><code>function mostrarSaludo() {
+  console.log("Hola");
+}
+
+// Error: el nombre no coincide
+mostrarsaludo();</code></pre>
+        </div>
+
+        <p>
+          Si no existe otra función con ese nombre, JavaScript
+          producirá un <code>ReferenceError</code>.
+        </p>
+
+        <h3>3. Olvidar las llaves de la declaración</h3>
+
+        <p>
+          El cuerpo de una declaración de función debe estar
+          delimitado por llaves.
+        </p>
+
+        <div class="bloque-codigo">
+          <div class="cabecera-codigo">
+            <span class="lenguaje-codigo">JavaScript</span>
+            <button class="boton-copiar" type="button">
+              📋 Copiar código
+            </button>
+          </div>
+          <pre><code>// Incorrecto: faltan las llaves
+function mostrarSaludo()
+  console.log("Hola");</code></pre>
+        </div>
+
+        <p>
+          La forma correcta es:
+        </p>
+
+        <div class="bloque-codigo">
+          <div class="cabecera-codigo">
+            <span class="lenguaje-codigo">JavaScript</span>
+            <button class="boton-copiar" type="button">
+              📋 Copiar código
+            </button>
+          </div>
+          <pre><code>function mostrarSaludo() {
+  console.log("Hola");
+}</code></pre>
+        </div>
+
+        <h3>4. Llamar a una función inexistente</h3>
+
+        <p>
+          Si intentamos invocar una función que no está definida
+          ni disponible en el ámbito correspondiente, el programa
+          producirá un error.
+        </p>
+
+        <div class="bloque-codigo">
+          <div class="cabecera-codigo">
+            <span class="lenguaje-codigo">JavaScript</span>
+            <button class="boton-copiar" type="button">
+              📋 Copiar código
+            </button>
+          </div>
+          <pre><code>// No hemos definido esta función
+generarInforme();</code></pre>
+        </div>
+
+        <p>
+          En este caso, si <code>generarInforme</code> no existe,
+          JavaScript mostrará un error similar a:
+        </p>
+
+        <div class="bloque-codigo">
+          <div class="cabecera-codigo">
+            <span class="lenguaje-codigo">Consola</span>
+            <button class="boton-copiar" type="button">
+              📋 Copiar código
+            </button>
+          </div>
+          <pre><code>ReferenceError: generarInforme is not defined</code></pre>
+        </div>
+
+        <h3>5. Confundir la declaración con la ejecución</h3>
+
+        <p>
+          Declarar una función no garantiza que su código llegue
+          a ejecutarse.
+        </p>
+
+        <div class="bloque-codigo">
+          <div class="cabecera-codigo">
+            <span class="lenguaje-codigo">JavaScript</span>
+            <button class="boton-copiar" type="button">
+              📋 Copiar código
+            </button>
+          </div>
+          <pre><code>function mostrarAviso() {
+  console.log("Operación completada");
+}
+
+console.log("Programa terminado");</code></pre>
+        </div>
+
+        <p>
+          En este ejemplo únicamente aparecerá
+          <strong>Programa terminado</strong>, porque nunca
+          se ha llamado a <code>mostrarAviso()</code>.
+        </p>
+
+        <div class="caja caja-atencion">
+          <span class="caja-titulo">⚠️ Atención</span>
+          <p>
+            Cuando una función parece no funcionar, comprueba
+            primero que la has invocado, que el nombre está
+            correctamente escrito y que los paréntesis y las
+            llaves se encuentran en su posición adecuada.
+          </p>
+        </div>
+
+        <!-- ==========================================
+             BUENAS PRÁCTICAS
+        ========================================== -->
+
+        <h2 id="buenas-practicas">
+          Buenas prácticas al declarar funciones
+        </h2>
+
+        <p>
+          Además de escribir código que funcione, debemos procurar
+          que sea fácil de leer, comprender y mantener.
+        </p>
+
+        <p>
+          Desde el principio conviene adoptar algunas buenas
+          prácticas:
+        </p>
+
+        <ul>
+          <li>
+            <strong>Utilizar nombres descriptivos:</strong>
+            preferir <code>mostrarResumen()</code> frente a
+            <code>funcion1()</code>.
+          </li>
+          <li>
+            <strong>Emplear camelCase:</strong>
+            escribir nombres como <code>calcularPrecioFinal()</code>,
+            siguiendo la convención habitual de JavaScript.
+          </li>
+          <li>
+            <strong>Definir tareas concretas:</strong>
+            evitar que una misma función acumule operaciones
+            que no guardan relación entre sí.
+          </li>
+          <li>
+            <strong>Mantener una indentación coherente:</strong>
+            facilitar la identificación de las instrucciones
+            que pertenecen al cuerpo de la función.
+          </li>
+          <li>
+            <strong>Evitar repetir instrucciones:</strong>
+            aprovechar las funciones cuando una misma operación
+            se utiliza en diferentes lugares.
+          </li>
+          <li>
+            <strong>Comprobar las funciones:</strong>
+            ejecutarlas con ejemplos sencillos y verificar
+            que producen el comportamiento esperado.
+          </li>
+        </ul>
+
+        <p>
+          Por ejemplo, comparemos dos nombres:
+        </p>
+
+        <div class="bloque-codigo">
+          <div class="cabecera-codigo">
+            <span class="lenguaje-codigo">JavaScript</span>
+            <button class="boton-copiar" type="button">
+              📋 Copiar código
+            </button>
+          </div>
+          <pre><code>// Nombre poco descriptivo
+function f1() {
+  console.log("Pedido confirmado");
+}
+
+// Nombre descriptivo
+function mostrarConfirmacionPedido() {
+  console.log("Pedido confirmado");
+}</code></pre>
+        </div>
+
+        <p>
+          Ambas funciones realizan la misma operación, pero
+          <code>mostrarConfirmacionPedido()</code> permite
+          comprender su finalidad sin tener que examinar
+          las instrucciones de su cuerpo.
+        </p>
+
+        <div class="caja caja-ejemplo">
+          <span class="caja-titulo">💻 Ejemplo DAW</span>
+          <p>
+            En una aplicación de comercio electrónico, nombres
+            como <code>comprobarStock()</code>,
+            <code>calcularGastosEnvio()</code> o
+            <code>mostrarConfirmacion()</code> ayudan a identificar
+            las operaciones del programa y facilitan el trabajo
+            en equipo.
+          </p>
+        </div>
+
+        <!-- ==========================================
+             EJEMPLO COMPLETO
+        ========================================== -->
+
+        <h2 id="ejemplo-completo">
+          Ejemplo práctico completo: organizar un pedido
+        </h2>
+
+        <p>
+          Vamos a aplicar lo aprendido mediante un ejemplo
+          relacionado con el desarrollo de aplicaciones web.
+        </p>
+
+        <p>
+          Imagina que estamos desarrollando una tienda online
+          y queremos mostrar un resumen sencillo de un pedido
+          en la consola.
+        </p>
+
+        <p>
+          El programa debe realizar las siguientes tareas:
+        </p>
+
+        <ul>
+          <li>mostrar el título del pedido;</li>
+          <li>mostrar los productos incluidos;</li>
+          <li>mostrar un mensaje de confirmación;</li>
+          <li>indicar que ha terminado el proceso.</li>
+        </ul>
+
+        <p>
+          Podemos organizar estas tareas mediante varias funciones.
+        </p>
+
+        <div class="bloque-codigo">
+          <div class="cabecera-codigo">
+            <span class="lenguaje-codigo">JavaScript</span>
+            <button class="boton-copiar" type="button">
+              📋 Copiar código
+            </button>
+          </div>
+          <pre><code>// Función que muestra la cabecera
+function mostrarCabeceraPedido() {
+  console.log("RESUMEN DEL PEDIDO");
+  console.log("------------------------");
+}
+
+// Función que muestra los productos
+function mostrarProductosPedido() {
+  console.log("Producto: Teclado");
+  console.log("Producto: Ratón");
+}
+
+// Función que muestra la confirmación
+function mostrarConfirmacion() {
+  console.log("Pedido registrado correctamente");
+}
+
+// Función que organiza todo el proceso
+function mostrarResumenPedido() {
+  mostrarCabeceraPedido();
+  mostrarProductosPedido();
+  mostrarConfirmacion();
+}
+
+// Programa principal
+console.log("Iniciando aplicación");
+
+mostrarResumenPedido();
+
+console.log("Proceso finalizado");</code></pre>
+        </div>
+
+        <p>
+          La salida del programa será:
+        </p>
+
+        <div class="bloque-codigo">
+          <div class="cabecera-codigo">
+            <span class="lenguaje-codigo">Consola</span>
+            <button class="boton-copiar" type="button">
+              📋 Copiar código
+            </button>
+          </div>
+          <pre><code>Iniciando aplicación
+RESUMEN DEL PEDIDO
+------------------------
+Producto: Teclado
+Producto: Ratón
+Pedido registrado correctamente
+Proceso finalizado</code></pre>
+        </div>
+
+        <h3>Análisis del programa</h3>
+
+        <p>
+          Primero hemos declarado cuatro funciones. Cada una
+          tiene una responsabilidad definida:
+        </p>
+
+        <div class="tabla-responsive">
+          <table class="tabla-apuntes">
+            <thead>
+              <tr>
+                <th>Función</th>
+                <th>Responsabilidad</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><code>mostrarCabeceraPedido()</code></td>
+                <td>
+                  Mostrar el título y el separador del pedido.
+                </td>
+              </tr>
+              <tr>
+                <td><code>mostrarProductosPedido()</code></td>
+                <td>
+                  Mostrar los productos incluidos en el pedido.
+                </td>
+              </tr>
+              <tr>
+                <td><code>mostrarConfirmacion()</code></td>
+                <td>
+                  Mostrar el mensaje de confirmación.
+                </td>
+              </tr>
+              <tr>
+                <td><code>mostrarResumenPedido()</code></td>
+                <td>
+                  Coordinar la ejecución de las tres funciones
+                  anteriores.
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <p>
+          Después comienza la ejecución del programa principal.
+          Primero se muestra <strong>Iniciando aplicación</strong>.
+        </p>
+
+        <p>
+          A continuación, la llamada
+          <code>mostrarResumenPedido();</code> inicia la ejecución
+          de la función encargada de coordinar el resumen.
+        </p>
+
+        <p>
+          Esta función llama sucesivamente a las otras tres,
+          de manera que se muestran la cabecera, los productos
+          y el mensaje de confirmación.
+        </p>
+
+        <p>
+          Finalmente, cuando termina
+          <code>mostrarResumenPedido()</code>, el programa
+          continúa y muestra <strong>Proceso finalizado</strong>.
+        </p>
+
+        <h3>¿Qué hemos conseguido?</h3>
+
+        <p>
+          Hemos dividido el programa en operaciones más pequeñas
+          y hemos separado la organización del proceso de las
+          instrucciones encargadas de mostrar cada parte.
+        </p>
+
+        <p>
+          Además, podríamos volver a llamar a
+          <code>mostrarResumenPedido()</code> en otro momento
+          sin repetir todas las instrucciones.
+        </p>
+
+        <div class="caja caja-importante">
+          <span class="caja-titulo">📌 Importante</span>
+          <p>
+            Las funciones permiten organizar un programa mediante
+            tareas con responsabilidades concretas. Una función
+            puede coordinar otras funciones, y todas ellas pueden
+            reutilizarse cuando sea necesario.
+          </p>
+        </div>
+
+        <p>
+          En este ejemplo hemos utilizado mensajes y productos
+          escritos directamente en el código para centrarnos
+          en la declaración y la invocación.
+        </p>
+
+        <p>
+          En el siguiente apartado aprenderemos a utilizar
+          <strong>parámetros y argumentos</strong>, lo que permitirá
+          proporcionar información diferente a una misma función
+          y hacer nuestros programas más flexibles.
+        </p>
+
+        <!-- ==========================================
+             ACTIVIDAD DE REFLEXIÓN
+        ========================================== -->
+
+        <div class="actividad-reflexion">
+
+          <h3>💭 Piensa</h3>
+
+          <p>
+            Observa el siguiente programa sin ejecutarlo:
+          </p>
+
+          <div class="bloque-codigo">
+            <div class="cabecera-codigo">
+              <span class="lenguaje-codigo">JavaScript</span>
+              <button class="boton-copiar" type="button">
+                📋 Copiar código
+              </button>
+            </div>
+            <pre><code>function mostrarInicio() {
+  console.log("Inicio de la operación");
+}
+
+function mostrarFin() {
+  console.log("Fin de la operación");
+}
+
+console.log("Programa preparado");
+
+mostrarInicio();
+mostrarInicio();
+
+console.log("Procesando datos");
+
+mostrarFin();</code></pre>
+          </div>
+
+          <p>
+            ¿En qué orden aparecerán los mensajes en la consola?
+            ¿Cuántas veces se ejecuta
+            <code>mostrarInicio()</code>? ¿Qué ocurriría si
+            elimináramos la llamada a <code>mostrarFin()</code>?
+          </p>
+
+          <details class="solucion-desplegable">
+
+            <summary>
+              Ver una posible solución
+            </summary>
+
+            <div class="contenido-solucion">
+
+              <p>
+                Primero aparece <strong>Programa preparado</strong>.
+                Después se ejecuta dos veces
+                <code>mostrarInicio()</code>, por lo que
+                <strong>Inicio de la operación</strong>
+                aparece dos veces.
+              </p>
+
+              <p>
+                A continuación, se muestra
+                <strong>Procesando datos</strong> y finalmente
+                se ejecuta <code>mostrarFin()</code>.
+              </p>
+
+              <p>
+                La salida completa es:
+              </p>
+
+              <div class="bloque-codigo">
+                <div class="cabecera-codigo">
+                  <span class="lenguaje-codigo">Consola</span>
+                  <button class="boton-copiar" type="button">
+                    📋 Copiar código
+                  </button>
+                </div>
+                <pre><code>Programa preparado
+Inicio de la operación
+Inicio de la operación
+Procesando datos
+Fin de la operación</code></pre>
+              </div>
+
+              <p>
+                Si elimináramos la llamada a
+                <code>mostrarFin()</code>, su cuerpo no se
+                ejecutaría y el último mensaje dejaría
+                de aparecer. La declaración seguiría existiendo.
+              </p>
+
+            </div>
+
+          </details>
+
+        </div>
+
+      </section>
+
+      <!-- ==========================================
+           NAVEGACIÓN
+      ========================================== -->
+
+      <nav class="navegacion-paginas">
+
+        <a
+          class="nav-pagina nav-anterior"
+          href="../5-1/index.html"
+        >
+          <span class="nav-etiqueta">
+            Anterior
+          </span>
+          <strong>
+            ‹ 5.1 Introducción a las funciones
+          </strong>
+        </a>
+
+        <a
+          class="nav-pagina nav-siguiente"
+          href="../5-3/index.html"
+        >
+          <span class="nav-etiqueta">
+            Siguiente
+          </span>
+          <strong>
+            5.3 Parámetros y argumentos ›
+          </strong>
+        </a>
+
+      </nav>
+
+    </main>
+
+    <!-- ==========================================
+         ÍNDICE DERECHO
+    ========================================== -->
+
+    <aside class="indice-derecho">
+
+      <h2>
+        Contenidos del apartado
+      </h2>
+
+      <ul>
+
+        <li>
+          <a href="#declarar-funcion">
+            Declarar una función
+          </a>
+        </li>
+
+        <li>
+          <a href="#sintaxis">
+            Sintaxis de una declaración
+          </a>
+        </li>
+
+        <li>
+          <a href="#invocar-funcion">
+            Invocar una función
+          </a>
+        </li>
+
+        <li>
+          <a href="#orden-ejecucion">
+            Orden de ejecución
+          </a>
+        </li>
+
+        <li>
+          <a href="#llamadas-multiples">
+            Llamar varias veces a una función
+          </a>
+        </li>
+
+        <li>
+          <a href="#hoisting">
+            Declaraciones y hoisting
+          </a>
+        </li>
+
+        <li>
+          <a href="#funciones-entre-si">
+            Funciones que llaman a otras funciones
+          </a>
+        </li>
+
+        <li>
+          <a href="#errores-frecuentes">
+            Errores frecuentes
+          </a>
+        </li>
+
+        <li>
+          <a href="#buenas-practicas">
+            Buenas prácticas
+          </a>
+        </li>
+
+        <li>
+          <a href="#ejemplo-completo">
+            Ejemplo práctico completo
+          </a>
+        </li>
+
+      </ul>
+
+    </aside>
+
+  </div>
+
+  <!-- ==========================================
+       PIE
+  ========================================== -->
+
+  <footer class="footer">
+
+    <p>
+      Material elaborado por
+      <strong>Eva Ballestero Cubeles</strong>
+
+      · Licencia
+
+      <span class="licencia">
+        CC BY-NC-SA 4.0
+      </span>
+
+      <a
+        class="enlace-licencia"
+        href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.es"
+        target="_blank"
+        rel="license noopener noreferrer"
+        aria-label="Licencia Creative Commons BY-NC-SA 4.0"
+      >
+        <img
+          class="icono-licencia"
+          src="../../../img/licencias/cc-by-nc-sa.png"
+          alt="Licencia Creative Commons BY-NC-SA 4.0"
+        >
+      </a>
+
+    </p>
+
+  </footer>
+
+  <!-- ==========================================
+       JAVASCRIPT COMÚN
+  ========================================== -->
+
+  <script src="../../../js/modulos.js"></script>
+
+  <script>
+
+    const menuModulos =
+      document.getElementById("menuModulos");
+
+    const botonTema =
+      document.getElementById("botonTema");
+
+    const modulosActivos =
+      modulos.filter(modulo => modulo.activo === true);
+
+    modulosActivos.forEach(modulo => {
+
+      const enlace =
+        document.createElement("a");
+
+      enlace.href =
+        `../../../${modulo.carpeta}/index.html`;
+
+      enlace.textContent =
+        modulo.siglas;
+
+      enlace.title =
+        modulo.nombre;
+
+      if (modulo.siglas === "DWEC") {
+
+        enlace.style.color =
+          "var(--verde-principal)";
+
+      }
+
+      menuModulos.appendChild(enlace);
+
+    });
+
+    /* ==========================================
+       MODO OSCURO
+    ========================================== */
+
+    const temaGuardado =
+      localStorage.getItem("tema");
+
+    if (temaGuardado === "oscuro") {
+
+      document.body.classList.add("modo-oscuro");
+
+      botonTema.textContent =
+        "🌙";
+
+    }
+
+    botonTema.addEventListener("click", () => {
+
+      document.body.classList.toggle("modo-oscuro");
+
+      const estaOscuro =
+        document.body.classList.contains("modo-oscuro");
+
+      botonTema.textContent =
+        estaOscuro ? "🌙" : "☀️";
+
+      localStorage.setItem(
+        "tema",
+        estaOscuro ? "oscuro" : "claro"
+      );
+
+    });
+
+    /* ==========================================
+       MENÚS DESPLEGABLES
+    ========================================== */
+
+    const botonesDesplegar =
+      document.querySelectorAll(".boton-desplegar");
+
+    botonesDesplegar.forEach((boton) => {
+
+      boton.addEventListener("click", () => {
+
+        const idSubmenu =
+          boton.getAttribute("data-target");
+
+        const submenu =
+          document.getElementById(idSubmenu);
+
+        if (!submenu) {
+          return;
+        }
+
+        const estaAbierto =
+          submenu.classList.contains("submenu-abierto");
+
+        if (estaAbierto) {
+
+          submenu.classList.remove("submenu-abierto");
+
+          boton.textContent =
+            "›";
+
+          boton.setAttribute(
+            "aria-expanded",
+            "false"
+          );
+
+        } else {
+
+          submenu.classList.add("submenu-abierto");
+
+          boton.textContent =
+            "⌄";
+
+          boton.setAttribute(
+            "aria-expanded",
+            "true"
+          );
+
+        }
+
+      });
+
+    });
+
+    /* ==========================================
+       COPIAR BLOQUES DE CÓDIGO
+    ========================================== */
+
+    document.addEventListener("click", async (evento) => {
+
+      const boton =
+        evento.target.closest(".boton-copiar");
+
+      if (!boton) {
+        return;
+      }
+
+      const bloque =
+        boton.closest(".bloque-codigo");
+
+      if (!bloque) {
+        return;
+      }
+
+      const codigo =
+        bloque.querySelector("code");
+
+      if (!codigo) {
+        return;
+      }
+
+      const textoOriginal =
+        boton.textContent;
+
+      try {
+
+        await navigator.clipboard.writeText(
+          codigo.textContent
+        );
+
+        boton.textContent =
+          "✔ Copiado";
+
+        setTimeout(() => {
+
+          boton.textContent =
+            textoOriginal;
+
+        }, 1600);
+
+      } catch (error) {
+
+        boton.textContent =
+          "Error al copiar";
+
+        setTimeout(() => {
+
+          boton.textContent =
+            textoOriginal;
+
+        }, 1600);
+
+      }
+
+    });
+
+  </script>
+
+</body>
+</html>
