@@ -1388,6 +1388,7 @@ NaN</code></pre>
   y verificamos que no sea negativo.
 </p>
 
+
 <div class="caja caja-atencion">
   <span class="caja-titulo">⚠️ Atención</span>
   <p>
@@ -1396,12 +1397,28 @@ NaN</code></pre>
     de la recursividad ni de la precisión numérica.
   </p>
   <p>
-    Por ejemplo, los factoriales crecen muy deprisa.
-    En JavaScript, <code>171!</code> supera el rango
-    finito del tipo <code>Number</code> y produce
+    <code>Number.isInteger()</code> comprueba si
+    el argumento es un número entero, pero no
+    garantiza que el resultado del factorial
+    pueda representarse con precisión.
+  </p>
+  <p>
+    En JavaScript, los números de tipo
+    <code>Number</code> tienen un límite de
+    precisión para representar números enteros.
+    A partir de <code>19!</code>, el resultado
+    supera <code>Number.MAX_SAFE_INTEGER</code>.
+    Esto significa que ya no podemos garantizar
+    la precisión de todos los cálculos enteros.
+  </p>
+  <p>
+    Además, los factoriales crecen muy deprisa.
+    <code>171!</code> supera el rango finito
+    de <code>Number</code> y produce
     <code>Infinity</code>.
   </p>
 </div>
+
 
 <!-- 6 -->
 <h2 id="pila">La pila de ejecución y las llamadas recursivas</h2>
@@ -1715,6 +1732,25 @@ console.log(sumarArray(cantidades));</code></pre>
   En cada llamada sumamos el elemento actual
   al resultado de procesar los elementos restantes.
 </p>
+  
+<div class="caja caja-atencion">
+  <span class="caja-titulo">⚠️ Atención</span>
+  <p>
+    Esta función presupone que todos los elementos
+    del array son números.
+  </p>
+  <p>
+    Si alguno de los elementos es una cadena de texto,
+    el operador <code>+</code> podría realizar una
+    concatenación en lugar de una suma numérica.
+  </p>
+  <p>
+    En una aplicación real, conviene comprobar
+    o convertir los datos antes de realizar
+    operaciones matemáticas.
+  </p>
+</div>
+
 
 <div class="tabla-contenedor">
   <table>
