@@ -1,0 +1,3036 @@
+
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="5.12 Organización modular de un programa. DWEC UT5.">
+<title>5.12 Organización modular de un programa | DWEC</title>
+<link rel="icon" type="image/png" href="../../../img/favicon.png?v=5">
+<link rel="stylesheet" href="../../../css/estilos.css">
+
+<style>
+/* ESTRUCTURA GENERAL */
+.pagina-ut {
+  display: grid;
+  grid-template-columns: 280px minmax(0, 1fr) 260px;
+  min-height: calc(100vh - 68px);
+}
+
+/* MENÚ LATERAL */
+.sidebar {
+  border-right: 1px solid var(--borde);
+  background-color: var(--fondo-pagina);
+  padding: 12px 10px 30px;
+  position: sticky;
+  top: 68px;
+  height: calc(100vh - 68px);
+  overflow-y: auto;
+}
+
+.sidebar-modulo {
+  display: block;
+  margin-bottom: 8px;
+  padding: 8px 14px;
+  color: #626873;
+  font-size: 17px;
+  font-weight: 700;
+  line-height: 1.3;
+  text-decoration: none;
+  border-radius: 6px;
+}
+
+.sidebar-modulo:hover,
+.menu-titulo:hover,
+.enlace-apartado-simple:hover,
+.submenu-apartados a:hover {
+  color: var(--verde-principal);
+}
+
+.menu-desplegable {
+  width: 100%;
+}
+
+.menu-cabecera {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  width: 100%;
+  border-radius: 6px;
+}
+
+.menu-cabecera-activa {
+  background-color: #f1f1f1;
+}
+
+.menu-cabecera-activa > .menu-titulo {
+  color: var(--verde-principal);
+}
+
+.menu-titulo {
+  flex: 1;
+  display: block;
+  padding: 11px 8px 11px 14px;
+  color: #626873;
+  font-size: 16px;
+  font-weight: 650;
+  line-height: 1.4;
+  text-decoration: none;
+}
+
+.boton-desplegar {
+  width: 36px;
+  height: 36px;
+  margin-right: 5px;
+  padding: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  border: 0;
+  border-radius: 6px;
+  background: transparent;
+  color: #777;
+  font-family: inherit;
+  font-size: 24px;
+  line-height: 1;
+  cursor: pointer;
+}
+
+.boton-desplegar:hover {
+  background-color: #e5e7eb;
+  color: var(--verde-principal);
+}
+
+.submenu {
+  display: none;
+}
+
+.submenu.submenu-abierto {
+  display: block;
+}
+
+.menu-apartado {
+  margin-left: 14px;
+}
+
+.menu-apartado .menu-titulo {
+  padding-top: 9px;
+  padding-bottom: 9px;
+  font-size: 15px;
+  font-weight: 600;
+}
+
+.enlace-apartado-simple {
+  display: block;
+  margin-left: 14px;
+  padding: 10px 14px;
+  color: #626873;
+  font-size: 15px;
+  font-weight: 600;
+  line-height: 1.4;
+  text-decoration: none;
+  border-radius: 6px;
+}
+
+.submenu-apartados {
+  margin: 2px 0 5px 28px;
+  border-left: 2px solid #e0e3e7;
+}
+
+.submenu-apartados a {
+  display: block;
+  padding: 7px 10px;
+  color: #777d87;
+  font-size: 14px;
+  font-weight: 500;
+  line-height: 1.35;
+  text-decoration: none;
+}
+
+.sidebar-ut-cerrada {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 13px 14px;
+  color: #626873;
+  text-decoration: none;
+  font-size: 16px;
+  font-weight: 650;
+  line-height: 1.35;
+  border-radius: 6px;
+}
+
+.sidebar-ut-cerrada:hover,
+.enlace-apartado-simple:hover {
+  background-color: #f3f4f6;
+}
+
+body.modo-oscuro .menu-cabecera-activa,
+body.modo-oscuro .sidebar-ut-cerrada:hover,
+body.modo-oscuro .enlace-apartado-simple:hover {
+  background-color: #273244;
+}
+
+body.modo-oscuro .boton-desplegar:hover {
+  background-color: #334155;
+}
+
+body.modo-oscuro .submenu-apartados {
+  border-left-color: #3a4659;
+}
+
+/* CONTENIDO CENTRAL */
+.contenido-ut {
+  padding: 28px 34px 70px;
+  max-width: 1150px;
+  width: 100%;
+  min-width: 0;
+}
+
+.migas {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-bottom: 30px;
+  font-size: 14px;
+}
+
+.miga-inicio {
+  text-decoration: none;
+  font-size: 18px;
+}
+
+.miga-separador {
+  color: #999;
+  font-size: 22px;
+}
+
+.miga-modulo {
+  color: var(--texto-secundario);
+  text-decoration: none;
+}
+
+.miga-modulo:hover {
+  color: var(--verde-principal);
+}
+
+.miga-actual {
+  padding: 8px 14px;
+  background-color: #f3f3f3;
+  border-radius: 24px;
+  color: var(--verde-principal);
+}
+
+body.modo-oscuro .miga-actual {
+  background-color: #273244;
+}
+
+.contenido-ut h1 {
+  margin: 0 0 30px;
+  font-size: clamp(38px, 5vw, 58px);
+  line-height: 1.12;
+}
+
+.apartado-ut {
+  margin-top: 55px;
+  scroll-margin-top: 95px;
+}
+
+.apartado-ut h2 {
+  margin: 0 0 24px;
+  font-size: 32px;
+  line-height: 1.2;
+  scroll-margin-top: 95px;
+}
+
+.apartado-ut h3 {
+  margin: 34px 0 16px;
+  font-size: 24px;
+  line-height: 1.3;
+}
+
+.apartado-ut p {
+  margin: 0 0 18px;
+  font-size: 18px;
+  line-height: 1.75;
+}
+
+.apartado-ut ul,
+.apartado-ut ol {
+  margin: 16px 0 24px;
+  padding-left: 28px;
+}
+
+.apartado-ut li {
+  margin-bottom: 10px;
+  font-size: 17px;
+  line-height: 1.6;
+}
+
+/* CAJAS DIDÁCTICAS */
+.caja {
+  margin: 28px 0;
+  padding: 18px 20px;
+  border-left: 5px solid;
+  border-radius: 8px;
+  line-height: 1.65;
+}
+
+.caja p {
+  margin: 0 0 12px;
+  font-size: 17px;
+}
+
+.caja p:last-child {
+  margin-bottom: 0;
+}
+
+.caja-titulo {
+  display: block;
+  margin-bottom: 8px;
+  font-size: 17px;
+  font-weight: 700;
+}
+
+.caja-importante {
+  background-color: #eef8f1;
+  border-left-color: #2f9e5b;
+}
+
+.caja-atencion {
+  background-color: #fff7e8;
+  border-left-color: #e09b27;
+}
+
+.caja-ejemplo {
+  background-color: #eef5ff;
+  border-left-color: #3f7acb;
+}
+
+body.modo-oscuro .caja-importante {
+  background-color: #20372a;
+}
+
+body.modo-oscuro .caja-atencion {
+  background-color: #3b3020;
+}
+
+body.modo-oscuro .caja-ejemplo {
+  background-color: #23344a;
+}
+
+/* TABLAS */
+.tabla-contenedor {
+  width: 100%;
+  margin: 22px 0 28px;
+  overflow-x: auto;
+}
+
+.tabla-contenedor table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 16px;
+}
+
+.tabla-contenedor th,
+.tabla-contenedor td {
+  padding: 14px 16px;
+  border: 1px solid var(--borde);
+  text-align: left;
+  vertical-align: top;
+  line-height: 1.55;
+}
+
+.tabla-contenedor th {
+  background-color: #f1f3f5;
+  font-weight: 700;
+}
+
+body.modo-oscuro .tabla-contenedor th {
+  background-color: #273244;
+}
+
+/* ESQUEMAS */
+.esquema-web {
+  max-width: 700px;
+  margin: 30px auto;
+}
+
+.esquema-fila {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 14px;
+  margin-top: 16px;
+}
+
+.esquema-caja {
+  padding: 18px 16px;
+  background-color: var(--fondo-tarjeta);
+  border: 1px solid var(--borde);
+  border-radius: 10px;
+  text-align: center;
+}
+
+.esquema-caja strong {
+  display: block;
+  margin-bottom: 5px;
+  color: var(--verde-principal);
+  font-size: 18px;
+  overflow-wrap: anywhere;
+}
+
+.esquema-caja span {
+  color: var(--texto-secundario);
+  font-size: 15px;
+  line-height: 1.45;
+}
+
+.esquema-flecha {
+  margin: 14px 0;
+  text-align: center;
+  font-size: 22px;
+  color: var(--verde-principal);
+}
+
+/* BLOQUES DE CÓDIGO */
+.bloque-codigo {
+  margin: 28px 0;
+  border: 1px solid #3b3b3b;
+  border-radius: 9px;
+  overflow: hidden;
+  background-color: #1e1e1e;
+}
+
+.cabecera-codigo {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 10px 14px;
+  background-color: #2b2b2b;
+  color: #f3f4f6;
+  font-size: 14px;
+}
+
+.boton-copiar {
+  padding: 6px 11px;
+  border: 1px solid #5c5c5c;
+  border-radius: 6px;
+  background-color: #383838;
+  color: #f3f4f6;
+  font-family: inherit;
+  font-size: 13px;
+  cursor: pointer;
+}
+
+.boton-copiar:hover {
+  background-color: #484848;
+  border-color: #777;
+}
+
+.bloque-codigo pre {
+  margin: 0;
+  padding: 18px 20px;
+  overflow-x: auto;
+  tab-size: 2;
+}
+
+.bloque-codigo code {
+  color: #f5f5f5;
+  font-family: Consolas, "Courier New", monospace;
+  font-size: 15px;
+  line-height: 1.6;
+  white-space: pre;
+}
+
+.bloque-codigo-salida {
+  background-color: #111b24;
+}
+
+.bloque-codigo-salida .cabecera-codigo {
+  background-color: #1d2935;
+}
+
+/* ACTIVIDAD PIENSA */
+.actividad-piensa {
+  margin: 32px 0;
+  padding: 22px 24px;
+  background-color: #f7f8fa;
+  border: 1px solid var(--borde);
+  border-radius: 10px;
+}
+
+.actividad-piensa h3 {
+  margin: 0 0 12px;
+  color: var(--verde-principal);
+  font-size: 20px;
+}
+
+.actividad-piensa > p {
+  margin: 0 0 14px;
+  font-size: 17px;
+  line-height: 1.65;
+}
+
+body.modo-oscuro .actividad-piensa {
+  background-color: #232d3d;
+}
+
+.actividad-piensa details {
+  margin-top: 20px;
+}
+
+.actividad-piensa details summary {
+  display: inline-block;
+  padding: 10px 16px;
+  background-color: #eef8f1;
+  border: 1px solid #b9dfc6;
+  border-radius: 7px;
+  color: var(--verde-principal);
+  font-size: 16px;
+  font-weight: 700;
+  cursor: pointer;
+  user-select: none;
+}
+
+.actividad-piensa details summary:hover {
+  background-color: #e2f3e7;
+}
+
+.actividad-piensa .solucion {
+  margin-top: 16px;
+  padding: 18px 20px;
+  background-color: var(--fondo-pagina);
+  border-left: 4px solid var(--verde-principal);
+  border-radius: 6px;
+}
+
+.actividad-piensa .solucion p {
+  margin: 0 0 12px;
+  font-size: 16px;
+  line-height: 1.65;
+}
+
+body.modo-oscuro .actividad-piensa details summary {
+  background-color: #203c33;
+  border-color: #3a755d;
+}
+
+/* ÍNDICE DERECHO */
+.indice-derecho {
+  padding: 28px 22px 100px;
+  border-left: 1px solid var(--borde);
+  position: sticky;
+  top: 68px;
+  height: calc(100vh - 68px);
+  overflow-y: auto;
+  box-sizing: border-box;
+}
+
+.indice-derecho h2 {
+  margin: 8px 0 20px;
+  font-size: 17px;
+  color: #555b65;
+}
+
+body.modo-oscuro .indice-derecho h2 {
+  color: #d1d5db;
+}
+
+.indice-derecho ul {
+  margin: 0;
+  padding-left: 18px;
+}
+
+.indice-derecho li {
+  margin-bottom: 12px;
+}
+
+.indice-derecho a {
+  color: var(--texto-secundario);
+  text-decoration: none;
+  font-size: 14px;
+  line-height: 1.4;
+}
+
+.indice-derecho a:hover {
+  color: var(--verde-principal);
+}
+
+/* NAVEGACIÓN */
+.navegacion-paginas {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 20px;
+  margin-top: 50px;
+}
+
+.nav-pagina {
+  min-height: 100px;
+  padding: 18px 20px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  border: 1px solid var(--borde);
+  border-radius: 8px;
+  text-decoration: none;
+  background-color: var(--fondo-tarjeta);
+}
+
+.nav-anterior {
+  align-items: flex-start;
+  text-align: left;
+}
+
+.nav-siguiente {
+  align-items: flex-end;
+  text-align: right;
+}
+
+.nav-etiqueta {
+  margin-bottom: 5px;
+  color: var(--texto-secundario);
+  font-size: 14px;
+}
+
+.nav-pagina strong {
+  color: var(--verde-principal);
+  font-size: 16px;
+  line-height: 1.4;
+}
+
+.nav-pagina:hover {
+  border-color: var(--verde-principal);
+}
+
+/* DISEÑO ADAPTABLE */
+@media (max-width: 1100px) {
+  .pagina-ut {
+    grid-template-columns: 250px minmax(0, 1fr);
+  }
+
+  .indice-derecho {
+    display: none;
+  }
+}
+
+@media (max-width: 760px) {
+  .pagina-ut {
+    display: block;
+  }
+
+  .sidebar {
+    position: static;
+    width: 100%;
+    height: auto;
+    border-right: 0;
+    border-bottom: 1px solid var(--borde);
+  }
+
+  .contenido-ut {
+    padding: 28px 20px 60px;
+  }
+
+  .contenido-ut h1 {
+    font-size: 36px;
+  }
+
+  .navegacion-paginas,
+  .esquema-fila {
+    grid-template-columns: 1fr;
+  }
+
+  .nav-siguiente {
+    align-items: flex-start;
+    text-align: left;
+  }
+
+  .actividad-piensa {
+    padding: 18px 16px;
+  }
+}
+</style>
+</head>
+
+<body>
+
+<!-- BARRA SUPERIOR -->
+<header class="navbar">
+  <a class="inicio" href="../../../index.html">
+    <img
+      alt=""
+      class="icono-profesora"
+      src="../../../img/profesora-castana.png?v=2"
+    >
+    <span>Inicio</span>
+  </a>
+
+  <nav
+    aria-label="Módulos formativos"
+    class="menu-modulos"
+    id="menuModulos"
+  ></nav>
+
+  <button
+    aria-label="Cambiar entre modo claro y oscuro"
+    class="boton-tema"
+    id="botonTema"
+    title="Cambiar tema"
+    type="button"
+  >☀️</button>
+</header>
+
+<div class="pagina-ut">
+
+<!-- MENÚ LATERAL -->
+<aside class="sidebar" aria-label="Navegación de DWEC">
+
+  <a class="sidebar-modulo sidebar-modulo-activo"
+     href="../../index.html">
+    Desarrollo web en entorno cliente
+  </a>
+
+  <a class="sidebar-ut-cerrada" href="../../ut1/index.html">
+    <span>UT1 - Introducción al desarrollo web en entorno cliente</span>
+    <span>›</span>
+  </a>
+
+  <a class="sidebar-ut-cerrada" href="../../ut2/index.html">
+    <span>UT2 - Fundamentos de JavaScript: variables, tipos y operadores</span>
+    <span>›</span>
+  </a>
+
+  <a class="sidebar-ut-cerrada" href="../../ut3/index.html">
+    <span>UT3 - Estructuras de control en JavaScript</span>
+    <span>›</span>
+  </a>
+
+  <a class="sidebar-ut-cerrada" href="../../ut4/index.html">
+    <span>UT4 - Arrays y estructuras de datos en JavaScript</span>
+    <span>›</span>
+  </a>
+
+  <!-- UT5 ABIERTA -->
+  <div class="menu-desplegable">
+    <div class="menu-cabecera menu-cabecera-activa">
+      <a class="menu-titulo" href="../index.html">
+        UT5 - Funciones en JavaScript
+      </a>
+      <button
+        class="boton-desplegar"
+        type="button"
+        data-target="submenu-ut5"
+        aria-expanded="true"
+        aria-label="Mostrar u ocultar UT5"
+      >⌄</button>
+    </div>
+
+    <div class="submenu submenu-abierto" id="submenu-ut5">
+
+      <a class="enlace-apartado-simple" href="../5-1/index.html">
+        5.1 Introducción a las funciones
+      </a>
+
+      <a class="enlace-apartado-simple" href="../5-2/index.html">
+        5.2 Declaración e invocación de funciones
+      </a>
+
+      <a class="enlace-apartado-simple" href="../5-3/index.html">
+        5.3 Parámetros y argumentos
+      </a>
+
+      <a class="enlace-apartado-simple" href="../5-4/index.html">
+        5.4 Valores de retorno y sentencia return
+      </a>
+
+      <a class="enlace-apartado-simple" href="../5-5/index.html">
+        5.5 Ámbito de las variables en las funciones
+      </a>
+
+      <a class="enlace-apartado-simple" href="../5-6/index.html">
+        5.6 Paso de valores y referencias a funciones
+      </a>
+
+      <a class="enlace-apartado-simple" href="../5-7/index.html">
+        5.7 Parámetros por defecto y parámetros rest
+      </a>
+
+      <a class="enlace-apartado-simple" href="../5-8/index.html">
+        5.8 Expresiones de función y funciones flecha
+      </a>
+
+      <a class="enlace-apartado-simple" href="../5-9/index.html">
+        5.9 Funciones como valores y funciones callback
+      </a>
+
+      <a class="enlace-apartado-simple" href="../5-10/index.html">
+        5.10 Funciones predefinidas y métodos de JavaScript
+      </a>
+
+      <a class="enlace-apartado-simple" href="../5-11/index.html">
+        5.11 Funciones recursivas
+      </a>
+
+      <!-- 5.12 ACTIVO -->
+      <div class="menu-desplegable menu-apartado">
+        <div class="menu-cabecera menu-cabecera-activa">
+          <a class="menu-titulo" href="index.html">
+            5.12 Organización modular de un programa
+          </a>
+          <button
+            class="boton-desplegar"
+            type="button"
+            data-target="submenu-5-12"
+            aria-expanded="true"
+            aria-label="Mostrar u ocultar los subapartados del 5.12"
+          >⌄</button>
+        </div>
+
+        <div
+          class="submenu submenu-apartados submenu-abierto"
+          id="submenu-5-12"
+        >
+          <a href="#necesidad">Por qué organizar el código</a>
+          <a href="#modularidad">Qué es la modularidad</a>
+          <a href="#funciones">Separar responsabilidades</a>
+          <a href="#archivos">Organizar el código en archivos</a>
+          <a href="#modulos-es">Módulos ES de JavaScript</a>
+          <a href="#exportar">Exportar funciones y valores</a>
+          <a href="#importar">Importar funciones y valores</a>
+          <a href="#estructura">Estructura de un proyecto</a>
+          <a href="#dependencias">Dependencias entre módulos</a>
+          <a href="#buenas-practicas">Buenas prácticas</a>
+          <a href="#errores">Errores frecuentes</a>
+          <a href="#ejemplo-practico">Ejemplo práctico DAW</a>
+        </div>
+      </div>
+
+      <a class="enlace-apartado-simple" href="../resumen/index.html">
+        ✏️ Resumen de la UT5
+      </a>
+
+      <!-- ACTIVIDADES -->
+      <div class="menu-desplegable menu-apartado">
+        <div class="menu-cabecera">
+          <a class="menu-titulo" href="../actividades/index.html">
+            📝 Actividades de la UT5
+          </a>
+          <button
+            class="boton-desplegar"
+            type="button"
+            data-target="submenu-actividades"
+            aria-expanded="false"
+            aria-label="Mostrar u ocultar las actividades de la UT5"
+          >›</button>
+        </div>
+
+        <div class="submenu submenu-apartados"
+             id="submenu-actividades">
+          <a href="../actividades/index.html#actividades-practicas">
+            💻 Actividades prácticas
+          </a>
+          <a href="../actividades/index.html#reto-final">
+            🧩 Reto final
+          </a>
+          <a href="../actividades/index.html#autoevaluacion">
+            ✅ Autoevaluación
+          </a>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <a class="sidebar-ut-cerrada" href="../../ut6/index.html">
+    <span>UT6 - Objetos y Programación Orientada a Objetos en JavaScript</span>
+    <span>›</span>
+  </a>
+
+  <a class="sidebar-ut-cerrada" href="../../ut7/index.html">
+    <span>UT7 - Objetos predefinidos y modelo del navegador (BOM)</span>
+    <span>›</span>
+  </a>
+
+  <a class="sidebar-ut-cerrada" href="../../ut8/index.html">
+    <span>UT8 - Aplicaciones web interactivas: DOM, eventos y formularios</span>
+    <span>›</span>
+  </a>
+
+  <a class="sidebar-ut-cerrada" href="../../ut9/index.html">
+    <span>UT9 - Comunicación asíncrona y peticiones al servidor</span>
+    <span>›</span>
+  </a>
+
+  <a class="sidebar-ut-cerrada" href="../../ut10/index.html">
+    <span>UT10 - Introducción a React</span>
+    <span>›</span>
+  </a>
+
+</aside>
+
+<!-- CONTENIDO PRINCIPAL -->
+<main class="contenido-ut">
+
+<div class="migas">
+  <a aria-label="Inicio" class="miga-inicio"
+     href="../../../index.html">🏠</a>
+  <span class="miga-separador">›</span>
+  <a class="miga-modulo" href="../../index.html">DWEC</a>
+  <span class="miga-separador">›</span>
+  <a class="miga-modulo" href="../index.html">UT5</a>
+  <span class="miga-separador">›</span>
+  <span class="miga-actual">5.12</span>
+</div>
+
+<h1>5.12 Organización modular de un programa</h1>
+
+<section class="apartado-ut">
+
+<p>
+  A lo largo de esta unidad hemos aprendido a crear funciones,
+  pasarles argumentos, devolver resultados y reutilizar
+  instrucciones. También hemos visto que las funciones
+  permiten dividir un problema en tareas más pequeñas.
+</p>
+
+<p>
+  Sin embargo, cuando desarrollamos una aplicación web,
+  el programa puede llegar a contener decenas o cientos
+  de funciones. Si colocamos todo el código en un único
+  archivo, mantenerlo y comprenderlo puede resultar
+  cada vez más difícil.
+</p>
+
+<p>
+  Para evitarlo, debemos aprender a
+  <strong>organizar el programa en partes relacionadas,
+  independientes en la medida de lo posible y con
+  responsabilidades bien definidas</strong>.
+</p>
+
+<p>
+  En este apartado estudiaremos cómo organizar el código
+  utilizando funciones, archivos y los módulos de JavaScript.
+  Aprenderemos también a compartir funciones entre archivos
+  mediante <code>export</code> e <code>import</code>.
+</p>
+
+<div class="caja caja-importante">
+  <span class="caja-titulo">📌 Importante</span>
+  <p>
+    La organización modular consiste en
+    <strong>dividir un programa en partes que realizan
+    tareas concretas y que pueden desarrollarse,
+    comprenderse y mantenerse por separado</strong>.
+  </p>
+  <p>
+    En JavaScript moderno, los módulos ES permiten
+    distribuir el código en distintos archivos
+    y compartir únicamente las funciones o valores
+    que necesitamos.
+  </p>
+</div>
+
+<!-- 1 -->
+<h2 id="necesidad">Por qué necesitamos organizar el código</h2>
+
+<p>
+  Imagina que estamos desarrollando una aplicación
+  para gestionar los pedidos de una tienda online.
+</p>
+
+<p>
+  El programa debe realizar diferentes tareas:
+</p>
+
+<ul>
+  <li>Calcular el importe de los productos.</li>
+  <li>Aplicar descuentos.</li>
+  <li>Calcular impuestos.</li>
+  <li>Validar los datos introducidos.</li>
+  <li>Mostrar mensajes al usuario.</li>
+  <li>Preparar la información del pedido.</li>
+</ul>
+
+<p>
+  Podríamos escribir todas estas operaciones
+  directamente en un único bloque de código.
+  Sin embargo, esa solución resultaría difícil
+  de ampliar y mantener.
+</p>
+
+<h3>Ejemplo de código poco organizado</h3>
+
+<div class="bloque-codigo">
+  <div class="cabecera-codigo">
+    <span>JavaScript — Todo en un mismo bloque</span>
+    <button class="boton-copiar" type="button">Copiar código</button>
+  </div>
+  <pre><code>const precio = 50;
+const cantidad = 3;
+const descuento = 10;
+
+const subtotal = precio * cantidad;
+const importeDescuento = subtotal * descuento / 100;
+const baseImponible = subtotal - importeDescuento;
+const iva = baseImponible * 0.21;
+const total = baseImponible + iva;
+
+console.log("Subtotal:", subtotal);
+console.log("Descuento:", importeDescuento);
+console.log("IVA:", iva);
+console.log("Total:", total);</code></pre>
+</div>
+
+<p>
+  El código funciona, pero mezcla los cálculos
+  con la presentación de los resultados.
+  Además, si necesitamos realizar el mismo cálculo
+  para otro pedido, tendríamos que repetir instrucciones
+  o modificar directamente las variables.
+</p>
+
+<p>
+  Una primera mejora consiste en utilizar funciones
+  con responsabilidades concretas.
+</p>
+
+<div class="bloque-codigo">
+  <div class="cabecera-codigo">
+    <span>JavaScript — Código organizado en funciones</span>
+    <button class="boton-copiar" type="button">Copiar código</button>
+  </div>
+  <pre><code>function calcularSubtotal(precio, cantidad) {
+  return precio * cantidad;
+}
+
+function aplicarDescuento(importe, porcentaje) {
+  return importe - importe * porcentaje / 100;
+}
+
+function calcularIVA(importe) {
+  return importe * 0.21;
+}
+
+function mostrarTotal(total) {
+  console.log("Total:", total);
+}
+
+const subtotal = calcularSubtotal(50, 3);
+const base = aplicarDescuento(subtotal, 10);
+const total = base + calcularIVA(base);
+
+mostrarTotal(total);</code></pre>
+</div>
+
+<div class="bloque-codigo bloque-codigo-salida">
+  <div class="cabecera-codigo">
+    <span>Resultado en consola</span>
+  </div>
+  <pre><code>Total: 163.35</code></pre>
+</div>
+
+<p>
+  Ahora cada función tiene una tarea concreta.
+  Podemos reutilizar los cálculos en otros pedidos
+  y modificar una operación sin tener que reescribir
+  todo el programa.
+</p>
+
+<div class="caja caja-atencion">
+  <span class="caja-titulo">⚠️ Atención</span>
+  <p>
+    Dividir el código en funciones no significa
+    automáticamente que estemos utilizando módulos ES.
+  </p>
+  <p>
+    Primero aprendemos a separar responsabilidades
+    mediante funciones. Después podemos distribuir
+    esas funciones entre diferentes archivos
+    y conectarlos utilizando el sistema de módulos.
+  </p>
+</div>
+
+<!-- 2 -->
+<h2 id="modularidad">Qué es la modularidad</h2>
+
+<p>
+  La <strong>modularidad</strong> es una forma de organizar
+  el software que consiste en dividir una aplicación
+  en componentes o módulos especializados.
+</p>
+
+<p>
+  Cada módulo agrupa elementos relacionados
+  y ofrece determinadas funcionalidades
+  al resto del programa.
+</p>
+
+<p>
+  Por ejemplo, una aplicación de comercio electrónico
+  podría organizarse en tres áreas:
+</p>
+
+<div class="esquema-web">
+  <div class="esquema-fila">
+    <div class="esquema-caja">
+      <strong>Productos</strong>
+      <span>Precios y cálculos</span>
+    </div>
+    <div class="esquema-caja">
+      <strong>Validación</strong>
+      <span>Comprobación de datos</span>
+    </div>
+    <div class="esquema-caja">
+      <strong>Pedidos</strong>
+      <span>Preparación de resultados</span>
+    </div>
+  </div>
+</div>
+
+<p>
+  Esta separación aporta varias ventajas.
+</p>
+
+<div class="tabla-contenedor">
+  <table>
+    <thead>
+      <tr>
+        <th>Ventaja</th>
+        <th>Explicación</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>Organización</td>
+        <td>El código se agrupa según la tarea que realiza.</td>
+      </tr>
+      <tr>
+        <td>Reutilización</td>
+        <td>Una función puede utilizarse desde diferentes partes del programa.</td>
+      </tr>
+      <tr>
+        <td>Mantenimiento</td>
+        <td>Los cambios pueden localizarse en el módulo correspondiente.</td>
+      </tr>
+      <tr>
+        <td>Legibilidad</td>
+        <td>Es más sencillo comprender la finalidad de cada archivo.</td>
+      </tr>
+      <tr>
+        <td>Pruebas</td>
+        <td>Las funciones pueden comprobarse de forma aislada cuando sus dependencias lo permiten.</td>
+      </tr>
+      <tr>
+        <td>Trabajo en equipo</td>
+        <td>Diferentes desarrolladores pueden trabajar en partes distintas del proyecto.</td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<div class="caja caja-importante">
+  <span class="caja-titulo">📌 Importante</span>
+  <p>
+    Un módulo debe tener una
+    <strong>responsabilidad clara</strong>.
+    No conviene agrupar funciones sin relación
+    simplemente para reducir el número de archivos.
+  </p>
+</div>
+
+<!-- 3 -->
+<h2 id="funciones">Separar responsabilidades mediante funciones</h2>
+
+<p>
+  Antes de distribuir un programa en archivos,
+  debemos decidir qué tareas realizará cada función.
+</p>
+
+<p>
+  Una buena práctica consiste en que una función
+  tenga un objetivo principal y un nombre
+  que permita comprender su comportamiento.
+</p>
+
+<h3>Funciones que calculan y funciones que muestran</h3>
+
+<p>
+  Observa el siguiente ejemplo:
+</p>
+
+<div class="bloque-codigo">
+  <div class="cabecera-codigo">
+    <span>JavaScript — Separación de tareas</span>
+    <button class="boton-copiar" type="button">Copiar código</button>
+  </div>
+  <pre><code>function calcularPrecioFinal(precio, iva) {
+  return precio + precio * iva / 100;
+}
+
+function mostrarPrecio(precio) {
+  console.log("Precio final:", precio.toFixed(2), "€");
+}
+
+const resultado = calcularPrecioFinal(100, 21);
+
+mostrarPrecio(resultado);</code></pre>
+</div>
+
+<div class="bloque-codigo bloque-codigo-salida">
+  <div class="cabecera-codigo">
+    <span>Resultado en consola</span>
+  </div>
+  <pre><code>Precio final: 121.00 €</code></pre>
+</div>
+
+<p>
+  La función <code>calcularPrecioFinal()</code>
+  realiza un cálculo y devuelve el resultado.
+</p>
+
+<p>
+  La función <code>mostrarPrecio()</code>
+  se encarga de presentarlo.
+</p>
+
+<p>
+  Gracias a esta separación, podemos cambiar
+  la forma de mostrar los precios sin modificar
+  la función que los calcula.
+</p>
+
+<div class="caja caja-ejemplo">
+  <span class="caja-titulo">💻 Ejemplo DAW</span>
+  <p>
+    En una aplicación web real, una función podría
+    calcular el precio de un producto y otra
+    mostrarlo en la interfaz.
+  </p>
+  <p>
+    Si más adelante cambiamos el diseño visual
+    de la página, la función matemática podría
+    mantenerse exactamente igual.
+  </p>
+</div>
+
+<h3>Evitar funciones que realizan demasiadas tareas</h3>
+
+<p>
+  Una función que valida datos, calcula importes,
+  actualiza la interfaz y muestra mensajes
+  puede resultar difícil de mantener.
+</p>
+
+<p>
+  En muchos casos será preferible utilizar
+  varias funciones pequeñas que colaboren
+  entre sí.
+</p>
+
+<div class="caja caja-atencion">
+  <span class="caja-titulo">⚠️ Atención</span>
+  <p>
+    No es necesario crear una función distinta
+    para cada instrucción.
+  </p>
+  <p>
+    El objetivo es conseguir una organización
+    comprensible, no fragmentar el código
+    de forma innecesaria.
+  </p>
+</div>
+
+<!-- 4 -->
+<h2 id="archivos">Organizar el código en varios archivos</h2>
+
+<p>
+  Cuando un programa crece, podemos distribuir
+  sus funciones entre distintos archivos JavaScript.
+</p>
+
+<p>
+  Por ejemplo, podemos separar las funciones
+  matemáticas de las relacionadas con mensajes.
+</p>
+
+<div class="bloque-codigo bloque-codigo-salida">
+  <div class="cabecera-codigo">
+    <span>Estructura de archivos</span>
+  </div>
+  <pre><code>proyecto/
+├── index.html
+└── js/
+    ├── calculos.js
+    └── mensajes.js</code></pre>
+</div>
+
+<p>
+  Una posibilidad tradicional consiste en incluir
+  varios archivos mediante etiquetas
+  <code>&lt;script&gt;</code>.
+</p>
+
+<div class="bloque-codigo">
+  <div class="cabecera-codigo">
+    <span>HTML — Carga de varios scripts clásicos</span>
+    <button class="boton-copiar" type="button">Copiar código</button>
+  </div>
+  <pre><code>&lt;script src="js/calculos.js"&gt;&lt;/script&gt;
+&lt;script src="js/mensajes.js"&gt;&lt;/script&gt;</code></pre>
+</div>
+
+<p>
+  En este caso, ambos archivos se cargan
+  como scripts clásicos.
+  Las declaraciones globales pueden ser accesibles
+  desde otros scripts, según cómo estén definidas.
+</p>
+
+<p>
+  Sin embargo, esta forma de organizar el código
+  presenta limitaciones:
+</p>
+
+<ul>
+  <li>Puede depender del orden de carga de los archivos.</li>
+  <li>Es posible que aparezcan conflictos entre nombres globales.</li>
+  <li>No se indican explícitamente las funciones que necesita cada archivo.</li>
+  <li>Las dependencias pueden resultar difíciles de identificar.</li>
+</ul>
+
+<div class="caja caja-importante">
+  <span class="caja-titulo">📌 Importante</span>
+  <p>
+    <strong>Utilizar varios archivos JavaScript
+    no equivale necesariamente a utilizar módulos.</strong>
+  </p>
+  <p>
+    Los módulos ES proporcionan un mecanismo
+    específico para compartir valores
+    y declarar dependencias entre archivos.
+  </p>
+</div>
+
+<!-- 5 -->
+<h2 id="modulos-es">Los módulos ES de JavaScript</h2>
+
+<p>
+  JavaScript dispone de un sistema de módulos
+  conocido como <strong>ECMAScript Modules</strong>,
+  también denominado <strong>ES Modules</strong>
+  o simplemente <strong>módulos ES</strong>.
+</p>
+
+<p>
+  Este sistema permite escribir código
+  en archivos separados y decidir
+  qué funciones, constantes o valores
+  pueden utilizar otros módulos.
+</p>
+
+<p>
+  Para ello se utilizan principalmente
+  dos palabras clave:
+</p>
+
+<ul>
+  <li>
+    <code>export</code>: permite compartir
+    elementos definidos en un módulo.
+  </li>
+  <li>
+    <code>import</code>: permite utilizar
+    elementos exportados por otro módulo.
+  </li>
+</ul>
+
+<h3>Activar los módulos desde HTML</h3>
+
+<p>
+  Para cargar un archivo JavaScript
+  como módulo en el navegador,
+  utilizamos el atributo
+  <code>type="module"</code>.
+</p>
+
+<div class="bloque-codigo">
+  <div class="cabecera-codigo">
+    <span>HTML — Cargar un módulo</span>
+    <button class="boton-copiar" type="button">Copiar código</button>
+  </div>
+  <pre><code>&lt;script type="module" src="js/main.js"&gt;&lt;/script&gt;</code></pre>
+</div>
+
+<p>
+  Con esta instrucción, el navegador interpreta
+  <code>main.js</code> como un módulo
+  y puede resolver sus importaciones.
+</p>
+
+<div class="caja caja-atencion">
+  <span class="caja-titulo">⚠️ Atención</span>
+  <p>
+    Para probar módulos ES en el navegador,
+    es recomendable utilizar un servidor web local,
+    por ejemplo mediante la extensión
+    <strong>Live Server</strong> de Visual Studio Code.
+  </p>
+  <p>
+    Si abrimos directamente el archivo HTML
+    con una dirección <code>file://</code>,
+    las restricciones de seguridad del navegador
+    pueden impedir la carga de los módulos.
+  </p>
+</div>
+
+<h3>Características de los módulos</h3>
+
+<ul>
+  <li>Cada módulo tiene su propio ámbito.</li>
+  <li>Las declaraciones no pasan automáticamente al ámbito global.</li>
+  <li>Las dependencias se expresan mediante <code>import</code>.</li>
+  <li>Las funciones y valores compartidos se indican mediante <code>export</code>.</li>
+  <li>Los módulos se ejecutan en modo estricto.</li>
+  <li>Los scripts de tipo módulo se procesan de forma diferida por defecto.</li>
+</ul>
+
+<div class="caja caja-importante">
+  <span class="caja-titulo">📌 Importante</span>
+  <p>
+    Una función definida dentro de un módulo
+    <strong>no está disponible automáticamente
+    para todos los archivos de la aplicación</strong>.
+  </p>
+  <p>
+    Para utilizarla desde otro módulo,
+    normalmente debemos exportarla
+    e importarla explícitamente.
+  </p>
+</div>
+
+<!-- 6 -->
+<h2 id="exportar">Exportar funciones y valores</h2>
+
+<p>
+  La palabra clave <code>export</code>
+  permite indicar qué elementos de un módulo
+  pueden utilizar otros archivos.
+</p>
+
+<h3>Exportación con nombre</h3>
+
+<p>
+  Vamos a crear un archivo llamado
+  <code>matematicas.js</code>.
+</p>
+
+<div class="bloque-codigo">
+  <div class="cabecera-codigo">
+    <span>JavaScript — matematicas.js</span>
+    <button class="boton-copiar" type="button">Copiar código</button>
+  </div>
+  <pre><code>export function sumar(a, b) {
+  return a + b;
+}
+
+export function restar(a, b) {
+  return a - b;
+}
+
+export const PI = 3.14159;</code></pre>
+</div>
+
+<p>
+  Hemos exportado dos funciones y una constante.
+  Otros módulos podrán importarlas
+  utilizando sus nombres.
+</p>
+
+<p>
+  También podemos declarar primero los elementos
+  y exportarlos al final del archivo.
+</p>
+
+<div class="bloque-codigo">
+  <div class="cabecera-codigo">
+    <span>JavaScript — Otra forma de exportar</span>
+    <button class="boton-copiar" type="button">Copiar código</button>
+  </div>
+  <pre><code>function sumar(a, b) {
+  return a + b;
+}
+
+function restar(a, b) {
+  return a - b;
+}
+
+export { sumar, restar };</code></pre>
+</div>
+
+<p>
+  Ambas formas permiten realizar
+  exportaciones con nombre.
+</p>
+
+<h3>Exportación por defecto</h3>
+
+<p>
+  JavaScript también permite establecer
+  una <strong>exportación por defecto</strong>
+  mediante <code>export default</code>.
+</p>
+
+<div class="bloque-codigo">
+  <div class="cabecera-codigo">
+    <span>JavaScript — saludo.js</span>
+    <button class="boton-copiar" type="button">Copiar código</button>
+  </div>
+  <pre><code>export default function saludar(nombre) {
+  return "Hola, " + nombre;
+}</code></pre>
+</div>
+
+<p>
+  Un módulo puede tener varias exportaciones
+  con nombre, pero solamente
+  <strong>una exportación por defecto</strong>.
+</p>
+
+<div class="tabla-contenedor">
+  <table>
+    <thead>
+      <tr>
+        <th>Tipo</th>
+        <th>Sintaxis</th>
+        <th>Características</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>Con nombre</td>
+        <td><code>export function sumar() {}</code></td>
+        <td>Se importa mediante el nombre exportado.</td>
+      </tr>
+      <tr>
+        <td>Por defecto</td>
+        <td><code>export default ...</code></td>
+        <td>Se importa sin llaves y puede elegirse un nombre local.</td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<div class="caja caja-atencion">
+  <span class="caja-titulo">⚠️ Atención</span>
+  <p>
+    <code>export default</code> no significa
+    que una función se ejecute automáticamente.
+  </p>
+  <p>
+    Solamente indica que ese valor
+    es la exportación por defecto del módulo.
+  </p>
+</div>
+
+<!-- 7 -->
+<h2 id="importar">Importar funciones y valores</h2>
+
+<p>
+  La palabra clave <code>import</code>
+  permite utilizar elementos exportados
+  por otros módulos.
+</p>
+
+<h3>Importaciones con nombre</h3>
+
+<p>
+  Supongamos que tenemos el archivo
+  <code>matematicas.js</code>
+  con las funciones <code>sumar()</code>
+  y <code>restar()</code>.
+</p>
+
+<p>
+  Podemos utilizarlas desde
+  <code>main.js</code>:
+</p>
+
+<div class="bloque-codigo">
+  <div class="cabecera-codigo">
+    <span>JavaScript — main.js</span>
+    <button class="boton-copiar" type="button">Copiar código</button>
+  </div>
+  <pre><code>import { sumar, restar } from "./matematicas.js";
+
+console.log(sumar(8, 3));
+console.log(restar(8, 3));</code></pre>
+</div>
+
+<div class="bloque-codigo bloque-codigo-salida">
+  <div class="cabecera-codigo">
+    <span>Resultado en consola</span>
+  </div>
+  <pre><code>11
+5</code></pre>
+</div>
+
+<p>
+  Las llaves indican que estamos importando
+  exportaciones con nombre.
+</p>
+
+<p>
+  El texto <code>"./matematicas.js"</code>
+  representa una ruta relativa
+  al archivo que realiza la importación.
+</p>
+
+<h3>Importación de una exportación por defecto</h3>
+
+<p>
+  Si un módulo utiliza <code>export default</code>,
+  lo importamos sin llaves.
+</p>
+
+<div class="bloque-codigo">
+  <div class="cabecera-codigo">
+    <span>JavaScript — main.js</span>
+    <button class="boton-copiar" type="button">Copiar código</button>
+  </div>
+  <pre><code>import saludar from "./saludo.js";
+
+console.log(saludar("Lucía"));</code></pre>
+</div>
+
+<div class="bloque-codigo bloque-codigo-salida">
+  <div class="cabecera-codigo">
+    <span>Resultado en consola</span>
+  </div>
+  <pre><code>Hola, Lucía</code></pre>
+</div>
+
+<h3>Cambiar el nombre local de una importación</h3>
+
+<p>
+  Podemos utilizar <code>as</code>
+  para asignar un nombre local diferente
+  a una exportación con nombre.
+</p>
+
+<div class="bloque-codigo">
+  <div class="cabecera-codigo">
+    <span>JavaScript — Importación con alias</span>
+    <button class="boton-copiar" type="button">Copiar código</button>
+  </div>
+  <pre><code>import { sumar as realizarSuma } from "./matematicas.js";
+
+console.log(realizarSuma(4, 6));</code></pre>
+</div>
+
+<div class="bloque-codigo bloque-codigo-salida">
+  <div class="cabecera-codigo">
+    <span>Resultado en consola</span>
+  </div>
+  <pre><code>10</code></pre>
+</div>
+
+<h3>Importar todas las exportaciones con nombre</h3>
+
+<p>
+  También podemos agruparlas
+  bajo un mismo identificador.
+</p>
+
+<div class="bloque-codigo">
+  <div class="cabecera-codigo">
+    <span>JavaScript — Importación mediante namespace</span>
+    <button class="boton-copiar" type="button">Copiar código</button>
+  </div>
+  <pre><code>import * as matematicas from "./matematicas.js";
+
+console.log(matematicas.sumar(2, 3));
+console.log(matematicas.restar(9, 4));</code></pre>
+</div>
+
+<div class="bloque-codigo bloque-codigo-salida">
+  <div class="cabecera-codigo">
+    <span>Resultado en consola</span>
+  </div>
+  <pre><code>5
+5</code></pre>
+</div>
+
+<div class="caja caja-importante">
+  <span class="caja-titulo">📌 Importante</span>
+  <p>
+    En las importaciones relativas del navegador,
+    debemos escribir correctamente la ruta
+    del archivo, incluida normalmente
+    la extensión <code>.js</code>.
+  </p>
+  <p>
+    <code>./</code> indica el directorio actual
+    del módulo que importa.
+    <code>../</code> permite acceder
+    al directorio superior.
+  </p>
+</div>
+
+<!-- 8 -->
+<h2 id="estructura">Estructura de un proyecto modular</h2>
+
+<p>
+  Vamos a organizar una pequeña aplicación
+  que utiliza funciones matemáticas
+  y muestra sus resultados en consola.
+</p>
+
+<p>
+  El proyecto tendrá tres archivos:
+</p>
+
+<div class="bloque-codigo bloque-codigo-salida">
+  <div class="cabecera-codigo">
+    <span>Estructura del proyecto</span>
+  </div>
+  <pre><code>mi-aplicacion/
+├── index.html
+└── js/
+    ├── operaciones.js
+    └── main.js</code></pre>
+</div>
+
+<h3>1. Archivo operaciones.js</h3>
+
+<p>
+  Este módulo contiene las funciones
+  que realizan los cálculos.
+</p>
+
+<div class="bloque-codigo">
+  <div class="cabecera-codigo">
+    <span>JavaScript — js/operaciones.js</span>
+    <button class="boton-copiar" type="button">Copiar código</button>
+  </div>
+  <pre><code>export function multiplicar(a, b) {
+  return a * b;
+}
+
+export function dividir(a, b) {
+  if (b === 0) {
+    return NaN;
+  }
+
+  return a / b;
+}</code></pre>
+</div>
+
+<h3>2. Archivo main.js</h3>
+
+<p>
+  Este archivo importa las funciones
+  y coordina la ejecución del programa.
+</p>
+
+<div class="bloque-codigo">
+  <div class="cabecera-codigo">
+    <span>JavaScript — js/main.js</span>
+    <button class="boton-copiar" type="button">Copiar código</button>
+  </div>
+  <pre><code>import { multiplicar, dividir } from "./operaciones.js";
+
+const producto = multiplicar(6, 4);
+const cociente = dividir(20, 5);
+
+console.log("Producto:", producto);
+console.log("Cociente:", cociente);</code></pre>
+</div>
+
+<h3>3. Archivo index.html</h3>
+
+<p>
+  Finalmente, cargamos <code>main.js</code>
+  como módulo desde el documento HTML.
+</p>
+
+<div class="bloque-codigo">
+  <div class="cabecera-codigo">
+    <span>HTML — index.html</span>
+    <button class="boton-copiar" type="button">Copiar código</button>
+  </div>
+  <pre><code>&lt;!DOCTYPE html&gt;
+&lt;html lang="es"&gt;
+&lt;head&gt;
+  &lt;meta charset="UTF-8"&gt;
+  &lt;title&gt;Mi aplicación modular&lt;/title&gt;
+&lt;/head&gt;
+&lt;body&gt;
+
+  &lt;h1&gt;Ejemplo de módulos JavaScript&lt;/h1&gt;
+
+  &lt;script type="module" src="js/main.js"&gt;&lt;/script&gt;
+
+&lt;/body&gt;
+&lt;/html&gt;</code></pre>
+</div>
+
+<h3>4. Resultado de la ejecución</h3>
+
+<p>
+  Si iniciamos el proyecto desde un servidor local
+  y abrimos la consola del navegador,
+  obtendremos:
+</p>
+
+<div class="bloque-codigo bloque-codigo-salida">
+  <div class="cabecera-codigo">
+    <span>Resultado en consola</span>
+  </div>
+  <pre><code>Producto: 24
+Cociente: 4</code></pre>
+</div>
+
+<p>
+  El navegador carga el módulo principal
+  y resuelve su dependencia
+  de <code>operaciones.js</code>.
+</p>
+
+<p>
+  No necesitamos añadir una segunda etiqueta
+  <code>&lt;script&gt;</code>
+  para cargar manualmente
+  <code>operaciones.js</code>.
+</p>
+
+<div class="caja caja-ejemplo">
+  <span class="caja-titulo">💻 Ejemplo DAW</span>
+  <p>
+    Esta organización es habitual
+    en aplicaciones web modernas:
+    un archivo principal coordina la aplicación
+    y utiliza funciones importadas
+    desde otros módulos especializados.
+  </p>
+</div>
+
+<!-- 9 -->
+<h2 id="dependencias">Dependencias entre módulos</h2>
+
+<p>
+  Cuando un módulo necesita utilizar
+  una función definida en otro,
+  decimos que existe una
+  <strong>dependencia</strong>.
+</p>
+
+<p>
+  Por ejemplo, si <code>main.js</code>
+  importa una función desde
+  <code>operaciones.js</code>,
+  el primero depende del segundo.
+</p>
+
+<div class="bloque-codigo bloque-codigo-salida">
+  <div class="cabecera-codigo">
+    <span>Relación entre módulos</span>
+  </div>
+  <pre><code>index.html
+    |
+    v
+  main.js
+    |
+    | import
+    v
+operaciones.js</code></pre>
+</div>
+
+<p>
+  Esta relación permite comprender
+  qué partes del programa necesitan
+  funcionalidades de otras.
+</p>
+
+<h3>Dependencias claras</h3>
+
+<p>
+  Una buena organización procura
+  que cada módulo tenga dependencias
+  fáciles de identificar.
+</p>
+
+<p>
+  Por ejemplo, un módulo de cálculos
+  no debería depender innecesariamente
+  de funciones encargadas de mostrar
+  mensajes en la interfaz.
+</p>
+
+<h3>Evitar dependencias circulares innecesarias</h3>
+
+<p>
+  Una dependencia circular aparece
+  cuando dos o más módulos se importan
+  entre sí formando un ciclo.
+</p>
+
+<div class="bloque-codigo bloque-codigo-salida">
+  <div class="cabecera-codigo">
+    <span>Ejemplo de dependencia circular</span>
+  </div>
+  <pre><code>moduloA.js
+    |
+    v
+moduloB.js
+    |
+    v
+moduloA.js</code></pre>
+</div>
+
+<p>
+  JavaScript admite determinadas dependencias
+  circulares, pero pueden complicar
+  la comprensión y la inicialización
+  de los módulos.
+</p>
+
+<div class="caja caja-atencion">
+  <span class="caja-titulo">⚠️ Atención</span>
+  <p>
+    Las dependencias circulares no producen
+    siempre un error, pero pueden provocar
+    problemas si se intenta utilizar
+    una declaración antes de que esté inicializada.
+  </p>
+  <p>
+    En proyectos sencillos, es recomendable
+    diseñar dependencias claras y evitar
+    ciclos innecesarios.
+  </p>
+</div>
+
+<!-- 10 -->
+<h2 id="buenas-practicas">Buenas prácticas de organización modular</h2>
+
+<p>
+  La modularidad debe facilitar
+  el desarrollo del programa.
+  Para conseguirlo, conviene aplicar
+  una serie de recomendaciones.
+</p>
+
+<h3>1. Utilizar nombres descriptivos</h3>
+
+<p>
+  Los archivos y las funciones deben indicar
+  qué responsabilidad tienen.
+</p>
+
+<div class="tabla-contenedor">
+  <table>
+    <thead>
+      <tr>
+        <th>Nombre poco descriptivo</th>
+        <th>Nombre más claro</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><code>funciones.js</code></td>
+        <td><code>calculos.js</code></td>
+      </tr>
+      <tr>
+        <td><code>cosas.js</code></td>
+        <td><code>validaciones.js</code></td>
+      </tr>
+      <tr>
+        <td><code>hacer()</code></td>
+        <td><code>calcularTotal()</code></td>
+      </tr>
+      <tr>
+        <td><code>comprobar()</code></td>
+        <td><code>validarCorreo()</code></td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<h3>2. Agrupar funciones relacionadas</h3>
+
+<p>
+  Un archivo <code>calculos.js</code>
+  podría contener funciones
+  para calcular subtotales, impuestos
+  y descuentos.
+</p>
+
+<p>
+  Un archivo <code>validaciones.js</code>
+  podría encargarse de comprobar
+  los datos recibidos.
+</p>
+
+<h3>3. Exportar solamente lo necesario</h3>
+
+<p>
+  No todas las funciones de un módulo
+  tienen que estar disponibles
+  para el resto de la aplicación.
+</p>
+
+<p>
+  Algunas pueden utilizarse exclusivamente
+  como funciones auxiliares internas.
+</p>
+
+<div class="bloque-codigo">
+  <div class="cabecera-codigo">
+    <span>JavaScript — Función auxiliar privada al módulo</span>
+    <button class="boton-copiar" type="button">Copiar código</button>
+  </div>
+  <pre><code>function calcularDescuento(importe, porcentaje) {
+  return importe * porcentaje / 100;
+}
+
+export function calcularPrecioConDescuento(
+  importe,
+  porcentaje
+) {
+  return importe - calcularDescuento(
+    importe,
+    porcentaje
+  );
+}</code></pre>
+</div>
+
+<p>
+  La función <code>calcularDescuento()</code>
+  se utiliza dentro del módulo,
+  pero no se exporta.
+</p>
+
+<p>
+  En cambio,
+  <code>calcularPrecioConDescuento()</code>
+  sí está disponible para otros módulos
+  que la importen.
+</p>
+
+<h3>4. Evitar repetir código</h3>
+
+<p>
+  Si varias partes de la aplicación
+  necesitan realizar la misma operación,
+  conviene centralizarla en una función
+  reutilizable.
+</p>
+
+<h3>5. Mantener separada la lógica de la presentación</h3>
+
+<p>
+  Siempre que resulte adecuado,
+  las funciones que calculan datos
+  deben mantenerse separadas
+  de las que los muestran.
+</p>
+
+<p>
+  Esto facilita las pruebas,
+  el mantenimiento y los cambios
+  en la interfaz.
+</p>
+
+<div class="caja caja-importante">
+  <span class="caja-titulo">📌 Importante</span>
+  <p>
+    Una buena organización modular
+    busca que el programa sea
+    <strong>fácil de comprender,
+    modificar, probar y reutilizar</strong>.
+  </p>
+  <p>
+    No existe una cantidad ideal
+    de archivos o funciones:
+    la estructura debe adaptarse
+    a la complejidad real del proyecto.
+  </p>
+</div>
+
+<!-- 11 -->
+<h2 id="errores">Errores frecuentes al trabajar con módulos</h2>
+
+<h3>1. Olvidar type="module"</h3>
+
+<p>
+  Si utilizamos <code>import</code>
+  en un script clásico del navegador,
+  se producirá un error de sintaxis.
+</p>
+
+<div class="bloque-codigo">
+  <div class="cabecera-codigo">
+    <span>HTML — Incorrecto para main.js con import</span>
+    <button class="boton-copiar" type="button">Copiar código</button>
+  </div>
+  <pre><code>&lt;script src="js/main.js"&gt;&lt;/script&gt;</code></pre>
+</div>
+
+<p>
+  La forma correcta es:
+</p>
+
+<div class="bloque-codigo">
+  <div class="cabecera-codigo">
+    <span>HTML — Correcto</span>
+    <button class="boton-copiar" type="button">Copiar código</button>
+  </div>
+  <pre><code>&lt;script type="module" src="js/main.js"&gt;&lt;/script&gt;</code></pre>
+</div>
+
+<h3>2. Escribir una ruta incorrecta</h3>
+
+<p>
+  Las importaciones deben indicar
+  la ubicación correcta del archivo.
+</p>
+
+<div class="bloque-codigo">
+  <div class="cabecera-codigo">
+    <span>JavaScript — Ruta relativa</span>
+    <button class="boton-copiar" type="button">Copiar código</button>
+  </div>
+  <pre><code>import { sumar } from "./matematicas.js";</code></pre>
+</div>
+
+<p>
+  Si el archivo no existe
+  en la ruta indicada,
+  el navegador no podrá cargarlo.
+</p>
+
+<h3>3. Importar una función no exportada</h3>
+
+<p>
+  Si una función no se exporta,
+  no podemos importarla
+  mediante una importación con nombre.
+</p>
+
+<div class="bloque-codigo">
+  <div class="cabecera-codigo">
+    <span>JavaScript — matematicas.js</span>
+    <button class="boton-copiar" type="button">Copiar código</button>
+  </div>
+  <pre><code>function sumar(a, b) {
+  return a + b;
+}
+
+// Falta exportar sumar.</code></pre>
+</div>
+
+<p>
+  Para solucionarlo, añadimos
+  <code>export</code> a la declaración
+  o utilizamos una exportación al final.
+</p>
+
+<h3>4. Confundir importaciones con nombre y por defecto</h3>
+
+<div class="bloque-codigo">
+  <div class="cabecera-codigo">
+    <span>JavaScript — Comparación de sintaxis</span>
+    <button class="boton-copiar" type="button">Copiar código</button>
+  </div>
+  <pre><code>// Exportación con nombre:
+import { sumar } from "./matematicas.js";
+
+// Exportación por defecto:
+import saludar from "./saludo.js";</code></pre>
+</div>
+
+<p>
+  Las llaves se utilizan
+  para importar exportaciones con nombre.
+  La exportación por defecto
+  se importa sin llaves.
+</p>
+
+<h3>5. Abrir el proyecto directamente con file://</h3>
+
+<p>
+  Cuando trabajamos con módulos,
+  debemos tener en cuenta
+  las restricciones de seguridad
+  y carga de recursos del navegador.
+</p>
+
+<p>
+  Para los ejercicios de esta unidad,
+  utilizaremos preferentemente
+  un servidor local.
+</p>
+
+<h3>6. Esperar que una función importada sea global</h3>
+
+<p>
+  Los módulos tienen su propio ámbito.
+  Importar una función en <code>main.js</code>
+  no hace que aparezca automáticamente
+  como propiedad de <code>window</code>.
+</p>
+
+<div class="caja caja-atencion">
+  <span class="caja-titulo">⚠️ Atención</span>
+  <p>
+    Los módulos ES son diferentes
+    de los scripts clásicos.
+    Debemos prestar especial atención
+    a las rutas, las exportaciones,
+    las importaciones y el ámbito
+    de las declaraciones.
+  </p>
+</div>
+
+<!-- 12 -->
+<h2 id="ejemplo-practico">Ejemplo práctico completo: gestión de pedidos</h2>
+
+<p>
+  Vamos a construir una pequeña aplicación
+  que calcule el importe final
+  de un pedido de una tienda online.
+</p>
+
+<p>
+  El objetivo es aplicar los conocimientos
+  de funciones y modularidad
+  a una situación relacionada
+  con el desarrollo de aplicaciones web.
+</p>
+
+<p>
+  El programa realizará las siguientes operaciones:
+</p>
+
+<ol>
+  <li>Validar el precio y la cantidad de productos.</li>
+  <li>Calcular el subtotal.</li>
+  <li>Aplicar un descuento.</li>
+  <li>Calcular el IVA.</li>
+  <li>Mostrar el resultado final.</li>
+</ol>
+
+<h3>1. Organización de los archivos</h3>
+
+<div class="bloque-codigo bloque-codigo-salida">
+  <div class="cabecera-codigo">
+    <span>Estructura del proyecto</span>
+  </div>
+  <pre><code>gestion-pedidos/
+├── index.html
+└── js/
+    ├── validaciones.js
+    ├── calculos.js
+    └── main.js</code></pre>
+</div>
+
+<p>
+  Cada archivo tendrá una responsabilidad:
+</p>
+
+<ul>
+  <li>
+    <code>validaciones.js</code>:
+    comprobar que los datos son válidos.
+  </li>
+  <li>
+    <code>calculos.js</code>:
+    realizar las operaciones económicas.
+  </li>
+  <li>
+    <code>main.js</code>:
+    coordinar la ejecución y mostrar resultados.
+  </li>
+</ul>
+
+<h3>2. Módulo de validaciones</h3>
+
+<p>
+  Comenzamos creando una función
+  que compruebe si un valor
+  es un número finito y no negativo.
+</p>
+
+<div class="bloque-codigo">
+  <div class="cabecera-codigo">
+    <span>JavaScript — js/validaciones.js</span>
+    <button class="boton-copiar" type="button">Copiar código</button>
+  </div>
+  <pre><code>export function esNumeroNoNegativo(valor) {
+  return typeof valor === "number" &&
+         Number.isFinite(valor) &&
+         valor >= 0;
+}
+
+export function esCantidadValida(cantidad) {
+  return Number.isInteger(cantidad) &&
+         cantidad > 0;
+}</code></pre>
+</div>
+
+<p>
+  La primera función comprueba
+  que el valor sea numérico,
+  finito y no negativo.
+</p>
+
+<p>
+  La segunda comprueba
+  que la cantidad sea un entero positivo.
+</p>
+
+<h3>3. Módulo de cálculos</h3>
+
+<p>
+  Este archivo contiene las funciones
+  necesarias para calcular
+  el importe del pedido.
+</p>
+
+<div class="bloque-codigo">
+  <div class="cabecera-codigo">
+    <span>JavaScript — js/calculos.js</span>
+    <button class="boton-copiar" type="button">Copiar código</button>
+  </div>
+  <pre><code>export function calcularSubtotal(precio, cantidad) {
+  return precio * cantidad;
+}
+
+export function aplicarDescuento(importe, porcentaje) {
+  return importe - importe * porcentaje / 100;
+}
+
+export function calcularIVA(importe, porcentaje = 21) {
+  return importe * porcentaje / 100;
+}
+
+export function calcularTotal(base, iva) {
+  return base + iva;
+}</code></pre>
+</div>
+
+<p>
+  Cada función realiza
+  una operación específica
+  y devuelve un resultado.
+</p>
+
+<p>
+  Observa que <code>calcularIVA()</code>
+  utiliza un parámetro por defecto,
+  una característica estudiada
+  anteriormente en esta unidad.
+</p>
+
+<h3>4. Módulo principal</h3>
+
+<p>
+  Ahora creamos <code>main.js</code>,
+  que importa las funciones
+  de los dos módulos anteriores.
+</p>
+
+<div class="bloque-codigo">
+  <div class="cabecera-codigo">
+    <span>JavaScript — js/main.js</span>
+    <button class="boton-copiar" type="button">Copiar código</button>
+  </div>
+  <pre><code>import {
+  esNumeroNoNegativo,
+  esCantidadValida
+} from "./validaciones.js";
+
+import {
+  calcularSubtotal,
+  aplicarDescuento,
+  calcularIVA,
+  calcularTotal
+} from "./calculos.js";
+
+const precio = 80;
+const cantidad = 2;
+const descuento = 10;
+
+if (
+  esNumeroNoNegativo(precio) &&
+  esCantidadValida(cantidad) &&
+  esNumeroNoNegativo(descuento) &&
+  descuento <= 100
+) {
+  const subtotal = calcularSubtotal(precio, cantidad);
+
+  const base = aplicarDescuento(subtotal, descuento);
+
+  const iva = calcularIVA(base);
+
+  const total = calcularTotal(base, iva);
+
+  console.log("Subtotal:", subtotal.toFixed(2), "€");
+  console.log("Base con descuento:", base.toFixed(2), "€");
+  console.log("IVA:", iva.toFixed(2), "€");
+  console.log("Total:", total.toFixed(2), "€");
+} else {
+  console.log("Los datos del pedido no son válidos.");
+}</code></pre>
+</div>
+
+<p>
+  El módulo principal no necesita conocer
+  los detalles internos de cada cálculo.
+  Simplemente importa las funciones
+  y las utiliza en el orden adecuado.
+</p>
+
+<h3>5. Documento HTML</h3>
+
+<p>
+  El documento HTML carga
+  el módulo principal.
+</p>
+
+<div class="bloque-codigo">
+  <div class="cabecera-codigo">
+    <span>HTML — index.html</span>
+    <button class="boton-copiar" type="button">Copiar código</button>
+  </div>
+  <pre><code>&lt;!DOCTYPE html&gt;
+&lt;html lang="es"&gt;
+&lt;head&gt;
+  &lt;meta charset="UTF-8"&gt;
+  &lt;title&gt;Gestión de pedidos&lt;/title&gt;
+&lt;/head&gt;
+&lt;body&gt;
+
+  &lt;h1&gt;Gestión de pedidos&lt;/h1&gt;
+
+  &lt;script type="module" src="js/main.js"&gt;&lt;/script&gt;
+
+&lt;/body&gt;
+&lt;/html&gt;</code></pre>
+</div>
+
+<h3>6. Resultado del programa</h3>
+
+<p>
+  Para un producto de 80 euros,
+  una cantidad de 2 unidades
+  y un descuento del 10 %,
+  el resultado será:
+</p>
+
+<div class="bloque-codigo bloque-codigo-salida">
+  <div class="cabecera-codigo">
+    <span>Resultado en consola</span>
+  </div>
+  <pre><code>Subtotal: 160.00 €
+Base con descuento: 144.00 €
+IVA: 30.24 €
+Total: 174.24 €</code></pre>
+</div>
+
+<p>
+  El cálculo se realiza
+  de la siguiente manera:
+</p>
+
+<div class="tabla-contenedor">
+  <table>
+    <thead>
+      <tr>
+        <th>Operación</th>
+        <th>Cálculo</th>
+        <th>Resultado</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>Subtotal</td>
+        <td><code>80 × 2</code></td>
+        <td>160,00 €</td>
+      </tr>
+      <tr>
+        <td>Descuento</td>
+        <td><code>160 × 10 / 100</code></td>
+        <td>16,00 €</td>
+      </tr>
+      <tr>
+        <td>Base con descuento</td>
+        <td><code>160 - 16</code></td>
+        <td>144,00 €</td>
+      </tr>
+      <tr>
+        <td>IVA</td>
+        <td><code>144 × 21 / 100</code></td>
+        <td>30,24 €</td>
+      </tr>
+      <tr>
+        <td>Total</td>
+        <td><code>144 + 30,24</code></td>
+        <td>174,24 €</td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<h3>7. Ventajas de esta organización</h3>
+
+<p>
+  El programa está dividido
+  en tres módulos con responsabilidades
+  claramente diferenciadas.
+</p>
+
+<p>
+  Si necesitamos modificar
+  las validaciones, trabajaremos
+  principalmente en
+  <code>validaciones.js</code>.
+</p>
+
+<p>
+  Si queremos añadir un nuevo cálculo,
+  podremos incorporarlo
+  a <code>calculos.js</code>.
+</p>
+
+<p>
+  Y si necesitamos cambiar
+  el flujo de ejecución
+  o la forma de presentar resultados,
+  podremos modificar
+  <code>main.js</code>.
+</p>
+
+<div class="caja caja-ejemplo">
+  <span class="caja-titulo">💻 Ejemplo DAW</span>
+  <p>
+    En una aplicación profesional,
+    esta organización podría ampliarse
+    con módulos para gestionar usuarios,
+    productos, pedidos y comunicación
+    con el servidor.
+  </p>
+  <p>
+    El principio seguiría siendo el mismo:
+    dividir la aplicación en partes
+    con responsabilidades definidas
+    y dependencias comprensibles.
+  </p>
+</div>
+
+<div class="caja caja-atencion">
+  <span class="caja-titulo">⚠️ Atención</span>
+  <p>
+    Este ejemplo es didáctico
+    y utiliza operaciones con
+    números de tipo <code>Number</code>.
+  </p>
+  <p>
+    En aplicaciones económicas reales,
+    deben considerarse también
+    las reglas de redondeo,
+    la precisión decimal
+    y el tratamiento adecuado
+    de importes monetarios.
+  </p>
+</div>
+
+<!-- ACTIVIDAD FINAL -->
+<div class="actividad-piensa">
+
+  <h3>💭 Piensa</h3>
+
+  <p>
+    Observa la siguiente organización
+    de archivos y analiza el programa
+    antes de ejecutarlo.
+    Después responde a las preguntas
+    y comprueba tus respuestas.
+  </p>
+
+  <div class="bloque-codigo bloque-codigo-salida">
+    <div class="cabecera-codigo">
+      <span>Estructura del proyecto</span>
+    </div>
+    <pre><code>ejercicio/
+├── index.html
+└── js/
+    ├── operaciones.js
+    └── main.js</code></pre>
+  </div>
+
+  <div class="bloque-codigo">
+    <div class="cabecera-codigo">
+      <span>JavaScript — operaciones.js</span>
+      <button class="boton-copiar" type="button">Copiar código</button>
+    </div>
+    <pre><code>export function sumar(a, b) {
+  return a + b;
+}
+
+export function multiplicar(a, b) {
+  return a * b;
+}
+
+function duplicar(numero) {
+  return numero * 2;
+}
+
+export function calcular(numero) {
+  return duplicar(numero) + 5;
+}</code></pre>
+  </div>
+
+  <div class="bloque-codigo">
+    <div class="cabecera-codigo">
+      <span>JavaScript — main.js</span>
+      <button class="boton-copiar" type="button">Copiar código</button>
+    </div>
+    <pre><code>import {
+  sumar,
+  multiplicar,
+  calcular
+} from "./operaciones.js";
+
+const resultado1 = sumar(4, 6);
+const resultado2 = multiplicar(3, 5);
+const resultado3 = calcular(7);
+
+console.log("Suma:", resultado1);
+console.log("Multiplicación:", resultado2);
+console.log("Cálculo:", resultado3);</code></pre>
+  </div>
+
+  <div class="bloque-codigo">
+    <div class="cabecera-codigo">
+      <span>HTML — Fragmento de index.html</span>
+      <button class="boton-copiar" type="button">Copiar código</button>
+    </div>
+    <pre><code>&lt;script type="module" src="js/main.js"&gt;&lt;/script&gt;</code></pre>
+  </div>
+
+  <ol>
+    <li>
+      ¿Cuántos archivos JavaScript
+      tiene el proyecto?
+    </li>
+    <li>
+      ¿Qué archivo actúa
+      como módulo principal?
+    </li>
+    <li>
+      ¿Qué funciones exporta
+      <code>operaciones.js</code>?
+    </li>
+    <li>
+      ¿Por qué <code>duplicar()</code>
+      puede utilizarse dentro de
+      <code>calcular()</code>
+      aunque no esté exportada?
+    </li>
+    <li>
+      ¿Podemos importar directamente
+      <code>duplicar()</code>
+      desde <code>main.js</code>
+      con el código actual?
+      Justifica tu respuesta.
+    </li>
+    <li>
+      ¿Qué valor tendrá
+      <code>resultado1</code>?
+    </li>
+    <li>
+      ¿Qué valor tendrá
+      <code>resultado2</code>?
+    </li>
+    <li>
+      ¿Qué valor tendrá
+      <code>resultado3</code>?
+      Explica el cálculo.
+    </li>
+    <li>
+      Escribe el orden exacto
+      de los mensajes que aparecerán
+      en la consola.
+    </li>
+    <li>
+      ¿Qué función cumple
+      el atributo
+      <code>type="module"</code>
+      del documento HTML?
+    </li>
+    <li>
+      ¿Qué sucedería si escribimos
+      incorrectamente la ruta
+      <code>"./operaciones.js"</code>?
+    </li>
+    <li>
+      Modifica <code>operaciones.js</code>
+      para exportar una nueva función
+      llamada <code>restar()</code>
+      e indica cómo la importarías
+      desde <code>main.js</code>.
+    </li>
+  </ol>
+
+  <details>
+    <summary>Ver solución razonada</summary>
+
+    <div class="solucion">
+
+      <p>
+        <strong>1. Número de archivos JavaScript.</strong>
+        El proyecto contiene dos archivos:
+        <code>operaciones.js</code>
+        y <code>main.js</code>.
+      </p>
+
+      <p>
+        <strong>2. Módulo principal.</strong>
+        Es <code>main.js</code>,
+        porque el documento HTML lo carga
+        mediante <code>type="module"</code>.
+        Desde él se importan
+        las funciones necesarias.
+      </p>
+
+      <p>
+        <strong>3. Funciones exportadas.</strong>
+        <code>operaciones.js</code>
+        exporta <code>sumar()</code>,
+        <code>multiplicar()</code>
+        y <code>calcular()</code>.
+      </p>
+
+      <p>
+        <strong>4. Uso de duplicar().</strong>
+        La función <code>duplicar()</code>
+        está declarada dentro
+        de <code>operaciones.js</code>.
+        Por eso otras funciones
+        del mismo módulo pueden utilizarla,
+        aunque no esté exportada.
+      </p>
+
+      <p>
+        <strong>5. Importación de duplicar().</strong>
+        No podemos importarla directamente
+        mediante una importación con nombre
+        porque no está exportada.
+        Para permitirlo, tendríamos
+        que añadir <code>export</code>
+        a su declaración
+        o exportarla posteriormente.
+      </p>
+
+      <p>
+        <strong>6. Resultado de la suma.</strong>
+        <code>sumar(4, 6)</code>
+        devuelve <code>10</code>.
+      </p>
+
+      <p>
+        <strong>7. Resultado de la multiplicación.</strong>
+        <code>multiplicar(3, 5)</code>
+        devuelve <code>15</code>.
+      </p>
+
+      <p>
+        <strong>8. Resultado de calcular(7).</strong>
+        La función llama primero
+        a <code>duplicar(7)</code>,
+        que devuelve <code>14</code>.
+        Después suma <code>5</code>,
+        por lo que el resultado
+        final es <code>19</code>.
+      </p>
+
+      <p>
+        <strong>9. Resultado completo en consola.</strong>
+      </p>
+
+      <div class="bloque-codigo bloque-codigo-salida">
+        <div class="cabecera-codigo">
+          <span>Resultado en consola</span>
+        </div>
+        <pre><code>Suma: 10
+Multiplicación: 15
+Cálculo: 19</code></pre>
+      </div>
+
+      <p>
+        <strong>10. Función de type="module".</strong>
+        Indica al navegador
+        que debe interpretar
+        <code>main.js</code>
+        como un módulo JavaScript,
+        permitiendo utilizar
+        las importaciones.
+      </p>
+
+      <p>
+        <strong>11. Ruta incorrecta.</strong>
+        Si la ruta no apunta
+        al archivo correcto,
+        el navegador no podrá
+        cargar el módulo importado
+        y la ejecución
+        del módulo principal fallará.
+      </p>
+
+      <p>
+        <strong>12. Nueva función restar().</strong>
+        Podemos añadir
+        la siguiente función
+        a <code>operaciones.js</code>:
+      </p>
+
+      <div class="bloque-codigo">
+        <div class="cabecera-codigo">
+          <span>JavaScript — operaciones.js</span>
+          <button class="boton-copiar" type="button">Copiar código</button>
+        </div>
+        <pre><code>export function restar(a, b) {
+  return a - b;
+}</code></pre>
+      </div>
+
+      <p>
+        Después, desde <code>main.js</code>,
+        podemos importar
+        las cuatro funciones:
+      </p>
+
+      <div class="bloque-codigo">
+        <div class="cabecera-codigo">
+          <span>JavaScript — main.js</span>
+          <button class="boton-copiar" type="button">Copiar código</button>
+        </div>
+        <pre><code>import {
+  sumar,
+  multiplicar,
+  calcular,
+  restar
+} from "./operaciones.js";
+
+console.log(restar(10, 4));</code></pre>
+      </div>
+
+      <div class="bloque-codigo bloque-codigo-salida">
+        <div class="cabecera-codigo">
+          <span>Resultado en consola</span>
+        </div>
+        <pre><code>6</code></pre>
+      </div>
+
+      <p>
+        La nueva función puede utilizarse
+        desde el módulo principal
+        porque ahora está exportada
+        e importada correctamente.
+      </p>
+
+    </div>
+  </details>
+
+</div>
+
+</section>
+
+<!-- NAVEGACIÓN ENTRE APARTADOS -->
+<nav aria-label="Navegación entre apartados"
+     class="navegacion-paginas">
+
+  <a class="nav-pagina nav-anterior"
+     href="../5-11/index.html">
+    <span class="nav-etiqueta">Anterior</span>
+    <strong>
+      ‹ 5.11 Funciones recursivas
+    </strong>
+  </a>
+
+  <a class="nav-pagina nav-siguiente"
+     href="../resumen/index.html">
+    <span class="nav-etiqueta">Siguiente</span>
+    <strong>
+      ✏️ Resumen de la UT5 ›
+    </strong>
+  </a>
+
+</nav>
+
+</main>
+
+<!-- ÍNDICE DERECHO -->
+<aside aria-label="Índice del apartado"
+       class="indice-derecho">
+  <h2>Contenidos del apartado</h2>
+
+  <ul>
+    <li><a href="#necesidad">Por qué organizar el código</a></li>
+    <li><a href="#modularidad">Qué es la modularidad</a></li>
+    <li><a href="#funciones">Separar responsabilidades</a></li>
+    <li><a href="#archivos">Organizar el código en archivos</a></li>
+    <li><a href="#modulos-es">Módulos ES de JavaScript</a></li>
+    <li><a href="#exportar">Exportar funciones y valores</a></li>
+    <li><a href="#importar">Importar funciones y valores</a></li>
+    <li><a href="#estructura">Estructura de un proyecto</a></li>
+    <li><a href="#dependencias">Dependencias entre módulos</a></li>
+    <li><a href="#buenas-practicas">Buenas prácticas</a></li>
+    <li><a href="#errores">Errores frecuentes</a></li>
+    <li><a href="#ejemplo-practico">Ejemplo práctico DAW</a></li>
+  </ul>
+</aside>
+
+</div>
+
+<!-- PIE DE PÁGINA -->
+<footer class="footer">
+  <p>
+    Material elaborado por
+    <strong>Eva Ballestero Cubeles</strong>
+    · Licencia
+    <span class="licencia">CC BY-NC-SA 4.0</span>
+    <a
+      aria-label="Licencia Creative Commons BY-NC-SA 4.0"
+      class="enlace-licencia"
+      href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.es"
+      rel="license noopener noreferrer"
+      target="_blank"
+    >
+      <img
+        alt="Licencia Creative Commons BY-NC-SA 4.0"
+        class="icono-licencia"
+        src="../../../img/licencias/cc-by-nc-sa.png"
+      >
+    </a>
+  </p>
+</footer>
+
+<!-- JAVASCRIPT COMÚN -->
+<script src="../../../js/modulos.js"></script>
+
+<script>
+  const menuModulos = document.getElementById("menuModulos");
+  const botonTema = document.getElementById("botonTema");
+
+  /* MÓDULOS ACTIVOS */
+  if (typeof modulos !== "undefined" && menuModulos) {
+    const modulosActivos =
+      modulos.filter(modulo => modulo.activo === true);
+
+    modulosActivos.forEach(modulo => {
+      const enlace = document.createElement("a");
+
+      enlace.href = `../../../${modulo.carpeta}/index.html`;
+      enlace.textContent = modulo.siglas;
+      enlace.title = modulo.nombre;
+
+      if (modulo.siglas === "DWEC") {
+        enlace.style.color = "var(--verde-principal)";
+      }
+
+      menuModulos.appendChild(enlace);
+    });
+  }
+
+  /* MODO OSCURO */
+  const temaGuardado = localStorage.getItem("tema");
+
+  if (temaGuardado === "oscuro") {
+    document.body.classList.add("modo-oscuro");
+    botonTema.textContent = "🌙";
+  }
+
+  botonTema.addEventListener("click", () => {
+    document.body.classList.toggle("modo-oscuro");
+
+    const oscuro =
+      document.body.classList.contains("modo-oscuro");
+
+    localStorage.setItem(
+      "tema",
+      oscuro ? "oscuro" : "claro"
+    );
+
+    botonTema.textContent = oscuro ? "🌙" : "☀️";
+  });
+
+  /* MENÚS DESPLEGABLES */
+  document.querySelectorAll(".boton-desplegar")
+    .forEach(boton => {
+      boton.addEventListener("click", () => {
+        const destino = boton.dataset.target;
+        const submenu = document.getElementById(destino);
+
+        if (!submenu) {
+          return;
+        }
+
+        const abierto =
+          submenu.classList.toggle("submenu-abierto");
+
+        boton.setAttribute(
+          "aria-expanded",
+          String(abierto)
+        );
+
+        boton.textContent = abierto ? "⌄" : "›";
+      });
+    });
+
+  /* COPIAR CÓDIGO */
+  document.querySelectorAll(".boton-copiar")
+    .forEach(boton => {
+      boton.addEventListener("click", async () => {
+        const bloque = boton.closest(".bloque-codigo");
+        const codigo = bloque?.querySelector("pre code");
+
+        if (!codigo) {
+          return;
+        }
+
+        const texto = codigo.textContent;
+
+        try {
+          await navigator.clipboard.writeText(texto);
+
+          boton.textContent = "✓ Copiado";
+
+          setTimeout(() => {
+            boton.textContent = "Copiar código";
+          }, 1800);
+        } catch (error) {
+          const seleccion = window.getSelection();
+          const rango = document.createRange();
+
+          rango.selectNodeContents(codigo);
+          seleccion.removeAllRanges();
+          seleccion.addRange(rango);
+
+          boton.textContent = "Seleccionado";
+
+          setTimeout(() => {
+            seleccion.removeAllRanges();
+            boton.textContent = "Copiar código";
+          }, 1800);
+        }
+      });
+    });
+</script>
+
+</body>
+</html>
