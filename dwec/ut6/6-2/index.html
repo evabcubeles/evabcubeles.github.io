@@ -2856,13 +2856,12 @@ console.log(alumno.contacto.email);</code></pre>
           ¿Qué ocurre si consultamos una propiedad inexistente?
         </h3>
 
-        <p>
-          Si intentamos consultar una propiedad
-          que no existe en el objeto ni se
-          encuentra en su cadena de prototipos,
-          JavaScript devuelve el valor
-          <code>undefined</code>.
-        </p>
+<p>
+  Cuando intentamos consultar una propiedad
+  que no existe en un objeto, JavaScript
+  normalmente devuelve el valor
+  <code>undefined</code>.
+</p>
 
         <div class="bloque-codigo">
 
@@ -3625,20 +3624,23 @@ Stock restante: 5</code></pre>
 
         </div>
 
-        <p>
-          Observa que hemos combinado
-          propiedades de objetos con
-          operaciones aritméticas,
-          operadores lógicos y
-          estructuras condicionales.
-        </p>
+<p>
+  A diferencia de los ejemplos anteriores,
+  aquí no modificamos directamente el stock
+  sin realizar ninguna comprobación.
+  Primero verificamos que la cantidad solicitada
+  sea válida y que existan suficientes unidades
+  disponibles.
+</p>
 
-        <p>
-          De esta forma, podemos utilizar
-          los objetos junto con los
-          conocimientos adquiridos
-          en las unidades anteriores.
-        </p>
+<p>
+  Solo cuando se cumplen ambas condiciones,
+  calculamos el importe de la venta y
+  actualizamos la propiedad <code>stock</code>.
+  De esta manera, combinamos el trabajo
+  con objetos con las estructuras de control
+  estudiadas en unidades anteriores.
+</p>
 
         <div class="caja caja-ejemplo">
 
