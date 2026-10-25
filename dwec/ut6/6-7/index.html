@@ -5,12 +5,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-  <meta
-    name="description"
-    content="6.7 - Clases en JavaScript: class, constructor, instancias, métodos, this y ejemplos prácticos."
-  >
-
+  <meta name="description" content="6.7 - Clases en JavaScript: class y constructor. Sintaxis, instancias, this, métodos y ejemplos prácticos.">
   <title>6.7 - Clases en JavaScript: class y constructor</title>
 
   <link rel="icon" type="image/png" href="../../../img/favicon.png?v=5">
@@ -18,7 +13,7 @@
 
   <style>
     /* ==========================================
-       ESTRUCTURA GENERAL
+       ESTRUCTURA DE LA UT
     ========================================== */
 
     .pagina-ut {
@@ -28,7 +23,7 @@
     }
 
     /* ==========================================
-       MENÚ LATERAL IZQUIERDO
+       COLUMNA IZQUIERDA
     ========================================== */
 
     .sidebar {
@@ -44,49 +39,68 @@
 
     .sidebar-modulo {
       display: block;
-      margin-bottom: 8px;
-      padding: 8px 14px;
-      color: #626873;
-      font-size: 17px;
+      padding: 13px 12px;
+      margin-bottom: 10px;
+      font-size: 1rem;
       font-weight: 700;
-      line-height: 1.3;
+      color: var(--verde-principal);
       text-decoration: none;
-      border-radius: 6px;
+      border-bottom: 1px solid var(--borde);
     }
 
-    .sidebar-modulo:hover {
+    .sidebar-ut-cerrada {
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      gap: 10px;
+      padding: 11px 12px;
+      margin-bottom: 3px;
+      border-radius: 8px;
+      color: var(--texto-principal);
+      text-decoration: none;
+      font-size: .88rem;
+      line-height: 1.45;
+      transition: background-color .2s;
+    }
+
+    .sidebar-ut-cerrada:hover {
+      background: var(--fondo-suave);
       color: var(--verde-principal);
-      background-color: #f3f4f6;
     }
 
     .menu-desplegable {
-      width: 100%;
+      margin-bottom: 3px;
     }
 
     .menu-cabecera {
       display: flex;
       align-items: center;
-      gap: 4px;
-      width: 100%;
-      border-radius: 6px;
+      justify-content: space-between;
+      gap: 5px;
+      border-radius: 8px;
+    }
+
+    .menu-cabecera:hover {
+      background-color: var(--fondo-suave);
     }
 
     .menu-cabecera-activa {
-      background-color: #f1f1f1;
+      background-color: var(--fondo-suave);
     }
 
     .menu-cabecera-activa > .menu-titulo {
       color: var(--verde-principal);
+      font-weight: 700;
     }
 
     .menu-titulo {
-      flex: 1;
       display: block;
-      padding: 11px 8px 11px 14px;
-      color: #626873;
-      font-size: 16px;
-      font-weight: 650;
-      line-height: 1.4;
+      flex: 1;
+      min-width: 0;
+      padding: 11px 8px 11px 12px;
+      font-size: .88rem;
+      line-height: 1.45;
+      color: var(--texto-principal);
       text-decoration: none;
     }
 
@@ -95,194 +109,161 @@
     }
 
     .boton-desplegar {
-      width: 36px;
-      height: 36px;
-      margin-right: 5px;
-      padding: 0;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      flex-shrink: 0;
-      border: 0;
-      border-radius: 6px;
+      flex: 0 0 29px;
+      width: 29px;
+      height: 32px;
+      border: none;
       background: transparent;
-      color: #777;
-      font-family: inherit;
-      font-size: 24px;
-      line-height: 1;
+      color: var(--texto-principal);
       cursor: pointer;
+      font-size: 1.1rem;
+      border-radius: 6px;
     }
 
     .boton-desplegar:hover {
-      background-color: #e5e7eb;
+      background: var(--fondo-suave);
       color: var(--verde-principal);
     }
 
     .submenu {
       display: none;
+      padding-left: 10px;
+      margin: 3px 0 8px;
+      border-left: 2px solid var(--borde);
     }
 
-    .submenu.submenu-abierto {
+    .submenu-abierto {
       display: block;
     }
 
-    .menu-apartado {
-      margin-left: 14px;
+    .submenu > a {
+      display: block;
+      padding: 7px 10px;
+      border-radius: 6px;
+      color: var(--texto-secundario);
+      text-decoration: none;
+      font-size: .83rem;
+      line-height: 1.4;
+    }
+
+    .submenu > a:hover {
+      color: var(--verde-principal);
+      background: var(--fondo-suave);
+    }
+
+    .submenu > a.enlace-activo {
+      color: var(--verde-principal);
+      font-weight: 700;
+      background: var(--fondo-suave);
     }
 
     .menu-apartado .menu-titulo {
+      font-size: .84rem;
       padding-top: 9px;
       padding-bottom: 9px;
-      font-size: 15px;
-      font-weight: 600;
     }
 
     .submenu-apartados {
-      margin: 2px 0 5px 28px;
-      border-left: 2px solid #e0e3e7;
+      margin-left: 13px;
+      padding-left: 8px;
     }
 
-    .submenu-apartados a {
-      display: block;
-      padding: 7px 10px;
-      color: #777d87;
-      font-size: 14px;
-      font-weight: 500;
-      line-height: 1.35;
-      text-decoration: none;
-    }
-
-    .submenu-apartados a:hover {
-      color: var(--verde-principal);
-    }
-
-    .submenu-apartados a.enlace-actual {
-      color: var(--verde-principal);
-      font-weight: 700;
-    }
-
-    .enlace-apartado-simple {
-      display: block;
-      margin-left: 14px;
-      padding: 10px 14px;
-      color: #626873;
-      font-size: 15px;
-      font-weight: 600;
-      line-height: 1.4;
-      text-decoration: none;
-      border-radius: 6px;
-    }
-
-    .enlace-apartado-simple:hover {
-      color: var(--verde-principal);
-      background-color: #f3f4f6;
-    }
-
-    .sidebar-ut-cerrada {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 12px;
-      padding: 13px 14px;
-      color: #626873;
-      text-decoration: none;
-      font-size: 16px;
-      font-weight: 650;
-      line-height: 1.35;
-      border-radius: 6px;
-    }
-
-    .sidebar-ut-cerrada:hover {
-      background-color: #f3f4f6;
-      color: var(--verde-principal);
+    .submenu-apartados > a {
+      font-size: .8rem;
+      padding: 6px 8px;
     }
 
     /* ==========================================
-       CONTENIDO CENTRAL
+       CONTENIDO PRINCIPAL
     ========================================== */
 
     .contenido-ut {
-      padding: 28px 34px 70px;
-      max-width: 1150px;
       min-width: 0;
-      width: 100%;
+      max-width: 100%;
+      padding: 28px 42px 55px;
       box-sizing: border-box;
-      margin: 0 auto;
+      line-height: 1.75;
+      color: var(--texto-principal);
     }
 
     .migas {
       display: flex;
-      flex-wrap: wrap;
       align-items: center;
+      flex-wrap: wrap;
       gap: 9px;
-      margin-bottom: 26px;
-      color: #7b8290;
-      font-size: 14px;
+      margin-bottom: 22px;
+      font-size: .85rem;
+      color: var(--texto-secundario);
     }
 
     .migas a {
-      color: var(--verde-principal);
+      color: var(--texto-secundario);
       text-decoration: none;
     }
 
+    .migas a:hover {
+      color: var(--verde-principal);
+    }
+
     .miga-inicio {
-      font-size: 17px;
+      font-size: 1rem;
     }
 
     .miga-separador {
-      color: #a0a5ae;
+      opacity: .65;
+    }
+
+    .miga-actual {
+      color: var(--verde-principal);
+      font-weight: 700;
     }
 
     .contenido-ut h1 {
-      margin: 0 0 27px;
-      font-size: clamp(27px, 3vw, 37px);
-      line-height: 1.22;
-      font-weight: 750;
-      color: var(--color-texto, #253044);
+      font-size: clamp(1.65rem, 2.5vw, 2.15rem);
+      line-height: 1.3;
+      margin: 0 0 25px;
+      color: var(--texto-principal);
     }
 
     .apartado-ut {
-      font-size: 16px;
-      line-height: 1.85;
-    }
-
-    .apartado-ut h2 {
-      margin: 46px 0 18px;
-      padding-bottom: 10px;
-      border-bottom: 1px solid var(--borde);
-      font-size: 25px;
-      line-height: 1.35;
-      color: var(--color-texto, #253044);
-      scroll-margin-top: 90px;
-    }
-
-    .apartado-ut h3 {
-      margin: 31px 0 14px;
-      font-size: 20px;
-      line-height: 1.4;
-      color: var(--color-texto, #253044);
+      font-size: .97rem;
     }
 
     .apartado-ut p {
       margin: 0 0 17px;
     }
 
+    .apartado-ut h2 {
+      margin: 40px 0 17px;
+      padding-bottom: 10px;
+      border-bottom: 1px solid var(--borde);
+      color: var(--verde-principal);
+      font-size: 1.43rem;
+      line-height: 1.4;
+      scroll-margin-top: 90px;
+    }
+
+    .apartado-ut h3 {
+      margin: 26px 0 12px;
+      font-size: 1.13rem;
+      color: var(--texto-principal);
+    }
+
     .apartado-ut ul,
     .apartado-ut ol {
-      margin: 12px 0 23px;
-      padding-left: 26px;
+      margin: 0 0 19px;
+      padding-left: 25px;
     }
 
     .apartado-ut li {
-      margin-bottom: 9px;
+      margin-bottom: 7px;
     }
 
     .apartado-ut code:not(pre code) {
-      padding: 2px 6px;
-      border-radius: 5px;
-      background: #eef1f4;
-      color: #c03567;
-      font-size: 0.91em;
+      padding: 2px 5px;
+      border-radius: 4px;
+      background: var(--fondo-suave);
+      font-size: .91em;
       overflow-wrap: anywhere;
     }
 
@@ -291,37 +272,33 @@
     ========================================== */
 
     .caja {
-      margin: 25px 0;
-      padding: 19px 22px;
-      border-left: 4px solid;
-      border-radius: 0 9px 9px 0;
-      line-height: 1.75;
-    }
-
-    .caja-titulo {
-      display: block;
-      margin-bottom: 9px;
-      font-weight: 750;
-      font-size: 16px;
+      padding: 17px 20px;
+      margin: 23px 0;
+      border-radius: 10px;
+      border: 1px solid var(--borde);
+      border-left: 4px solid var(--verde-principal);
+      background: var(--fondo-suave);
     }
 
     .caja p:last-child {
       margin-bottom: 0;
     }
 
+    .caja strong:first-child {
+      display: inline-block;
+      margin-bottom: 6px;
+    }
+
     .caja-importante {
-      background: #edf8f0;
-      border-color: #32a36a;
+      border-left-color: #269a69;
     }
 
     .caja-atencion {
-      background: #fff7e7;
-      border-color: #e3a52b;
+      border-left-color: #e0a128;
     }
 
     .caja-ejemplo {
-      background: #edf5ff;
-      border-color: #488dd5;
+      border-left-color: #438fc5;
     }
 
     /* ==========================================
@@ -329,60 +306,56 @@
     ========================================== */
 
     .bloque-codigo {
-      margin: 23px 0 27px;
-      border: 1px solid #30394b;
-      border-radius: 9px;
+      margin: 20px 0 24px;
+      border: 1px solid var(--borde);
+      border-radius: 10px;
       overflow: hidden;
-      background: #1e2533;
+      background: #18212d;
     }
 
     .cabecera-codigo {
       display: flex;
-      justify-content: space-between;
       align-items: center;
-      gap: 12px;
-      padding: 10px 16px;
-      background: #293345;
-      border-bottom: 1px solid #3d4759;
+      justify-content: space-between;
+      gap: 10px;
+      padding: 10px 15px;
+      background: #253244;
+      border-bottom: 1px solid rgba(255, 255, 255, .12);
     }
 
     .lenguaje-codigo {
-      color: #cbd5e1;
-      font-size: 13px;
-      font-weight: 650;
+      color: #d6e2ee;
+      font-size: .82rem;
+      font-weight: 700;
     }
 
     .boton-copiar {
-      padding: 6px 11px;
-      border: 1px solid #64748b;
+      padding: 6px 10px;
+      border: 1px solid rgba(255, 255, 255, .25);
       border-radius: 6px;
       background: transparent;
       color: #f1f5f9;
-      font: inherit;
-      font-size: 12px;
+      font-size: .78rem;
       cursor: pointer;
     }
 
     .boton-copiar:hover {
-      background: #3b485c;
+      background: rgba(255, 255, 255, .12);
     }
 
     .bloque-codigo pre {
       margin: 0;
-      padding: 20px;
+      padding: 19px 20px;
       overflow-x: auto;
+      color: #e5edf7;
       background: transparent;
-      color: #e2e8f0;
-      font-family: Consolas, "Courier New", monospace;
-      font-size: 14px;
-      line-height: 1.7;
+      font-size: .87rem;
+      line-height: 1.65;
       tab-size: 2;
     }
 
     .bloque-codigo pre code {
-      padding: 0;
-      background: transparent;
-      color: inherit;
+      font-family: Consolas, "Courier New", monospace;
       white-space: pre;
     }
 
@@ -391,64 +364,68 @@
     ========================================== */
 
     .tabla-responsive {
-      margin: 23px 0;
+      width: 100%;
       overflow-x: auto;
+      margin: 20px 0 25px;
     }
 
-    .tabla-apuntes {
+    .tabla-responsive table {
       width: 100%;
       border-collapse: collapse;
-      font-size: 15px;
-      line-height: 1.6;
+      font-size: .9rem;
     }
 
-    .tabla-apuntes th,
-    .tabla-apuntes td {
-      border: 1px solid var(--borde, #dce1e7);
-      padding: 12px 15px;
+    .tabla-responsive th,
+    .tabla-responsive td {
+      border: 1px solid var(--borde);
+      padding: 11px 13px;
       text-align: left;
       vertical-align: top;
     }
 
-    .tabla-apuntes th {
-      background: #edf5f0;
+    .tabla-responsive th {
+      background: var(--fondo-suave);
       font-weight: 700;
     }
 
     /* ==========================================
-       ACTIVIDAD PIENSA
+       ACTIVIDAD Y SOLUCIÓN DESPLEGABLE
     ========================================== */
 
     .actividad-reflexion {
-      margin: 35px 0;
-      padding: 23px;
-      border: 1px solid #c8d9e8;
-      border-radius: 10px;
-      background: #f4f8fc;
+      margin: 32px 0;
+      padding: 22px;
+      border: 1px solid var(--borde);
+      border-radius: 12px;
+      background: var(--fondo-suave);
     }
 
     .actividad-reflexion h3 {
       margin-top: 0;
+      color: var(--verde-principal);
     }
 
     .solucion-desplegable {
       margin-top: 19px;
-      border: 1px solid #ccd6e2;
+      border: 1px solid var(--borde);
       border-radius: 8px;
-      background: #fff;
       overflow: hidden;
+      background: var(--fondo-pagina);
     }
 
     .solucion-desplegable summary {
-      padding: 13px 17px;
-      font-weight: 700;
+      padding: 12px 15px;
       cursor: pointer;
-      color: #286b99;
+      font-weight: 700;
+      color: var(--verde-principal);
     }
 
-    .solucion-desplegable > :not(summary) {
-      margin-left: 17px;
-      margin-right: 17px;
+    .solucion-desplegable summary:hover {
+      background: var(--fondo-suave);
+    }
+
+    .contenido-solucion {
+      padding: 5px 17px 18px;
     }
 
     /* ==========================================
@@ -459,36 +436,41 @@
       display: grid;
       grid-template-columns: 1fr 1fr;
       gap: 17px;
-      margin-top: 50px;
+      margin-top: 48px;
+      padding-top: 25px;
+      border-top: 1px solid var(--borde);
     }
 
     .nav-pagina {
       display: flex;
       flex-direction: column;
-      gap: 5px;
-      padding: 17px;
-      border: 1px solid var(--borde, #dce1e7);
-      border-radius: 9px;
-      color: inherit;
+      gap: 7px;
+      padding: 16px 19px;
+      border: 1px solid var(--borde);
+      border-radius: 10px;
+      color: var(--texto-principal);
       text-decoration: none;
+      transition: background-color .2s, border-color .2s;
     }
 
     .nav-pagina:hover {
       border-color: var(--verde-principal);
+      background: var(--fondo-suave);
+    }
+
+    .nav-etiqueta {
+      font-size: .78rem;
+      color: var(--texto-secundario);
+    }
+
+    .nav-pagina strong {
+      font-size: .9rem;
+      line-height: 1.45;
+      color: var(--verde-principal);
     }
 
     .nav-siguiente {
       text-align: right;
-    }
-
-    .nav-etiqueta {
-      color: #818896;
-      font-size: 13px;
-    }
-
-    .nav-pagina strong {
-      color: var(--verde-principal);
-      font-size: 14px;
     }
 
     /* ==========================================
@@ -500,16 +482,16 @@
       top: 68px;
       height: calc(100vh - 68px);
       overflow-y: auto;
-      padding: 30px 18px;
-      border-left: 1px solid var(--borde);
       box-sizing: border-box;
-      font-size: 14px;
+      padding: 30px 19px;
+      border-left: 1px solid var(--borde);
+      background: var(--fondo-pagina);
     }
 
     .indice-derecho h2 {
-      margin: 0 0 17px;
-      font-size: 15px;
-      font-weight: 750;
+      margin: 0 0 18px;
+      font-size: .95rem;
+      color: var(--texto-principal);
     }
 
     .indice-derecho ul {
@@ -519,93 +501,56 @@
     }
 
     .indice-derecho li {
-      margin-bottom: 13px;
+      margin-bottom: 4px;
     }
 
     .indice-derecho a {
-      color: #737b88;
+      display: block;
+      padding: 8px 10px;
+      border-radius: 6px;
+      color: var(--texto-secundario);
       text-decoration: none;
-      line-height: 1.5;
+      font-size: .83rem;
+      line-height: 1.45;
     }
 
-    .indice-derecho a:hover {
+    .indice-derecho a:hover,
+    .indice-derecho a.indice-activo {
       color: var(--verde-principal);
+      background: var(--fondo-suave);
     }
 
     /* ==========================================
        MODO OSCURO
     ========================================== */
 
-    body.modo-oscuro .sidebar-modulo:hover,
-    body.modo-oscuro .sidebar-ut-cerrada:hover,
-    body.modo-oscuro .enlace-apartado-simple:hover {
-      background-color: #273244;
+    body.modo-oscuro .bloque-codigo {
+      border-color: #405064;
     }
 
-    body.modo-oscuro .menu-cabecera-activa {
-      background-color: #273244;
+    body.modo-oscuro .bloque-codigo pre {
+      background: #151d28;
     }
 
-    body.modo-oscuro .boton-desplegar:hover {
-      background-color: #334155;
-    }
-
-    body.modo-oscuro .submenu-apartados {
-      border-left-color: #3a4659;
-    }
-
-    body.modo-oscuro .contenido-ut h1,
-    body.modo-oscuro .apartado-ut h2,
-    body.modo-oscuro .apartado-ut h3 {
-      color: #f1f5f9;
-    }
-
-    body.modo-oscuro .apartado-ut code:not(pre code) {
-      background: #293547;
-      color: #ff9fc0;
-    }
-
-    body.modo-oscuro .caja-importante {
-      background: #19352a;
-    }
-
-    body.modo-oscuro .caja-atencion {
-      background: #3b301b;
-    }
-
-    body.modo-oscuro .caja-ejemplo {
-      background: #1b314b;
-    }
-
-    body.modo-oscuro .tabla-apuntes th {
-      background: #263448;
-    }
-
-    body.modo-oscuro .actividad-reflexion {
-      background: #1e3045;
-      border-color: #3b526c;
-    }
-
-    body.modo-oscuro .solucion-desplegable {
-      background: #1d2939;
-      border-color: #42536b;
-    }
-
-    body.modo-oscuro .solucion-desplegable summary {
-      color: #91c8f4;
+    body.modo-oscuro .cabecera-codigo {
+      background: #243145;
     }
 
     /* ==========================================
-       RESPONSIVE
+       DISEÑO RESPONSIVE
     ========================================== */
 
-    @media (max-width: 1200px) {
+    @media (max-width: 1250px) {
       .pagina-ut {
-        grid-template-columns: 255px minmax(0, 1fr);
+        grid-template-columns: 260px minmax(0, 1fr);
       }
 
       .indice-derecho {
         display: none;
+      }
+
+      .contenido-ut {
+        padding: 27px 38px 50px;
       }
     }
 
@@ -617,21 +562,31 @@
       .sidebar {
         position: static;
         height: auto;
-        max-height: 320px;
-        border-right: 0;
+        max-height: 380px;
+        border-right: none;
         border-bottom: 1px solid var(--borde);
       }
 
       .contenido-ut {
-        padding: 24px 20px 55px;
+        padding: 25px 22px 42px;
+      }
+    }
+
+    @media (max-width: 520px) {
+      .contenido-ut {
+        padding: 20px 15px 35px;
       }
 
       .navegacion-paginas {
         grid-template-columns: 1fr;
       }
 
-      .apartado-ut h2 {
-        font-size: 22px;
+      .nav-siguiente {
+        text-align: left;
+      }
+
+      .actividad-reflexion {
+        padding: 16px;
       }
     }
   </style>
@@ -640,13 +595,18 @@
 <body>
 
   <!-- ======================================
-       CABECERA
+       BARRA SUPERIOR
   ======================================= -->
 
   <header class="navbar">
 
-    <a class="logo" href="../../../index.html">
-      Apuntes digitales
+    <a class="inicio" href="../../../index.html">
+      <img
+        src="../../../img/profesora-castana.png?v=2"
+        alt=""
+        class="icono-profesora"
+      >
+      <span>Inicio</span>
     </a>
 
     <nav
@@ -660,55 +620,58 @@
       class="boton-tema"
       type="button"
       aria-label="Cambiar entre modo claro y oscuro"
-    >☀️</button>
+      title="Cambiar tema"
+    >
+      ☀️
+    </button>
 
   </header>
 
   <div class="pagina-ut">
 
     <!-- ======================================
-         MENÚ LATERAL IZQUIERDO
+         COLUMNA IZQUIERDA
     ======================================= -->
 
     <aside class="sidebar">
 
       <a class="sidebar-modulo" href="../../index.html">
-        DWEC
+        Desarrollo web en entorno cliente
       </a>
 
       <a class="sidebar-ut-cerrada" href="../../ut1/index.html">
-        <span>UT1 - Arquitecturas y herramientas de programación</span>
+        <span>UT1 - Introducción al desarrollo web en entorno cliente</span>
         <span>›</span>
       </a>
 
       <a class="sidebar-ut-cerrada" href="../../ut2/index.html">
-        <span>UT2 - Fundamentos de JavaScript</span>
+        <span>UT2 - Fundamentos de JavaScript: variables, tipos y operadores</span>
         <span>›</span>
       </a>
 
       <a class="sidebar-ut-cerrada" href="../../ut3/index.html">
-        <span>UT3 - Estructuras de control</span>
+        <span>UT3 - Estructuras de control en JavaScript</span>
         <span>›</span>
       </a>
 
       <a class="sidebar-ut-cerrada" href="../../ut4/index.html">
-        <span>UT4 - Funciones en JavaScript</span>
+        <span>UT4 - Arrays y estructuras de datos en JavaScript</span>
         <span>›</span>
       </a>
 
       <a class="sidebar-ut-cerrada" href="../../ut5/index.html">
-        <span>UT5 - Estructuras de datos</span>
+        <span>UT5 - Funciones en JavaScript</span>
         <span>›</span>
       </a>
 
-      <!-- UT6 ABIERTA -->
+      <!-- UT6 DESPLEGADA -->
 
       <div class="menu-desplegable">
 
         <div class="menu-cabecera menu-cabecera-activa">
 
           <a class="menu-titulo" href="../index.html">
-            UT6 - Objetos y programación orientada a objetos
+            UT6 - Objetos y Programación Orientada a Objetos en JavaScript
           </a>
 
           <button
@@ -716,97 +679,364 @@
             type="button"
             data-target="submenu-ut6"
             aria-expanded="true"
-            aria-label="Mostrar u ocultar los apartados de la UT6"
+            aria-label="Mostrar u ocultar UT6"
           >⌄</button>
 
         </div>
 
         <div id="submenu-ut6" class="submenu submenu-abierto">
 
-          <a class="enlace-apartado-simple" href="../6-1/index.html">
-            6.1 Introducción a los objetos
-          </a>
+          <!-- 6.1 -->
 
-          <a class="enlace-apartado-simple" href="../6-2/index.html">
-            6.2 Creación de objetos
-          </a>
-
-          <a class="enlace-apartado-simple" href="../6-3/index.html">
-            6.3 Propiedades de los objetos
-          </a>
-
-          <a class="enlace-apartado-simple" href="../6-4/index.html">
-            6.4 Métodos de los objetos
-          </a>
-
-          <a class="enlace-apartado-simple" href="../6-5/index.html">
-            6.5 La palabra clave this
-          </a>
-
-          <a class="enlace-apartado-simple" href="../6-6/index.html">
-            6.6 Funciones constructoras e instancias
-          </a>
-
-          <a
-            class="enlace-apartado-simple enlace-actual"
-            href="../6-7/index.html"
-            aria-current="page"
-          >
-            6.7 Clases en JavaScript: class y constructor
-          </a>
-
-          <a class="enlace-apartado-simple" href="../6-8/index.html">
-            6.8 Propiedades y métodos de las clases
-          </a>
-
-          <div class="menu-apartado">
+          <div class="menu-desplegable menu-apartado">
 
             <div class="menu-cabecera">
 
-              <a class="menu-titulo" href="../actividades/index.html">
-                Actividades y reto final
+              <a class="menu-titulo" href="../6-1/index.html">
+                6.1 Introducción a los objetos en JavaScript
               </a>
 
               <button
                 class="boton-desplegar"
                 type="button"
-                data-target="submenu-actividades"
+                data-target="submenu-6-1"
                 aria-expanded="false"
-                aria-label="Mostrar u ocultar las actividades de la UT6"
+                aria-label="Mostrar u ocultar los subapartados del 6.1"
               >›</button>
 
             </div>
 
-            <div
-              id="submenu-actividades"
-              class="submenu submenu-apartados"
-            >
-              <a href="../actividades/index.html#actividades-practicas">
-                💻 Actividades prácticas
-              </a>
-
-              <a href="../actividades/index.html#reto-final">
-                🧩 Reto final
-              </a>
-
-              <a href="../actividades/index.html#autoevaluacion">
-                ✅ Autoevaluación
-              </a>
+            <div id="submenu-6-1" class="submenu submenu-apartados">
+              <a href="../6-1/index.html">Acceder al apartado 6.1</a>
             </div>
 
           </div>
+
+          <!-- 6.2 -->
+
+          <div class="menu-desplegable menu-apartado">
+
+            <div class="menu-cabecera">
+
+              <a class="menu-titulo" href="../6-2/index.html">
+                6.2 Creación de objetos literales
+              </a>
+
+              <button
+                class="boton-desplegar"
+                type="button"
+                data-target="submenu-6-2"
+                aria-expanded="false"
+                aria-label="Mostrar u ocultar los subapartados del 6.2"
+              >›</button>
+
+            </div>
+
+            <div id="submenu-6-2" class="submenu submenu-apartados">
+              <a href="../6-2/index.html">Acceder al apartado 6.2</a>
+            </div>
+
+          </div>
+
+          <!-- 6.3 -->
+
+          <div class="menu-desplegable menu-apartado">
+
+            <div class="menu-cabecera">
+
+              <a class="menu-titulo" href="../6-3/index.html">
+                6.3 Acceso y modificación de propiedades
+              </a>
+
+              <button
+                class="boton-desplegar"
+                type="button"
+                data-target="submenu-6-3"
+                aria-expanded="false"
+                aria-label="Mostrar u ocultar los subapartados del 6.3"
+              >›</button>
+
+            </div>
+
+            <div id="submenu-6-3" class="submenu submenu-apartados">
+              <a href="../6-3/index.html">Acceder al apartado 6.3</a>
+            </div>
+
+          </div>
+
+          <!-- 6.4 -->
+
+          <div class="menu-desplegable menu-apartado">
+
+            <div class="menu-cabecera">
+
+              <a class="menu-titulo" href="../6-4/index.html">
+                6.4 Recorrido de propiedades de un objeto
+              </a>
+
+              <button
+                class="boton-desplegar"
+                type="button"
+                data-target="submenu-6-4"
+                aria-expanded="false"
+                aria-label="Mostrar u ocultar los subapartados del 6.4"
+              >›</button>
+
+            </div>
+
+            <div id="submenu-6-4" class="submenu submenu-apartados">
+              <a href="../6-4/index.html">Acceder al apartado 6.4</a>
+            </div>
+
+          </div>
+
+          <!-- 6.5 -->
+
+          <div class="menu-desplegable menu-apartado">
+
+            <div class="menu-cabecera">
+
+              <a class="menu-titulo" href="../6-5/index.html">
+                6.5 Definición de métodos y palabra clave this
+              </a>
+
+              <button
+                class="boton-desplegar"
+                type="button"
+                data-target="submenu-6-5"
+                aria-expanded="false"
+                aria-label="Mostrar u ocultar los subapartados del 6.5"
+              >›</button>
+
+            </div>
+
+            <div id="submenu-6-5" class="submenu submenu-apartados">
+              <a href="../6-5/index.html">Acceder al apartado 6.5</a>
+            </div>
+
+          </div>
+
+          <!-- 6.6 -->
+
+          <div class="menu-desplegable menu-apartado">
+
+            <div class="menu-cabecera">
+
+              <a class="menu-titulo" href="../6-6/index.html">
+                6.6 Funciones constructoras e instancias
+              </a>
+
+              <button
+                class="boton-desplegar"
+                type="button"
+                data-target="submenu-6-6"
+                aria-expanded="false"
+                aria-label="Mostrar u ocultar los subapartados del 6.6"
+              >›</button>
+
+            </div>
+
+            <div id="submenu-6-6" class="submenu submenu-apartados">
+
+              <a href="../6-6/index.html#necesidad">
+                Necesidad de crear varios objetos
+              </a>
+
+              <a href="../6-6/index.html#funciones-constructoras">
+                Funciones constructoras
+              </a>
+
+              <a href="../6-6/index.html#operador-new">
+                El operador new
+              </a>
+
+              <a href="../6-6/index.html#instancias">
+                Creación de instancias
+              </a>
+
+              <a href="../6-6/index.html#this-constructor">
+                La palabra clave this
+              </a>
+
+              <a href="../6-6/index.html#metodos-instancias">
+                Métodos en las instancias
+              </a>
+
+              <a href="../6-6/index.html#instanceof">
+                El operador instanceof
+              </a>
+
+              <a href="../6-6/index.html#errores">
+                Errores habituales
+              </a>
+
+              <a href="../6-6/index.html#ejemplos">
+                Ejemplos prácticos
+              </a>
+
+            </div>
+
+          </div>
+
+          <!-- 6.7 ACTIVO -->
+
+          <div class="menu-desplegable menu-apartado">
+
+            <div class="menu-cabecera menu-cabecera-activa">
+
+              <a class="menu-titulo" href="../6-7/index.html">
+                6.7 Clases en JavaScript: class y constructor
+              </a>
+
+              <button
+                class="boton-desplegar"
+                type="button"
+                data-target="submenu-6-7"
+                aria-expanded="true"
+                aria-label="Mostrar u ocultar los subapartados del 6.7"
+              >⌄</button>
+
+            </div>
+
+            <div
+              id="submenu-6-7"
+              class="submenu submenu-apartados submenu-abierto"
+            >
+
+              <a href="#concepto-clase">Qué es una clase</a>
+              <a href="#sintaxis-class">Sintaxis de class</a>
+              <a href="#metodo-constructor">El método constructor</a>
+              <a href="#crear-instancias">Creación de instancias</a>
+              <a href="#this-clases">La palabra clave this</a>
+              <a href="#metodos-clases">Métodos de las clases</a>
+              <a href="#comparacion">Clases y funciones constructoras</a>
+              <a href="#errores">Errores habituales</a>
+              <a href="#ejemplos">Ejemplos prácticos</a>
+              <a href="#resumen">Resumen del apartado</a>
+              <a href="#actividad">Actividad de reflexión</a>
+
+            </div>
+
+          </div>
+
+          <!-- 6.8 -->
+
+          <div class="menu-desplegable menu-apartado">
+
+            <div class="menu-cabecera">
+
+              <a class="menu-titulo" href="../6-8/index.html">
+                6.8 Propiedades y métodos de las clases
+              </a>
+
+              <button
+                class="boton-desplegar"
+                type="button"
+                data-target="submenu-6-8"
+                aria-expanded="false"
+                aria-label="Mostrar u ocultar los subapartados del 6.8"
+              >›</button>
+
+            </div>
+
+            <div id="submenu-6-8" class="submenu submenu-apartados">
+              <a href="../6-8/index.html">Acceder al apartado 6.8</a>
+            </div>
+
+          </div>
+
+          <!-- 6.9 -->
+
+          <div class="menu-desplegable menu-apartado">
+
+            <div class="menu-cabecera">
+
+              <a class="menu-titulo" href="../6-9/index.html">
+                6.9 Principios de la Programación Orientada a Objetos
+              </a>
+
+              <button
+                class="boton-desplegar"
+                type="button"
+                data-target="submenu-6-9"
+                aria-expanded="false"
+                aria-label="Mostrar u ocultar los subapartados del 6.9"
+              >›</button>
+
+            </div>
+
+            <div id="submenu-6-9" class="submenu submenu-apartados">
+              <a href="../6-9/index.html">Acceder al apartado 6.9</a>
+            </div>
+
+          </div>
+
+          <!-- 6.10 -->
+
+          <div class="menu-desplegable menu-apartado">
+
+            <div class="menu-cabecera">
+
+              <a class="menu-titulo" href="../6-10/index.html">
+                6.10 Herencia básica entre clases
+              </a>
+
+              <button
+                class="boton-desplegar"
+                type="button"
+                data-target="submenu-6-10"
+                aria-expanded="false"
+                aria-label="Mostrar u ocultar los subapartados del 6.10"
+              >›</button>
+
+            </div>
+
+            <div id="submenu-6-10" class="submenu submenu-apartados">
+              <a href="../6-10/index.html">Acceder al apartado 6.10</a>
+            </div>
+
+          </div>
+
+          <!-- 6.11 -->
+
+          <div class="menu-desplegable menu-apartado">
+
+            <div class="menu-cabecera">
+
+              <a class="menu-titulo" href="../6-11/index.html">
+                6.11 Aplicaciones prácticas de la POO
+              </a>
+
+              <button
+                class="boton-desplegar"
+                type="button"
+                data-target="submenu-6-11"
+                aria-expanded="false"
+                aria-label="Mostrar u ocultar los subapartados del 6.11"
+              >›</button>
+
+            </div>
+
+            <div id="submenu-6-11" class="submenu submenu-apartados">
+              <a href="../6-11/index.html">Acceder al apartado 6.11</a>
+            </div>
+
+          </div>
+
+          <a href="../resumen/index.html">Resumen de la UT6</a>
+          <a href="../actividades/index.html">Actividades de la UT6</a>
 
         </div>
 
       </div>
 
       <a class="sidebar-ut-cerrada" href="../../ut7/index.html">
-        <span>UT7 - Objetos predefinidos y modelo del navegador (BOM)</span>
+        <span>UT7 - Manipulación del DOM con JavaScript</span>
         <span>›</span>
       </a>
 
       <a class="sidebar-ut-cerrada" href="../../ut8/index.html">
-        <span>UT8 - Aplicaciones web interactivas: DOM, eventos y formularios</span>
+        <span>UT8 - Eventos e interacción con el usuario</span>
         <span>›</span>
       </a>
 
@@ -828,6 +1058,8 @@
 
     <main class="contenido-ut">
 
+      <!-- MIGAS DE PAN -->
+
       <div class="migas">
 
         <a
@@ -837,12 +1069,15 @@
         >🏠</a>
 
         <span class="miga-separador">›</span>
+
         <a class="miga-modulo" href="../../index.html">DWEC</a>
 
         <span class="miga-separador">›</span>
+
         <a class="miga-modulo" href="../index.html">UT6</a>
 
         <span class="miga-separador">›</span>
+
         <span class="miga-actual">6.7</span>
 
       </div>
@@ -855,114 +1090,116 @@
 
         <p>
           En el apartado anterior hemos aprendido a utilizar
-          <strong>funciones constructoras</strong> para crear
-          varios objetos con una misma estructura.
+          <strong>funciones constructoras</strong> para crear varios objetos
+          con las mismas propiedades y métodos. También hemos visto
+          cómo intervienen el operador <code>new</code> y la palabra
+          clave <code>this</code> en la creación de instancias.
         </p>
 
         <p>
-          También hemos comprobado que cada objeto creado
-          mediante <code>new</code> recibe el nombre de
-          <strong>instancia</strong> y que podemos definir
-          propiedades y métodos para representar su
-          información y comportamiento.
-        </p>
-
-        <p>
-          JavaScript dispone de otra sintaxis para organizar
-          estas definiciones de forma más clara:
+          Aunque las funciones constructoras permiten organizar
+          la creación de objetos, JavaScript dispone de una sintaxis
+          más clara y estructurada para trabajar con ellos:
           las <strong>clases</strong>.
         </p>
 
         <p>
-          Las clases permiten agrupar la inicialización
-          de los objetos y sus métodos en una estructura
-          fácil de leer y mantener.
+          Las clases facilitan la definición de objetos que comparten
+          una estructura y un comportamiento. Son especialmente
+          útiles cuando una aplicación necesita gestionar
+          muchos elementos similares, como alumnos, productos,
+          usuarios, pedidos o reservas.
         </p>
 
         <div class="caja caja-importante">
-          <span class="caja-titulo">📌 Importante</span>
-
           <p>
-            Una <strong>clase</strong> es una definición
-            que permite crear objetos con una estructura
-            y un comportamiento comunes.
+            <strong>📌 Importante</strong>
           </p>
-
           <p>
-            Cada objeto creado a partir de una clase
-            es una <strong>instancia</strong> de esa clase.
+            En JavaScript, una clase se declara mediante la palabra
+            reservada <code>class</code>. Su constructor permite
+            establecer los valores iniciales de los objetos,
+            mientras que sus métodos definen las operaciones
+            que pueden realizar.
           </p>
         </div>
 
         <!-- ======================================
-             1. CONCEPTO DE CLASE
+             1. QUÉ ES UNA CLASE
         ======================================= -->
 
         <h2 id="concepto-clase">Qué es una clase en JavaScript</h2>
 
         <p>
-          Imagina que estamos desarrollando una aplicación
-          para gestionar los productos de una tienda online.
+          Una <strong>clase</strong> es una estructura que permite
+          definir cómo serán los objetos que se creen a partir
+          de ella. Podemos entenderla como un modelo que
+          establece qué información tendrá cada objeto
+          y qué operaciones podrá realizar.
         </p>
 
         <p>
-          Todos los productos tienen información similar:
-          nombre, precio y unidades disponibles. Además,
-          pueden realizar operaciones comunes, como
-          mostrar su información o calcular su precio
-          con descuento.
+          Por ejemplo, imaginemos una tienda en línea que
+          necesita gestionar cientos de productos.
+          Todos los productos pueden tener un nombre,
+          un precio y una cantidad disponible.
         </p>
 
         <p>
-          Podemos definir una clase que reúna
-          estas características:
+          En lugar de escribir un objeto diferente para cada
+          producto, podemos crear una clase
+          <code>Producto</code> y utilizarla para generar
+          tantos objetos como necesitemos.
         </p>
 
         <div class="bloque-codigo">
           <div class="cabecera-codigo">
             <span class="lenguaje-codigo">JavaScript</span>
-            <button class="boton-copiar" type="button">Copiar código</button>
+            <button class="boton-copiar" type="button">
+              Copiar código
+            </button>
           </div>
           <pre><code>class Producto {
-  constructor(nombre, precio, stock) {
+  constructor(nombre, precio) {
     this.nombre = nombre;
     this.precio = precio;
-    this.stock = stock;
   }
 
   mostrarInformacion() {
-    return `${this.nombre}: ${this.precio} €`;
+    console.log(`${this.nombre}: ${this.precio} €`);
   }
-}</code></pre>
+}
+
+const producto1 = new Producto("Teclado", 35);
+const producto2 = new Producto("Ratón", 20);
+
+producto1.mostrarInformacion();
+producto2.mostrarInformacion();</code></pre>
         </div>
 
         <p>
-          En este ejemplo, <code>Producto</code> es
-          el nombre de la clase. En su interior
-          hemos definido:
+          En este ejemplo, <code>Producto</code> es la clase,
+          mientras que <code>producto1</code> y
+          <code>producto2</code> son objetos creados a partir
+          de ella.
         </p>
-
-        <ul>
-          <li>
-            Un <code>constructor</code>, que inicializa
-            los datos de cada producto.
-          </li>
-          <li>
-            Tres propiedades de instancia:
-            <code>nombre</code>, <code>precio</code>
-            y <code>stock</code>.
-          </li>
-          <li>
-            Un método llamado
-            <code>mostrarInformacion()</code>.
-          </li>
-        </ul>
 
         <p>
-          Esta definición todavía no crea ningún producto
-          concreto. Para ello necesitamos utilizar
-          el operador <code>new</code>.
+          Cada objeto almacena sus propios valores, pero
+          ambos pueden utilizar el método
+          <code>mostrarInformacion()</code>.
         </p>
+
+        <div class="caja caja-ejemplo">
+          <p><strong>💻 Ejemplo DAW</strong></p>
+          <p>
+            En una aplicación de comercio electrónico,
+            una clase <code>Producto</code> podría representar
+            los artículos del catálogo. A partir de ella,
+            la aplicación crearía objetos para cada producto
+            recibido de una base de datos o de una API.
+          </p>
+        </div>
 
         <!-- ======================================
              2. SINTAXIS DE CLASS
@@ -971,15 +1208,23 @@
         <h2 id="sintaxis-class">Sintaxis de class</h2>
 
         <p>
-          Para declarar una clase utilizamos la palabra
-          reservada <code>class</code>, seguida del nombre
-          de la clase y un bloque delimitado por llaves.
+          Para declarar una clase en JavaScript se utiliza
+          la palabra reservada <code>class</code>, seguida
+          del nombre de la clase y un bloque de llaves.
+        </p>
+
+        <p>
+          Dentro de ese bloque podemos definir un
+          <strong>constructor</strong> y los
+          <strong>métodos</strong> que utilizarán los objetos.
         </p>
 
         <div class="bloque-codigo">
           <div class="cabecera-codigo">
             <span class="lenguaje-codigo">JavaScript</span>
-            <button class="boton-copiar" type="button">Copiar código</button>
+            <button class="boton-copiar" type="button">
+              Copiar código
+            </button>
           </div>
           <pre><code>class NombreClase {
   constructor(parametro1, parametro2) {
@@ -988,90 +1233,106 @@
   }
 
   nombreMetodo() {
-    // Comportamiento de los objetos.
+    // Instrucciones del método
   }
 }</code></pre>
         </div>
 
         <p>
-          Aunque la sintaxis recuerda a la de otros
-          lenguajes orientados a objetos, debemos recordar
-          que JavaScript utiliza un
-          <strong>modelo de objetos basado en prototipos</strong>.
+          Observa los elementos que intervienen:
         </p>
 
-        <p>
-          La sintaxis <code>class</code> facilita
-          la escritura de código orientado a objetos,
-          pero no sustituye el mecanismo de prototipos
-          del lenguaje.
-        </p>
+        <ul>
+          <li>
+            <strong><code>class</code>:</strong>
+            indica que vamos a declarar una clase.
+          </li>
+          <li>
+            <strong><code>NombreClase</code>:</strong>
+            identifica la clase.
+          </li>
+          <li>
+            <strong><code>constructor()</code>:</strong>
+            es el método especial que inicializa las instancias.
+          </li>
+          <li>
+            <strong><code>this</code>:</strong>
+            permite acceder al objeto que se está creando
+            o sobre el que se ejecuta un método.
+          </li>
+          <li>
+            <strong>Métodos:</strong>
+            son funciones definidas dentro de la clase
+            que describen su comportamiento.
+          </li>
+        </ul>
 
-        <h3>Convenciones de escritura</h3>
+        <h3>Convenciones para nombrar clases</h3>
 
         <p>
-          Por convenio, los nombres de las clases
-          se escriben utilizando
-          <strong>PascalCase</strong>, es decir,
-          comenzando cada palabra con mayúscula.
+          Aunque JavaScript permite diferentes nombres,
+          es habitual utilizar la convención
+          <strong>PascalCase</strong>: cada palabra comienza
+          con mayúscula y no se emplean espacios.
         </p>
 
         <div class="bloque-codigo">
           <div class="cabecera-codigo">
             <span class="lenguaje-codigo">JavaScript</span>
-            <button class="boton-copiar" type="button">Copiar código</button>
+            <button class="boton-copiar" type="button">
+              Copiar código
+            </button>
           </div>
-          <pre><code>// Nombres habituales de clases:
-class Producto {}
-class Cliente {}
-class CarritoCompra {}
-class ReservaHotel {}
+          <pre><code>class Usuario {
+}
 
-// Las variables que almacenan instancias
-// suelen escribirse en camelCase.
-const productoDestacado = new Producto();
-const clientePrincipal = new Cliente();</code></pre>
+class CarritoCompra {
+}
+
+class ReservaHotel {
+}</code></pre>
         </div>
 
         <div class="caja caja-atencion">
-          <span class="caja-titulo">⚠️ Atención</span>
-
+          <p><strong>⚠️ Atención</strong></p>
           <p>
-            Los nombres en PascalCase son una
-            <strong>convención</strong>, no una obligación
-            del lenguaje.
-          </p>
-
-          <p>
-            También debes recordar que JavaScript
-            distingue entre mayúsculas y minúsculas:
-            <code>Producto</code> y <code>producto</code>
-            son identificadores diferentes.
+            Dentro de una clase, los métodos se escriben
+            directamente con su nombre. No se utiliza
+            la palabra <code>function</code> delante de ellos.
+            Tampoco es necesario separar las declaraciones
+            de métodos con comas.
           </p>
         </div>
 
         <!-- ======================================
-             3. CONSTRUCTOR
+             3. EL MÉTODO CONSTRUCTOR
         ======================================= -->
 
         <h2 id="metodo-constructor">El método constructor</h2>
 
         <p>
-          Dentro de una clase podemos declarar un método
-          especial denominado <code>constructor</code>.
+          El método <code>constructor()</code> es un método
+          especial que se ejecuta automáticamente cuando
+          creamos una instancia de una clase mediante
+          <code>new</code>.
         </p>
 
         <p>
-          Este método se ejecuta automáticamente cuando
-          creamos una instancia mediante <code>new</code>.
-          Su función habitual es
-          <strong>inicializar las propiedades del objeto</strong>.
+          Su función habitual es <strong>inicializar las
+          propiedades del nuevo objeto</strong> utilizando
+          los valores que recibe como argumentos.
+        </p>
+
+        <p>
+          Veamos una clase que representa a un alumno.
         </p>
 
         <div class="bloque-codigo">
           <div class="cabecera-codigo">
             <span class="lenguaje-codigo">JavaScript</span>
-            <button class="boton-copiar" type="button">Copiar código</button>
+            <button class="boton-copiar" type="button">
+              Copiar código
+            </button>
           </div>
           <pre><code>class Alumno {
   constructor(nombre, edad, ciclo) {
@@ -1081,11 +1342,7 @@ const clientePrincipal = new Cliente();</code></pre>
   }
 }
 
-const alumno1 = new Alumno(
-  "Lucía",
-  20,
-  "DAW"
-);
+const alumno1 = new Alumno("Lucía", 20, "DAW");
 
 console.log(alumno1.nombre); // Lucía
 console.log(alumno1.edad);   // 20
@@ -1093,32 +1350,34 @@ console.log(alumno1.ciclo);  // DAW</code></pre>
         </div>
 
         <p>
-          Cuando ejecutamos
+          Cuando se ejecuta la instrucción
           <code>new Alumno("Lucía", 20, "DAW")</code>,
-          JavaScript crea una nueva instancia y
-          ejecuta el constructor con los argumentos
-          indicados.
+          JavaScript crea un objeto y ejecuta su constructor.
+          Los argumentos se asignan a los parámetros
+          <code>nombre</code>, <code>edad</code> y
+          <code>ciclo</code>.
         </p>
 
         <p>
-          La palabra clave <code>this</code> hace
-          referencia a esa nueva instancia, por lo que
-          las asignaciones guardan los datos dentro
-          del objeto.
+          Después, las instrucciones con <code>this</code>
+          almacenan esos valores como propiedades
+          del nuevo objeto.
         </p>
 
-        <h3>El constructor puede recibir valores por defecto</h3>
+        <h3>Valores predeterminados en el constructor</h3>
 
         <p>
-          Podemos asignar valores predeterminados a
-          los parámetros para facilitar la creación
-          de instancias.
+          Los parámetros del constructor pueden tener
+          valores predeterminados, igual que los de
+          cualquier otra función.
         </p>
 
         <div class="bloque-codigo">
           <div class="cabecera-codigo">
             <span class="lenguaje-codigo">JavaScript</span>
-            <button class="boton-copiar" type="button">Copiar código</button>
+            <button class="boton-copiar" type="button">
+              Copiar código
+            </button>
           </div>
           <pre><code>class Usuario {
   constructor(nombre, activo = true) {
@@ -1128,51 +1387,55 @@ console.log(alumno1.ciclo);  // DAW</code></pre>
 }
 
 const usuario1 = new Usuario("Ana");
-const usuario2 = new Usuario("Pablo", false);
+const usuario2 = new Usuario("Pedro", false);
 
 console.log(usuario1.activo); // true
 console.log(usuario2.activo); // false</code></pre>
         </div>
 
+        <p>
+          En este caso, si no se proporciona el segundo
+          argumento, la propiedad <code>activo</code>
+          tendrá inicialmente el valor <code>true</code>.
+        </p>
+
         <h3>¿Es obligatorio declarar un constructor?</h3>
 
         <p>
-          No. Si una clase no incluye un constructor,
-          JavaScript utiliza un constructor predeterminado
-          que permite crear instancias.
+          No. Una clase puede declararse sin escribir
+          explícitamente el método <code>constructor()</code>.
+          En ese caso, JavaScript proporciona un constructor
+          predeterminado para una clase que no hereda
+          de otra.
         </p>
 
         <div class="bloque-codigo">
           <div class="cabecera-codigo">
             <span class="lenguaje-codigo">JavaScript</span>
-            <button class="boton-copiar" type="button">Copiar código</button>
+            <button class="boton-copiar" type="button">
+              Copiar código
+            </button>
           </div>
-          <pre><code>class Mensaje {
-  mostrar() {
-    return "Hola desde una clase";
+          <pre><code>class Saludo {
+  mostrarMensaje() {
+    console.log("Bienvenido a DWEC");
   }
 }
 
-const mensaje = new Mensaje();
+const saludo1 = new Saludo();
 
-console.log(mensaje.mostrar());
-// Hola desde una clase</code></pre>
+saludo1.mostrarMensaje();</code></pre>
         </div>
 
         <div class="caja caja-importante">
-          <span class="caja-titulo">📌 Importante</span>
-
+          <p><strong>📌 Importante</strong></p>
           <p>
-            Una clase puede tener
-            <strong>como máximo un método
-            <code>constructor</code></strong>.
-          </p>
-
-          <p>
-            Si necesitamos diferentes formas de inicializar
-            los objetos, podemos utilizar parámetros
-            opcionales, valores por defecto u otras
-            estrategias que estudiaremos progresivamente.
+            Una clase solo puede declarar un método
+            <code>constructor()</code>. Si necesitamos
+            diferentes formas de inicializar un objeto,
+            podemos utilizar parámetros opcionales,
+            valores predeterminados o lógica condicional
+            dentro del mismo constructor.
           </p>
         </div>
 
@@ -1183,97 +1446,122 @@ console.log(mensaje.mostrar());
         <h2 id="crear-instancias">Creación de instancias con new</h2>
 
         <p>
-          Una vez declarada la clase, podemos crear
-          tantos objetos como necesitemos utilizando
-          el operador <code>new</code>.
+          Una vez declarada una clase, podemos crear objetos
+          utilizando el operador <code>new</code>, seguido
+          del nombre de la clase y los argumentos
+          correspondientes.
+        </p>
+
+        <p>
+          Cada objeto creado a partir de una clase
+          recibe el nombre de <strong>instancia</strong>.
         </p>
 
         <div class="bloque-codigo">
           <div class="cabecera-codigo">
             <span class="lenguaje-codigo">JavaScript</span>
-            <button class="boton-copiar" type="button">Copiar código</button>
+            <button class="boton-copiar" type="button">
+              Copiar código
+            </button>
           </div>
-          <pre><code>class Producto {
-  constructor(nombre, precio) {
-    this.nombre = nombre;
-    this.precio = precio;
+          <pre><code>class Libro {
+  constructor(titulo, autor) {
+    this.titulo = titulo;
+    this.autor = autor;
   }
 }
 
-const producto1 = new Producto("Teclado", 45);
-const producto2 = new Producto("Ratón", 25);
-const producto3 = new Producto("Monitor", 180);
+const libro1 = new Libro(
+  "El principito",
+  "Antoine de Saint-Exupéry"
+);
 
-console.log(producto1.nombre); // Teclado
-console.log(producto2.nombre); // Ratón
-console.log(producto3.nombre); // Monitor</code></pre>
+const libro2 = new Libro(
+  "Don Quijote de la Mancha",
+  "Miguel de Cervantes"
+);
+
+console.log(libro1.titulo);
+console.log(libro2.titulo);</code></pre>
         </div>
 
         <p>
-          Los tres productos se han creado a partir
-          de la misma clase, pero
-          <strong>cada instancia es un objeto independiente</strong>.
+          Los dos objetos pertenecen a la misma clase,
+          pero almacenan información diferente.
+        </p>
+
+        <h3>Independencia de las instancias</h3>
+
+        <p>
+          Cada instancia mantiene sus propias propiedades.
+          Por ello, modificar una propiedad de un objeto
+          no modifica automáticamente la propiedad
+          equivalente de otro.
         </p>
 
         <div class="bloque-codigo">
           <div class="cabecera-codigo">
             <span class="lenguaje-codigo">JavaScript</span>
-            <button class="boton-copiar" type="button">Copiar código</button>
+            <button class="boton-copiar" type="button">
+              Copiar código
+            </button>
           </div>
-          <pre><code>producto1.precio = 40;
+          <pre><code>class Contador {
+  constructor(valorInicial) {
+    this.valor = valorInicial;
+  }
+}
 
-console.log(producto1.precio); // 40
-console.log(producto2.precio); // 25
-console.log(producto3.precio); // 180
+const contador1 = new Contador(0);
+const contador2 = new Contador(10);
 
-console.log(producto1 === producto2);
-// false</code></pre>
+contador1.valor = 5;
+
+console.log(contador1.valor); // 5
+console.log(contador2.valor); // 10</code></pre>
         </div>
 
         <p>
-          Modificar el precio del primer producto
-          no afecta a los demás porque cada instancia
-          almacena sus propias propiedades.
+          La modificación de <code>contador1</code>
+          no afecta a <code>contador2</code>.
         </p>
 
-        <h3>Comprobar la clase de una instancia</h3>
+        <h3>Comprobar si un objeto es una instancia</h3>
 
         <p>
-          Podemos utilizar el operador
-          <code>instanceof</code>, que ya conocemos
-          del apartado anterior.
+          El operador <code>instanceof</code>, estudiado
+          en el apartado anterior, también puede utilizarse
+          con las clases.
         </p>
 
         <div class="bloque-codigo">
           <div class="cabecera-codigo">
             <span class="lenguaje-codigo">JavaScript</span>
-            <button class="boton-copiar" type="button">Copiar código</button>
+            <button class="boton-copiar" type="button">
+              Copiar código
+            </button>
           </div>
-          <pre><code>console.log(producto1 instanceof Producto);
-// true
+          <pre><code>class Cliente {
+  constructor(nombre) {
+    this.nombre = nombre;
+  }
+}
 
-console.log(producto2 instanceof Producto);
-// true
+const cliente1 = new Cliente("María");
 
-console.log(producto1 instanceof Array);
-// false
-
-console.log(typeof producto1);
-// object</code></pre>
+console.log(cliente1 instanceof Cliente); // true
+console.log(cliente1 instanceof Array);   // false
+console.log(typeof cliente1);             // object</code></pre>
         </div>
 
         <div class="caja caja-atencion">
-          <span class="caja-titulo">⚠️ Atención</span>
-
+          <p><strong>⚠️ Atención</strong></p>
           <p>
-            Para crear instancias de una clase declarada
-            con <code>class</code>, debemos utilizar
-            <code>new</code>.
-          </p>
-
-          <p>
-            No podemos invocar una clase como si fuera
-            una función ordinaria.
+            Aunque utilizamos la palabra <em>clase</em>,
+            las instancias siguen siendo objetos de JavaScript.
+            Por eso, el operador <code>typeof</code>
+            devuelve <code>"object"</code> cuando
+            se aplica a una instancia.
           </p>
         </div>
 
@@ -1284,74 +1572,79 @@ console.log(typeof producto1);
         <h2 id="this-clases">La palabra clave this en las clases</h2>
 
         <p>
-          La palabra clave <code>this</code> sigue
-          siendo fundamental al trabajar con clases.
+          La palabra clave <code>this</code> permite
+          acceder al objeto sobre el que se está trabajando.
+          Ya la hemos utilizado en los objetos literales
+          y en las funciones constructoras.
         </p>
 
         <p>
-          Dentro del constructor, <code>this</code>
-          identifica la instancia que se está creando.
-          Dentro de un método ordinario llamado mediante
-          una instancia, normalmente identifica
-          el objeto que realiza la llamada.
+          Dentro del constructor de una clase,
+          <code>this</code> hace referencia a la instancia
+          que se está creando.
+        </p>
+
+        <p>
+          Cuando llamamos a un método mediante
+          <code>objeto.metodo()</code>, <code>this</code>
+          normalmente hace referencia a ese objeto.
         </p>
 
         <div class="bloque-codigo">
           <div class="cabecera-codigo">
             <span class="lenguaje-codigo">JavaScript</span>
-            <button class="boton-copiar" type="button">Copiar código</button>
+            <button class="boton-copiar" type="button">
+              Copiar código
+            </button>
           </div>
-          <pre><code>class Cuenta {
-  constructor(titular, saldo) {
+          <pre><code>class CuentaBancaria {
+  constructor(titular, saldoInicial) {
     this.titular = titular;
-    this.saldo = saldo;
+    this.saldo = saldoInicial;
   }
 
-  consultarSaldo() {
-    return `${this.titular}: ${this.saldo} €`;
-  }
-
-  ingresar(cantidad) {
-    this.saldo += cantidad;
+  mostrarSaldo() {
+    console.log(
+      `${this.titular} tiene ${this.saldo} €`
+    );
   }
 }
 
-const cuentaAna = new Cuenta("Ana", 100);
-const cuentaLuis = new Cuenta("Luis", 250);
+const cuenta1 = new CuentaBancaria("Laura", 500);
+const cuenta2 = new CuentaBancaria("Carlos", 1200);
 
-cuentaAna.ingresar(50);
-
-console.log(cuentaAna.consultarSaldo());
-// Ana: 150 €
-
-console.log(cuentaLuis.consultarSaldo());
-// Luis: 250 €</code></pre>
+cuenta1.mostrarSaldo();
+cuenta2.mostrarSaldo();</code></pre>
         </div>
 
         <p>
-          Cuando llamamos a
-          <code>cuentaAna.ingresar(50)</code>,
-          <code>this</code> se refiere a
-          <code>cuentaAna</code>.
+          Cuando ejecutamos <code>cuenta1.mostrarSaldo()</code>,
+          <code>this</code> hace referencia a
+          <code>cuenta1</code>.
         </p>
 
         <p>
-          Por tanto, el ingreso modifica únicamente
-          el saldo de esa cuenta.
+          En cambio, cuando ejecutamos
+          <code>cuenta2.mostrarSaldo()</code>,
+          hace referencia a <code>cuenta2</code>.
         </p>
 
-        <h3>El contexto de this puede perderse</h3>
+        <h3>La importancia de cómo se llama a un método</h3>
 
         <p>
-          Aunque un método esté definido dentro
-          de una clase, el valor de <code>this</code>
-          depende de cómo se invoque.
+          En JavaScript, el valor de <code>this</code>
+          en un método depende de cómo se invoque.
+          Si guardamos un método en una variable
+          y lo ejecutamos por separado, podemos perder
+          la referencia al objeto original.
         </p>
 
         <div class="bloque-codigo">
           <div class="cabecera-codigo">
             <span class="lenguaje-codigo">JavaScript</span>
-            <button class="boton-copiar" type="button">Copiar código</button>
+            <button class="boton-copiar" type="button">
+              Copiar código
+            </button>
           </div>
           <pre><code>class Persona {
   constructor(nombre) {
@@ -1359,65 +1652,71 @@ console.log(cuentaLuis.consultarSaldo());
   }
 
   saludar() {
-    return `Hola, soy ${this.nombre}`;
+    console.log(`Hola, soy ${this.nombre}`);
   }
 }
 
-const persona = new Persona("Elena");
+const persona1 = new Persona("Elena");
 
-console.log(persona.saludar());
-// Hola, soy Elena
+persona1.saludar(); // Hola, soy Elena
 
-const funcionSaludo = persona.saludar;
+const funcionSaludar = persona1.saludar;
 
-// Esta llamada pierde el objeto receptor:
-// funcionSaludo(); // TypeError
+// Esta llamada produciría un error:
+// funcionSaludar();
 
-// Podemos fijar explícitamente el contexto:
-const saludoVinculado =
-  persona.saludar.bind(persona);
+const saludoVinculado = persona1.saludar.bind(persona1);
 
-console.log(saludoVinculado());
-// Hola, soy Elena</code></pre>
+saludoVinculado(); // Hola, soy Elena</code></pre>
         </div>
 
-        <div class="caja caja-importante">
-          <span class="caja-titulo">📌 Importante</span>
+        <p>
+          El método <code>bind()</code> permite crear
+          una función cuyo <code>this</code> queda vinculado
+          al objeto indicado.
+        </p>
 
+        <div class="caja caja-importante">
+          <p><strong>📌 Importante</strong></p>
           <p>
-            Los métodos de las clases se ejecutan
-            en <strong>modo estricto</strong>.
-            Si extraemos un método y lo invocamos
-            sin un objeto receptor, su
-            <code>this</code> será
-            <code>undefined</code>.
+            Para acceder a una propiedad de la instancia
+            desde un método, normalmente debemos escribir
+            <code>this.nombrePropiedad</code>.
+            Escribir solamente el nombre de la propiedad
+            no significa que JavaScript vaya a buscarla
+            automáticamente dentro del objeto.
           </p>
         </div>
 
         <!-- ======================================
-             6. MÉTODOS
+             6. MÉTODOS DE LAS CLASES
         ======================================= -->
 
         <h2 id="metodos-clases">Definición de métodos en una clase</h2>
 
         <p>
-          Una clase no solo sirve para inicializar
-          propiedades. También permite definir
-          las operaciones que podrán realizar
-          sus instancias.
+          Además del constructor, una clase puede contener
+          métodos que representen las operaciones
+          que sus instancias pueden realizar.
         </p>
 
         <p>
-          Los métodos se escriben directamente
-          dentro del cuerpo de la clase,
-          <strong>sin utilizar la palabra
-          <code>function</code></strong>.
+          Los métodos se declaran escribiendo su nombre,
+          sus parámetros entre paréntesis y un bloque
+          de instrucciones entre llaves.
+        </p>
+
+        <p>
+          Vamos a crear una clase que represente
+          un rectángulo.
         </p>
 
         <div class="bloque-codigo">
           <div class="cabecera-codigo">
             <span class="lenguaje-codigo">JavaScript</span>
-            <button class="boton-copiar" type="button">Copiar código</button>
+            <button class="boton-copiar" type="button">
+              Copiar código
+            </button>
           </div>
           <pre><code>class Rectangulo {
   constructor(ancho, alto) {
@@ -1433,90 +1732,101 @@ console.log(saludoVinculado());
     return 2 * (this.ancho + this.alto);
   }
 
-  esCuadrado() {
-    return this.ancho === this.alto;
+  mostrarInformacion() {
+    console.log(
+      `Área: ${this.calcularArea()}`
+    );
+
+    console.log(
+      `Perímetro: ${this.calcularPerimetro()}`
+    );
   }
 }
 
-const figura = new Rectangulo(8, 5);
+const rectangulo1 = new Rectangulo(5, 3);
 
-console.log(figura.calcularArea());
-// 40
+console.log(rectangulo1.calcularArea());      // 15
+console.log(rectangulo1.calcularPerimetro()); // 16
 
-console.log(figura.calcularPerimetro());
-// 26
-
-console.log(figura.esCuadrado());
-// false</code></pre>
+rectangulo1.mostrarInformacion();</code></pre>
         </div>
 
         <p>
-          Cada método representa una operación
-          relacionada con los datos de la instancia.
-          Algunos devuelven números, otros valores
-          booleanos o cadenas de texto.
+          La clase <code>Rectangulo</code> contiene
+          tres métodos:
         </p>
 
-        <h3>Los métodos se comparten mediante el prototipo</h3>
+        <ul>
+          <li>
+            <code>calcularArea()</code> devuelve
+            el área del rectángulo.
+          </li>
+          <li>
+            <code>calcularPerimetro()</code> devuelve
+            su perímetro.
+          </li>
+          <li>
+            <code>mostrarInformacion()</code> utiliza
+            los otros métodos para mostrar los resultados.
+          </li>
+        </ul>
 
         <p>
-          Una diferencia importante respecto a
-          declarar funciones directamente dentro
-          del constructor es que los métodos definidos
-          con esta sintaxis se almacenan normalmente
-          en el <strong>prototipo de la clase</strong>.
+          Observa que un método puede llamar a otro
+          método del mismo objeto mediante
+          <code>this.nombreMetodo()</code>.
+        </p>
+
+        <h3>¿Dónde se almacenan los métodos?</h3>
+
+        <p>
+          Los métodos declarados de forma habitual
+          dentro de una clase se encuentran en el
+          <strong>prototipo de la clase</strong>.
+          Esto permite que las instancias compartan
+          esos métodos, en lugar de crear una copia
+          independiente de cada función para cada objeto.
         </p>
 
         <div class="bloque-codigo">
           <div class="cabecera-codigo">
             <span class="lenguaje-codigo">JavaScript</span>
-            <button class="boton-copiar" type="button">Copiar código</button>
+            <button class="boton-copiar" type="button">
+              Copiar código
+            </button>
           </div>
           <pre><code>class Saludo {
-  constructor(nombre) {
-    this.nombre = nombre;
-  }
-
   saludar() {
-    return `Hola, ${this.nombre}`;
+    return "Hola";
   }
 }
 
-const saludo1 = new Saludo("Ana");
-const saludo2 = new Saludo("Luis");
+const saludo1 = new Saludo();
+const saludo2 = new Saludo();
 
-console.log(saludo1.saludar());
-// Hola, Ana
+console.log(
+  saludo1.saludar === saludo2.saludar
+); // true
 
-console.log(saludo2.saludar());
-// Hola, Luis
-
-console.log(saludo1.saludar === saludo2.saludar);
-// true</code></pre>
+console.log(
+  Saludo.prototype.saludar === saludo1.saludar
+); // true</code></pre>
         </div>
 
         <p>
-          Aunque cada instancia contiene su propio
-          nombre, ambas utilizan la misma función
-          <code>saludar()</code> compartida
-          mediante el prototipo.
-        </p>
-
-        <p>
-          Este comportamiento evita crear una copia
-          independiente del método para cada objeto.
+          Aunque las dos instancias son objetos diferentes,
+          utilizan la misma función definida en el prototipo.
         </p>
 
         <div class="caja caja-ejemplo">
-          <span class="caja-titulo">💻 Ejemplo DAW</span>
-
+          <p><strong>💻 Ejemplo DAW</strong></p>
           <p>
-            En una aplicación que gestiona cientos
-            de alumnos, cada alumno necesita sus
-            propios datos, pero todos pueden
-            compartir métodos como
-            <code>mostrarFicha()</code> o
-            <code>estaAprobado()</code>.
+            Si una aplicación gestiona mil productos,
+            todos pueden utilizar el método
+            <code>calcularPrecioFinal()</code> definido
+            en la clase <code>Producto</code>.
+            No es necesario escribir manualmente
+            ese método en cada objeto.
           </p>
         </div>
 
@@ -1527,66 +1837,87 @@ console.log(saludo1.saludar === saludo2.saludar);
         <h2 id="comparacion">Clases y funciones constructoras</h2>
 
         <p>
-          En el apartado 6.6 aprendimos a crear
-          objetos utilizando funciones constructoras.
-          Ahora podemos conseguir un resultado
-          equivalente mediante clases.
+          En el apartado 6.6 aprendimos a crear objetos
+          utilizando funciones constructoras.
+          Las clases permiten expresar una idea semejante
+          mediante una sintaxis más organizada.
         </p>
 
-        <h3>Con una función constructora</h3>
+        <p>
+          Vamos a comparar las dos formas de crear
+          una estructura para representar libros.
+        </p>
+
+        <h3>Utilizando una función constructora</h3>
 
         <div class="bloque-codigo">
           <div class="cabecera-codigo">
             <span class="lenguaje-codigo">JavaScript</span>
-            <button class="boton-copiar" type="button">Copiar código</button>
+            <button class="boton-copiar" type="button">
+              Copiar código
+            </button>
           </div>
-          <pre><code>function Libro(nombre, precio) {
-  this.nombre = nombre;
-  this.precio = precio;
+          <pre><code>function Libro(titulo, autor) {
+  this.titulo = titulo;
+  this.autor = autor;
 }
 
-Libro.prototype.mostrar = function () {
-  return `${this.nombre}: ${this.precio} €`;
+Libro.prototype.mostrarInformacion = function() {
+  console.log(`${this.titulo} - ${this.autor}`);
 };
 
-const libro1 = new Libro("JavaScript", 30);
+const libro1 = new Libro(
+  "1984",
+  "George Orwell"
+);
 
-console.log(libro1.mostrar());
-// JavaScript: 30 €</code></pre>
+libro1.mostrarInformacion();</code></pre>
         </div>
 
-        <h3>Con una clase</h3>
+        <h3>Utilizando una clase</h3>
 
         <div class="bloque-codigo">
           <div class="cabecera-codigo">
             <span class="lenguaje-codigo">JavaScript</span>
-            <button class="boton-copiar" type="button">Copiar código</button>
+            <button class="boton-copiar" type="button">
+              Copiar código
+            </button>
           </div>
           <pre><code>class Libro {
-  constructor(nombre, precio) {
-    this.nombre = nombre;
-    this.precio = precio;
+  constructor(titulo, autor) {
+    this.titulo = titulo;
+    this.autor = autor;
   }
 
-  mostrar() {
-    return `${this.nombre}: ${this.precio} €`;
+  mostrarInformacion() {
+    console.log(`${this.titulo} - ${this.autor}`);
   }
 }
 
-const libro1 = new Libro("JavaScript", 30);
+const libro1 = new Libro(
+  "1984",
+  "George Orwell"
+);
 
-console.log(libro1.mostrar());
-// JavaScript: 30 €</code></pre>
+libro1.mostrarInformacion();</code></pre>
         </div>
 
         <p>
-          Los dos ejemplos son alternativas
-          independientes y producen el mismo
-          resultado visible.
+          Ambos ejemplos permiten crear un objeto
+          <code>Libro</code> y llamar al método
+          <code>mostrarInformacion()</code>.
+        </p>
+
+        <p>
+          La diferencia principal está en la forma
+          de organizar y declarar el código.
+          En el segundo ejemplo, el constructor
+          y los métodos aparecen agrupados
+          dentro de una misma clase.
         </p>
 
         <div class="tabla-responsive">
-          <table class="tabla-apuntes">
+          <table>
             <thead>
               <tr>
                 <th>Aspecto</th>
@@ -1602,8 +1933,8 @@ console.log(libro1.mostrar());
               </tr>
               <tr>
                 <td>Inicialización</td>
-                <td>Cuerpo de la función</td>
-                <td>Método <code>constructor</code></td>
+                <td>En el cuerpo de la función</td>
+                <td>En <code>constructor()</code></td>
               </tr>
               <tr>
                 <td>Creación de instancias</td>
@@ -1611,45 +1942,37 @@ console.log(libro1.mostrar());
                 <td><code>new</code></td>
               </tr>
               <tr>
+                <td>Acceso a propiedades</td>
+                <td><code>this</code></td>
+                <td><code>this</code></td>
+              </tr>
+              <tr>
                 <td>Métodos compartidos</td>
-                <td>Mediante <code>prototype</code></td>
-                <td>Dentro de la clase</td>
+                <td>Se pueden añadir al prototipo</td>
+                <td>Se declaran en el cuerpo de la clase</td>
               </tr>
               <tr>
-                <td>Modelo de objetos</td>
-                <td>Basado en prototipos</td>
-                <td>Basado en prototipos</td>
+                <td>Uso sin <code>new</code></td>
+                <td>Depende de cómo esté definida la función</td>
+                <td>Produce un error</td>
               </tr>
               <tr>
-                <td>Lectura del código</td>
-                <td>Definición más dispersa</td>
-                <td>Definición agrupada</td>
+                <td>Organización</td>
+                <td>Constructor y métodos pueden declararse por separado</td>
+                <td>Constructor y métodos aparecen agrupados</td>
               </tr>
             </tbody>
           </table>
         </div>
 
-        <p>
-          La sintaxis de clases resulta especialmente
-          útil cuando queremos reunir en un mismo
-          lugar las propiedades iniciales y los
-          comportamientos de un tipo de objeto.
-        </p>
-
-        <div class="caja caja-atencion">
-          <span class="caja-titulo">⚠️ Atención</span>
-
+        <div class="caja caja-importante">
+          <p><strong>📌 Importante</strong></p>
           <p>
-            Aunque las clases facilitan el trabajo
-            con objetos, <strong>no son simplemente
-            idénticas a las funciones constructoras</strong>.
-          </p>
-
-          <p>
-            Por ejemplo, las clases no pueden
-            invocarse sin <code>new</code> y
-            presentan reglas específicas de
-            inicialización y acceso.
+            Las clases de JavaScript están basadas
+            en el sistema de prototipos del lenguaje.
+            No sustituyen ese mecanismo por otro
+            completamente diferente, sino que ofrecen
+            una sintaxis más clara para trabajar con él.
           </p>
         </div>
 
@@ -1659,151 +1982,177 @@ console.log(libro1.mostrar());
 
         <h2 id="errores">Errores habituales al trabajar con clases</h2>
 
+        <p>
+          Cuando comenzamos a utilizar clases,
+          es frecuente cometer errores relacionados
+          con la sintaxis, el constructor,
+          la creación de instancias y el uso
+          de <code>this</code>.
+        </p>
+
         <h3>1. Olvidar el operador new</h3>
 
         <p>
-          Una clase no puede utilizarse como una
-          función ordinaria.
+          Las clases deben instanciarse mediante
+          el operador <code>new</code>.
         </p>
 
         <div class="bloque-codigo">
           <div class="cabecera-codigo">
             <span class="lenguaje-codigo">JavaScript</span>
-            <button class="boton-copiar" type="button">Copiar código</button>
+            <button class="boton-copiar" type="button">
+              Copiar código
+            </button>
           </div>
-          <pre><code>class Cliente {
+          <pre><code>class Usuario {
   constructor(nombre) {
     this.nombre = nombre;
   }
 }
 
 // Incorrecto:
-// const cliente = Cliente("Ana");
+// const usuario1 = Usuario("Ana");
 
 // Correcto:
-const cliente = new Cliente("Ana");
+const usuario1 = new Usuario("Ana");
 
-console.log(cliente.nombre); // Ana</code></pre>
+console.log(usuario1.nombre);</code></pre>
         </div>
+
+        <p>
+          Si intentamos ejecutar una clase como si fuera
+          una función normal, JavaScript genera
+          un error de tipo <code>TypeError</code>.
+        </p>
 
         <h3>2. Escribir function delante de un método</h3>
 
         <p>
-          Dentro de una clase, los métodos se declaran
-          directamente con su nombre.
+          Dentro de una clase no se utiliza
+          <code>function</code> para declarar
+          métodos ordinarios.
         </p>
 
         <div class="bloque-codigo">
           <div class="cabecera-codigo">
             <span class="lenguaje-codigo">JavaScript</span>
-            <button class="boton-copiar" type="button">Copiar código</button>
+            <button class="boton-copiar" type="button">
+              Copiar código
+            </button>
           </div>
-          <pre><code>class Calculadora {
-
-  // Incorrecto:
-  // function sumar(a, b) { return a + b; }
+          <pre><code>class Producto {
+  constructor(nombre) {
+    this.nombre = nombre;
+  }
 
   // Correcto:
-  sumar(a, b) {
-    return a + b;
+  mostrarNombre() {
+    console.log(this.nombre);
   }
-}
-
-const calculadora = new Calculadora();
-
-console.log(calculadora.sumar(4, 6)); // 10</code></pre>
+}</code></pre>
         </div>
 
         <h3>3. Olvidar this al acceder a una propiedad</h3>
 
         <p>
-          Los parámetros y las propiedades
-          de instancia no son lo mismo.
-          Para acceder a una propiedad del objeto
-          utilizamos <code>this</code>.
+          Si una propiedad pertenece a la instancia,
+          debemos acceder a ella mediante
+          <code>this</code>.
         </p>
 
         <div class="bloque-codigo">
           <div class="cabecera-codigo">
             <span class="lenguaje-codigo">JavaScript</span>
-            <button class="boton-copiar" type="button">Copiar código</button>
+            <button class="boton-copiar" type="button">
+              Copiar código
+            </button>
           </div>
-          <pre><code>class Curso {
-  constructor(titulo) {
-    this.titulo = titulo;
+          <pre><code>class Alumno {
+  constructor(nombre) {
+    this.nombre = nombre;
   }
 
-  mostrarTitulo() {
+  saludar() {
     // Incorrecto:
-    // return titulo;
+    // console.log(nombre);
 
     // Correcto:
-    return this.titulo;
+    console.log(this.nombre);
   }
 }
 
-const curso = new Curso("DWEC");
-
-console.log(curso.mostrarTitulo()); // DWEC</code></pre>
+const alumno1 = new Alumno("Mario");
+alumno1.saludar();</code></pre>
         </div>
 
         <h3>4. Confundir la clase con una instancia</h3>
 
         <p>
-          La clase define cómo serán los objetos.
-          La instancia es el objeto concreto.
+          La clase define el modelo.
+          Para acceder a las propiedades de una instancia,
+          primero debemos crear el objeto.
         </p>
 
         <div class="bloque-codigo">
           <div class="cabecera-codigo">
             <span class="lenguaje-codigo">JavaScript</span>
-            <button class="boton-copiar" type="button">Copiar código</button>
+            <button class="boton-copiar" type="button">
+              Copiar código
+            </button>
           </div>
-          <pre><code>class Pelicula {
-  constructor(titulo) {
-    this.titulo = titulo;
+          <pre><code>class Coche {
+  constructor(marca) {
+    this.marca = marca;
   }
 }
 
-const pelicula = new Pelicula("Origen");
+const coche1 = new Coche("Toyota");
 
-console.log(pelicula.titulo);
-// Origen
+// Incorrecto:
+// console.log(Coche.marca);
 
-console.log(Pelicula.name);
-// Pelicula
-
-console.log(Pelicula.titulo);
-// undefined</code></pre>
+// Correcto:
+console.log(coche1.marca);</code></pre>
         </div>
 
-        <h3>5. Intentar utilizar una clase antes de declararla</h3>
+        <h3>5. Utilizar una clase antes de declararla</h3>
 
         <p>
-          Las declaraciones de clases no pueden
-          utilizarse antes de que se haya ejecutado
-          su declaración.
+          A diferencia de las declaraciones de funciones
+          tradicionales, no podemos utilizar una clase
+          antes de que se haya ejecutado su declaración.
         </p>
 
         <div class="bloque-codigo">
           <div class="cabecera-codigo">
             <span class="lenguaje-codigo">JavaScript</span>
-            <button class="boton-copiar" type="button">Copiar código</button>
+            <button class="boton-copiar" type="button">
+              Copiar código
+            </button>
           </div>
           <pre><code>// Incorrecto:
-// const producto = new Producto("Teclado");
+// const alumno1 = new Alumno("Ana");
 
-class Producto {
+class Alumno {
   constructor(nombre) {
     this.nombre = nombre;
   }
 }
 
 // Correcto:
-const producto = new Producto("Teclado");
+const alumno1 = new Alumno("Ana");
 
-console.log(producto.nombre);
-// Teclado</code></pre>
+console.log(alumno1.nombre);</code></pre>
+        </div>
+
+        <div class="caja caja-atencion">
+          <p><strong>⚠️ Atención</strong></p>
+          <p>
+            Aunque una declaración de clase se registra
+            al entrar en su ámbito, no puede utilizarse
+            antes de su inicialización. Intentarlo
+            produce un <code>ReferenceError</code>.
+          </p>
         </div>
 
         <!-- ======================================
@@ -1812,193 +2161,243 @@ console.log(producto.nombre);
 
         <h2 id="ejemplos">Ejemplos prácticos en aplicaciones web</h2>
 
-        <h3>Ejemplo 1. Gestión de alumnos</h3>
-
         <p>
-          Vamos a representar alumnos de un ciclo
-          formativo mediante una clase.
+          Las clases resultan especialmente útiles
+          cuando una aplicación necesita representar
+          entidades con datos y comportamientos
+          bien definidos.
         </p>
 
         <p>
-          Cada alumno tendrá un nombre, un ciclo
-          y una nota. Además, podrá consultar
-          si ha aprobado.
+          Vamos a ver tres situaciones habituales
+          en el desarrollo de aplicaciones web.
+        </p>
+
+        <h3>Ejemplo 1. Gestión de calificaciones</h3>
+
+        <p>
+          Imaginemos una aplicación que permite
+          registrar alumnos y calcular sus notas medias.
+          Podemos utilizar una clase <code>Alumno</code>
+          para representar a cada estudiante.
         </p>
 
         <div class="bloque-codigo">
           <div class="cabecera-codigo">
             <span class="lenguaje-codigo">JavaScript</span>
-            <button class="boton-copiar" type="button">Copiar código</button>
+            <button class="boton-copiar" type="button">
+              Copiar código
+            </button>
           </div>
           <pre><code>class Alumno {
-  constructor(nombre, ciclo, nota) {
+  constructor(nombre, notas) {
     this.nombre = nombre;
-    this.ciclo = ciclo;
-    this.nota = nota;
+    this.notas = notas;
+  }
+
+  calcularMedia() {
+    if (this.notas.length === 0) {
+      return 0;
+    }
+
+    const suma = this.notas.reduce(
+      (total, nota) => total + nota,
+      0
+    );
+
+    return suma / this.notas.length;
   }
 
   estaAprobado() {
-    return this.nota >= 5;
+    return this.calcularMedia() >= 5;
   }
 
   mostrarResultado() {
-    const estado = this.estaAprobado()
-      ? "Aprobado"
-      : "Suspenso";
+    console.log(`Alumno: ${this.nombre}`);
 
-    return `${this.nombre}: ${estado}`;
+    console.log(
+      `Media: ${this.calcularMedia().toFixed(2)}`
+    );
+
+    console.log(
+      this.estaAprobado() ? "Aprobado" : "Suspenso"
+    );
   }
 }
 
-const alumno1 = new Alumno("Ana", "DAW", 8);
-const alumno2 = new Alumno("Luis", "DAW", 4);
+const alumno1 = new Alumno(
+  "Lucía",
+  [7, 8, 6]
+);
 
-console.log(alumno1.mostrarResultado());
-// Ana: Aprobado
+const alumno2 = new Alumno(
+  "David",
+  [3, 4, 5]
+);
 
-console.log(alumno2.mostrarResultado());
-// Luis: Suspenso</code></pre>
+alumno1.mostrarResultado();
+alumno2.mostrarResultado();</code></pre>
         </div>
 
-        <h3>Ejemplo 2. Productos de una tienda online</h3>
+        <p>
+          Cada objeto contiene el nombre y las notas
+          de un alumno. Los métodos permiten calcular
+          la media, comprobar si ha aprobado
+          y mostrar su resultado.
+        </p>
 
         <p>
-          En una tienda online podemos representar
-          cada producto mediante una instancia
-          de una misma clase.
+          Esta organización facilita que una aplicación
+          pueda gestionar una colección de alumnos
+          sin repetir las mismas operaciones.
+        </p>
+
+        <h3>Ejemplo 2. Productos de una tienda en línea</h3>
+
+        <p>
+          Una tienda puede utilizar una clase
+          <code>Producto</code> para almacenar
+          los datos de sus artículos y calcular
+          su precio final.
         </p>
 
         <div class="bloque-codigo">
           <div class="cabecera-codigo">
             <span class="lenguaje-codigo">JavaScript</span>
-            <button class="boton-copiar" type="button">Copiar código</button>
+            <button class="boton-copiar" type="button">
+              Copiar código
+            </button>
           </div>
           <pre><code>class Producto {
-  constructor(nombre, precio, stock) {
+  constructor(nombre, precio, descuento = 0) {
     this.nombre = nombre;
     this.precio = precio;
-    this.stock = stock;
+    this.descuento = descuento;
   }
 
-  hayStock() {
-    return this.stock > 0;
+  calcularPrecioFinal() {
+    return this.precio * (1 - this.descuento / 100);
   }
 
-  calcularDescuento(porcentaje) {
-    return this.precio * (1 - porcentaje / 100);
-  }
+  mostrarFicha() {
+    console.log(`Producto: ${this.nombre}`);
 
-  vender(unidades) {
-    if (
-      !Number.isInteger(unidades) ||
-      unidades <= 0 ||
-      unidades > this.stock
-    ) {
-      return false;
-    }
-
-    this.stock -= unidades;
-    return true;
+    console.log(
+      `Precio final: ${this.calcularPrecioFinal().toFixed(2)} €`
+    );
   }
 }
 
-const teclado = new Producto("Teclado", 50, 10);
+const producto1 = new Producto(
+  "Monitor",
+  200,
+  10
+);
 
-console.log(teclado.hayStock());
-// true
+const producto2 = new Producto(
+  "Teclado",
+  40
+);
 
-console.log(teclado.calcularDescuento(20));
-// 40
-
-console.log(teclado.vender(3));
-// true
-
-console.log(teclado.stock);
-// 7</code></pre>
+producto1.mostrarFicha();
+producto2.mostrarFicha();</code></pre>
         </div>
 
         <p>
-          Este ejemplo muestra cómo una clase puede
-          reunir tanto los datos del producto
-          como las operaciones relacionadas con él.
+          En este ejemplo, el descuento es opcional.
+          Si no se indica, se utiliza el valor
+          predeterminado <code>0</code>.
         </p>
 
-        <div class="caja caja-ejemplo">
-          <span class="caja-titulo">💻 Ejemplo DAW</span>
-
-          <p>
-            En una aplicación real, las instancias
-            de <code>Producto</code> podrían crearse
-            a partir de los datos recibidos de una API.
-            Después, sus métodos permitirían
-            calcular descuentos o comprobar
-            la disponibilidad de los productos.
-          </p>
-        </div>
+        <p>
+          Así, una misma clase permite representar
+          productos con descuento y productos
+          que se venden a su precio original.
+        </p>
 
         <h3>Ejemplo 3. Reservas de habitaciones</h3>
 
         <p>
-          Vamos a crear una clase para representar
-          habitaciones de un hotel.
+          También podemos utilizar clases para representar
+          las habitaciones de un hotel y controlar
+          si están disponibles.
         </p>
 
         <div class="bloque-codigo">
           <div class="cabecera-codigo">
             <span class="lenguaje-codigo">JavaScript</span>
-            <button class="boton-copiar" type="button">Copiar código</button>
+            <button class="boton-copiar" type="button">
+              Copiar código
+            </button>
           </div>
           <pre><code>class Habitacion {
   constructor(numero, precioNoche) {
     this.numero = numero;
     this.precioNoche = precioNoche;
-    this.ocupada = false;
+    this.disponible = true;
   }
 
   reservar() {
-    if (this.ocupada) {
+    if (!this.disponible) {
+      console.log("La habitación ya está reservada");
       return false;
     }
 
-    this.ocupada = true;
+    this.disponible = false;
+    console.log("Reserva realizada correctamente");
     return true;
   }
 
   liberar() {
-    this.ocupada = false;
+    this.disponible = true;
+    console.log("Habitación disponible");
   }
 
-  calcularEstancia(noches) {
-    if (!Number.isInteger(noches) || noches <= 0) {
-      return null;
-    }
-
-    return noches * this.precioNoche;
+  calcularImporte(noches) {
+    return this.precioNoche * noches;
   }
 }
 
-const habitacion101 = new Habitacion(101, 75);
+const habitacion1 = new Habitacion(204, 75);
 
-console.log(habitacion101.reservar());
-// true
+habitacion1.reservar();
+habitacion1.reservar();
 
-console.log(habitacion101.reservar());
-// false
+console.log(
+  `Importe por 3 noches: ${habitacion1.calcularImporte(3)} €`
+);
 
-console.log(habitacion101.calcularEstancia(3));
-// 225
-
-habitacion101.liberar();
-
-console.log(habitacion101.ocupada);
-// false</code></pre>
+habitacion1.liberar();</code></pre>
         </div>
 
         <p>
-          Observa que los métodos no se limitan
-          a mostrar información: también pueden
-          <strong>modificar el estado de la instancia</strong>.
+          El objeto <code>habitacion1</code> mantiene
+          su propio estado mediante la propiedad
+          <code>disponible</code>.
         </p>
+
+        <p>
+          El método <code>reservar()</code> comprueba
+          ese estado antes de realizar una nueva reserva.
+          Si la habitación ya está ocupada,
+          devuelve <code>false</code>.
+        </p>
+
+        <div class="caja caja-ejemplo">
+          <p><strong>💻 Ejemplo DAW</strong></p>
+          <p>
+            En una aplicación web real, estas clases
+            podrían utilizarse para organizar los datos
+            recibidos del servidor, validar operaciones
+            y preparar la información que después
+            se mostrará en la interfaz.
+          </p>
+          <p>
+            Más adelante aprenderemos a combinar
+            estos objetos con el DOM, los eventos
+            y las peticiones asíncronas.
+          </p>
+        </div>
 
         <!-- ======================================
              10. RESUMEN
@@ -2007,161 +2406,221 @@ console.log(habitacion101.ocupada);
         <h2 id="resumen">Resumen del apartado</h2>
 
         <p>
-          En este apartado hemos aprendido
-          que las clases proporcionan una sintaxis
-          clara para definir y crear objetos
-          en JavaScript.
+          En este apartado hemos aprendido a declarar
+          clases y crear objetos a partir de ellas.
+          También hemos comprobado que las clases
+          permiten agrupar las propiedades iniciales
+          y los métodos de una manera organizada.
         </p>
 
         <ul>
           <li>
-            <code>class</code> permite declarar una clase.
+            Una <strong>clase</strong> define un modelo
+            para crear objetos.
           </li>
           <li>
-            <code>constructor</code> inicializa
-            las propiedades de cada instancia.
+            La palabra reservada <code>class</code>
+            permite declarar una clase.
           </li>
           <li>
-            <code>new</code> crea un nuevo objeto
-            a partir de la clase.
+            El método <code>constructor()</code>
+            inicializa las instancias.
           </li>
           <li>
-            <code>this</code> permite acceder a
-            las propiedades y métodos de la instancia.
+            El operador <code>new</code> crea
+            una nueva instancia.
           </li>
           <li>
-            Los métodos se declaran dentro
-            de la clase sin utilizar
-            <code>function</code>.
+            La palabra clave <code>this</code>
+            permite acceder a las propiedades
+            y métodos del objeto correspondiente.
           </li>
           <li>
             Los métodos ordinarios declarados
-            en el cuerpo de la clase se comparten
-            mediante el prototipo.
+            en una clase se comparten
+            mediante su prototipo.
           </li>
           <li>
-            Las clases facilitan la organización
-            del código, aunque JavaScript sigue
-            utilizando prototipos.
+            Las clases ofrecen una sintaxis
+            más estructurada para trabajar
+            con el sistema de objetos
+            basado en prototipos de JavaScript.
           </li>
         </ul>
 
         <div class="caja caja-importante">
-          <span class="caja-titulo">📌 Importante</span>
-
+          <p><strong>📌 Importante</strong></p>
           <p>
             La idea fundamental es distinguir entre
             <strong>clase</strong> e
-            <strong>instancia</strong>.
-          </p>
-
-          <p>
-            La clase define las características
-            comunes; cada instancia representa
-            un objeto concreto con sus propios datos.
+            <strong>instancia</strong>:
+            la clase define la estructura
+            y las operaciones; cada instancia
+            representa un objeto concreto
+            con sus propios datos.
           </p>
         </div>
 
         <!-- ======================================
-             11. PIENSA
+             11. ACTIVIDAD DE REFLEXIÓN
         ======================================= -->
 
-        <div class="actividad-reflexion">
+        <div class="actividad-reflexion" id="actividad">
 
           <h3>💭 Piensa</h3>
 
           <p>
-            Queremos desarrollar una aplicación
-            para gestionar vehículos de alquiler.
+            Una empresa de alquiler de vehículos
+            necesita gestionar su flota mediante
+            una aplicación web.
           </p>
 
           <p>
-            Cada vehículo debe almacenar su matrícula,
-            su modelo y su precio diario.
-            También debe poder calcular el coste
-            de un alquiler de varios días.
+            Cada vehículo debe almacenar
+            su matrícula, su marca,
+            el precio de alquiler por día
+            y si está disponible.
           </p>
 
           <p>
-            <strong>
-              ¿Cómo definirías una clase
-              <code>Vehiculo</code> que permita crear
-              varios vehículos y calcular el coste
-              de su alquiler?
-            </strong>
+            Reflexiona sobre las siguientes cuestiones:
+          </p>
+
+          <ol>
+            <li>
+              ¿Por qué sería conveniente utilizar
+              una clase en lugar de crear manualmente
+              cada objeto?
+            </li>
+            <li>
+              ¿Qué parámetros debería recibir
+              el constructor?
+            </li>
+            <li>
+              ¿Qué propiedades tendría cada instancia?
+            </li>
+            <li>
+              ¿Qué métodos permitirían alquilar,
+              devolver y calcular el importe
+              de un alquiler?
+            </li>
+            <li>
+              ¿Cómo crearías dos vehículos
+              con datos diferentes?
+            </li>
+          </ol>
+
+          <p>
+            Intenta diseñar la clase
+            <code>Vehiculo</code> antes de consultar
+            la solución.
           </p>
 
           <details class="solucion-desplegable">
 
-            <summary>Mostrar una posible solución</summary>
+            <summary>
+              Ver una posible solución
+            </summary>
 
-            <div class="bloque-codigo">
-              <div class="cabecera-codigo">
-                <span class="lenguaje-codigo">JavaScript</span>
-                <button class="boton-copiar" type="button">
-                  Copiar código
-                </button>
-              </div>
-              <pre><code>class Vehiculo {
-  constructor(matricula, modelo, precioDia) {
+            <div class="contenido-solucion">
+
+              <p>
+                Podemos crear una clase
+                <code>Vehiculo</code> que inicialice
+                los datos de cada vehículo
+                y contenga métodos para gestionar
+                su disponibilidad.
+              </p>
+
+              <div class="bloque-codigo">
+                <div class="cabecera-codigo">
+                  <span class="lenguaje-codigo">JavaScript</span>
+                  <button class="boton-copiar" type="button">
+                    Copiar código
+                  </button>
+                </div>
+                <pre><code>class Vehiculo {
+  constructor(matricula, marca, precioDia) {
     this.matricula = matricula;
-    this.modelo = modelo;
+    this.marca = marca;
     this.precioDia = precioDia;
+    this.disponible = true;
   }
 
-  calcularAlquiler(dias) {
-    if (!Number.isInteger(dias) || dias <= 0) {
-      return null;
+  alquilar() {
+    if (!this.disponible) {
+      console.log("El vehículo no está disponible");
+      return false;
     }
 
-    return this.precioDia * dias;
+    this.disponible = false;
+    console.log("Vehículo alquilado");
+    return true;
   }
 
-  mostrarInformacion() {
-    return `${this.modelo} (${this.matricula})`;
+  devolver() {
+    this.disponible = true;
+    console.log("Vehículo devuelto");
+  }
+
+  calcularImporte(dias) {
+    return this.precioDia * dias;
   }
 }
 
-const coche1 = new Vehiculo(
-  "1234-ABC",
-  "Seat León",
+const vehiculo1 = new Vehiculo(
+  "1234ABC",
+  "Toyota",
   45
 );
 
-const coche2 = new Vehiculo(
-  "5678-DEF",
-  "Toyota Corolla",
-  55
+const vehiculo2 = new Vehiculo(
+  "5678DEF",
+  "Seat",
+  38
 );
 
-console.log(coche1.mostrarInformacion());
-// Seat León (1234-ABC)
+vehiculo1.alquilar();
 
-console.log(coche1.calcularAlquiler(3));
-// 135
+console.log(
+  vehiculo1.calcularImporte(4)
+); // 180
 
-console.log(coche2.calcularAlquiler(3));
-// 165
+console.log(vehiculo1.disponible); // false
+console.log(vehiculo2.disponible); // true
 
-console.log(coche1 instanceof Vehiculo);
-// true</code></pre>
+vehiculo1.devolver();</code></pre>
+              </div>
+
+              <p>
+                La clase evita repetir la misma
+                estructura para cada vehículo.
+                Cada instancia almacena sus propios
+                datos y su disponibilidad.
+              </p>
+
+              <p>
+                El método <code>alquilar()</code>
+                comprueba si el vehículo está disponible,
+                <code>devolver()</code> modifica su estado
+                y <code>calcularImporte()</code>
+                calcula el coste según el número de días.
+              </p>
+
             </div>
-
-            <p>
-              Hemos definido una única clase,
-              pero podemos crear tantos vehículos
-              como necesitemos.
-            </p>
-
-            <p>
-              Cada instancia almacena sus propios
-              datos y utiliza los mismos métodos
-              definidos en la clase.
-            </p>
 
           </details>
 
         </div>
+
+        <p>
+          En el siguiente apartado profundizaremos
+          en las <strong>propiedades y los métodos
+          de las clases</strong>, ampliando
+          las posibilidades que ofrecen
+          para organizar el comportamiento
+          de los objetos.
+        </p>
 
       </section>
 
@@ -2169,29 +2628,32 @@ console.log(coche1 instanceof Vehiculo);
            NAVEGACIÓN INFERIOR
       ======================================= -->
 
-      <nav
-        class="navegacion-paginas"
-        aria-label="Navegación entre apartados"
-      >
+      <nav class="navegacion-paginas" aria-label="Navegación entre apartados">
 
         <a
           class="nav-pagina nav-anterior"
           href="../6-6/index.html"
         >
+
           <span class="nav-etiqueta">Anterior</span>
+
           <strong>
             ‹ 6.6 Funciones constructoras e instancias
           </strong>
+
         </a>
 
         <a
           class="nav-pagina nav-siguiente"
           href="../6-8/index.html"
         >
+
           <span class="nav-etiqueta">Siguiente</span>
+
           <strong>
             6.8 Propiedades y métodos de las clases ›
           </strong>
+
         </a>
 
       </nav>
@@ -2204,7 +2666,7 @@ console.log(coche1 instanceof Vehiculo);
 
     <aside class="indice-derecho">
 
-      <h2>En esta página</h2>
+      <h2>Contenidos del apartado</h2>
 
       <ul>
 
@@ -2240,7 +2702,7 @@ console.log(coche1 instanceof Vehiculo);
 
         <li>
           <a href="#metodos-clases">
-            Métodos en las clases
+            Métodos de las clases
           </a>
         </li>
 
@@ -2264,7 +2726,13 @@ console.log(coche1 instanceof Vehiculo);
 
         <li>
           <a href="#resumen">
-            Resumen
+            Resumen del apartado
+          </a>
+        </li>
+
+        <li>
+          <a href="#actividad">
+            Actividad de reflexión
           </a>
         </li>
 
@@ -2281,6 +2749,7 @@ console.log(coche1 instanceof Vehiculo);
   <footer class="footer">
 
     <p>
+
       Material elaborado por
       <strong>Eva Ballestero Cubeles</strong>
 
@@ -2303,21 +2772,20 @@ console.log(coche1 instanceof Vehiculo);
           alt="Licencia Creative Commons BY-NC-SA 4.0"
         >
       </a>
+
     </p>
 
   </footer>
 
   <!-- ======================================
-       JAVASCRIPT DE LA PÁGINA
+       JAVASCRIPT
   ======================================= -->
 
   <script src="../../../js/modulos.js"></script>
 
   <script>
 
-    /* ======================================
-       MENÚ SUPERIOR DE MÓDULOS
-    ======================================= */
+    /* MENÚ SUPERIOR DE MÓDULOS */
 
     const menuModulos =
       document.getElementById("menuModulos");
@@ -2355,9 +2823,7 @@ console.log(coche1 instanceof Vehiculo);
 
     }
 
-    /* ======================================
-       MODO OSCURO
-    ======================================= */
+    /* MODO OSCURO */
 
     const temaGuardado =
       localStorage.getItem("tema");
@@ -2386,9 +2852,7 @@ console.log(coche1 instanceof Vehiculo);
 
     });
 
-    /* ======================================
-       MENÚS DESPLEGABLES
-    ======================================= */
+    /* MENÚS DESPLEGABLES */
 
     const botonesDesplegar =
       document.querySelectorAll(".boton-desplegar");
@@ -2436,9 +2900,7 @@ console.log(coche1 instanceof Vehiculo);
 
     });
 
-    /* ======================================
-       COPIAR CÓDIGO
-    ======================================= */
+    /* COPIAR CÓDIGO */
 
     const botonesCopiar =
       document.querySelectorAll(".boton-copiar");
@@ -2474,8 +2936,8 @@ console.log(coche1 instanceof Vehiculo);
 
         } catch (error) {
 
-          // Alternativa cuando Clipboard API
-          // no está disponible.
+          // Alternativa para contextos donde
+          // la API Clipboard no esté disponible.
 
           const seleccion =
             window.getSelection();
