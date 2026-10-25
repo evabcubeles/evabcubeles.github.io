@@ -532,47 +532,54 @@ body.modo-oscuro .miga-actual {
       font-size: 15px;
     }
 
-    /* ==========================================
-       NAVEGACIÓN INFERIOR
-    ========================================== */
-    .navegacion-paginas {
-      display: flex;
-      justify-content: space-between;
-      gap: 18px;
-      margin-top: 55px;
-    }
 
-    .nav-pagina {
-      flex: 1;
-      display: flex;
-      flex-direction: column;
-      gap: 6px;
-      padding: 17px 20px;
-      border: 1px solid var(--borde, #e2e8f0);
-      border-radius: 10px;
-      text-decoration: none;
-      color: var(--texto, #334155);
-      transition: border-color 0.2s, transform 0.2s;
-    }
+/* ==========================================
+   NAVEGACIÓN ANTERIOR / SIGUIENTE
+========================================== */
+.navegacion-paginas {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 20px;
+  margin-top: 50px;
+}
 
-    .nav-pagina:hover {
-      border-color: #22c55e;
-      transform: translateY(-2px);
-    }
+.nav-pagina {
+  min-height: 100px;
+  padding: 18px 20px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  border: 1px solid var(--borde);
+  border-radius: 8px;
+  text-decoration: none;
+  background-color: var(--fondo-tarjeta);
+}
 
-    .nav-siguiente {
-      text-align: right;
-    }
+.nav-anterior {
+  align-items: flex-start;
+  text-align: left;
+}
 
-    .nav-etiqueta {
-      font-size: 12px;
-      color: var(--texto-secundario, #64748b);
-    }
+.nav-siguiente {
+  align-items: flex-end;
+  text-align: right;
+}
 
-    .nav-pagina strong {
-      font-size: 14px;
-      line-height: 1.5;
-    }
+.nav-etiqueta {
+  margin-bottom: 5px;
+  color: var(--texto-secundario);
+  font-size: 14px;
+}
+
+.nav-pagina strong {
+  color: var(--verde-principal);
+  font-size: 16px;
+  line-height: 1.4;
+}
+
+.nav-pagina:hover {
+  border-color: var(--verde-principal);
+}
 
     /* ==========================================
    COLUMNA DERECHA
