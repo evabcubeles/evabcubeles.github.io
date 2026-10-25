@@ -1,0 +1,2982 @@
+
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="6.11 - Organización de programas mediante objetos y clases en JavaScript.">
+  <title>6.11 - Organización de programas mediante objetos y clases</title>
+
+  <link rel="icon" type="image/png" href="../../../img/favicon.png?v=5">
+  <link rel="stylesheet" href="../../../css/estilos.css">
+
+  <style>
+    /* ==========================================
+       ESTRUCTURA GENERAL
+    ========================================== */
+    .pagina-ut {
+      display: grid;
+      grid-template-columns: 280px minmax(0, 1fr) 260px;
+      min-height: calc(100vh - 68px);
+      align-items: start;
+    }
+
+    /* ==========================================
+       MENÚ LATERAL IZQUIERDO
+    ========================================== */
+    .sidebar {
+      position: sticky;
+      top: 68px;
+      height: calc(100vh - 68px);
+      overflow-y: auto;
+      padding: 12px 10px 30px;
+      border-right: 1px solid var(--borde, #e2e8f0);
+      background: var(--fondo-tarjeta, #ffffff);
+      scrollbar-width: thin;
+    }
+
+    .sidebar a {
+      text-decoration: none;
+    }
+
+    .sidebar-modulo {
+      display: block;
+      padding: 12px;
+      margin-bottom: 12px;
+      border-radius: 9px;
+      font-size: 14px;
+      font-weight: 700;
+      color: var(--verde-principal, #15803d);
+      background: rgba(34, 197, 94, 0.09);
+    }
+
+    .sidebar-ut-cerrada {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 8px;
+      padding: 11px 10px;
+      border-radius: 8px;
+      font-size: 13px;
+      line-height: 1.45;
+      color: var(--texto, #334155);
+      transition: background 0.2s;
+    }
+
+    .sidebar-ut-cerrada:hover,
+    .menu-cabecera:hover {
+      background: rgba(148, 163, 184, 0.12);
+    }
+
+    .menu-desplegable {
+      margin: 4px 0;
+    }
+
+    .menu-cabecera {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 5px;
+      border-radius: 8px;
+      transition: background 0.2s;
+    }
+
+    .menu-cabecera-activa {
+      background: rgba(34, 197, 94, 0.11);
+    }
+
+    .menu-titulo {
+      flex: 1;
+      min-width: 0;
+      display: block;
+      padding: 10px;
+      font-size: 13px;
+      line-height: 1.45;
+      color: var(--texto, #334155);
+    }
+
+    .menu-cabecera-activa > .menu-titulo {
+      font-weight: 700;
+      color: var(--verde-principal, #15803d);
+    }
+
+    .boton-desplegar {
+      flex: 0 0 29px;
+      width: 29px;
+      height: 32px;
+      margin-right: 3px;
+      border: none;
+      border-radius: 6px;
+      background: transparent;
+      color: var(--texto, #334155);
+      cursor: pointer;
+      font-size: 18px;
+    }
+
+    .boton-desplegar:hover {
+      background: rgba(148, 163, 184, 0.18);
+    }
+
+    .submenu {
+      display: none;
+      padding: 3px 0 5px 12px;
+    }
+
+    .submenu-abierto {
+      display: block;
+    }
+
+    .menu-apartado {
+      margin: 2px 0;
+    }
+
+    .menu-apartado .menu-titulo {
+      padding: 9px 8px;
+      font-size: 12.5px;
+    }
+
+    .submenu-apartados {
+      margin-left: 10px;
+      padding-left: 9px;
+      border-left: 2px solid rgba(148, 163, 184, 0.24);
+    }
+
+    .submenu-apartados a {
+      display: block;
+      padding: 7px 8px;
+      border-radius: 6px;
+      font-size: 12px;
+      line-height: 1.45;
+      color: var(--texto-secundario, #64748b);
+    }
+
+    .submenu-apartados a:hover {
+      color: var(--verde-principal, #15803d);
+      background: rgba(34, 197, 94, 0.08);
+    }
+
+    .enlace-apartado-simple {
+      display: block;
+      padding: 10px;
+      border-radius: 7px;
+      font-size: 12.5px;
+      color: var(--texto, #334155);
+    }
+
+    .enlace-apartado-simple:hover {
+      background: rgba(148, 163, 184, 0.12);
+    }
+
+    /* ==========================================
+       CONTENIDO CENTRAL
+    ========================================== */
+    .contenido-ut {
+      width: 100%;
+      max-width: 1150px;
+      min-width: 0;
+      margin: 0 auto;
+      padding: 28px 34px 70px;
+    }
+
+    .migas {
+      display: flex;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 9px;
+      margin-bottom: 25px;
+      font-size: 13px;
+    }
+
+    .migas a {
+      text-decoration: none;
+      color: var(--verde-principal, #15803d);
+    }
+
+    .miga-separador {
+      color: #94a3b8;
+    }
+
+    .miga-actual {
+      color: var(--texto-secundario, #64748b);
+    }
+
+    .contenido-ut > h1 {
+      margin: 0 0 27px;
+      font-size: clamp(26px, 3vw, 35px);
+      line-height: 1.25;
+      color: var(--texto, #0f172a);
+    }
+
+    .apartado-ut {
+      font-size: 17px;
+      line-height: 1.8;
+      color: var(--texto, #334155);
+    }
+
+    .apartado-ut h2 {
+      margin: 49px 0 17px;
+      padding-bottom: 9px;
+      border-bottom: 2px solid rgba(34, 197, 94, 0.20);
+      font-size: 28px;
+      line-height: 1.3;
+      color: var(--texto, #0f172a);
+      scroll-margin-top: 90px;
+    }
+
+    .apartado-ut h3 {
+      margin: 30px 0 13px;
+      font-size: 21px;
+      line-height: 1.35;
+      color: var(--texto, #0f172a);
+    }
+
+    .apartado-ut p {
+      margin: 0 0 17px;
+    }
+
+    .apartado-ut ul,
+    .apartado-ut ol {
+      margin: 10px 0 23px;
+      padding-left: 28px;
+    }
+
+    .apartado-ut li {
+      margin-bottom: 9px;
+    }
+
+    .apartado-ut code:not(pre code) {
+      padding: 2px 6px;
+      border-radius: 5px;
+      background: rgba(148, 163, 184, 0.14);
+      font-size: 0.88em;
+      overflow-wrap: anywhere;
+    }
+
+    /* ==========================================
+       CAJAS DIDÁCTICAS
+    ========================================== */
+    .caja {
+      margin: 25px 0;
+      padding: 20px 22px;
+      border-left: 5px solid;
+      border-radius: 9px;
+      font-size: 16px;
+      line-height: 1.75;
+    }
+
+    .caja p:last-child,
+    .caja ul:last-child {
+      margin-bottom: 0;
+    }
+
+    .caja-titulo {
+      display: block;
+      margin-bottom: 10px;
+      font-weight: 750;
+      font-size: 16px;
+    }
+
+    .caja-importante {
+      border-color: #3b82f6;
+      background: rgba(59, 130, 246, 0.08);
+    }
+
+    .caja-atencion {
+      border-color: #f59e0b;
+      background: rgba(245, 158, 11, 0.09);
+    }
+
+    .caja-ejemplo {
+      border-color: #22c55e;
+      background: rgba(34, 197, 94, 0.08);
+    }
+
+    .caja-curiosidad {
+      border-color: #a855f7;
+      background: rgba(168, 85, 247, 0.08);
+    }
+
+    /* ==========================================
+       BLOQUES DE CÓDIGO
+    ========================================== */
+    .bloque-codigo {
+      margin: 23px 0;
+      overflow: hidden;
+      border: 1px solid #334155;
+      border-radius: 10px;
+      background: #0f172a;
+    }
+
+    .cabecera-codigo {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 10px;
+      padding: 10px 15px;
+      background: #1e293b;
+      border-bottom: 1px solid #334155;
+    }
+
+    .lenguaje-codigo {
+      font-size: 12px;
+      font-weight: 700;
+      letter-spacing: 0.3px;
+      color: #cbd5e1;
+    }
+
+    .boton-copiar {
+      border: 1px solid #475569;
+      border-radius: 6px;
+      padding: 6px 11px;
+      background: #334155;
+      color: #f8fafc;
+      font-size: 12px;
+      cursor: pointer;
+    }
+
+    .boton-copiar:hover {
+      background: #475569;
+    }
+
+    .bloque-codigo pre {
+      margin: 0;
+      padding: 20px;
+      overflow-x: auto;
+      white-space: pre;
+      font-family: Consolas, "Courier New", monospace;
+      font-size: 13.5px;
+      line-height: 1.65;
+      color: #e2e8f0;
+      tab-size: 2;
+    }
+
+    .bloque-codigo pre code {
+      font: inherit;
+      color: inherit;
+      background: transparent;
+    }
+
+    /* ==========================================
+       TABLAS
+    ========================================== */
+    .tabla-responsive {
+      margin: 24px 0;
+      overflow-x: auto;
+      border-radius: 9px;
+      border: 1px solid var(--borde, #e2e8f0);
+    }
+
+    .tabla-apuntes {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 15px;
+      line-height: 1.55;
+    }
+
+    .tabla-apuntes th,
+    .tabla-apuntes td {
+      padding: 13px 15px;
+      text-align: left;
+      vertical-align: top;
+      border-bottom: 1px solid var(--borde, #e2e8f0);
+    }
+
+    .tabla-apuntes th {
+      background: rgba(34, 197, 94, 0.11);
+      font-weight: 700;
+    }
+
+    .tabla-apuntes tr:last-child td {
+      border-bottom: none;
+    }
+
+    /* ==========================================
+       ESQUEMAS VISUALES
+    ========================================== */
+    .esquema-web {
+      margin: 26px 0;
+      padding: 24px 18px;
+      border: 1px solid var(--borde, #e2e8f0);
+      border-radius: 11px;
+      background: rgba(148, 163, 184, 0.045);
+    }
+
+    .esquema-fila {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      align-items: stretch;
+      gap: 14px;
+      margin: 12px 0;
+    }
+
+    .esquema-caja {
+      flex: 1 1 160px;
+      max-width: 250px;
+      padding: 15px;
+      border: 1px solid rgba(34, 197, 94, 0.30);
+      border-radius: 9px;
+      background: rgba(34, 197, 94, 0.08);
+      text-align: center;
+      font-size: 14px;
+      line-height: 1.5;
+    }
+
+    .esquema-caja strong {
+      display: block;
+      margin-bottom: 6px;
+    }
+
+    .esquema-flecha {
+      text-align: center;
+      color: var(--verde-principal, #15803d);
+      font-size: 24px;
+      font-weight: bold;
+    }
+
+    /* ==========================================
+       ACTIVIDAD DE REFLEXIÓN
+    ========================================== */
+    .actividad-reflexion {
+      margin: 32px 0;
+      padding: 24px;
+      border: 1px solid rgba(168, 85, 247, 0.3);
+      border-radius: 12px;
+      background: rgba(168, 85, 247, 0.055);
+    }
+
+    .actividad-reflexion h3 {
+      margin-top: 0;
+    }
+
+    .solucion-desplegable {
+      margin-top: 20px;
+      border: 1px solid rgba(168, 85, 247, 0.25);
+      border-radius: 9px;
+      overflow: hidden;
+    }
+
+    .solucion-desplegable summary {
+      padding: 13px 16px;
+      cursor: pointer;
+      font-weight: 700;
+      font-size: 15px;
+    }
+
+    .contenido-solucion {
+      padding: 18px;
+      border-top: 1px solid rgba(168, 85, 247, 0.20);
+      font-size: 15px;
+    }
+
+    /* ==========================================
+       NAVEGACIÓN INFERIOR
+    ========================================== */
+    .navegacion-paginas {
+      display: flex;
+      justify-content: space-between;
+      gap: 18px;
+      margin-top: 55px;
+    }
+
+    .nav-pagina {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+      padding: 17px 20px;
+      border: 1px solid var(--borde, #e2e8f0);
+      border-radius: 10px;
+      text-decoration: none;
+      color: var(--texto, #334155);
+      transition: border-color 0.2s, transform 0.2s;
+    }
+
+    .nav-pagina:hover {
+      border-color: #22c55e;
+      transform: translateY(-2px);
+    }
+
+    .nav-siguiente {
+      text-align: right;
+    }
+
+    .nav-etiqueta {
+      font-size: 12px;
+      color: var(--texto-secundario, #64748b);
+    }
+
+    .nav-pagina strong {
+      font-size: 14px;
+      line-height: 1.5;
+    }
+
+    /* ==========================================
+       ÍNDICE DERECHO
+    ========================================== */
+    .indice-derecho {
+      position: sticky;
+      top: 68px;
+      height: calc(100vh - 68px);
+      overflow-y: auto;
+      padding: 26px 17px;
+      border-left: 1px solid var(--borde, #e2e8f0);
+      scrollbar-width: thin;
+    }
+
+    .indice-derecho h2 {
+      margin: 0 0 17px;
+      font-size: 14px;
+      color: var(--texto, #334155);
+    }
+
+    .indice-derecho ul {
+      margin: 0;
+      padding: 0;
+      list-style: none;
+    }
+
+    .indice-derecho li {
+      margin-bottom: 4px;
+    }
+
+    .indice-derecho a {
+      display: block;
+      padding: 7px 9px;
+      border-left: 2px solid transparent;
+      border-radius: 4px;
+      text-decoration: none;
+      color: var(--texto-secundario, #64748b);
+      font-size: 12.5px;
+      line-height: 1.45;
+    }
+
+    .indice-derecho a:hover {
+      color: var(--verde-principal, #15803d);
+      border-left-color: #22c55e;
+      background: rgba(34, 197, 94, 0.07);
+    }
+
+    /* ==========================================
+       ADAPTACIÓN RESPONSIVE
+    ========================================== */
+    @media (max-width: 1100px) {
+      .pagina-ut {
+        grid-template-columns: 260px minmax(0, 1fr);
+      }
+
+      .indice-derecho {
+        display: none;
+      }
+    }
+
+    @media (max-width: 760px) {
+      .pagina-ut {
+        display: block;
+      }
+
+      .sidebar {
+        position: static;
+        height: auto;
+        max-height: 340px;
+        border-right: none;
+        border-bottom: 1px solid var(--borde, #e2e8f0);
+      }
+
+      .contenido-ut {
+        padding: 24px 18px 55px;
+      }
+
+      .apartado-ut {
+        font-size: 16px;
+      }
+
+      .apartado-ut h2 {
+        font-size: 24px;
+      }
+
+      .apartado-ut h3 {
+        font-size: 19px;
+      }
+
+      .navegacion-paginas {
+        flex-direction: column;
+      }
+
+      .nav-siguiente {
+        text-align: left;
+      }
+
+      .bloque-codigo pre {
+        font-size: 12.5px;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+<!-- ======================================
+     CABECERA SUPERIOR
+======================================= -->
+<header class="navbar">
+  <a class="inicio" href="../../../index.html">
+    <img
+      class="icono-profesora"
+      src="../../../img/profesora-castana.png?v=2"
+      alt="Profesora"
+    >
+    <span>Inicio</span>
+  </a>
+
+  <nav class="menu-modulos" id="menuModulos"></nav>
+
+  <button
+    class="boton-tema"
+    id="botonTema"
+    type="button"
+    aria-label="Cambiar tema"
+  >☀️</button>
+</header>
+
+<div class="pagina-ut">
+
+<!-- ======================================
+     MENÚ LATERAL IZQUIERDO
+======================================= -->
+<aside class="sidebar">
+
+  <a class="sidebar-modulo" href="../../index.html">
+    Desarrollo web en entorno cliente
+  </a>
+
+  <a class="sidebar-ut-cerrada" href="../../ut1/index.html">
+    <span>UT1 - Introducción al desarrollo web en entorno cliente</span>
+    <span>›</span>
+  </a>
+
+  <a class="sidebar-ut-cerrada" href="../../ut2/index.html">
+    <span>UT2 - Fundamentos de JavaScript: variables, tipos y operadores</span>
+    <span>›</span>
+  </a>
+
+  <a class="sidebar-ut-cerrada" href="../../ut3/index.html">
+    <span>UT3 - Estructuras de control en JavaScript</span>
+    <span>›</span>
+  </a>
+
+  <a class="sidebar-ut-cerrada" href="../../ut4/index.html">
+    <span>UT4 - Arrays y estructuras de datos en JavaScript</span>
+    <span>›</span>
+  </a>
+
+  <a class="sidebar-ut-cerrada" href="../../ut5/index.html">
+    <span>UT5 - Funciones en JavaScript</span>
+    <span>›</span>
+  </a>
+
+  <!-- UT6 DESPLEGADA -->
+  <div class="menu-desplegable">
+
+    <div class="menu-cabecera menu-cabecera-activa">
+      <a class="menu-titulo" href="../index.html">
+        UT6 - Objetos y Programación Orientada a Objetos en JavaScript
+      </a>
+      <button
+        class="boton-desplegar"
+        type="button"
+        data-target="submenu-ut6"
+        aria-expanded="true"
+        aria-label="Mostrar u ocultar UT6"
+      >⌄</button>
+    </div>
+
+    <div class="submenu submenu-abierto" id="submenu-ut6">
+
+      <!-- 6.1 -->
+      <div class="menu-desplegable menu-apartado">
+        <div class="menu-cabecera">
+          <a class="menu-titulo" href="../6-1/index.html">
+            6.1 Introducción a los objetos en JavaScript
+          </a>
+          <button class="boton-desplegar" type="button"
+            data-target="submenu-6-1" aria-expanded="false"
+            aria-label="Mostrar u ocultar los subapartados del 6.1">›</button>
+        </div>
+        <div class="submenu submenu-apartados" id="submenu-6-1">
+          <a href="../6-1/index.html#que-es">Qué es un objeto</a>
+          <a href="../6-1/index.html#objetos-vida-real">Los objetos en la vida real</a>
+          <a href="../6-1/index.html#estado-comportamiento">Estado y comportamiento</a>
+          <a href="../6-1/index.html#objetos-javascript">Objetos en JavaScript</a>
+          <a href="../6-1/index.html#primitivos-objetos">Valores primitivos y objetos</a>
+          <a href="../6-1/index.html#primer-ejemplo">Primer ejemplo de objeto</a>
+        </div>
+      </div>
+
+      <!-- 6.2 -->
+      <div class="menu-desplegable menu-apartado">
+        <div class="menu-cabecera">
+          <a class="menu-titulo" href="../6-2/index.html">
+            6.2 Propiedades y métodos de los objetos
+          </a>
+          <button class="boton-desplegar" type="button"
+            data-target="submenu-6-2" aria-expanded="false"
+            aria-label="Mostrar u ocultar los subapartados del 6.2">›</button>
+        </div>
+        <div class="submenu submenu-apartados" id="submenu-6-2">
+          <a href="../6-2/index.html#propiedades">Qué son las propiedades</a>
+          <a href="../6-2/index.html#acceso-punto">Acceso mediante el punto</a>
+          <a href="../6-2/index.html#acceso-corchetes">Acceso mediante corchetes</a>
+          <a href="../6-2/index.html#modificar">Modificación de propiedades</a>
+          <a href="../6-2/index.html#metodos">Qué son los métodos</a>
+          <a href="../6-2/index.html#invocar-metodos">Invocación de métodos</a>
+          <a href="../6-2/index.html#ejemplos">Ejemplos prácticos</a>
+        </div>
+      </div>
+
+      <!-- 6.3 -->
+      <div class="menu-desplegable menu-apartado">
+        <div class="menu-cabecera">
+          <a class="menu-titulo" href="../6-3/index.html">
+            6.3 Creación y manipulación de objetos
+          </a>
+          <button class="boton-desplegar" type="button"
+            data-target="submenu-6-3" aria-expanded="false"
+            aria-label="Mostrar u ocultar los subapartados del 6.3">›</button>
+        </div>
+        <div class="submenu submenu-apartados" id="submenu-6-3">
+          <a href="../6-3/index.html#literales">Objetos literales</a>
+          <a href="../6-3/index.html#object">Creación con Object</a>
+          <a href="../6-3/index.html#anadir">Añadir propiedades</a>
+          <a href="../6-3/index.html#eliminar">Eliminar propiedades</a>
+          <a href="../6-3/index.html#comprobar">Comprobar propiedades</a>
+          <a href="../6-3/index.html#referencias">Referencias a objetos</a>
+          <a href="../6-3/index.html#ejemplos">Ejemplos prácticos</a>
+        </div>
+      </div>
+
+      <!-- 6.4 -->
+      <div class="menu-desplegable menu-apartado">
+        <div class="menu-cabecera">
+          <a class="menu-titulo" href="../6-4/index.html">
+            6.4 Recorrido de propiedades de objetos
+          </a>
+          <button class="boton-desplegar" type="button"
+            data-target="submenu-6-4" aria-expanded="false"
+            aria-label="Mostrar u ocultar los subapartados del 6.4">›</button>
+        </div>
+        <div class="submenu submenu-apartados" id="submenu-6-4">
+          <a href="../6-4/index.html#recorrer">Recorrer propiedades</a>
+          <a href="../6-4/index.html#for-in">Bucle for...in</a>
+          <a href="../6-4/index.html#acceso-dinamico">Acceso dinámico</a>
+          <a href="../6-4/index.html#propiedades-propias">Propiedades propias</a>
+          <a href="../6-4/index.html#object-keys">Object.keys()</a>
+          <a href="../6-4/index.html#object-values">Object.values()</a>
+          <a href="../6-4/index.html#object-entries">Object.entries()</a>
+          <a href="../6-4/index.html#ejemplos">Ejemplos prácticos</a>
+        </div>
+      </div>
+
+      <!-- 6.5 -->
+      <div class="menu-desplegable menu-apartado">
+        <div class="menu-cabecera">
+          <a class="menu-titulo" href="../6-5/index.html">
+            6.5 Métodos y palabra clave this
+          </a>
+          <button class="boton-desplegar" type="button"
+            data-target="submenu-6-5" aria-expanded="false"
+            aria-label="Mostrar u ocultar los subapartados del 6.5">›</button>
+        </div>
+        <div class="submenu submenu-apartados" id="submenu-6-5">
+          <a href="../6-5/index.html#metodos-objetos">Métodos de objetos</a>
+          <a href="../6-5/index.html#definir-metodos">Definición de métodos</a>
+          <a href="../6-5/index.html#invocar-metodos">Invocación de métodos</a>
+          <a href="../6-5/index.html#parametros-retorno">Parámetros y retorno</a>
+          <a href="../6-5/index.html#palabra-this">La palabra this</a>
+          <a href="../6-5/index.html#funcionamiento-this">Funcionamiento de this</a>
+          <a href="../6-5/index.html#errores-this">Errores con this</a>
+          <a href="../6-5/index.html#ejemplos">Ejemplos prácticos</a>
+        </div>
+      </div>
+
+      <!-- 6.6 -->
+      <div class="menu-desplegable menu-apartado">
+        <div class="menu-cabecera">
+          <a class="menu-titulo" href="../6-6/index.html">
+            6.6 Funciones constructoras y creación de instancias
+          </a>
+          <button class="boton-desplegar" type="button"
+            data-target="submenu-6-6" aria-expanded="false"
+            aria-label="Mostrar u ocultar los subapartados del 6.6">›</button>
+        </div>
+        <div class="submenu submenu-apartados" id="submenu-6-6">
+          <a href="../6-6/index.html#necesidad">Necesidad de constructores</a>
+          <a href="../6-6/index.html#funciones-constructoras">Funciones constructoras</a>
+          <a href="../6-6/index.html#operador-new">Operador new</a>
+          <a href="../6-6/index.html#instancias">Creación de instancias</a>
+          <a href="../6-6/index.html#this-constructor">this en el constructor</a>
+          <a href="../6-6/index.html#metodos-instancias">Métodos de instancias</a>
+          <a href="../6-6/index.html#instanceof">Operador instanceof</a>
+          <a href="../6-6/index.html#errores">Errores habituales</a>
+          <a href="../6-6/index.html#ejemplos">Ejemplos prácticos</a>
+        </div>
+      </div>
+
+      <!-- 6.7 -->
+      <div class="menu-desplegable menu-apartado">
+        <div class="menu-cabecera">
+          <a class="menu-titulo" href="../6-7/index.html">
+            6.7 Introducción a las clases en JavaScript
+          </a>
+          <button class="boton-desplegar" type="button"
+            data-target="submenu-6-7" aria-expanded="false"
+            aria-label="Mostrar u ocultar los subapartados del 6.7">›</button>
+        </div>
+        <div class="submenu submenu-apartados" id="submenu-6-7">
+          <a href="../6-7/index.html#concepto-clase">Concepto de clase</a>
+          <a href="../6-7/index.html#sintaxis-class">Sintaxis class</a>
+          <a href="../6-7/index.html#metodo-constructor">Método constructor</a>
+          <a href="../6-7/index.html#crear-instancias">Creación de instancias</a>
+          <a href="../6-7/index.html#this-clases">this en las clases</a>
+          <a href="../6-7/index.html#metodos-clases">Métodos de clases</a>
+          <a href="../6-7/index.html#comparacion">Comparación con constructores</a>
+          <a href="../6-7/index.html#errores">Errores habituales</a>
+          <a href="../6-7/index.html#ejemplos">Ejemplos prácticos</a>
+          <a href="../6-7/index.html#resumen">Resumen del apartado</a>
+        </div>
+      </div>
+
+      <!-- 6.8 -->
+      <div class="menu-desplegable menu-apartado">
+        <div class="menu-cabecera">
+          <a class="menu-titulo" href="../6-8/index.html">
+            6.8 Propiedades y métodos de las clases
+          </a>
+          <button class="boton-desplegar" type="button"
+            data-target="submenu-6-8" aria-expanded="false"
+            aria-label="Mostrar u ocultar los subapartados del 6.8">›</button>
+        </div>
+        <div class="submenu submenu-apartados" id="submenu-6-8">
+          <a href="../6-8/index.html#propiedades-instancia">Propiedades de instancia</a>
+          <a href="../6-8/index.html#declaracion-propiedades">Declaración de propiedades</a>
+          <a href="../6-8/index.html#acceso-modificacion">Acceso y modificación</a>
+          <a href="../6-8/index.html#metodos-instancia">Métodos de instancia</a>
+          <a href="../6-8/index.html#propiedades-metodos">Propiedades y métodos</a>
+          <a href="../6-8/index.html#modificar-estado">Modificación del estado</a>
+          <a href="../6-8/index.html#metodos-estaticos">Métodos estáticos</a>
+          <a href="../6-8/index.html#errores">Errores habituales</a>
+          <a href="../6-8/index.html#ejemplos">Ejemplos prácticos</a>
+          <a href="../6-8/index.html#resumen">Resumen del apartado</a>
+          <a href="../6-8/index.html#piensa">Actividad de reflexión</a>
+        </div>
+      </div>
+
+      <!-- 6.9 -->
+      <div class="menu-desplegable menu-apartado">
+        <div class="menu-cabecera">
+          <a class="menu-titulo" href="../6-9/index.html">
+            6.9 Principios de la Programación Orientada a Objetos
+          </a>
+          <button class="boton-desplegar" type="button"
+            data-target="submenu-6-9" aria-expanded="false"
+            aria-label="Mostrar u ocultar los subapartados del 6.9">›</button>
+        </div>
+        <div class="submenu submenu-apartados" id="submenu-6-9">
+          <a href="../6-9/index.html#principios-poo">Principios de la POO</a>
+          <a href="../6-9/index.html#abstraccion">Abstracción</a>
+          <a href="../6-9/index.html#encapsulacion">Encapsulación</a>
+          <a href="../6-9/index.html#privacidad">Propiedades privadas</a>
+          <a href="../6-9/index.html#herencia">Herencia</a>
+          <a href="../6-9/index.html#polimorfismo">Polimorfismo</a>
+          <a href="../6-9/index.html#relacion-principios">Relación entre los principios</a>
+          <a href="../6-9/index.html#ventajas">Ventajas de la POO</a>
+          <a href="../6-9/index.html#errores">Errores habituales</a>
+          <a href="../6-9/index.html#ejemplos">Ejemplos prácticos</a>
+          <a href="../6-9/index.html#resumen">Resumen del apartado</a>
+          <a href="../6-9/index.html#piensa">Actividad de reflexión</a>
+        </div>
+      </div>
+
+      <!-- 6.10 -->
+      <div class="menu-desplegable menu-apartado">
+        <div class="menu-cabecera">
+          <a class="menu-titulo" href="../6-10/index.html">
+            6.10 Herencia básica entre clases
+          </a>
+          <button class="boton-desplegar" type="button"
+            data-target="submenu-6-10" aria-expanded="false"
+            aria-label="Mostrar u ocultar los subapartados del 6.10">›</button>
+        </div>
+        <div class="submenu submenu-apartados" id="submenu-6-10">
+          <a href="../6-10/index.html#concepto-herencia">Qué es la herencia entre clases</a>
+          <a href="../6-10/index.html#clase-base-derivada">Clase base y clase derivada</a>
+          <a href="../6-10/index.html#extends">La palabra clave extends</a>
+          <a href="../6-10/index.html#metodos-heredados">Propiedades y métodos heredados</a>
+          <a href="../6-10/index.html#constructores-super">Constructores y super()</a>
+          <a href="../6-10/index.html#redefinicion">Redefinición de métodos</a>
+          <a href="../6-10/index.html#super-metodos">Llamadas a métodos con super</a>
+          <a href="../6-10/index.html#instanceof">Herencia e instanceof</a>
+          <a href="../6-10/index.html#relaciones-herencia">Cuándo utilizar herencia</a>
+          <a href="../6-10/index.html#errores">Errores habituales</a>
+          <a href="../6-10/index.html#ejemplos">Ejemplos prácticos</a>
+          <a href="../6-10/index.html#resumen">Resumen del apartado</a>
+          <a href="../6-10/index.html#piensa">Actividad de reflexión</a>
+        </div>
+      </div>
+
+      <!-- 6.11 ACTIVO -->
+      <div class="menu-desplegable menu-apartado">
+        <div class="menu-cabecera menu-cabecera-activa">
+          <a class="menu-titulo" href="../6-11/index.html">
+            6.11 Organización de programas mediante objetos y clases
+          </a>
+          <button
+            class="boton-desplegar"
+            type="button"
+            data-target="submenu-6-11"
+            aria-expanded="true"
+            aria-label="Mostrar u ocultar los subapartados del 6.11"
+          >⌄</button>
+        </div>
+
+        <div class="submenu submenu-apartados submenu-abierto" id="submenu-6-11">
+          <a href="#necesidad-organizar">Necesidad de organizar el código</a>
+          <a href="#responsabilidades">Responsabilidades de las clases</a>
+          <a href="#identificar-clases">Identificar objetos y clases</a>
+          <a href="#relaciones-objetos">Relaciones entre objetos</a>
+          <a href="#composicion">Composición de objetos</a>
+          <a href="#colecciones">Colecciones de objetos</a>
+          <a href="#separacion">Separación de responsabilidades</a>
+          <a href="#organizacion-archivos">Organización en archivos</a>
+          <a href="#diseno-progresivo">Diseño progresivo</a>
+          <a href="#errores">Errores habituales</a>
+          <a href="#ejemplos">Ejemplo práctico completo</a>
+          <a href="#resumen">Resumen del apartado</a>
+          <a href="#piensa">Actividad de reflexión</a>
+        </div>
+      </div>
+
+      <!-- RESUMEN -->
+      <a class="enlace-apartado-simple" href="../resumen/index.html">
+        ✏️ Resumen de la UT6
+      </a>
+
+      <!-- ACTIVIDADES -->
+      <div class="menu-desplegable menu-apartado">
+        <div class="menu-cabecera">
+          <a class="menu-titulo" href="../actividades/index.html">
+            📝 Actividades de la UT6
+          </a>
+          <button class="boton-desplegar" type="button"
+            data-target="submenu-actividades" aria-expanded="false"
+            aria-label="Mostrar u ocultar las actividades de la UT6">›</button>
+        </div>
+        <div class="submenu submenu-apartados" id="submenu-actividades">
+          <a href="../actividades/index.html#actividades-practicas">
+            💻 Actividades prácticas
+          </a>
+          <a href="../actividades/index.html#reto-final">
+            🧩 Reto final
+          </a>
+          <a href="../actividades/index.html#autoevaluacion">
+            ✅ Autoevaluación
+          </a>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- RESTO DE UNIDADES -->
+  <a class="sidebar-ut-cerrada" href="../../ut7/index.html">
+    <span>UT7 - Objetos predefinidos y modelo del navegador (BOM)</span>
+    <span>›</span>
+  </a>
+
+  <a class="sidebar-ut-cerrada" href="../../ut8/index.html">
+    <span>UT8 - Aplicaciones web interactivas: DOM, eventos y formularios</span>
+    <span>›</span>
+  </a>
+
+  <a class="sidebar-ut-cerrada" href="../../ut9/index.html">
+    <span>UT9 - Comunicación asíncrona y peticiones al servidor</span>
+    <span>›</span>
+  </a>
+
+  <a class="sidebar-ut-cerrada" href="../../ut10/index.html">
+    <span>UT10 - Introducción a React</span>
+    <span>›</span>
+  </a>
+
+</aside>
+
+<!-- ======================================
+     CONTENIDO PRINCIPAL
+======================================= -->
+<main class="contenido-ut">
+
+  <div class="migas">
+    <a class="miga-inicio" href="../../../index.html"
+       aria-label="Volver a la página principal">🏠</a>
+    <span class="miga-separador">›</span>
+    <a class="miga-modulo" href="../../index.html">DWEC</a>
+    <span class="miga-separador">›</span>
+    <a class="miga-modulo" href="../index.html">UT6</a>
+    <span class="miga-separador">›</span>
+    <span class="miga-actual">6.11</span>
+  </div>
+
+  <h1>6.11 Organización de programas mediante objetos y clases</h1>
+
+  <section class="apartado-ut">
+
+    <!-- INTRODUCCIÓN -->
+    <p>
+      A lo largo de esta unidad hemos aprendido a crear objetos,
+      definir sus propiedades y métodos, utilizar clases,
+      construir instancias y aplicar principios de la
+      <strong>Programación Orientada a Objetos (POO)</strong>.
+    </p>
+
+    <p>
+      También hemos estudiado la encapsulación, la herencia
+      y el polimorfismo. Sin embargo, conocer estos mecanismos
+      no significa necesariamente saber organizar correctamente
+      una aplicación.
+    </p>
+
+    <p>
+      Cuando un programa empieza a crecer, aparecen nuevas
+      necesidades: gestionar varios tipos de objetos, relacionarlos,
+      evitar la repetición de código y mantener separadas
+      las distintas responsabilidades.
+    </p>
+
+    <p>
+      En este último apartado aprenderemos a
+      <strong>organizar programas JavaScript mediante objetos y clases</strong>,
+      aplicando de forma conjunta los conocimientos adquiridos
+      durante la UT6.
+    </p>
+
+    <div class="caja caja-importante">
+      <span class="caja-titulo">📌 Importante</span>
+      <p>
+        La finalidad de la POO no es crear muchas clases,
+        sino <strong>organizar el código de manera comprensible,
+        reutilizable y fácil de mantener</strong>.
+      </p>
+      <p>
+        Cada clase debe tener una responsabilidad clara
+        y colaborar con otras clases cuando sea necesario.
+      </p>
+    </div>
+
+    <!-- ======================================
+         1. NECESIDAD DE ORGANIZAR EL CÓDIGO
+    ======================================= -->
+    <h2 id="necesidad-organizar">Necesidad de organizar el código</h2>
+
+    <p>
+      Imaginemos que estamos desarrollando una aplicación web
+      para gestionar los pedidos de una tienda online.
+    </p>
+
+    <p>
+      La aplicación debe permitir almacenar productos,
+      registrar clientes, crear pedidos y calcular importes.
+      Una primera solución podría utilizar variables y funciones
+      independientes.
+    </p>
+
+    <div class="bloque-codigo">
+      <div class="cabecera-codigo">
+        <span class="lenguaje-codigo">JavaScript — Código poco organizado</span>
+        <button class="boton-copiar" type="button">📋 Copiar código</button>
+      </div>
+      <pre><code>let nombreProducto = "Teclado";
+let precioProducto = 35;
+let stockProducto = 10;
+
+let nombreCliente = "Ana";
+let correoCliente = "ana@ejemplo.com";
+
+function calcularImporte(cantidad) {
+  return precioProducto * cantidad;
+}
+
+function reducirStock(cantidad) {
+  stockProducto -= cantidad;
+}
+
+console.log(calcularImporte(2)); // 70</code></pre>
+    </div>
+
+    <p>
+      Este ejemplo funciona para una situación muy sencilla,
+      pero presenta varios inconvenientes:
+    </p>
+
+    <ul>
+      <li>Los datos de productos y clientes aparecen mezclados.</li>
+      <li>Las funciones dependen de variables externas.</li>
+      <li>Resulta difícil gestionar varios productos diferentes.</li>
+      <li>Una modificación puede afectar a partes del programa que no esperábamos.</li>
+      <li>El código se vuelve más difícil de ampliar y mantener.</li>
+    </ul>
+
+    <p>
+      Una alternativa consiste en agrupar los datos y las operaciones
+      relacionadas dentro de clases.
+    </p>
+
+    <div class="bloque-codigo">
+      <div class="cabecera-codigo">
+        <span class="lenguaje-codigo">JavaScript — Organización mediante clases</span>
+        <button class="boton-copiar" type="button">📋 Copiar código</button>
+      </div>
+      <pre><code>class Producto {
+  constructor(nombre, precio, stock) {
+    this.nombre = nombre;
+    this.precio = precio;
+    this.stock = stock;
+  }
+
+  calcularImporte(cantidad) {
+    return this.precio * cantidad;
+  }
+
+  reducirStock(cantidad) {
+    if (cantidad &gt; 0 &amp;&amp; cantidad &lt;= this.stock) {
+      this.stock -= cantidad;
+      return true;
+    }
+
+    return false;
+  }
+}
+
+class Cliente {
+  constructor(nombre, correo) {
+    this.nombre = nombre;
+    this.correo = correo;
+  }
+}
+
+const producto = new Producto("Teclado", 35, 10);
+const cliente = new Cliente("Ana", "ana@ejemplo.com");
+
+console.log(producto.calcularImporte(2)); // 70
+console.log(cliente.nombre);              // Ana</code></pre>
+    </div>
+
+    <p>
+      Ahora cada clase agrupa información y comportamiento
+      relacionados. Podemos crear tantos productos o clientes
+      como necesitemos sin duplicar toda su estructura.
+    </p>
+
+    <div class="caja caja-ejemplo">
+      <span class="caja-titulo">💻 Ejemplo DAW</span>
+      <p>
+        En una aplicación de comercio electrónico es habitual
+        trabajar con entidades como <code>Producto</code>,
+        <code>Cliente</code>, <code>Pedido</code> y
+        <code>Carrito</code>.
+      </p>
+      <p>
+        Cada una representa un concepto diferente del problema
+        que queremos resolver.
+      </p>
+    </div>
+
+    <!-- ======================================
+         2. RESPONSABILIDADES
+    ======================================= -->
+    <h2 id="responsabilidades">Responsabilidades de las clases</h2>
+
+    <p>
+      Uno de los aspectos más importantes al diseñar un programa
+      orientado a objetos consiste en decidir
+      <strong>qué debe hacer cada clase</strong>.
+    </p>
+
+    <p>
+      Una clase debería agrupar tareas relacionadas
+      y evitar asumir responsabilidades que corresponden
+      a otras partes de la aplicación.
+    </p>
+
+    <h3>Una clase, una responsabilidad principal</h3>
+
+    <p>
+      Por ejemplo, en una tienda online podemos distribuir
+      las responsabilidades de la siguiente manera:
+    </p>
+
+    <div class="tabla-responsive">
+      <table class="tabla-apuntes">
+        <thead>
+          <tr>
+            <th>Clase</th>
+            <th>Responsabilidad principal</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><code>Producto</code></td>
+            <td>Representar un producto y gestionar sus datos.</td>
+          </tr>
+          <tr>
+            <td><code>Cliente</code></td>
+            <td>Almacenar los datos de un cliente.</td>
+          </tr>
+          <tr>
+            <td><code>Pedido</code></td>
+            <td>Gestionar los productos y cantidades de un pedido.</td>
+          </tr>
+          <tr>
+            <td><code>Tienda</code></td>
+            <td>Coordinar el catálogo y las operaciones de la tienda.</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <p>
+      Esta distribución permite modificar el comportamiento
+      de una clase sin tener que reescribir toda la aplicación.
+    </p>
+
+    <h3>Ejemplo de una clase con demasiadas responsabilidades</h3>
+
+    <div class="bloque-codigo">
+      <div class="cabecera-codigo">
+        <span class="lenguaje-codigo">JavaScript — Diseño poco recomendable</span>
+        <button class="boton-copiar" type="button">📋 Copiar código</button>
+      </div>
+      <pre><code>class Producto {
+  constructor(nombre, precio) {
+    this.nombre = nombre;
+    this.precio = precio;
+  }
+
+  calcularPrecioConIVA() {
+    return this.precio * 1.21;
+  }
+
+  enviarCorreoAlCliente() {
+    console.log("Enviando correo...");
+  }
+
+  gestionarUsuarios() {
+    console.log("Gestionando usuarios...");
+  }
+}</code></pre>
+    </div>
+
+    <p>
+      Los métodos relacionados con correos y usuarios
+      no pertenecen a la responsabilidad principal
+      de un producto.
+    </p>
+
+    <p>
+      Sería preferible trasladar esas operaciones
+      a clases o servicios específicos.
+    </p>
+
+    <div class="caja caja-atencion">
+      <span class="caja-titulo">⚠️ Atención</span>
+      <p>
+        Organizar el código no significa crear una clase
+        para cada operación. Una función independiente
+        puede ser suficiente cuando no necesitamos
+        representar un objeto con estado y comportamiento.
+      </p>
+      <p>
+        Debemos elegir la solución más sencilla
+        que permita mantener el programa bien organizado.
+      </p>
+    </div>
+
+    <!-- ======================================
+         3. IDENTIFICAR CLASES
+    ======================================= -->
+    <h2 id="identificar-clases">Identificar objetos y clases en un problema</h2>
+
+    <p>
+      Antes de comenzar a programar, conviene analizar
+      qué elementos intervienen en la aplicación
+      y qué información necesitamos almacenar sobre ellos.
+    </p>
+
+    <p>
+      Supongamos que queremos desarrollar una aplicación
+      para gestionar los préstamos de una biblioteca.
+    </p>
+
+    <p>
+      El sistema debe permitir registrar libros,
+      identificar usuarios y controlar los préstamos.
+    </p>
+
+    <h3>Identificación de posibles clases</h3>
+
+    <div class="esquema-web">
+      <div class="esquema-fila">
+        <div class="esquema-caja">
+          <strong>📚 Libro</strong>
+          Título, autor, disponibilidad
+        </div>
+
+        <div class="esquema-caja">
+          <strong>👤 Usuario</strong>
+          Nombre, identificador
+        </div>
+
+        <div class="esquema-caja">
+          <strong>📝 Préstamo</strong>
+          Libro, usuario, fecha
+        </div>
+      </div>
+
+      <div class="esquema-flecha">↓</div>
+
+      <div class="esquema-fila">
+        <div class="esquema-caja">
+          <strong>🏛️ Biblioteca</strong>
+          Gestiona libros, usuarios y préstamos
+        </div>
+      </div>
+    </div>
+
+    <p>
+      Una vez identificadas las clases, podemos definir
+      sus propiedades y métodos.
+    </p>
+
+    <div class="tabla-responsive">
+      <table class="tabla-apuntes">
+        <thead>
+          <tr>
+            <th>Clase</th>
+            <th>Propiedades</th>
+            <th>Métodos</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><code>Libro</code></td>
+            <td>título, autor, disponible</td>
+            <td>prestar(), devolver()</td>
+          </tr>
+          <tr>
+            <td><code>Usuario</code></td>
+            <td>nombre, identificador</td>
+            <td>mostrarDatos()</td>
+          </tr>
+          <tr>
+            <td><code>Prestamo</code></td>
+            <td>libro, usuario, fecha</td>
+            <td>mostrarDetalle()</td>
+          </tr>
+          <tr>
+            <td><code>Biblioteca</code></td>
+            <td>libros, usuarios, préstamos</td>
+            <td>registrarLibro(), buscarLibro()</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="caja caja-importante">
+      <span class="caja-titulo">📌 Importante</span>
+      <p>
+        Para identificar las clases podemos preguntarnos:
+        <strong>¿qué elementos forman parte del problema?,
+        ¿qué datos necesita cada elemento? y
+        ¿qué operaciones debe realizar?</strong>
+      </p>
+    </div>
+
+    <!-- ======================================
+         4. RELACIONES ENTRE OBJETOS
+    ======================================= -->
+    <h2 id="relaciones-objetos">Relaciones entre objetos</h2>
+
+    <p>
+      En una aplicación real, los objetos normalmente
+      no trabajan de manera aislada.
+    </p>
+
+    <p>
+      Un pedido puede estar asociado a un cliente,
+      una matrícula a un alumno y un préstamo
+      a un libro.
+    </p>
+
+    <p>
+      Podemos representar estas relaciones
+      almacenando referencias a otros objetos
+      dentro de las propiedades de una clase.
+    </p>
+
+    <h3>Ejemplo: un pedido asociado a un cliente</h3>
+
+    <div class="bloque-codigo">
+      <div class="cabecera-codigo">
+        <span class="lenguaje-codigo">JavaScript — Relación entre objetos</span>
+        <button class="boton-copiar" type="button">📋 Copiar código</button>
+      </div>
+      <pre><code>class Cliente {
+  constructor(nombre, correo) {
+    this.nombre = nombre;
+    this.correo = correo;
+  }
+}
+
+class Pedido {
+  constructor(numero, cliente) {
+    this.numero = numero;
+    this.cliente = cliente;
+  }
+
+  mostrarInformacion() {
+    return `Pedido ${this.numero} de ${this.cliente.nombre}`;
+  }
+}
+
+const cliente1 = new Cliente(
+  "Lucía",
+  "lucia@ejemplo.com"
+);
+
+const pedido1 = new Pedido(101, cliente1);
+
+console.log(pedido1.mostrarInformacion());
+// Pedido 101 de Lucía</code></pre>
+    </div>
+
+    <p>
+      Observa que la propiedad <code>cliente</code>
+      del objeto <code>pedido1</code> no almacena
+      únicamente un nombre, sino una referencia
+      al objeto <code>cliente1</code>.
+    </p>
+
+    <p>
+      Por ello, podemos acceder a sus propiedades
+      mediante <code>this.cliente.nombre</code>.
+    </p>
+
+    <div class="caja caja-atencion">
+      <span class="caja-titulo">⚠️ Atención</span>
+      <p>
+        Cuando dos objetos comparten una referencia
+        al mismo objeto, los cambios realizados
+        sobre ese objeto pueden observarse
+        desde ambas referencias.
+      </p>
+      <p>
+        Esto es importante para comprender
+        cómo se relacionan los datos
+        dentro de una aplicación JavaScript.
+      </p>
+    </div>
+
+    <!-- ======================================
+         5. COMPOSICIÓN
+    ======================================= -->
+    <h2 id="composicion">Composición de objetos</h2>
+
+    <p>
+      La <strong>composición</strong> es una técnica
+      de organización que permite construir objetos
+      utilizando otros objetos.
+    </p>
+
+    <p>
+      Mientras que la herencia expresa una relación
+      del tipo <strong>«es un tipo de»</strong>,
+      la composición suele representar
+      relaciones como <strong>«tiene un»</strong>
+      o <strong>«está formado por»</strong>.
+    </p>
+
+    <h3>Ejemplo: un ordenador formado por componentes</h3>
+
+    <div class="bloque-codigo">
+      <div class="cabecera-codigo">
+        <span class="lenguaje-codigo">JavaScript — Composición</span>
+        <button class="boton-copiar" type="button">📋 Copiar código</button>
+      </div>
+      <pre><code>class Procesador {
+  constructor(modelo, nucleos) {
+    this.modelo = modelo;
+    this.nucleos = nucleos;
+  }
+}
+
+class Ordenador {
+  constructor(marca, procesador) {
+    this.marca = marca;
+    this.procesador = procesador;
+  }
+
+  mostrarCaracteristicas() {
+    return `${this.marca}: ${this.procesador.modelo}`;
+  }
+}
+
+const cpu = new Procesador("Ryzen 7", 8);
+
+const ordenador = new Ordenador("Lenovo", cpu);
+
+console.log(ordenador.mostrarCaracteristicas());
+// Lenovo: Ryzen 7
+
+console.log(ordenador.procesador.nucleos);
+// 8</code></pre>
+    </div>
+
+    <p>
+      En este caso, un ordenador
+      <strong>tiene un procesador</strong>,
+      pero no es un tipo de procesador.
+    </p>
+
+    <p>
+      Por tanto, la composición representa mejor
+      esta relación que la herencia.
+    </p>
+
+    <div class="tabla-responsive">
+      <table class="tabla-apuntes">
+        <thead>
+          <tr>
+            <th>Herencia</th>
+            <th>Composición</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Relación «es un tipo de».</td>
+            <td>Relación «tiene un» o «utiliza un».</td>
+          </tr>
+          <tr>
+            <td>Utiliza <code>extends</code>.</td>
+            <td>Utiliza referencias a otros objetos.</td>
+          </tr>
+          <tr>
+            <td>Reutiliza características de una clase base.</td>
+            <td>Combina objetos con responsabilidades diferentes.</td>
+          </tr>
+          <tr>
+            <td>Ejemplo: <code>Profesor</code> hereda de <code>Usuario</code>.</td>
+            <td>Ejemplo: <code>Pedido</code> contiene productos.</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="caja caja-importante">
+      <span class="caja-titulo">📌 Importante</span>
+      <p>
+        No debemos utilizar herencia simplemente
+        porque dos clases estén relacionadas.
+        Si un objeto <strong>contiene o utiliza</strong>
+        otro objeto, normalmente será más adecuado
+        estudiar una solución basada en composición.
+      </p>
+    </div>
+
+    <!-- ======================================
+         6. COLECCIONES
+    ======================================= -->
+    <h2 id="colecciones">Colecciones de objetos</h2>
+
+    <p>
+      Una aplicación suele necesitar trabajar
+      con numerosos objetos del mismo tipo.
+    </p>
+
+    <p>
+      Por ejemplo, una tienda puede almacenar
+      cientos de productos y una plataforma educativa
+      puede gestionar muchos alumnos.
+    </p>
+
+    <p>
+      En JavaScript podemos utilizar
+      <strong>arrays de objetos</strong>
+      para organizar estas colecciones.
+    </p>
+
+    <h3>Ejemplo: catálogo de productos</h3>
+
+    <div class="bloque-codigo">
+      <div class="cabecera-codigo">
+        <span class="lenguaje-codigo">JavaScript — Array de instancias</span>
+        <button class="boton-copiar" type="button">📋 Copiar código</button>
+      </div>
+      <pre><code>class Producto {
+  constructor(nombre, precio) {
+    this.nombre = nombre;
+    this.precio = precio;
+  }
+
+  mostrarInformacion() {
+    return `${this.nombre}: ${this.precio} €`;
+  }
+}
+
+const productos = [
+  new Producto("Ratón", 15),
+  new Producto("Teclado", 35),
+  new Producto("Monitor", 180)
+];
+
+productos.forEach(producto =&gt; {
+  console.log(producto.mostrarInformacion());
+});</code></pre>
+    </div>
+
+    <p>
+      Cada elemento del array es una instancia
+      de la clase <code>Producto</code>.
+    </p>
+
+    <p>
+      Esto nos permite utilizar métodos de arrays,
+      como <code>forEach()</code>,
+      <code>filter()</code> o <code>find()</code>,
+      junto con los métodos definidos en nuestras clases.
+    </p>
+
+    <h3>Filtrar objetos de una colección</h3>
+
+    <div class="bloque-codigo">
+      <div class="cabecera-codigo">
+        <span class="lenguaje-codigo">JavaScript — Filtrado de productos</span>
+        <button class="boton-copiar" type="button">📋 Copiar código</button>
+      </div>
+      <pre><code>const productosCaros = productos.filter(
+  producto =&gt; producto.precio &gt; 30
+);
+
+productosCaros.forEach(producto =&gt; {
+  console.log(producto.nombre);
+});
+
+// Teclado
+// Monitor</code></pre>
+    </div>
+
+    <p>
+      La combinación de clases y arrays
+      resulta especialmente útil para gestionar
+      listados de productos, usuarios, reservas,
+      pedidos o calificaciones.
+    </p>
+
+    <div class="caja caja-ejemplo">
+      <span class="caja-titulo">💻 Ejemplo DAW</span>
+      <p>
+        En una aplicación de gestión académica
+        podríamos almacenar un array de objetos
+        <code>Alumno</code> y utilizar
+        <code>filter()</code> para obtener
+        los alumnos aprobados.
+      </p>
+      <p>
+        Cada alumno seguiría siendo responsable
+        de calcular su propia nota media
+        mediante un método de instancia.
+      </p>
+    </div>
+
+    <!-- ======================================
+         7. SEPARACIÓN DE RESPONSABILIDADES
+    ======================================= -->
+    <h2 id="separacion">Separación de responsabilidades</h2>
+
+    <p>
+      En una aplicación web conviene distinguir
+      entre el código encargado de gestionar
+      los datos y las reglas de negocio
+      y el código encargado de mostrarlos
+      al usuario.
+    </p>
+
+    <p>
+      Esta separación permite que las clases
+      puedan utilizarse en diferentes contextos
+      sin depender necesariamente de una página HTML.
+    </p>
+
+    <h3>Ejemplo: lógica de negocio independiente</h3>
+
+    <div class="bloque-codigo">
+      <div class="cabecera-codigo">
+        <span class="lenguaje-codigo">JavaScript — Clase independiente de la interfaz</span>
+        <button class="boton-copiar" type="button">📋 Copiar código</button>
+      </div>
+      <pre><code>class Cuenta {
+  #saldo;
+
+  constructor(titular, saldoInicial = 0) {
+    this.titular = titular;
+    this.#saldo = saldoInicial;
+  }
+
+  ingresar(cantidad) {
+    if (cantidad &lt;= 0) {
+      return false;
+    }
+
+    this.#saldo += cantidad;
+    return true;
+  }
+
+  consultarSaldo() {
+    return this.#saldo;
+  }
+}
+
+const cuenta = new Cuenta("María", 100);
+
+cuenta.ingresar(50);
+
+console.log(cuenta.consultarSaldo());
+// 150</code></pre>
+    </div>
+
+    <p>
+      La clase <code>Cuenta</code> conoce
+      las operaciones que puede realizar
+      sobre su saldo, pero no necesita saber
+      si los datos se mostrarán en una consola,
+      en una página web o en otra interfaz.
+    </p>
+
+    <h3>Representar la información</h3>
+
+    <p>
+      En una aplicación web podríamos tener
+      una función independiente que se encargase
+      de mostrar el saldo en un elemento HTML.
+    </p>
+
+    <div class="bloque-codigo">
+      <div class="cabecera-codigo">
+        <span class="lenguaje-codigo">JavaScript — Código de presentación</span>
+        <button class="boton-copiar" type="button">📋 Copiar código</button>
+      </div>
+      <pre><code>function mostrarSaldo(cuenta) {
+  const elemento = document.querySelector("#saldo");
+
+  if (elemento) {
+    elemento.textContent =
+      `${cuenta.consultarSaldo()} €`;
+  }
+}
+
+// En una página que contenga un elemento
+// con id="saldo":
+mostrarSaldo(cuenta);</code></pre>
+    </div>
+
+    <p>
+      De esta forma, si cambia la manera
+      de presentar los datos, no será necesario
+      modificar la lógica interna de la clase.
+    </p>
+
+    <div class="caja caja-importante">
+      <span class="caja-titulo">📌 Importante</span>
+      <p>
+        Separar la <strong>lógica de negocio</strong>
+        de la <strong>presentación</strong>
+        facilita la reutilización del código,
+        su mantenimiento y la realización de pruebas.
+      </p>
+    </div>
+
+    <!-- ======================================
+         8. ORGANIZACIÓN EN ARCHIVOS
+    ======================================= -->
+    <h2 id="organizacion-archivos">Organización del código en archivos</h2>
+
+    <p>
+      Cuando una aplicación crece,
+      mantener todas las clases y funciones
+      en un único archivo JavaScript
+      puede dificultar su comprensión.
+    </p>
+
+    <p>
+      Una solución consiste en distribuir
+      el código en varios archivos
+      según sus responsabilidades.
+    </p>
+
+    <h3>Ejemplo de estructura de carpetas</h3>
+
+    <div class="bloque-codigo">
+      <div class="cabecera-codigo">
+        <span class="lenguaje-codigo">Estructura de un proyecto</span>
+        <button class="boton-copiar" type="button">📋 Copiar código</button>
+      </div>
+      <pre><code>tienda/
+│
+├── index.html
+│
+├── css/
+│   └── estilos.css
+│
+└── js/
+    ├── modelos/
+    │   ├── Producto.js
+    │   ├── Cliente.js
+    │   └── Pedido.js
+    │
+    └── app.js</code></pre>
+    </div>
+
+    <p>
+      En esta estructura, cada archivo
+      contiene una parte concreta
+      de la aplicación.
+    </p>
+
+    <h3>Exportar una clase</h3>
+
+    <p>
+      JavaScript permite organizar el código
+      mediante <strong>módulos</strong>.
+      Podemos exportar una clase desde un archivo
+      e importarla desde otro.
+    </p>
+
+    <div class="bloque-codigo">
+      <div class="cabecera-codigo">
+        <span class="lenguaje-codigo">JavaScript — js/modelos/Producto.js</span>
+        <button class="boton-copiar" type="button">📋 Copiar código</button>
+      </div>
+      <pre><code>export class Producto {
+  constructor(nombre, precio) {
+    this.nombre = nombre;
+    this.precio = precio;
+  }
+
+  mostrarInformacion() {
+    return `${this.nombre}: ${this.precio} €`;
+  }
+}</code></pre>
+    </div>
+
+    <h3>Importar una clase</h3>
+
+    <div class="bloque-codigo">
+      <div class="cabecera-codigo">
+        <span class="lenguaje-codigo">JavaScript — js/app.js</span>
+        <button class="boton-copiar" type="button">📋 Copiar código</button>
+      </div>
+      <pre><code>import { Producto } from "./modelos/Producto.js";
+
+const producto = new Producto("Monitor", 180);
+
+console.log(producto.mostrarInformacion());</code></pre>
+    </div>
+
+    <p>
+      Para cargar el archivo principal
+      como módulo desde HTML,
+      utilizamos el atributo
+      <code>type="module"</code>.
+    </p>
+
+    <div class="bloque-codigo">
+      <div class="cabecera-codigo">
+        <span class="lenguaje-codigo">HTML — Cargar un módulo JavaScript</span>
+        <button class="boton-copiar" type="button">📋 Copiar código</button>
+      </div>
+      <pre><code>&lt;script type="module" src="./js/app.js"&gt;&lt;/script&gt;</code></pre>
+    </div>
+
+    <div class="caja caja-atencion">
+      <span class="caja-titulo">⚠️ Atención</span>
+      <p>
+        Los módulos JavaScript deben cargarse
+        de una manera compatible con las restricciones
+        de seguridad del navegador.
+      </p>
+      <p>
+        Para probarlos, es recomendable utilizar
+        un servidor local, por ejemplo,
+        mediante una extensión de servidor
+        en Visual Studio Code,
+        en lugar de abrir directamente
+        el archivo HTML con <code>file://</code>.
+      </p>
+    </div>
+
+    <div class="caja caja-ejemplo">
+      <span class="caja-titulo">💻 Ejemplo DAW</span>
+      <p>
+        En proyectos de desarrollo web es habitual
+        separar los modelos de datos,
+        las operaciones de negocio
+        y los archivos responsables
+        de la interacción con el usuario.
+      </p>
+      <p>
+        Esta organización resulta especialmente útil
+        cuando varias personas trabajan
+        sobre una misma aplicación.
+      </p>
+    </div>
+
+    <!-- ======================================
+         9. DISEÑO PROGRESIVO
+    ======================================= -->
+    <h2 id="diseno-progresivo">Diseño progresivo de una aplicación</h2>
+
+    <p>
+      No es necesario diseñar todas las clases
+      de una aplicación desde el principio
+      con todos sus posibles métodos.
+    </p>
+
+    <p>
+      Una estrategia recomendable consiste
+      en comenzar con una solución sencilla
+      y ampliarla a medida que aparecen
+      nuevas necesidades.
+    </p>
+
+    <h3>Pasos para organizar un programa</h3>
+
+    <ol>
+      <li>
+        <strong>Analizar el problema:</strong>
+        identificar qué debe hacer la aplicación.
+      </li>
+      <li>
+        <strong>Identificar las entidades:</strong>
+        reconocer los posibles objetos y clases.
+      </li>
+      <li>
+        <strong>Definir responsabilidades:</strong>
+        decidir qué datos y operaciones corresponden
+        a cada clase.
+      </li>
+      <li>
+        <strong>Establecer relaciones:</strong>
+        determinar qué objetos necesitan colaborar.
+      </li>
+      <li>
+        <strong>Implementar las clases:</strong>
+        programar constructores, propiedades y métodos.
+      </li>
+      <li>
+        <strong>Crear y probar instancias:</strong>
+        comprobar que cada objeto funciona correctamente.
+      </li>
+      <li>
+        <strong>Integrar las clases:</strong>
+        construir las operaciones generales
+        de la aplicación.
+      </li>
+      <li>
+        <strong>Revisar el diseño:</strong>
+        simplificar, eliminar duplicaciones
+        y mejorar la organización cuando sea necesario.
+      </li>
+    </ol>
+
+    <div class="esquema-web">
+      <div class="esquema-fila">
+        <div class="esquema-caja">
+          <strong>1. Analizar</strong>
+          Comprender el problema
+        </div>
+
+        <div class="esquema-caja">
+          <strong>2. Diseñar</strong>
+          Identificar clases y relaciones
+        </div>
+      </div>
+
+      <div class="esquema-flecha">↓</div>
+
+      <div class="esquema-fila">
+        <div class="esquema-caja">
+          <strong>3. Implementar</strong>
+          Programar objetos y métodos
+        </div>
+
+        <div class="esquema-caja">
+          <strong>4. Comprobar</strong>
+          Probar y mejorar el código
+        </div>
+      </div>
+    </div>
+
+    <p>
+      Este proceso no es estrictamente lineal:
+      durante el desarrollo podemos descubrir
+      que una clase necesita dividirse
+      o que una responsabilidad debe trasladarse
+      a otro objeto.
+    </p>
+
+    <!-- ======================================
+         10. ERRORES HABITUALES
+    ======================================= -->
+    <h2 id="errores">Errores habituales al organizar programas</h2>
+
+    <h3>1. Crear clases innecesarias</h3>
+
+    <p>
+      No todas las operaciones requieren una clase.
+      Para una transformación sencilla,
+      una función puede resultar más clara.
+    </p>
+
+    <div class="bloque-codigo">
+      <div class="cabecera-codigo">
+        <span class="lenguaje-codigo">JavaScript — Función suficiente</span>
+        <button class="boton-copiar" type="button">📋 Copiar código</button>
+      </div>
+      <pre><code>function calcularIVA(precio, porcentaje = 21) {
+  return precio * porcentaje / 100;
+}
+
+console.log(calcularIVA(100)); // 21</code></pre>
+    </div>
+
+    <h3>2. Concentrar toda la lógica en una única clase</h3>
+
+    <p>
+      Una clase que gestiona productos, usuarios,
+      pagos y notificaciones al mismo tiempo
+      resulta difícil de mantener.
+    </p>
+
+    <p>
+      Conviene repartir las responsabilidades
+      entre componentes con funciones claras.
+    </p>
+
+    <h3>3. Repetir código en distintas clases</h3>
+
+    <p>
+      Si varias clases contienen operaciones
+      prácticamente idénticas, debemos estudiar
+      si podemos extraer una función común,
+      utilizar composición o aplicar herencia
+      cuando exista una relación adecuada.
+    </p>
+
+    <h3>4. Utilizar herencia para cualquier relación</h3>
+
+    <p>
+      Un pedido no debería heredar de un producto
+      simplemente porque necesita utilizar productos.
+    </p>
+
+    <p>
+      En ese caso, la composición
+      es una opción más apropiada.
+    </p>
+
+    <h3>5. Permitir modificaciones sin validación</h3>
+
+    <p>
+      Cuando una propiedad representa información
+      que debe cumplir determinadas reglas,
+      es recomendable controlar sus cambios
+      mediante métodos.
+    </p>
+
+    <div class="bloque-codigo">
+      <div class="cabecera-codigo">
+        <span class="lenguaje-codigo">JavaScript — Encapsulación y validación</span>
+        <button class="boton-copiar" type="button">📋 Copiar código</button>
+      </div>
+      <pre><code>class Producto {
+  #stock;
+
+  constructor(nombre, stock) {
+    if (!Number.isInteger(stock) || stock &lt; 0) {
+      throw new Error("Stock inicial no válido");
+    }
+
+    this.nombre = nombre;
+    this.#stock = stock;
+  }
+
+  vender(cantidad) {
+    if (
+      !Number.isInteger(cantidad) ||
+      cantidad &lt;= 0 ||
+      cantidad &gt; this.#stock
+    ) {
+      return false;
+    }
+
+    this.#stock -= cantidad;
+    return true;
+  }
+
+  consultarStock() {
+    return this.#stock;
+  }
+}
+
+const producto = new Producto("Teclado", 10);
+
+console.log(producto.vender(3));       // true
+console.log(producto.consultarStock()); // 7</code></pre>
+    </div>
+
+    <h3>6. Mezclar la lógica de negocio con la interfaz</h3>
+
+    <p>
+      Si una clase depende directamente
+      de elementos HTML para realizar
+      sus operaciones principales,
+      será más difícil reutilizarla
+      en otros contextos.
+    </p>
+
+    <div class="caja caja-atencion">
+      <span class="caja-titulo">⚠️ Atención</span>
+      <p>
+        Un programa orientado a objetos
+        no es automáticamente un programa
+        bien diseñado.
+      </p>
+      <p>
+        La calidad del diseño depende
+        de cómo distribuimos las responsabilidades,
+        relacionamos los objetos y controlamos
+        las modificaciones de sus datos.
+      </p>
+    </div>
+
+    <!-- ======================================
+         11. EJEMPLO PRÁCTICO COMPLETO
+    ======================================= -->
+    <h2 id="ejemplos">Ejemplo práctico completo: gestión de pedidos</h2>
+
+    <p>
+      Vamos a desarrollar un pequeño sistema
+      de pedidos que reúna los principales
+      conceptos estudiados durante esta unidad.
+    </p>
+
+    <p>
+      La aplicación tendrá tres clases:
+      <code>Producto</code>, <code>Cliente</code>
+      y <code>Pedido</code>.
+    </p>
+
+    <p>
+      El objetivo será crear productos,
+      registrar un cliente, añadir productos
+      a un pedido y calcular su importe total.
+    </p>
+
+    <h3>Paso 1. Definir la clase Producto</h3>
+
+    <div class="bloque-codigo">
+      <div class="cabecera-codigo">
+        <span class="lenguaje-codigo">JavaScript — Clase Producto</span>
+        <button class="boton-copiar" type="button">📋 Copiar código</button>
+      </div>
+      <pre><code>class Producto {
+  constructor(nombre, precio) {
+    if (
+      typeof precio !== "number" ||
+      !Number.isFinite(precio) ||
+      precio &lt; 0
+    ) {
+      throw new Error("El precio no es válido");
+    }
+
+    this.nombre = nombre;
+    this.precio = precio;
+  }
+
+  mostrarInformacion() {
+    return `${this.nombre}: ${this.precio} €`;
+  }
+}</code></pre>
+    </div>
+
+    <p>
+      Esta clase representa cada producto
+      y almacena su nombre y precio.
+    </p>
+
+    <h3>Paso 2. Definir la clase Cliente</h3>
+
+    <div class="bloque-codigo">
+      <div class="cabecera-codigo">
+        <span class="lenguaje-codigo">JavaScript — Clase Cliente</span>
+        <button class="boton-copiar" type="button">📋 Copiar código</button>
+      </div>
+      <pre><code>class Cliente {
+  constructor(nombre, correo) {
+    this.nombre = nombre;
+    this.correo = correo;
+  }
+
+  mostrarDatos() {
+    return `${this.nombre} (${this.correo})`;
+  }
+}</code></pre>
+    </div>
+
+    <p>
+      La clase <code>Cliente</code> almacena
+      los datos de la persona que realiza el pedido.
+    </p>
+
+    <h3>Paso 3. Definir la clase Pedido</h3>
+
+    <p>
+      Un pedido tendrá un número identificador,
+      un cliente y una colección de líneas
+      de pedido.
+    </p>
+
+    <p>
+      Cada línea contendrá una referencia
+      a un producto, la cantidad solicitada
+      y el precio unitario aplicado
+      al añadirlo al pedido.
+    </p>
+
+    <div class="bloque-codigo">
+      <div class="cabecera-codigo">
+        <span class="lenguaje-codigo">JavaScript — Clase Pedido</span>
+        <button class="boton-copiar" type="button">📋 Copiar código</button>
+      </div>
+      <pre><code>class Pedido {
+  #lineas = [];
+
+  constructor(numero, cliente) {
+    this.numero = numero;
+    this.cliente = cliente;
+  }
+
+  agregarProducto(producto, cantidad) {
+    if (
+      !(producto instanceof Producto) ||
+      !Number.isInteger(cantidad) ||
+      cantidad &lt;= 0
+    ) {
+      return false;
+    }
+
+    this.#lineas.push({
+      producto: producto,
+      cantidad: cantidad,
+      precioUnitario: producto.precio
+    });
+
+    return true;
+  }
+
+  calcularTotal() {
+    return this.#lineas.reduce(
+      (total, linea) =&gt; {
+        return total +
+          linea.precioUnitario * linea.cantidad;
+      },
+      0
+    );
+  }
+
+  mostrarResumen() {
+    console.log(`Pedido: ${this.numero}`);
+    console.log(`Cliente: ${this.cliente.nombre}`);
+
+    this.#lineas.forEach(linea =&gt; {
+      console.log(
+        `${linea.producto.nombre} x ${linea.cantidad}`
+      );
+    });
+
+    console.log(`Total: ${this.calcularTotal()} €`);
+  }
+}</code></pre>
+    </div>
+
+    <p>
+      Observa cómo la clase <code>Pedido</code>
+      se relaciona con otras clases
+      sin necesidad de heredar de ellas.
+    </p>
+
+    <p>
+      También utiliza un campo privado
+      <code>#lineas</code> para evitar
+      que se modifique directamente
+      la colección desde el exterior.
+    </p>
+
+    <h3>Paso 4. Crear las instancias</h3>
+
+    <div class="bloque-codigo">
+      <div class="cabecera-codigo">
+        <span class="lenguaje-codigo">JavaScript — Creación de objetos</span>
+        <button class="boton-copiar" type="button">📋 Copiar código</button>
+      </div>
+      <pre><code>const teclado = new Producto("Teclado", 35);
+const raton = new Producto("Ratón", 15);
+
+const cliente = new Cliente(
+  "Ana",
+  "ana@ejemplo.com"
+);
+
+const pedido = new Pedido(101, cliente);
+
+pedido.agregarProducto(teclado, 2);
+pedido.agregarProducto(raton, 1);
+
+pedido.mostrarResumen();</code></pre>
+    </div>
+
+    <h3>Paso 5. Comprobar el resultado</h3>
+
+    <div class="bloque-codigo">
+      <div class="cabecera-codigo">
+        <span class="lenguaje-codigo">Consola — Resultado esperado</span>
+        <button class="boton-copiar" type="button">📋 Copiar código</button>
+      </div>
+      <pre><code>Pedido: 101
+Cliente: Ana
+Teclado x 2
+Ratón x 1
+Total: 85 €</code></pre>
+    </div>
+
+    <p>
+      El importe se obtiene sumando
+      dos teclados de 35 € y un ratón de 15 €.
+    </p>
+
+    <div class="esquema-web">
+      <div class="esquema-fila">
+        <div class="esquema-caja">
+          <strong>👤 Cliente</strong>
+          Ana
+        </div>
+
+        <div class="esquema-caja">
+          <strong>🧾 Pedido 101</strong>
+          Contiene las líneas del pedido
+        </div>
+      </div>
+
+      <div class="esquema-flecha">↓</div>
+
+      <div class="esquema-fila">
+        <div class="esquema-caja">
+          <strong>⌨️ Teclado</strong>
+          2 unidades × 35 €
+        </div>
+
+        <div class="esquema-caja">
+          <strong>🖱️ Ratón</strong>
+          1 unidad × 15 €
+        </div>
+      </div>
+
+      <div class="esquema-flecha">↓</div>
+
+      <div class="esquema-fila">
+        <div class="esquema-caja">
+          <strong>Total del pedido</strong>
+          85 €
+        </div>
+      </div>
+    </div>
+
+    <h3>¿Qué conceptos de la UT6 hemos utilizado?</h3>
+
+    <div class="tabla-responsive">
+      <table class="tabla-apuntes">
+        <thead>
+          <tr>
+            <th>Concepto</th>
+            <th>Aplicación en el ejemplo</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Clases</td>
+            <td><code>Producto</code>, <code>Cliente</code> y <code>Pedido</code>.</td>
+          </tr>
+          <tr>
+            <td>Instancias</td>
+            <td>Objetos creados mediante <code>new</code>.</td>
+          </tr>
+          <tr>
+            <td>Propiedades</td>
+            <td>Nombre, precio, número de pedido y cliente.</td>
+          </tr>
+          <tr>
+            <td>Métodos</td>
+            <td><code>agregarProducto()</code> y <code>calcularTotal()</code>.</td>
+          </tr>
+          <tr>
+            <td>Encapsulación</td>
+            <td>Campo privado <code>#lineas</code>.</td>
+          </tr>
+          <tr>
+            <td>Composición</td>
+            <td>El pedido utiliza objetos de otras clases.</td>
+          </tr>
+          <tr>
+            <td>Colecciones</td>
+            <td>Array de líneas de pedido.</td>
+          </tr>
+          <tr>
+            <td>Validación</td>
+            <td>Comprobación de cantidades y productos.</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="caja caja-atencion">
+      <span class="caja-titulo">⚠️ Atención</span>
+      <p>
+        Este ejemplo tiene una finalidad didáctica.
+        En una tienda real habría que incorporar
+        controles adicionales, como disponibilidad
+        de stock, impuestos, descuentos,
+        gestión de errores y persistencia de datos.
+      </p>
+      <p>
+        Además, para operaciones monetarias reales
+        conviene utilizar una estrategia que evite
+        los problemas de precisión de los números
+        de coma flotante, por ejemplo,
+        almacenar importes en céntimos enteros.
+      </p>
+    </div>
+
+    <div class="caja caja-ejemplo">
+      <span class="caja-titulo">💻 Ejemplo DAW</span>
+      <p>
+        El sistema de pedidos podría ampliarse
+        posteriormente con una interfaz HTML,
+        formularios y eventos para permitir
+        al usuario seleccionar productos
+        y consultar el importe total.
+      </p>
+      <p>
+        La lógica de las clases podría mantenerse
+        prácticamente igual, mientras que
+        el código de la interfaz se desarrollaría
+        de forma independiente.
+      </p>
+    </div>
+
+    <!-- ======================================
+         12. RESUMEN
+    ======================================= -->
+    <h2 id="resumen">Resumen del apartado</h2>
+
+    <p>
+      En este apartado hemos aprendido
+      a organizar programas JavaScript
+      mediante objetos y clases,
+      aplicando los principales conceptos
+      de la Programación Orientada a Objetos.
+    </p>
+
+    <ul>
+      <li>
+        Las clases permiten agrupar
+        <strong>datos y comportamientos relacionados</strong>.
+      </li>
+      <li>
+        Cada clase debería tener
+        una <strong>responsabilidad principal clara</strong>.
+      </li>
+      <li>
+        Antes de programar conviene
+        identificar las entidades del problema.
+      </li>
+      <li>
+        Los objetos pueden relacionarse
+        mediante referencias a otros objetos.
+      </li>
+      <li>
+        La <strong>composición</strong> permite construir
+        objetos utilizando otros objetos.
+      </li>
+      <li>
+        Los <strong>arrays de objetos</strong>
+        permiten gestionar colecciones de instancias.
+      </li>
+      <li>
+        Separar la lógica de negocio
+        de la presentación facilita
+        el mantenimiento del programa.
+      </li>
+      <li>
+        Los <strong>módulos JavaScript</strong>
+        permiten distribuir las clases
+        entre diferentes archivos.
+      </li>
+      <li>
+        Un buen diseño debe evitar
+        las responsabilidades mezcladas,
+        la duplicación innecesaria
+        y las modificaciones sin validación.
+      </li>
+      <li>
+        La organización del código
+        debe evolucionar conforme
+        crecen las necesidades de la aplicación.
+      </li>
+    </ul>
+
+    <div class="caja caja-importante">
+      <span class="caja-titulo">📌 Importante</span>
+      <p>
+        <strong>La Programación Orientada a Objetos
+        es una forma de organizar y estructurar
+        los programas.</strong>
+      </p>
+      <p>
+        Su utilidad aparece especialmente
+        cuando necesitamos representar
+        entidades relacionadas,
+        reutilizar comportamientos
+        y mantener aplicaciones
+        que evolucionan con el tiempo.
+      </p>
+    </div>
+
+    <!-- ======================================
+         13. ACTIVIDAD DE REFLEXIÓN
+    ======================================= -->
+    <div class="actividad-reflexion" id="piensa">
+
+      <h3>💭 Piensa</h3>
+
+      <p>
+        Imagina que tienes que desarrollar
+        una aplicación para gestionar
+        las matrículas de un centro educativo.
+      </p>
+
+      <p>
+        La aplicación debe permitir
+        registrar alumnos, gestionar módulos
+        y almacenar las matrículas
+        de cada alumno.
+      </p>
+
+      <p>
+        Reflexiona sobre las siguientes cuestiones:
+      </p>
+
+      <ol>
+        <li>
+          ¿Qué clases crearías
+          para representar los elementos
+          principales de la aplicación?
+        </li>
+        <li>
+          ¿Qué propiedades y métodos
+          tendría cada una?
+        </li>
+        <li>
+          ¿Cómo relacionarías
+          los alumnos con los módulos
+          en los que están matriculados?
+        </li>
+        <li>
+          ¿Utilizarías herencia o composición
+          para relacionar un alumno
+          con una matrícula? ¿Por qué?
+        </li>
+        <li>
+          ¿Qué clase sería responsable
+          de impedir que un alumno
+          se matriculase dos veces
+          en el mismo módulo?
+        </li>
+      </ol>
+
+      <details class="solucion-desplegable">
+        <summary>💡 Mostrar una posible solución</summary>
+
+        <div class="contenido-solucion">
+
+          <p>
+            Una posible organización sería utilizar
+            las clases <code>Alumno</code>,
+            <code>Modulo</code>,
+            <code>Matricula</code>
+            y <code>GestorMatriculas</code>.
+          </p>
+
+          <ul>
+            <li>
+              <strong>Alumno:</strong>
+              almacena identificador, nombre
+              y datos del estudiante.
+            </li>
+            <li>
+              <strong>Modulo:</strong>
+              almacena código, nombre
+              y número de horas.
+            </li>
+            <li>
+              <strong>Matricula:</strong>
+              relaciona un alumno
+              con un módulo.
+            </li>
+            <li>
+              <strong>GestorMatriculas:</strong>
+              administra las matrículas
+              y comprueba las reglas
+              de inscripción.
+            </li>
+          </ul>
+
+          <p>
+            Para relacionar alumnos y módulos
+            sería adecuada la composición
+            o, más concretamente,
+            una asociación mediante referencias.
+          </p>
+
+          <p>
+            Una matrícula
+            <strong>no es un tipo de alumno</strong>,
+            sino un registro que relaciona
+            un alumno con un módulo.
+          </p>
+
+          <p>
+            El gestor de matrículas podría
+            comprobar que no exista ya
+            una inscripción con el mismo
+            alumno y módulo.
+          </p>
+
+          <div class="bloque-codigo">
+            <div class="cabecera-codigo">
+              <span class="lenguaje-codigo">JavaScript — Posible organización</span>
+              <button class="boton-copiar" type="button">📋 Copiar código</button>
+            </div>
+            <pre><code>class Alumno {
+  constructor(id, nombre) {
+    this.id = id;
+    this.nombre = nombre;
+  }
+}
+
+class Modulo {
+  constructor(codigo, nombre) {
+    this.codigo = codigo;
+    this.nombre = nombre;
+  }
+}
+
+class Matricula {
+  constructor(alumno, modulo) {
+    this.alumno = alumno;
+    this.modulo = modulo;
+  }
+}
+
+class GestorMatriculas {
+  #matriculas = [];
+
+  matricular(alumno, modulo) {
+    const existe = this.#matriculas.some(
+      matricula =&gt;
+        matricula.alumno.id === alumno.id &amp;&amp;
+        matricula.modulo.codigo === modulo.codigo
+    );
+
+    if (existe) {
+      return false;
+    }
+
+    this.#matriculas.push(
+      new Matricula(alumno, modulo)
+    );
+
+    return true;
+  }
+
+  consultarMatriculas() {
+    return [...this.#matriculas];
+  }
+}
+
+const alumno = new Alumno(1, "Lucía");
+const modulo = new Modulo("DWEC", "Entorno cliente");
+
+const gestor = new GestorMatriculas();
+
+console.log(gestor.matricular(alumno, modulo));
+// true
+
+console.log(gestor.matricular(alumno, modulo));
+// false</code></pre>
+          </div>
+
+          <p>
+            La primera matrícula se registra
+            correctamente. El segundo intento
+            devuelve <code>false</code>
+            porque ya existe una matrícula
+            con el mismo identificador de alumno
+            y el mismo código de módulo.
+          </p>
+
+          <p>
+            Esta es una solución simplificada.
+            En una aplicación real también
+            tendríamos que validar
+            los identificadores, gestionar
+            los datos persistentes
+            y controlar otras reglas
+            académicas.
+          </p>
+
+        </div>
+      </details>
+
+    </div>
+
+  </section>
+
+  <!-- ======================================
+       NAVEGACIÓN INFERIOR
+  ======================================= -->
+  <nav class="navegacion-paginas"
+       aria-label="Navegación entre apartados">
+
+    <a class="nav-pagina nav-anterior" href="../6-10/index.html">
+      <span class="nav-etiqueta">Anterior</span>
+      <strong>‹ 6.10 Herencia básica entre clases</strong>
+    </a>
+
+    <a class="nav-pagina nav-siguiente" href="../resumen/index.html">
+      <span class="nav-etiqueta">Siguiente</span>
+      <strong>✏️ Resumen de la UT6 ›</strong>
+    </a>
+
+  </nav>
+
+</main>
+
+<!-- ======================================
+     ÍNDICE DERECHO
+======================================= -->
+<aside class="indice-derecho">
+  <h2>Contenidos del apartado</h2>
+
+  <ul>
+    <li><a href="#necesidad-organizar">Necesidad de organizar el código</a></li>
+    <li><a href="#responsabilidades">Responsabilidades de las clases</a></li>
+    <li><a href="#identificar-clases">Identificar objetos y clases</a></li>
+    <li><a href="#relaciones-objetos">Relaciones entre objetos</a></li>
+    <li><a href="#composicion">Composición de objetos</a></li>
+    <li><a href="#colecciones">Colecciones de objetos</a></li>
+    <li><a href="#separacion">Separación de responsabilidades</a></li>
+    <li><a href="#organizacion-archivos">Organización en archivos</a></li>
+    <li><a href="#diseno-progresivo">Diseño progresivo</a></li>
+    <li><a href="#errores">Errores habituales</a></li>
+    <li><a href="#ejemplos">Ejemplo práctico completo</a></li>
+    <li><a href="#resumen">Resumen del apartado</a></li>
+    <li><a href="#piensa">Actividad de reflexión</a></li>
+  </ul>
+</aside>
+
+</div>
+
+<!-- ======================================
+     PIE DE PÁGINA
+======================================= -->
+<footer class="footer">
+  <p>
+    Material elaborado por
+    <strong>Eva Ballestero Cubeles</strong>
+    - Licencia
+    <span class="licencia">CC BY-NC-SA 4.0</span>
+
+    <a
+      class="enlace-licencia"
+      href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.es"
+      target="_blank"
+      rel="license noopener noreferrer"
+      aria-label="Licencia Creative Commons BY-NC-SA 4.0"
+    >
+      <img
+        class="icono-licencia"
+        src="../../../img/licencias/cc-by-nc-sa.png"
+        alt="Licencia Creative Commons BY-NC-SA 4.0"
+      >
+    </a>
+  </p>
+</footer>
+
+<!-- ======================================
+     JAVASCRIPT
+======================================= -->
+<script src="../../../js/modulos.js"></script>
+
+<script>
+/* ==========================================
+   MENÚ SUPERIOR DE MÓDULOS
+========================================== */
+const menuModulos = document.getElementById("menuModulos");
+const botonTema = document.getElementById("botonTema");
+
+if (typeof modulos !== "undefined") {
+  const modulosActivos = modulos.filter(
+    modulo => modulo.activo === true
+  );
+
+  modulosActivos.forEach(modulo => {
+    const enlace = document.createElement("a");
+
+    enlace.href = `../../../${modulo.carpeta}/index.html`;
+    enlace.textContent = modulo.siglas;
+    enlace.title = modulo.nombre;
+
+    if (modulo.siglas === "DWEC") {
+      enlace.style.color = "var(--verde-principal)";
+    }
+
+    menuModulos.appendChild(enlace);
+  });
+}
+
+/* ==========================================
+   MODO OSCURO
+========================================== */
+const temaGuardado = localStorage.getItem("tema");
+
+if (temaGuardado === "oscuro") {
+  document.body.classList.add("modo-oscuro");
+  botonTema.textContent = "🌙";
+}
+
+botonTema.addEventListener("click", () => {
+  document.body.classList.toggle("modo-oscuro");
+
+  const estaOscuro = document.body.classList.contains(
+    "modo-oscuro"
+  );
+
+  botonTema.textContent = estaOscuro ? "🌙" : "☀️";
+
+  localStorage.setItem(
+    "tema",
+    estaOscuro ? "oscuro" : "claro"
+  );
+});
+
+/* ==========================================
+   MENÚS DESPLEGABLES
+========================================== */
+const botonesDesplegar = document.querySelectorAll(
+  ".boton-desplegar"
+);
+
+botonesDesplegar.forEach(boton => {
+  boton.addEventListener("click", () => {
+    const idSubmenu = boton.getAttribute("data-target");
+    const submenu = document.getElementById(idSubmenu);
+
+    if (!submenu) {
+      return;
+    }
+
+    const estaAbierto = submenu.classList.contains(
+      "submenu-abierto"
+    );
+
+    if (estaAbierto) {
+      submenu.classList.remove("submenu-abierto");
+      boton.textContent = "›";
+      boton.setAttribute("aria-expanded", "false");
+    } else {
+      submenu.classList.add("submenu-abierto");
+      boton.textContent = "⌄";
+      boton.setAttribute("aria-expanded", "true");
+    }
+  });
+});
+
+/* ==========================================
+   COPIAR CÓDIGO
+========================================== */
+const botonesCopiar = document.querySelectorAll(
+  ".boton-copiar"
+);
+
+botonesCopiar.forEach(boton => {
+  boton.addEventListener("click", async () => {
+    const bloque = boton.closest(".bloque-codigo");
+    const codigo = bloque?.querySelector("pre code");
+
+    if (!codigo) {
+      return;
+    }
+
+    const textoOriginal = boton.textContent.trim();
+
+    try {
+      await navigator.clipboard.writeText(
+        codigo.textContent
+      );
+
+      boton.textContent = "✓ Copiado";
+
+      setTimeout(() => {
+        boton.textContent = textoOriginal;
+      }, 1600);
+
+    } catch (error) {
+      const seleccion = window.getSelection();
+      const rango = document.createRange();
+
+      rango.selectNodeContents(codigo);
+
+      seleccion.removeAllRanges();
+      seleccion.addRange(rango);
+
+      boton.textContent = "Seleccionado: pulsa Ctrl+C";
+
+      setTimeout(() => {
+        boton.textContent = textoOriginal;
+        seleccion.removeAllRanges();
+      }, 2500);
+    }
+  });
+});
+</script>
+
+</body>
+</html>
