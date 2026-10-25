@@ -497,19 +497,20 @@ body.modo-oscuro .miga-actual {
       font-weight: bold;
     }
 
-  /* ==========================================
-   ACTIVIDAD DE REFLEXIÓN
+/* ==========================================
+   ACTIVIDAD DE REFLEXIÓN - PIENSA
 ========================================== */
+
 .actividad-reflexion {
   margin: 32px 0;
-  padding: 22px 24px;
+  padding: 35px 36px;
   background-color: #f7f8fa;
-  border: 1px solid var(--borde);
-  border-radius: 10px;
+  border: 1px solid #d8dadd;
+  border-radius: 15px;
 }
 
 .actividad-reflexion h3 {
-  margin: 0 0 12px;
+  margin: 0 0 18px;
   color: var(--verde-principal);
   font-size: 20px;
 }
@@ -520,54 +521,74 @@ body.modo-oscuro .miga-actual {
   line-height: 1.65;
 }
 
-body.modo-oscuro .actividad-reflexion {
-  background-color: #232d3d;
+.actividad-reflexion ol {
+  margin: 15px 0 30px;
+  padding-left: 40px;
 }
 
-/* ==========================================
-   SOLUCIÓN DESPLEGABLE
-========================================== */
-.solucion-desplegable {
-  margin-top: 20px;
+.actividad-reflexion li {
+  margin-bottom: 18px;
+  line-height: 1.8;
 }
 
-.solucion-desplegable summary {
+/* BOTÓN DE SOLUCIÓN */
+
+.boton-solucion {
   display: inline-block;
-  padding: 10px 16px;
-  background-color: #eef8f1;
-  border: 1px solid #b9dfc6;
-  border-radius: 7px;
-  color: var(--verde-principal);
-  font-size: 16px;
+  padding: 15px 24px;
+  background-color: #edf8f0;
+  border: 1px solid #b7dfc5;
+  border-radius: 10px;
+  color: #00843d;
+  font-family: inherit;
+  font-size: 17px;
   font-weight: 700;
   cursor: pointer;
-  user-select: none;
+  transition: background-color 0.2s ease;
 }
 
-.solucion-desplegable summary:hover {
-  background-color: #e2f3e7;
+.boton-solucion:hover {
+  background-color: #dff2e5;
 }
+
+/* CONTENIDO DE LA SOLUCIÓN */
 
 .contenido-solucion {
-  margin-top: 16px;
-  padding: 18px 20px;
-  background-color: var(--fondo-pagina);
-  border-left: 4px solid var(--verde-principal);
-  border-radius: 6px;
+  display: none;
+  margin-top: 25px;
+  padding: 24px;
+  background-color: #ffffff;
+  border: 1px solid #d8dadd;
+  border-radius: 10px;
+}
+
+.contenido-solucion.visible {
+  display: block;
 }
 
 .contenido-solucion p {
-  margin: 0 0 12px;
+  margin-bottom: 14px;
   font-size: 16px;
-  line-height: 1.65;
+  line-height: 1.7;
 }
 
-body.modo-oscuro .solucion-desplegable summary {
+/* MODO OSCURO */
+
+body.modo-oscuro .actividad-reflexion {
+  background-color: #232d3d;
+  border-color: #475569;
+}
+
+body.modo-oscuro .contenido-solucion {
+  background-color: #0f172a;
+  border-color: #475569;
+}
+
+body.modo-oscuro .boton-solucion {
   background-color: #20372a;
   border-color: #315d40;
+  color: #86efac;
 }
-
-
 /* ==========================================
    NAVEGACIÓN ANTERIOR / SIGUIENTE
 ========================================== */
@@ -2739,8 +2760,6 @@ Total: 85 €</code></pre>
 
 <div class="contenido-solucion" id="contenidoSolucion">
 
-        <div class="contenido-solucion">
-
           <p>
             Una posible organización sería utilizar
             las clases <code>Alumno</code>,
@@ -3090,6 +3109,31 @@ botonesCopiar.forEach(boton => {
     }
   });
 });
+  /* ==========================================
+   MOSTRAR Y OCULTAR SOLUCIÓN - PIENSA
+========================================== */
+
+const botonSolucion = document.getElementById("botonSolucion");
+const contenidoSolucion = document.getElementById("contenidoSolucion");
+
+if (botonSolucion && contenidoSolucion) {
+
+  botonSolucion.addEventListener("click", () => {
+
+    const visible = contenidoSolucion.classList.toggle("visible");
+
+    botonSolucion.textContent = visible
+      ? "Ocultar solución"
+      : "Ver una posible solución";
+
+    botonSolucion.setAttribute(
+      "aria-expanded",
+      String(visible)
+    );
+
+  });
+
+}
 </script>
 
 </body>
