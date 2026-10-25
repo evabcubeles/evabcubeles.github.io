@@ -473,52 +473,50 @@
       text-align: right;
     }
 
-    /* ==========================================
-       ÍNDICE DERECHO
-    ========================================== */
 
-    .indice-derecho {
-      position: sticky;
-      top: 68px;
-      height: calc(100vh - 68px);
-      overflow-y: auto;
-      box-sizing: border-box;
-      padding: 30px 19px;
-      border-left: 1px solid var(--borde);
-      background: var(--fondo-pagina);
-    }
+/* ==========================================
+   COLUMNA DERECHA
+========================================== */
 
-    .indice-derecho h2 {
-      margin: 0 0 18px;
-      font-size: .95rem;
-      color: var(--texto-principal);
-    }
+.indice-derecho {
+  padding: 28px 22px 100px;
+  border-left: 1px solid var(--borde);
+  position: sticky;
+  top: 68px;
+  height: calc(100vh - 68px);
+  overflow-y: auto;
+  box-sizing: border-box;
+}
 
-    .indice-derecho ul {
-      margin: 0;
-      padding: 0;
-      list-style: none;
-    }
+.indice-derecho h2 {
+  margin: 8px 0 20px;
+  font-size: 17px;
+  color: #555b65;
+}
 
-    .indice-derecho li {
-      margin-bottom: 4px;
-    }
+body.modo-oscuro .indice-derecho h2 {
+  color: #d1d5db;
+}
 
-    .indice-derecho a {
-      display: block;
-      padding: 8px 10px;
-      border-radius: 6px;
-      color: var(--texto-secundario);
-      text-decoration: none;
-      font-size: .83rem;
-      line-height: 1.45;
-    }
+.indice-derecho ul {
+  margin: 0;
+  padding-left: 18px;
+}
 
-    .indice-derecho a:hover,
-    .indice-derecho a.indice-activo {
-      color: var(--verde-principal);
-      background: var(--fondo-suave);
-    }
+.indice-derecho li {
+  margin-bottom: 12px;
+}
+
+.indice-derecho a {
+  color: var(--texto-secundario);
+  text-decoration: none;
+  font-size: 14px;
+  line-height: 1.4;
+}
+
+.indice-derecho a:hover {
+  color: var(--verde-principal);
+}
 
     /* ==========================================
        MODO OSCURO
