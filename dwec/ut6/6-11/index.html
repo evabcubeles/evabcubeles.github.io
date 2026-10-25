@@ -571,25 +571,23 @@ body.modo-oscuro .solucion-desplegable summary {
 /* ==========================================
    NAVEGACIÓN ANTERIOR / SIGUIENTE
 ========================================== */
-
 .navegacion-paginas {
   display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
+  grid-template-columns: 1fr 1fr;
   gap: 20px;
   margin-top: 50px;
 }
 
 .nav-pagina {
-  min-height: 130px;
-  padding: 22px 24px;
+  min-height: 100px;
+  padding: 18px 20px;
   display: flex;
   flex-direction: column;
   justify-content: center;
   border: 1px solid var(--borde);
-  border-radius: 10px;
-  background-color: var(--fondo-tarjeta);
+  border-radius: 8px;
   text-decoration: none;
-  box-sizing: border-box;
+  background-color: var(--fondo-tarjeta);
 }
 
 .nav-anterior {
@@ -603,25 +601,20 @@ body.modo-oscuro .solucion-desplegable summary {
 }
 
 .nav-etiqueta {
-  display: block;
-  margin-bottom: 10px;
+  margin-bottom: 5px;
   color: var(--texto-secundario);
-  font-size: 15px;
-  font-weight: 400;
+  font-size: 14px;
 }
 
 .nav-pagina strong {
-  display: block;
   color: var(--verde-principal);
-  font-size: 19px;
-  font-weight: 700;
-  line-height: 1.45;
+  font-size: 16px;
+  line-height: 1.4;
 }
 
 .nav-pagina:hover {
   border-color: var(--verde-principal);
 }
-
 
     /* ==========================================
    COLUMNA DERECHA
