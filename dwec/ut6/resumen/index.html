@@ -1090,7 +1090,6 @@
 </div>
 </div>
 <!-- UT6 -->
-
 <!-- UT7 -->
 <a class="sidebar-ut-cerrada" href="../../ut7/index.html">
 <span>UT7 - Objetos predefinidos y modelo del navegador (BOM)</span>
@@ -1131,69 +1130,160 @@
 <!-- ==========================================
            VISIÓN GLOBAL
       ========================================== -->
-
 <!-- ==========================================
            5.1 INTRODUCCIÓN
       ========================================== -->
-
 <!-- ==========================================
            5.2 DECLARACIÓN E INVOCACIÓN
       ========================================== -->
-
 <!-- ==========================================
            5.3 PARÁMETROS Y ARGUMENTOS
       ========================================== -->
-
 <!-- ==========================================
            5.4 RETURN
       ========================================== -->
-
 <!-- ==========================================
            5.5 ÁMBITO
       ========================================== -->
-
 <!-- ==========================================
            5.6 VALORES Y REFERENCIAS
       ========================================== -->
-
 <!-- ==========================================
            5.7 PARÁMETROS ESPECIALES
       ========================================== -->
-
 <!-- ==========================================
            5.8 FUNCIONES FLECHA
       ========================================== -->
-
 <!-- ==========================================
            5.9 CALLBACKS
       ========================================== -->
-
 <!-- ==========================================
            5.10 FUNCIONES PREDEFINIDAS
       ========================================== -->
-
 <!-- ==========================================
            5.11 RECURSIVIDAD
       ========================================== -->
-
 <!-- ==========================================
            5.12 MODULARIDAD
       ========================================== -->
-
 <!-- ==========================================
            IDEAS CLAVE
       ========================================== -->
-
 <!-- ==========================================
            NAVEGACIÓN INFERIOR
       ========================================== -->
-
 <section class="apartado-ut" id="vision-global"><h2>Visión global de la unidad</h2><div class="mapa-resumen"><div class="mapa-nodo mapa-principal">OBJETOS Y PROGRAMACIÓN ORIENTADA A OBJETOS EN JAVASCRIPT</div>
 <div class="mapa-flecha">↓</div><div class="mapa-columnas">
 <div class="mapa-nodo"><strong>Trabajar con objetos</strong><span>Propiedades · métodos · creación · recorrido · this</span></div>
 <div class="mapa-nodo"><strong>Construir clases</strong><span>Constructores · instancias · métodos · encapsulación · herencia</span></div>
 <div class="mapa-nodo"><strong>Diseñar aplicaciones</strong><span>Responsabilidades · relaciones · composición · colecciones</span></div>
-</div><div class="mapa-flecha">↓</div><div class="mapa-nodo mapa-principal"><strong>OBJETIVO FINAL</strong><span>Modelar problemas y organizar programas mediante objetos y clases reutilizables.</span></div></div><div class="caja caja-importante"><span class="caja-titulo">📌 Idea principal</span><p>Un objeto agrupa datos y operaciones relacionadas. Las clases permiten definir una estructura común para crear múltiples objetos.</p></div></section><section class="apartado-ut" id="objetos"><h2>6.1 Introducción a los objetos en JavaScript</h2><p>Un <strong>objeto</strong> es una estructura que agrupa información mediante propiedades y puede incorporar funciones llamadas métodos.</p><div class="rejilla-resumen"><div class="tarjeta-resumen"><span>📦</span><strong>Objeto</strong><p>Representa una entidad mediante pares propiedad–valor.</p></div><div class="tarjeta-resumen"><span>🏷️</span><strong>Propiedad</strong><p>Almacena un dato asociado al objeto.</p></div><div class="tarjeta-resumen"><span>⚙️</span><strong>Método</strong><p>Es una función asociada a un objeto.</p></div></div><div class="ejemplo-codigo"><div class="ejemplo-codigo-cabecera"><span>JavaScript — Objeto literal</span><button class="boton-copiar" type="button">Copiar código</button></div><pre><code>const alumno = {\n  nombre: "Lucía",\n  edad: 20\n};\n\nconsole.log(alumno.nombre); // Lucía</code></pre></div><div class="caja caja-importante"><span class="caja-titulo">📌 Recuerda</span><p>Un objeto puede contener propiedades de diferentes tipos, incluidos otros objetos y funciones.</p></div></section><section class="apartado-ut" id="propiedades-metodos"><h2>6.2 Propiedades y métodos de los objetos</h2><p>Accedemos a las propiedades mediante la <strong>notación de punto</strong> o la <strong>notación de corchetes</strong>. Para ejecutar un método, debemos invocarlo con paréntesis.</p><div class="lista-claves"><div><strong>Notación de punto</strong><span><code>objeto.propiedad</code>: útil cuando conocemos el nombre.</span></div><div><strong>Notación de corchetes</strong><span><code>objeto[clave]</code>: permite utilizar nombres dinámicos.</span></div><div><strong>Método</strong><span><code>objeto.metodo()</code>: ejecuta una función asociada al objeto.</span></div><div><strong>Propiedad y método</strong><span>Consultar un valor no es lo mismo que invocar una función.</span></div></div><div class="ejemplo-codigo"><div class="ejemplo-codigo-cabecera"><span>JavaScript — Acceso a propiedades y métodos</span><button class="boton-copiar" type="button">Copiar código</button></div><pre><code>const producto = {\n  nombre: "Teclado",\n  precio: 35,\n  mostrarPrecio() {\n    return this.precio + " €";\n  }\n};\n\nconsole.log(producto["nombre"]);\nconsole.log(producto.mostrarPrecio());</code></pre></div><div class="caja caja-atencion"><span class="caja-titulo">⚠️ Atención</span><p><code>producto.mostrarPrecio</code> hace referencia a la función; <code>producto.mostrarPrecio()</code> la ejecuta.</p></div></section><section class="apartado-ut" id="crear-manipular"><h2>6.3 Creación y manipulación de objetos</h2><p>Podemos crear objetos con la sintaxis literal <code>{}</code> y añadir, modificar o eliminar propiedades según las necesidades del programa.</p><div class="ejemplo-codigo"><div class="ejemplo-codigo-cabecera"><span>JavaScript — Modificar un objeto</span><button class="boton-copiar" type="button">Copiar código</button></div><pre><code>const libro = { titulo: "JavaScript" };\nlibro.paginas = 250;\nlibro.paginas = 280;\ndelete libro.paginas;\n\nconsole.log(libro.titulo);</code></pre></div><div class="caja caja-importante"><span class="caja-titulo">📌 Recuerda</span><p>Declarar un objeto con <code>const</code> impide reasignar la variable, pero no convierte automáticamente sus propiedades en inmutables.</p></div></section><section class="apartado-ut" id="recorrido"><h2>6.4 Recorrido de propiedades de objetos</h2><p>Para examinar el contenido de un objeto podemos utilizar <code>for...in</code>, <code>Object.keys()</code>, <code>Object.values()</code> y <code>Object.entries()</code>.</p><div class="lista-claves"><div><strong>Object.keys()</strong><span>Devuelve un array con los nombres de las propiedades propias enumerables.</span></div><div><strong>Object.values()</strong><span>Devuelve sus valores.</span></div><div><strong>Object.entries()</strong><span>Devuelve pares <code>[clave, valor]</code>.</span></div><div><strong>for...in</strong><span>Recorre propiedades enumerables, incluidas las heredadas.</span></div></div><div class="ejemplo-codigo"><div class="ejemplo-codigo-cabecera"><span>JavaScript — Recorrer entradas</span><button class="boton-copiar" type="button">Copiar código</button></div><pre><code>const notas = { dwec: 8 };\nnotas.diw = 9;\n\nfor (const [modulo, nota] of Object.entries(notas)) {\n  console.log(modulo, nota);\n}</code></pre></div><div class="caja caja-atencion"><span class="caja-titulo">⚠️ Atención</span><p>Con <code>for...in</code> conviene comprobar si una propiedad pertenece al propio objeto mediante <code>Object.hasOwn()</code> cuando no deseamos recorrer propiedades heredadas.</p></div></section><section class="apartado-ut" id="this"><h2>6.5 Métodos y palabra clave this</h2><p>En una llamada como <code>objeto.metodo()</code>, <code>this</code> normalmente hace referencia al objeto que realiza la llamada. Su valor depende de cómo se invoca la función.</p><div class="ejemplo-codigo"><div class="ejemplo-codigo-cabecera"><span>JavaScript — this dentro de un método</span><button class="boton-copiar" type="button">Copiar código</button></div><pre><code>const cuenta = {\n  titular: "Ana",\n  saldo: 100,\n  mostrarSaldo() {\n    return `${this.titular}: ${this.saldo} €`;\n  }\n};\n\nconsole.log(cuenta.mostrarSaldo());</code></pre></div><div class="caja caja-atencion"><span class="caja-titulo">⚠️ Atención</span><p>Las funciones flecha no tienen un <code>this</code> propio; por ello, no suelen ser adecuadas como métodos cuando necesitamos que <code>this</code> señale al objeto receptor.</p></div></section><section class="apartado-ut" id="constructoras"><h2>6.6 Funciones constructoras y creación de instancias</h2><p>Una <strong>función constructora</strong> permite crear varios objetos con una estructura semejante utilizando el operador <code>new</code>.</p><div class="ejemplo-codigo"><div class="ejemplo-codigo-cabecera"><span>JavaScript — Función constructora</span><button class="boton-copiar" type="button">Copiar código</button></div><pre><code>function Alumno(nombre, curso) {\n  this.nombre = nombre;\n  this.curso = curso;\n}\n\nconst a1 = new Alumno("Eva", "DAW");\nconst a2 = new Alumno("Pablo", "DAW");\n\nconsole.log(a1.nombre);</code></pre></div><div class="caja caja-importante"><span class="caja-titulo">📌 Recuerda</span><p>Cada llamada a <code>new Alumno(...)</code> crea una instancia distinta.</p></div></section><section class="apartado-ut" id="clases"><h2>6.7 Introducción a las clases en JavaScript</h2><p>La sintaxis <code>class</code> permite definir clases de forma clara. El método <code>constructor</code> inicializa los datos de cada instancia.</p><div class="ejemplo-codigo"><div class="ejemplo-codigo-cabecera"><span>JavaScript — Definir una clase</span><button class="boton-copiar" type="button">Copiar código</button></div><pre><code>class Alumno {\n  constructor(nombre) {\n    this.nombre = nombre;\n  }\n\n  saludar() {\n    return `Hola, soy ${this.nombre}`;\n  }\n}\n\nconst alumno = new Alumno("Lucía");\nconsole.log(alumno.saludar());</code></pre></div><div class="caja caja-importante"><span class="caja-titulo">📌 Recuerda</span><p>Una clase actúa como definición común; los objetos creados con <code>new</code> son sus instancias.</p></div></section><section class="apartado-ut" id="miembros-clase"><h2>6.8 Propiedades y métodos de las clases</h2><p>Las clases pueden definir datos y comportamientos de instancia. También permiten distinguir entre miembros públicos, privados y estáticos.</p><div class="lista-claves"><div><strong>Propiedades de instancia</strong><span>Cada objeto conserva sus propios datos.</span></div><div><strong>Métodos de instancia</strong><span>Se invocan sobre un objeto creado a partir de la clase.</span></div><div><strong>Miembros privados</strong><span>La sintaxis <code>#nombre</code> limita el acceso desde fuera de la clase.</span></div><div><strong>Miembros estáticos</strong><span>Se consultan mediante el nombre de la clase, no desde una instancia.</span></div></div><div class="ejemplo-codigo"><div class="ejemplo-codigo-cabecera"><span>JavaScript — Propiedad privada</span><button class="boton-copiar" type="button">Copiar código</button></div><pre><code>class Contador {\n  #valor = 0;\n\n  incrementar() {\n    this.#valor++;\n  }\n\n  consultar() {\n    return this.#valor;\n  }\n}\n\nconst contador = new Contador();\ncontador.incrementar();\nconsole.log(contador.consultar()); // 1</code></pre></div><div class="caja caja-atencion"><span class="caja-titulo">⚠️ Atención</span><p>Una propiedad privada declarada con <code>#</code> no puede consultarse directamente desde fuera de la clase.</p></div></section><section class="apartado-ut" id="poo"><h2>6.9 Principios de la Programación Orientada a Objetos</h2><p>La <strong>Programación Orientada a Objetos (POO)</strong> organiza el software alrededor de entidades con datos y comportamientos.</p><div class="rejilla-resumen"><div class="tarjeta-resumen"><span>🧩</span><strong>Abstracción</strong><p>Representa lo esencial de una entidad y evita detalles innecesarios.</p></div><div class="tarjeta-resumen"><span>🔒</span><strong>Encapsulación</strong><p>Agrupa estado y comportamiento, controlando cómo se accede a los datos.</p></div><div class="tarjeta-resumen"><span>🌳</span><strong>Herencia</strong><p>Permite especializar clases a partir de otras.</p></div></div><div class="caja caja-importante"><span class="caja-titulo">📌 Recuerda</span><p>La POO busca repartir responsabilidades entre objetos de forma comprensible y mantenible.</p></div></section><section class="apartado-ut" id="herencia"><h2>6.10 Herencia básica entre clases</h2><p>Con <code>extends</code> podemos crear una clase derivada a partir de una clase base. <code>super()</code> permite invocar el constructor de la clase padre.</p><div class="ejemplo-codigo"><div class="ejemplo-codigo-cabecera"><span>JavaScript — Herencia con extends</span><button class="boton-copiar" type="button">Copiar código</button></div><pre><code>class Empleado {\n  constructor(nombre) {\n    this.nombre = nombre;\n  }\n\n  presentarse() {\n    return `Soy ${this.nombre}`;\n  }\n}\n\nclass Desarrollador extends Empleado {\n  constructor(nombre, lenguaje) {\n    super(nombre);\n    this.lenguaje = lenguaje;\n  }\n}\n\nconst dev = new Desarrollador("Ana", "JavaScript");\nconsole.log(dev.presentarse());</code></pre></div><div class="caja caja-atencion"><span class="caja-titulo">⚠️ Atención</span><p>En una clase derivada, cuando definimos un constructor debemos llamar a <code>super()</code> antes de utilizar <code>this</code>.</p></div></section><section class="apartado-ut" id="organizacion"><h2>6.11 Organización de programas mediante objetos y clases</h2><p>Antes de programar conviene identificar las entidades del problema, las responsabilidades de cada clase y las relaciones entre objetos. Una aplicación puede utilizar <strong>composición</strong> y <strong>colecciones de objetos</strong> para organizar su información.</p><div class="lista-claves"><div><strong>Responsabilidad</strong><span>Cada clase debe tener un propósito definido.</span></div><div><strong>Composición</strong><span>Un objeto contiene o utiliza otros objetos para cumplir su función.</span></div><div><strong>Colecciones</strong><span>Los arrays permiten gestionar múltiples instancias.</span></div><div><strong>Separación</strong><span>Distinguir modelos, reglas de negocio y presentación facilita el mantenimiento.</span></div></div><div class="ejemplo-codigo"><div class="ejemplo-codigo-cabecera"><span>JavaScript — Objetos que colaboran</span><button class="boton-copiar" type="button">Copiar código</button></div><pre><code>class Producto {\n  constructor(nombre, precio) {\n    this.nombre = nombre;\n    this.precio = precio;\n  }\n}\n\nclass Pedido {\n  constructor() {\n    this.productos = [];\n  }\n\n  agregar(producto) {\n    this.productos.push(producto);\n  }\n\n  total() {\n    return this.productos.reduce((suma, p) =&gt; suma + p.precio, 0);\n  }\n}\n\nconst pedido = new Pedido();\npedido.agregar(new Producto("Ratón", 20));\nconsole.log(pedido.total()); // 20</code></pre></div><div class="caja caja-ejemplo"><span class="caja-titulo">💻 Aplicación al desarrollo web</span><p>En un sistema de matrículas podemos utilizar clases como <code>Alumno</code>, <code>Modulo</code>, <code>Matricula</code> y <code>GestorMatriculas</code>, asignando a cada una una responsabilidad concreta.</p></div></section><section class="apartado-ut" id="ideas-clave"><h2>Ideas clave de la UT6</h2><div class="caja caja-importante resumen-final"><span class="caja-titulo">📌 Si tuvieras que recordar solo estas ideas…</span><ul><li>Un <strong>objeto</strong> reúne propiedades y métodos relacionados.</li><li>La notación de punto y la de corchetes permiten acceder a propiedades.</li><li>Podemos crear, modificar, eliminar y recorrer propiedades de los objetos.</li><li>El valor de <code>this</code> depende de la forma en que se invoca una función.</li><li>Las <strong>funciones constructoras</strong> y las <strong>clases</strong> permiten crear instancias.</li><li><code>constructor</code> inicializa cada instancia; los métodos definen comportamientos.</li><li>La encapsulación y la abstracción ayudan a controlar la complejidad.</li><li><code>extends</code> establece herencia y <code>super()</code> permite acceder al constructor padre.</li><li>La composición y las colecciones facilitan la colaboración entre objetos.</li><li>Asignar responsabilidades claras a cada clase mejora la organización del programa.</li></ul></div></section><nav aria-label="Navegación entre páginas" class="navegacion-paginas">
+</div><div class="mapa-flecha">↓</div><div class="mapa-nodo mapa-principal"><strong>OBJETIVO FINAL</strong><span>Modelar problemas y organizar programas mediante objetos y clases reutilizables.</span></div></div><div class="caja caja-importante"><span class="caja-titulo">📌 Idea principal</span><p>Un objeto agrupa datos y operaciones relacionadas. Las clases permiten definir una estructura común para crear múltiples objetos.</p></div></section><section class="apartado-ut" id="objetos"><h2>6.1 Introducción a los objetos en JavaScript</h2><p>Un <strong>objeto</strong> es una estructura que agrupa información mediante propiedades y puede incorporar funciones llamadas métodos.</p><div class="rejilla-resumen"><div class="tarjeta-resumen"><span>📦</span><strong>Objeto</strong><p>Representa una entidad mediante pares propiedad–valor.</p></div><div class="tarjeta-resumen"><span>🏷️</span><strong>Propiedad</strong><p>Almacena un dato asociado al objeto.</p></div><div class="tarjeta-resumen"><span>⚙️</span><strong>Método</strong><p>Es una función asociada a un objeto.</p></div></div><div class="ejemplo-codigo"><div class="ejemplo-codigo-cabecera"><span>JavaScript — Objeto literal</span><button class="boton-copiar" type="button">Copiar código</button></div><pre><code>const alumno = {
+  nombre: "Lucía",
+  edad: 20
+};
+
+console.log(alumno.nombre); // Lucía</code></pre></div><div class="caja caja-importante"><span class="caja-titulo">📌 Recuerda</span><p>Un objeto puede contener propiedades de diferentes tipos, incluidos otros objetos y funciones.</p></div></section><section class="apartado-ut" id="propiedades-metodos"><h2>6.2 Propiedades y métodos de los objetos</h2><p>Accedemos a las propiedades mediante la <strong>notación de punto</strong> o la <strong>notación de corchetes</strong>. Para ejecutar un método, debemos invocarlo con paréntesis.</p><div class="lista-claves"><div><strong>Notación de punto</strong><span><code>objeto.propiedad</code>: útil cuando conocemos el nombre.</span></div><div><strong>Notación de corchetes</strong><span><code>objeto[clave]</code>: permite utilizar nombres dinámicos.</span></div><div><strong>Método</strong><span><code>objeto.metodo()</code>: ejecuta una función asociada al objeto.</span></div><div><strong>Propiedad y método</strong><span>Consultar un valor no es lo mismo que invocar una función.</span></div></div><div class="ejemplo-codigo"><div class="ejemplo-codigo-cabecera"><span>JavaScript — Acceso a propiedades y métodos</span><button class="boton-copiar" type="button">Copiar código</button></div><pre><code>const producto = {
+  nombre: "Teclado",
+  precio: 35,
+  mostrarPrecio() {
+    return this.precio + " €";
+  }
+};
+
+console.log(producto["nombre"]);
+console.log(producto.mostrarPrecio());</code></pre></div><div class="caja caja-atencion"><span class="caja-titulo">⚠️ Atención</span><p><code>producto.mostrarPrecio</code> hace referencia a la función; <code>producto.mostrarPrecio()</code> la ejecuta.</p></div></section><section class="apartado-ut" id="crear-manipular"><h2>6.3 Creación y manipulación de objetos</h2><p>Podemos crear objetos con la sintaxis literal <code>{}</code> y añadir, modificar o eliminar propiedades según las necesidades del programa.</p><div class="ejemplo-codigo"><div class="ejemplo-codigo-cabecera"><span>JavaScript — Modificar un objeto</span><button class="boton-copiar" type="button">Copiar código</button></div><pre><code>const libro = { titulo: "JavaScript" };
+libro.paginas = 250;
+libro.paginas = 280;
+delete libro.paginas;
+
+console.log(libro.titulo);</code></pre></div><div class="caja caja-importante"><span class="caja-titulo">📌 Recuerda</span><p>Declarar un objeto con <code>const</code> impide reasignar la variable, pero no convierte automáticamente sus propiedades en inmutables.</p></div></section><section class="apartado-ut" id="recorrido"><h2>6.4 Recorrido de propiedades de objetos</h2><p>Para examinar el contenido de un objeto podemos utilizar <code>for...in</code>, <code>Object.keys()</code>, <code>Object.values()</code> y <code>Object.entries()</code>.</p><div class="lista-claves"><div><strong>Object.keys()</strong><span>Devuelve un array con los nombres de las propiedades propias enumerables.</span></div><div><strong>Object.values()</strong><span>Devuelve sus valores.</span></div><div><strong>Object.entries()</strong><span>Devuelve pares <code>[clave, valor]</code>.</span></div><div><strong>for...in</strong><span>Recorre propiedades enumerables, incluidas las heredadas.</span></div></div><div class="ejemplo-codigo"><div class="ejemplo-codigo-cabecera"><span>JavaScript — Recorrer entradas</span><button class="boton-copiar" type="button">Copiar código</button></div><pre><code>const notas = { dwec: 8 };
+notas.diw = 9;
+
+for (const [modulo, nota] of Object.entries(notas)) {
+  console.log(modulo, nota);
+}</code></pre></div><div class="caja caja-atencion"><span class="caja-titulo">⚠️ Atención</span><p>Con <code>for...in</code> conviene comprobar si una propiedad pertenece al propio objeto mediante <code>Object.hasOwn()</code> cuando no deseamos recorrer propiedades heredadas.</p></div></section><section class="apartado-ut" id="this"><h2>6.5 Métodos y palabra clave this</h2><p>En una llamada como <code>objeto.metodo()</code>, <code>this</code> normalmente hace referencia al objeto que realiza la llamada. Su valor depende de cómo se invoca la función.</p><div class="ejemplo-codigo"><div class="ejemplo-codigo-cabecera"><span>JavaScript — this dentro de un método</span><button class="boton-copiar" type="button">Copiar código</button></div><pre><code>const cuenta = {
+  titular: "Ana",
+  saldo: 100,
+  mostrarSaldo() {
+    return `${this.titular}: ${this.saldo} €`;
+  }
+};
+
+console.log(cuenta.mostrarSaldo());</code></pre></div><div class="caja caja-atencion"><span class="caja-titulo">⚠️ Atención</span><p>Las funciones flecha no tienen un <code>this</code> propio; por ello, no suelen ser adecuadas como métodos cuando necesitamos que <code>this</code> señale al objeto receptor.</p></div></section><section class="apartado-ut" id="constructoras"><h2>6.6 Funciones constructoras y creación de instancias</h2><p>Una <strong>función constructora</strong> permite crear varios objetos con una estructura semejante utilizando el operador <code>new</code>.</p><div class="ejemplo-codigo"><div class="ejemplo-codigo-cabecera"><span>JavaScript — Función constructora</span><button class="boton-copiar" type="button">Copiar código</button></div><pre><code>function Alumno(nombre, curso) {
+  this.nombre = nombre;
+  this.curso = curso;
+}
+
+const a1 = new Alumno("Eva", "DAW");
+const a2 = new Alumno("Pablo", "DAW");
+
+console.log(a1.nombre);</code></pre></div><div class="caja caja-importante"><span class="caja-titulo">📌 Recuerda</span><p>Cada llamada a <code>new Alumno(...)</code> crea una instancia distinta.</p></div></section><section class="apartado-ut" id="clases"><h2>6.7 Introducción a las clases en JavaScript</h2><p>La sintaxis <code>class</code> permite definir clases de forma clara. El método <code>constructor</code> inicializa los datos de cada instancia.</p><div class="ejemplo-codigo"><div class="ejemplo-codigo-cabecera"><span>JavaScript — Definir una clase</span><button class="boton-copiar" type="button">Copiar código</button></div><pre><code>class Alumno {
+  constructor(nombre) {
+    this.nombre = nombre;
+  }
+
+  saludar() {
+    return `Hola, soy ${this.nombre}`;
+  }
+}
+
+const alumno = new Alumno("Lucía");
+console.log(alumno.saludar());</code></pre></div><div class="caja caja-importante"><span class="caja-titulo">📌 Recuerda</span><p>Una clase actúa como definición común; los objetos creados con <code>new</code> son sus instancias.</p></div></section><section class="apartado-ut" id="miembros-clase"><h2>6.8 Propiedades y métodos de las clases</h2><p>Las clases pueden definir datos y comportamientos de instancia. También permiten distinguir entre miembros públicos, privados y estáticos.</p><div class="lista-claves"><div><strong>Propiedades de instancia</strong><span>Cada objeto conserva sus propios datos.</span></div><div><strong>Métodos de instancia</strong><span>Se invocan sobre un objeto creado a partir de la clase.</span></div><div><strong>Miembros privados</strong><span>La sintaxis <code>#nombre</code> limita el acceso desde fuera de la clase.</span></div><div><strong>Miembros estáticos</strong><span>Se consultan mediante el nombre de la clase, no desde una instancia.</span></div></div><div class="ejemplo-codigo"><div class="ejemplo-codigo-cabecera"><span>JavaScript — Propiedad privada</span><button class="boton-copiar" type="button">Copiar código</button></div><pre><code>class Contador {
+  #valor = 0;
+
+  incrementar() {
+    this.#valor++;
+  }
+
+  consultar() {
+    return this.#valor;
+  }
+}
+
+const contador = new Contador();
+contador.incrementar();
+console.log(contador.consultar()); // 1</code></pre></div><div class="caja caja-atencion"><span class="caja-titulo">⚠️ Atención</span><p>Una propiedad privada declarada con <code>#</code> no puede consultarse directamente desde fuera de la clase.</p></div></section><section class="apartado-ut" id="poo"><h2>6.9 Principios de la Programación Orientada a Objetos</h2><p>La <strong>Programación Orientada a Objetos (POO)</strong> organiza el software alrededor de entidades con datos y comportamientos.</p><div class="rejilla-resumen"><div class="tarjeta-resumen"><span>🧩</span><strong>Abstracción</strong><p>Representa lo esencial de una entidad y evita detalles innecesarios.</p></div><div class="tarjeta-resumen"><span>🔒</span><strong>Encapsulación</strong><p>Agrupa estado y comportamiento, controlando cómo se accede a los datos.</p></div><div class="tarjeta-resumen"><span>🌳</span><strong>Herencia</strong><p>Permite especializar clases a partir de otras.</p></div></div><div class="caja caja-importante"><span class="caja-titulo">📌 Recuerda</span><p>La POO busca repartir responsabilidades entre objetos de forma comprensible y mantenible.</p></div></section><section class="apartado-ut" id="herencia"><h2>6.10 Herencia básica entre clases</h2><p>Con <code>extends</code> podemos crear una clase derivada a partir de una clase base. <code>super()</code> permite invocar el constructor de la clase padre.</p><div class="ejemplo-codigo"><div class="ejemplo-codigo-cabecera"><span>JavaScript — Herencia con extends</span><button class="boton-copiar" type="button">Copiar código</button></div><pre><code>class Empleado {
+  constructor(nombre) {
+    this.nombre = nombre;
+  }
+
+  presentarse() {
+    return `Soy ${this.nombre}`;
+  }
+}
+
+class Desarrollador extends Empleado {
+  constructor(nombre, lenguaje) {
+    super(nombre);
+    this.lenguaje = lenguaje;
+  }
+}
+
+const dev = new Desarrollador("Ana", "JavaScript");
+console.log(dev.presentarse());</code></pre></div><div class="caja caja-atencion"><span class="caja-titulo">⚠️ Atención</span><p>En una clase derivada, cuando definimos un constructor debemos llamar a <code>super()</code> antes de utilizar <code>this</code>.</p></div></section><section class="apartado-ut" id="organizacion"><h2>6.11 Organización de programas mediante objetos y clases</h2><p>Antes de programar conviene identificar las entidades del problema, las responsabilidades de cada clase y las relaciones entre objetos. Una aplicación puede utilizar <strong>composición</strong> y <strong>colecciones de objetos</strong> para organizar su información.</p><div class="lista-claves"><div><strong>Responsabilidad</strong><span>Cada clase debe tener un propósito definido.</span></div><div><strong>Composición</strong><span>Un objeto contiene o utiliza otros objetos para cumplir su función.</span></div><div><strong>Colecciones</strong><span>Los arrays permiten gestionar múltiples instancias.</span></div><div><strong>Separación</strong><span>Distinguir modelos, reglas de negocio y presentación facilita el mantenimiento.</span></div></div><div class="ejemplo-codigo"><div class="ejemplo-codigo-cabecera"><span>JavaScript — Objetos que colaboran</span><button class="boton-copiar" type="button">Copiar código</button></div><pre><code>class Producto {
+  constructor(nombre, precio) {
+    this.nombre = nombre;
+    this.precio = precio;
+  }
+}
+
+class Pedido {
+  constructor() {
+    this.productos = [];
+  }
+
+  agregar(producto) {
+    this.productos.push(producto);
+  }
+
+  total() {
+    return this.productos.reduce((suma, p) =&gt; suma + p.precio, 0);
+  }
+}
+
+const pedido = new Pedido();
+pedido.agregar(new Producto("Ratón", 20));
+console.log(pedido.total()); // 20</code></pre></div><div class="caja caja-ejemplo"><span class="caja-titulo">💻 Aplicación al desarrollo web</span><p>En un sistema de matrículas podemos utilizar clases como <code>Alumno</code>, <code>Modulo</code>, <code>Matricula</code> y <code>GestorMatriculas</code>, asignando a cada una una responsabilidad concreta.</p></div></section><section class="apartado-ut" id="ideas-clave"><h2>Ideas clave de la UT6</h2><div class="caja caja-importante resumen-final"><span class="caja-titulo">📌 Si tuvieras que recordar solo estas ideas…</span><ul><li>Un <strong>objeto</strong> reúne propiedades y métodos relacionados.</li><li>La notación de punto y la de corchetes permiten acceder a propiedades.</li><li>Podemos crear, modificar, eliminar y recorrer propiedades de los objetos.</li><li>El valor de <code>this</code> depende de la forma en que se invoca una función.</li><li>Las <strong>funciones constructoras</strong> y las <strong>clases</strong> permiten crear instancias.</li><li><code>constructor</code> inicializa cada instancia; los métodos definen comportamientos.</li><li>La encapsulación y la abstracción ayudan a controlar la complejidad.</li><li><code>extends</code> establece herencia y <code>super()</code> permite acceder al constructor padre.</li><li>La composición y las colecciones facilitan la colaboración entre objetos.</li><li>Asignar responsabilidades claras a cada clase mejora la organización del programa.</li></ul></div></section><nav aria-label="Navegación entre páginas" class="navegacion-paginas">
 <a class="nav-pagina nav-anterior" href="../6-11/index.html"><span class="nav-etiqueta">Anterior</span><strong>‹ 6.11 Organización de programas mediante objetos y clases</strong></a>
 <a class="nav-pagina nav-siguiente" href="../actividades/index.html"><span class="nav-etiqueta">Siguiente</span><strong>📝 Actividades de la UT6 ›</strong></a>
 </nav></main>
