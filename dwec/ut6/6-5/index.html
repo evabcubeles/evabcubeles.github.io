@@ -1,0 +1,3592 @@
+
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="6.5 - Definición de métodos y palabra clave this en JavaScript. Métodos de objetos, sintaxis, contexto de ejecución y errores habituales.">
+
+  <title>6.5 - Definición de métodos y palabra clave this</title>
+
+  <link rel="icon" type="image/png" href="../../../img/favicon.png?v=5">
+  <link rel="stylesheet" href="../../../css/estilos.css">
+
+  <style>
+
+    /* ==========================================
+       ESTRUCTURA DE LA UT
+    ========================================== */
+
+    .pagina-ut {
+      display: grid;
+      grid-template-columns: 280px minmax(0, 1fr) 260px;
+      min-height: calc(100vh - 68px);
+    }
+
+    /* ==========================================
+       COLUMNA IZQUIERDA
+    ========================================== */
+
+    .sidebar {
+      border-right: 1px solid var(--borde);
+      background-color: var(--fondo-pagina);
+      padding: 12px 10px 30px;
+      position: sticky;
+      top: 68px;
+      height: calc(100vh - 68px);
+      overflow-y: auto;
+      box-sizing: border-box;
+    }
+
+    .sidebar-modulo {
+      display: block;
+      margin-bottom: 8px;
+      padding: 8px 14px;
+      color: #626873;
+      font-size: 17px;
+      font-weight: 700;
+      line-height: 1.3;
+      text-decoration: none;
+      border-radius: 6px;
+    }
+
+    .sidebar-modulo:hover {
+      color: var(--verde-principal);
+      background-color: #f3f4f6;
+    }
+
+    .menu-desplegable {
+      width: 100%;
+    }
+
+    .menu-cabecera {
+      display: flex;
+      align-items: center;
+      gap: 4px;
+      width: 100%;
+      border-radius: 6px;
+    }
+
+    .menu-cabecera-activa {
+      background-color: #f1f1f1;
+    }
+
+    .menu-cabecera-activa > .menu-titulo {
+      color: var(--verde-principal);
+    }
+
+    .menu-titulo {
+      flex: 1;
+      display: block;
+      padding: 11px 8px 11px 14px;
+      color: #626873;
+      font-size: 16px;
+      font-weight: 650;
+      line-height: 1.4;
+      text-decoration: none;
+    }
+
+    .menu-titulo:hover {
+      color: var(--verde-principal);
+    }
+
+    .boton-desplegar {
+      width: 36px;
+      height: 36px;
+      margin-right: 5px;
+      padding: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+      border: 0;
+      border-radius: 6px;
+      background: transparent;
+      color: #777;
+      font-family: inherit;
+      font-size: 24px;
+      line-height: 1;
+      cursor: pointer;
+    }
+
+    .boton-desplegar:hover {
+      background-color: #e5e7eb;
+      color: var(--verde-principal);
+    }
+
+    .submenu {
+      display: none;
+    }
+
+    .submenu.submenu-abierto {
+      display: block;
+    }
+
+    .menu-apartado {
+      margin-left: 14px;
+    }
+
+    .menu-apartado .menu-titulo {
+      padding-top: 9px;
+      padding-bottom: 9px;
+      font-size: 15px;
+      font-weight: 600;
+    }
+
+    .submenu-apartados {
+      margin: 2px 0 5px 28px;
+      border-left: 2px solid #e0e3e7;
+    }
+
+    .submenu-apartados a {
+      display: block;
+      padding: 7px 10px;
+      color: #777d87;
+      font-size: 14px;
+      font-weight: 500;
+      line-height: 1.35;
+      text-decoration: none;
+    }
+
+    .submenu-apartados a:hover {
+      color: var(--verde-principal);
+    }
+
+    .submenu-apartados a.enlace-actual {
+      color: var(--verde-principal);
+      font-weight: 700;
+    }
+
+    .enlace-apartado-simple {
+      display: block;
+      margin-left: 14px;
+      padding: 10px 14px;
+      color: #626873;
+      font-size: 15px;
+      font-weight: 600;
+      line-height: 1.4;
+      text-decoration: none;
+      border-radius: 6px;
+    }
+
+    .enlace-apartado-simple:hover {
+      color: var(--verde-principal);
+      background-color: #f3f4f6;
+    }
+
+    .sidebar-ut-cerrada {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      padding: 13px 14px;
+      color: #626873;
+      text-decoration: none;
+      font-size: 16px;
+      font-weight: 650;
+      line-height: 1.35;
+      border-radius: 6px;
+    }
+
+    .sidebar-ut-cerrada:hover {
+      background-color: #f3f4f6;
+      color: var(--verde-principal);
+    }
+
+    /* ==========================================
+       MODO OSCURO DEL MENÚ
+    ========================================== */
+
+    body.modo-oscuro .sidebar-modulo:hover,
+    body.modo-oscuro .sidebar-ut-cerrada:hover,
+    body.modo-oscuro .enlace-apartado-simple:hover {
+      background-color: #273244;
+    }
+
+    body.modo-oscuro .menu-cabecera-activa {
+      background-color: #273244;
+    }
+
+    body.modo-oscuro .boton-desplegar:hover {
+      background-color: #334155;
+    }
+
+    body.modo-oscuro .submenu-apartados {
+      border-left-color: #3a4659;
+    }
+
+    /* ==========================================
+       ZONA CENTRAL
+    ========================================== */
+
+    .contenido-ut {
+      padding: 28px 34px 70px;
+      max-width: 1150px;
+      width: 100%;
+      min-width: 0;
+      box-sizing: border-box;
+    }
+
+    .migas {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 30px;
+      font-size: 14px;
+      flex-wrap: wrap;
+    }
+
+    .miga-inicio {
+      text-decoration: none;
+      font-size: 18px;
+    }
+
+    .miga-separador {
+      color: #999;
+      font-size: 22px;
+    }
+
+    .miga-modulo {
+      color: var(--texto-secundario);
+      text-decoration: none;
+    }
+
+    .miga-modulo:hover {
+      color: var(--verde-principal);
+    }
+
+    .miga-actual {
+      padding: 8px 14px;
+      background-color: #f3f3f3;
+      border-radius: 24px;
+      color: var(--verde-principal);
+    }
+
+    body.modo-oscuro .miga-actual {
+      background-color: #273244;
+    }
+
+    .contenido-ut h1 {
+      margin: 0 0 30px;
+      font-size: clamp(34px, 4vw, 48px);
+      line-height: 1.15;
+    }
+
+    .apartado-ut {
+      font-size: 17px;
+      line-height: 1.8;
+    }
+
+    .apartado-ut p {
+      margin: 0 0 19px;
+    }
+
+    .apartado-ut h2 {
+      margin: 48px 0 20px;
+      padding-bottom: 10px;
+      border-bottom: 1px solid var(--borde);
+      font-size: 28px;
+      line-height: 1.3;
+      scroll-margin-top: 95px;
+    }
+
+    .apartado-ut h3 {
+      margin: 32px 0 16px;
+      font-size: 21px;
+      line-height: 1.4;
+    }
+
+    .apartado-ut ul,
+    .apartado-ut ol {
+      margin: 0 0 22px;
+      padding-left: 28px;
+    }
+
+    .apartado-ut li {
+      margin-bottom: 10px;
+    }
+
+    .apartado-ut code:not(.bloque-codigo code) {
+      padding: 2px 5px;
+      border-radius: 4px;
+      background-color: rgba(128, 128, 128, 0.12);
+      font-family: Consolas, "Courier New", monospace;
+      font-size: 0.9em;
+      overflow-wrap: anywhere;
+    }
+
+    /* ==========================================
+       CAJAS DIDÁCTICAS
+    ========================================== */
+
+    .caja {
+      margin: 26px 0;
+      padding: 20px 24px;
+      border-left: 5px solid;
+      border-radius: 7px;
+      background-color: var(--fondo-tarjeta);
+    }
+
+    .caja p {
+      margin-bottom: 10px;
+    }
+
+    .caja p:last-child {
+      margin-bottom: 0;
+    }
+
+    .caja-titulo {
+      display: block;
+      margin-bottom: 10px;
+      font-size: 17px;
+      font-weight: 750;
+    }
+
+    .caja-importante {
+      border-left-color: #2563eb;
+      background-color: rgba(37, 99, 235, 0.07);
+    }
+
+    .caja-atencion {
+      border-left-color: #e6a23c;
+      background-color: rgba(230, 162, 60, 0.09);
+    }
+
+    .caja-ejemplo {
+      border-left-color: #16a34a;
+      background-color: rgba(22, 163, 74, 0.07);
+    }
+
+    .caja-curiosidad {
+      border-left-color: #8b5cf6;
+      background-color: rgba(139, 92, 246, 0.07);
+    }
+
+    /* ==========================================
+       TABLAS
+    ========================================== */
+
+    .tabla-responsive {
+      width: 100%;
+      overflow-x: auto;
+      margin: 24px 0;
+    }
+
+    .tabla-apuntes,
+    .tabla-contenido {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 15px;
+      line-height: 1.6;
+    }
+
+    .tabla-apuntes th,
+    .tabla-apuntes td,
+    .tabla-contenido th,
+    .tabla-contenido td {
+      padding: 13px 15px;
+      border: 1px solid var(--borde);
+      text-align: left;
+      vertical-align: top;
+    }
+
+    .tabla-apuntes th,
+    .tabla-contenido th {
+      background-color: rgba(128, 128, 128, 0.10);
+      font-weight: 700;
+    }
+
+    /* ==========================================
+       ESQUEMAS VISUALES
+    ========================================== */
+
+    .esquema-web {
+      display: grid;
+      gap: 14px;
+      margin: 28px 0;
+    }
+
+    .esquema-fila {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 14px;
+    }
+
+    .esquema-caja {
+      padding: 20px;
+      border: 1px solid var(--borde);
+      border-radius: 9px;
+      background-color: var(--fondo-tarjeta);
+      text-align: center;
+    }
+
+    .esquema-caja strong {
+      display: block;
+      margin-bottom: 7px;
+      color: var(--verde-principal);
+      font-size: 17px;
+    }
+
+    .esquema-caja span {
+      display: block;
+      font-size: 15px;
+      line-height: 1.6;
+    }
+
+    /* ==========================================
+       ACTIVIDAD DE REFLEXIÓN
+    ========================================== */
+
+    .actividad-reflexion {
+      margin: 32px 0;
+      padding: 22px 24px;
+      background-color: #f7f8fa;
+      border: 1px solid var(--borde);
+      border-radius: 10px;
+    }
+
+    .actividad-reflexion h3 {
+      margin: 0 0 12px;
+      color: var(--verde-principal);
+      font-size: 20px;
+    }
+
+    .actividad-reflexion p {
+      margin: 0 0 14px;
+      font-size: 17px;
+      line-height: 1.65;
+    }
+
+    body.modo-oscuro .actividad-reflexion {
+      background-color: #232d3d;
+    }
+
+    /* ==========================================
+       SOLUCIÓN DESPLEGABLE
+    ========================================== */
+
+    .solucion-desplegable {
+      margin-top: 20px;
+    }
+
+    .solucion-desplegable summary {
+      display: inline-block;
+      padding: 10px 16px;
+      background-color: #eef8f1;
+      border: 1px solid #b9dfc6;
+      border-radius: 7px;
+      color: var(--verde-principal);
+      font-size: 16px;
+      font-weight: 700;
+      cursor: pointer;
+      user-select: none;
+    }
+
+    .solucion-desplegable summary:hover {
+      background-color: #e2f3e7;
+    }
+
+    .contenido-solucion {
+      margin-top: 16px;
+      padding: 18px 20px;
+      background-color: var(--fondo-pagina);
+      border-left: 4px solid var(--verde-principal);
+      border-radius: 6px;
+    }
+
+    .contenido-solucion p {
+      margin: 0 0 12px;
+      font-size: 16px;
+      line-height: 1.65;
+    }
+
+    .contenido-solucion p:last-child {
+      margin-bottom: 0;
+    }
+
+    body.modo-oscuro .solucion-desplegable summary {
+      background-color: #20372a;
+      border-color: #315d40;
+    }
+
+    /* ==========================================
+       BLOQUES DE CÓDIGO
+    ========================================== */
+
+    .bloque-codigo {
+      margin: 25px 0;
+      border: 1px solid var(--borde);
+      border-radius: 8px;
+      overflow: hidden;
+      background-color: #1e1e1e;
+    }
+
+    .cabecera-codigo {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      padding: 10px 14px;
+      background-color: #2b2b2b;
+      color: #f3f4f6;
+      font-size: 14px;
+    }
+
+    .lenguaje-codigo {
+      font-weight: 700;
+    }
+
+    .boton-copiar {
+      padding: 6px 10px;
+      border: 1px solid #555;
+      border-radius: 6px;
+      background-color: #383838;
+      color: #f3f4f6;
+      font-family: inherit;
+      font-size: 13px;
+      cursor: pointer;
+    }
+
+    .boton-copiar:hover {
+      background-color: #484848;
+    }
+
+    .bloque-codigo pre {
+      margin: 0;
+      padding: 18px 20px;
+      overflow-x: auto;
+    }
+
+    .bloque-codigo code {
+      color: #f5f5f5;
+      font-family: Consolas, "Courier New", monospace;
+      font-size: 15px;
+      line-height: 1.6;
+      white-space: pre;
+    }
+
+    /* ==========================================
+       COLUMNA DERECHA
+    ========================================== */
+
+    .indice-derecho {
+      padding: 28px 22px 100px;
+      border-left: 1px solid var(--borde);
+      position: sticky;
+      top: 68px;
+      height: calc(100vh - 68px);
+      overflow-y: auto;
+      box-sizing: border-box;
+    }
+
+    .indice-derecho h2 {
+      margin: 8px 0 20px;
+      font-size: 17px;
+      color: #555b65;
+    }
+
+    body.modo-oscuro .indice-derecho h2 {
+      color: #d1d5db;
+    }
+
+    .indice-derecho ul {
+      margin: 0;
+      padding-left: 18px;
+    }
+
+    .indice-derecho li {
+      margin-bottom: 12px;
+    }
+
+    .indice-derecho a {
+      color: var(--texto-secundario);
+      text-decoration: none;
+      font-size: 14px;
+      line-height: 1.4;
+    }
+
+    .indice-derecho a:hover {
+      color: var(--verde-principal);
+    }
+
+    /* ==========================================
+       NAVEGACIÓN ANTERIOR / SIGUIENTE
+    ========================================== */
+
+    .navegacion-paginas {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 20px;
+      margin-top: 50px;
+    }
+
+    .nav-pagina {
+      min-height: 100px;
+      padding: 18px 20px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      border: 1px solid var(--borde);
+      border-radius: 8px;
+      text-decoration: none;
+      background-color: var(--fondo-tarjeta);
+    }
+
+    .nav-anterior {
+      align-items: flex-start;
+      text-align: left;
+    }
+
+    .nav-siguiente {
+      align-items: flex-end;
+      text-align: right;
+    }
+
+    .nav-etiqueta {
+      margin-bottom: 5px;
+      color: var(--texto-secundario);
+      font-size: 14px;
+    }
+
+    .nav-pagina strong {
+      color: var(--verde-principal);
+      font-size: 16px;
+      line-height: 1.4;
+    }
+
+    .nav-pagina:hover {
+      border-color: var(--verde-principal);
+    }
+
+    /* ==========================================
+       RESPONSIVE
+    ========================================== */
+
+    @media (max-width: 1100px) {
+      .pagina-ut {
+        grid-template-columns: 250px minmax(0, 1fr);
+      }
+
+      .indice-derecho {
+        display: none;
+      }
+    }
+
+    @media (max-width: 760px) {
+      .pagina-ut {
+        display: block;
+      }
+
+      .sidebar {
+        position: static;
+        width: 100%;
+        height: auto;
+        border-right: 0;
+        border-bottom: 1px solid var(--borde);
+      }
+
+      .contenido-ut {
+        padding: 28px 20px 60px;
+      }
+
+      .contenido-ut h1 {
+        font-size: 34px;
+      }
+
+      .apartado-ut h2 {
+        font-size: 25px;
+      }
+
+      .esquema-fila,
+      .navegacion-paginas {
+        grid-template-columns: 1fr;
+      }
+
+      .nav-siguiente {
+        align-items: flex-start;
+        text-align: left;
+      }
+    }
+
+  </style>
+</head>
+
+<body>
+
+  <!-- ======================================
+       BARRA SUPERIOR
+  ======================================= -->
+
+  <header class="navbar">
+
+    <a class="inicio" href="../../../index.html">
+      <img
+        src="../../../img/profesora-castana.png?v=2"
+        alt=""
+        class="icono-profesora"
+      >
+      <span>Inicio</span>
+    </a>
+
+    <nav
+      id="menuModulos"
+      class="menu-modulos"
+      aria-label="Módulos formativos"
+    ></nav>
+
+    <button
+      id="botonTema"
+      class="boton-tema"
+      type="button"
+      aria-label="Cambiar entre modo claro y oscuro"
+      title="Cambiar tema"
+    >
+      ☀️
+    </button>
+
+  </header>
+
+  <div class="pagina-ut">
+
+    <!-- ======================================
+         COLUMNA IZQUIERDA
+    ======================================= -->
+
+    <aside class="sidebar">
+
+      <a class="sidebar-modulo" href="../../index.html">
+        Desarrollo web en entorno cliente
+      </a>
+
+      <a class="sidebar-ut-cerrada" href="../../ut1/index.html">
+        <span>UT1 - Introducción al desarrollo web en entorno cliente</span>
+        <span>›</span>
+      </a>
+
+      <a class="sidebar-ut-cerrada" href="../../ut2/index.html">
+        <span>UT2 - Fundamentos de JavaScript: variables, tipos y operadores</span>
+        <span>›</span>
+      </a>
+
+      <a class="sidebar-ut-cerrada" href="../../ut3/index.html">
+        <span>UT3 - Estructuras de control en JavaScript</span>
+        <span>›</span>
+      </a>
+
+      <a class="sidebar-ut-cerrada" href="../../ut4/index.html">
+        <span>UT4 - Arrays y estructuras de datos en JavaScript</span>
+        <span>›</span>
+      </a>
+
+      <a class="sidebar-ut-cerrada" href="../../ut5/index.html">
+        <span>UT5 - Funciones en JavaScript</span>
+        <span>›</span>
+      </a>
+
+      <!-- UT6 DESPLEGADA -->
+
+      <div class="menu-desplegable">
+
+        <div class="menu-cabecera menu-cabecera-activa">
+
+          <a class="menu-titulo" href="../index.html">
+            UT6 - Objetos y Programación Orientada a Objetos en JavaScript
+          </a>
+
+          <button
+            class="boton-desplegar"
+            type="button"
+            data-target="submenu-ut6"
+            aria-expanded="true"
+            aria-label="Mostrar u ocultar UT6"
+          >⌄</button>
+
+        </div>
+
+        <div id="submenu-ut6" class="submenu submenu-abierto">
+
+          <!-- 6.1 -->
+
+          <div class="menu-desplegable menu-apartado">
+
+            <div class="menu-cabecera">
+
+              <a class="menu-titulo" href="../6-1/index.html">
+                6.1 Introducción a los objetos en JavaScript
+              </a>
+
+              <button
+                class="boton-desplegar"
+                type="button"
+                data-target="submenu-6-1"
+                aria-expanded="false"
+                aria-label="Mostrar u ocultar los subapartados del 6.1"
+              >›</button>
+
+            </div>
+
+            <div id="submenu-6-1" class="submenu submenu-apartados">
+              <a href="../6-1/index.html#que-es">Qué es un objeto</a>
+              <a href="../6-1/index.html#objetos-vida-real">Los objetos en la vida real</a>
+              <a href="../6-1/index.html#estado-comportamiento">Estado y comportamiento</a>
+              <a href="../6-1/index.html#objetos-javascript">Objetos en JavaScript</a>
+              <a href="../6-1/index.html#primitivos-objetos">Valores primitivos y objetos</a>
+              <a href="../6-1/index.html#primer-ejemplo">Primer ejemplo de objeto</a>
+            </div>
+
+          </div>
+
+          <!-- 6.2 -->
+
+          <div class="menu-desplegable menu-apartado">
+
+            <div class="menu-cabecera">
+
+              <a class="menu-titulo" href="../6-2/index.html">
+                6.2 Propiedades y métodos de los objetos
+              </a>
+
+              <button
+                class="boton-desplegar"
+                type="button"
+                data-target="submenu-6-2"
+                aria-expanded="false"
+                aria-label="Mostrar u ocultar los subapartados del 6.2"
+              >›</button>
+
+            </div>
+
+            <div id="submenu-6-2" class="submenu submenu-apartados">
+              <a href="../6-2/index.html#propiedades">Qué son las propiedades</a>
+              <a href="../6-2/index.html#acceso-punto">Acceso mediante el punto</a>
+              <a href="../6-2/index.html#acceso-corchetes">Acceso mediante corchetes</a>
+              <a href="../6-2/index.html#modificar">Modificación de propiedades</a>
+              <a href="../6-2/index.html#metodos">Qué son los métodos</a>
+              <a href="../6-2/index.html#invocar-metodos">Invocación de métodos</a>
+              <a href="../6-2/index.html#ejemplos">Ejemplos prácticos</a>
+            </div>
+
+          </div>
+
+          <!-- 6.3 -->
+
+          <div class="menu-desplegable menu-apartado">
+
+            <div class="menu-cabecera">
+
+              <a class="menu-titulo" href="../6-3/index.html">
+                6.3 Creación y manipulación de objetos
+              </a>
+
+              <button
+                class="boton-desplegar"
+                type="button"
+                data-target="submenu-6-3"
+                aria-expanded="false"
+                aria-label="Mostrar u ocultar los subapartados del 6.3"
+              >›</button>
+
+            </div>
+
+            <div id="submenu-6-3" class="submenu submenu-apartados">
+              <a href="../6-3/index.html#literales">Objetos literales</a>
+              <a href="../6-3/index.html#object">Creación con Object</a>
+              <a href="../6-3/index.html#anadir">Añadir propiedades</a>
+              <a href="../6-3/index.html#eliminar">Eliminar propiedades</a>
+              <a href="../6-3/index.html#comprobar">Comprobar propiedades</a>
+              <a href="../6-3/index.html#referencias">Referencias a objetos</a>
+              <a href="../6-3/index.html#ejemplos">Ejemplos prácticos</a>
+            </div>
+
+          </div>
+
+          <!-- 6.4 -->
+
+          <div class="menu-desplegable menu-apartado">
+
+            <div class="menu-cabecera">
+
+              <a class="menu-titulo" href="../6-4/index.html">
+                6.4 Recorrido de las propiedades de un objeto
+              </a>
+
+              <button
+                class="boton-desplegar"
+                type="button"
+                data-target="submenu-6-4"
+                aria-expanded="false"
+                aria-label="Mostrar u ocultar los subapartados del 6.4"
+              >›</button>
+
+            </div>
+
+            <div id="submenu-6-4" class="submenu submenu-apartados">
+              <a href="../6-4/index.html#recorrer">Recorrer un objeto</a>
+              <a href="../6-4/index.html#for-in">El bucle for...in</a>
+              <a href="../6-4/index.html#acceso-dinamico">Acceso dinámico a propiedades</a>
+              <a href="../6-4/index.html#propiedades-propias">Propiedades propias y heredadas</a>
+              <a href="../6-4/index.html#object-keys">Object.keys()</a>
+              <a href="../6-4/index.html#object-values">Object.values()</a>
+              <a href="../6-4/index.html#object-entries">Object.entries()</a>
+              <a href="../6-4/index.html#ejemplos">Ejemplos prácticos</a>
+            </div>
+
+          </div>
+
+          <!-- 6.5 ACTIVO -->
+
+          <div class="menu-desplegable menu-apartado">
+
+            <div class="menu-cabecera menu-cabecera-activa">
+
+              <a class="menu-titulo" href="../6-5/index.html">
+                6.5 Definición de métodos y palabra clave this
+              </a>
+
+              <button
+                class="boton-desplegar"
+                type="button"
+                data-target="submenu-6-5"
+                aria-expanded="true"
+                aria-label="Mostrar u ocultar los subapartados del 6.5"
+              >⌄</button>
+
+            </div>
+
+            <div
+              id="submenu-6-5"
+              class="submenu submenu-apartados submenu-abierto"
+            >
+              <a href="#metodos-objetos">Métodos de los objetos</a>
+              <a href="#definir-metodos">Definición de métodos</a>
+              <a href="#invocar-metodos">Invocación de métodos</a>
+              <a href="#parametros-retorno">Parámetros y valores de retorno</a>
+              <a href="#palabra-this">La palabra clave this</a>
+              <a href="#funcionamiento-this">Funcionamiento de this</a>
+              <a href="#errores-this">Errores habituales con this</a>
+              <a href="#ejemplos">Ejemplos prácticos</a>
+            </div>
+
+          </div>
+
+          <!-- 6.6 -->
+
+          <div class="menu-desplegable menu-apartado">
+
+            <div class="menu-cabecera">
+
+              <a class="menu-titulo" href="../6-6/index.html">
+                6.6 Funciones constructoras e instancias
+              </a>
+
+              <button
+                class="boton-desplegar"
+                type="button"
+                data-target="submenu-6-6"
+                aria-expanded="false"
+                aria-label="Mostrar u ocultar los subapartados del 6.6"
+              >›</button>
+
+            </div>
+
+            <div id="submenu-6-6" class="submenu submenu-apartados">
+              <a href="../6-6/index.html">Acceder al apartado 6.6</a>
+            </div>
+
+          </div>
+
+          <!-- 6.7 -->
+
+          <div class="menu-desplegable menu-apartado">
+
+            <div class="menu-cabecera">
+
+              <a class="menu-titulo" href="../6-7/index.html">
+                6.7 Clases en JavaScript: class y constructor
+              </a>
+
+              <button
+                class="boton-desplegar"
+                type="button"
+                data-target="submenu-6-7"
+                aria-expanded="false"
+                aria-label="Mostrar u ocultar los subapartados del 6.7"
+              >›</button>
+
+            </div>
+
+            <div id="submenu-6-7" class="submenu submenu-apartados">
+              <a href="../6-7/index.html">Acceder al apartado 6.7</a>
+            </div>
+
+          </div>
+
+          <!-- 6.8 -->
+
+          <div class="menu-desplegable menu-apartado">
+
+            <div class="menu-cabecera">
+
+              <a class="menu-titulo" href="../6-8/index.html">
+                6.8 Propiedades y métodos de las clases
+              </a>
+
+              <button
+                class="boton-desplegar"
+                type="button"
+                data-target="submenu-6-8"
+                aria-expanded="false"
+                aria-label="Mostrar u ocultar los subapartados del 6.8"
+              >›</button>
+
+            </div>
+
+            <div id="submenu-6-8" class="submenu submenu-apartados">
+              <a href="../6-8/index.html">Acceder al apartado 6.8</a>
+            </div>
+
+          </div>
+
+          <!-- 6.9 -->
+
+          <div class="menu-desplegable menu-apartado">
+
+            <div class="menu-cabecera">
+
+              <a class="menu-titulo" href="../6-9/index.html">
+                6.9 Principios de la Programación Orientada a Objetos
+              </a>
+
+              <button
+                class="boton-desplegar"
+                type="button"
+                data-target="submenu-6-9"
+                aria-expanded="false"
+                aria-label="Mostrar u ocultar los subapartados del 6.9"
+              >›</button>
+
+            </div>
+
+            <div id="submenu-6-9" class="submenu submenu-apartados">
+              <a href="../6-9/index.html">Acceder al apartado 6.9</a>
+            </div>
+
+          </div>
+
+          <!-- 6.10 -->
+
+          <div class="menu-desplegable menu-apartado">
+
+            <div class="menu-cabecera">
+
+              <a class="menu-titulo" href="../6-10/index.html">
+                6.10 Herencia básica entre clases
+              </a>
+
+              <button
+                class="boton-desplegar"
+                type="button"
+                data-target="submenu-6-10"
+                aria-expanded="false"
+                aria-label="Mostrar u ocultar los subapartados del 6.10"
+              >›</button>
+
+            </div>
+
+            <div id="submenu-6-10" class="submenu submenu-apartados">
+              <a href="../6-10/index.html">Acceder al apartado 6.10</a>
+            </div>
+
+          </div>
+
+          <!-- 6.11 -->
+
+          <div class="menu-desplegable menu-apartado">
+
+            <div class="menu-cabecera">
+
+              <a class="menu-titulo" href="../6-11/index.html">
+                6.11 Organización de programas mediante objetos y clases
+              </a>
+
+              <button
+                class="boton-desplegar"
+                type="button"
+                data-target="submenu-6-11"
+                aria-expanded="false"
+                aria-label="Mostrar u ocultar los subapartados del 6.11"
+              >›</button>
+
+            </div>
+
+            <div id="submenu-6-11" class="submenu submenu-apartados">
+              <a href="../6-11/index.html">Acceder al apartado 6.11</a>
+            </div>
+
+          </div>
+
+          <!-- RESUMEN -->
+
+          <a class="enlace-apartado-simple" href="../resumen/index.html">
+            ✏️ Resumen de la UT6
+          </a>
+
+          <!-- ACTIVIDADES -->
+
+          <div class="menu-desplegable menu-apartado">
+
+            <div class="menu-cabecera">
+
+              <a class="menu-titulo" href="../actividades/index.html">
+                📝 Actividades de la UT6
+              </a>
+
+              <button
+                class="boton-desplegar"
+                type="button"
+                data-target="submenu-actividades"
+                aria-expanded="false"
+                aria-label="Mostrar u ocultar las actividades de la UT6"
+              >›</button>
+
+            </div>
+
+            <div id="submenu-actividades" class="submenu submenu-apartados">
+              <a href="../actividades/index.html#actividades-practicas">
+                💻 Actividades prácticas
+              </a>
+              <a href="../actividades/index.html#reto-final">
+                🧩 Reto final
+              </a>
+              <a href="../actividades/index.html#autoevaluacion">
+                ✅ Autoevaluación
+              </a>
+            </div>
+
+          </div>
+
+        </div>
+
+      </div>
+
+      <!-- RESTO DE UNIDADES -->
+
+      <a class="sidebar-ut-cerrada" href="../../ut7/index.html">
+        <span>UT7 - Objetos predefinidos y modelo del navegador (BOM)</span>
+        <span>›</span>
+      </a>
+
+      <a class="sidebar-ut-cerrada" href="../../ut8/index.html">
+        <span>UT8 - Aplicaciones web interactivas: DOM, eventos y formularios</span>
+        <span>›</span>
+      </a>
+
+      <a class="sidebar-ut-cerrada" href="../../ut9/index.html">
+        <span>UT9 - Comunicación asíncrona y peticiones al servidor</span>
+        <span>›</span>
+      </a>
+
+      <a class="sidebar-ut-cerrada" href="../../ut10/index.html">
+        <span>UT10 - Introducción a React</span>
+        <span>›</span>
+      </a>
+
+    </aside>
+
+    <!-- ======================================
+         CONTENIDO PRINCIPAL
+    ======================================= -->
+
+    <main class="contenido-ut">
+
+      <!-- MIGAS DE PAN -->
+
+      <div class="migas">
+
+        <a
+          class="miga-inicio"
+          href="../../../index.html"
+          aria-label="Volver a la página principal"
+        >🏠</a>
+
+        <span class="miga-separador">›</span>
+
+        <a class="miga-modulo" href="../../index.html">DWEC</a>
+
+        <span class="miga-separador">›</span>
+
+        <a class="miga-modulo" href="../index.html">UT6</a>
+
+        <span class="miga-separador">›</span>
+
+        <span class="miga-actual">6.5</span>
+
+      </div>
+
+      <h1>6.5 Definición de métodos y palabra clave this</h1>
+
+      <section class="apartado-ut">
+
+        <!-- INTRODUCCIÓN -->
+
+        <p>
+          En los apartados anteriores hemos aprendido a crear objetos
+          en JavaScript, trabajar con sus propiedades y recorrer
+          la información que contienen.
+        </p>
+
+        <p>
+          Hasta ahora hemos utilizado los objetos principalmente
+          para <strong>almacenar y organizar datos</strong>.
+          Sin embargo, en una aplicación web los objetos también
+          pueden realizar acciones relacionadas con esos datos.
+        </p>
+
+        <p>
+          Imagina que estamos desarrollando una tienda online.
+          Un producto puede tener un nombre, un precio y un stock,
+          pero también puede necesitar calcular su precio con descuento
+          o comprobar si hay unidades disponibles.
+        </p>
+
+        <p>
+          Para representar este comportamiento utilizamos
+          <strong>métodos</strong>, que son funciones asociadas
+          a los objetos.
+        </p>
+
+        <p>
+          Además, JavaScript dispone de una palabra clave
+          especialmente importante cuando trabajamos con métodos:
+          <strong><code>this</code></strong>.
+          Gracias a ella, un método puede acceder a los datos
+          del objeto sobre el que se está ejecutando.
+        </p>
+
+        <div class="caja caja-importante">
+
+          <span class="caja-titulo">📌 Importante</span>
+
+          <p>
+            Un objeto puede reunir
+            <strong>estado y comportamiento</strong>:
+          </p>
+
+          <ul>
+            <li>
+              <strong>Estado:</strong> los datos almacenados
+              en sus propiedades.
+            </li>
+            <li>
+              <strong>Comportamiento:</strong> las acciones
+              definidas mediante sus métodos.
+            </li>
+          </ul>
+
+          <p>
+            Esta combinación es una de las ideas fundamentales
+            de la Programación Orientada a Objetos.
+          </p>
+
+        </div>
+
+        <!-- ======================================
+             1. MÉTODOS DE LOS OBJETOS
+        ======================================= -->
+
+        <h2 id="metodos-objetos">Métodos de los objetos</h2>
+
+        <p>
+          En JavaScript, un <strong>método</strong> es una función
+          que se utiliza como propiedad de un objeto.
+        </p>
+
+        <p>
+          Mientras que una propiedad ordinaria suele almacenar
+          un dato, un método contiene una función que podemos ejecutar
+          para realizar una determinada operación.
+        </p>
+
+        <h3>Un objeto que solamente contiene datos</h3>
+
+        <p>
+          Observa el siguiente objeto:
+        </p>
+
+        <div class="bloque-codigo">
+          <div class="cabecera-codigo">
+            <span class="lenguaje-codigo">JavaScript</span>
+            <button class="boton-copiar" type="button">Copiar código</button>
+          </div>
+          <pre><code>const producto = {
+  nombre: "Portátil",
+  precio: 850,
+  stock: 5
+};
+
+console.log(producto.nombre);
+console.log(producto.precio);
+
+// Portátil
+// 850</code></pre>
+        </div>
+
+        <p>
+          Este objeto contiene tres propiedades:
+          <code>nombre</code>, <code>precio</code> y
+          <code>stock</code>.
+        </p>
+
+        <p>
+          Podemos consultar sus valores, pero todavía no hemos
+          definido ninguna acción que el propio objeto pueda realizar.
+        </p>
+
+        <h3>Un objeto que también tiene comportamiento</h3>
+
+        <p>
+          Vamos a añadir un método que muestre la información
+          del producto.
+        </p>
+
+        <div class="bloque-codigo">
+          <div class="cabecera-codigo">
+            <span class="lenguaje-codigo">JavaScript</span>
+            <button class="boton-copiar" type="button">Copiar código</button>
+          </div>
+          <pre><code>const producto = {
+  nombre: "Portátil",
+  precio: 850,
+  stock: 5,
+
+  mostrarInformacion: function() {
+    console.log("Producto disponible");
+  }
+};
+
+producto.mostrarInformacion();
+
+// Producto disponible</code></pre>
+        </div>
+
+        <p>
+          Ahora el objeto contiene tanto datos como una función
+          asociada a él.
+        </p>
+
+        <p>
+          La propiedad <code>mostrarInformacion</code> almacena
+          una función. Cuando la invocamos mediante
+          <code>producto.mostrarInformacion()</code>,
+          JavaScript ejecuta las instrucciones que contiene.
+        </p>
+
+        <div class="esquema-web">
+
+          <div class="esquema-fila">
+
+            <div class="esquema-caja">
+              <strong>Propiedades</strong>
+              <span>nombre, precio, stock</span>
+              <span>Describen el estado del producto.</span>
+            </div>
+
+            <div class="esquema-caja">
+              <strong>Métodos</strong>
+              <span>mostrarInformacion()</span>
+              <span>Definen acciones del producto.</span>
+            </div>
+
+          </div>
+
+        </div>
+
+        <div class="caja caja-ejemplo">
+
+          <span class="caja-titulo">💻 Ejemplo DAW</span>
+
+          <p>
+            En una aplicación de gestión de pedidos, un objeto
+            puede almacenar el identificador, el cliente y el estado
+            de un pedido.
+          </p>
+
+          <p>
+            También puede incluir métodos para calcular el importe,
+            cambiar el estado o mostrar un resumen.
+          </p>
+
+          <p>
+            De esta forma, la información y las operaciones
+            relacionadas quedan agrupadas en un mismo objeto.
+          </p>
+
+        </div>
+
+        <!-- ======================================
+             2. DEFINICIÓN DE MÉTODOS
+        ======================================= -->
+
+        <h2 id="definir-metodos">Definición de métodos</h2>
+
+        <p>
+          JavaScript permite definir métodos de diferentes formas.
+          Vamos a estudiar las más habituales.
+        </p>
+
+        <h3>Definir un método mediante function</h3>
+
+        <p>
+          La primera forma consiste en asignar una función
+          a una propiedad del objeto.
+        </p>
+
+        <div class="bloque-codigo">
+          <div class="cabecera-codigo">
+            <span class="lenguaje-codigo">JavaScript</span>
+            <button class="boton-copiar" type="button">Copiar código</button>
+          </div>
+          <pre><code>const usuario = {
+  nombre: "Lucía",
+
+  saludar: function() {
+    console.log("Hola, bienvenido");
+  }
+};
+
+usuario.saludar();
+
+// Hola, bienvenido</code></pre>
+        </div>
+
+        <p>
+          La propiedad <code>saludar</code> contiene
+          una función anónima, es decir, una función
+          que no necesita un nombre propio porque ya está
+          asociada a la propiedad del objeto.
+        </p>
+
+        <h3>Sintaxis abreviada de métodos</h3>
+
+        <p>
+          En los objetos literales modernos podemos utilizar
+          una sintaxis más breve.
+        </p>
+
+        <div class="bloque-codigo">
+          <div class="cabecera-codigo">
+            <span class="lenguaje-codigo">JavaScript</span>
+            <button class="boton-copiar" type="button">Copiar código</button>
+          </div>
+          <pre><code>const usuario = {
+  nombre: "Lucía",
+
+  saludar() {
+    console.log("Hola, bienvenido");
+  }
+};
+
+usuario.saludar();
+
+// Hola, bienvenido</code></pre>
+        </div>
+
+        <p>
+          Observa que ya no necesitamos escribir
+          <code>: function</code>.
+        </p>
+
+        <p>
+          Indicamos directamente el nombre del método,
+          los paréntesis y el bloque de instrucciones.
+        </p>
+
+        <div class="tabla-responsive">
+          <table class="tabla-apuntes">
+            <thead>
+              <tr>
+                <th>Forma tradicional</th>
+                <th>Forma abreviada</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><code>saludar: function() { ... }</code></td>
+                <td><code>saludar() { ... }</code></td>
+              </tr>
+              <tr>
+                <td>Asigna una función a una propiedad.</td>
+                <td>Define el método mediante sintaxis abreviada.</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <p>
+          Ambas formas permiten definir métodos ordinarios
+          y utilizar <code>this</code> cuando se invocan
+          sobre un objeto.
+        </p>
+
+        <div class="caja caja-importante">
+
+          <span class="caja-titulo">📌 Importante</span>
+
+          <p>
+            Para los ejemplos de esta unidad utilizaremos
+            preferentemente la <strong>sintaxis abreviada</strong>:
+          </p>
+
+          <p><code>nombreMetodo() { ... }</code></p>
+
+          <p>
+            Es clara, evita escribir código innecesario
+            y resulta habitual en JavaScript moderno.
+          </p>
+
+        </div>
+
+        <h3>Añadir un método después de crear el objeto</h3>
+
+        <p>
+          Igual que podemos añadir propiedades a un objeto
+          existente, también podemos añadir métodos.
+        </p>
+
+        <div class="bloque-codigo">
+          <div class="cabecera-codigo">
+            <span class="lenguaje-codigo">JavaScript</span>
+            <button class="boton-copiar" type="button">Copiar código</button>
+          </div>
+          <pre><code>const usuario = {
+  nombre: "Carlos"
+};
+
+usuario.saludar = function() {
+  console.log("Hola desde el método");
+};
+
+usuario.saludar();
+
+// Hola desde el método</code></pre>
+        </div>
+
+        <p>
+          En este caso, el método se añade mediante una asignación
+          después de crear el objeto.
+        </p>
+
+        <!-- ======================================
+             3. INVOCACIÓN DE MÉTODOS
+        ======================================= -->
+
+        <h2 id="invocar-metodos">Invocación de métodos</h2>
+
+        <p>
+          Definir un método no significa ejecutarlo.
+          Para ejecutar sus instrucciones debemos
+          <strong>invocarlo</strong>.
+        </p>
+
+        <p>
+          Normalmente utilizamos el nombre del objeto,
+          un punto, el nombre del método y los paréntesis.
+        </p>
+
+        <div class="bloque-codigo">
+          <div class="cabecera-codigo">
+            <span class="lenguaje-codigo">JavaScript</span>
+            <button class="boton-copiar" type="button">Copiar código</button>
+          </div>
+          <pre><code>objeto.nombreMetodo();</code></pre>
+        </div>
+
+        <h3>Diferencia entre consultar e invocar</h3>
+
+        <p>
+          Observa el siguiente ejemplo:
+        </p>
+
+        <div class="bloque-codigo">
+          <div class="cabecera-codigo">
+            <span class="lenguaje-codigo">JavaScript</span>
+            <button class="boton-copiar" type="button">Copiar código</button>
+          </div>
+          <pre><code>const calculadora = {
+  sumar() {
+    return 4 + 6;
+  }
+};
+
+console.log(typeof calculadora.sumar);
+console.log(calculadora.sumar());
+
+// function
+// 10</code></pre>
+        </div>
+
+        <p>
+          En la primera instrucción, <code>calculadora.sumar</code>
+          hace referencia a la función, pero no la ejecuta.
+        </p>
+
+        <p>
+          En la segunda, <code>calculadora.sumar()</code>
+          invoca el método y obtiene el resultado.
+        </p>
+
+        <div class="caja caja-atencion">
+
+          <span class="caja-titulo">⚠️ Atención</span>
+
+          <p>
+            No debemos confundir:
+          </p>
+
+          <ul>
+            <li>
+              <code>objeto.metodo</code>: accede a la función
+              almacenada en la propiedad.
+            </li>
+            <li>
+              <code>objeto.metodo()</code>: ejecuta esa función.
+            </li>
+          </ul>
+
+          <p>
+            Los paréntesis son fundamentales cuando queremos
+            realizar la llamada.
+          </p>
+
+        </div>
+
+        <h3>Invocación mediante corchetes</h3>
+
+        <p>
+          Los métodos también son propiedades.
+          Por tanto, podemos acceder a ellos mediante
+          corchetes cuando conocemos su nombre dinámicamente.
+        </p>
+
+        <div class="bloque-codigo">
+          <div class="cabecera-codigo">
+            <span class="lenguaje-codigo">JavaScript</span>
+            <button class="boton-copiar" type="button">Copiar código</button>
+          </div>
+          <pre><code>const sistema = {
+  iniciar() {
+    console.log("Sistema iniciado");
+  }
+};
+
+const accion = "iniciar";
+
+sistema[accion]();
+
+// Sistema iniciado</code></pre>
+        </div>
+
+        <p>
+          JavaScript consulta la propiedad cuyo nombre contiene
+          la variable <code>accion</code> y ejecuta
+          la función correspondiente.
+        </p>
+
+        <!-- ======================================
+             4. PARÁMETROS Y RETORNO
+        ======================================= -->
+
+        <h2 id="parametros-retorno">Parámetros y valores de retorno</h2>
+
+        <p>
+          Como los métodos son funciones, pueden recibir
+          parámetros y devolver resultados mediante
+          <code>return</code>.
+        </p>
+
+        <h3>Métodos que reciben parámetros</h3>
+
+        <p>
+          Vamos a crear un objeto que permita calcular
+          el precio de un producto con diferentes descuentos.
+        </p>
+
+        <div class="bloque-codigo">
+          <div class="cabecera-codigo">
+            <span class="lenguaje-codigo">JavaScript</span>
+            <button class="boton-copiar" type="button">Copiar código</button>
+          </div>
+          <pre><code>const producto = {
+  nombre: "Monitor",
+  precio: 200,
+
+  calcularDescuento(porcentaje) {
+    const descuento = 200 * porcentaje / 100;
+    return 200 - descuento;
+  }
+};
+
+console.log(producto.calcularDescuento(10));
+console.log(producto.calcularDescuento(25));
+
+// 180
+// 150</code></pre>
+        </div>
+
+        <p>
+          El parámetro <code>porcentaje</code> permite
+          indicar un descuento diferente en cada llamada.
+        </p>
+
+        <p>
+          El método realiza un cálculo y devuelve el precio
+          resultante mediante <code>return</code>.
+        </p>
+
+        <p>
+          Por ahora hemos utilizado directamente el valor
+          <code>200</code>. En el siguiente apartado
+          aprenderemos a consultar la propiedad
+          <code>precio</code> del propio objeto mediante
+          <code>this</code>.
+        </p>
+
+        <h3>Diferencia entre console.log() y return</h3>
+
+        <p>
+          Es importante recordar una diferencia que ya
+          estudiamos en la unidad dedicada a las funciones.
+        </p>
+
+        <div class="bloque-codigo">
+          <div class="cabecera-codigo">
+            <span class="lenguaje-codigo">JavaScript</span>
+            <button class="boton-copiar" type="button">Copiar código</button>
+          </div>
+          <pre><code>const operaciones = {
+  mostrarSuma(a, b) {
+    console.log(a + b);
+  },
+
+  devolverSuma(a, b) {
+    return a + b;
+  }
+};
+
+operaciones.mostrarSuma(3, 4);
+
+const resultado = operaciones.devolverSuma(3, 4);
+
+console.log(resultado);
+
+// 7
+// 7</code></pre>
+        </div>
+
+        <p>
+          El primer método muestra el resultado en la consola,
+          pero no devuelve explícitamente ningún valor.
+        </p>
+
+        <p>
+          El segundo utiliza <code>return</code>, por lo que
+          podemos guardar su resultado en una variable
+          y utilizarlo en otras operaciones.
+        </p>
+
+        <div class="caja caja-importante">
+
+          <span class="caja-titulo">📌 Importante</span>
+
+          <p>
+            Un método puede:
+          </p>
+
+          <ul>
+            <li>Recibir cero o varios parámetros.</li>
+            <li>Realizar cálculos y modificar datos.</li>
+            <li>Mostrar información.</li>
+            <li>Devolver un valor mediante <code>return</code>.</li>
+          </ul>
+
+          <p>
+            Si no ejecuta ninguna instrucción
+            <code>return</code> que devuelva un valor,
+            el resultado de su invocación será
+            <code>undefined</code>.
+          </p>
+
+        </div>
+
+        <!-- ======================================
+             5. LA PALABRA CLAVE THIS
+        ======================================= -->
+
+        <h2 id="palabra-this">La palabra clave this</h2>
+
+        <p>
+          Hasta ahora hemos definido métodos que realizan
+          operaciones, pero todavía no hemos aprovechado
+          completamente la relación entre los métodos
+          y las propiedades del objeto.
+        </p>
+
+        <p>
+          Supongamos que tenemos un objeto
+          <code>usuario</code> y queremos que su método
+          <code>saludar()</code> muestre el nombre
+          almacenado en la propiedad <code>nombre</code>.
+        </p>
+
+        <h3>Acceder a las propiedades desde un método</h3>
+
+        <p>
+          Podemos hacerlo utilizando el nombre de la variable
+          que contiene el objeto.
+        </p>
+
+        <div class="bloque-codigo">
+          <div class="cabecera-codigo">
+            <span class="lenguaje-codigo">JavaScript</span>
+            <button class="boton-copiar" type="button">Copiar código</button>
+          </div>
+          <pre><code>const usuario = {
+  nombre: "Ana",
+
+  saludar() {
+    console.log(`Hola, soy ${usuario.nombre}`);
+  }
+};
+
+usuario.saludar();
+
+// Hola, soy Ana</code></pre>
+        </div>
+
+        <p>
+          Este ejemplo funciona, pero tiene una limitación:
+          el método depende directamente del nombre
+          de la variable <code>usuario</code>.
+        </p>
+
+        <p>
+          Si queremos utilizar el mismo método con otro objeto,
+          esa dependencia puede provocar problemas.
+        </p>
+
+        <h3>Utilizar this</h3>
+
+        <p>
+          Para evitar esa dependencia, podemos utilizar
+          la palabra clave <code>this</code>.
+        </p>
+
+        <div class="bloque-codigo">
+          <div class="cabecera-codigo">
+            <span class="lenguaje-codigo">JavaScript</span>
+            <button class="boton-copiar" type="button">Copiar código</button>
+          </div>
+          <pre><code>const usuario = {
+  nombre: "Ana",
+
+  saludar() {
+    console.log(`Hola, soy ${this.nombre}`);
+  }
+};
+
+usuario.saludar();
+
+// Hola, soy Ana</code></pre>
+        </div>
+
+        <p>
+          Cuando invocamos el método mediante
+          <code>usuario.saludar()</code>, el valor
+          de <code>this</code> dentro de ese método
+          es el objeto <code>usuario</code>.
+        </p>
+
+        <p>
+          Por tanto, la expresión <code>this.nombre</code>
+          consulta su propiedad <code>nombre</code>.
+        </p>
+
+        <div class="esquema-web">
+
+          <div class="esquema-caja">
+            <strong>usuario.saludar()</strong>
+            <span>Se invoca el método sobre el objeto usuario.</span>
+          </div>
+
+          <div class="esquema-caja">
+            <strong>this</strong>
+            <span>Hace referencia a usuario durante esta llamada.</span>
+          </div>
+
+          <div class="esquema-caja">
+            <strong>this.nombre</strong>
+            <span>Obtiene el valor "Ana".</span>
+          </div>
+
+        </div>
+
+        <div class="caja caja-importante">
+
+          <span class="caja-titulo">📌 Importante</span>
+
+          <p>
+            En una llamada ordinaria como
+            <code>objeto.metodo()</code>, si el método
+            se ha definido mediante una función normal,
+            <code>this</code> hace referencia al objeto
+            utilizado para invocarlo.
+          </p>
+
+          <p>
+            No significa que <code>this</code>
+            siempre represente el objeto en el que
+            se escribió originalmente la función.
+            Su valor depende de cómo se realiza la llamada.
+          </p>
+
+        </div>
+
+        <h3>Utilizar this para realizar cálculos</h3>
+
+        <p>
+          Vamos a mejorar el ejemplo del producto
+          con descuento.
+        </p>
+
+        <div class="bloque-codigo">
+          <div class="cabecera-codigo">
+            <span class="lenguaje-codigo">JavaScript</span>
+            <button class="boton-copiar" type="button">Copiar código</button>
+          </div>
+          <pre><code>const producto = {
+  nombre: "Monitor",
+  precio: 200,
+
+  calcularDescuento(porcentaje) {
+    const descuento = this.precio * porcentaje / 100;
+    return this.precio - descuento;
+  }
+};
+
+console.log(producto.calcularDescuento(10));
+console.log(producto.calcularDescuento(25));
+
+// 180
+// 150</code></pre>
+        </div>
+
+        <p>
+          Ahora el método utiliza
+          <code>this.precio</code> en lugar de escribir
+          directamente el número <code>200</code>.
+        </p>
+
+        <p>
+          Si modificamos la propiedad <code>precio</code>,
+          el método utilizará automáticamente el nuevo valor.
+        </p>
+
+        <div class="bloque-codigo">
+          <div class="cabecera-codigo">
+            <span class="lenguaje-codigo">JavaScript</span>
+            <button class="boton-copiar" type="button">Copiar código</button>
+          </div>
+          <pre><code>const producto = {
+  precio: 200,
+
+  calcularDescuento(porcentaje) {
+    return this.precio * (1 - porcentaje / 100);
+  }
+};
+
+console.log(producto.calcularDescuento(10));
+
+producto.precio = 300;
+
+console.log(producto.calcularDescuento(10));
+
+// 180
+// 270</code></pre>
+        </div>
+
+        <p>
+          El método no necesita modificarse cuando cambia
+          el precio, porque consulta la propiedad del objeto
+          en el momento de ejecutarse.
+        </p>
+
+        <!-- ======================================
+             6. FUNCIONAMIENTO DE THIS
+        ======================================= -->
+
+        <h2 id="funcionamiento-this">Funcionamiento de this</h2>
+
+        <p>
+          Una de las características más importantes de
+          <code>this</code> es que su valor depende
+          del <strong>contexto de invocación</strong>.
+        </p>
+
+        <p>
+          Vamos a estudiar varios ejemplos para comprender
+          cómo funciona.
+        </p>
+
+        <h3>El mismo método en diferentes objetos</h3>
+
+        <p>
+          Podemos utilizar una misma función como método
+          de diferentes objetos.
+        </p>
+
+        <div class="bloque-codigo">
+          <div class="cabecera-codigo">
+            <span class="lenguaje-codigo">JavaScript</span>
+            <button class="boton-copiar" type="button">Copiar código</button>
+          </div>
+          <pre><code>function mostrarNombre() {
+  console.log(`Nombre: ${this.nombre}`);
+}
+
+const usuario1 = {
+  nombre: "Ana",
+  mostrarNombre
+};
+
+const usuario2 = {
+  nombre: "Carlos",
+  mostrarNombre
+};
+
+usuario1.mostrarNombre();
+usuario2.mostrarNombre();
+
+// Nombre: Ana
+// Nombre: Carlos</code></pre>
+        </div>
+
+        <p>
+          Ambos objetos utilizan la misma función.
+          Sin embargo, el resultado es diferente
+          porque cada llamada establece un valor
+          distinto para <code>this</code>.
+        </p>
+
+        <ul>
+          <li>
+            En <code>usuario1.mostrarNombre()</code>,
+            <code>this</code> hace referencia a
+            <code>usuario1</code>.
+          </li>
+          <li>
+            En <code>usuario2.mostrarNombre()</code>,
+            <code>this</code> hace referencia a
+            <code>usuario2</code>.
+          </li>
+        </ul>
+
+        <h3>El objeto utilizado en la llamada</h3>
+
+        <p>
+          Observa este segundo ejemplo:
+        </p>
+
+        <div class="bloque-codigo">
+          <div class="cabecera-codigo">
+            <span class="lenguaje-codigo">JavaScript</span>
+            <button class="boton-copiar" type="button">Copiar código</button>
+          </div>
+          <pre><code>const usuario = {
+  nombre: "Lucía",
+
+  mostrarNombre() {
+    console.log(this.nombre);
+  }
+};
+
+const otroUsuario = {
+  nombre: "Marta",
+  mostrarNombre: usuario.mostrarNombre
+};
+
+usuario.mostrarNombre();
+otroUsuario.mostrarNombre();
+
+// Lucía
+// Marta</code></pre>
+        </div>
+
+        <p>
+          Aunque la función se definió inicialmente
+          en <code>usuario</code>, también podemos
+          utilizarla como método de
+          <code>otroUsuario</code>.
+        </p>
+
+        <p>
+          Cuando ejecutamos
+          <code>otroUsuario.mostrarNombre()</code>,
+          el valor de <code>this</code> es
+          <code>otroUsuario</code>.
+        </p>
+
+        <div class="caja caja-importante">
+
+          <span class="caja-titulo">📌 Importante</span>
+
+          <p>
+            En las funciones normales, el valor de
+            <code>this</code> no queda fijado
+            simplemente por el lugar donde
+            se define la función.
+          </p>
+
+          <p>
+            En una invocación ordinaria mediante
+            <code>objeto.metodo()</code>, importa
+            especialmente <strong>el objeto utilizado
+            para realizar la llamada</strong>.
+          </p>
+
+        </div>
+
+        <h3>Utilizar this para modificar propiedades</h3>
+
+        <p>
+          <code>this</code> no solamente permite
+          consultar propiedades. También podemos
+          modificar sus valores.
+        </p>
+
+        <div class="bloque-codigo">
+          <div class="cabecera-codigo">
+            <span class="lenguaje-codigo">JavaScript</span>
+            <button class="boton-copiar" type="button">Copiar código</button>
+          </div>
+          <pre><code>const contador = {
+  valor: 0,
+
+  incrementar() {
+    this.valor++;
+  },
+
+  mostrar() {
+    console.log(this.valor);
+  }
+};
+
+contador.incrementar();
+contador.incrementar();
+contador.mostrar();
+
+// 2</code></pre>
+        </div>
+
+        <p>
+          Cada vez que ejecutamos
+          <code>contador.incrementar()</code>,
+          el método aumenta en una unidad
+          la propiedad <code>valor</code>.
+        </p>
+
+        <p>
+          El método <code>mostrar()</code>
+          consulta el valor actualizado.
+        </p>
+
+        <h3>Un método puede llamar a otro método</h3>
+
+        <p>
+          También podemos utilizar <code>this</code>
+          para invocar otro método del mismo objeto.
+        </p>
+
+        <div class="bloque-codigo">
+          <div class="cabecera-codigo">
+            <span class="lenguaje-codigo">JavaScript</span>
+            <button class="boton-copiar" type="button">Copiar código</button>
+          </div>
+          <pre><code>const producto = {
+  nombre: "Teclado",
+  precio: 50,
+
+  calcularIVA() {
+    return this.precio * 0.21;
+  },
+
+  calcularTotal() {
+    return this.precio + this.calcularIVA();
+  }
+};
+
+console.log(producto.calcularTotal());
+
+// 60.5</code></pre>
+        </div>
+
+        <p>
+          El método <code>calcularTotal()</code>
+          utiliza <code>this.precio</code>
+          y también invoca
+          <code>this.calcularIVA()</code>.
+        </p>
+
+        <p>
+          De esta forma evitamos repetir el cálculo
+          del IVA en varios métodos.
+        </p>
+
+        <!-- ======================================
+             7. ERRORES HABITUALES
+        ======================================= -->
+
+        <h2 id="errores-this">Errores habituales con this</h2>
+
+        <p>
+          La palabra clave <code>this</code>
+          resulta muy útil, pero también puede
+          provocar errores cuando no comprendemos
+          cómo se determina su valor.
+        </p>
+
+        <h3>Error 1. Olvidar this al consultar una propiedad</h3>
+
+        <p>
+          Observa este código:
+        </p>
+
+        <div class="bloque-codigo">
+          <div class="cabecera-codigo">
+            <span class="lenguaje-codigo">JavaScript</span>
+            <button class="boton-copiar" type="button">Copiar código</button>
+          </div>
+          <pre><code>const usuario = {
+  nombre: "Ana",
+
+  saludar() {
+    console.log(nombre);
+  }
+};
+
+usuario.saludar();
+
+// ReferenceError si no existe una variable
+// accesible llamada nombre.</code></pre>
+        </div>
+
+        <p>
+          La instrucción <code>console.log(nombre)</code>
+          busca una variable llamada <code>nombre</code>.
+          No consulta automáticamente la propiedad
+          del objeto.
+        </p>
+
+        <p>
+          La forma correcta es:
+        </p>
+
+        <div class="bloque-codigo">
+          <div class="cabecera-codigo">
+            <span class="lenguaje-codigo">JavaScript</span>
+            <button class="boton-copiar" type="button">Copiar código</button>
+          </div>
+          <pre><code>const usuario = {
+  nombre: "Ana",
+
+  saludar() {
+    console.log(this.nombre);
+  }
+};
+
+usuario.saludar();
+
+// Ana</code></pre>
+        </div>
+
+        <h3>Error 2. Utilizar una función flecha como método con this</h3>
+
+        <p>
+          En la unidad dedicada a las funciones
+          aprendimos a utilizar funciones flecha.
+        </p>
+
+        <p>
+          Sin embargo, existe una diferencia importante:
+          <strong>las funciones flecha no tienen
+          su propio <code>this</code></strong>.
+        </p>
+
+        <p>
+          Por ello, no debemos utilizarlas como sustitución
+          directa de un método normal cuando necesitamos
+          acceder al objeto mediante <code>this</code>.
+        </p>
+
+        <div class="bloque-codigo">
+          <div class="cabecera-codigo">
+            <span class="lenguaje-codigo">JavaScript</span>
+            <button class="boton-copiar" type="button">Copiar código</button>
+          </div>
+          <pre><code>const usuario = {
+  nombre: "Ana",
+
+  saludar: () => {
+    console.log(this.nombre);
+  }
+};
+
+usuario.saludar();
+
+// No obtiene automáticamente "Ana".</code></pre>
+        </div>
+
+        <p>
+          En este caso, la función flecha toma
+          <code>this</code> de su entorno exterior.
+          No establece como <code>this</code>
+          el objeto <code>usuario</code> por haber sido
+          invocada como <code>usuario.saludar()</code>.
+        </p>
+
+        <p>
+          La solución más sencilla es utilizar
+          la sintaxis abreviada de métodos.
+        </p>
+
+        <div class="bloque-codigo">
+          <div class="cabecera-codigo">
+            <span class="lenguaje-codigo">JavaScript</span>
+            <button class="boton-copiar" type="button">Copiar código</button>
+          </div>
+          <pre><code>const usuario = {
+  nombre: "Ana",
+
+  saludar() {
+    console.log(this.nombre);
+  }
+};
+
+usuario.saludar();
+
+// Ana</code></pre>
+        </div>
+
+        <div class="caja caja-atencion">
+
+          <span class="caja-titulo">⚠️ Atención</span>
+
+          <p>
+            No debemos pensar que una función flecha
+            es siempre equivalente a una función normal.
+          </p>
+
+          <p>
+            Cuando un método necesita acceder a las propiedades
+            del objeto mediante <code>this</code>,
+            normalmente utilizaremos:
+          </p>
+
+          <p><code>nombreMetodo() { ... }</code></p>
+
+          <p>
+            Las funciones flecha siguen siendo útiles
+            en muchas situaciones, pero su comportamiento
+            respecto a <code>this</code> es diferente.
+          </p>
+
+        </div>
+
+        <h3>Error 3. Separar el método del objeto</h3>
+
+        <p>
+          Otro error habitual aparece cuando guardamos
+          un método en una variable y después lo ejecutamos
+          como una función independiente.
+        </p>
+
+        <div class="bloque-codigo">
+          <div class="cabecera-codigo">
+            <span class="lenguaje-codigo">JavaScript</span>
+            <button class="boton-copiar" type="button">Copiar código</button>
+          </div>
+          <pre><code>"use strict";
+
+const usuario = {
+  nombre: "Carlos",
+
+  saludar() {
+    console.log(this.nombre);
+  }
+};
+
+const funcion = usuario.saludar;
+
+funcion();
+
+// TypeError: no se puede leer nombre
+// de this, porque aquí es undefined.</code></pre>
+        </div>
+
+        <p>
+          Al ejecutar <code>funcion()</code>
+          ya no estamos realizando la llamada
+          mediante <code>usuario.saludar()</code>.
+        </p>
+
+        <p>
+          En este ejemplo, como hemos activado
+          el modo estricto, <code>this</code>
+          es <code>undefined</code> dentro de
+          esa llamada independiente.
+        </p>
+
+        <p>
+          Por eso intentar acceder a
+          <code>this.nombre</code> provoca un error.
+        </p>
+
+        <h3>Una solución: utilizar bind()</h3>
+
+        <p>
+          JavaScript permite fijar el valor
+          de <code>this</code> mediante
+          <code>bind()</code>.
+        </p>
+
+        <div class="bloque-codigo">
+          <div class="cabecera-codigo">
+            <span class="lenguaje-codigo">JavaScript</span>
+            <button class="boton-copiar" type="button">Copiar código</button>
+          </div>
+          <pre><code>"use strict";
+
+const usuario = {
+  nombre: "Carlos",
+
+  saludar() {
+    console.log(this.nombre);
+  }
+};
+
+const funcion = usuario.saludar.bind(usuario);
+
+funcion();
+
+// Carlos</code></pre>
+        </div>
+
+        <p>
+          <code>bind(usuario)</code> crea una nueva función
+          cuyo <code>this</code> queda asociado
+          al objeto <code>usuario</code>.
+        </p>
+
+        <p>
+          No es necesario dominar todavía todas las posibilidades
+          de <code>bind()</code>. Lo importante es comprender
+          por qué podemos perder el contexto al separar
+          un método de su objeto.
+        </p>
+
+        <div class="caja caja-importante">
+
+          <span class="caja-titulo">📌 Importante</span>
+
+          <p>
+            Recuerda estas tres ideas:
+          </p>
+
+          <ul>
+            <li>
+              <code>this</code> no equivale automáticamente
+              al nombre de una variable.
+            </li>
+            <li>
+              En un método normal, su valor depende
+              de cómo se realiza la llamada.
+            </li>
+            <li>
+              Las funciones flecha no establecen
+              su propio <code>this</code>.
+            </li>
+          </ul>
+
+        </div>
+
+        <!-- ======================================
+             8. EJEMPLOS PRÁCTICOS
+        ======================================= -->
+
+        <h2 id="ejemplos">Ejemplos prácticos</h2>
+
+        <p>
+          Vamos a aplicar los métodos y la palabra clave
+          <code>this</code> a situaciones relacionadas
+          con el desarrollo de aplicaciones web.
+        </p>
+
+        <div class="caja caja-atencion">
+
+          <span class="caja-titulo">⚠️ Atención</span>
+
+          <p>
+            Los ejemplos siguientes son
+            <strong>independientes</strong>.
+            Puedes ejecutarlos por separado
+            en la consola del navegador
+            o en archivos JavaScript diferentes.
+          </p>
+
+          <p>
+            Si ejecutas varios en el mismo ámbito,
+            recuerda que no puedes volver a declarar
+            una variable <code>const</code>
+            con el mismo nombre.
+          </p>
+
+        </div>
+
+        <h3>Ejemplo 1. Perfil de un usuario</h3>
+
+        <p>
+          Imagina una aplicación que gestiona perfiles
+          de usuarios. Cada usuario tiene un nombre,
+          un correo electrónico y un estado.
+        </p>
+
+        <p>
+          Queremos definir métodos para mostrar
+          sus datos y cambiar su estado.
+        </p>
+
+        <div class="bloque-codigo">
+          <div class="cabecera-codigo">
+            <span class="lenguaje-codigo">JavaScript</span>
+            <button class="boton-copiar" type="button">Copiar código</button>
+          </div>
+          <pre><code>const usuario = {
+  nombre: "Lucía",
+  email: "lucia@ejemplo.com",
+  activo: true,
+
+  mostrarPerfil() {
+    console.log(`Nombre: ${this.nombre}`);
+    console.log(`Email: ${this.email}`);
+    console.log(`Activo: ${this.activo}`);
+  },
+
+  desactivar() {
+    this.activo = false;
+  }
+};
+
+usuario.mostrarPerfil();
+
+usuario.desactivar();
+
+console.log(usuario.activo);
+
+// Nombre: Lucía
+// Email: lucia@ejemplo.com
+// Activo: true
+// false</code></pre>
+        </div>
+
+        <p>
+          El método <code>mostrarPerfil()</code>
+          consulta las propiedades mediante
+          <code>this</code>.
+        </p>
+
+        <p>
+          El método <code>desactivar()</code>
+          modifica la propiedad <code>activo</code>
+          del mismo objeto.
+        </p>
+
+        <div class="caja caja-ejemplo">
+
+          <span class="caja-titulo">💻 Ejemplo DAW</span>
+
+          <p>
+            En un panel de administración, podríamos
+            utilizar métodos semejantes para consultar
+            o actualizar el estado de un usuario.
+          </p>
+
+          <p>
+            En una aplicación real, las operaciones
+            que deban mantenerse en el servidor
+            necesitarían además comunicarse con él.
+          </p>
+
+        </div>
+
+        <h3>Ejemplo 2. Gestión del stock de un producto</h3>
+
+        <p>
+          Una tienda online necesita controlar
+          las unidades disponibles de sus productos.
+        </p>
+
+        <p>
+          Vamos a definir métodos para consultar
+          la disponibilidad y vender unidades.
+        </p>
+
+        <div class="bloque-codigo">
+          <div class="cabecera-codigo">
+            <span class="lenguaje-codigo">JavaScript</span>
+            <button class="boton-copiar" type="button">Copiar código</button>
+          </div>
+          <pre><code>const producto = {
+  nombre: "Ratón inalámbrico",
+  stock: 8,
+
+  estaDisponible() {
+    return this.stock > 0;
+  },
+
+  vender(cantidad) {
+    if (
+      Number.isInteger(cantidad) &&
+      cantidad > 0 &&
+      cantidad <= this.stock
+    ) {
+      this.stock -= cantidad;
+      return true;
+    }
+
+    return false;
+  }
+};
+
+console.log(producto.estaDisponible());
+console.log(producto.vender(3));
+console.log(producto.stock);
+
+// true
+// true
+// 5</code></pre>
+        </div>
+
+        <p>
+          El método <code>estaDisponible()</code>
+          devuelve un valor booleano.
+        </p>
+
+        <p>
+          El método <code>vender(cantidad)</code>
+          comprueba que la cantidad sea un entero positivo
+          y que existan suficientes unidades.
+        </p>
+
+        <p>
+          Si se cumplen las condiciones,
+          reduce el stock y devuelve <code>true</code>.
+          En caso contrario, devuelve <code>false</code>.
+        </p>
+
+        <h3>Ejemplo 3. Calcular el total de un pedido</h3>
+
+        <p>
+          Vamos a crear un objeto que represente
+          un pedido con un importe y unos gastos
+          de envío.
+        </p>
+
+        <p>
+          Definiremos un método para calcular
+          el total y otro para mostrar un resumen.
+        </p>
+
+        <div class="bloque-codigo">
+          <div class="cabecera-codigo">
+            <span class="lenguaje-codigo">JavaScript</span>
+            <button class="boton-copiar" type="button">Copiar código</button>
+          </div>
+          <pre><code>const pedido = {
+  id: 105,
+  cliente: "María",
+  importe: 120,
+  gastosEnvio: 6,
+
+  calcularTotal() {
+    return this.importe + this.gastosEnvio;
+  },
+
+  mostrarResumen() {
+    console.log(`Pedido: ${this.id}`);
+    console.log(`Cliente: ${this.cliente}`);
+    console.log(`Total: ${this.calcularTotal()} €`);
+  }
+};
+
+pedido.mostrarResumen();
+
+// Pedido: 105
+// Cliente: María
+// Total: 126 €</code></pre>
+        </div>
+
+        <p>
+          Observa que <code>mostrarResumen()</code>
+          invoca otro método del mismo objeto
+          mediante <code>this.calcularTotal()</code>.
+        </p>
+
+        <p>
+          Esta organización permite separar
+          el cálculo del total de la presentación
+          de la información.
+        </p>
+
+        <h3>Ejemplo 4. Cuenta de puntos de un cliente</h3>
+
+        <p>
+          Algunas aplicaciones utilizan sistemas
+          de puntos para recompensar a sus clientes.
+        </p>
+
+        <p>
+          Vamos a crear un objeto que permita
+          añadir y canjear puntos.
+        </p>
+
+        <div class="bloque-codigo">
+          <div class="cabecera-codigo">
+            <span class="lenguaje-codigo">JavaScript</span>
+            <button class="boton-copiar" type="button">Copiar código</button>
+          </div>
+          <pre><code>const cliente = {
+  nombre: "Elena",
+  puntos: 100,
+
+  anadirPuntos(cantidad) {
+    if (Number.isInteger(cantidad) && cantidad > 0) {
+      this.puntos += cantidad;
+    }
+  },
+
+  canjearPuntos(cantidad) {
+    if (
+      Number.isInteger(cantidad) &&
+      cantidad > 0 &&
+      cantidad <= this.puntos
+    ) {
+      this.puntos -= cantidad;
+      return true;
+    }
+
+    return false;
+  },
+
+  consultarPuntos() {
+    return this.puntos;
+  }
+};
+
+cliente.anadirPuntos(50);
+
+console.log(cliente.canjearPuntos(80));
+console.log(cliente.consultarPuntos());
+
+// true
+// 70</code></pre>
+        </div>
+
+        <p>
+          Los métodos modifican o consultan
+          la propiedad <code>puntos</code>.
+        </p>
+
+        <p>
+          Además, incluyen comprobaciones básicas
+          para evitar añadir cantidades negativas
+          o canjear más puntos de los disponibles.
+        </p>
+
+        <h3>Ejemplo 5. Gestión del estado de un pedido</h3>
+
+        <p>
+          Vamos a desarrollar un ejemplo más completo
+          que combine propiedades, métodos,
+          parámetros, condiciones y <code>this</code>.
+        </p>
+
+        <p>
+          Imagina una aplicación de gestión de pedidos
+          que permite cambiar su estado y mostrar
+          la información actualizada.
+        </p>
+
+        <div class="bloque-codigo">
+          <div class="cabecera-codigo">
+            <span class="lenguaje-codigo">JavaScript</span>
+            <button class="boton-copiar" type="button">Copiar código</button>
+          </div>
+          <pre><code>const pedido = {
+  id: 208,
+  cliente: "Carlos",
+  estado: "Pendiente",
+  importe: 249.99,
+
+  cambiarEstado(nuevoEstado) {
+    const estadosValidos = [
+      "Pendiente",
+      "Preparando",
+      "Enviado",
+      "Entregado"
+    ];
+
+    if (estadosValidos.includes(nuevoEstado)) {
+      this.estado = nuevoEstado;
+      return true;
+    }
+
+    return false;
+  },
+
+  estaEntregado() {
+    return this.estado === "Entregado";
+  },
+
+  mostrarInformacion() {
+    console.log(`Pedido: ${this.id}`);
+    console.log(`Cliente: ${this.cliente}`);
+    console.log(`Estado: ${this.estado}`);
+    console.log(`Importe: ${this.importe} €`);
+  }
+};
+
+pedido.mostrarInformacion();
+
+console.log(pedido.cambiarEstado("Enviado"));
+
+pedido.mostrarInformacion();
+
+console.log(pedido.estaEntregado());
+
+// Primera información:
+// Pedido: 208
+// Cliente: Carlos
+// Estado: Pendiente
+// Importe: 249.99 €
+//
+// true
+//
+// Segunda información:
+// Pedido: 208
+// Cliente: Carlos
+// Estado: Enviado
+// Importe: 249.99 €
+//
+// false</code></pre>
+        </div>
+
+        <p>
+          Analicemos su funcionamiento:
+        </p>
+
+        <ol>
+          <li>
+            Creamos un objeto <code>pedido</code>
+            con sus propiedades iniciales.
+          </li>
+          <li>
+            El método <code>cambiarEstado()</code>
+            recibe el nuevo estado como parámetro.
+          </li>
+          <li>
+            Comprueba si el estado recibido
+            pertenece a la lista de estados permitidos.
+          </li>
+          <li>
+            Si es válido, actualiza
+            <code>this.estado</code>.
+          </li>
+          <li>
+            El método <code>estaEntregado()</code>
+            devuelve un booleano.
+          </li>
+          <li>
+            <code>mostrarInformacion()</code>
+            consulta los valores actuales del objeto.
+          </li>
+        </ol>
+
+        <p>
+          Este ejemplo muestra cómo podemos agrupar
+          en un mismo objeto los datos de un pedido
+          y las operaciones que necesitamos realizar
+          sobre ellos.
+        </p>
+
+        <div class="caja caja-ejemplo">
+
+          <span class="caja-titulo">💻 Ejemplo DAW</span>
+
+          <p>
+            Este tipo de organización resulta útil
+            en aplicaciones de comercio electrónico,
+            sistemas de reservas y paneles de gestión.
+          </p>
+
+          <p>
+            En proyectos más grandes, los objetos
+            pueden crearse a partir de funciones
+            constructoras o clases, que estudiaremos
+            en los siguientes apartados.
+          </p>
+
+        </div>
+
+        <!-- ======================================
+             QUÉ DEBEMOS RECORDAR
+        ======================================= -->
+
+        <h3>Qué debemos recordar</h3>
+
+        <p>
+          Antes de continuar con el siguiente apartado,
+          conviene tener claras las ideas fundamentales.
+        </p>
+
+        <ul>
+
+          <li>
+            Un <strong>método</strong> es una función
+            utilizada como propiedad de un objeto.
+          </li>
+
+          <li>
+            Los métodos permiten representar
+            el comportamiento de los objetos.
+          </li>
+
+          <li>
+            Podemos definir métodos mediante
+            <code>function</code> o utilizando
+            la sintaxis abreviada.
+          </li>
+
+          <li>
+            Para ejecutar un método utilizamos
+            los paréntesis:
+            <code>objeto.metodo()</code>.
+          </li>
+
+          <li>
+            Los métodos pueden recibir parámetros
+            y devolver valores mediante
+            <code>return</code>.
+          </li>
+
+          <li>
+            La palabra clave <code>this</code>
+            permite acceder a propiedades y métodos
+            del objeto utilizado en una llamada ordinaria
+            como <code>objeto.metodo()</code>.
+          </li>
+
+          <li>
+            El valor de <code>this</code>
+            depende de cómo se invoca
+            una función normal.
+          </li>
+
+          <li>
+            Las funciones flecha no tienen
+            su propio <code>this</code>.
+          </li>
+
+          <li>
+            Separar un método de su objeto
+            puede modificar el contexto
+            con el que se ejecuta.
+          </li>
+
+        </ul>
+
+        <div class="caja caja-importante">
+
+          <span class="caja-titulo">📌 Importante</span>
+
+          <p>
+            Los métodos permiten que un objeto
+            no sea solamente un conjunto de datos,
+            sino también una estructura capaz
+            de realizar operaciones relacionadas
+            con esos datos.
+          </p>
+
+          <p>
+            La palabra clave <code>this</code>
+            facilita esa relación entre
+            <strong>propiedades y comportamiento</strong>.
+          </p>
+
+          <p>
+            Estos conocimientos serán fundamentales
+            para comprender las funciones constructoras,
+            las instancias y las clases de JavaScript.
+          </p>
+
+        </div>
+
+        <!-- ======================================
+             ACTIVIDAD DE REFLEXIÓN
+        ======================================= -->
+
+        <div class="actividad-reflexion">
+
+          <h3>💭 Piensa</h3>
+
+          <p>
+            Imagina que estás desarrollando una aplicación
+            web para gestionar reservas de habitaciones
+            de un hotel.
+          </p>
+
+          <p>
+            Dispones del siguiente objeto:
+          </p>
+
+          <div class="bloque-codigo">
+            <div class="cabecera-codigo">
+              <span class="lenguaje-codigo">JavaScript</span>
+              <button class="boton-copiar" type="button">Copiar código</button>
+            </div>
+            <pre><code>const habitacion = {
+  numero: 204,
+  precioNoche: 85,
+  disponible: true
+};</code></pre>
+          </div>
+
+          <p>
+            Responde a las siguientes preguntas
+            antes de consultar la solución:
+          </p>
+
+          <ol>
+
+            <li>
+              ¿Cómo añadirías un método
+              <code>mostrarInformacion()</code>
+              que muestre el número y el precio
+              de la habitación?
+            </li>
+
+            <li>
+              ¿Cómo utilizarías <code>this</code>
+              para acceder a las propiedades
+              <code>numero</code> y
+              <code>precioNoche</code>?
+            </li>
+
+            <li>
+              ¿Cómo definirías un método
+              <code>calcularPrecio(noches)</code>
+              que devuelva el precio total
+              de una estancia?
+            </li>
+
+            <li>
+              ¿Cómo crearías un método
+              <code>reservar()</code>
+              que cambie <code>disponible</code>
+              a <code>false</code> solamente
+              cuando la habitación esté libre?
+            </li>
+
+            <li>
+              ¿Qué diferencia existe entre
+              <code>habitacion.reservar</code>
+              y <code>habitacion.reservar()</code>?
+            </li>
+
+            <li>
+              ¿Por qué no sería adecuado
+              definir <code>reservar</code>
+              como una función flecha
+              si queremos utilizar
+              <code>this.disponible</code>?
+            </li>
+
+            <li>
+              ¿Qué ocurriría si intentáramos
+              reservar dos veces seguidas
+              la misma habitación?
+            </li>
+
+          </ol>
+
+          <details class="solucion-desplegable">
+
+            <summary>Ver una posible solución</summary>
+
+            <div class="contenido-solucion">
+
+              <p>
+                Una posible solución sería
+                la siguiente:
+              </p>
+
+              <div class="bloque-codigo">
+                <div class="cabecera-codigo">
+                  <span class="lenguaje-codigo">JavaScript</span>
+                  <button class="boton-copiar" type="button">Copiar código</button>
+                </div>
+                <pre><code>const habitacion = {
+  numero: 204,
+  precioNoche: 85,
+  disponible: true,
+
+  // 1 y 2. Mostrar información con this
+  mostrarInformacion() {
+    console.log(`Habitación: ${this.numero}`);
+    console.log(`Precio por noche: ${this.precioNoche} €`);
+  },
+
+  // 3. Calcular el precio de la estancia
+  calcularPrecio(noches) {
+    if (!Number.isInteger(noches) || noches <= 0) {
+      return null;
+    }
+
+    return this.precioNoche * noches;
+  },
+
+  // 4. Reservar si está disponible
+  reservar() {
+    if (this.disponible) {
+      this.disponible = false;
+      return true;
+    }
+
+    return false;
+  }
+};
+
+// Mostrar los datos
+habitacion.mostrarInformacion();
+
+// Calcular tres noches
+console.log(habitacion.calcularPrecio(3));
+
+// Primera reserva
+console.log(habitacion.reservar());
+
+// Segunda reserva
+console.log(habitacion.reservar());
+
+// Consultar disponibilidad final
+console.log(habitacion.disponible);
+
+// Habitación: 204
+// Precio por noche: 85 €
+// 255
+// true
+// false
+// false</code></pre>
+              </div>
+
+              <p>
+                <strong>Preguntas 1 y 2.</strong>
+                El método <code>mostrarInformacion()</code>
+                utiliza <code>this.numero</code> y
+                <code>this.precioNoche</code>
+                para consultar las propiedades
+                de la habitación.
+              </p>
+
+              <p>
+                <strong>Pregunta 3.</strong>
+                El método <code>calcularPrecio(noches)</code>
+                multiplica el precio por noche
+                por el número de noches.
+                Además, comprueba que el número
+                de noches sea un entero positivo.
+              </p>
+
+              <p>
+                <strong>Pregunta 4.</strong>
+                El método <code>reservar()</code>
+                comprueba <code>this.disponible</code>.
+                Si la habitación está libre,
+                modifica su estado y devuelve
+                <code>true</code>.
+              </p>
+
+              <p>
+                <strong>Pregunta 5.</strong>
+                <code>habitacion.reservar</code>
+                accede a la función,
+                mientras que
+                <code>habitacion.reservar()</code>
+                la ejecuta.
+              </p>
+
+              <p>
+                <strong>Pregunta 6.</strong>
+                Una función flecha no tiene
+                su propio <code>this</code>,
+                por lo que no recibiría
+                automáticamente el objeto
+                <code>habitacion</code>
+                como contexto de la llamada.
+              </p>
+
+              <p>
+                <strong>Pregunta 7.</strong>
+                La primera reserva devuelve
+                <code>true</code> y cambia
+                <code>disponible</code>
+                a <code>false</code>.
+                La segunda devuelve
+                <code>false</code>,
+                porque la habitación ya no
+                está disponible.
+              </p>
+
+            </div>
+
+          </details>
+
+        </div>
+
+      </section>
+
+      <!-- ======================================
+           NAVEGACIÓN INFERIOR
+      ======================================= -->
+
+      <nav class="navegacion-paginas">
+
+        <a
+          class="nav-pagina nav-anterior"
+          href="../6-4/index.html"
+        >
+
+          <span class="nav-etiqueta">Anterior</span>
+
+          <strong>
+            ‹ 6.4 Recorrido de las propiedades de un objeto
+          </strong>
+
+        </a>
+
+        <a
+          class="nav-pagina nav-siguiente"
+          href="../6-6/index.html"
+        >
+
+          <span class="nav-etiqueta">Siguiente</span>
+
+          <strong>
+            6.6 Funciones constructoras e instancias ›
+          </strong>
+
+        </a>
+
+      </nav>
+
+    </main>
+
+    <!-- ======================================
+         ÍNDICE DERECHO
+    ======================================= -->
+
+    <aside class="indice-derecho">
+
+      <h2>Contenidos del apartado</h2>
+
+      <ul>
+
+        <li>
+          <a href="#metodos-objetos">
+            Métodos de los objetos
+          </a>
+        </li>
+
+        <li>
+          <a href="#definir-metodos">
+            Definición de métodos
+          </a>
+        </li>
+
+        <li>
+          <a href="#invocar-metodos">
+            Invocación de métodos
+          </a>
+        </li>
+
+        <li>
+          <a href="#parametros-retorno">
+            Parámetros y valores de retorno
+          </a>
+        </li>
+
+        <li>
+          <a href="#palabra-this">
+            La palabra clave this
+          </a>
+        </li>
+
+        <li>
+          <a href="#funcionamiento-this">
+            Funcionamiento de this
+          </a>
+        </li>
+
+        <li>
+          <a href="#errores-this">
+            Errores habituales con this
+          </a>
+        </li>
+
+        <li>
+          <a href="#ejemplos">
+            Ejemplos prácticos
+          </a>
+        </li>
+
+      </ul>
+
+    </aside>
+
+  </div>
+
+  <!-- ======================================
+       PIE DE PÁGINA
+  ======================================= -->
+
+  <footer class="footer">
+
+    <p>
+
+      Material elaborado por
+      <strong>Eva Ballestero Cubeles</strong>
+
+      - Licencia
+
+      <span class="licencia">
+        CC BY-NC-SA 4.0
+      </span>
+
+      <a
+        class="enlace-licencia"
+        href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.es"
+        target="_blank"
+        rel="license noopener noreferrer"
+        aria-label="Licencia Creative Commons BY-NC-SA 4.0"
+      >
+        <img
+          class="icono-licencia"
+          src="../../../img/licencias/cc-by-nc-sa.png"
+          alt="Licencia Creative Commons BY-NC-SA 4.0"
+        >
+      </a>
+
+    </p>
+
+  </footer>
+
+  <!-- ======================================
+       JAVASCRIPT
+  ======================================= -->
+
+  <script src="../../../js/modulos.js"></script>
+
+  <script>
+
+    /* MENÚ SUPERIOR DE MÓDULOS */
+
+    const menuModulos =
+      document.getElementById("menuModulos");
+
+    const botonTema =
+      document.getElementById("botonTema");
+
+    if (typeof modulos !== "undefined") {
+
+      const modulosActivos =
+        modulos.filter(modulo => modulo.activo === true);
+
+      modulosActivos.forEach(modulo => {
+
+        const enlace =
+          document.createElement("a");
+
+        enlace.href =
+          `../../../${modulo.carpeta}/index.html`;
+
+        enlace.textContent =
+          modulo.siglas;
+
+        enlace.title =
+          modulo.nombre;
+
+        if (modulo.siglas === "DWEC") {
+          enlace.style.color =
+            "var(--verde-principal)";
+        }
+
+        menuModulos.appendChild(enlace);
+
+      });
+
+    }
+
+    /* MODO OSCURO */
+
+    const temaGuardado =
+      localStorage.getItem("tema");
+
+    if (temaGuardado === "oscuro") {
+
+      document.body.classList.add("modo-oscuro");
+      botonTema.textContent = "🌙";
+
+    }
+
+    botonTema.addEventListener("click", () => {
+
+      document.body.classList.toggle("modo-oscuro");
+
+      const estaOscuro =
+        document.body.classList.contains("modo-oscuro");
+
+      botonTema.textContent =
+        estaOscuro ? "🌙" : "☀️";
+
+      localStorage.setItem(
+        "tema",
+        estaOscuro ? "oscuro" : "claro"
+      );
+
+    });
+
+    /* MENÚS DESPLEGABLES */
+
+    const botonesDesplegar =
+      document.querySelectorAll(".boton-desplegar");
+
+    botonesDesplegar.forEach(boton => {
+
+      boton.addEventListener("click", () => {
+
+        const idSubmenu =
+          boton.getAttribute("data-target");
+
+        const submenu =
+          document.getElementById(idSubmenu);
+
+        if (!submenu) {
+          return;
+        }
+
+        const estaAbierto =
+          submenu.classList.contains("submenu-abierto");
+
+        if (estaAbierto) {
+
+          submenu.classList.remove("submenu-abierto");
+          boton.textContent = "›";
+
+          boton.setAttribute(
+            "aria-expanded",
+            "false"
+          );
+
+        } else {
+
+          submenu.classList.add("submenu-abierto");
+          boton.textContent = "⌄";
+
+          boton.setAttribute(
+            "aria-expanded",
+            "true"
+          );
+
+        }
+
+      });
+
+    });
+
+    /* COPIAR CÓDIGO */
+
+    const botonesCopiar =
+      document.querySelectorAll(".boton-copiar");
+
+    botonesCopiar.forEach(boton => {
+
+      boton.addEventListener("click", async () => {
+
+        const bloque =
+          boton.closest(".bloque-codigo");
+
+        const codigo =
+          bloque?.querySelector("pre code");
+
+        if (!codigo) {
+          return;
+        }
+
+        const textoOriginal =
+          boton.textContent.trim();
+
+        try {
+
+          await navigator.clipboard.writeText(
+            codigo.textContent
+          );
+
+          boton.textContent = "✓ Copiado";
+
+          setTimeout(() => {
+            boton.textContent = textoOriginal;
+          }, 1600);
+
+        } catch (error) {
+
+          // Alternativa para contextos donde
+          // la API Clipboard no esté disponible.
+
+          const seleccion =
+            window.getSelection();
+
+          const rango =
+            document.createRange();
+
+          rango.selectNodeContents(codigo);
+
+          seleccion.removeAllRanges();
+          seleccion.addRange(rango);
+
+          boton.textContent =
+            "Seleccionado: pulsa Ctrl+C";
+
+          setTimeout(() => {
+            boton.textContent = textoOriginal;
+            seleccion.removeAllRanges();
+          }, 2500);
+
+        }
+
+      });
+
+    });
+
+  </script>
+
+</body>
+</html>
