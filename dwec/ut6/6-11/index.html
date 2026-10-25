@@ -497,20 +497,20 @@ body.modo-oscuro .miga-actual {
       font-weight: bold;
     }
 
-/* ==========================================
-   ACTIVIDAD DE REFLEXIÓN - PIENSA
-========================================== */
 
+/* ==========================================
+   ACTIVIDAD DE REFLEXIÓN
+========================================== */
 .actividad-reflexion {
   margin: 32px 0;
-  padding: 35px 36px;
+  padding: 22px 24px;
   background-color: #f7f8fa;
-  border: 1px solid #d8dadd;
-  border-radius: 15px;
+  border: 1px solid var(--borde);
+  border-radius: 10px;
 }
 
 .actividad-reflexion h3 {
-  margin: 0 0 18px;
+  margin: 0 0 12px;
   color: var(--verde-principal);
   font-size: 20px;
 }
@@ -521,73 +521,51 @@ body.modo-oscuro .miga-actual {
   line-height: 1.65;
 }
 
-.actividad-reflexion ol {
-  margin: 15px 0 30px;
-  padding-left: 40px;
+body.modo-oscuro .actividad-reflexion {
+  background-color: #232d3d;
 }
 
-.actividad-reflexion li {
-  margin-bottom: 18px;
-  line-height: 1.8;
+/* ==========================================
+   SOLUCIÓN DESPLEGABLE
+========================================== */
+.solucion-desplegable {
+  margin-top: 20px;
 }
 
-/* BOTÓN DE SOLUCIÓN */
-
-.boton-solucion {
+.solucion-desplegable summary {
   display: inline-block;
-  padding: 15px 24px;
-  background-color: #edf8f0;
-  border: 1px solid #b7dfc5;
-  border-radius: 10px;
-  color: #00843d;
-  font-family: inherit;
-  font-size: 17px;
+  padding: 10px 16px;
+  background-color: #eef8f1;
+  border: 1px solid #b9dfc6;
+  border-radius: 7px;
+  color: var(--verde-principal);
+  font-size: 16px;
   font-weight: 700;
   cursor: pointer;
-  transition: background-color 0.2s ease;
+  user-select: none;
 }
 
-.boton-solucion:hover {
-  background-color: #dff2e5;
+.solucion-desplegable summary:hover {
+  background-color: #e2f3e7;
 }
-
-/* CONTENIDO DE LA SOLUCIÓN */
 
 .contenido-solucion {
-  display: none;
-  margin-top: 25px;
-  padding: 24px;
-  background-color: #ffffff;
-  border: 1px solid #d8dadd;
-  border-radius: 10px;
-}
-
-.contenido-solucion.visible {
-  display: block;
+  margin-top: 16px;
+  padding: 18px 20px;
+  background-color: var(--fondo-pagina);
+  border-left: 4px solid var(--verde-principal);
+  border-radius: 6px;
 }
 
 .contenido-solucion p {
-  margin-bottom: 14px;
+  margin: 0 0 12px;
   font-size: 16px;
-  line-height: 1.7;
+  line-height: 1.65;
 }
 
-/* MODO OSCURO */
-
-body.modo-oscuro .actividad-reflexion {
-  background-color: #232d3d;
-  border-color: #475569;
-}
-
-body.modo-oscuro .contenido-solucion {
-  background-color: #0f172a;
-  border-color: #475569;
-}
-
-body.modo-oscuro .boton-solucion {
+body.modo-oscuro .solucion-desplegable summary {
   background-color: #20372a;
   border-color: #315d40;
-  color: #86efac;
 }
 
 /* ==========================================
@@ -2757,17 +2735,10 @@ Total: 85 €</code></pre>
         </li>
       </ol>
 
-<button
-  class="boton-solucion"
-  id="botonSolucion"
-  type="button"
-  aria-expanded="false"
-  aria-controls="contenidoSolucion"
->
-  Ver una posible solución
-</button>
+<details class="solucion-desplegable">
+  <summary>Ver una posible solución</summary>
 
-<div class="contenido-solucion" id="contenidoSolucion">
+  <div class="contenido-solucion">
 
           <p>
             Una posible organización sería utilizar
@@ -2906,6 +2877,8 @@ console.log(gestor.matricular(alumno, modulo));
           </p>
 
         </div>
+
+      </details>
 
     </div>
 
@@ -3118,31 +3091,7 @@ botonesCopiar.forEach(boton => {
     }
   });
 });
-  /* ==========================================
-   MOSTRAR Y OCULTAR SOLUCIÓN - PIENSA
-========================================== */
 
-const botonSolucion = document.getElementById("botonSolucion");
-const contenidoSolucion = document.getElementById("contenidoSolucion");
-
-if (botonSolucion && contenidoSolucion) {
-
-  botonSolucion.addEventListener("click", () => {
-
-    const visible = contenidoSolucion.classList.toggle("visible");
-
-    botonSolucion.textContent = visible
-      ? "Ocultar solución"
-      : "Ver una posible solución";
-
-    botonSolucion.setAttribute(
-      "aria-expanded",
-      String(visible)
-    );
-
-  });
-
-}
 </script>
 
 </body>
