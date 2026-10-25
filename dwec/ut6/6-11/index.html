@@ -497,40 +497,75 @@ body.modo-oscuro .miga-actual {
       font-weight: bold;
     }
 
-    /* ==========================================
-       ACTIVIDAD DE REFLEXIÓN
-    ========================================== */
-    .actividad-reflexion {
-      margin: 32px 0;
-      padding: 24px;
-      border: 1px solid rgba(168, 85, 247, 0.3);
-      border-radius: 12px;
-      background: rgba(168, 85, 247, 0.055);
-    }
+  /* ==========================================
+   ACTIVIDAD DE REFLEXIÓN
+========================================== */
+.actividad-reflexion {
+  margin: 32px 0;
+  padding: 22px 24px;
+  background-color: #f7f8fa;
+  border: 1px solid var(--borde);
+  border-radius: 10px;
+}
 
-    .actividad-reflexion h3 {
-      margin-top: 0;
-    }
+.actividad-reflexion h3 {
+  margin: 0 0 12px;
+  color: var(--verde-principal);
+  font-size: 20px;
+}
 
-    .solucion-desplegable {
-      margin-top: 20px;
-      border: 1px solid rgba(168, 85, 247, 0.25);
-      border-radius: 9px;
-      overflow: hidden;
-    }
+.actividad-reflexion p {
+  margin: 0 0 14px;
+  font-size: 17px;
+  line-height: 1.65;
+}
 
-    .solucion-desplegable summary {
-      padding: 13px 16px;
-      cursor: pointer;
-      font-weight: 700;
-      font-size: 15px;
-    }
+body.modo-oscuro .actividad-reflexion {
+  background-color: #232d3d;
+}
 
-    .contenido-solucion {
-      padding: 18px;
-      border-top: 1px solid rgba(168, 85, 247, 0.20);
-      font-size: 15px;
-    }
+/* ==========================================
+   SOLUCIÓN DESPLEGABLE
+========================================== */
+.solucion-desplegable {
+  margin-top: 20px;
+}
+
+.solucion-desplegable summary {
+  display: inline-block;
+  padding: 10px 16px;
+  background-color: #eef8f1;
+  border: 1px solid #b9dfc6;
+  border-radius: 7px;
+  color: var(--verde-principal);
+  font-size: 16px;
+  font-weight: 700;
+  cursor: pointer;
+  user-select: none;
+}
+
+.solucion-desplegable summary:hover {
+  background-color: #e2f3e7;
+}
+
+.contenido-solucion {
+  margin-top: 16px;
+  padding: 18px 20px;
+  background-color: var(--fondo-pagina);
+  border-left: 4px solid var(--verde-principal);
+  border-radius: 6px;
+}
+
+.contenido-solucion p {
+  margin: 0 0 12px;
+  font-size: 16px;
+  line-height: 1.65;
+}
+
+body.modo-oscuro .solucion-desplegable summary {
+  background-color: #20372a;
+  border-color: #315d40;
+}
 
 
 /* ==========================================
