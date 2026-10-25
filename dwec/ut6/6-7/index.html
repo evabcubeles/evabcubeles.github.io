@@ -1,0 +1,1389 @@
+
+<main class="contenido-ut">
+
+  <!-- MIGAS DE PAN -->
+
+  <div class="migas">
+    <a
+      class="miga-inicio"
+      href="../../../index.html"
+      aria-label="Volver a la página principal"
+    >🏠</a>
+
+    <span class="miga-separador">›</span>
+    <a class="miga-modulo" href="../../index.html">DWEC</a>
+
+    <span class="miga-separador">›</span>
+    <a class="miga-modulo" href="../index.html">UT6</a>
+
+    <span class="miga-separador">›</span>
+    <span class="miga-actual">6.7</span>
+  </div>
+
+  <h1>6.7 Clases en JavaScript: class y constructor</h1>
+
+  <section class="apartado-ut">
+
+    <!-- INTRODUCCIÓN -->
+
+    <p>
+      En el apartado anterior hemos aprendido a utilizar
+      <strong>funciones constructoras</strong> para crear
+      varios objetos con una misma estructura.
+    </p>
+
+    <p>
+      También hemos comprobado que cada objeto creado
+      mediante <code>new</code> recibe el nombre de
+      <strong>instancia</strong> y que podemos definir
+      propiedades y métodos para representar su
+      información y comportamiento.
+    </p>
+
+    <p>
+      JavaScript dispone de otra sintaxis para organizar
+      estas definiciones de forma más clara:
+      las <strong>clases</strong>.
+    </p>
+
+    <p>
+      Las clases permiten agrupar la inicialización de
+      los objetos y sus métodos en una estructura
+      fácil de leer y mantener.
+    </p>
+
+    <div class="caja caja-importante">
+      <span class="caja-titulo">📌 Importante</span>
+
+      <p>
+        Una <strong>clase</strong> es una definición que
+        permite crear objetos con una estructura y
+        un comportamiento comunes.
+      </p>
+
+      <p>
+        Cada objeto creado a partir de una clase
+        es una <strong>instancia</strong> de esa clase.
+      </p>
+    </div>
+
+    <!-- 1. QUÉ ES UNA CLASE -->
+
+    <h2 id="concepto-clase">Qué es una clase en JavaScript</h2>
+
+    <p>
+      Imagina que estamos desarrollando una aplicación
+      para gestionar los productos de una tienda online.
+    </p>
+
+    <p>
+      Todos los productos tienen información similar:
+      nombre, precio y unidades disponibles. Además,
+      pueden realizar operaciones comunes, como
+      mostrar su información o calcular su precio
+      con descuento.
+    </p>
+
+    <p>
+      Podemos definir una clase que reúna estas
+      características:
+    </p>
+
+    <div class="bloque-codigo">
+      <div class="cabecera-codigo">
+        <span class="lenguaje-codigo">JavaScript</span>
+        <button class="boton-copiar" type="button">
+          Copiar código
+        </button>
+      </div>
+      <pre><code>class Producto {
+  constructor(nombre, precio, stock) {
+    this.nombre = nombre;
+    this.precio = precio;
+    this.stock = stock;
+  }
+
+  mostrarInformacion() {
+    return `${this.nombre}: ${this.precio} €`;
+  }
+}</code></pre>
+    </div>
+
+    <p>
+      En este ejemplo, <code>Producto</code> es el nombre
+      de la clase. En su interior hemos definido:
+    </p>
+
+    <ul>
+      <li>
+        Un <code>constructor</code>, que inicializa
+        los datos de cada producto.
+      </li>
+      <li>
+        Tres propiedades de instancia:
+        <code>nombre</code>, <code>precio</code>
+        y <code>stock</code>.
+      </li>
+      <li>
+        Un método llamado
+        <code>mostrarInformacion()</code>.
+      </li>
+    </ul>
+
+    <p>
+      Esta definición todavía no crea ningún producto
+      concreto. Para ello necesitamos utilizar
+      el operador <code>new</code>.
+    </p>
+
+    <!-- 2. SINTAXIS -->
+
+    <h2 id="sintaxis-class">Sintaxis de class</h2>
+
+    <p>
+      Para declarar una clase utilizamos la palabra
+      reservada <code>class</code>, seguida del nombre
+      de la clase y un bloque delimitado por llaves.
+    </p>
+
+    <div class="bloque-codigo">
+      <div class="cabecera-codigo">
+        <span class="lenguaje-codigo">JavaScript</span>
+        <button class="boton-copiar" type="button">
+          Copiar código
+        </button>
+      </div>
+      <pre><code>class NombreClase {
+  constructor(parametro1, parametro2) {
+    this.propiedad1 = parametro1;
+    this.propiedad2 = parametro2;
+  }
+
+  nombreMetodo() {
+    // Comportamiento de los objetos.
+  }
+}</code></pre>
+    </div>
+
+    <p>
+      Aunque la sintaxis recuerda a la de otros
+      lenguajes orientados a objetos, debemos recordar
+      que JavaScript utiliza un
+      <strong>modelo de objetos basado en prototipos</strong>.
+    </p>
+
+    <p>
+      La sintaxis <code>class</code> facilita la
+      escritura de código orientado a objetos, pero
+      no sustituye el mecanismo de prototipos
+      del lenguaje.
+    </p>
+
+    <h3>Convenciones de escritura</h3>
+
+    <p>
+      Por convenio, los nombres de las clases
+      se escriben utilizando
+      <strong>PascalCase</strong>, es decir,
+      comenzando cada palabra con mayúscula.
+    </p>
+
+    <div class="bloque-codigo">
+      <div class="cabecera-codigo">
+        <span class="lenguaje-codigo">JavaScript</span>
+        <button class="boton-copiar" type="button">
+          Copiar código
+        </button>
+      </div>
+      <pre><code>// Nombres habituales de clases:
+class Producto {}
+class Cliente {}
+class CarritoCompra {}
+class ReservaHotel {}
+
+// Las variables que almacenan instancias
+// suelen escribirse en camelCase.
+const productoDestacado = new Producto();
+const clientePrincipal = new Cliente();</code></pre>
+    </div>
+
+    <div class="caja caja-atencion">
+      <span class="caja-titulo">⚠️ Atención</span>
+
+      <p>
+        Los nombres en PascalCase son una
+        <strong>convención</strong>, no una obligación
+        del lenguaje.
+      </p>
+
+      <p>
+        También debes recordar que JavaScript
+        distingue entre mayúsculas y minúsculas:
+        <code>Producto</code> y
+        <code>producto</code> son identificadores
+        diferentes.
+      </p>
+    </div>
+
+    <!-- 3. CONSTRUCTOR -->
+
+    <h2 id="metodo-constructor">El método constructor</h2>
+
+    <p>
+      Dentro de una clase podemos declarar un método
+      especial denominado <code>constructor</code>.
+    </p>
+
+    <p>
+      Este método se ejecuta automáticamente cuando
+      creamos una instancia mediante <code>new</code>.
+      Su función habitual es
+      <strong>inicializar las propiedades del objeto</strong>.
+    </p>
+
+    <div class="bloque-codigo">
+      <div class="cabecera-codigo">
+        <span class="lenguaje-codigo">JavaScript</span>
+        <button class="boton-copiar" type="button">
+          Copiar código
+        </button>
+      </div>
+      <pre><code>class Alumno {
+  constructor(nombre, edad, ciclo) {
+    this.nombre = nombre;
+    this.edad = edad;
+    this.ciclo = ciclo;
+  }
+}
+
+const alumno1 = new Alumno(
+  "Lucía",
+  20,
+  "DAW"
+);
+
+console.log(alumno1.nombre); // Lucía
+console.log(alumno1.edad);   // 20
+console.log(alumno1.ciclo);  // DAW</code></pre>
+    </div>
+
+    <p>
+      Cuando ejecutamos
+      <code>new Alumno("Lucía", 20, "DAW")</code>,
+      JavaScript crea una nueva instancia y
+      ejecuta el constructor con los argumentos
+      indicados.
+    </p>
+
+    <p>
+      La palabra clave <code>this</code> hace
+      referencia a esa nueva instancia, por lo que
+      las asignaciones guardan los datos dentro
+      del objeto.
+    </p>
+
+    <h3>El constructor puede recibir valores por defecto</h3>
+
+    <p>
+      Podemos asignar valores predeterminados a
+      los parámetros para facilitar la creación
+      de instancias.
+    </p>
+
+    <div class="bloque-codigo">
+      <div class="cabecera-codigo">
+        <span class="lenguaje-codigo">JavaScript</span>
+        <button class="boton-copiar" type="button">
+          Copiar código
+        </button>
+      </div>
+      <pre><code>class Usuario {
+  constructor(nombre, activo = true) {
+    this.nombre = nombre;
+    this.activo = activo;
+  }
+}
+
+const usuario1 = new Usuario("Ana");
+const usuario2 = new Usuario("Pablo", false);
+
+console.log(usuario1.activo); // true
+console.log(usuario2.activo); // false</code></pre>
+    </div>
+
+    <h3>¿Es obligatorio declarar un constructor?</h3>
+
+    <p>
+      No. Si una clase no incluye un constructor,
+      JavaScript utiliza un constructor predeterminado
+      que permite crear instancias.
+    </p>
+
+    <div class="bloque-codigo">
+      <div class="cabecera-codigo">
+        <span class="lenguaje-codigo">JavaScript</span>
+        <button class="boton-copiar" type="button">
+          Copiar código
+        </button>
+      </div>
+      <pre><code>class Mensaje {
+  mostrar() {
+    return "Hola desde una clase";
+  }
+}
+
+const mensaje = new Mensaje();
+
+console.log(mensaje.mostrar());
+// Hola desde una clase</code></pre>
+    </div>
+
+    <div class="caja caja-importante">
+      <span class="caja-titulo">📌 Importante</span>
+
+      <p>
+        Una clase puede tener
+        <strong>como máximo un método
+        <code>constructor</code></strong>.
+      </p>
+
+      <p>
+        Si necesitamos diferentes formas de inicializar
+        los objetos, podemos utilizar parámetros
+        opcionales, valores por defecto u otras
+        estrategias que estudiaremos progresivamente.
+      </p>
+    </div>
+
+    <!-- 4. INSTANCIAS -->
+
+    <h2 id="crear-instancias">Creación de instancias con new</h2>
+
+    <p>
+      Una vez declarada la clase, podemos crear
+      tantos objetos como necesitemos utilizando
+      el operador <code>new</code>.
+    </p>
+
+    <div class="bloque-codigo">
+      <div class="cabecera-codigo">
+        <span class="lenguaje-codigo">JavaScript</span>
+        <button class="boton-copiar" type="button">
+          Copiar código
+        </button>
+      </div>
+      <pre><code>class Producto {
+  constructor(nombre, precio) {
+    this.nombre = nombre;
+    this.precio = precio;
+  }
+}
+
+const producto1 = new Producto("Teclado", 45);
+const producto2 = new Producto("Ratón", 25);
+const producto3 = new Producto("Monitor", 180);
+
+console.log(producto1.nombre); // Teclado
+console.log(producto2.nombre); // Ratón
+console.log(producto3.nombre); // Monitor</code></pre>
+    </div>
+
+    <p>
+      Los tres productos se han creado a partir
+      de la misma clase, pero
+      <strong>cada instancia es un objeto independiente</strong>.
+    </p>
+
+    <div class="bloque-codigo">
+      <div class="cabecera-codigo">
+        <span class="lenguaje-codigo">JavaScript</span>
+        <button class="boton-copiar" type="button">
+          Copiar código
+        </button>
+      </div>
+      <pre><code>producto1.precio = 40;
+
+console.log(producto1.precio); // 40
+console.log(producto2.precio); // 25
+console.log(producto3.precio); // 180
+
+console.log(producto1 === producto2);
+// false</code></pre>
+    </div>
+
+    <p>
+      Modificar el precio del primer producto
+      no afecta a los demás porque cada instancia
+      almacena sus propias propiedades.
+    </p>
+
+    <h3>Comprobar la clase de una instancia</h3>
+
+    <p>
+      Podemos utilizar el operador
+      <code>instanceof</code>, que ya conocemos
+      del apartado anterior.
+    </p>
+
+    <div class="bloque-codigo">
+      <div class="cabecera-codigo">
+        <span class="lenguaje-codigo">JavaScript</span>
+        <button class="boton-copiar" type="button">
+          Copiar código
+        </button>
+      </div>
+      <pre><code>console.log(producto1 instanceof Producto);
+// true
+
+console.log(producto2 instanceof Producto);
+// true
+
+console.log(producto1 instanceof Array);
+// false
+
+console.log(typeof producto1);
+// object</code></pre>
+    </div>
+
+    <div class="caja caja-atencion">
+      <span class="caja-titulo">⚠️ Atención</span>
+
+      <p>
+        Para crear instancias de una clase declarada
+        con <code>class</code>, debemos utilizar
+        <code>new</code>.
+      </p>
+
+      <p>
+        No podemos invocar una clase como si fuera
+        una función ordinaria.
+      </p>
+    </div>
+
+    <!-- 5. THIS -->
+
+    <h2 id="this-clases">La palabra clave this en las clases</h2>
+
+    <p>
+      La palabra clave <code>this</code> sigue
+      siendo fundamental al trabajar con clases.
+    </p>
+
+    <p>
+      Dentro del constructor, <code>this</code>
+      identifica la instancia que se está creando.
+      Dentro de un método ordinario llamado mediante
+      una instancia, normalmente identifica
+      el objeto que realiza la llamada.
+    </p>
+
+    <div class="bloque-codigo">
+      <div class="cabecera-codigo">
+        <span class="lenguaje-codigo">JavaScript</span>
+        <button class="boton-copiar" type="button">
+          Copiar código
+        </button>
+      </div>
+      <pre><code>class Cuenta {
+  constructor(titular, saldo) {
+    this.titular = titular;
+    this.saldo = saldo;
+  }
+
+  consultarSaldo() {
+    return `${this.titular}: ${this.saldo} €`;
+  }
+
+  ingresar(cantidad) {
+    this.saldo += cantidad;
+  }
+}
+
+const cuentaAna = new Cuenta("Ana", 100);
+const cuentaLuis = new Cuenta("Luis", 250);
+
+cuentaAna.ingresar(50);
+
+console.log(cuentaAna.consultarSaldo());
+// Ana: 150 €
+
+console.log(cuentaLuis.consultarSaldo());
+// Luis: 250 €</code></pre>
+    </div>
+
+    <p>
+      Cuando llamamos a
+      <code>cuentaAna.ingresar(50)</code>,
+      <code>this</code> se refiere a
+      <code>cuentaAna</code>.
+    </p>
+
+    <p>
+      Por tanto, el ingreso modifica únicamente
+      el saldo de esa cuenta.
+    </p>
+
+    <h3>El contexto de this puede perderse</h3>
+
+    <p>
+      Aunque un método esté definido dentro
+      de una clase, el valor de <code>this</code>
+      depende de cómo se invoque.
+    </p>
+
+    <div class="bloque-codigo">
+      <div class="cabecera-codigo">
+        <span class="lenguaje-codigo">JavaScript</span>
+        <button class="boton-copiar" type="button">
+          Copiar código
+        </button>
+      </div>
+      <pre><code>class Persona {
+  constructor(nombre) {
+    this.nombre = nombre;
+  }
+
+  saludar() {
+    return `Hola, soy ${this.nombre}`;
+  }
+}
+
+const persona = new Persona("Elena");
+
+console.log(persona.saludar());
+// Hola, soy Elena
+
+const funcionSaludo = persona.saludar;
+
+// Esta llamada pierde el objeto receptor:
+// funcionSaludo(); // TypeError
+
+// Podemos fijar explícitamente el contexto:
+const saludoVinculado =
+  persona.saludar.bind(persona);
+
+console.log(saludoVinculado());
+// Hola, soy Elena</code></pre>
+    </div>
+
+    <div class="caja caja-importante">
+      <span class="caja-titulo">📌 Importante</span>
+
+      <p>
+        Los métodos de las clases se ejecutan
+        en <strong>modo estricto</strong>.
+        Si extraemos un método y lo invocamos
+        sin un objeto receptor, su
+        <code>this</code> será
+        <code>undefined</code>.
+      </p>
+    </div>
+
+    <!-- 6. MÉTODOS -->
+
+    <h2 id="metodos-clases">Definición de métodos en una clase</h2>
+
+    <p>
+      Una clase no solo sirve para inicializar
+      propiedades. También permite definir
+      las operaciones que podrán realizar
+      sus instancias.
+    </p>
+
+    <p>
+      Los métodos se escriben directamente
+      dentro del cuerpo de la clase,
+      <strong>sin utilizar la palabra
+      <code>function</code></strong>.
+    </p>
+
+    <div class="bloque-codigo">
+      <div class="cabecera-codigo">
+        <span class="lenguaje-codigo">JavaScript</span>
+        <button class="boton-copiar" type="button">
+          Copiar código
+        </button>
+      </div>
+      <pre><code>class Rectangulo {
+  constructor(ancho, alto) {
+    this.ancho = ancho;
+    this.alto = alto;
+  }
+
+  calcularArea() {
+    return this.ancho * this.alto;
+  }
+
+  calcularPerimetro() {
+    return 2 * (this.ancho + this.alto);
+  }
+
+  esCuadrado() {
+    return this.ancho === this.alto;
+  }
+}
+
+const figura = new Rectangulo(8, 5);
+
+console.log(figura.calcularArea());
+// 40
+
+console.log(figura.calcularPerimetro());
+// 26
+
+console.log(figura.esCuadrado());
+// false</code></pre>
+    </div>
+
+    <p>
+      Cada método representa una operación
+      relacionada con los datos de la instancia.
+      Algunos devuelven números, otros valores
+      booleanos o cadenas de texto.
+    </p>
+
+    <h3>Los métodos se comparten mediante el prototipo</h3>
+
+    <p>
+      Una diferencia importante respecto a
+      declarar funciones directamente dentro
+      del constructor es que los métodos definidos
+      con esta sintaxis se almacenan normalmente
+      en el <strong>prototipo de la clase</strong>.
+    </p>
+
+    <div class="bloque-codigo">
+      <div class="cabecera-codigo">
+        <span class="lenguaje-codigo">JavaScript</span>
+        <button class="boton-copiar" type="button">
+          Copiar código
+        </button>
+      </div>
+      <pre><code>class Saludo {
+  constructor(nombre) {
+    this.nombre = nombre;
+  }
+
+  saludar() {
+    return `Hola, ${this.nombre}`;
+  }
+}
+
+const saludo1 = new Saludo("Ana");
+const saludo2 = new Saludo("Luis");
+
+console.log(saludo1.saludar());
+// Hola, Ana
+
+console.log(saludo2.saludar());
+// Hola, Luis
+
+console.log(saludo1.saludar === saludo2.saludar);
+// true</code></pre>
+    </div>
+
+    <p>
+      Aunque cada instancia contiene su propio
+      nombre, ambas utilizan la misma función
+      <code>saludar()</code> compartida
+      mediante el prototipo.
+    </p>
+
+    <p>
+      Este comportamiento evita crear una copia
+      independiente del método para cada objeto.
+    </p>
+
+    <div class="caja caja-ejemplo">
+      <span class="caja-titulo">💻 Ejemplo DAW</span>
+
+      <p>
+        En una aplicación que gestiona cientos
+        de alumnos, cada alumno necesita sus
+        propios datos, pero todos pueden
+        compartir métodos como
+        <code>mostrarFicha()</code> o
+        <code>estaAprobado()</code>.
+      </p>
+    </div>
+
+    <!-- 7. COMPARACIÓN -->
+
+    <h2 id="comparacion">Clases y funciones constructoras</h2>
+
+    <p>
+      En el apartado 6.6 aprendimos a crear
+      objetos utilizando funciones constructoras.
+      Ahora podemos conseguir un resultado
+      equivalente mediante clases.
+    </p>
+
+    <h3>Con una función constructora</h3>
+
+    <div class="bloque-codigo">
+      <div class="cabecera-codigo">
+        <span class="lenguaje-codigo">JavaScript</span>
+        <button class="boton-copiar" type="button">
+          Copiar código
+        </button>
+      </div>
+      <pre><code>function Libro(nombre, precio) {
+  this.nombre = nombre;
+  this.precio = precio;
+}
+
+Libro.prototype.mostrar = function () {
+  return `${this.nombre}: ${this.precio} €`;
+};
+
+const libro1 = new Libro("JavaScript", 30);
+
+console.log(libro1.mostrar());
+// JavaScript: 30 €</code></pre>
+    </div>
+
+    <h3>Con una clase</h3>
+
+    <div class="bloque-codigo">
+      <div class="cabecera-codigo">
+        <span class="lenguaje-codigo">JavaScript</span>
+        <button class="boton-copiar" type="button">
+          Copiar código
+        </button>
+      </div>
+      <pre><code>class Libro {
+  constructor(nombre, precio) {
+    this.nombre = nombre;
+    this.precio = precio;
+  }
+
+  mostrar() {
+    return `${this.nombre}: ${this.precio} €`;
+  }
+}
+
+const libro1 = new Libro("JavaScript", 30);
+
+console.log(libro1.mostrar());
+// JavaScript: 30 €</code></pre>
+    </div>
+
+    <p>
+      Los dos ejemplos son alternativas
+      independientes y producen el mismo
+      resultado visible.
+    </p>
+
+    <div class="tabla-responsive">
+      <table class="tabla-apuntes">
+        <thead>
+          <tr>
+            <th>Aspecto</th>
+            <th>Función constructora</th>
+            <th>Clase</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Declaración</td>
+            <td><code>function</code></td>
+            <td><code>class</code></td>
+          </tr>
+          <tr>
+            <td>Inicialización</td>
+            <td>Cuerpo de la función</td>
+            <td>Método <code>constructor</code></td>
+          </tr>
+          <tr>
+            <td>Creación de instancias</td>
+            <td><code>new</code></td>
+            <td><code>new</code></td>
+          </tr>
+          <tr>
+            <td>Métodos compartidos</td>
+            <td>Mediante <code>prototype</code></td>
+            <td>Dentro de la clase</td>
+          </tr>
+          <tr>
+            <td>Modelo de objetos</td>
+            <td>Basado en prototipos</td>
+            <td>Basado en prototipos</td>
+          </tr>
+          <tr>
+            <td>Lectura del código</td>
+            <td>Definición más dispersa</td>
+            <td>Definición agrupada</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <p>
+      La sintaxis de clases resulta especialmente
+      útil cuando queremos reunir en un mismo
+      lugar las propiedades iniciales y los
+      comportamientos de un tipo de objeto.
+    </p>
+
+    <div class="caja caja-atencion">
+      <span class="caja-titulo">⚠️ Atención</span>
+
+      <p>
+        Aunque las clases facilitan el trabajo
+        con objetos, <strong>no son simplemente
+        idénticas a las funciones constructoras</strong>.
+      </p>
+
+      <p>
+        Por ejemplo, las clases no pueden
+        invocarse sin <code>new</code> y
+        presentan reglas específicas de
+        inicialización y acceso.
+      </p>
+    </div>
+
+    <!-- 8. ERRORES -->
+
+    <h2 id="errores">Errores habituales al trabajar con clases</h2>
+
+    <h3>1. Olvidar el operador new</h3>
+
+    <p>
+      Una clase no puede utilizarse como una
+      función ordinaria.
+    </p>
+
+    <div class="bloque-codigo">
+      <div class="cabecera-codigo">
+        <span class="lenguaje-codigo">JavaScript</span>
+        <button class="boton-copiar" type="button">
+          Copiar código
+        </button>
+      </div>
+      <pre><code>class Cliente {
+  constructor(nombre) {
+    this.nombre = nombre;
+  }
+}
+
+// Incorrecto:
+// const cliente = Cliente("Ana");
+
+// Correcto:
+const cliente = new Cliente("Ana");
+
+console.log(cliente.nombre); // Ana</code></pre>
+    </div>
+
+    <h3>2. Escribir function delante de un método</h3>
+
+    <p>
+      Dentro de una clase, los métodos se declaran
+      directamente con su nombre.
+    </p>
+
+    <div class="bloque-codigo">
+      <div class="cabecera-codigo">
+        <span class="lenguaje-codigo">JavaScript</span>
+        <button class="boton-copiar" type="button">
+          Copiar código
+        </button>
+      </div>
+      <pre><code>class Calculadora {
+
+  // Incorrecto:
+  // function sumar(a, b) { return a + b; }
+
+  // Correcto:
+  sumar(a, b) {
+    return a + b;
+  }
+}
+
+const calculadora = new Calculadora();
+
+console.log(calculadora.sumar(4, 6)); // 10</code></pre>
+    </div>
+
+    <h3>3. Olvidar this al acceder a una propiedad</h3>
+
+    <p>
+      Los parámetros y las propiedades
+      de instancia no son lo mismo.
+      Para acceder a una propiedad del objeto
+      utilizamos <code>this</code>.
+    </p>
+
+    <div class="bloque-codigo">
+      <div class="cabecera-codigo">
+        <span class="lenguaje-codigo">JavaScript</span>
+        <button class="boton-copiar" type="button">
+          Copiar código
+        </button>
+      </div>
+      <pre><code>class Curso {
+  constructor(titulo) {
+    this.titulo = titulo;
+  }
+
+  mostrarTitulo() {
+    // Incorrecto:
+    // return titulo;
+
+    // Correcto:
+    return this.titulo;
+  }
+}
+
+const curso = new Curso("DWEC");
+
+console.log(curso.mostrarTitulo()); // DWEC</code></pre>
+    </div>
+
+    <h3>4. Confundir la clase con una instancia</h3>
+
+    <p>
+      La clase define cómo serán los objetos.
+      La instancia es el objeto concreto.
+    </p>
+
+    <div class="bloque-codigo">
+      <div class="cabecera-codigo">
+        <span class="lenguaje-codigo">JavaScript</span>
+        <button class="boton-copiar" type="button">
+          Copiar código
+        </button>
+      </div>
+      <pre><code>class Pelicula {
+  constructor(titulo) {
+    this.titulo = titulo;
+  }
+}
+
+const pelicula = new Pelicula("Origen");
+
+console.log(pelicula.titulo);
+// Origen
+
+console.log(Pelicula.name);
+// Pelicula
+
+console.log(Pelicula.titulo);
+// undefined</code></pre>
+    </div>
+
+    <h3>5. Intentar utilizar una clase antes de declararla</h3>
+
+    <p>
+      Las declaraciones de clases no pueden
+      utilizarse antes de que se haya ejecutado
+      su declaración.
+    </p>
+
+    <div class="bloque-codigo">
+      <div class="cabecera-codigo">
+        <span class="lenguaje-codigo">JavaScript</span>
+        <button class="boton-copiar" type="button">
+          Copiar código
+        </button>
+      </div>
+      <pre><code>// Incorrecto:
+// const producto = new Producto("Teclado");
+
+class Producto {
+  constructor(nombre) {
+    this.nombre = nombre;
+  }
+}
+
+// Correcto:
+const producto = new Producto("Teclado");
+
+console.log(producto.nombre);
+// Teclado</code></pre>
+    </div>
+
+    <!-- 9. EJEMPLOS -->
+
+    <h2 id="ejemplos">Ejemplos prácticos en aplicaciones web</h2>
+
+    <h3>Ejemplo 1. Gestión de alumnos</h3>
+
+    <p>
+      Vamos a representar alumnos de un ciclo
+      formativo mediante una clase.
+    </p>
+
+    <p>
+      Cada alumno tendrá un nombre, un ciclo
+      y una nota. Además, podrá consultar
+      si ha aprobado.
+    </p>
+
+    <div class="bloque-codigo">
+      <div class="cabecera-codigo">
+        <span class="lenguaje-codigo">JavaScript</span>
+        <button class="boton-copiar" type="button">
+          Copiar código
+        </button>
+      </div>
+      <pre><code>class Alumno {
+  constructor(nombre, ciclo, nota) {
+    this.nombre = nombre;
+    this.ciclo = ciclo;
+    this.nota = nota;
+  }
+
+  estaAprobado() {
+    return this.nota >= 5;
+  }
+
+  mostrarResultado() {
+    const estado = this.estaAprobado()
+      ? "Aprobado"
+      : "Suspenso";
+
+    return `${this.nombre}: ${estado}`;
+  }
+}
+
+const alumno1 = new Alumno("Ana", "DAW", 8);
+const alumno2 = new Alumno("Luis", "DAW", 4);
+
+console.log(alumno1.mostrarResultado());
+// Ana: Aprobado
+
+console.log(alumno2.mostrarResultado());
+// Luis: Suspenso</code></pre>
+    </div>
+
+    <h3>Ejemplo 2. Productos de una tienda online</h3>
+
+    <p>
+      En una tienda online podemos representar
+      cada producto mediante una instancia
+      de una misma clase.
+    </p>
+
+    <div class="bloque-codigo">
+      <div class="cabecera-codigo">
+        <span class="lenguaje-codigo">JavaScript</span>
+        <button class="boton-copiar" type="button">
+          Copiar código
+        </button>
+      </div>
+      <pre><code>class Producto {
+  constructor(nombre, precio, stock) {
+    this.nombre = nombre;
+    this.precio = precio;
+    this.stock = stock;
+  }
+
+  hayStock() {
+    return this.stock > 0;
+  }
+
+  calcularDescuento(porcentaje) {
+    return this.precio * (1 - porcentaje / 100);
+  }
+
+  vender(unidades) {
+    if (
+      !Number.isInteger(unidades) ||
+      unidades <= 0 ||
+      unidades > this.stock
+    ) {
+      return false;
+    }
+
+    this.stock -= unidades;
+    return true;
+  }
+}
+
+const teclado = new Producto("Teclado", 50, 10);
+
+console.log(teclado.hayStock());
+// true
+
+console.log(teclado.calcularDescuento(20));
+// 40
+
+console.log(teclado.vender(3));
+// true
+
+console.log(teclado.stock);
+// 7</code></pre>
+    </div>
+
+    <p>
+      Este ejemplo muestra cómo una clase puede
+      reunir tanto los datos del producto
+      como las operaciones relacionadas con él.
+    </p>
+
+    <div class="caja caja-ejemplo">
+      <span class="caja-titulo">💻 Ejemplo DAW</span>
+
+      <p>
+        En una aplicación real, las instancias
+        de <code>Producto</code> podrían crearse
+        a partir de los datos recibidos de una API.
+        Después, sus métodos permitirían
+        calcular descuentos o comprobar
+        la disponibilidad de los productos.
+      </p>
+    </div>
+
+    <h3>Ejemplo 3. Reservas de habitaciones</h3>
+
+    <p>
+      Vamos a crear una clase para representar
+      habitaciones de un hotel.
+    </p>
+
+    <div class="bloque-codigo">
+      <div class="cabecera-codigo">
+        <span class="lenguaje-codigo">JavaScript</span>
+        <button class="boton-copiar" type="button">
+          Copiar código
+        </button>
+      </div>
+      <pre><code>class Habitacion {
+  constructor(numero, precioNoche) {
+    this.numero = numero;
+    this.precioNoche = precioNoche;
+    this.ocupada = false;
+  }
+
+  reservar() {
+    if (this.ocupada) {
+      return false;
+    }
+
+    this.ocupada = true;
+    return true;
+  }
+
+  liberar() {
+    this.ocupada = false;
+  }
+
+  calcularEstancia(noches) {
+    if (!Number.isInteger(noches) || noches <= 0) {
+      return null;
+    }
+
+    return noches * this.precioNoche;
+  }
+}
+
+const habitacion101 = new Habitacion(101, 75);
+
+console.log(habitacion101.reservar());
+// true
+
+console.log(habitacion101.reservar());
+// false
+
+console.log(habitacion101.calcularEstancia(3));
+// 225
+
+habitacion101.liberar();
+
+console.log(habitacion101.ocupada);
+// false</code></pre>
+    </div>
+
+    <p>
+      Observa que los métodos no se limitan
+      a mostrar información: también pueden
+      <strong>modificar el estado de la instancia</strong>.
+    </p>
+
+    <!-- RESUMEN -->
+
+    <h2 id="resumen">Resumen del apartado</h2>
+
+    <p>
+      En este apartado hemos aprendido
+      que las clases proporcionan una sintaxis
+      clara para definir y crear objetos
+      en JavaScript.
+    </p>
+
+    <ul>
+      <li>
+        <code>class</code> permite declarar una clase.
+      </li>
+      <li>
+        <code>constructor</code> inicializa
+        las propiedades de cada instancia.
+      </li>
+      <li>
+        <code>new</code> crea un nuevo objeto
+        a partir de la clase.
+      </li>
+      <li>
+        <code>this</code> permite acceder a
+        las propiedades y métodos de la instancia.
+      </li>
+      <li>
+        Los métodos se declaran dentro
+        de la clase sin utilizar
+        <code>function</code>.
+      </li>
+      <li>
+        Los métodos ordinarios declarados
+        en el cuerpo de la clase se comparten
+        mediante el prototipo.
+      </li>
+      <li>
+        Las clases facilitan la organización
+        del código, aunque JavaScript sigue
+        utilizando prototipos.
+      </li>
+    </ul>
+
+    <div class="caja caja-importante">
+      <span class="caja-titulo">📌 Importante</span>
+
+      <p>
+        La idea fundamental es distinguir entre
+        <strong>clase</strong> e
+        <strong>instancia</strong>.
+      </p>
+
+      <p>
+        La clase define las características
+        comunes; cada instancia representa
+        un objeto concreto con sus propios datos.
+      </p>
+    </div>
+
+    <!-- PIENSA -->
+
+    <div class="actividad-reflexion">
+
+      <h3>💭 Piensa</h3>
+
+      <p>
+        Queremos desarrollar una aplicación
+        para gestionar vehículos de alquiler.
+      </p>
+
+      <p>
+        Cada vehículo debe almacenar su matrícula,
+        su modelo y su precio diario.
+        También debe poder calcular el coste
+        de un alquiler de varios días.
+      </p>
+
+      <p>
+        <strong>¿Cómo definirías una clase
+        <code>Vehiculo</code> que permita crear
+        varios vehículos y calcular el coste
+        de su alquiler?</strong>
+      </p>
+
+      <details class="solucion-desplegable">
+
+        <summary>Mostrar una posible solución</summary>
+
+        <div class="bloque-codigo">
+          <div class="cabecera-codigo">
+            <span class="lenguaje-codigo">JavaScript</span>
+            <button class="boton-copiar" type="button">
+              Copiar código
+            </button>
+          </div>
+          <pre><code>class Vehiculo {
+  constructor(matricula, modelo, precioDia) {
+    this.matricula = matricula;
+    this.modelo = modelo;
+    this.precioDia = precioDia;
+  }
+
+  calcularAlquiler(dias) {
+    if (!Number.isInteger(dias) || dias <= 0) {
+      return null;
+    }
+
+    return this.precioDia * dias;
+  }
+
+  mostrarInformacion() {
+    return `${this.modelo} (${this.matricula})`;
+  }
+}
+
+const coche1 = new Vehiculo(
+  "1234-ABC",
+  "Seat León",
+  45
+);
+
+const coche2 = new Vehiculo(
+  "5678-DEF",
+  "Toyota Corolla",
+  55
+);
+
+console.log(coche1.mostrarInformacion());
+// Seat León (1234-ABC)
+
+console.log(coche1.calcularAlquiler(3));
+// 135
+
+console.log(coche2.calcularAlquiler(3));
+// 165
+
+console.log(coche1 instanceof Vehiculo);
+// true</code></pre>
+        </div>
+
+        <p>
+          Hemos definido una única clase,
+          pero podemos crear tantos vehículos
+          como necesitemos.
+        </p>
+
+        <p>
+          Cada instancia almacena sus propios
+          datos y utiliza los mismos métodos
+          definidos en la clase.
+        </p>
+
+      </details>
+
+    </div>
+
+  </section>
+
+  <!-- NAVEGACIÓN INFERIOR -->
+
+  <nav class="navegacion-paginas">
+
+    <a
+      class="nav-pagina nav-anterior"
+      href="../6-6/index.html"
+    >
+      <span class="nav-etiqueta">Anterior</span>
+      <strong>
+        ‹ 6.6 Funciones constructoras e instancias
+      </strong>
+    </a>
+
+    <a
+      class="nav-pagina nav-siguiente"
+      href="../6-8/index.html"
+    >
+      <span class="nav-etiqueta">Siguiente</span>
+      <strong>
+        6.8 Propiedades y métodos de las clases ›
+      </strong>
+    </a>
+
+  </nav>
+
+</main>
