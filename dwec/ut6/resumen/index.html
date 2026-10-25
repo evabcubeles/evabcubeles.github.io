@@ -1,0 +1,1446 @@
+
+<!DOCTYPE html>
+
+<html lang="es">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<meta content="Resumen de la UT6 - Objetos y Programación Orientada a Objetos en JavaScript. Desarrollo Web en Entorno Cliente." name="description"/>
+<title>Resumen UT6 - Objetos y Programación Orientada a Objetos en JavaScript</title>
+<link href="../../../img/favicon.png?v=5" rel="icon" type="image/png"/>
+<link href="../../../css/estilos.css" rel="stylesheet"/>
+<style>
+
+    /* ==========================================
+       ESTRUCTURA GENERAL
+    ========================================== */
+
+    .pagina-ut {
+      display: grid;
+      grid-template-columns: 280px minmax(0, 1fr) 260px;
+      min-height: calc(100vh - 68px);
+    }
+
+    /* ==========================================
+       COLUMNA IZQUIERDA
+    ========================================== */
+
+    .sidebar {
+      border-right: 1px solid var(--borde);
+      background-color: var(--fondo-pagina);
+      padding: 12px 10px 30px;
+      position: sticky;
+      top: 68px;
+      height: calc(100vh - 68px);
+      overflow-y: auto;
+    }
+
+    .sidebar-modulo {
+      display: block;
+      margin-bottom: 8px;
+      padding: 8px 14px;
+      color: #626873;
+      font-size: 17px;
+      font-weight: 700;
+      line-height: 1.3;
+      text-decoration: none;
+      border-radius: 6px;
+    }
+
+    .sidebar-modulo:hover {
+      color: var(--verde-principal);
+      background-color: #f3f4f6;
+    }
+
+    .sidebar-ut-cerrada {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      padding: 13px 14px;
+      color: #626873;
+      text-decoration: none;
+      font-size: 16px;
+      font-weight: 650;
+      line-height: 1.35;
+      border-radius: 6px;
+      transition:
+        background-color 0.2s ease,
+        color 0.2s ease;
+    }
+
+    .sidebar-ut-cerrada:hover {
+      background-color: #f3f4f6;
+      color: var(--verde-principal);
+    }
+
+    .menu-desplegable {
+      width: 100%;
+    }
+
+    .menu-cabecera {
+      display: flex;
+      align-items: center;
+      gap: 4px;
+      width: 100%;
+      border-radius: 6px;
+    }
+
+    .menu-cabecera-activa {
+      background-color: #f1f1f1;
+    }
+
+    .menu-cabecera-activa > .menu-titulo {
+      color: var(--verde-principal);
+    }
+
+    .menu-titulo {
+      flex: 1;
+      display: block;
+      padding: 11px 8px 11px 14px;
+      color: #626873;
+      font-size: 16px;
+      font-weight: 650;
+      line-height: 1.4;
+      text-decoration: none;
+    }
+
+    .menu-titulo:hover {
+      color: var(--verde-principal);
+    }
+
+    .boton-desplegar {
+      width: 36px;
+      height: 36px;
+      margin-right: 5px;
+      padding: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+      border: 0;
+      border-radius: 6px;
+      background: transparent;
+      color: #777;
+      font-family: inherit;
+      font-size: 24px;
+      line-height: 1;
+      cursor: pointer;
+    }
+
+    .boton-desplegar:hover {
+      background-color: #e5e7eb;
+      color: var(--verde-principal);
+    }
+
+    .submenu {
+      display: none;
+    }
+
+    .submenu.submenu-abierto {
+      display: block;
+    }
+
+    .menu-apartado {
+      margin-left: 14px;
+    }
+
+    .menu-apartado .menu-titulo {
+      padding-top: 9px;
+      padding-bottom: 9px;
+      font-size: 15px;
+      font-weight: 600;
+    }
+
+    .enlace-apartado-simple {
+      display: block;
+      margin-left: 14px;
+      padding: 10px 14px;
+      color: #626873;
+      font-size: 15px;
+      font-weight: 600;
+      line-height: 1.4;
+      text-decoration: none;
+      border-radius: 6px;
+    }
+
+    .enlace-apartado-simple:hover {
+      background-color: #f3f4f6;
+      color: var(--verde-principal);
+    }
+
+    .submenu-apartados {
+      margin: 2px 0 5px 28px;
+      border-left: 2px solid #e0e3e7;
+    }
+
+    .submenu-apartados a {
+      display: block;
+      padding: 7px 10px;
+      color: #777d87;
+      font-size: 14px;
+      font-weight: 500;
+      line-height: 1.35;
+      text-decoration: none;
+    }
+
+    .submenu-apartados a:hover {
+      color: var(--verde-principal);
+    }
+
+    .enlace-resumen-activo {
+      color: var(--verde-principal) !important;
+      font-weight: 700 !important;
+    }
+
+    /* ==========================================
+       MODO OSCURO DEL MENÚ
+    ========================================== */
+
+    body.modo-oscuro .sidebar-modulo,
+    body.modo-oscuro .sidebar-ut-cerrada,
+    body.modo-oscuro .menu-titulo,
+    body.modo-oscuro .enlace-apartado-simple {
+      color: #cbd5e1;
+    }
+
+    body.modo-oscuro .menu-cabecera-activa {
+      background-color: #273244;
+    }
+
+    body.modo-oscuro
+    .menu-cabecera-activa > .menu-titulo {
+      color: #5ed28a;
+    }
+
+    body.modo-oscuro .sidebar-modulo:hover,
+    body.modo-oscuro .sidebar-ut-cerrada:hover,
+    body.modo-oscuro .enlace-apartado-simple:hover {
+      background-color: #273244;
+      color: #5ed28a;
+    }
+
+    body.modo-oscuro .boton-desplegar:hover {
+      background-color: #334155;
+    }
+
+    body.modo-oscuro .submenu-apartados {
+      border-left-color: #3a4659;
+    }
+
+    body.modo-oscuro .submenu-apartados a {
+      color: #aab4c4;
+    }
+
+    body.modo-oscuro .submenu-apartados a:hover,
+    body.modo-oscuro .enlace-resumen-activo {
+      color: #5ed28a !important;
+    }
+
+    /* ==========================================
+       ZONA CENTRAL
+    ========================================== */
+
+    .contenido-ut {
+      padding: 28px 34px 70px;
+      max-width: 1150px;
+      width: 100%;
+      min-width: 0;
+    }
+
+    .migas {
+      display: flex;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-bottom: 30px;
+      font-size: 14px;
+    }
+
+    .miga-inicio {
+      text-decoration: none;
+      font-size: 18px;
+    }
+
+    .miga-separador {
+      color: #999;
+      font-size: 22px;
+    }
+
+    .miga-modulo {
+      color: var(--texto-secundario);
+      text-decoration: none;
+    }
+
+    .miga-modulo:hover {
+      color: var(--verde-principal);
+    }
+
+    .miga-actual {
+      padding: 8px 14px;
+      background-color: #f3f3f3;
+      border-radius: 24px;
+      color: var(--verde-principal);
+    }
+
+    body.modo-oscuro .miga-actual {
+      background-color: #273244;
+    }
+
+    .contenido-ut h1 {
+      margin: 0 0 30px;
+      font-size: clamp(38px, 5vw, 58px);
+      line-height: 1.12;
+    }
+
+    .introduccion-ut {
+      max-width: 980px;
+      font-size: 19px;
+      line-height: 1.75;
+    }
+
+    .introduccion-ut p {
+      margin: 0 0 20px;
+    }
+
+    /* ==========================================
+       CONTENIDO DE LOS APARTADOS
+    ========================================== */
+
+    .apartado-ut {
+      margin-top: 55px;
+      scroll-margin-top: 95px;
+    }
+
+    .apartado-ut h2 {
+      margin: 0 0 24px;
+      font-size: 32px;
+      line-height: 1.2;
+    }
+
+    .apartado-ut h3 {
+      margin: 34px 0 16px;
+      font-size: 24px;
+      line-height: 1.3;
+    }
+
+    .apartado-ut p {
+      margin: 0 0 18px;
+      font-size: 18px;
+      line-height: 1.75;
+    }
+
+    .apartado-ut ul {
+      margin: 16px 0 24px;
+      padding-left: 28px;
+    }
+
+    .apartado-ut li {
+      margin-bottom: 10px;
+      font-size: 17px;
+      line-height: 1.6;
+    }
+
+    .apartado-ut code {
+      overflow-wrap: anywhere;
+    }
+
+    /* ==========================================
+       CAJAS DE LOS APUNTES
+    ========================================== */
+
+    .caja {
+      margin: 28px 0;
+      padding: 18px 20px;
+      border-left: 5px solid;
+      border-radius: 8px;
+      line-height: 1.65;
+    }
+
+    .caja p {
+      margin: 0;
+      font-size: 17px;
+    }
+
+    .caja-titulo {
+      display: block;
+      margin-bottom: 8px;
+      font-size: 17px;
+      font-weight: 700;
+    }
+
+    .caja-importante {
+      background-color: #eef8f1;
+      border-left-color: #2f9e5b;
+    }
+
+    .caja-atencion {
+      background-color: #fff7e8;
+      border-left-color: #e09b27;
+    }
+
+    .caja-ejemplo {
+      background-color: #eef5ff;
+      border-left-color: #3f7acb;
+    }
+
+    body.modo-oscuro .caja-importante {
+      background-color: #20372a;
+    }
+
+    body.modo-oscuro .caja-atencion {
+      background-color: #3b3020;
+    }
+
+    body.modo-oscuro .caja-ejemplo {
+      background-color: #23344a;
+    }
+
+    /* ==========================================
+       TABLAS
+    ========================================== */
+
+    .tabla-responsive {
+      width: 100%;
+      margin: 28px 0;
+      overflow-x: auto;
+    }
+
+    .tabla-apuntes {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 16px;
+    }
+
+    .tabla-apuntes th,
+    .tabla-apuntes td {
+      padding: 14px 16px;
+      border: 1px solid var(--borde);
+      text-align: left;
+      vertical-align: top;
+      line-height: 1.55;
+    }
+
+    .tabla-apuntes th {
+      background-color: #f1f3f5;
+      font-weight: 700;
+    }
+
+    body.modo-oscuro .tabla-apuntes th {
+      background-color: #273244;
+    }
+
+    /* ==========================================
+       MAPA VISUAL DEL RESUMEN
+    ========================================== */
+
+    .mapa-resumen {
+      margin: 28px 0;
+      padding: 22px;
+      border: 1px solid var(--borde);
+      border-radius: 10px;
+      background: var(--fondo-tarjeta);
+    }
+
+    .mapa-nodo {
+      padding: 17px;
+      border: 2px solid var(--verde-principal);
+      border-radius: 9px;
+      text-align: center;
+      background: var(--fondo-pagina);
+    }
+
+    .mapa-nodo strong,
+    .mapa-nodo span {
+      display: block;
+    }
+
+    .mapa-nodo span {
+      margin-top: 8px;
+      font-size: 15px;
+      line-height: 1.5;
+      color: var(--texto-secundario);
+    }
+
+    .mapa-principal {
+      max-width: 720px;
+      margin: 0 auto;
+      font-weight: 800;
+    }
+
+    .mapa-flecha {
+      margin: 8px 0;
+      text-align: center;
+      color: var(--verde-principal);
+      font-size: 28px;
+      font-weight: 700;
+    }
+
+    .mapa-columnas {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 14px;
+    }
+
+    /* ==========================================
+       TARJETAS DE RESUMEN
+    ========================================== */
+
+    .rejilla-resumen {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 14px;
+      margin: 24px 0;
+    }
+
+    .tarjeta-resumen {
+      padding: 18px;
+      border: 1px solid var(--borde);
+      border-radius: 9px;
+      background: var(--fondo-tarjeta);
+      min-width: 0;
+    }
+
+    .tarjeta-resumen > span {
+      display: block;
+      margin-bottom: 8px;
+      font-size: 30px;
+    }
+
+    .tarjeta-resumen > strong {
+      display: block;
+      margin-bottom: 8px;
+      font-size: 17px;
+    }
+
+    .tarjeta-resumen p {
+      margin: 0;
+      font-size: 15px;
+      line-height: 1.55;
+    }
+
+    /* ==========================================
+       LISTAS DE CONCEPTOS
+    ========================================== */
+
+    .lista-claves {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+      margin: 24px 0;
+    }
+
+    .lista-claves > div {
+      padding: 16px 18px;
+      border: 1px solid var(--borde);
+      border-radius: 8px;
+      background: var(--fondo-tarjeta);
+      min-width: 0;
+    }
+
+    .lista-claves strong,
+    .lista-claves span {
+      display: block;
+    }
+
+    .lista-claves strong {
+      margin-bottom: 6px;
+      color: var(--verde-principal);
+    }
+
+    .lista-claves span {
+      line-height: 1.5;
+    }
+
+    /* ==========================================
+       EJEMPLOS DE CÓDIGO
+    ========================================== */
+
+    .ejemplo-codigo {
+      margin: 24px 0;
+      overflow: hidden;
+      border: 1px solid var(--borde);
+      border-radius: 9px;
+      background: var(--fondo-tarjeta);
+    }
+
+    .ejemplo-codigo-cabecera {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      padding: 11px 16px;
+      border-bottom: 1px solid var(--borde);
+      font-size: 14px;
+      font-weight: 700;
+    }
+
+    .boton-copiar {
+      padding: 7px 11px;
+      border: 1px solid var(--borde);
+      border-radius: 6px;
+      background: var(--fondo-pagina);
+      color: var(--texto-principal);
+      font: inherit;
+      font-size: 13px;
+      cursor: pointer;
+    }
+
+    .boton-copiar:hover {
+      border-color: var(--verde-principal);
+      color: var(--verde-principal);
+    }
+
+    .ejemplo-codigo pre {
+      margin: 0;
+      padding: 18px;
+      overflow-x: auto;
+      font-size: 14px;
+      line-height: 1.65;
+      tab-size: 2;
+    }
+
+    .ejemplo-codigo pre code {
+      font-family:
+        Consolas,
+        "Courier New",
+        monospace;
+      white-space: pre;
+      overflow-wrap: normal;
+    }
+
+    /* ==========================================
+       IDEAS FINALES
+    ========================================== */
+
+    .resumen-final ul {
+      margin: 12px 0 0;
+      padding-left: 24px;
+    }
+
+    .resumen-final li {
+      margin-bottom: 10px;
+    }
+
+    /* ==========================================
+       COLUMNA DERECHA
+    ========================================== */
+
+    .indice-derecho {
+      padding: 28px 22px;
+      border-left: 1px solid var(--borde);
+      position: sticky;
+      top: 68px;
+      height: calc(100vh - 68px);
+      overflow-y: auto;
+    }
+
+    .indice-derecho h2 {
+      margin: 8px 0 20px;
+      font-size: 17px;
+      color: #555b65;
+    }
+
+    body.modo-oscuro .indice-derecho h2 {
+      color: #d1d5db;
+    }
+
+    .indice-derecho ul {
+      margin: 0;
+      padding-left: 18px;
+    }
+
+    .indice-derecho li {
+      margin-bottom: 12px;
+    }
+
+    .indice-derecho a {
+      color: var(--texto-secundario);
+      text-decoration: none;
+      font-size: 14px;
+      line-height: 1.4;
+    }
+
+    .indice-derecho a:hover {
+      color: var(--verde-principal);
+    }
+
+    /* ==========================================
+       NAVEGACIÓN ANTERIOR / SIGUIENTE
+    ========================================== */
+
+    .navegacion-paginas {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 20px;
+      margin-top: 50px;
+    }
+
+    .nav-pagina {
+      min-height: 100px;
+      padding: 18px 20px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      border: 1px solid var(--borde);
+      border-radius: 8px;
+      text-decoration: none;
+      background-color: var(--fondo-tarjeta);
+    }
+
+    .nav-anterior {
+      align-items: flex-start;
+      text-align: left;
+    }
+
+    .nav-siguiente {
+      align-items: flex-end;
+      text-align: right;
+    }
+
+    .nav-etiqueta {
+      margin-bottom: 5px;
+      color: var(--texto-secundario);
+      font-size: 14px;
+    }
+
+    .nav-pagina strong {
+      color: var(--verde-principal);
+      font-size: 16px;
+      line-height: 1.4;
+    }
+
+    .nav-pagina:hover {
+      border-color: var(--verde-principal);
+    }
+
+    /* ==========================================
+       RESPONSIVE
+    ========================================== */
+
+    @media (max-width: 1100px) {
+
+      .pagina-ut {
+        grid-template-columns: 250px minmax(0, 1fr);
+      }
+
+      .indice-derecho {
+        display: none;
+      }
+
+    }
+
+    @media (max-width: 900px) {
+
+      .mapa-columnas,
+      .rejilla-resumen {
+        grid-template-columns: 1fr;
+      }
+
+      .lista-claves {
+        grid-template-columns: 1fr;
+      }
+
+    }
+
+    @media (max-width: 760px) {
+
+      .pagina-ut {
+        display: block;
+      }
+
+      .sidebar {
+        position: static;
+        width: 100%;
+        height: auto;
+        border-right: 0;
+        border-bottom: 1px solid var(--borde);
+      }
+
+      .contenido-ut {
+        padding: 28px 20px 60px;
+      }
+
+      .contenido-ut h1 {
+        font-size: 36px;
+      }
+
+      .navegacion-paginas {
+        grid-template-columns: 1fr;
+      }
+
+      .nav-siguiente {
+        align-items: flex-start;
+        text-align: left;
+      }
+
+    }
+
+  </style>
+</head>
+<body>
+<!-- ==========================================
+       BARRA SUPERIOR
+  ========================================== -->
+<header class="navbar">
+<a class="inicio" href="../../../index.html">
+<img alt="" class="icono-profesora" src="../../../img/profesora-castana.png?v=2"/>
+<span>Inicio</span>
+</a>
+<nav aria-label="Módulos formativos" class="menu-modulos" id="menuModulos"></nav>
+<button aria-label="Cambiar entre modo claro y oscuro" class="boton-tema" id="botonTema" title="Cambiar tema" type="button">☀️</button>
+</header>
+<div class="pagina-ut">
+<!-- ==========================================
+         MENÚ LATERAL IZQUIERDO
+    ========================================== -->
+<aside class="sidebar">
+<a class="sidebar-modulo" href="../../index.html">
+        Desarrollo web en entorno cliente
+      </a>
+<!-- UT1 -->
+<a class="sidebar-ut-cerrada" href="../../ut1/index.html">
+<span>UT1 - Introducción al desarrollo web en entorno cliente</span>
+<span>›</span>
+</a>
+<!-- UT2 -->
+<a class="sidebar-ut-cerrada" href="../../ut2/index.html">
+<span>UT2 - Fundamentos de JavaScript: variables, tipos y operadores</span>
+<span>›</span>
+</a>
+<!-- UT3 -->
+<a class="sidebar-ut-cerrada" href="../../ut3/index.html">
+<span>UT3 - Estructuras de control en JavaScript</span>
+<span>›</span>
+</a>
+<!-- UT4 -->
+<a class="sidebar-ut-cerrada" href="../../ut4/index.html">
+<span>UT4 - Arrays y estructuras de datos en JavaScript</span>
+<span>›</span>
+</a>
+<!-- ==========================================
+           UT5 ACTIVA
+      ========================================== -->
+<a class="sidebar-ut-cerrada" href="../../ut5/index.html">
+<span>UT5 - Funciones en JavaScript</span>
+<span>›</span>
+</a><div class="menu-desplegable">
+<div class="menu-cabecera menu-cabecera-activa">
+<a class="menu-titulo" href="../index.html">
+        UT6 - Objetos y Programación Orientada a Objetos en JavaScript
+      </a>
+<button aria-expanded="true" aria-label="Mostrar u ocultar UT6" class="boton-desplegar" data-target="submenu-ut6" type="button">⌄</button>
+</div>
+<div class="submenu submenu-abierto" id="submenu-ut6">
+<!-- 6.1 -->
+<div class="menu-desplegable menu-apartado">
+<div class="menu-cabecera">
+<a class="enlace-apartado-simple" href="../6-1/index.html">
+            6.1 Introducción a los objetos en JavaScript
+          </a>
+<button aria-expanded="false" aria-label="Mostrar u ocultar los subapartados del 6.1" class="boton-desplegar" data-target="submenu-6-1" type="button">›</button>
+</div>
+<div class="submenu submenu-apartados" id="submenu-6-1">
+<a class="enlace-apartado-simple" href="../6-1/index.html#que-es">Qué es un objeto</a>
+<a class="enlace-apartado-simple" href="../6-1/index.html#objetos-vida-real">Los objetos en la vida real</a>
+<a class="enlace-apartado-simple" href="../6-1/index.html#estado-comportamiento">Estado y comportamiento</a>
+<a class="enlace-apartado-simple" href="../6-1/index.html#objetos-javascript">Objetos en JavaScript</a>
+<a class="enlace-apartado-simple" href="../6-1/index.html#primitivos-objetos">Valores primitivos y objetos</a>
+<a class="enlace-apartado-simple" href="../6-1/index.html#primer-ejemplo">Primer ejemplo de objeto</a>
+</div>
+</div>
+<!-- 6.2 -->
+<div class="menu-desplegable menu-apartado">
+<div class="menu-cabecera">
+<a class="enlace-apartado-simple" href="../6-2/index.html">
+            6.2 Propiedades y métodos de los objetos
+          </a>
+<button aria-expanded="false" aria-label="Mostrar u ocultar los subapartados del 6.2" class="boton-desplegar" data-target="submenu-6-2" type="button">›</button>
+</div>
+<div class="submenu submenu-apartados" id="submenu-6-2">
+<a class="enlace-apartado-simple" href="../6-2/index.html#propiedades">Qué son las propiedades</a>
+<a class="enlace-apartado-simple" href="../6-2/index.html#acceso-punto">Acceso mediante el punto</a>
+<a class="enlace-apartado-simple" href="../6-2/index.html#acceso-corchetes">Acceso mediante corchetes</a>
+<a class="enlace-apartado-simple" href="../6-2/index.html#modificar">Modificación de propiedades</a>
+<a class="enlace-apartado-simple" href="../6-2/index.html#metodos">Qué son los métodos</a>
+<a class="enlace-apartado-simple" href="../6-2/index.html#invocar-metodos">Invocación de métodos</a>
+<a class="enlace-apartado-simple" href="../6-2/index.html#ejemplos">Ejemplos prácticos</a>
+</div>
+</div>
+<!-- 6.3 -->
+<div class="menu-desplegable menu-apartado">
+<div class="menu-cabecera">
+<a class="enlace-apartado-simple" href="../6-3/index.html">
+            6.3 Creación y manipulación de objetos
+          </a>
+<button aria-expanded="false" aria-label="Mostrar u ocultar los subapartados del 6.3" class="boton-desplegar" data-target="submenu-6-3" type="button">›</button>
+</div>
+<div class="submenu submenu-apartados" id="submenu-6-3">
+<a class="enlace-apartado-simple" href="../6-3/index.html#literales">Objetos literales</a>
+<a class="enlace-apartado-simple" href="../6-3/index.html#object">Creación con Object</a>
+<a class="enlace-apartado-simple" href="../6-3/index.html#anadir">Añadir propiedades</a>
+<a class="enlace-apartado-simple" href="../6-3/index.html#eliminar">Eliminar propiedades</a>
+<a class="enlace-apartado-simple" href="../6-3/index.html#comprobar">Comprobar propiedades</a>
+<a class="enlace-apartado-simple" href="../6-3/index.html#referencias">Referencias a objetos</a>
+<a class="enlace-apartado-simple" href="../6-3/index.html#ejemplos">Ejemplos prácticos</a>
+</div>
+</div>
+<!-- 6.4 -->
+<div class="menu-desplegable menu-apartado">
+<div class="menu-cabecera">
+<a class="enlace-apartado-simple" href="../6-4/index.html">
+            6.4 Recorrido de propiedades de objetos
+          </a>
+<button aria-expanded="false" aria-label="Mostrar u ocultar los subapartados del 6.4" class="boton-desplegar" data-target="submenu-6-4" type="button">›</button>
+</div>
+<div class="submenu submenu-apartados" id="submenu-6-4">
+<a class="enlace-apartado-simple" href="../6-4/index.html#recorrer">Recorrer propiedades</a>
+<a class="enlace-apartado-simple" href="../6-4/index.html#for-in">Bucle for...in</a>
+<a class="enlace-apartado-simple" href="../6-4/index.html#acceso-dinamico">Acceso dinámico</a>
+<a class="enlace-apartado-simple" href="../6-4/index.html#propiedades-propias">Propiedades propias</a>
+<a class="enlace-apartado-simple" href="../6-4/index.html#object-keys">Object.keys()</a>
+<a class="enlace-apartado-simple" href="../6-4/index.html#object-values">Object.values()</a>
+<a class="enlace-apartado-simple" href="../6-4/index.html#object-entries">Object.entries()</a>
+<a class="enlace-apartado-simple" href="../6-4/index.html#ejemplos">Ejemplos prácticos</a>
+</div>
+</div>
+<!-- 6.5 -->
+<div class="menu-desplegable menu-apartado">
+<div class="menu-cabecera">
+<a class="enlace-apartado-simple" href="../6-5/index.html">
+            6.5 Métodos y palabra clave this
+          </a>
+<button aria-expanded="false" aria-label="Mostrar u ocultar los subapartados del 6.5" class="boton-desplegar" data-target="submenu-6-5" type="button">›</button>
+</div>
+<div class="submenu submenu-apartados" id="submenu-6-5">
+<a class="enlace-apartado-simple" href="../6-5/index.html#metodos-objetos">Métodos de objetos</a>
+<a class="enlace-apartado-simple" href="../6-5/index.html#definir-metodos">Definición de métodos</a>
+<a class="enlace-apartado-simple" href="../6-5/index.html#invocar-metodos">Invocación de métodos</a>
+<a class="enlace-apartado-simple" href="../6-5/index.html#parametros-retorno">Parámetros y retorno</a>
+<a class="enlace-apartado-simple" href="../6-5/index.html#palabra-this">La palabra this</a>
+<a class="enlace-apartado-simple" href="../6-5/index.html#funcionamiento-this">Funcionamiento de this</a>
+<a class="enlace-apartado-simple" href="../6-5/index.html#errores-this">Errores con this</a>
+<a class="enlace-apartado-simple" href="../6-5/index.html#ejemplos">Ejemplos prácticos</a>
+</div>
+</div>
+<!-- 6.6 -->
+<div class="menu-desplegable menu-apartado">
+<div class="menu-cabecera">
+<a class="enlace-apartado-simple" href="../6-6/index.html">
+            6.6 Funciones constructoras y creación de instancias
+          </a>
+<button aria-expanded="false" aria-label="Mostrar u ocultar los subapartados del 6.6" class="boton-desplegar" data-target="submenu-6-6" type="button">›</button>
+</div>
+<div class="submenu submenu-apartados" id="submenu-6-6">
+<a class="enlace-apartado-simple" href="../6-6/index.html#necesidad">Necesidad de constructores</a>
+<a class="enlace-apartado-simple" href="../6-6/index.html#funciones-constructoras">Funciones constructoras</a>
+<a class="enlace-apartado-simple" href="../6-6/index.html#operador-new">Operador new</a>
+<a class="enlace-apartado-simple" href="../6-6/index.html#instancias">Creación de instancias</a>
+<a class="enlace-apartado-simple" href="../6-6/index.html#this-constructor">this en el constructor</a>
+<a class="enlace-apartado-simple" href="../6-6/index.html#metodos-instancias">Métodos de instancias</a>
+<a class="enlace-apartado-simple" href="../6-6/index.html#instanceof">Operador instanceof</a>
+<a class="enlace-apartado-simple" href="../6-6/index.html#errores">Errores habituales</a>
+<a class="enlace-apartado-simple" href="../6-6/index.html#ejemplos">Ejemplos prácticos</a>
+</div>
+</div>
+<!-- 6.7 -->
+<div class="menu-desplegable menu-apartado">
+<div class="menu-cabecera">
+<a class="enlace-apartado-simple" href="../6-7/index.html">
+            6.7 Introducción a las clases en JavaScript
+          </a>
+<button aria-expanded="false" aria-label="Mostrar u ocultar los subapartados del 6.7" class="boton-desplegar" data-target="submenu-6-7" type="button">›</button>
+</div>
+<div class="submenu submenu-apartados" id="submenu-6-7">
+<a class="enlace-apartado-simple" href="../6-7/index.html#concepto-clase">Concepto de clase</a>
+<a class="enlace-apartado-simple" href="../6-7/index.html#sintaxis-class">Sintaxis class</a>
+<a class="enlace-apartado-simple" href="../6-7/index.html#metodo-constructor">Método constructor</a>
+<a class="enlace-apartado-simple" href="../6-7/index.html#crear-instancias">Creación de instancias</a>
+<a class="enlace-apartado-simple" href="../6-7/index.html#this-clases">this en las clases</a>
+<a class="enlace-apartado-simple" href="../6-7/index.html#metodos-clases">Métodos de clases</a>
+<a class="enlace-apartado-simple" href="../6-7/index.html#comparacion">Comparación con constructores</a>
+<a class="enlace-apartado-simple" href="../6-7/index.html#errores">Errores habituales</a>
+<a class="enlace-apartado-simple" href="../6-7/index.html#ejemplos">Ejemplos prácticos</a>
+<a class="enlace-apartado-simple" href="../6-7/index.html#resumen">Resumen del apartado</a>
+</div>
+</div>
+<!-- 6.8 -->
+<div class="menu-desplegable menu-apartado">
+<div class="menu-cabecera">
+<a class="enlace-apartado-simple" href="../6-8/index.html">
+            6.8 Propiedades y métodos de las clases
+          </a>
+<button aria-expanded="false" aria-label="Mostrar u ocultar los subapartados del 6.8" class="boton-desplegar" data-target="submenu-6-8" type="button">›</button>
+</div>
+<div class="submenu submenu-apartados" id="submenu-6-8">
+<a class="enlace-apartado-simple" href="../6-8/index.html#propiedades-instancia">Propiedades de instancia</a>
+<a class="enlace-apartado-simple" href="../6-8/index.html#declaracion-propiedades">Declaración de propiedades</a>
+<a class="enlace-apartado-simple" href="../6-8/index.html#acceso-modificacion">Acceso y modificación</a>
+<a class="enlace-apartado-simple" href="../6-8/index.html#metodos-instancia">Métodos de instancia</a>
+<a class="enlace-apartado-simple" href="../6-8/index.html#propiedades-metodos">Propiedades y métodos</a>
+<a class="enlace-apartado-simple" href="../6-8/index.html#modificar-estado">Modificación del estado</a>
+<a class="enlace-apartado-simple" href="../6-8/index.html#metodos-estaticos">Métodos estáticos</a>
+<a class="enlace-apartado-simple" href="../6-8/index.html#errores">Errores habituales</a>
+<a class="enlace-apartado-simple" href="../6-8/index.html#ejemplos">Ejemplos prácticos</a>
+<a class="enlace-apartado-simple" href="../6-8/index.html#resumen">Resumen del apartado</a>
+<a class="enlace-apartado-simple" href="../6-8/index.html#piensa">Actividad de reflexión</a>
+</div>
+</div>
+<!-- 6.9 -->
+<div class="menu-desplegable menu-apartado">
+<div class="menu-cabecera">
+<a class="enlace-apartado-simple" href="../6-9/index.html">
+            6.9 Principios de la Programación Orientada a Objetos
+          </a>
+<button aria-expanded="false" aria-label="Mostrar u ocultar los subapartados del 6.9" class="boton-desplegar" data-target="submenu-6-9" type="button">›</button>
+</div>
+<div class="submenu submenu-apartados" id="submenu-6-9">
+<a class="enlace-apartado-simple" href="../6-9/index.html#principios-poo">Principios de la POO</a>
+<a class="enlace-apartado-simple" href="../6-9/index.html#abstraccion">Abstracción</a>
+<a class="enlace-apartado-simple" href="../6-9/index.html#encapsulacion">Encapsulación</a>
+<a class="enlace-apartado-simple" href="../6-9/index.html#privacidad">Propiedades privadas</a>
+<a class="enlace-apartado-simple" href="../6-9/index.html#herencia">Herencia</a>
+<a class="enlace-apartado-simple" href="../6-9/index.html#polimorfismo">Polimorfismo</a>
+<a class="enlace-apartado-simple" href="../6-9/index.html#relacion-principios">Relación entre los principios</a>
+<a class="enlace-apartado-simple" href="../6-9/index.html#ventajas">Ventajas de la POO</a>
+<a class="enlace-apartado-simple" href="../6-9/index.html#errores">Errores habituales</a>
+<a class="enlace-apartado-simple" href="../6-9/index.html#ejemplos">Ejemplos prácticos</a>
+<a class="enlace-apartado-simple" href="../6-9/index.html#resumen">Resumen del apartado</a>
+<a class="enlace-apartado-simple" href="../6-9/index.html#piensa">Actividad de reflexión</a>
+</div>
+</div>
+<!-- 6.10 -->
+<div class="menu-desplegable menu-apartado">
+<div class="menu-cabecera">
+<a class="enlace-apartado-simple" href="../6-10/index.html">
+            6.10 Herencia básica entre clases
+          </a>
+<button aria-expanded="false" aria-label="Mostrar u ocultar los subapartados del 6.10" class="boton-desplegar" data-target="submenu-6-10" type="button">›</button>
+</div>
+<div class="submenu submenu-apartados" id="submenu-6-10">
+<a class="enlace-apartado-simple" href="../6-10/index.html#concepto-herencia">Qué es la herencia entre clases</a>
+<a class="enlace-apartado-simple" href="../6-10/index.html#clase-base-derivada">Clase base y clase derivada</a>
+<a class="enlace-apartado-simple" href="../6-10/index.html#extends">La palabra clave extends</a>
+<a class="enlace-apartado-simple" href="../6-10/index.html#metodos-heredados">Propiedades y métodos heredados</a>
+<a class="enlace-apartado-simple" href="../6-10/index.html#constructores-super">Constructores y super()</a>
+<a class="enlace-apartado-simple" href="../6-10/index.html#redefinicion">Redefinición de métodos</a>
+<a class="enlace-apartado-simple" href="../6-10/index.html#super-metodos">Llamadas a métodos con super</a>
+<a class="enlace-apartado-simple" href="../6-10/index.html#instanceof">Herencia e instanceof</a>
+<a class="enlace-apartado-simple" href="../6-10/index.html#relaciones-herencia">Cuándo utilizar herencia</a>
+<a class="enlace-apartado-simple" href="../6-10/index.html#errores">Errores habituales</a>
+<a class="enlace-apartado-simple" href="../6-10/index.html#ejemplos">Ejemplos prácticos</a>
+<a class="enlace-apartado-simple" href="../6-10/index.html#resumen">Resumen del apartado</a>
+<a class="enlace-apartado-simple" href="../6-10/index.html#piensa">Actividad de reflexión</a>
+</div>
+</div>
+<!-- 6.11 ACTIVO -->
+<div class="menu-desplegable menu-apartado">
+<div class="menu-cabecera">
+<a class="enlace-apartado-simple" href="../6-11/index.html">
+            6.11 Organización de programas mediante objetos y clases
+          </a>
+<button aria-expanded="true" aria-label="Mostrar u ocultar los subapartados del 6.11" class="boton-desplegar" data-target="submenu-6-11" type="button">⌄</button>
+</div>
+<div class="submenu submenu-apartados submenu-abierto" id="submenu-6-11">
+<a class="enlace-apartado-simple" href="#necesidad-organizar">Necesidad de organizar el código</a>
+<a class="enlace-apartado-simple" href="#responsabilidades">Responsabilidades de las clases</a>
+<a class="enlace-apartado-simple" href="#identificar-clases">Identificar objetos y clases</a>
+<a class="enlace-apartado-simple" href="#relaciones-objetos">Relaciones entre objetos</a>
+<a class="enlace-apartado-simple" href="#composicion">Composición de objetos</a>
+<a class="enlace-apartado-simple" href="#colecciones">Colecciones de objetos</a>
+<a class="enlace-apartado-simple" href="#separacion">Separación de responsabilidades</a>
+<a class="enlace-apartado-simple" href="#organizacion-archivos">Organización en archivos</a>
+<a class="enlace-apartado-simple" href="#diseno-progresivo">Diseño progresivo</a>
+<a class="enlace-apartado-simple" href="#errores">Errores habituales</a>
+<a class="enlace-apartado-simple" href="#ejemplos">Ejemplo práctico completo</a>
+<a class="enlace-apartado-simple" href="#resumen">Resumen del apartado</a>
+<a class="enlace-apartado-simple" href="#piensa">Actividad de reflexión</a>
+</div>
+</div>
+<!-- RESUMEN -->
+<a class="enlace-apartado-simple" href="../resumen/index.html">
+        ✏️ Resumen de la UT6
+      </a>
+<!-- ACTIVIDADES -->
+<div class="menu-desplegable menu-apartado">
+<div class="menu-cabecera">
+<div class="menu-desplegable menu-apartado">
+<div class="menu-cabecera menu-cabecera-activa">
+<a class="menu-titulo" href="index.html">✏️ Resumen de la UT6</a>
+<button aria-expanded="true" aria-label="Mostrar u ocultar el resumen de la UT6" class="boton-desplegar" data-target="submenu-resumen" type="button">⌄</button>
+</div>
+<div class="submenu submenu-apartados submenu-abierto" id="submenu-resumen"><a href="#vision-global">Visión global</a><a href="#objetos">6.1 Objetos</a><a href="#propiedades-metodos">6.2 Propiedades y métodos</a><a href="#crear-manipular">6.3 Crear y manipular objetos</a><a href="#recorrido">6.4 Recorrer propiedades</a><a href="#this">6.5 Métodos y this</a><a href="#constructoras">6.6 Funciones constructoras</a><a href="#clases">6.7 Clases</a><a href="#miembros-clase">6.8 Miembros de clases</a><a href="#poo">6.9 Principios de POO</a><a href="#herencia">6.10 Herencia</a><a href="#organizacion">6.11 Organización de programas</a><a href="#ideas-clave">Ideas clave</a></div>
+</div><a class="enlace-apartado-simple" href="../actividades/index.html">
+            📝 Actividades de la UT6
+          </a>
+<button aria-expanded="false" aria-label="Mostrar u ocultar las actividades de la UT6" class="boton-desplegar" data-target="submenu-actividades" type="button">›</button>
+</div>
+<div class="submenu submenu-apartados" id="submenu-actividades">
+<a class="enlace-apartado-simple" href="../actividades/index.html#actividades-practicas">
+            💻 Actividades prácticas
+          </a>
+<a class="enlace-apartado-simple" href="../actividades/index.html#reto-final">
+            🧩 Reto final
+          </a>
+<a class="enlace-apartado-simple" href="../actividades/index.html#autoevaluacion">
+            ✅ Autoevaluación
+          </a>
+</div>
+</div>
+</div>
+</div>
+<!-- UT6 -->
+
+<!-- UT7 -->
+<a class="sidebar-ut-cerrada" href="../../ut7/index.html">
+<span>UT7 - Objetos predefinidos y modelo del navegador (BOM)</span>
+<span>›</span>
+</a>
+<!-- UT8 -->
+<a class="sidebar-ut-cerrada" href="../../ut8/index.html">
+<span>UT8 - Aplicaciones web interactivas: DOM, eventos y formularios</span>
+<span>›</span>
+</a>
+<!-- UT9 -->
+<a class="sidebar-ut-cerrada" href="../../ut9/index.html">
+<span>UT9 - Comunicación asíncrona y peticiones al servidor</span>
+<span>›</span>
+</a>
+<!-- UT10 -->
+<a class="sidebar-ut-cerrada" href="../../ut10/index.html">
+<span>UT10 - Introducción a React</span>
+<span>›</span>
+</a>
+</aside>
+<!-- ==========================================
+         CONTENIDO PRINCIPAL
+    ========================================== -->
+<main class="contenido-ut">
+<!-- MIGAS DE PAN -->
+<div class="migas">
+<a aria-label="Volver a la página principal" class="miga-inicio" href="../../../index.html">🏠</a>
+<span class="miga-separador">›</span>
+<a class="miga-modulo" href="../../index.html">DWEC</a>
+<span class="miga-separador">›</span>
+<a class="miga-modulo" href="../index.html">UT6</a>
+<span class="miga-separador">›</span>
+<span class="miga-actual">Resumen</span>
+</div>
+<h1>✏️ Resumen de la UT6</h1>
+<div class="introduccion-ut"><p>En esta unidad hemos aprendido a trabajar con objetos en JavaScript para representar datos y comportamientos relacionados, así como a crear y utilizar clases para organizar nuestros programas.</p><p>Hemos estudiado las propiedades, los métodos, la palabra clave this, las funciones constructoras, la encapsulación, la abstracción, la herencia y las relaciones entre objetos.</p><p>Este resumen recoge las ideas fundamentales de los apartados 6.1 a 6.11, con ejemplos breves y recordatorios para repasar antes de las actividades y la evaluación.</p></div>
+<!-- ==========================================
+           VISIÓN GLOBAL
+      ========================================== -->
+
+<!-- ==========================================
+           5.1 INTRODUCCIÓN
+      ========================================== -->
+
+<!-- ==========================================
+           5.2 DECLARACIÓN E INVOCACIÓN
+      ========================================== -->
+
+<!-- ==========================================
+           5.3 PARÁMETROS Y ARGUMENTOS
+      ========================================== -->
+
+<!-- ==========================================
+           5.4 RETURN
+      ========================================== -->
+
+<!-- ==========================================
+           5.5 ÁMBITO
+      ========================================== -->
+
+<!-- ==========================================
+           5.6 VALORES Y REFERENCIAS
+      ========================================== -->
+
+<!-- ==========================================
+           5.7 PARÁMETROS ESPECIALES
+      ========================================== -->
+
+<!-- ==========================================
+           5.8 FUNCIONES FLECHA
+      ========================================== -->
+
+<!-- ==========================================
+           5.9 CALLBACKS
+      ========================================== -->
+
+<!-- ==========================================
+           5.10 FUNCIONES PREDEFINIDAS
+      ========================================== -->
+
+<!-- ==========================================
+           5.11 RECURSIVIDAD
+      ========================================== -->
+
+<!-- ==========================================
+           5.12 MODULARIDAD
+      ========================================== -->
+
+<!-- ==========================================
+           IDEAS CLAVE
+      ========================================== -->
+
+<!-- ==========================================
+           NAVEGACIÓN INFERIOR
+      ========================================== -->
+
+<section class="apartado-ut" id="vision-global"><h2>Visión global de la unidad</h2><div class="mapa-resumen"><div class="mapa-nodo mapa-principal">OBJETOS Y PROGRAMACIÓN ORIENTADA A OBJETOS EN JAVASCRIPT</div>
+<div class="mapa-flecha">↓</div><div class="mapa-columnas">
+<div class="mapa-nodo"><strong>Trabajar con objetos</strong><span>Propiedades · métodos · creación · recorrido · this</span></div>
+<div class="mapa-nodo"><strong>Construir clases</strong><span>Constructores · instancias · métodos · encapsulación · herencia</span></div>
+<div class="mapa-nodo"><strong>Diseñar aplicaciones</strong><span>Responsabilidades · relaciones · composición · colecciones</span></div>
+</div><div class="mapa-flecha">↓</div><div class="mapa-nodo mapa-principal"><strong>OBJETIVO FINAL</strong><span>Modelar problemas y organizar programas mediante objetos y clases reutilizables.</span></div></div><div class="caja caja-importante"><span class="caja-titulo">📌 Idea principal</span><p>Un objeto agrupa datos y operaciones relacionadas. Las clases permiten definir una estructura común para crear múltiples objetos.</p></div></section><section class="apartado-ut" id="objetos"><h2>6.1 Introducción a los objetos en JavaScript</h2><p>Un <strong>objeto</strong> es una estructura que agrupa información mediante propiedades y puede incorporar funciones llamadas métodos.</p><div class="rejilla-resumen"><div class="tarjeta-resumen"><span>📦</span><strong>Objeto</strong><p>Representa una entidad mediante pares propiedad–valor.</p></div><div class="tarjeta-resumen"><span>🏷️</span><strong>Propiedad</strong><p>Almacena un dato asociado al objeto.</p></div><div class="tarjeta-resumen"><span>⚙️</span><strong>Método</strong><p>Es una función asociada a un objeto.</p></div></div><div class="ejemplo-codigo"><div class="ejemplo-codigo-cabecera"><span>JavaScript — Objeto literal</span><button class="boton-copiar" type="button">Copiar código</button></div><pre><code>const alumno = {\n  nombre: "Lucía",\n  edad: 20\n};\n\nconsole.log(alumno.nombre); // Lucía</code></pre></div><div class="caja caja-importante"><span class="caja-titulo">📌 Recuerda</span><p>Un objeto puede contener propiedades de diferentes tipos, incluidos otros objetos y funciones.</p></div></section><section class="apartado-ut" id="propiedades-metodos"><h2>6.2 Propiedades y métodos de los objetos</h2><p>Accedemos a las propiedades mediante la <strong>notación de punto</strong> o la <strong>notación de corchetes</strong>. Para ejecutar un método, debemos invocarlo con paréntesis.</p><div class="lista-claves"><div><strong>Notación de punto</strong><span><code>objeto.propiedad</code>: útil cuando conocemos el nombre.</span></div><div><strong>Notación de corchetes</strong><span><code>objeto[clave]</code>: permite utilizar nombres dinámicos.</span></div><div><strong>Método</strong><span><code>objeto.metodo()</code>: ejecuta una función asociada al objeto.</span></div><div><strong>Propiedad y método</strong><span>Consultar un valor no es lo mismo que invocar una función.</span></div></div><div class="ejemplo-codigo"><div class="ejemplo-codigo-cabecera"><span>JavaScript — Acceso a propiedades y métodos</span><button class="boton-copiar" type="button">Copiar código</button></div><pre><code>const producto = {\n  nombre: "Teclado",\n  precio: 35,\n  mostrarPrecio() {\n    return this.precio + " €";\n  }\n};\n\nconsole.log(producto["nombre"]);\nconsole.log(producto.mostrarPrecio());</code></pre></div><div class="caja caja-atencion"><span class="caja-titulo">⚠️ Atención</span><p><code>producto.mostrarPrecio</code> hace referencia a la función; <code>producto.mostrarPrecio()</code> la ejecuta.</p></div></section><section class="apartado-ut" id="crear-manipular"><h2>6.3 Creación y manipulación de objetos</h2><p>Podemos crear objetos con la sintaxis literal <code>{}</code> y añadir, modificar o eliminar propiedades según las necesidades del programa.</p><div class="ejemplo-codigo"><div class="ejemplo-codigo-cabecera"><span>JavaScript — Modificar un objeto</span><button class="boton-copiar" type="button">Copiar código</button></div><pre><code>const libro = { titulo: "JavaScript" };\nlibro.paginas = 250;\nlibro.paginas = 280;\ndelete libro.paginas;\n\nconsole.log(libro.titulo);</code></pre></div><div class="caja caja-importante"><span class="caja-titulo">📌 Recuerda</span><p>Declarar un objeto con <code>const</code> impide reasignar la variable, pero no convierte automáticamente sus propiedades en inmutables.</p></div></section><section class="apartado-ut" id="recorrido"><h2>6.4 Recorrido de propiedades de objetos</h2><p>Para examinar el contenido de un objeto podemos utilizar <code>for...in</code>, <code>Object.keys()</code>, <code>Object.values()</code> y <code>Object.entries()</code>.</p><div class="lista-claves"><div><strong>Object.keys()</strong><span>Devuelve un array con los nombres de las propiedades propias enumerables.</span></div><div><strong>Object.values()</strong><span>Devuelve sus valores.</span></div><div><strong>Object.entries()</strong><span>Devuelve pares <code>[clave, valor]</code>.</span></div><div><strong>for...in</strong><span>Recorre propiedades enumerables, incluidas las heredadas.</span></div></div><div class="ejemplo-codigo"><div class="ejemplo-codigo-cabecera"><span>JavaScript — Recorrer entradas</span><button class="boton-copiar" type="button">Copiar código</button></div><pre><code>const notas = { dwec: 8 };\nnotas.diw = 9;\n\nfor (const [modulo, nota] of Object.entries(notas)) {\n  console.log(modulo, nota);\n}</code></pre></div><div class="caja caja-atencion"><span class="caja-titulo">⚠️ Atención</span><p>Con <code>for...in</code> conviene comprobar si una propiedad pertenece al propio objeto mediante <code>Object.hasOwn()</code> cuando no deseamos recorrer propiedades heredadas.</p></div></section><section class="apartado-ut" id="this"><h2>6.5 Métodos y palabra clave this</h2><p>En una llamada como <code>objeto.metodo()</code>, <code>this</code> normalmente hace referencia al objeto que realiza la llamada. Su valor depende de cómo se invoca la función.</p><div class="ejemplo-codigo"><div class="ejemplo-codigo-cabecera"><span>JavaScript — this dentro de un método</span><button class="boton-copiar" type="button">Copiar código</button></div><pre><code>const cuenta = {\n  titular: "Ana",\n  saldo: 100,\n  mostrarSaldo() {\n    return `${this.titular}: ${this.saldo} €`;\n  }\n};\n\nconsole.log(cuenta.mostrarSaldo());</code></pre></div><div class="caja caja-atencion"><span class="caja-titulo">⚠️ Atención</span><p>Las funciones flecha no tienen un <code>this</code> propio; por ello, no suelen ser adecuadas como métodos cuando necesitamos que <code>this</code> señale al objeto receptor.</p></div></section><section class="apartado-ut" id="constructoras"><h2>6.6 Funciones constructoras y creación de instancias</h2><p>Una <strong>función constructora</strong> permite crear varios objetos con una estructura semejante utilizando el operador <code>new</code>.</p><div class="ejemplo-codigo"><div class="ejemplo-codigo-cabecera"><span>JavaScript — Función constructora</span><button class="boton-copiar" type="button">Copiar código</button></div><pre><code>function Alumno(nombre, curso) {\n  this.nombre = nombre;\n  this.curso = curso;\n}\n\nconst a1 = new Alumno("Eva", "DAW");\nconst a2 = new Alumno("Pablo", "DAW");\n\nconsole.log(a1.nombre);</code></pre></div><div class="caja caja-importante"><span class="caja-titulo">📌 Recuerda</span><p>Cada llamada a <code>new Alumno(...)</code> crea una instancia distinta.</p></div></section><section class="apartado-ut" id="clases"><h2>6.7 Introducción a las clases en JavaScript</h2><p>La sintaxis <code>class</code> permite definir clases de forma clara. El método <code>constructor</code> inicializa los datos de cada instancia.</p><div class="ejemplo-codigo"><div class="ejemplo-codigo-cabecera"><span>JavaScript — Definir una clase</span><button class="boton-copiar" type="button">Copiar código</button></div><pre><code>class Alumno {\n  constructor(nombre) {\n    this.nombre = nombre;\n  }\n\n  saludar() {\n    return `Hola, soy ${this.nombre}`;\n  }\n}\n\nconst alumno = new Alumno("Lucía");\nconsole.log(alumno.saludar());</code></pre></div><div class="caja caja-importante"><span class="caja-titulo">📌 Recuerda</span><p>Una clase actúa como definición común; los objetos creados con <code>new</code> son sus instancias.</p></div></section><section class="apartado-ut" id="miembros-clase"><h2>6.8 Propiedades y métodos de las clases</h2><p>Las clases pueden definir datos y comportamientos de instancia. También permiten distinguir entre miembros públicos, privados y estáticos.</p><div class="lista-claves"><div><strong>Propiedades de instancia</strong><span>Cada objeto conserva sus propios datos.</span></div><div><strong>Métodos de instancia</strong><span>Se invocan sobre un objeto creado a partir de la clase.</span></div><div><strong>Miembros privados</strong><span>La sintaxis <code>#nombre</code> limita el acceso desde fuera de la clase.</span></div><div><strong>Miembros estáticos</strong><span>Se consultan mediante el nombre de la clase, no desde una instancia.</span></div></div><div class="ejemplo-codigo"><div class="ejemplo-codigo-cabecera"><span>JavaScript — Propiedad privada</span><button class="boton-copiar" type="button">Copiar código</button></div><pre><code>class Contador {\n  #valor = 0;\n\n  incrementar() {\n    this.#valor++;\n  }\n\n  consultar() {\n    return this.#valor;\n  }\n}\n\nconst contador = new Contador();\ncontador.incrementar();\nconsole.log(contador.consultar()); // 1</code></pre></div><div class="caja caja-atencion"><span class="caja-titulo">⚠️ Atención</span><p>Una propiedad privada declarada con <code>#</code> no puede consultarse directamente desde fuera de la clase.</p></div></section><section class="apartado-ut" id="poo"><h2>6.9 Principios de la Programación Orientada a Objetos</h2><p>La <strong>Programación Orientada a Objetos (POO)</strong> organiza el software alrededor de entidades con datos y comportamientos.</p><div class="rejilla-resumen"><div class="tarjeta-resumen"><span>🧩</span><strong>Abstracción</strong><p>Representa lo esencial de una entidad y evita detalles innecesarios.</p></div><div class="tarjeta-resumen"><span>🔒</span><strong>Encapsulación</strong><p>Agrupa estado y comportamiento, controlando cómo se accede a los datos.</p></div><div class="tarjeta-resumen"><span>🌳</span><strong>Herencia</strong><p>Permite especializar clases a partir de otras.</p></div></div><div class="caja caja-importante"><span class="caja-titulo">📌 Recuerda</span><p>La POO busca repartir responsabilidades entre objetos de forma comprensible y mantenible.</p></div></section><section class="apartado-ut" id="herencia"><h2>6.10 Herencia básica entre clases</h2><p>Con <code>extends</code> podemos crear una clase derivada a partir de una clase base. <code>super()</code> permite invocar el constructor de la clase padre.</p><div class="ejemplo-codigo"><div class="ejemplo-codigo-cabecera"><span>JavaScript — Herencia con extends</span><button class="boton-copiar" type="button">Copiar código</button></div><pre><code>class Empleado {\n  constructor(nombre) {\n    this.nombre = nombre;\n  }\n\n  presentarse() {\n    return `Soy ${this.nombre}`;\n  }\n}\n\nclass Desarrollador extends Empleado {\n  constructor(nombre, lenguaje) {\n    super(nombre);\n    this.lenguaje = lenguaje;\n  }\n}\n\nconst dev = new Desarrollador("Ana", "JavaScript");\nconsole.log(dev.presentarse());</code></pre></div><div class="caja caja-atencion"><span class="caja-titulo">⚠️ Atención</span><p>En una clase derivada, cuando definimos un constructor debemos llamar a <code>super()</code> antes de utilizar <code>this</code>.</p></div></section><section class="apartado-ut" id="organizacion"><h2>6.11 Organización de programas mediante objetos y clases</h2><p>Antes de programar conviene identificar las entidades del problema, las responsabilidades de cada clase y las relaciones entre objetos. Una aplicación puede utilizar <strong>composición</strong> y <strong>colecciones de objetos</strong> para organizar su información.</p><div class="lista-claves"><div><strong>Responsabilidad</strong><span>Cada clase debe tener un propósito definido.</span></div><div><strong>Composición</strong><span>Un objeto contiene o utiliza otros objetos para cumplir su función.</span></div><div><strong>Colecciones</strong><span>Los arrays permiten gestionar múltiples instancias.</span></div><div><strong>Separación</strong><span>Distinguir modelos, reglas de negocio y presentación facilita el mantenimiento.</span></div></div><div class="ejemplo-codigo"><div class="ejemplo-codigo-cabecera"><span>JavaScript — Objetos que colaboran</span><button class="boton-copiar" type="button">Copiar código</button></div><pre><code>class Producto {\n  constructor(nombre, precio) {\n    this.nombre = nombre;\n    this.precio = precio;\n  }\n}\n\nclass Pedido {\n  constructor() {\n    this.productos = [];\n  }\n\n  agregar(producto) {\n    this.productos.push(producto);\n  }\n\n  total() {\n    return this.productos.reduce((suma, p) =&gt; suma + p.precio, 0);\n  }\n}\n\nconst pedido = new Pedido();\npedido.agregar(new Producto("Ratón", 20));\nconsole.log(pedido.total()); // 20</code></pre></div><div class="caja caja-ejemplo"><span class="caja-titulo">💻 Aplicación al desarrollo web</span><p>En un sistema de matrículas podemos utilizar clases como <code>Alumno</code>, <code>Modulo</code>, <code>Matricula</code> y <code>GestorMatriculas</code>, asignando a cada una una responsabilidad concreta.</p></div></section><section class="apartado-ut" id="ideas-clave"><h2>Ideas clave de la UT6</h2><div class="caja caja-importante resumen-final"><span class="caja-titulo">📌 Si tuvieras que recordar solo estas ideas…</span><ul><li>Un <strong>objeto</strong> reúne propiedades y métodos relacionados.</li><li>La notación de punto y la de corchetes permiten acceder a propiedades.</li><li>Podemos crear, modificar, eliminar y recorrer propiedades de los objetos.</li><li>El valor de <code>this</code> depende de la forma en que se invoca una función.</li><li>Las <strong>funciones constructoras</strong> y las <strong>clases</strong> permiten crear instancias.</li><li><code>constructor</code> inicializa cada instancia; los métodos definen comportamientos.</li><li>La encapsulación y la abstracción ayudan a controlar la complejidad.</li><li><code>extends</code> establece herencia y <code>super()</code> permite acceder al constructor padre.</li><li>La composición y las colecciones facilitan la colaboración entre objetos.</li><li>Asignar responsabilidades claras a cada clase mejora la organización del programa.</li></ul></div></section><nav aria-label="Navegación entre páginas" class="navegacion-paginas">
+<a class="nav-pagina nav-anterior" href="../6-11/index.html"><span class="nav-etiqueta">Anterior</span><strong>‹ 6.11 Organización de programas mediante objetos y clases</strong></a>
+<a class="nav-pagina nav-siguiente" href="../actividades/index.html"><span class="nav-etiqueta">Siguiente</span><strong>📝 Actividades de la UT6 ›</strong></a>
+</nav></main>
+<!-- ==========================================
+         ÍNDICE LATERAL DERECHO
+    ========================================== -->
+<aside class="indice-derecho">
+<h2>En este resumen</h2>
+<ul><li><a href="#vision-global">Visión global</a></li><li><a href="#objetos">6.1 Objetos</a></li><li><a href="#propiedades-metodos">6.2 Propiedades y métodos</a></li><li><a href="#crear-manipular">6.3 Crear y manipular objetos</a></li><li><a href="#recorrido">6.4 Recorrer propiedades</a></li><li><a href="#this">6.5 Métodos y this</a></li><li><a href="#constructoras">6.6 Funciones constructoras</a></li><li><a href="#clases">6.7 Clases</a></li><li><a href="#miembros-clase">6.8 Miembros de clases</a></li><li><a href="#poo">6.9 Principios de POO</a></li><li><a href="#herencia">6.10 Herencia</a></li><li><a href="#organizacion">6.11 Organización de programas</a></li><li><a href="#ideas-clave">Ideas clave</a></li></ul>
+</aside>
+</div>
+<!-- ==========================================
+       PIE DE PÁGINA
+  ========================================== -->
+<footer class="footer">
+<p>
+
+      Material elaborado por
+      <strong>Eva Ballestero Cubeles</strong>
+      · Licencia
+
+      <span class="licencia">
+        CC BY-NC-SA 4.0
+      </span>
+<a aria-label="Licencia Creative Commons BY-NC-SA 4.0" class="enlace-licencia" href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.es" rel="license noopener noreferrer" target="_blank">
+<img alt="Licencia Creative Commons BY-NC-SA 4.0" class="icono-licencia" src="../../../img/licencias/cc-by-nc-sa.png"/>
+</a>
+</p>
+</footer>
+<!-- ==========================================
+       SCRIPTS GENERALES
+  ========================================== -->
+<script src="../../../js/modulos.js"></script>
+<script>
+
+    /* ==========================================
+       MENÚ SUPERIOR DE MÓDULOS
+    ========================================== */
+
+    const menuModulos =
+      document.getElementById("menuModulos");
+
+    const botonTema =
+      document.getElementById("botonTema");
+
+    if (
+      typeof modulos !== "undefined" &&
+      Array.isArray(modulos)
+    ) {
+
+      const modulosActivos = modulos.filter(
+        modulo => modulo.activo === true
+      );
+
+      modulosActivos.forEach(modulo => {
+
+        const enlace = document.createElement("a");
+
+        enlace.href =
+          `../../../${modulo.carpeta}/index.html`;
+
+        enlace.textContent = modulo.siglas;
+        enlace.title = modulo.nombre;
+
+        if (modulo.siglas === "DWEC") {
+          enlace.style.color =
+            "var(--verde-principal)";
+        }
+
+        menuModulos.appendChild(enlace);
+
+      });
+
+    }
+
+    /* ==========================================
+       MODO CLARO Y OSCURO
+    ========================================== */
+
+    const temaGuardado =
+      localStorage.getItem("tema");
+
+    if (temaGuardado === "oscuro") {
+
+      document.body.classList.add("modo-oscuro");
+
+      botonTema.textContent = "🌙";
+
+    }
+
+    botonTema.addEventListener("click", () => {
+
+      document.body.classList.toggle("modo-oscuro");
+
+      const estaOscuro =
+        document.body.classList.contains("modo-oscuro");
+
+      botonTema.textContent =
+        estaOscuro ? "🌙" : "☀️";
+
+      localStorage.setItem(
+        "tema",
+        estaOscuro ? "oscuro" : "claro"
+      );
+
+    });
+
+    /* ==========================================
+       MENÚS DESPLEGABLES
+    ========================================== */
+
+    const botonesDesplegar =
+      document.querySelectorAll(".boton-desplegar");
+
+    botonesDesplegar.forEach(boton => {
+
+      boton.addEventListener("click", () => {
+
+        const idSubmenu =
+          boton.getAttribute("data-target");
+
+        const submenu =
+          document.getElementById(idSubmenu);
+
+        if (!submenu) {
+          return;
+        }
+
+        const estaAbierto =
+          submenu.classList.contains("submenu-abierto");
+
+        if (estaAbierto) {
+
+          submenu.classList.remove("submenu-abierto");
+
+          boton.textContent = "›";
+
+          boton.setAttribute(
+            "aria-expanded",
+            "false"
+          );
+
+        } else {
+
+          submenu.classList.add("submenu-abierto");
+
+          boton.textContent = "⌄";
+
+          boton.setAttribute(
+            "aria-expanded",
+            "true"
+          );
+
+        }
+
+      });
+
+    });
+
+    /* ==========================================
+       COPIAR BLOQUES DE CÓDIGO
+    ========================================== */
+
+    const botonesCopiar =
+      document.querySelectorAll(".boton-copiar");
+
+    async function copiarTexto(texto) {
+
+      if (
+        navigator.clipboard &&
+        window.isSecureContext
+      ) {
+
+        await navigator.clipboard.writeText(texto);
+
+        return;
+
+      }
+
+      const campo =
+        document.createElement("textarea");
+
+      campo.value = texto;
+
+      campo.style.position = "fixed";
+      campo.style.left = "-9999px";
+
+      document.body.appendChild(campo);
+
+      campo.focus();
+      campo.select();
+
+      const copiado =
+        document.execCommand("copy");
+
+      document.body.removeChild(campo);
+
+      if (!copiado) {
+        throw new Error("No se pudo copiar");
+      }
+
+    }
+
+    botonesCopiar.forEach(boton => {
+
+      boton.addEventListener("click", async () => {
+
+        const bloque =
+          boton.closest(".ejemplo-codigo");
+
+        if (!bloque) {
+          return;
+        }
+
+        const codigo =
+          bloque.querySelector("pre code");
+
+        if (!codigo) {
+          return;
+        }
+
+        const textoOriginal =
+          boton.textContent;
+
+        try {
+
+          await copiarTexto(codigo.textContent);
+
+          boton.textContent = "✓ Copiado";
+
+        } catch (error) {
+
+          boton.textContent =
+            "No se pudo copiar";
+
+        }
+
+        setTimeout(() => {
+
+          boton.textContent = textoOriginal;
+
+        }, 1800);
+
+      });
+
+    });
+
+  </script>
+</body>
+</html>
