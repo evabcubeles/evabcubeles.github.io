@@ -1,0 +1,3083 @@
+
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+  <meta charset="UTF-8">
+
+  <meta
+    name="viewport"
+    content="width=device-width, initial-scale=1.0"
+  >
+
+  <meta
+    name="description"
+    content="6.3 - Creación y manipulación de objetos en JavaScript. Objetos literales, Object, propiedades, delete, comprobaciones y referencias."
+  >
+
+  <title>6.3 - Creación y manipulación de objetos</title>
+
+  <link
+    rel="icon"
+    type="image/png"
+    href="../../../img/favicon.png?v=5"
+  >
+
+  <link
+    rel="stylesheet"
+    href="../../../css/estilos.css"
+  >
+
+  <style>
+    /* Estilos complementarios del apartado */
+
+    .bloque-codigo {
+      margin: 20px 0;
+      overflow: hidden;
+      border-radius: 10px;
+      border: 1px solid #d7dee5;
+      background: #17212b;
+    }
+
+    .cabecera-codigo {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 12px;
+      padding: 9px 14px;
+      background: #263442;
+    }
+
+    .lenguaje-codigo {
+      color: #e8f0f7;
+      font-size: 0.85rem;
+      font-weight: 600;
+    }
+
+    .boton-copiar {
+      padding: 6px 11px;
+      border: 1px solid #657484;
+      border-radius: 6px;
+      background: transparent;
+      color: #fff;
+      cursor: pointer;
+      font: inherit;
+      font-size: 0.8rem;
+    }
+
+    .boton-copiar:hover {
+      background: #3b4c5d;
+    }
+
+    .bloque-codigo pre {
+      margin: 0;
+      padding: 18px;
+      overflow-x: auto;
+      color: #f1f5f9;
+      font-size: 0.91rem;
+      line-height: 1.65;
+      tab-size: 2;
+    }
+
+    .bloque-codigo code {
+      font-family: Consolas, Monaco, monospace;
+      white-space: pre;
+    }
+
+    .caja {
+      margin: 22px 0;
+      padding: 17px 20px;
+      border-radius: 9px;
+      border-left: 5px solid;
+    }
+
+    .caja p:last-child {
+      margin-bottom: 0;
+    }
+
+    .caja-titulo {
+      display: block;
+      margin-bottom: 9px;
+      font-weight: 700;
+    }
+
+    .caja-importante {
+      border-color: #2384c6;
+      background: #edf7ff;
+      color: #183b56;
+    }
+
+    .caja-atencion {
+      border-color: #e0a02b;
+      background: #fff8e7;
+      color: #65450e;
+    }
+
+    .caja-ejemplo {
+      border-color: #32936f;
+      background: #edf9f2;
+      color: #184d36;
+    }
+
+    .actividad-reflexion {
+      margin: 28px 0;
+      padding: 22px;
+      border: 1px solid #d4dbe3;
+      border-radius: 12px;
+      background: #f7f9fc;
+    }
+
+    .actividad-reflexion h3 {
+      margin-top: 0;
+    }
+
+    .solucion-desplegable {
+      margin-top: 18px;
+      padding: 13px 16px;
+      border: 1px solid #d5dde6;
+      border-radius: 8px;
+      background: #fff;
+    }
+
+    .solucion-desplegable summary {
+      cursor: pointer;
+      font-weight: 700;
+    }
+
+    .solucion-desplegable[open] summary {
+      margin-bottom: 14px;
+    }
+
+    .tabla-contenido {
+      width: 100%;
+      margin: 18px 0;
+      border-collapse: collapse;
+    }
+
+    .tabla-contenido th,
+    .tabla-contenido td {
+      padding: 11px 13px;
+      border: 1px solid #d6dce3;
+      text-align: left;
+      vertical-align: top;
+    }
+
+    .tabla-contenido th {
+      background: #eef3f7;
+    }
+
+    .tabla-contenido code {
+      white-space: nowrap;
+    }
+
+    body.modo-oscuro .caja-importante,
+    body.modo-oscuro .caja-atencion,
+    body.modo-oscuro .caja-ejemplo {
+      background: #24313b;
+      color: #edf2f7;
+    }
+
+    body.modo-oscuro .actividad-reflexion,
+    body.modo-oscuro .solucion-desplegable {
+      background: #202b35;
+      color: #edf2f7;
+      border-color: #475767;
+    }
+
+    body.modo-oscuro .tabla-contenido th {
+      background: #2a3946;
+    }
+
+    body.modo-oscuro .tabla-contenido th,
+    body.modo-oscuro .tabla-contenido td {
+      border-color: #485867;
+    }
+
+    body.modo-oscuro .bloque-codigo {
+      border-color: #465565;
+    }
+
+    @media (max-width: 700px) {
+      .cabecera-codigo {
+        flex-wrap: wrap;
+      }
+
+      .tabla-contenido {
+        display: block;
+        overflow-x: auto;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+  <!-- BARRA SUPERIOR -->
+
+  <header class="navbar">
+
+    <a class="inicio" href="../../../index.html">
+
+      <img
+        src="../../../img/profesora-castana.png?v=2"
+        alt=""
+        class="icono-profesora"
+      >
+
+      <span>Inicio</span>
+
+    </a>
+
+    <nav
+      id="menuModulos"
+      class="menu-modulos"
+      aria-label="Módulos formativos"
+    ></nav>
+
+    <button
+      id="botonTema"
+      class="boton-tema"
+      type="button"
+      aria-label="Cambiar entre modo claro y oscuro"
+      title="Cambiar tema"
+    >
+      ☀️
+    </button>
+
+  </header>
+
+  <div class="pagina-ut">
+
+    <!-- COLUMNA IZQUIERDA -->
+
+    <aside class="sidebar">
+
+      <a class="sidebar-modulo" href="../../index.html">
+        Desarrollo web en entorno cliente
+      </a>
+
+      <a class="sidebar-ut-cerrada" href="../../ut1/index.html">
+        <span>
+          UT1 - Introducción al desarrollo web en entorno cliente
+        </span>
+        <span>›</span>
+      </a>
+
+      <a class="sidebar-ut-cerrada" href="../../ut2/index.html">
+        <span>
+          UT2 - Fundamentos de JavaScript: variables, tipos y operadores
+        </span>
+        <span>›</span>
+      </a>
+
+      <a class="sidebar-ut-cerrada" href="../../ut3/index.html">
+        <span>
+          UT3 - Estructuras de control en JavaScript
+        </span>
+        <span>›</span>
+      </a>
+
+      <a class="sidebar-ut-cerrada" href="../../ut4/index.html">
+        <span>
+          UT4 - Arrays y estructuras de datos en JavaScript
+        </span>
+        <span>›</span>
+      </a>
+
+      <a class="sidebar-ut-cerrada" href="../../ut5/index.html">
+        <span>
+          UT5 - Funciones en JavaScript
+        </span>
+        <span>›</span>
+      </a>
+
+      <!-- UT6 DESPLEGADA -->
+
+      <div class="menu-desplegable">
+
+        <div class="menu-cabecera menu-cabecera-activa">
+
+          <a class="menu-titulo" href="../index.html">
+            UT6 - Objetos y Programación Orientada a Objetos en JavaScript
+          </a>
+
+          <button
+            class="boton-desplegar"
+            type="button"
+            data-target="submenu-ut6"
+            aria-expanded="true"
+            aria-label="Mostrar u ocultar UT6"
+          >
+            ⌄
+          </button>
+
+        </div>
+
+        <div id="submenu-ut6" class="submenu submenu-abierto">
+
+          <!-- 6.1 -->
+
+          <div class="menu-desplegable menu-apartado">
+
+            <div class="menu-cabecera">
+
+              <a class="menu-titulo" href="../6-1/index.html">
+                6.1 Introducción a los objetos en JavaScript
+              </a>
+
+              <button
+                class="boton-desplegar"
+                type="button"
+                data-target="submenu-6-1"
+                aria-expanded="false"
+                aria-label="Mostrar u ocultar los subapartados del 6.1"
+              >
+                ›
+              </button>
+
+            </div>
+
+            <div id="submenu-6-1" class="submenu submenu-apartados">
+
+              <a href="../6-1/index.html#que-es">
+                Qué es un objeto
+              </a>
+
+              <a href="../6-1/index.html#objetos-vida-real">
+                Los objetos en la vida real
+              </a>
+
+              <a href="../6-1/index.html#estado-comportamiento">
+                Estado y comportamiento
+              </a>
+
+              <a href="../6-1/index.html#objetos-javascript">
+                Objetos en JavaScript
+              </a>
+
+              <a href="../6-1/index.html#primitivos-objetos">
+                Valores primitivos y objetos
+              </a>
+
+              <a href="../6-1/index.html#primer-ejemplo">
+                Primer ejemplo de objeto
+              </a>
+
+            </div>
+
+          </div>
+
+          <!-- 6.2 -->
+
+          <div class="menu-desplegable menu-apartado">
+
+            <div class="menu-cabecera">
+
+              <a class="menu-titulo" href="../6-2/index.html">
+                6.2 Propiedades y métodos de los objetos
+              </a>
+
+              <button
+                class="boton-desplegar"
+                type="button"
+                data-target="submenu-6-2"
+                aria-expanded="false"
+                aria-label="Mostrar u ocultar los subapartados del 6.2"
+              >
+                ›
+              </button>
+
+            </div>
+
+            <div id="submenu-6-2" class="submenu submenu-apartados">
+
+              <a href="../6-2/index.html#propiedades">
+                Qué son las propiedades
+              </a>
+
+              <a href="../6-2/index.html#acceso-punto">
+                Acceso mediante el punto
+              </a>
+
+              <a href="../6-2/index.html#acceso-corchetes">
+                Acceso mediante corchetes
+              </a>
+
+              <a href="../6-2/index.html#modificar">
+                Modificación de propiedades
+              </a>
+
+              <a href="../6-2/index.html#metodos">
+                Qué son los métodos
+              </a>
+
+              <a href="../6-2/index.html#invocar-metodos">
+                Invocación de métodos
+              </a>
+
+              <a href="../6-2/index.html#ejemplos">
+                Ejemplos prácticos
+              </a>
+
+            </div>
+
+          </div>
+
+          <!-- 6.3 ACTIVO -->
+
+          <div class="menu-desplegable menu-apartado">
+
+            <div class="menu-cabecera menu-cabecera-activa">
+
+              <a class="menu-titulo" href="../6-3/index.html">
+                6.3 Creación y manipulación de objetos
+              </a>
+
+              <button
+                class="boton-desplegar"
+                type="button"
+                data-target="submenu-6-3"
+                aria-expanded="true"
+                aria-label="Mostrar u ocultar los subapartados del 6.3"
+              >
+                ⌄
+              </button>
+
+            </div>
+
+            <div
+              id="submenu-6-3"
+              class="submenu submenu-apartados submenu-abierto"
+            >
+
+              <a href="#literales">
+                Objetos literales
+              </a>
+
+              <a href="#object">
+                Creación con Object
+              </a>
+
+              <a href="#anadir">
+                Añadir propiedades
+              </a>
+
+              <a href="#eliminar">
+                Eliminar propiedades
+              </a>
+
+              <a href="#comprobar">
+                Comprobar propiedades
+              </a>
+
+              <a href="#referencias">
+                Referencias a objetos
+              </a>
+
+              <a href="#ejemplos">
+                Ejemplos prácticos
+              </a>
+
+            </div>
+
+          </div>
+
+          <!-- 6.4 -->
+
+          <div class="menu-desplegable menu-apartado">
+
+            <div class="menu-cabecera">
+
+              <a class="menu-titulo" href="../6-4/index.html">
+                6.4 Recorrido de las propiedades de un objeto
+              </a>
+
+              <button
+                class="boton-desplegar"
+                type="button"
+                data-target="submenu-6-4"
+                aria-expanded="false"
+                aria-label="Mostrar u ocultar los subapartados del 6.4"
+              >
+                ›
+              </button>
+
+            </div>
+
+            <div id="submenu-6-4" class="submenu submenu-apartados">
+
+              <a href="../6-4/index.html#recorrer">
+                Recorrer un objeto
+              </a>
+
+              <a href="../6-4/index.html#for-in">
+                El bucle for...in
+              </a>
+
+              <a href="../6-4/index.html#acceso-dinamico">
+                Acceso dinámico a propiedades
+              </a>
+
+            </div>
+
+          </div>
+
+          <!-- 6.5 -->
+
+          <div class="menu-desplegable menu-apartado">
+
+            <div class="menu-cabecera">
+
+              <a class="menu-titulo" href="../6-5/index.html">
+                6.5 Definición de métodos y palabra clave this
+              </a>
+
+              <button
+                class="boton-desplegar"
+                type="button"
+                data-target="submenu-6-5"
+                aria-expanded="false"
+                aria-label="Mostrar u ocultar los subapartados del 6.5"
+              >
+                ›
+              </button>
+
+            </div>
+
+            <div id="submenu-6-5" class="submenu submenu-apartados">
+
+              <a href="../6-5/index.html">
+                Acceder al apartado 6.5
+              </a>
+
+            </div>
+
+          </div>
+
+          <!-- 6.6 -->
+
+          <div class="menu-desplegable menu-apartado">
+
+            <div class="menu-cabecera">
+
+              <a class="menu-titulo" href="../6-6/index.html">
+                6.6 Funciones constructoras e instancias
+              </a>
+
+              <button
+                class="boton-desplegar"
+                type="button"
+                data-target="submenu-6-6"
+                aria-expanded="false"
+                aria-label="Mostrar u ocultar los subapartados del 6.6"
+              >
+                ›
+              </button>
+
+            </div>
+
+            <div id="submenu-6-6" class="submenu submenu-apartados">
+              <a href="../6-6/index.html">
+                Acceder al apartado 6.6
+              </a>
+            </div>
+
+          </div>
+
+          <!-- 6.7 -->
+
+          <div class="menu-desplegable menu-apartado">
+
+            <div class="menu-cabecera">
+
+              <a class="menu-titulo" href="../6-7/index.html">
+                6.7 Clases en JavaScript: class y constructor
+              </a>
+
+              <button
+                class="boton-desplegar"
+                type="button"
+                data-target="submenu-6-7"
+                aria-expanded="false"
+                aria-label="Mostrar u ocultar los subapartados del 6.7"
+              >
+                ›
+              </button>
+
+            </div>
+
+            <div id="submenu-6-7" class="submenu submenu-apartados">
+              <a href="../6-7/index.html">
+                Acceder al apartado 6.7
+              </a>
+            </div>
+
+          </div>
+
+          <!-- 6.8 -->
+
+          <div class="menu-desplegable menu-apartado">
+
+            <div class="menu-cabecera">
+
+              <a class="menu-titulo" href="../6-8/index.html">
+                6.8 Propiedades y métodos de las clases
+              </a>
+
+              <button
+                class="boton-desplegar"
+                type="button"
+                data-target="submenu-6-8"
+                aria-expanded="false"
+                aria-label="Mostrar u ocultar los subapartados del 6.8"
+              >
+                ›
+              </button>
+
+            </div>
+
+            <div id="submenu-6-8" class="submenu submenu-apartados">
+              <a href="../6-8/index.html">
+                Acceder al apartado 6.8
+              </a>
+            </div>
+
+          </div>
+
+          <!-- 6.9 -->
+
+          <div class="menu-desplegable menu-apartado">
+
+            <div class="menu-cabecera">
+
+              <a class="menu-titulo" href="../6-9/index.html">
+                6.9 Principios de la Programación Orientada a Objetos
+              </a>
+
+              <button
+                class="boton-desplegar"
+                type="button"
+                data-target="submenu-6-9"
+                aria-expanded="false"
+                aria-label="Mostrar u ocultar los subapartados del 6.9"
+              >
+                ›
+              </button>
+
+            </div>
+
+            <div id="submenu-6-9" class="submenu submenu-apartados">
+              <a href="../6-9/index.html">
+                Acceder al apartado 6.9
+              </a>
+            </div>
+
+          </div>
+
+          <!-- 6.10 -->
+
+          <div class="menu-desplegable menu-apartado">
+
+            <div class="menu-cabecera">
+
+              <a class="menu-titulo" href="../6-10/index.html">
+                6.10 Herencia básica entre clases
+              </a>
+
+              <button
+                class="boton-desplegar"
+                type="button"
+                data-target="submenu-6-10"
+                aria-expanded="false"
+                aria-label="Mostrar u ocultar los subapartados del 6.10"
+              >
+                ›
+              </button>
+
+            </div>
+
+            <div id="submenu-6-10" class="submenu submenu-apartados">
+              <a href="../6-10/index.html">
+                Acceder al apartado 6.10
+              </a>
+            </div>
+
+          </div>
+
+          <!-- 6.11 -->
+
+          <div class="menu-desplegable menu-apartado">
+
+            <div class="menu-cabecera">
+
+              <a class="menu-titulo" href="../6-11/index.html">
+                6.11 Organización de programas mediante objetos y clases
+              </a>
+
+              <button
+                class="boton-desplegar"
+                type="button"
+                data-target="submenu-6-11"
+                aria-expanded="false"
+                aria-label="Mostrar u ocultar los subapartados del 6.11"
+              >
+                ›
+              </button>
+
+            </div>
+
+            <div id="submenu-6-11" class="submenu submenu-apartados">
+              <a href="../6-11/index.html">
+                Acceder al apartado 6.11
+              </a>
+            </div>
+
+          </div>
+
+          <!-- RESUMEN -->
+
+          <a
+            class="enlace-apartado-simple"
+            href="../resumen/index.html"
+          >
+            ✏️ Resumen de la UT6
+          </a>
+
+          <!-- ACTIVIDADES -->
+
+          <div class="menu-desplegable menu-apartado">
+
+            <div class="menu-cabecera">
+
+              <a class="menu-titulo" href="../actividades/index.html">
+                📝 Actividades de la UT6
+              </a>
+
+              <button
+                class="boton-desplegar"
+                type="button"
+                data-target="submenu-actividades"
+                aria-expanded="false"
+                aria-label="Mostrar u ocultar las actividades de la UT6"
+              >
+                ›
+              </button>
+
+            </div>
+
+            <div
+              id="submenu-actividades"
+              class="submenu submenu-apartados"
+            >
+
+              <a href="../actividades/index.html#actividades-practicas">
+                💻 Actividades prácticas
+              </a>
+
+              <a href="../actividades/index.html#reto-final">
+                🧩 Reto final
+              </a>
+
+              <a href="../actividades/index.html#autoevaluacion">
+                ✅ Autoevaluación
+              </a>
+
+            </div>
+
+          </div>
+
+        </div>
+
+      </div>
+
+      <!-- RESTO DE UNIDADES -->
+
+      <a class="sidebar-ut-cerrada" href="../../ut7/index.html">
+        <span>
+          UT7 - Objetos predefinidos y modelo del navegador (BOM)
+        </span>
+        <span>›</span>
+      </a>
+
+      <a class="sidebar-ut-cerrada" href="../../ut8/index.html">
+        <span>
+          UT8 - Aplicaciones web interactivas: DOM, eventos y formularios
+        </span>
+        <span>›</span>
+      </a>
+
+      <a class="sidebar-ut-cerrada" href="../../ut9/index.html">
+        <span>
+          UT9 - Comunicación asíncrona y peticiones al servidor
+        </span>
+        <span>›</span>
+      </a>
+
+      <a class="sidebar-ut-cerrada" href="../../ut10/index.html">
+        <span>
+          UT10 - Introducción a React
+        </span>
+        <span>›</span>
+      </a>
+
+    </aside>
+
+    <!-- CONTENIDO PRINCIPAL -->
+
+    <main class="contenido-ut">
+
+      <!-- MIGAS DE PAN -->
+
+      <div class="migas">
+
+        <a
+          class="miga-inicio"
+          href="../../../index.html"
+          aria-label="Volver a la página principal"
+        >
+          🏠
+        </a>
+
+        <span class="miga-separador">›</span>
+
+        <a class="miga-modulo" href="../../index.html">
+          DWEC
+        </a>
+
+        <span class="miga-separador">›</span>
+
+        <a class="miga-modulo" href="../index.html">
+          UT6
+        </a>
+
+        <span class="miga-separador">›</span>
+
+        <span class="miga-actual">
+          6.3
+        </span>
+
+      </div>
+
+      <h1>6.3 Creación y manipulación de objetos</h1>
+
+      <section class="apartado-ut">
+
+        <!-- INTRODUCCIÓN -->
+
+        <p>
+          En los apartados anteriores hemos aprendido qué
+          son los objetos en JavaScript y cómo podemos
+          acceder a sus propiedades y métodos.
+        </p>
+
+        <p>
+          Ahora vamos a avanzar un paso más: aprenderemos
+          a <strong>crear objetos de distintas formas y
+          modificar su estructura durante la ejecución
+          de un programa</strong>.
+        </p>
+
+        <p>
+          En una aplicación web, la información no siempre
+          permanece igual. Por ejemplo, un usuario puede
+          completar su perfil, un producto puede incorporar
+          una nueva característica o una aplicación puede
+          eliminar un dato que ya no necesita.
+        </p>
+
+        <p>
+          JavaScript permite realizar estas operaciones
+          directamente sobre los objetos, sin necesidad
+          de volver a crearlos desde cero.
+        </p>
+
+        <div class="caja caja-importante">
+
+          <span class="caja-titulo">📌 Importante</span>
+
+          <p>
+            Los objetos ordinarios de JavaScript son
+            <strong>estructuras dinámicas</strong>:
+            podemos crear un objeto con determinadas
+            propiedades y, posteriormente, añadir otras,
+            modificar sus valores o eliminar algunas
+            de ellas.
+          </p>
+
+          <p>
+            En este apartado trabajaremos con objetos
+            sencillos. Más adelante aprenderemos a crear
+            múltiples objetos mediante funciones
+            constructoras y clases.
+          </p>
+
+        </div>
+
+        <!-- 1. OBJETOS LITERALES -->
+
+        <h2 id="literales">Objetos literales</h2>
+
+        <p>
+          La forma más habitual y sencilla de crear
+          un objeto en JavaScript es mediante un
+          <strong>literal de objeto</strong>.
+        </p>
+
+        <p>
+          Un literal de objeto se escribe utilizando
+          <strong>llaves <code>{}</code></strong>.
+          Dentro de ellas incluimos las propiedades
+          y sus valores, separados por comas.
+        </p>
+
+        <div class="bloque-codigo">
+
+          <div class="cabecera-codigo">
+            <span class="lenguaje-codigo">JavaScript</span>
+            <button class="boton-copiar" type="button">
+              Copiar código
+            </button>
+          </div>
+
+          <pre><code>const alumno = {
+  nombre: "Lucía",
+  edad: 20,
+  curso: "2º DAW",
+  matriculado: true
+};
+
+console.log(alumno.nombre);
+console.log(alumno.curso);
+
+// Lucía
+// 2º DAW</code></pre>
+
+        </div>
+
+        <p>
+          En este ejemplo hemos creado un objeto
+          llamado <code>alumno</code> que contiene
+          cuatro propiedades:
+        </p>
+
+        <ul>
+          <li>
+            <code>nombre</code>: almacena una cadena de texto.
+          </li>
+          <li>
+            <code>edad</code>: almacena un número.
+          </li>
+          <li>
+            <code>curso</code>: almacena otra cadena.
+          </li>
+          <li>
+            <code>matriculado</code>: almacena un valor booleano.
+          </li>
+        </ul>
+
+        <p>
+          Observa que los valores de las propiedades
+          pueden ser de diferentes tipos. No es
+          necesario que todas almacenen la misma
+          clase de información.
+        </p>
+
+        <h3>Crear un objeto vacío</h3>
+
+        <p>
+          También podemos crear un objeto sin
+          propiedades iniciales.
+        </p>
+
+        <div class="bloque-codigo">
+
+          <div class="cabecera-codigo">
+            <span class="lenguaje-codigo">JavaScript</span>
+            <button class="boton-copiar" type="button">
+              Copiar código
+            </button>
+          </div>
+
+          <pre><code>const usuario = {};
+
+console.log(usuario);
+
+// {}</code></pre>
+
+        </div>
+
+        <p>
+          Aunque inicialmente esté vacío, sigue
+          siendo un objeto válido. Más adelante
+          podremos incorporar las propiedades
+          que necesitemos.
+        </p>
+
+        <h3>Objetos con otros objetos</h3>
+
+        <p>
+          Una propiedad también puede almacenar
+          otro objeto. Esto permite organizar
+          información que tiene una estructura
+          más compleja.
+        </p>
+
+        <div class="bloque-codigo">
+
+          <div class="cabecera-codigo">
+            <span class="lenguaje-codigo">JavaScript</span>
+            <button class="boton-copiar" type="button">
+              Copiar código
+            </button>
+          </div>
+
+          <pre><code>const cliente = {
+  nombre: "Carlos",
+  email: "carlos@ejemplo.com",
+  direccion: {
+    ciudad: "Zaragoza",
+    codigoPostal: "50001"
+  }
+};
+
+console.log(cliente.nombre);
+console.log(cliente.direccion.ciudad);
+
+// Carlos
+// Zaragoza</code></pre>
+
+        </div>
+
+        <p>
+          La propiedad <code>direccion</code>
+          contiene un segundo objeto.
+          Para consultar la ciudad accedemos
+          primero a <code>direccion</code>
+          y después a <code>ciudad</code>.
+        </p>
+
+        <div class="caja caja-ejemplo">
+
+          <span class="caja-titulo">💻 Ejemplo DAW</span>
+
+          <p>
+            En una aplicación de comercio electrónico,
+            podríamos almacenar los datos de un pedido
+            en un objeto y los datos de envío
+            en otro objeto incluido dentro del primero.
+          </p>
+
+          <p>
+            Así evitamos crear muchas variables
+            independientes y mantenemos relacionada
+            la información que pertenece a una
+            misma entidad.
+          </p>
+
+        </div>
+
+        <!-- 2. CREACIÓN CON OBJECT -->
+
+        <h2 id="object">Creación con Object</h2>
+
+        <p>
+          Además de utilizar literales, JavaScript
+          permite crear objetos mediante
+          <code>Object</code>.
+        </p>
+
+        <p>
+          Una de las formas posibles es utilizar
+          <code>new Object()</code>.
+        </p>
+
+        <div class="bloque-codigo">
+
+          <div class="cabecera-codigo">
+            <span class="lenguaje-codigo">JavaScript</span>
+            <button class="boton-copiar" type="button">
+              Copiar código
+            </button>
+          </div>
+
+          <pre><code>const producto = new Object();
+
+producto.nombre = "Monitor";
+producto.precio = 189.99;
+producto.stock = 8;
+
+console.log(producto.nombre);
+console.log(producto.precio);
+
+// Monitor
+// 189.99</code></pre>
+
+        </div>
+
+        <p>
+          En este caso, primero creamos un objeto
+          vacío y después incorporamos sus propiedades
+          mediante asignaciones.
+        </p>
+
+        <p>
+          El resultado es equivalente, para este ejemplo,
+          al de crear el objeto directamente con
+          un literal:
+        </p>
+
+        <div class="bloque-codigo">
+
+          <div class="cabecera-codigo">
+            <span class="lenguaje-codigo">JavaScript</span>
+            <button class="boton-copiar" type="button">
+              Copiar código
+            </button>
+          </div>
+
+          <pre><code>const producto = {
+  nombre: "Monitor",
+  precio: 189.99,
+  stock: 8
+};</code></pre>
+
+        </div>
+
+        <h3>¿Qué forma debemos utilizar?</h3>
+
+        <p>
+          Para crear objetos sencillos,
+          <strong>normalmente se recomienda
+          utilizar la notación literal</strong>,
+          porque resulta más breve, clara
+          y fácil de leer.
+        </p>
+
+        <table class="tabla-contenido">
+
+          <thead>
+            <tr>
+              <th>Forma</th>
+              <th>Ejemplo</th>
+              <th>Uso habitual</th>
+            </tr>
+          </thead>
+
+          <tbody>
+            <tr>
+              <td>Literal</td>
+              <td><code>const obj = {};</code></td>
+              <td>
+                Opción habitual para crear
+                objetos sencillos.
+              </td>
+            </tr>
+
+            <tr>
+              <td>Object</td>
+              <td><code>const obj = new Object();</code></td>
+              <td>
+                Alternativa válida, aunque
+                menos utilizada para este caso.
+              </td>
+            </tr>
+          </tbody>
+
+        </table>
+
+        <div class="caja caja-atencion">
+
+          <span class="caja-titulo">⚠️ Atención</span>
+
+          <p>
+            <code>new Object()</code> permite
+            crear un objeto, pero no debemos
+            confundir esta operación con las
+            <strong>funciones constructoras
+            personalizadas</strong> que estudiaremos
+            en el apartado 6.6.
+          </p>
+
+          <p>
+            En aquel apartado aprenderemos
+            a definir nuestros propios modelos
+            para crear múltiples objetos
+            con una estructura común.
+          </p>
+
+        </div>
+
+        <!-- 3. AÑADIR PROPIEDADES -->
+
+        <h2 id="anadir">Añadir propiedades</h2>
+
+        <p>
+          Una de las características más útiles
+          de los objetos de JavaScript es que
+          podemos <strong>incorporar propiedades
+          después de haberlos creado</strong>.
+        </p>
+
+        <p>
+          Para hacerlo, asignamos un valor
+          a una propiedad que todavía no existe.
+        </p>
+
+        <h3>Añadir propiedades con el punto</h3>
+
+        <div class="bloque-codigo">
+
+          <div class="cabecera-codigo">
+            <span class="lenguaje-codigo">JavaScript</span>
+            <button class="boton-copiar" type="button">
+              Copiar código
+            </button>
+          </div>
+
+          <pre><code>const usuario = {
+  nombre: "Ana",
+  edad: 22
+};
+
+usuario.email = "ana@ejemplo.com";
+
+console.log(usuario);
+
+// {
+//   nombre: "Ana",
+//   edad: 22,
+//   email: "ana@ejemplo.com"
+// }</code></pre>
+
+        </div>
+
+        <p>
+          Inicialmente, el objeto tenía dos
+          propiedades: <code>nombre</code>
+          y <code>edad</code>.
+        </p>
+
+        <p>
+          Al ejecutar la asignación
+          <code>usuario.email = "ana@ejemplo.com"</code>,
+          JavaScript incorpora la propiedad
+          <code>email</code> al objeto.
+        </p>
+
+        <h3>Añadir propiedades con corchetes</h3>
+
+        <p>
+          También podemos utilizar la notación
+          de corchetes que estudiamos en el 6.2.
+        </p>
+
+        <div class="bloque-codigo">
+
+          <div class="cabecera-codigo">
+            <span class="lenguaje-codigo">JavaScript</span>
+            <button class="boton-copiar" type="button">
+              Copiar código
+            </button>
+          </div>
+
+          <pre><code>const producto = {
+  nombre: "Teclado"
+};
+
+producto["precio"] = 45;
+producto["en oferta"] = true;
+
+console.log(producto.precio);
+console.log(producto["en oferta"]);
+
+// 45
+// true</code></pre>
+
+        </div>
+
+        <p>
+          La notación de corchetes resulta
+          especialmente útil cuando el nombre
+          de la propiedad contiene espacios
+          o se obtiene a partir de una variable.
+        </p>
+
+        <h3>Añadir una propiedad con nombre dinámico</h3>
+
+        <p>
+          Imagina que una aplicación recibe
+          el nombre de una característica
+          y necesita guardarla en un objeto.
+        </p>
+
+        <div class="bloque-codigo">
+
+          <div class="cabecera-codigo">
+            <span class="lenguaje-codigo">JavaScript</span>
+            <button class="boton-copiar" type="button">
+              Copiar código
+            </button>
+          </div>
+
+          <pre><code>const configuracion = {
+  idioma: "es"
+};
+
+const nuevaPropiedad = "tema";
+
+configuracion[nuevaPropiedad] = "oscuro";
+
+console.log(configuracion.tema);
+
+// oscuro</code></pre>
+
+        </div>
+
+        <p>
+          Como <code>nuevaPropiedad</code>
+          contiene el texto <code>"tema"</code>,
+          JavaScript crea una propiedad
+          con ese nombre.
+        </p>
+
+        <p>
+          Si hubiéramos escrito
+          <code>configuracion.nuevaPropiedad</code>,
+          estaríamos utilizando literalmente
+          el nombre <code>nuevaPropiedad</code>,
+          no el valor almacenado en la variable.
+        </p>
+
+        <div class="caja caja-importante">
+
+          <span class="caja-titulo">📌 Importante</span>
+
+          <p>
+            Al asignar un valor mediante
+            <code>objeto.propiedad = valor</code>,
+            pueden suceder dos cosas:
+          </p>
+
+          <ul>
+            <li>
+              Si la propiedad no existe,
+              se añade al objeto.
+            </li>
+            <li>
+              Si la propiedad ya existe
+              y permite escritura,
+              se actualiza su valor.
+            </li>
+          </ul>
+
+          <p>
+            En nuestros ejemplos trabajamos
+            con propiedades ordinarias
+            que permiten estas operaciones.
+          </p>
+
+        </div>
+
+        <h3>Añadir propiedades a un objeto declarado con const</h3>
+
+        <p>
+          Recordemos una diferencia importante:
+          declarar un objeto con <code>const</code>
+          no significa que sus propiedades
+          sean inmutables.
+        </p>
+
+        <div class="bloque-codigo">
+
+          <div class="cabecera-codigo">
+            <span class="lenguaje-codigo">JavaScript</span>
+            <button class="boton-copiar" type="button">
+              Copiar código
+            </button>
+          </div>
+
+          <pre><code>const empleado = {
+  nombre: "Marta"
+};
+
+empleado.departamento = "Informática";
+empleado.nombre = "Marta López";
+
+console.log(empleado);
+
+// {
+//   nombre: "Marta López",
+//   departamento: "Informática"
+// }</code></pre>
+
+        </div>
+
+        <p>
+          Las operaciones anteriores son válidas
+          porque no estamos asignando un nuevo
+          objeto a la variable <code>empleado</code>.
+          Estamos modificando el objeto existente.
+        </p>
+
+        <!-- 4. ELIMINAR PROPIEDADES -->
+
+        <h2 id="eliminar">Eliminar propiedades</h2>
+
+        <p>
+          En determinadas situaciones puede ser
+          necesario quitar una propiedad de un
+          objeto.
+        </p>
+
+        <p>
+          Para ello, JavaScript dispone del
+          operador <strong><code>delete</code></strong>.
+        </p>
+
+        <h3>Uso básico de delete</h3>
+
+        <div class="bloque-codigo">
+
+          <div class="cabecera-codigo">
+            <span class="lenguaje-codigo">JavaScript</span>
+            <button class="boton-copiar" type="button">
+              Copiar código
+            </button>
+          </div>
+
+          <pre><code>const usuario = {
+  nombre: "Pablo",
+  edad: 25,
+  telefono: "600123456"
+};
+
+delete usuario.telefono;
+
+console.log(usuario);
+
+// {
+//   nombre: "Pablo",
+//   edad: 25
+// }</code></pre>
+
+        </div>
+
+        <p>
+          El operador <code>delete</code>
+          elimina la propiedad
+          <code>telefono</code> del objeto.
+        </p>
+
+        <p>
+          Si intentamos consultar posteriormente
+          esa propiedad, obtendremos
+          <code>undefined</code>.
+        </p>
+
+        <div class="bloque-codigo">
+
+          <div class="cabecera-codigo">
+            <span class="lenguaje-codigo">JavaScript</span>
+            <button class="boton-copiar" type="button">
+              Copiar código
+            </button>
+          </div>
+
+          <pre><code>const usuario = {
+  nombre: "Pablo",
+  telefono: "600123456"
+};
+
+delete usuario.telefono;
+
+console.log(usuario.telefono);
+
+// undefined</code></pre>
+
+        </div>
+
+        <h3>Eliminar mediante corchetes</h3>
+
+        <p>
+          El operador también funciona
+          con la notación de corchetes.
+        </p>
+
+        <div class="bloque-codigo">
+
+          <div class="cabecera-codigo">
+            <span class="lenguaje-codigo">JavaScript</span>
+            <button class="boton-copiar" type="button">
+              Copiar código
+            </button>
+          </div>
+
+          <pre><code>const producto = {
+  nombre: "Ratón",
+  precio: 19.99,
+  descuento: 10
+};
+
+const propiedad = "descuento";
+
+delete producto[propiedad];
+
+console.log(producto);
+
+// {
+//   nombre: "Ratón",
+//   precio: 19.99
+// }</code></pre>
+
+        </div>
+
+        <p>
+          En este caso, el nombre de la propiedad
+          que queremos eliminar se encuentra
+          almacenado en una variable.
+        </p>
+
+        <h3>Eliminar no es lo mismo que asignar undefined</h3>
+
+        <p>
+          Esta diferencia es importante
+          y puede producir confusiones.
+        </p>
+
+        <div class="bloque-codigo">
+
+          <div class="cabecera-codigo">
+            <span class="lenguaje-codigo">JavaScript</span>
+            <button class="boton-copiar" type="button">
+              Copiar código
+            </button>
+          </div>
+
+          <pre><code>const alumno = {
+  nombre: "Elena",
+  telefono: "600111222"
+};
+
+alumno.telefono = undefined;
+
+console.log("telefono" in alumno);
+
+// true</code></pre>
+
+        </div>
+
+        <p>
+          Aunque ahora la propiedad contiene
+          <code>undefined</code>, sigue existiendo
+          dentro del objeto.
+        </p>
+
+        <p>
+          En cambio, si utilizamos
+          <code>delete</code>, la propiedad
+          deja de existir.
+        </p>
+
+        <div class="bloque-codigo">
+
+          <div class="cabecera-codigo">
+            <span class="lenguaje-codigo">JavaScript</span>
+            <button class="boton-copiar" type="button">
+              Copiar código
+            </button>
+          </div>
+
+          <pre><code>const alumno = {
+  nombre: "Elena",
+  telefono: "600111222"
+};
+
+delete alumno.telefono;
+
+console.log("telefono" in alumno);
+
+// false</code></pre>
+
+        </div>
+
+        <div class="caja caja-atencion">
+
+          <span class="caja-titulo">⚠️ Atención</span>
+
+          <p>
+            <code>delete</code> elimina una
+            <strong>propiedad del objeto</strong>,
+            no una variable declarada con
+            <code>let</code> o <code>const</code>.
+          </p>
+
+          <p>
+            Además, no todas las propiedades
+            de JavaScript pueden eliminarse:
+            algunas están definidas como
+            no configurables. En nuestros
+            ejemplos utilizamos propiedades
+            ordinarias creadas por nosotros.
+          </p>
+
+        </div>
+
+        <!-- 5. COMPROBAR PROPIEDADES -->
+
+        <h2 id="comprobar">Comprobar propiedades</h2>
+
+        <p>
+          Antes de utilizar una propiedad,
+          puede resultar conveniente comprobar
+          si existe dentro de un objeto.
+        </p>
+
+        <p>
+          Esta operación es habitual cuando
+          trabajamos con formularios, perfiles
+          de usuario o datos que pueden contener
+          campos opcionales.
+        </p>
+
+        <h3>El operador in</h3>
+
+        <p>
+          El operador <code>in</code> permite
+          comprobar si una propiedad existe
+          en un objeto o en su cadena
+          de prototipos.
+        </p>
+
+        <p>
+          Su sintaxis es:
+        </p>
+
+        <div class="bloque-codigo">
+
+          <div class="cabecera-codigo">
+            <span class="lenguaje-codigo">JavaScript</span>
+            <button class="boton-copiar" type="button">
+              Copiar código
+            </button>
+          </div>
+
+          <pre><code>"nombrePropiedad" in objeto</code></pre>
+
+        </div>
+
+        <p>
+          El resultado será <code>true</code>
+          si la propiedad existe y
+          <code>false</code> si no existe.
+        </p>
+
+        <div class="bloque-codigo">
+
+          <div class="cabecera-codigo">
+            <span class="lenguaje-codigo">JavaScript</span>
+            <button class="boton-copiar" type="button">
+              Copiar código
+            </button>
+          </div>
+
+          <pre><code>const producto = {
+  nombre: "Impresora",
+  precio: 120
+};
+
+console.log("nombre" in producto);
+console.log("stock" in producto);
+
+// true
+// false</code></pre>
+
+        </div>
+
+        <p>
+          La propiedad <code>nombre</code>
+          existe, mientras que
+          <code>stock</code> todavía no
+          se ha definido.
+        </p>
+
+        <h3>Comprobar propiedades propias con Object.hasOwn()</h3>
+
+        <p>
+          Existe otra operación especialmente
+          útil: <code>Object.hasOwn()</code>.
+        </p>
+
+        <p>
+          Este método comprueba si una propiedad
+          pertenece <strong>directamente al objeto</strong>,
+          sin considerar las propiedades que
+          pudiera heredar.
+        </p>
+
+        <div class="bloque-codigo">
+
+          <div class="cabecera-codigo">
+            <span class="lenguaje-codigo">JavaScript</span>
+            <button class="boton-copiar" type="button">
+              Copiar código
+            </button>
+          </div>
+
+          <pre><code>const alumno = {
+  nombre: "Raúl",
+  nota: 8
+};
+
+console.log(Object.hasOwn(alumno, "nombre"));
+console.log(Object.hasOwn(alumno, "email"));
+
+// true
+// false</code></pre>
+
+        </div>
+
+        <p>
+          En este ejemplo, <code>nombre</code>
+          es una propiedad propia de
+          <code>alumno</code>, pero
+          <code>email</code> no existe.
+        </p>
+
+        <h3>Diferencia entre in y Object.hasOwn()</h3>
+
+        <p>
+          Ambos permiten comprobar propiedades,
+          pero no responden exactamente
+          a la misma pregunta.
+        </p>
+
+        <table class="tabla-contenido">
+
+          <thead>
+            <tr>
+              <th>Operación</th>
+              <th>Qué comprueba</th>
+            </tr>
+          </thead>
+
+          <tbody>
+            <tr>
+              <td><code>"x" in objeto</code></td>
+              <td>
+                Si la propiedad existe en el objeto
+                o en su cadena de prototipos.
+              </td>
+            </tr>
+
+            <tr>
+              <td><code>Object.hasOwn(objeto, "x")</code></td>
+              <td>
+                Si la propiedad pertenece
+                directamente al objeto.
+              </td>
+            </tr>
+          </tbody>
+
+        </table>
+
+        <p>
+          Por ahora nos interesa comprender
+          esta distinción básica. Estudiaremos
+          la herencia más adelante,
+          cuando trabajemos con clases.
+        </p>
+
+        <div class="caja caja-importante">
+
+          <span class="caja-titulo">📌 Importante</span>
+
+          <p>
+            No debemos utilizar siempre
+            <code>objeto.propiedad !== undefined</code>
+            para determinar si una propiedad existe.
+          </p>
+
+          <p>
+            Una propiedad puede existir y contener
+            precisamente el valor
+            <code>undefined</code>.
+          </p>
+
+          <p>
+            Cuando necesitamos comprobar
+            su existencia, resulta más apropiado
+            utilizar <code>in</code> o
+            <code>Object.hasOwn()</code>,
+            según lo que queramos averiguar.
+          </p>
+
+        </div>
+
+        <h3>Comprobación antes de añadir una propiedad</h3>
+
+        <p>
+          Podemos combinar una condición
+          con la comprobación de propiedades
+          para evitar sobrescribir información.
+        </p>
+
+        <div class="bloque-codigo">
+
+          <div class="cabecera-codigo">
+            <span class="lenguaje-codigo">JavaScript</span>
+            <button class="boton-copiar" type="button">
+              Copiar código
+            </button>
+          </div>
+
+          <pre><code>const usuario = {
+  nombre: "Sofía"
+};
+
+if (!Object.hasOwn(usuario, "email")) {
+  usuario.email = "sin-email@ejemplo.com";
+}
+
+console.log(usuario.email);
+
+// sin-email@ejemplo.com</code></pre>
+
+        </div>
+
+        <p>
+          El programa comprueba primero
+          si existe la propiedad
+          <code>email</code>. Como no existe,
+          incorpora un valor inicial.
+        </p>
+
+        <!-- 6. REFERENCIAS -->
+
+        <h2 id="referencias">Referencias a objetos</h2>
+
+        <p>
+          Hasta ahora hemos trabajado
+          con objetos mediante variables.
+          Sin embargo, es importante comprender
+          qué ocurre cuando asignamos un objeto
+          a otra variable.
+        </p>
+
+        <p>
+          En JavaScript, los objetos se manejan
+          mediante <strong>referencias</strong>.
+          Esto significa que una variable
+          que contiene un objeto permite
+          acceder a ese objeto, pero no
+          almacena una copia independiente
+          de todas sus propiedades.
+        </p>
+
+        <h3>Dos variables que hacen referencia al mismo objeto</h3>
+
+        <p>
+          Observa el siguiente ejemplo:
+        </p>
+
+        <div class="bloque-codigo">
+
+          <div class="cabecera-codigo">
+            <span class="lenguaje-codigo">JavaScript</span>
+            <button class="boton-copiar" type="button">
+              Copiar código
+            </button>
+          </div>
+
+          <pre><code>const producto1 = {
+  nombre: "Portátil",
+  precio: 850
+};
+
+const producto2 = producto1;
+
+producto2.precio = 799;
+
+console.log(producto1.precio);
+console.log(producto2.precio);
+
+// 799
+// 799</code></pre>
+
+        </div>
+
+        <p>
+          Aunque utilizamos dos variables,
+          ambas hacen referencia al
+          <strong>mismo objeto</strong>.
+        </p>
+
+        <p>
+          Por eso, al modificar el precio
+          mediante <code>producto2</code>,
+          también observamos el cambio
+          cuando accedemos a través
+          de <code>producto1</code>.
+        </p>
+
+        <div class="caja caja-atencion">
+
+          <span class="caja-titulo">⚠️ Atención</span>
+
+          <p>
+            La asignación
+            <code>const producto2 = producto1</code>
+            <strong>no crea un objeto nuevo</strong>.
+          </p>
+
+          <p>
+            Únicamente hace que ambas variables
+            permitan acceder al mismo objeto.
+            Este comportamiento puede provocar
+            errores si pensamos que estamos
+            trabajando con copias independientes.
+          </p>
+
+        </div>
+
+        <h3>Comparación entre objetos</h3>
+
+        <p>
+          Dos objetos diferentes pueden tener
+          las mismas propiedades y valores
+          sin ser el mismo objeto.
+        </p>
+
+        <div class="bloque-codigo">
+
+          <div class="cabecera-codigo">
+            <span class="lenguaje-codigo">JavaScript</span>
+            <button class="boton-copiar" type="button">
+              Copiar código
+            </button>
+          </div>
+
+          <pre><code>const alumno1 = {
+  nombre: "Laura"
+};
+
+const alumno2 = {
+  nombre: "Laura"
+};
+
+console.log(alumno1 === alumno2);
+
+// false</code></pre>
+
+        </div>
+
+        <p>
+          Aunque los dos objetos contienen
+          exactamente el mismo nombre,
+          se han creado por separado.
+        </p>
+
+        <p>
+          Por tanto, sus referencias son
+          diferentes y la comparación
+          mediante <code>===</code>
+          devuelve <code>false</code>.
+        </p>
+
+        <p>
+          En cambio, si dos variables
+          apuntan al mismo objeto,
+          la comparación será verdadera.
+        </p>
+
+        <div class="bloque-codigo">
+
+          <div class="cabecera-codigo">
+            <span class="lenguaje-codigo">JavaScript</span>
+            <button class="boton-copiar" type="button">
+              Copiar código
+            </button>
+          </div>
+
+          <pre><code>const alumno1 = {
+  nombre: "Laura"
+};
+
+const alumno2 = alumno1;
+
+console.log(alumno1 === alumno2);
+
+// true</code></pre>
+
+        </div>
+
+        <h3>Crear una copia superficial con el operador spread</h3>
+
+        <p>
+          Si queremos obtener un nuevo objeto
+          con las propiedades de otro,
+          podemos utilizar el
+          <strong>operador de propagación
+          <code>...</code></strong>,
+          también conocido como
+          <em>spread</em>.
+        </p>
+
+        <div class="bloque-codigo">
+
+          <div class="cabecera-codigo">
+            <span class="lenguaje-codigo">JavaScript</span>
+            <button class="boton-copiar" type="button">
+              Copiar código
+            </button>
+          </div>
+
+          <pre><code>const productoOriginal = {
+  nombre: "Tablet",
+  precio: 250
+};
+
+const productoCopia = {
+  ...productoOriginal
+};
+
+productoCopia.precio = 220;
+
+console.log(productoOriginal.precio);
+console.log(productoCopia.precio);
+
+// 250
+// 220</code></pre>
+
+        </div>
+
+        <p>
+          Ahora sí hemos creado dos objetos
+          diferentes. Por eso, modificar
+          la propiedad <code>precio</code>
+          de la copia no altera
+          la del objeto original.
+        </p>
+
+        <p>
+          Sin embargo, debemos tener en cuenta
+          una limitación importante.
+        </p>
+
+        <h3>Las copias superficiales y los objetos anidados</h3>
+
+        <p>
+          El operador spread realiza una
+          <strong>copia superficial</strong>.
+          Copia las propiedades del primer
+          nivel, pero no duplica automáticamente
+          los objetos que puedan existir
+          dentro de ellas.
+        </p>
+
+        <div class="bloque-codigo">
+
+          <div class="cabecera-codigo">
+            <span class="lenguaje-codigo">JavaScript</span>
+            <button class="boton-copiar" type="button">
+              Copiar código
+            </button>
+          </div>
+
+          <pre><code>const clienteOriginal = {
+  nombre: "Ana",
+  direccion: {
+    ciudad: "Huesca"
+  }
+};
+
+const clienteCopia = {
+  ...clienteOriginal
+};
+
+clienteCopia.direccion.ciudad = "Teruel";
+
+console.log(clienteOriginal.direccion.ciudad);
+console.log(clienteCopia.direccion.ciudad);
+
+// Teruel
+// Teruel</code></pre>
+
+        </div>
+
+        <p>
+          La copia es un objeto nuevo,
+          pero su propiedad
+          <code>direccion</code> sigue
+          haciendo referencia al mismo
+          objeto anidado que utiliza
+          <code>clienteOriginal</code>.
+        </p>
+
+        <p>
+          Por tanto, cambiar la ciudad
+          afecta a ambos.
+        </p>
+
+        <div class="caja caja-importante">
+
+          <span class="caja-titulo">📌 Importante</span>
+
+          <p>
+            Debemos distinguir entre:
+          </p>
+
+          <ul>
+            <li>
+              <strong>Asignar un objeto a otra variable:</strong>
+              ambas variables hacen referencia
+              al mismo objeto.
+            </li>
+
+            <li>
+              <strong>Crear una copia superficial:</strong>
+              obtenemos un objeto nuevo,
+              pero sus propiedades que contienen
+              otros objetos pueden seguir
+              compartiendo referencias.
+            </li>
+          </ul>
+
+          <p>
+            Esta diferencia es especialmente
+            importante cuando trabajamos
+            con datos anidados.
+          </p>
+
+        </div>
+
+        <!-- 7. EJEMPLOS PRÁCTICOS -->
+
+        <h2 id="ejemplos">Ejemplos prácticos</h2>
+
+        <p>
+          Vamos a aplicar las operaciones
+          estudiadas en situaciones relacionadas
+          con el desarrollo de aplicaciones web.
+        </p>
+
+        <div class="caja caja-atencion">
+
+          <span class="caja-titulo">⚠️ Atención</span>
+
+          <p>
+            Los ejemplos siguientes son
+            <strong>independientes</strong>.
+            Puedes ejecutarlos por separado
+            en la consola del navegador
+            o en archivos JavaScript diferentes.
+          </p>
+
+          <p>
+            Si los reúnes en un mismo ámbito,
+            recuerda que no puedes declarar
+            varias veces una variable
+            con el mismo nombre utilizando
+            <code>const</code>.
+          </p>
+
+        </div>
+
+        <h3>Ejemplo 1. Completar un perfil de usuario</h3>
+
+        <p>
+          Imagina que estamos desarrollando
+          una aplicación web en la que
+          los usuarios pueden completar
+          su perfil progresivamente.
+        </p>
+
+        <p>
+          Inicialmente solo conocemos
+          su nombre y correo electrónico.
+          Posteriormente, el usuario añade
+          su ciudad y número de teléfono.
+        </p>
+
+        <div class="bloque-codigo">
+
+          <div class="cabecera-codigo">
+            <span class="lenguaje-codigo">JavaScript</span>
+            <button class="boton-copiar" type="button">
+              Copiar código
+            </button>
+          </div>
+
+          <pre><code>const usuario = {
+  nombre: "David",
+  email: "david@ejemplo.com"
+};
+
+// Añadimos nuevos datos
+usuario.ciudad = "Alcañiz";
+usuario.telefono = "600123456";
+
+// Actualizamos un dato existente
+usuario.email = "david.nuevo@ejemplo.com";
+
+console.log(usuario);
+
+// {
+//   nombre: "David",
+//   email: "david.nuevo@ejemplo.com",
+//   ciudad: "Alcañiz",
+//   telefono: "600123456"
+// }</code></pre>
+
+        </div>
+
+        <p>
+          En este ejemplo realizamos
+          dos operaciones distintas:
+        </p>
+
+        <ol>
+          <li>
+            Añadimos propiedades que
+            inicialmente no existían.
+          </li>
+          <li>
+            Modificamos el valor de
+            una propiedad existente.
+          </li>
+        </ol>
+
+        <p>
+          El objeto evoluciona a medida
+          que el usuario completa
+          su información.
+        </p>
+
+        <h3>Ejemplo 2. Eliminar un dato opcional</h3>
+
+        <p>
+          Supongamos que una aplicación
+          permite almacenar un teléfono
+          de contacto, pero este dato
+          es opcional.
+        </p>
+
+        <p>
+          Si el usuario decide retirarlo,
+          podemos eliminar la propiedad.
+        </p>
+
+        <div class="bloque-codigo">
+
+          <div class="cabecera-codigo">
+            <span class="lenguaje-codigo">JavaScript</span>
+            <button class="boton-copiar" type="button">
+              Copiar código
+            </button>
+          </div>
+
+          <pre><code>const perfil = {
+  nombre: "Sara",
+  email: "sara@ejemplo.com",
+  telefono: "600222333"
+};
+
+if (Object.hasOwn(perfil, "telefono")) {
+  delete perfil.telefono;
+}
+
+console.log(perfil);
+
+// {
+//   nombre: "Sara",
+//   email: "sara@ejemplo.com"
+// }</code></pre>
+
+        </div>
+
+        <p>
+          Primero comprobamos que la
+          propiedad existe y después
+          la eliminamos.
+        </p>
+
+        <p>
+          La comprobación previa no es
+          imprescindible para eliminar
+          una propiedad ordinaria,
+          pero nos permite practicar
+          ambas operaciones de manera conjunta.
+        </p>
+
+        <h3>Ejemplo 3. Incorporar características a un producto</h3>
+
+        <p>
+          En una tienda online, algunos
+          productos pueden tener
+          características adicionales
+          que otros no necesitan.
+        </p>
+
+        <p>
+          Por ejemplo, un portátil puede
+          incluir información sobre
+          su memoria RAM y su almacenamiento.
+        </p>
+
+        <div class="bloque-codigo">
+
+          <div class="cabecera-codigo">
+            <span class="lenguaje-codigo">JavaScript</span>
+            <button class="boton-copiar" type="button">
+              Copiar código
+            </button>
+          </div>
+
+          <pre><code>const producto = {
+  nombre: "Portátil",
+  precio: 899
+};
+
+const caracteristicas = {
+  ram: "16 GB",
+  almacenamiento: "512 GB SSD"
+};
+
+producto.ram = caracteristicas.ram;
+producto.almacenamiento = caracteristicas.almacenamiento;
+
+console.log(producto);
+
+// {
+//   nombre: "Portátil",
+//   precio: 899,
+//   ram: "16 GB",
+//   almacenamiento: "512 GB SSD"
+// }</code></pre>
+
+        </div>
+
+        <p>
+          Hemos ampliado la información
+          de un objeto existente sin
+          tener que crearlo nuevamente.
+        </p>
+
+        <div class="caja caja-ejemplo">
+
+          <span class="caja-titulo">💻 Ejemplo DAW</span>
+
+          <p>
+            Esta forma de trabajar resulta
+            útil cuando una aplicación
+            recibe datos desde un formulario.
+            Podemos comenzar con un objeto
+            que contenga los campos obligatorios
+            e incorporar otros campos
+            cuando el usuario los complete.
+          </p>
+
+        </div>
+
+        <h3>Ejemplo 4. Crear una versión modificada de un producto</h3>
+
+        <p>
+          En ocasiones necesitamos generar
+          una versión modificada de un producto
+          sin alterar sus datos originales.
+        </p>
+
+        <p>
+          Podemos crear una copia superficial
+          y cambiar únicamente los valores
+          necesarios.
+        </p>
+
+        <div class="bloque-codigo">
+
+          <div class="cabecera-codigo">
+            <span class="lenguaje-codigo">JavaScript</span>
+            <button class="boton-copiar" type="button">
+              Copiar código
+            </button>
+          </div>
+
+          <pre><code>const producto = {
+  id: 15,
+  nombre: "Auriculares",
+  precio: 60,
+  stock: 12
+};
+
+const productoOferta = {
+  ...producto,
+  precio: 48,
+  enOferta: true
+};
+
+console.log(producto.precio);
+console.log(productoOferta.precio);
+console.log(productoOferta.enOferta);
+
+// 60
+// 48
+// true</code></pre>
+
+        </div>
+
+        <p>
+          El objeto <code>productoOferta</code>
+          contiene las propiedades originales,
+          pero con un precio diferente
+          y una nueva propiedad que indica
+          que está en oferta.
+        </p>
+
+        <p>
+          El producto original mantiene
+          su precio de 60 euros.
+        </p>
+
+        <p>
+          Observa que también podemos
+          utilizar el operador spread
+          dentro de un literal que incorpora
+          propiedades adicionales.
+        </p>
+
+        <h3>Ejemplo 5. Gestionar los datos de un pedido</h3>
+
+        <p>
+          Vamos a construir un ejemplo
+          un poco más completo en el que
+          combinaremos varias de las
+          operaciones estudiadas.
+        </p>
+
+        <p>
+          Imagina que estamos desarrollando
+          una aplicación de gestión de pedidos.
+          Inicialmente, el pedido contiene
+          un identificador, un cliente
+          y un importe.
+        </p>
+
+        <p>
+          Posteriormente, añadiremos
+          el estado del pedido,
+          incorporaremos una dirección
+          de envío y comprobaremos
+          si existe un descuento.
+        </p>
+
+        <div class="bloque-codigo">
+
+          <div class="cabecera-codigo">
+            <span class="lenguaje-codigo">JavaScript</span>
+            <button class="boton-copiar" type="button">
+              Copiar código
+            </button>
+          </div>
+
+          <pre><code>const pedido = {
+  id: 105,
+  cliente: "María",
+  importe: 249.99
+};
+
+// Añadimos el estado inicial
+pedido.estado = "Pendiente";
+
+// Añadimos una dirección de envío
+pedido.direccion = {
+  ciudad: "Zaragoza",
+  codigoPostal: "50001"
+};
+
+// Comprobamos si existe un descuento propio
+if (!Object.hasOwn(pedido, "descuento")) {
+  pedido.descuento = 0;
+}
+
+// Actualizamos el estado
+pedido.estado = "Preparando envío";
+
+// Mostramos información
+console.log(pedido.cliente);
+console.log(pedido.estado);
+console.log(pedido.direccion.ciudad);
+console.log(pedido.descuento);
+
+// María
+// Preparando envío
+// Zaragoza
+// 0</code></pre>
+
+        </div>
+
+        <p>
+          Analicemos lo que hace el programa:
+        </p>
+
+        <ol>
+          <li>
+            Crea un objeto literal con
+            los datos iniciales del pedido.
+          </li>
+
+          <li>
+            Añade una propiedad
+            <code>estado</code>.
+          </li>
+
+          <li>
+            Incorpora una propiedad
+            <code>direccion</code>
+            que contiene otro objeto.
+          </li>
+
+          <li>
+            Comprueba si existe una propiedad
+            propia llamada <code>descuento</code>.
+          </li>
+
+          <li>
+            Como no existe, le asigna
+            el valor inicial <code>0</code>.
+          </li>
+
+          <li>
+            Actualiza el estado del pedido.
+          </li>
+
+          <li>
+            Consulta distintas propiedades
+            para mostrar la información.
+          </li>
+        </ol>
+
+        <p>
+          Este ejemplo muestra cómo
+          un objeto puede modificarse
+          durante el funcionamiento
+          de una aplicación web.
+        </p>
+
+        <div class="caja caja-importante">
+
+          <span class="caja-titulo">📌 Importante</span>
+
+          <p>
+            La creación y manipulación
+            de objetos nos permite
+            <strong>representar información
+            que cambia a lo largo
+            de la ejecución del programa</strong>.
+          </p>
+
+          <p>
+            En aplicaciones reales, estas
+            operaciones suelen realizarse
+            como respuesta a acciones
+            del usuario o a datos recibidos
+            desde otros componentes
+            de la aplicación.
+          </p>
+
+        </div>
+
+        <!-- ACTIVIDAD DE REFLEXIÓN -->
+
+        <div class="actividad-reflexion">
+
+          <h3>💭 Piensa</h3>
+
+          <p>
+            Imagina que estás desarrollando
+            una aplicación web para gestionar
+            las reservas de habitaciones
+            de un hotel.
+          </p>
+
+          <p>
+            Cada habitación tiene
+            un número, un tipo,
+            un precio por noche
+            y un estado que indica
+            si está disponible.
+          </p>
+
+          <p>
+            Durante el funcionamiento
+            de la aplicación pueden
+            producirse diferentes cambios:
+            se incorpora una descripción,
+            se elimina un dato opcional
+            y se crea una versión modificada
+            de la habitación para mostrar
+            una oferta.
+          </p>
+
+          <p>
+            Responde a las siguientes preguntas:
+          </p>
+
+          <ol>
+
+            <li>
+              ¿Cómo crearías un objeto
+              literal llamado
+              <code>habitacion</code>
+              con las propiedades
+              <code>numero</code>,
+              <code>tipo</code>,
+              <code>precio</code>
+              y <code>disponible</code>?
+            </li>
+
+            <li>
+              ¿Cómo añadirías una
+              propiedad <code>descripcion</code>
+              después de crear el objeto?
+            </li>
+
+            <li>
+              ¿Cómo comprobarías si
+              <code>habitacion</code>
+              tiene una propiedad propia
+              llamada <code>descuento</code>?
+            </li>
+
+            <li>
+              ¿Qué instrucción utilizarías
+              para eliminar la propiedad
+              <code>descripcion</code>?
+            </li>
+
+            <li>
+              ¿Cómo crearías un nuevo
+              objeto <code>habitacionOferta</code>
+              a partir de <code>habitacion</code>,
+              con un precio diferente,
+              sin modificar el objeto original?
+            </li>
+
+            <li>
+              ¿Qué ocurriría si escribieras
+              <code>const otraHabitacion = habitacion;</code>
+              y después modificaras
+              <code>otraHabitacion.precio</code>?
+            </li>
+
+          </ol>
+
+          <details class="solucion-desplegable">
+
+            <summary>
+              Ver una posible solución
+            </summary>
+
+            <p>
+              Una posible solución sería
+              la siguiente:
+            </p>
+
+            <div class="bloque-codigo">
+
+              <div class="cabecera-codigo">
+                <span class="lenguaje-codigo">JavaScript</span>
+                <button class="boton-copiar" type="button">
+                  Copiar código
+                </button>
+              </div>
+
+              <pre><code>// 1. Crear el objeto
+const habitacion = {
+  numero: 203,
+  tipo: "Doble",
+  precio: 90,
+  disponible: true
+};
+
+// 2. Añadir una propiedad
+habitacion.descripcion = "Vistas al jardín";
+
+// 3. Comprobar una propiedad propia
+console.log(
+  Object.hasOwn(habitacion, "descuento")
+);
+
+// false
+
+// 4. Eliminar una propiedad
+delete habitacion.descripcion;
+
+// 5. Crear una copia superficial
+const habitacionOferta = {
+  ...habitacion,
+  precio: 75
+};
+
+console.log(habitacion.precio);
+console.log(habitacionOferta.precio);
+
+// 90
+// 75
+
+// 6. Compartir la misma referencia
+const otraHabitacion = habitacion;
+
+otraHabitacion.precio = 100;
+
+console.log(habitacion.precio);
+
+// 100</code></pre>
+
+            </div>
+
+            <p>
+              En la quinta operación
+              utilizamos el operador spread
+              para crear un nuevo objeto.
+              Como <code>precio</code>
+              es un número, modificar
+              su valor en la copia
+              no afecta al original.
+            </p>
+
+            <p>
+              En la sexta operación,
+              <code>otraHabitacion</code>
+              y <code>habitacion</code>
+              hacen referencia al mismo objeto.
+              Por eso, modificar el precio
+              mediante una de las variables
+              también afecta al valor
+              consultado mediante la otra.
+            </p>
+
+          </details>
+
+        </div>
+
+      </section>
+
+      <!-- NAVEGACIÓN INFERIOR -->
+
+      <nav class="navegacion-paginas">
+
+        <a
+          class="nav-pagina nav-anterior"
+          href="../6-2/index.html"
+        >
+
+          <span class="nav-etiqueta">
+            Anterior
+          </span>
+
+          <strong>
+            ‹ 6.2 Propiedades y métodos de los objetos
+          </strong>
+
+        </a>
+
+        <a
+          class="nav-pagina nav-siguiente"
+          href="../6-4/index.html"
+        >
+
+          <span class="nav-etiqueta">
+            Siguiente
+          </span>
+
+          <strong>
+            6.4 Recorrido de las propiedades de un objeto ›
+          </strong>
+
+        </a>
+
+      </nav>
+
+    </main>
+
+    <!-- ÍNDICE DERECHO -->
+
+    <aside class="indice-derecho">
+
+      <h2>
+        Contenidos del apartado
+      </h2>
+
+      <ul>
+
+        <li>
+          <a href="#literales">
+            Objetos literales
+          </a>
+        </li>
+
+        <li>
+          <a href="#object">
+            Creación con Object
+          </a>
+        </li>
+
+        <li>
+          <a href="#anadir">
+            Añadir propiedades
+          </a>
+        </li>
+
+        <li>
+          <a href="#eliminar">
+            Eliminar propiedades
+          </a>
+        </li>
+
+        <li>
+          <a href="#comprobar">
+            Comprobar propiedades
+          </a>
+        </li>
+
+        <li>
+          <a href="#referencias">
+            Referencias a objetos
+          </a>
+        </li>
+
+        <li>
+          <a href="#ejemplos">
+            Ejemplos prácticos
+          </a>
+        </li>
+
+      </ul>
+
+    </aside>
+
+  </div>
+
+  <!-- PIE DE PÁGINA -->
+
+  <footer class="footer">
+
+    <p>
+
+      Material elaborado por
+      <strong>Eva Ballestero Cubeles</strong>
+
+      - Licencia
+
+      <span class="licencia">
+        CC BY-NC-SA 4.0
+      </span>
+
+      <a
+        class="enlace-licencia"
+        href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.es"
+        target="_blank"
+        rel="license noopener noreferrer"
+        aria-label="Licencia Creative Commons BY-NC-SA 4.0"
+      >
+
+        <img
+          class="icono-licencia"
+          src="../../../img/licencias/cc-by-nc-sa.png"
+          alt="Licencia Creative Commons BY-NC-SA 4.0"
+        >
+
+      </a>
+
+    </p>
+
+  </footer>
+
+  <!-- JAVASCRIPT -->
+
+  <script src="../../../js/modulos.js"></script>
+
+  <script>
+
+    /* MENÚ SUPERIOR DE MÓDULOS */
+
+    const menuModulos =
+      document.getElementById("menuModulos");
+
+    const botonTema =
+      document.getElementById("botonTema");
+
+    if (typeof modulos !== "undefined") {
+
+      const modulosActivos =
+        modulos.filter(modulo => modulo.activo === true);
+
+      modulosActivos.forEach(modulo => {
+
+        const enlace =
+          document.createElement("a");
+
+        enlace.href =
+          `../../../${modulo.carpeta}/index.html`;
+
+        enlace.textContent =
+          modulo.siglas;
+
+        enlace.title =
+          modulo.nombre;
+
+        if (modulo.siglas === "DWEC") {
+          enlace.style.color =
+            "var(--verde-principal)";
+        }
+
+        menuModulos.appendChild(enlace);
+
+      });
+
+    }
+
+    /* MODO OSCURO */
+
+    const temaGuardado =
+      localStorage.getItem("tema");
+
+    if (temaGuardado === "oscuro") {
+
+      document.body.classList.add("modo-oscuro");
+      botonTema.textContent = "🌙";
+
+    }
+
+    botonTema.addEventListener("click", () => {
+
+      document.body.classList.toggle("modo-oscuro");
+
+      const estaOscuro =
+        document.body.classList.contains("modo-oscuro");
+
+      botonTema.textContent =
+        estaOscuro ? "🌙" : "☀️";
+
+      localStorage.setItem(
+        "tema",
+        estaOscuro ? "oscuro" : "claro"
+      );
+
+    });
+
+    /* MENÚS DESPLEGABLES */
+
+    const botonesDesplegar =
+      document.querySelectorAll(".boton-desplegar");
+
+    botonesDesplegar.forEach(boton => {
+
+      boton.addEventListener("click", () => {
+
+        const idSubmenu =
+          boton.getAttribute("data-target");
+
+        const submenu =
+          document.getElementById(idSubmenu);
+
+        if (!submenu) {
+          return;
+        }
+
+        const estaAbierto =
+          submenu.classList.contains("submenu-abierto");
+
+        if (estaAbierto) {
+
+          submenu.classList.remove("submenu-abierto");
+          boton.textContent = "›";
+
+          boton.setAttribute(
+            "aria-expanded",
+            "false"
+          );
+
+        } else {
+
+          submenu.classList.add("submenu-abierto");
+          boton.textContent = "⌄";
+
+          boton.setAttribute(
+            "aria-expanded",
+            "true"
+          );
+
+        }
+
+      });
+
+    });
+
+    /* COPIAR CÓDIGO */
+
+    const botonesCopiar =
+      document.querySelectorAll(".boton-copiar");
+
+    botonesCopiar.forEach(boton => {
+
+      boton.addEventListener("click", async () => {
+
+        const bloque =
+          boton.closest(".bloque-codigo");
+
+        const codigo =
+          bloque?.querySelector("pre code");
+
+        if (!codigo) {
+          return;
+        }
+
+        const textoOriginal =
+          boton.textContent.trim();
+
+        try {
+
+          await navigator.clipboard.writeText(
+            codigo.textContent
+          );
+
+          boton.textContent = "✓ Copiado";
+
+          setTimeout(() => {
+            boton.textContent = textoOriginal;
+          }, 1600);
+
+        } catch (error) {
+
+          // Alternativa para contextos donde
+          // la API Clipboard no esté disponible.
+
+          const seleccion =
+            window.getSelection();
+
+          const rango =
+            document.createRange();
+
+          rango.selectNodeContents(codigo);
+
+          seleccion.removeAllRanges();
+          seleccion.addRange(rango);
+
+          boton.textContent =
+            "Seleccionado: pulsa Ctrl+C";
+
+          setTimeout(() => {
+            boton.textContent = textoOriginal;
+            seleccion.removeAllRanges();
+          }, 2500);
+
+        }
+
+      });
+
+    });
+
+  </script>
+
+</body>
+</html>
