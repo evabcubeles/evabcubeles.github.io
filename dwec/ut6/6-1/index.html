@@ -468,33 +468,53 @@
       margin-bottom: 14px;
     }
 
-    .solucion-desplegable {
-      margin-top: 22px;
-      border: 1px solid var(--borde);
-      border-radius: 8px;
-      overflow: hidden;
-    }
+/* ==========================================
+   SOLUCIÓN DESPLEGABLE
+========================================== */
 
-    .solucion-desplegable summary {
-      padding: 14px 18px;
-      color: var(--verde-principal);
-      font-weight: 700;
-      cursor: pointer;
-      background-color: rgba(128, 128, 128, 0.06);
-    }
+.solucion-desplegable {
+  margin-top: 20px;
+}
 
-    .solucion-desplegable summary:hover {
-      background-color: rgba(128, 128, 128, 0.12);
-    }
+.solucion-desplegable summary {
+  display: inline-block;
+  padding: 10px 16px;
+  background-color: #eef8f1;
+  border: 1px solid #b9dfc6;
+  border-radius: 7px;
+  color: var(--verde-principal);
+  font-size: 16px;
+  font-weight: 700;
+  cursor: pointer;
+  user-select: none;
+}
 
-    .contenido-solucion {
-      padding: 20px;
-      border-top: 1px solid var(--borde);
-    }
+.solucion-desplegable summary:hover {
+  background-color: #e2f3e7;
+}
 
-    .contenido-solucion p:last-child {
-      margin-bottom: 0;
-    }
+.contenido-solucion {
+  margin-top: 16px;
+  padding: 18px 20px;
+  background-color: var(--fondo-pagina);
+  border-left: 4px solid var(--verde-principal);
+  border-radius: 6px;
+}
+
+.contenido-solucion p {
+  margin: 0 0 12px;
+  font-size: 16px;
+  line-height: 1.65;
+}
+
+.contenido-solucion p:last-child {
+  margin-bottom: 0;
+}
+
+body.modo-oscuro .solucion-desplegable summary {
+  background-color: #20372a;
+  border-color: #315d40;
+}
 
     /* ==========================================
        BLOQUES DE CÓDIGO
