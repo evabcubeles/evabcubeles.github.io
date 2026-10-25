@@ -2510,7 +2510,7 @@ console.log(typeof Producto);
 console.log(typeof producto);
 
 console.log(producto.nombre);
-console.log(Producto.nombre);
+console.log(Producto.name);
 
 // function
 // object
@@ -2529,13 +2529,15 @@ console.log(Producto.nombre);
           mediante esa función.
         </p>
 
-        <p>
-          Además, <code>Producto.nombre</code>
-          no es la propiedad de la instancia:
-          es la propiedad <code>name</code>
-          de la función, que en JavaScript
-          se escribe <code>Producto.name</code>.
-        </p>
+<p>
+  La propiedad <code>nombre</code>
+  pertenece al objeto creado y se consulta
+  mediante <code>producto.nombre</code>.
+  En cambio, <code>Producto.name</code>
+  permite consultar el nombre de la
+  función constructora, que en este caso
+  es <code>"Producto"</code>.
+</p>
 
         <div class="caja caja-atencion">
 
