@@ -923,6 +923,32 @@ Teclado: 30 €</code></pre></div>
 const copia = JSON.parse(JSON.stringify(original));
 console.log(original === copia);</code></pre></div>
 <p><strong>Salida por consola:</strong></p><div class="bloque-codigo"><div class="cabecera-codigo"><span class="lenguaje-codigo">Consola</span><button class="boton-copiar" type="button">📋 Copiar código</button></div><pre><code>false</code></pre></div>
+<div class="caja caja-atencion">
+  <span class="caja-titulo">⚠️ Atención</span>
+
+  <p>
+    Aunque la combinación de <code>JSON.stringify()</code>
+    y <code>JSON.parse()</code> permite crear una copia
+    independiente de determinados objetos,
+    <strong>no es un sistema universal para copiar
+    objetos JavaScript</strong>.
+  </p>
+
+  <p>
+    Durante la conversión pueden perderse propiedades
+    con valor <code>undefined</code>, funciones y otras
+    características del objeto. Además, los objetos
+    <code>Date</code> se recuperan como cadenas y las
+    referencias circulares provocan errores.
+  </p>
+
+  <p>
+    Por tanto, esta técnica debe utilizarse únicamente
+    cuando los datos pueden representarse correctamente
+    en JSON.
+  </p>
+</div>
+
 <h2 id="errores">Errores y precauciones</h2>
 <p>Cuando el texto no cumple la sintaxis JSON, <code>JSON.parse()</code> lanza un <code>SyntaxError</code>. Conviene controlar esta posibilidad con <code>try...catch</code>.</p>
 <div class="bloque-codigo"><div class="cabecera-codigo"><span class="lenguaje-codigo">JavaScript</span><button class="boton-copiar" type="button">📋 Copiar código</button></div><pre><code>const texto = "{nombre: 'Ana'}";
@@ -983,7 +1009,25 @@ const recuperadas = JSON.parse(texto);
 console.log(recuperadas.tema);
 console.log(recuperadas.idioma);</code></pre></div>
 <p><strong>Salida por consola:</strong></p><div class="bloque-codigo"><div class="cabecera-codigo"><span class="lenguaje-codigo">Consola</span><button class="boton-copiar" type="button">📋 Copiar código</button></div><pre><code>oscuro
+    
 es</code></pre></div>
+    <div class="caja caja-atencion">
+  <span class="caja-titulo">⚠️ Atención</span>
+
+  <p>
+    <code>localStorage</code> es una API del navegador.
+    Su disponibilidad depende del entorno de ejecución
+    y de las restricciones de almacenamiento aplicables.
+  </p>
+
+  <p>
+    Además, el método <code>getItem()</code> devuelve
+    <code>null</code> cuando la clave solicitada no existe.
+    Por ello, antes de utilizar <code>JSON.parse()</code>,
+    conviene comprobar que hemos recuperado un valor.
+  </p>
+</div>
+
 <div class="caja caja-ejemplo"><span class="caja-titulo">💻 Ejemplo DAW</span><p>En el apartado 7.13 estudiaremos <code>localStorage</code> con más detalle. No debe utilizarse para almacenar contraseñas o datos sensibles.</p></div>
 <div class="actividad-reflexion"><h3>💭 Piensa</h3><p>Observa el programa sin ejecutarlo. ¿Qué valores se mostrarán? ¿Se modifica el objeto original? ¿Qué ocurriría si escribiéramos <code>const copia = producto;</code>?</p><div class="bloque-codigo"><div class="cabecera-codigo"><span class="lenguaje-codigo">JavaScript</span><button class="boton-copiar" type="button">📋 Copiar código</button></div><pre><code>const producto = { nombre: "Monitor", precio: 150 };
 const texto = JSON.stringify(producto);
