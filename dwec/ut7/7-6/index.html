@@ -1,25 +1,18 @@
 
 <!DOCTYPE html>
+
 <html lang="es">
-
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-  <meta
-    name="description"
-    content="7.6 - Objeto JSON y conversión de datos. Sintaxis JSON, diferencias con los objetos JavaScript, JSON.stringify(), JSON.parse() y ejemplos prácticos."
-  >
-
-  <title>7.6 - Objeto JSON y conversión de datos</title>
-
-  <link rel="icon" type="image/png" href="../../../img/favicon.png?v=5">
-  <link rel="stylesheet" href="../../../css/estilos.css">
-
-  <style>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<meta content="7.6 - Objeto JSON y conversión de datos. Sintaxis, JSON.stringify(), JSON.parse(), errores y ejemplos prácticos." name="description"/>
+<title>7.6 - Objeto JSON y conversión de datos</title>
+<link href="../../../img/favicon.png?v=5" rel="icon" type="image/png"/>
+<link href="../../../css/estilos.css" rel="stylesheet"/>
+<style>
 
     /* ==========================================
-       ESTRUCTURA GENERAL
+       ESTRUCTURA DE LA UT
     ========================================== */
 
     .pagina-ut {
@@ -98,105 +91,126 @@
     .boton-desplegar {
       width: 36px;
       height: 36px;
-      border: none;
-      background: transparent;
-      color: #737983;
-      font-size: 24px;
-      cursor: pointer;
+      margin-right: 5px;
+      padding: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
       flex-shrink: 0;
-      transition: transform 0.2s ease;
+      border: 0;
+      border-radius: 6px;
+      background: transparent;
+      color: #777;
+      font-family: inherit;
+      font-size: 24px;
+      line-height: 1;
+      cursor: pointer;
     }
 
     .boton-desplegar:hover {
+      background-color: #e5e7eb;
       color: var(--verde-principal);
-    }
-
-    .boton-desplegar[aria-expanded="true"] {
-      transform: rotate(180deg);
     }
 
     .submenu {
       display: none;
-      padding: 3px 0 8px 15px;
     }
 
-    .submenu-abierto {
+    .submenu.submenu-abierto {
       display: block;
-    }
-
-    .submenu a {
-      display: block;
-      padding: 8px 12px;
-      color: #626873;
-      text-decoration: none;
-      font-size: 14px;
-      line-height: 1.5;
-      border-radius: 5px;
-    }
-
-    .submenu a:hover {
-      background: #f1f5f3;
-      color: var(--verde-principal);
-    }
-
-    .submenu-apartados {
-      padding-left: 15px;
-      border-left: 2px solid #e4e7e5;
-      margin-left: 15px;
-    }
-
-    .submenu-apartados a {
-      font-size: 13px;
-      padding: 7px 9px;
     }
 
     .menu-apartado {
-      margin-top: 2px;
+      margin-left: 14px;
     }
 
     .menu-apartado .menu-titulo {
-      font-size: 14px;
-      padding: 9px 6px 9px 10px;
+      padding-top: 9px;
+      padding-bottom: 9px;
+      font-size: 15px;
+      font-weight: 600;
     }
 
-    .menu-apartado .boton-desplegar {
-      width: 28px;
-      height: 30px;
-      font-size: 19px;
+    .submenu-apartados {
+      margin: 2px 0 5px 28px;
+      border-left: 2px solid #e0e3e7;
+    }
+
+    .submenu-apartados a {
+      display: block;
+      padding: 7px 10px;
+      color: #777d87;
+      font-size: 14px;
+      font-weight: 500;
+      line-height: 1.35;
+      text-decoration: none;
+    }
+
+    .submenu-apartados a:hover {
+      color: var(--verde-principal);
+    }
+
+    .submenu-apartados a.enlace-actual {
+      color: var(--verde-principal);
+      font-weight: 700;
     }
 
     .enlace-apartado-simple {
       display: block;
-      margin: 5px 0;
-      padding: 10px 12px;
-      font-size: 14px;
+      margin-left: 14px;
+      padding: 10px 14px;
       color: #626873;
+      font-size: 15px;
+      font-weight: 600;
+      line-height: 1.4;
       text-decoration: none;
       border-radius: 6px;
     }
 
     .enlace-apartado-simple:hover {
-      background: #f1f5f3;
       color: var(--verde-principal);
+      background-color: #f3f4f6;
     }
 
     .sidebar-ut-cerrada {
       display: flex;
       align-items: center;
       justify-content: space-between;
-      gap: 8px;
-      padding: 13px 12px;
-      font-size: 14px;
-      font-weight: 600;
+      gap: 12px;
+      padding: 13px 14px;
       color: #626873;
       text-decoration: none;
+      font-size: 16px;
+      font-weight: 650;
+      line-height: 1.35;
       border-radius: 6px;
-      line-height: 1.5;
     }
 
     .sidebar-ut-cerrada:hover {
-      background: #f1f5f3;
+      background-color: #f3f4f6;
       color: var(--verde-principal);
+    }
+
+    /* ==========================================
+       MODO OSCURO DEL MENÚ
+    ========================================== */
+
+    body.modo-oscuro .sidebar-modulo:hover,
+    body.modo-oscuro .sidebar-ut-cerrada:hover,
+    body.modo-oscuro .enlace-apartado-simple:hover {
+      background-color: #273244;
+    }
+
+    body.modo-oscuro .menu-cabecera-activa {
+      background-color: #273244;
+    }
+
+    body.modo-oscuro .boton-desplegar:hover {
+      background-color: #334155;
+    }
+
+    body.modo-oscuro .submenu-apartados {
+      border-left-color: #3a4659;
     }
 
     /* ==========================================
@@ -204,85 +218,97 @@
     ========================================== */
 
     .contenido-ut {
-      min-width: 0;
-      width: 100%;
+      padding: 28px 34px 70px;
       max-width: 1150px;
-      margin: 0 auto;
-      padding: 30px 42px 70px;
+      width: 100%;
+      min-width: 0;
       box-sizing: border-box;
-      color: var(--texto-principal, #303640);
-      font-size: 17px;
-      line-height: 1.85;
     }
 
     .migas {
       display: flex;
       align-items: center;
-      flex-wrap: wrap;
       gap: 10px;
-      margin-bottom: 22px;
+      margin-bottom: 30px;
       font-size: 14px;
-      line-height: 1.5;
+      flex-wrap: wrap;
     }
 
-    .migas a {
-      color: var(--verde-principal);
+    .miga-inicio {
       text-decoration: none;
+      font-size: 18px;
     }
 
     .miga-separador {
-      color: #a2a8ae;
+      color: #999;
+      font-size: 22px;
+    }
+
+    .miga-modulo {
+      color: var(--texto-secundario);
+      text-decoration: none;
+    }
+
+    .miga-modulo:hover {
+      color: var(--verde-principal);
     }
 
     .miga-actual {
-      color: #626873;
-      font-weight: 600;
+      padding: 8px 14px;
+      background-color: #f3f3f3;
+      border-radius: 24px;
+      color: var(--verde-principal);
+    }
+
+    body.modo-oscuro .miga-actual {
+      background-color: #273244;
     }
 
     .contenido-ut h1 {
-      font-size: clamp(27px, 2.5vw, 35px);
-      line-height: 1.3;
-      margin: 0 0 28px;
-      font-weight: 750;
-      color: var(--texto-principal, #28323a);
+      margin: 0 0 30px;
+      font-size: clamp(34px, 4vw, 48px);
+      line-height: 1.15;
     }
 
-    .apartado-ut h2 {
-      margin: 42px 0 18px;
-      padding-bottom: 10px;
-      border-bottom: 1px solid var(--borde, #e4e7e8);
-      font-size: 25px;
-      line-height: 1.35;
-      color: var(--texto-principal, #28323a);
-      scroll-margin-top: 90px;
-    }
-
-    .apartado-ut h3 {
-      margin: 30px 0 12px;
-      font-size: 20px;
-      line-height: 1.4;
-      color: var(--texto-principal, #28323a);
+    .apartado-ut {
+      font-size: 17px;
+      line-height: 1.8;
     }
 
     .apartado-ut p {
-      margin: 0 0 18px;
+      margin: 0 0 19px;
+    }
+
+    .apartado-ut h2 {
+      margin: 48px 0 20px;
+      padding-bottom: 10px;
+      border-bottom: 1px solid var(--borde);
+      font-size: 28px;
+      line-height: 1.3;
+      scroll-margin-top: 95px;
+    }
+
+    .apartado-ut h3 {
+      margin: 32px 0 16px;
+      font-size: 21px;
+      line-height: 1.4;
     }
 
     .apartado-ut ul,
     .apartado-ut ol {
-      margin: 0 0 20px;
+      margin: 0 0 22px;
       padding-left: 28px;
     }
 
     .apartado-ut li {
-      margin-bottom: 8px;
+      margin-bottom: 10px;
     }
 
-    .apartado-ut code:not(pre code) {
-      padding: 2px 6px;
-      background: #edf1f3;
-      color: #b23c61;
+    .apartado-ut code:not(.bloque-codigo code) {
+      padding: 2px 5px;
       border-radius: 4px;
+      background-color: rgba(128, 128, 128, 0.12);
+      font-family: Consolas, "Courier New", monospace;
       font-size: 0.9em;
       overflow-wrap: anywhere;
     }
@@ -291,54 +317,190 @@
        CAJAS DIDÁCTICAS
     ========================================== */
 
-    .caja-importante,
-    .caja-atencion,
-    .caja-ejemplo,
-    .caja-curiosidad {
-      padding: 19px 22px;
-      border-radius: 8px;
-      margin: 25px 0;
+    .caja {
+      margin: 26px 0;
+      padding: 20px 24px;
       border-left: 5px solid;
+      border-radius: 7px;
+      background-color: var(--fondo-tarjeta);
+    }
+
+    .caja p {
+      margin-bottom: 10px;
+    }
+
+    .caja p:last-child {
+      margin-bottom: 0;
+    }
+
+    .caja-titulo {
+      display: block;
+      margin-bottom: 10px;
+      font-size: 17px;
+      font-weight: 750;
     }
 
     .caja-importante {
-      background: #edf5ff;
-      border-left-color: #3383d5;
-      color: #263d57;
+      border-left-color: #2563eb;
+      background-color: rgba(37, 99, 235, 0.07);
     }
 
     .caja-atencion {
-      background: #fff7e5;
-      border-left-color: #e4a52b;
-      color: #584322;
+      border-left-color: #e6a23c;
+      background-color: rgba(230, 162, 60, 0.09);
     }
 
     .caja-ejemplo {
-      background: #edf8f1;
-      border-left-color: #259563;
-      color: #244a37;
+      border-left-color: #16a34a;
+      background-color: rgba(22, 163, 74, 0.07);
     }
 
     .caja-curiosidad {
-      background: #f5efff;
-      border-left-color: #9164d4;
-      color: #493663;
+      border-left-color: #8b5cf6;
+      background-color: rgba(139, 92, 246, 0.07);
     }
 
-    .caja-importante > strong:first-child,
-    .caja-atencion > strong:first-child,
-    .caja-ejemplo > strong:first-child,
-    .caja-curiosidad > strong:first-child {
+    /* ==========================================
+       TABLAS
+    ========================================== */
+
+    .tabla-responsive {
+      width: 100%;
+      overflow-x: auto;
+      margin: 24px 0;
+    }
+
+    .tabla-apuntes {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 15px;
+      line-height: 1.6;
+    }
+
+    .tabla-apuntes th,
+    .tabla-apuntes td {
+      padding: 13px 15px;
+      border: 1px solid var(--borde);
+      text-align: left;
+      vertical-align: top;
+    }
+
+    .tabla-apuntes th {
+      background-color: rgba(128, 128, 128, 0.10);
+      font-weight: 700;
+    }
+
+    /* ==========================================
+       ESQUEMAS VISUALES
+    ========================================== */
+
+    .esquema-web {
+      display: grid;
+      gap: 14px;
+      margin: 28px 0;
+    }
+
+    .esquema-fila {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 14px;
+    }
+
+    .esquema-caja {
+      padding: 20px;
+      border: 1px solid var(--borde);
+      border-radius: 9px;
+      background-color: var(--fondo-tarjeta);
+      text-align: center;
+    }
+
+    .esquema-caja strong {
       display: block;
-      margin-bottom: 9px;
-      font-size: 16px;
+      margin-bottom: 7px;
+      color: var(--verde-principal);
+      font-size: 17px;
     }
 
-    .caja-importante p:last-child,
-    .caja-atencion p:last-child,
-    .caja-ejemplo p:last-child,
-    .caja-curiosidad p:last-child {
+    .esquema-caja span {
+      display: block;
+      font-size: 15px;
+      line-height: 1.6;
+    }
+
+    /* ==========================================
+       ACTIVIDAD DE REFLEXIÓN
+    ========================================== */
+
+    .actividad-reflexion {
+      margin: 32px 0;
+      padding: 22px 24px;
+      background-color: #f7f8fa;
+      border: 1px solid var(--borde);
+      border-radius: 10px;
+    }
+
+    .actividad-reflexion h3 {
+      margin: 0 0 12px;
+      color: var(--verde-principal);
+      font-size: 20px;
+    }
+
+    .actividad-reflexion p {
+      margin: 0 0 14px;
+      font-size: 17px;
+      line-height: 1.65;
+    }
+
+    body.modo-oscuro .actividad-reflexion {
+      background-color: #232d3d;
+    }
+
+    /* ==========================================
+       SOLUCIÓN DESPLEGABLE
+    ========================================== */
+
+    .solucion-desplegable {
+      margin-top: 20px;
+    }
+
+    .solucion-desplegable summary {
+      display: inline-block;
+      padding: 10px 16px;
+      background-color: #eef8f1;
+      border: 1px solid #b9dfc6;
+      border-radius: 7px;
+      color: var(--verde-principal);
+      font-size: 16px;
+      font-weight: 700;
+      cursor: pointer;
+      user-select: none;
+    }
+
+    .solucion-desplegable summary:hover {
+      background-color: #e2f3e7;
+    }
+
+    .contenido-solucion {
+      margin-top: 16px;
+      padding: 18px 20px;
+      background-color: var(--fondo-pagina);
+      border-left: 4px solid var(--verde-principal);
+      border-radius: 6px;
+    }
+
+    .contenido-solucion p {
+      margin: 0 0 12px;
+      font-size: 16px;
+      line-height: 1.65;
+    }
+
+    .contenido-solucion p:last-child {
       margin-bottom: 0;
+    }
+
+    body.modo-oscuro .solucion-desplegable summary {
+      background-color: #20372a;
+      border-color: #315d40;
     }
 
     /* ==========================================
@@ -346,195 +508,55 @@
     ========================================== */
 
     .bloque-codigo {
-      margin: 20px 0 27px;
-      background: #1d2430;
-      border: 1px solid #333e4c;
-      border-radius: 9px;
+      margin: 25px 0;
+      border: 1px solid var(--borde);
+      border-radius: 8px;
       overflow: hidden;
+      background-color: #1e1e1e;
     }
 
     .cabecera-codigo {
       display: flex;
-      justify-content: space-between;
       align-items: center;
+      justify-content: space-between;
       gap: 12px;
-      padding: 10px 16px;
-      background: #283342;
-      color: #e5edf6;
-      font-size: 13px;
-      font-weight: 650;
+      padding: 10px 14px;
+      background-color: #2b2b2b;
+      color: #f3f4f6;
+      font-size: 14px;
+    }
+
+    .lenguaje-codigo {
+      font-weight: 700;
     }
 
     .boton-copiar {
-      border: 1px solid #566273;
-      border-radius: 5px;
-      background: transparent;
-      color: #e5edf6;
-      padding: 5px 11px;
-      font-size: 12px;
+      padding: 6px 10px;
+      border: 1px solid #555;
+      border-radius: 6px;
+      background-color: #383838;
+      color: #f3f4f6;
+      font-family: inherit;
+      font-size: 13px;
       cursor: pointer;
     }
 
     .boton-copiar:hover {
-      background: #3b495b;
+      background-color: #484848;
     }
 
     .bloque-codigo pre {
       margin: 0;
-      padding: 19px 20px;
+      padding: 18px 20px;
       overflow-x: auto;
-      color: #e7edf4;
+    }
+
+    .bloque-codigo code {
+      color: #f5f5f5;
       font-family: Consolas, "Courier New", monospace;
-      font-size: 14px;
-      line-height: 1.7;
-      tab-size: 2;
-    }
-
-    .bloque-codigo pre code {
-      font: inherit;
-      color: inherit;
-      background: transparent;
-      padding: 0;
-    }
-
-    .salida-codigo {
-      margin: -10px 0 24px;
-      padding: 13px 17px;
-      background: #f1f4f6;
-      border-left: 4px solid #8b9ba8;
-      border-radius: 0 5px 5px 0;
-      font-size: 14px;
-      line-height: 1.7;
-    }
-
-    .salida-codigo strong {
-      display: block;
-      margin-bottom: 4px;
-    }
-
-    .salida-codigo pre {
-      margin: 0;
-      white-space: pre-wrap;
-      overflow-wrap: anywhere;
-      font-family: Consolas, "Courier New", monospace;
-      font-size: 13px;
-    }
-
-    /* ==========================================
-       TABLAS
-    ========================================== */
-
-    .tabla-contenedor {
-      overflow-x: auto;
-      margin: 22px 0 28px;
-    }
-
-    .tabla-contenido {
-      width: 100%;
-      border-collapse: collapse;
       font-size: 15px;
       line-height: 1.6;
-    }
-
-    .tabla-contenido th,
-    .tabla-contenido td {
-      border: 1px solid var(--borde, #dde2e5);
-      padding: 11px 13px;
-      text-align: left;
-      vertical-align: top;
-    }
-
-    .tabla-contenido th {
-      background: #edf5f0;
-      font-weight: 700;
-    }
-
-    /* ==========================================
-       ACTIVIDAD PIENSA
-    ========================================== */
-
-    .actividad-reflexion {
-      background: #f3f4f5;
-      border: 1px solid #dfe3e5;
-      border-radius: 9px;
-      padding: 22px 24px;
-      margin: 35px 0;
-    }
-
-    .actividad-reflexion h3 {
-      margin-top: 0;
-      font-size: 20px;
-    }
-
-    .solucion-desplegable {
-      margin-top: 20px;
-      border-left: 5px solid #2e9d6c;
-      background: #ffffff;
-      border-radius: 0 7px 7px 0;
-      overflow: hidden;
-    }
-
-    .solucion-desplegable summary {
-      padding: 13px 17px;
-      color: #24865b;
-      font-weight: 700;
-      cursor: pointer;
-      list-style-position: inside;
-    }
-
-    .contenido-solucion {
-      padding: 5px 19px 19px;
-      border-top: 1px solid #e1e8e4;
-    }
-
-    .contenido-solucion p:last-child {
-      margin-bottom: 0;
-    }
-
-    /* ==========================================
-       NAVEGACIÓN INFERIOR
-    ========================================== */
-
-    .navegacion-paginas {
-      display: flex;
-      justify-content: space-between;
-      gap: 20px;
-      margin-top: 48px;
-      padding-top: 25px;
-      border-top: 1px solid var(--borde, #e2e5e7);
-    }
-
-    .nav-pagina {
-      display: flex;
-      flex-direction: column;
-      gap: 5px;
-      width: 48%;
-      padding: 17px 19px;
-      border: 1px solid var(--borde, #dce3df);
-      border-radius: 9px;
-      color: var(--texto-principal, #34403b);
-      text-decoration: none;
-      line-height: 1.5;
-      transition: border-color 0.2s, background 0.2s;
-    }
-
-    .nav-pagina:hover {
-      border-color: var(--verde-principal);
-      background: #f2f8f4;
-    }
-
-    .nav-etiqueta {
-      font-size: 13px;
-      color: #758079;
-    }
-
-    .nav-siguiente {
-      text-align: right;
-      margin-left: auto;
-    }
-
-    .nav-pagina strong {
-      font-size: 15px;
+      white-space: pre;
     }
 
     /* ==========================================
@@ -542,125 +564,99 @@
     ========================================== */
 
     .indice-derecho {
+      padding: 28px 22px 100px;
+      border-left: 1px solid var(--borde);
       position: sticky;
       top: 68px;
       height: calc(100vh - 68px);
       overflow-y: auto;
-      padding: 28px 16px 30px 22px;
-      border-left: 1px solid var(--borde);
-      background: var(--fondo-pagina);
       box-sizing: border-box;
     }
 
     .indice-derecho h2 {
-      margin: 0 0 18px;
-      font-size: 15px;
-      line-height: 1.5;
-      font-weight: 750;
+      margin: 8px 0 20px;
+      font-size: 17px;
+      color: #555b65;
+    }
+
+    body.modo-oscuro .indice-derecho h2 {
+      color: #d1d5db;
     }
 
     .indice-derecho ul {
-      list-style: none;
-      padding: 0;
       margin: 0;
+      padding-left: 18px;
     }
 
     .indice-derecho li {
-      margin-bottom: 8px;
+      margin-bottom: 12px;
     }
 
     .indice-derecho a {
-      display: block;
-      padding: 7px 9px;
-      color: #6a737b;
+      color: var(--texto-secundario);
       text-decoration: none;
-      font-size: 13px;
-      line-height: 1.5;
-      border-left: 2px solid transparent;
+      font-size: 14px;
+      line-height: 1.4;
     }
 
-    .indice-derecho a:hover,
-    .indice-derecho a.activo {
+    .indice-derecho a:hover {
       color: var(--verde-principal);
-      border-left-color: var(--verde-principal);
     }
 
     /* ==========================================
-       MODO OSCURO
+       NAVEGACIÓN ANTERIOR / SIGUIENTE
     ========================================== */
 
-    body.modo-oscuro .sidebar,
-    body.modo-oscuro .indice-derecho {
-      background: var(--fondo-pagina);
+    .navegacion-paginas {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 20px;
+      margin-top: 50px;
     }
 
-    body.modo-oscuro .sidebar a,
-    body.modo-oscuro .indice-derecho a,
-    body.modo-oscuro .menu-titulo {
-      color: #c0c7cd;
+    .nav-pagina {
+      min-height: 100px;
+      padding: 18px 20px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      border: 1px solid var(--borde);
+      border-radius: 8px;
+      text-decoration: none;
+      background-color: var(--fondo-tarjeta);
     }
 
-    body.modo-oscuro .menu-cabecera-activa,
-    body.modo-oscuro .sidebar a:hover {
-      background: #29362f;
+    .nav-anterior {
+      align-items: flex-start;
+      text-align: left;
     }
 
-    body.modo-oscuro .caja-importante {
-      background: #1c3246;
-      color: #d9e9fa;
+    .nav-siguiente {
+      align-items: flex-end;
+      text-align: right;
     }
 
-    body.modo-oscuro .caja-atencion {
-      background: #40351f;
-      color: #f5e5c2;
+    .nav-etiqueta {
+      margin-bottom: 5px;
+      color: var(--texto-secundario);
+      font-size: 14px;
     }
 
-    body.modo-oscuro .caja-ejemplo {
-      background: #203c30;
-      color: #d7f2e1;
+    .nav-pagina strong {
+      color: var(--verde-principal);
+      font-size: 16px;
+      line-height: 1.4;
     }
 
-    body.modo-oscuro .caja-curiosidad {
-      background: #342a46;
-      color: #e9defb;
-    }
-
-    body.modo-oscuro .actividad-reflexion {
-      background: #292e34;
-      border-color: #41474e;
-    }
-
-    body.modo-oscuro .solucion-desplegable {
-      background: #222b27;
-    }
-
-    body.modo-oscuro .contenido-solucion {
-      border-color: #415147;
-    }
-
-    body.modo-oscuro .salida-codigo {
-      background: #292f35;
-      color: #e5e9ed;
-    }
-
-    body.modo-oscuro .tabla-contenido th {
-      background: #263b30;
-    }
-
-    body.modo-oscuro .apartado-ut code:not(pre code) {
-      background: #303942;
-      color: #ffb1c7;
-    }
-
-    body.modo-oscuro .nav-pagina:hover {
-      background: #26382d;
+    .nav-pagina:hover {
+      border-color: var(--verde-principal);
     }
 
     /* ==========================================
        RESPONSIVE
     ========================================== */
 
-    @media (max-width: 1250px) {
+    @media (max-width: 1100px) {
       .pagina-ut {
         grid-template-columns: 250px minmax(0, 1fr);
       }
@@ -668,13 +664,9 @@
       .indice-derecho {
         display: none;
       }
-
-      .contenido-ut {
-        padding: 28px 35px 60px;
-      }
     }
 
-    @media (max-width: 800px) {
+    @media (max-width: 760px) {
       .pagina-ut {
         display: block;
       }
@@ -683,2337 +675,352 @@
         position: static;
         width: 100%;
         height: auto;
-        max-height: 350px;
-        border-right: none;
+        border-right: 0;
         border-bottom: 1px solid var(--borde);
       }
 
       .contenido-ut {
-        padding: 25px 20px 50px;
-        font-size: 16px;
+        padding: 28px 20px 60px;
       }
 
       .contenido-ut h1 {
-        font-size: 27px;
+        font-size: 34px;
       }
 
       .apartado-ut h2 {
-        font-size: 22px;
+        font-size: 25px;
       }
 
+      .esquema-fila,
       .navegacion-paginas {
-        flex-direction: column;
-      }
-
-      .nav-pagina {
-        width: 100%;
-        box-sizing: border-box;
+        grid-template-columns: 1fr;
       }
 
       .nav-siguiente {
+        align-items: flex-start;
         text-align: left;
       }
     }
 
   </style>
 </head>
-
 <body>
-
-  <!-- ==========================================
-       CABECERA
+<!-- ==========================================
+       BARRA SUPERIOR
   ========================================== -->
-
-  <header class="header">
-
-    <div class="header-contenido">
-
-      <a href="../../../index.html" class="logo">
-        DWEC
-      </a>
-
-      <nav class="nav-principal" aria-label="Navegación principal">
-
-        <div id="menuModulos"></div>
-
-      </nav>
-
-      <button
-        id="botonTema"
-        type="button"
-        aria-label="Cambiar entre modo claro y oscuro"
-      >
-        🌙
-      </button>
-
-    </div>
-
-  </header>
-
-  <div class="pagina-ut">
-
-    <!-- ==========================================
-         MENÚ LATERAL IZQUIERDO
+<header class="navbar">
+<a class="inicio" href="../../../index.html">
+<img alt="" class="icono-profesora" src="../../../img/profesora-castana.png?v=2"/>
+<span>Inicio</span>
+</a>
+<nav aria-label="Módulos formativos" class="menu-modulos" id="menuModulos"></nav>
+<button aria-label="Cambiar entre modo claro y oscuro" class="boton-tema" id="botonTema" title="Cambiar tema" type="button">
+      ☀️
+    </button>
+</header>
+<div class="pagina-ut">
+<!-- ==========================================
+         COLUMNA IZQUIERDA
     ========================================== -->
-
-    <aside class="sidebar" aria-label="Índice del módulo">
-
-      <a class="sidebar-modulo" href="../../index.html">
-        DWEC - Desarrollo Web en Entorno Cliente
+<aside class="sidebar">
+<a class="sidebar-modulo" href="../../index.html">
+        Desarrollo web en entorno cliente
       </a>
-
-      <a class="sidebar-ut-cerrada" href="../../ut1/index.html">
-        <span>UT1 - Arquitecturas y herramientas</span>
-        <span>›</span>
-      </a>
-
-      <a class="sidebar-ut-cerrada" href="../../ut2/index.html">
-        <span>UT2 - Sintaxis y tipos de datos</span>
-        <span>›</span>
-      </a>
-
-      <a class="sidebar-ut-cerrada" href="../../ut3/index.html">
-        <span>UT3 - Estructuras de control</span>
-        <span>›</span>
-      </a>
-
-      <a class="sidebar-ut-cerrada" href="../../ut4/index.html">
-        <span>UT4 - Arrays y estructuras de datos</span>
-        <span>›</span>
-      </a>
-
-      <a class="sidebar-ut-cerrada" href="../../ut5/index.html">
-        <span>UT5 - Funciones</span>
-        <span>›</span>
-      </a>
-
-      <a class="sidebar-ut-cerrada" href="../../ut6/index.html">
-        <span>UT6 - Objetos y programación orientada a objetos</span>
-        <span>›</span>
-      </a>
-
-      <!-- UT7 ABIERTA -->
-
-      <div class="menu-desplegable">
-
-        <div class="menu-cabecera menu-cabecera-activa">
-
-          <a class="menu-titulo" href="../index.html">
+<a class="sidebar-ut-cerrada" href="../../ut1/index.html">
+<span>UT1 - Introducción al desarrollo web en entorno cliente</span>
+<span>›</span>
+</a>
+<a class="sidebar-ut-cerrada" href="../../ut2/index.html">
+<span>UT2 - Fundamentos de JavaScript: variables, tipos y operadores</span>
+<span>›</span>
+</a>
+<a class="sidebar-ut-cerrada" href="../../ut3/index.html">
+<span>UT3 - Estructuras de control en JavaScript</span>
+<span>›</span>
+</a>
+<a class="sidebar-ut-cerrada" href="../../ut4/index.html">
+<span>UT4 - Arrays y estructuras de datos en JavaScript</span>
+<span>›</span>
+</a>
+<a class="sidebar-ut-cerrada" href="../../ut5/index.html">
+<span>UT5 - Funciones en JavaScript</span>
+<span>›</span>
+</a>
+<a class="sidebar-ut-cerrada" href="../../ut6/index.html">
+<span>UT6 - Objetos y Programación Orientada a Objetos en JavaScript</span>
+<span>›</span>
+</a>
+<!-- ==========================================
+           UT7 ABIERTA
+      ========================================== -->
+<div class="menu-desplegable">
+<div class="menu-cabecera menu-cabecera-activa">
+<a class="menu-titulo" href="../index.html">
             UT7 - Objetos predefinidos y modelo del navegador (BOM)
           </a>
-
-          <button
-            class="boton-desplegar"
-            type="button"
-            data-target="submenu-ut7"
-            aria-expanded="true"
-            aria-label="Mostrar u ocultar UT7"
-          >
+<button aria-expanded="true" aria-label="Mostrar u ocultar UT7" class="boton-desplegar" data-target="submenu-ut7" type="button">
             ⌄
           </button>
-
-        </div>
-
-        <div id="submenu-ut7" class="submenu submenu-abierto">
-
-          <div id="apartadosAnterioresUT7"></div>
-
-          <!-- 7.6 ACTIVO -->
-
-          <div class="menu-desplegable menu-apartado">
-
-            <div class="menu-cabecera menu-cabecera-activa">
-
-              <a class="menu-titulo" href="index.html">
-                7.6 Objeto JSON y conversión de datos
-              </a>
-
-              <button
-                class="boton-desplegar"
-                type="button"
-                data-target="submenu-7-6"
-                aria-expanded="true"
-                aria-label="Mostrar u ocultar los subapartados del 7.6"
-              >
+</div>
+<div class="submenu submenu-abierto" id="submenu-ut7">
+<!-- APARTADOS 7.1 A 7.4 -->
+<div id="apartadosAnterioresUT7"></div>
+<!-- ======================================
+               7.5 ACTIVO
+          ====================================== -->
+<div class="menu-desplegable menu-apartado">
+<div class="menu-cabecera menu-cabecera-activa">
+<a class="menu-titulo" href="index.html">7.6 Objeto JSON y conversión de datos</a>
+<button aria-expanded="true" aria-label="Mostrar u ocultar los subapartados del 7.5" class="boton-desplegar" data-target="submenu-7-6" type="button">
                 ⌄
               </button>
-
-            </div>
-
-            <div
-              id="submenu-7-6"
-              class="submenu submenu-apartados submenu-abierto"
-            >
-
-              <a href="#concepto">
-                Qué es JSON
-              </a>
-
-              <a href="#sintaxis">
-                Sintaxis y estructura de JSON
-              </a>
-
-              <a href="#diferencias">
-                Diferencias entre JSON y objetos JavaScript
-              </a>
-
-              <a href="#stringify">
-                JSON.stringify()
-              </a>
-
-              <a href="#parse">
-                JSON.parse()
-              </a>
-
-              <a href="#errores">
-                Errores y precauciones
-              </a>
-
-              <a href="#ejemplos">
-                Ejemplos prácticos
-              </a>
-
-            </div>
-
-          </div>
-
-          <div id="restoApartadosUT7"></div>
-
-          <a
-            class="enlace-apartado-simple"
-            href="../resumen/index.html"
-          >
+</div>
+<div class="submenu submenu-apartados submenu-abierto" id="submenu-7-6"><a href="#concepto">Qué es JSON</a><a href="#sintaxis">Sintaxis y estructura de JSON</a><a href="#diferencias">Diferencias entre JSON y objetos JavaScript</a><a href="#stringify">JSON.stringify()</a><a href="#parse">JSON.parse()</a><a href="#errores">Errores y precauciones</a><a href="#ejemplos">Ejemplos prácticos</a></div>
+</div>
+<!-- RESTO DE APARTADOS UT7 -->
+<div id="restoApartadosUT7"></div>
+<a class="enlace-apartado-simple" href="../resumen/index.html">
             ✏️ Resumen de la UT7
           </a>
-
-          <div class="menu-desplegable menu-apartado">
-
-            <div class="menu-cabecera">
-
-              <a
-                class="menu-titulo"
-                href="../actividades/index.html"
-              >
+<div class="menu-desplegable menu-apartado">
+<div class="menu-cabecera">
+<a class="menu-titulo" href="../actividades/index.html">
                 📝 Actividades de la UT7
               </a>
-
-              <button
-                class="boton-desplegar"
-                type="button"
-                data-target="submenu-actividades"
-                aria-expanded="false"
-                aria-label="Mostrar u ocultar las actividades"
-              >
+<button aria-expanded="false" aria-label="Mostrar u ocultar las actividades" class="boton-desplegar" data-target="submenu-actividades" type="button">
                 ›
               </button>
-
-            </div>
-
-            <div
-              id="submenu-actividades"
-              class="submenu submenu-apartados"
-            >
-
-              <a href="../actividades/index.html#actividades-practicas">
+</div>
+<div class="submenu submenu-apartados" id="submenu-actividades">
+<a href="../actividades/index.html#actividades-practicas">
                 💻 Actividades prácticas
               </a>
-
-              <a href="../actividades/index.html#reto-final">
+<a href="../actividades/index.html#reto-final">
                 🧩 Reto final
               </a>
-
-              <a href="../actividades/index.html#autoevaluacion">
+<a href="../actividades/index.html#autoevaluacion">
                 ✅ Autoevaluación
               </a>
-
-            </div>
-
-          </div>
-
-        </div>
-
-      </div>
-
-      <a class="sidebar-ut-cerrada" href="../../ut8/index.html">
-        <span>UT8 - Aplicaciones web interactivas: DOM, eventos y formularios</span>
-        <span>›</span>
-      </a>
-
-      <a class="sidebar-ut-cerrada" href="../../ut9/index.html">
-        <span>UT9 - Comunicación asíncrona y peticiones al servidor</span>
-        <span>›</span>
-      </a>
-
-      <a class="sidebar-ut-cerrada" href="../../ut10/index.html">
-        <span>UT10 - Introducción a React</span>
-        <span>›</span>
-      </a>
-
-    </aside>
-
-    <!-- ==========================================
-         CONTENIDO CENTRAL
+</div>
+</div>
+</div>
+</div>
+<a class="sidebar-ut-cerrada" href="../../ut8/index.html">
+<span>UT8 - Aplicaciones web interactivas: DOM, eventos y formularios</span>
+<span>›</span>
+</a>
+<a class="sidebar-ut-cerrada" href="../../ut9/index.html">
+<span>UT9 - Comunicación asíncrona y peticiones al servidor</span>
+<span>›</span>
+</a>
+<a class="sidebar-ut-cerrada" href="../../ut10/index.html">
+<span>UT10 - Introducción a React</span>
+<span>›</span>
+</a>
+</aside>
+<!-- ==========================================
+         ZONA CENTRAL
     ========================================== -->
-
-    <main class="contenido-ut">
-
-      <div class="migas">
-
-        <a
-          class="miga-inicio"
-          href="../../../index.html"
-          aria-label="Inicio"
-        >
+<main class="contenido-ut">
+<div class="migas">
+<a aria-label="Inicio" class="miga-inicio" href="../../../index.html">
           🏠
         </a>
-
-        <span class="miga-separador">›</span>
-
-        <a class="miga-modulo" href="../../index.html">
+<span class="miga-separador">›</span>
+<a class="miga-modulo" href="../../index.html">
           DWEC
         </a>
-
-        <span class="miga-separador">›</span>
-
-        <a class="miga-modulo" href="../index.html">
+<span class="miga-separador">›</span>
+<a class="miga-modulo" href="../index.html">
           UT7
         </a>
-
-        <span class="miga-separador">›</span>
-
-        <span class="miga-actual">7.6</span>
-
-      </div>
-
-      <h1>
-        7.6 Objeto JSON y conversión de datos
-      </h1>
-
-      <article class="apartado-ut">
-
-        <p>
-          Hasta ahora hemos trabajado con distintos tipos de
-          datos de JavaScript: cadenas de texto, números,
-          valores booleanos, arrays y objetos.
-          Todos ellos permiten representar información
-          dentro de nuestros programas.
-        </p>
-
-        <p>
-          Sin embargo, en una aplicación web no siempre
-          trabajamos con datos que se encuentran únicamente
-          en nuestro propio código.
-          En muchas ocasiones necesitamos
-          <strong>guardar información, recuperarla o intercambiarla</strong>
-          con otros sistemas.
-        </p>
-
-        <p>
-          Por ejemplo, una tienda online puede enviar
-          los datos de un pedido a un servidor,
-          recibir un catálogo de productos
-          o almacenar temporalmente la información
-          de un carrito de compra.
-        </p>
-
-        <p>
-          Para facilitar estas operaciones se utiliza
-          habitualmente <strong>JSON</strong>,
-          un formato de texto que permite representar
-          datos estructurados de una manera sencilla.
-        </p>
-
-        <div class="caja-importante">
-
-          <strong>📌 Importante</strong>
-
-          <p>
-            JSON es uno de los formatos más utilizados
-            para intercambiar información entre
-            aplicaciones web y servidores.
-          </p>
-
-          <p>
-            JavaScript proporciona el objeto predefinido
-            <code>JSON</code>, que incluye métodos para
-            <strong>convertir objetos y otros valores en texto JSON</strong>
-            y para realizar la operación inversa.
-          </p>
-
-        </div>
-
-        <!-- ======================================
-             1. QUÉ ES JSON
-        ====================================== -->
-
-        <h2 id="concepto">
-          Qué es JSON
-        </h2>
-
-        <p>
-          <strong>JSON</strong> son las siglas de
-          <em>JavaScript Object Notation</em>,
-          que podemos traducir como
-          <strong>notación de objetos de JavaScript</strong>.
-        </p>
-
-        <p>
-          Se trata de un <strong>formato de texto</strong>
-          utilizado para representar información estructurada.
-          Aunque su sintaxis está inspirada en los objetos
-          de JavaScript, JSON es independiente del lenguaje
-          y puede utilizarse también en Python, Java,
-          PHP y muchos otros.
-        </p>
-
-        <p>
-          Imaginemos que una aplicación necesita representar
-          la información de un alumno:
-        </p>
-
-        <div class="bloque-codigo">
-
-          <div class="cabecera-codigo">
-            <span>JSON</span>
-            <button class="boton-copiar" type="button">
-              📋 Copiar código
-            </button>
-          </div>
-
-          <pre><code>{
+<span class="miga-separador">›</span>
+<span class="miga-actual">7.6</span>
+</div>
+<h1>7.6 Objeto JSON y conversión de datos</h1>
+<article class="apartado-ut"><p>En una aplicación web no solo trabajamos con los datos que creamos en nuestro código. También necesitamos intercambiar información con servidores, guardar preferencias o recuperar pedidos y productos.</p>
+<p>Para ello utilizamos con frecuencia <strong>JSON</strong>, un formato de texto que permite representar datos estructurados y convertirlos a valores de JavaScript.</p>
+<div class="caja caja-importante"><span class="caja-titulo">📌 Importante</span><p><strong>JSON es un formato de texto, no un objeto JavaScript.</strong> El objeto predefinido <code>JSON</code> proporciona los métodos <code>stringify()</code> y <code>parse()</code> para realizar conversiones.</p></div>
+<h2 id="concepto">Qué es JSON</h2>
+<p><strong>JSON</strong> significa <em>JavaScript Object Notation</em>. Es un formato independiente del lenguaje que permite representar objetos, arrays y valores sencillos. Se utiliza habitualmente en las respuestas de servicios web y en el intercambio de información entre cliente y servidor.</p>
+<div class="bloque-codigo"><div class="cabecera-codigo"><span class="lenguaje-codigo">JSON</span><button class="boton-copiar" type="button">📋 Copiar código</button></div><pre><code>{
   "nombre": "Lucía",
   "edad": 21,
   "matriculado": true,
-  "modulos": ["DWEC", "DIW", "DAW"]
-}</code></pre>
-
-        </div>
-
-        <p>
-          Este texto contiene cuatro propiedades:
-          el nombre del alumno, su edad,
-          si está matriculado y los módulos
-          que está cursando.
-        </p>
-
-        <p>
-          Cada propiedad está formada por una
-          <strong>clave</strong> y un
-          <strong>valor</strong>.
-          Las claves aparecen entre comillas dobles,
-          mientras que los valores pueden ser
-          de diferentes tipos.
-        </p>
-
-        <div class="caja-ejemplo">
-
-          <strong>💻 Ejemplo DAW</strong>
-
-          <p>
-            Una aplicación de gestión académica podría
-            recibir del servidor un documento JSON
-            con los datos de un alumno.
-          </p>
-
-          <p>
-            Una vez convertido a un objeto de JavaScript,
-            el programa podría consultar su nombre,
-            mostrar los módulos matriculados
-            o actualizar la información de la interfaz.
-          </p>
-
-        </div>
-
-        <h3>
-          ¿Por qué se utiliza JSON?
-        </h3>
-
-        <p>
-          JSON se utiliza ampliamente porque presenta
-          varias ventajas:
-        </p>
-
-        <ul>
-          <li>
-            Su estructura es relativamente sencilla
-            de leer y escribir.
-          </li>
-
-          <li>
-            Permite representar objetos,
-            arrays y datos anidados.
-          </li>
-
-          <li>
-            Es compatible con numerosos
-            lenguajes de programación.
-          </li>
-
-          <li>
-            Es adecuado para intercambiar datos
-            entre el navegador y un servidor.
-          </li>
-
-          <li>
-            JavaScript incorpora herramientas
-            para convertirlo fácilmente.
-          </li>
-        </ul>
-
-        <div class="caja-atencion">
-
-          <strong>⚠️ Atención</strong>
-
-          <p>
-            Aunque JSON incluye la palabra
-            <em>JavaScript</em> en su nombre,
-            <strong>no es código JavaScript ejecutable</strong>.
-          </p>
-
-          <p>
-            JSON es un formato de datos.
-            Su finalidad es representar información,
-            no ejecutar instrucciones.
-          </p>
-
-        </div>
-
-        <!-- ======================================
-             2. SINTAXIS Y ESTRUCTURA
-        ====================================== -->
-
-        <h2 id="sintaxis">
-          Sintaxis y estructura de JSON
-        </h2>
-
-        <p>
-          Para escribir correctamente un documento JSON
-          debemos respetar unas reglas de sintaxis.
-        </p>
-
-        <p>
-          La estructura de un objeto JSON se representa
-          mediante llaves <code>{ }</code>.
-          En su interior aparecen pares
-          <strong>clave-valor</strong>
-          separados por comas.
-        </p>
-
-        <div class="bloque-codigo">
-
-          <div class="cabecera-codigo">
-            <span>JSON</span>
-            <button class="boton-copiar" type="button">
-              📋 Copiar código
-            </button>
-          </div>
-
-          <pre><code>{
-  "producto": "Teclado",
-  "precio": 29.95,
-  "disponible": true
-}</code></pre>
-
-        </div>
-
-        <p>
-          En este ejemplo:
-        </p>
-
-        <ul>
-          <li>
-            <code>"producto"</code>,
-            <code>"precio"</code> y
-            <code>"disponible"</code>
-            son las claves.
-          </li>
-
-          <li>
-            <code>"Teclado"</code>,
-            <code>29.95</code> y
-            <code>true</code>
-            son los valores.
-          </li>
-
-          <li>
-            Los dos puntos <code>:</code>
-            separan cada clave de su valor.
-          </li>
-
-          <li>
-            Las comas separan las propiedades.
-          </li>
-        </ul>
-
-        <h3>
-          Tipos de valores admitidos
-        </h3>
-
-        <p>
-          JSON admite los siguientes tipos de valores:
-        </p>
-
-        <div class="tabla-contenedor">
-
-          <table class="tabla-contenido">
-
-            <thead>
-              <tr>
-                <th>Tipo</th>
-                <th>Ejemplo JSON</th>
-                <th>Descripción</th>
-              </tr>
-            </thead>
-
-            <tbody>
-
-              <tr>
-                <td>Cadena</td>
-                <td><code>"Hola"</code></td>
-                <td>Texto entre comillas dobles.</td>
-              </tr>
-
-              <tr>
-                <td>Número</td>
-                <td><code>25.5</code></td>
-                <td>Valor numérico.</td>
-              </tr>
-
-              <tr>
-                <td>Booleano</td>
-                <td><code>true</code></td>
-                <td>Verdadero o falso.</td>
-              </tr>
-
-              <tr>
-                <td>Nulo</td>
-                <td><code>null</code></td>
-                <td>Ausencia de valor.</td>
-              </tr>
-
-              <tr>
-                <td>Objeto</td>
-                <td><code>{"id": 1}</code></td>
-                <td>Conjunto de pares clave-valor.</td>
-              </tr>
-
-              <tr>
-                <td>Array</td>
-                <td><code>[10, 20, 30]</code></td>
-                <td>Lista ordenada de valores.</td>
-              </tr>
-
-            </tbody>
-
-          </table>
-
-        </div>
-
-        <h3>
-          Objetos anidados
-        </h3>
-
-        <p>
-          Un valor JSON puede contener otro objeto.
-          Esto permite representar información
-          más compleja.
-        </p>
-
-        <div class="bloque-codigo">
-
-          <div class="cabecera-codigo">
-            <span>JSON</span>
-            <button class="boton-copiar" type="button">
-              📋 Copiar código
-            </button>
-          </div>
-
-          <pre><code>{
-  "id": 101,
-  "cliente": {
-    "nombre": "Ana",
-    "ciudad": "Zaragoza"
-  },
-  "total": 85.5
-}</code></pre>
-
-        </div>
-
-        <p>
-          En este caso, la propiedad
-          <code>"cliente"</code> contiene
-          otro objeto con dos propiedades:
-          <code>"nombre"</code> y
-          <code>"ciudad"</code>.
-        </p>
-
-        <h3>
-          Arrays de objetos
-        </h3>
-
-        <p>
-          También es frecuente utilizar arrays
-          para representar colecciones de datos.
-        </p>
-
-        <div class="bloque-codigo">
-
-          <div class="cabecera-codigo">
-            <span>JSON</span>
-            <button class="boton-copiar" type="button">
-              📋 Copiar código
-            </button>
-          </div>
-
-          <pre><code>[
-  {
-    "id": 1,
-    "nombre": "Ratón",
-    "precio": 15
-  },
-  {
-    "id": 2,
-    "nombre": "Teclado",
-    "precio": 30
-  }
-]</code></pre>
-
-        </div>
-
-        <p>
-          El valor JSON completo de este ejemplo
-          es un <strong>array</strong>
-          que contiene dos objetos.
-        </p>
-
-        <div class="caja-importante">
-
-          <strong>📌 Importante</strong>
-
-          <p>
-            Un texto JSON válido no tiene por qué
-            comenzar siempre con llaves.
-          </p>
-
-          <p>
-            También puede representar un array,
-            una cadena, un número,
-            un booleano o <code>null</code>.
-          </p>
-
-          <p>
-            Por ejemplo,
-            <code>[1, 2, 3]</code>,
-            <code>"Hola"</code> y
-            <code>25</code>
-            son valores JSON válidos.
-          </p>
-
-        </div>
-
-        <!-- ======================================
-             3. DIFERENCIAS CON JAVASCRIPT
-        ====================================== -->
-
-        <h2 id="diferencias">
-          Diferencias entre JSON y objetos JavaScript
-        </h2>
-
-        <p>
-          A primera vista, un objeto JavaScript
-          y un texto JSON pueden parecer prácticamente
-          iguales.
-        </p>
-
-        <p>
-          Sin embargo, existe una diferencia fundamental:
-          <strong>un objeto JavaScript es una estructura de datos
-          que podemos manipular directamente,
-          mientras que JSON es una representación textual
-          de datos</strong>.
-        </p>
-
-        <h3>
-          Objeto JavaScript
-        </h3>
-
-        <div class="bloque-codigo">
-
-          <div class="cabecera-codigo">
-            <span>JavaScript</span>
-            <button class="boton-copiar" type="button">
-              📋 Copiar código
-            </button>
-          </div>
-
-          <pre><code>const producto = {
-  nombre: "Monitor",
-  precio: 149.99,
-  disponible: true
-};
-
-console.log(producto.nombre);
-console.log(typeof producto);</code></pre>
-
-        </div>
-
-        <div class="salida-codigo">
-
-          <strong>Salida por consola:</strong>
-
-          <pre>Monitor
-object</pre>
-
-        </div>
-
-        <p>
-          La variable <code>producto</code>
-          contiene un objeto real de JavaScript.
-          Podemos acceder directamente
-          a sus propiedades utilizando
-          la notación de punto.
-        </p>
-
-        <h3>
-          Texto JSON
-        </h3>
-
-        <div class="bloque-codigo">
-
-          <div class="cabecera-codigo">
-            <span>JavaScript</span>
-            <button class="boton-copiar" type="button">
-              📋 Copiar código
-            </button>
-          </div>
-
-          <pre><code>const textoJSON =
-  '{"nombre":"Monitor","precio":149.99,"disponible":true}';
-
+  "modulos": ["DWEC", "DIW"]
+}</code></pre></div>
+<p>En este ejemplo, cada propiedad contiene una <strong>clave</strong> y un <strong>valor</strong>. Las claves se escriben entre comillas dobles y los valores pueden tener diferentes tipos.</p>
+<div class="caja caja-ejemplo"><span class="caja-titulo">💻 Ejemplo DAW</span><p>Una tienda online puede recibir un catálogo de productos en formato JSON y transformarlo en un array de objetos para mostrar los artículos en pantalla.</p></div>
+<h2 id="sintaxis">Sintaxis y estructura de JSON</h2>
+<p>En JSON las propiedades de un objeto se escriben entre llaves <code>{ }</code>, separando cada clave y valor con dos puntos. Los elementos de un array se escriben entre corchetes <code>[ ]</code>.</p>
+<div class="tabla-responsive"><table class="tabla-apuntes"><thead><tr><th>Tipo</th><th>Ejemplo JSON</th></tr></thead><tbody><tr><td>Cadena</td><td><code>"Hola"</code></td></tr><tr><td>Número</td><td><code>29.95</code></td></tr><tr><td>Booleano</td><td><code>true</code> o <code>false</code></td></tr><tr><td>Nulo</td><td><code>null</code></td></tr><tr><td>Objeto</td><td><code>{"id":1}</code></td></tr><tr><td>Array</td><td><code>[1,2,3]</code></td></tr></tbody></table></div>
+<p>Podemos anidar objetos y arrays para representar estructuras más complejas, como un pedido que contiene los datos del cliente y una lista de productos.</p>
+<div class="bloque-codigo"><div class="cabecera-codigo"><span class="lenguaje-codigo">JSON</span><button class="boton-copiar" type="button">📋 Copiar código</button></div><pre><code>{
+  "pedido": 105,
+  "cliente": {"nombre": "Ana", "ciudad": "Teruel"},
+  "productos": [
+    {"nombre": "Ratón", "precio": 15},
+    {"nombre": "Teclado", "precio": 30}
+  ]
+}</code></pre></div>
+<div class="caja caja-atencion"><span class="caja-titulo">⚠️ Atención</span><p>Las claves y las cadenas deben llevar <strong>comillas dobles</strong>. JSON no admite comentarios, funciones, <code>undefined</code> ni comas finales.</p></div>
+<h2 id="diferencias">Diferencias entre JSON y objetos JavaScript</h2>
+<p>Un objeto de JavaScript es una estructura que podemos consultar y modificar. Un texto JSON es una cadena que representa datos, pero no permite acceder directamente a sus propiedades.</p>
+<div class="bloque-codigo"><div class="cabecera-codigo"><span class="lenguaje-codigo">JavaScript</span><button class="boton-copiar" type="button">📋 Copiar código</button></div><pre><code>const producto = { nombre: "Monitor", precio: 150 };
+const textoJSON = '{"nombre":"Monitor","precio":150}';
+
+console.log(typeof producto);
 console.log(typeof textoJSON);
-console.log(textoJSON.nombre);</code></pre>
-
-        </div>
-
-        <div class="salida-codigo">
-
-          <strong>Salida por consola:</strong>
-
-          <pre>string
-undefined</pre>
-
-        </div>
-
-        <p>
-          En este segundo ejemplo,
-          <code>textoJSON</code> es una cadena.
-          Aunque su contenido representa
-          un objeto, JavaScript todavía
-          no lo ha convertido en uno.
-        </p>
-
-        <p>
-          Por eso, intentar consultar
-          <code>textoJSON.nombre</code>
-          devuelve <code>undefined</code>.
-        </p>
-
-        <h3>
-          Diferencias de sintaxis
-        </h3>
-
-        <div class="tabla-contenedor">
-
-          <table class="tabla-contenido">
-
-            <thead>
-              <tr>
-                <th>Característica</th>
-                <th>Objeto JavaScript</th>
-                <th>JSON</th>
-              </tr>
-            </thead>
-
-            <tbody>
-
-              <tr>
-                <td>Claves</td>
-                <td>Pueden escribirse sin comillas en muchos casos.</td>
-                <td>Siempre deben ir entre comillas dobles.</td>
-              </tr>
-
-              <tr>
-                <td>Cadenas</td>
-                <td>Admite comillas simples, dobles y plantillas literales.</td>
-                <td>Utiliza comillas dobles.</td>
-              </tr>
-
-              <tr>
-                <td>Funciones</td>
-                <td>Puede contener métodos.</td>
-                <td>No admite funciones.</td>
-              </tr>
-
-              <tr>
-                <td><code>undefined</code></td>
-                <td>Es un valor válido.</td>
-                <td>No está permitido.</td>
-              </tr>
-
-              <tr>
-                <td>Comentarios</td>
-                <td>Se admiten en el código.</td>
-                <td>No se admiten.</td>
-              </tr>
-
-              <tr>
-                <td>Coma final</td>
-                <td>Puede admitirse.</td>
-                <td>No está permitida.</td>
-              </tr>
-
-            </tbody>
-
-          </table>
-
-        </div>
-
-        <div class="caja-atencion">
-
-          <strong>⚠️ Atención</strong>
-
-          <p>
-            El siguiente fragmento es válido
-            como objeto JavaScript,
-            pero <strong>no es JSON válido</strong>:
-          </p>
-
-        </div>
-
-        <div class="bloque-codigo">
-
-          <div class="cabecera-codigo">
-            <span>JavaScript — No es JSON válido</span>
-            <button class="boton-copiar" type="button">
-              📋 Copiar código
-            </button>
-          </div>
-
-          <pre><code>{
-  nombre: 'Ana',
-  edad: 20,
-}</code></pre>
-
-        </div>
-
-        <p>
-          Para convertirlo en JSON válido
-          debemos utilizar comillas dobles
-          en las claves y las cadenas,
-          y eliminar la coma final.
-        </p>
-
-        <div class="bloque-codigo">
-
-          <div class="cabecera-codigo">
-            <span>JSON válido</span>
-            <button class="boton-copiar" type="button">
-              📋 Copiar código
-            </button>
-          </div>
-
-          <pre><code>{
-  "nombre": "Ana",
-  "edad": 20
-}</code></pre>
-
-        </div>
-
-        <!-- ======================================
-             4. JSON.STRINGIFY
-        ====================================== -->
-
-        <h2 id="stringify">
-          JSON.stringify()
-        </h2>
-
-        <p>
-          JavaScript incorpora el objeto
-          predefinido <code>JSON</code>,
-          que proporciona dos métodos
-          especialmente importantes:
-          <code>JSON.stringify()</code>
-          y <code>JSON.parse()</code>.
-        </p>
-
-        <p>
-          El método
-          <strong><code>JSON.stringify()</code></strong>
-          permite convertir un valor
-          de JavaScript en una cadena
-          que contiene su representación JSON.
-        </p>
-
-        <h3>
-          Convertir un objeto en texto JSON
-        </h3>
-
-        <div class="bloque-codigo">
-
-          <div class="cabecera-codigo">
-            <span>JavaScript</span>
-            <button class="boton-copiar" type="button">
-              📋 Copiar código
-            </button>
-          </div>
-
-          <pre><code>const alumno = {
-  nombre: "Carlos",
-  edad: 22,
-  matriculado: true
-};
-
-const textoJSON = JSON.stringify(alumno);
-
-console.log(textoJSON);
-console.log(typeof textoJSON);</code></pre>
-
-        </div>
-
-        <div class="salida-codigo">
-
-          <strong>Salida por consola:</strong>
-
-          <pre>{"nombre":"Carlos","edad":22,"matriculado":true}
-string</pre>
-
-        </div>
-
-        <p>
-          El objeto original contiene propiedades
-          a las que podemos acceder directamente.
-          Después de aplicar
-          <code>JSON.stringify()</code>,
-          obtenemos una <strong>cadena de texto</strong>.
-        </p>
-
-        <div class="caja-importante">
-
-          <strong>📌 Importante</strong>
-
-          <p>
-            <code>JSON.stringify()</code>
-            <strong>no modifica el objeto original</strong>.
-          </p>
-
-          <p>
-            Devuelve una nueva representación
-            textual de sus datos.
-          </p>
-
-        </div>
-
-        <h3>
-          Convertir un array en JSON
-        </h3>
-
-        <p>
-          Este método también puede utilizarse
-          con arrays.
-        </p>
-
-        <div class="bloque-codigo">
-
-          <div class="cabecera-codigo">
-            <span>JavaScript</span>
-            <button class="boton-copiar" type="button">
-              📋 Copiar código
-            </button>
-          </div>
-
-          <pre><code>const notas = [7, 8.5, 9, 6];
-
-const texto = JSON.stringify(notas);
+console.log(producto.nombre);
+console.log(textoJSON.nombre);</code></pre></div>
+<p><strong>Salida por consola:</strong></p><div class="bloque-codigo"><div class="cabecera-codigo"><span class="lenguaje-codigo">Consola</span><button class="boton-copiar" type="button">📋 Copiar código</button></div><pre><code>object
+string
+Monitor
+undefined</code></pre></div>
+<p>En JavaScript podemos escribir claves sin comillas y utilizar métodos; JSON exige comillas dobles en las claves y no representa funciones.</p>
+<h2 id="stringify">JSON.stringify()</h2>
+<p><code>JSON.stringify()</code> convierte un valor de JavaScript en su representación JSON como cadena. No modifica el objeto original.</p>
+<div class="bloque-codigo"><div class="cabecera-codigo"><span class="lenguaje-codigo">JavaScript</span><button class="boton-copiar" type="button">📋 Copiar código</button></div><pre><code>const alumno = { nombre: "Carlos", edad: 22, activo: true };
+const texto = JSON.stringify(alumno);
 
 console.log(texto);
-console.log(typeof texto);</code></pre>
-
-        </div>
-
-        <div class="salida-codigo">
-
-          <strong>Salida por consola:</strong>
-
-          <pre>[7,8.5,9,6]
-string</pre>
-
-        </div>
-
-        <h3>
-          Formatear JSON para facilitar su lectura
-        </h3>
-
-        <p>
-          De manera predeterminada,
-          <code>JSON.stringify()</code>
-          genera un texto compacto.
-        </p>
-
-        <p>
-          Si queremos obtener un resultado
-          más legible, podemos utilizar
-          su tercer argumento para indicar
-          el número de espacios de indentación.
-        </p>
-
-        <div class="bloque-codigo">
-
-          <div class="cabecera-codigo">
-            <span>JavaScript</span>
-            <button class="boton-copiar" type="button">
-              📋 Copiar código
-            </button>
-          </div>
-
-          <pre><code>const producto = {
-  id: 5,
-  nombre: "Portátil",
-  precio: 799
-};
-
-const texto = JSON.stringify(producto, null, 2);
-
-console.log(texto);</code></pre>
-
-        </div>
-
-        <div class="salida-codigo">
-
-          <strong>Salida por consola:</strong>
-
-          <pre>{
+console.log(typeof texto);</code></pre></div>
+<p><strong>Salida por consola:</strong></p><div class="bloque-codigo"><div class="cabecera-codigo"><span class="lenguaje-codigo">Consola</span><button class="boton-copiar" type="button">📋 Copiar código</button></div><pre><code>{"nombre":"Carlos","edad":22,"activo":true}
+string</code></pre></div>
+<p>Podemos utilizar el tercer argumento para presentar el texto con indentación. El segundo argumento permite indicar qué propiedades incluir.</p>
+<div class="bloque-codigo"><div class="cabecera-codigo"><span class="lenguaje-codigo">JavaScript</span><button class="boton-copiar" type="button">📋 Copiar código</button></div><pre><code>const producto = { id: 5, nombre: "Portátil", precio: 799 };
+console.log(JSON.stringify(producto, null, 2));
+console.log(JSON.stringify(producto, ["id", "nombre"]));</code></pre></div>
+<p><strong>Salida por consola:</strong></p><div class="bloque-codigo"><div class="cabecera-codigo"><span class="lenguaje-codigo">Consola</span><button class="boton-copiar" type="button">📋 Copiar código</button></div><pre><code>{
   "id": 5,
   "nombre": "Portátil",
   "precio": 799
-}</pre>
-
-        </div>
-
-        <p>
-          En esta llamada:
-        </p>
-
-        <ul>
-          <li>
-            <code>producto</code>
-            es el valor que queremos convertir.
-          </li>
-
-          <li>
-            <code>null</code>
-            indica que no estamos utilizando
-            un filtro de propiedades.
-          </li>
-
-          <li>
-            <code>2</code>
-            indica que queremos utilizar
-            dos espacios para la indentación.
-          </li>
-        </ul>
-
-        <h3>
-          Seleccionar propiedades
-        </h3>
-
-        <p>
-          El segundo argumento puede ser
-          un array que indique qué propiedades
-          queremos incluir en la conversión.
-        </p>
-
-        <div class="bloque-codigo">
-
-          <div class="cabecera-codigo">
-            <span>JavaScript</span>
-            <button class="boton-copiar" type="button">
-              📋 Copiar código
-            </button>
-          </div>
-
-          <pre><code>const usuario = {
-  id: 10,
-  nombre: "Laura",
-  correo: "laura@ejemplo.com",
-  activo: true
-};
-
-const texto = JSON.stringify(
-  usuario,
-  ["id", "nombre"]
-);
-
-console.log(texto);</code></pre>
-
-        </div>
-
-        <div class="salida-codigo">
-
-          <strong>Salida por consola:</strong>
-
-          <pre>{"id":10,"nombre":"Laura"}</pre>
-
-        </div>
-
-        <p>
-          En el resultado solamente aparecen
-          las propiedades <code>id</code>
-          y <code>nombre</code>.
-        </p>
-
-        <div class="caja-atencion">
-
-          <strong>⚠️ Atención</strong>
-
-          <p>
-            No todos los valores de JavaScript
-            pueden representarse directamente en JSON.
-          </p>
-
-          <p>
-            Por ejemplo, las funciones y los valores
-            <code>undefined</code> se omiten
-            cuando aparecen como propiedades
-            de un objeto.
-          </p>
-
-          <p>
-            Además, una estructura con referencias
-            circulares produce un error
-            al intentar convertirla mediante
-            <code>JSON.stringify()</code>.
-          </p>
-
-        </div>
-
-        <!-- ======================================
-             5. JSON.PARSE
-        ====================================== -->
-
-        <h2 id="parse">
-          JSON.parse()
-        </h2>
-
-        <p>
-          El método
-          <strong><code>JSON.parse()</code></strong>
-          realiza la operación contraria
-          a <code>JSON.stringify()</code>.
-        </p>
-
-        <p>
-          Recibe una cadena que contiene
-          un texto JSON válido
-          y devuelve el valor de JavaScript
-          correspondiente.
-        </p>
-
-        <h3>
-          Convertir texto JSON en un objeto
-        </h3>
-
-        <div class="bloque-codigo">
-
-          <div class="cabecera-codigo">
-            <span>JavaScript</span>
-            <button class="boton-copiar" type="button">
-              📋 Copiar código
-            </button>
-          </div>
-
-          <pre><code>const textoJSON =
-  '{"nombre":"Ana","edad":20,"activo":true}';
-
-const usuario = JSON.parse(textoJSON);
+}
+{"id":5,"nombre":"Portátil"}</code></pre></div>
+<div class="caja caja-atencion"><span class="caja-titulo">⚠️ Atención</span><p>Al convertir un objeto, las propiedades cuyo valor es <code>undefined</code> o una función se omiten. Los objetos <code>Date</code> se convierten habitualmente en cadenas ISO. Las referencias circulares provocan un error.</p></div>
+<h2 id="parse">JSON.parse()</h2>
+<p><code>JSON.parse()</code> interpreta una cadena con JSON válido y devuelve el valor de JavaScript correspondiente.</p>
+<div class="bloque-codigo"><div class="cabecera-codigo"><span class="lenguaje-codigo">JavaScript</span><button class="boton-copiar" type="button">📋 Copiar código</button></div><pre><code>const texto = '{"nombre":"Ana","edad":20,"activo":true}';
+const usuario = JSON.parse(texto);
 
 console.log(usuario.nombre);
 console.log(usuario.edad);
-console.log(typeof usuario);</code></pre>
-
-        </div>
-
-        <div class="salida-codigo">
-
-          <strong>Salida por consola:</strong>
-
-          <pre>Ana
+console.log(typeof usuario);</code></pre></div>
+<p><strong>Salida por consola:</strong></p><div class="bloque-codigo"><div class="cabecera-codigo"><span class="lenguaje-codigo">Consola</span><button class="boton-copiar" type="button">📋 Copiar código</button></div><pre><code>Ana
 20
-object</pre>
-
-        </div>
-
-        <p>
-          Ahora <code>usuario</code>
-          contiene un objeto de JavaScript.
-          Podemos acceder a sus propiedades
-          mediante la notación habitual.
-        </p>
-
-        <h3>
-          Convertir un array JSON
-        </h3>
-
-        <div class="bloque-codigo">
-
-          <div class="cabecera-codigo">
-            <span>JavaScript</span>
-            <button class="boton-copiar" type="button">
-              📋 Copiar código
-            </button>
-          </div>
-
-          <pre><code>const texto = '["HTML","CSS","JavaScript"]';
-
-const tecnologias = JSON.parse(texto);
-
-console.log(tecnologias[0]);
-console.log(tecnologias.length);
-console.log(Array.isArray(tecnologias));</code></pre>
-
-        </div>
-
-        <div class="salida-codigo">
-
-          <strong>Salida por consola:</strong>
-
-          <pre>HTML
-3
-true</pre>
-
-        </div>
-
-        <p>
-          El resultado es un array real.
-          Por tanto, podemos consultar
-          sus posiciones, su longitud
-          y utilizar sus métodos.
-        </p>
-
-        <h3>
-          Recorrer datos obtenidos de JSON
-        </h3>
-
-        <p>
-          En las aplicaciones web es habitual
-          recibir una colección de objetos
-          representada mediante JSON.
-        </p>
-
-        <div class="bloque-codigo">
-
-          <div class="cabecera-codigo">
-            <span>JavaScript</span>
-            <button class="boton-copiar" type="button">
-              📋 Copiar código
-            </button>
-          </div>
-
-          <pre><code>const textoJSON = `[
-  {"id":1,"nombre":"Ratón","precio":15},
-  {"id":2,"nombre":"Teclado","precio":30},
-  {"id":3,"nombre":"Monitor","precio":150}
-]`;
-
-const productos = JSON.parse(textoJSON);
-
-productos.forEach(producto => {
-  console.log(
-    `${producto.nombre}: ${producto.precio} €`
-  );
-});</code></pre>
-
-        </div>
-
-        <div class="salida-codigo">
-
-          <strong>Salida por consola:</strong>
-
-          <pre>Ratón: 15 €
-Teclado: 30 €
-Monitor: 150 €</pre>
-
-        </div>
-
-        <p>
-          Primero convertimos el texto JSON
-          en un array de objetos.
-          Después utilizamos
-          <code>forEach()</code>
-          para recorrer sus elementos.
-        </p>
-
-        <div class="caja-ejemplo">
-
-          <strong>💻 Ejemplo DAW</strong>
-
-          <p>
-            Cuando una aplicación realiza
-            una petición a un servidor,
-            puede recibir una respuesta
-            con información en formato JSON.
-          </p>
-
-          <p>
-            Una vez interpretados esos datos,
-            la aplicación puede mostrar
-            productos, usuarios, pedidos
-            o cualquier otra información
-            en la página web.
-          </p>
-
-          <p>
-            Más adelante estudiaremos
-            cómo obtener estos datos
-            mediante peticiones HTTP.
-          </p>
-
-        </div>
-
-        <h3>
-          Conversión de ida y vuelta
-        </h3>
-
-        <p>
-          Podemos combinar ambos métodos:
-          primero convertir un objeto en texto JSON
-          y después recuperar sus datos.
-        </p>
-
-        <div class="bloque-codigo">
-
-          <div class="cabecera-codigo">
-            <span>JavaScript</span>
-            <button class="boton-copiar" type="button">
-              📋 Copiar código
-            </button>
-          </div>
-
-          <pre><code>const pedido = {
-  numero: 105,
-  cliente: "Marta",
-  total: 59.9
-};
-
-const texto = JSON.stringify(pedido);
-
-const recuperado = JSON.parse(texto);
-
-console.log(recuperado.cliente);
-console.log(recuperado.total);
-console.log(recuperado === pedido);</code></pre>
-
-        </div>
-
-        <div class="salida-codigo">
-
-          <strong>Salida por consola:</strong>
-
-          <pre>Marta
-59.9
-false</pre>
-
-        </div>
-
-        <p>
-          El último resultado es
-          <code>false</code> porque
-          <code>JSON.parse()</code>
-          ha creado <strong>un objeto nuevo</strong>.
-        </p>
-
-        <p>
-          Aunque ambos objetos contienen
-          los mismos datos,
-          no son la misma referencia
-          en memoria.
-        </p>
-
-        <!-- ======================================
-             6. ERRORES Y PRECAUCIONES
-        ====================================== -->
-
-        <h2 id="errores">
-          Errores y precauciones
-        </h2>
-
-        <p>
-          Al trabajar con JSON debemos prestar
-          especial atención a su sintaxis
-          y a los tipos de datos que estamos
-          convirtiendo.
-        </p>
-
-        <h3>
-          Error por JSON no válido
-        </h3>
-
-        <p>
-          Si intentamos interpretar un texto
-          que no cumple las reglas de JSON,
-          <code>JSON.parse()</code>
-          produce un error de tipo
-          <code>SyntaxError</code>.
-        </p>
-
-        <div class="bloque-codigo">
-
-          <div class="cabecera-codigo">
-            <span>JavaScript — Ejemplo con error</span>
-            <button class="boton-copiar" type="button">
-              📋 Copiar código
-            </button>
-          </div>
-
-          <pre><code>const texto = "{nombre: 'Ana'}";
-
-const usuario = JSON.parse(texto);
-
-console.log(usuario.nombre);</code></pre>
-
-        </div>
-
-        <div class="salida-codigo">
-
-          <strong>Resultado esperado:</strong>
-
-          <pre>SyntaxError: ...</pre>
-
-          <p>
-            El mensaje exacto puede variar
-            según el navegador.
-          </p>
-
-        </div>
-
-        <p>
-          El problema es que el texto
-          no cumple la sintaxis JSON:
-          la clave no aparece entre comillas dobles
-          y la cadena utiliza comillas simples.
-        </p>
-
-        <h3>
-          Controlar errores con try...catch
-        </h3>
-
-        <p>
-          Cuando recibimos datos externos,
-          no debemos asumir que siempre
-          tendrán un formato correcto.
-        </p>
-
-        <p>
-          Podemos utilizar
-          <code>try...catch</code>
-          para controlar los errores
-          de conversión.
-        </p>
-
-        <div class="bloque-codigo">
-
-          <div class="cabecera-codigo">
-            <span>JavaScript</span>
-            <button class="boton-copiar" type="button">
-              📋 Copiar código
-            </button>
-          </div>
-
-          <pre><code>const texto = '{"nombre":"Ana","edad":20}';
+object</code></pre></div>
+<p>Si el JSON representa un array, el resultado será un array que podemos recorrer mediante <code>forEach()</code>, <code>map()</code> o <code>reduce()</code>.</p>
+<div class="bloque-codigo"><div class="cabecera-codigo"><span class="lenguaje-codigo">JavaScript</span><button class="boton-copiar" type="button">📋 Copiar código</button></div><pre><code>const texto = '[{"nombre":"Ratón","precio":15},{"nombre":"Teclado","precio":30}]';
+const productos = JSON.parse(texto);
+
+productos.forEach(producto =&gt; {
+  console.log(`${producto.nombre}: ${producto.precio} €`);
+});</code></pre></div>
+<p><strong>Salida por consola:</strong></p><div class="bloque-codigo"><div class="cabecera-codigo"><span class="lenguaje-codigo">Consola</span><button class="boton-copiar" type="button">📋 Copiar código</button></div><pre><code>Ratón: 15 €
+Teclado: 30 €</code></pre></div>
+<p>Al convertir un objeto mediante <code>JSON.stringify()</code> y recuperarlo con <code>JSON.parse()</code>, obtenemos una estructura nueva, no la misma referencia original.</p>
+<div class="bloque-codigo"><div class="cabecera-codigo"><span class="lenguaje-codigo">JavaScript</span><button class="boton-copiar" type="button">📋 Copiar código</button></div><pre><code>const original = { total: 50 };
+const copia = JSON.parse(JSON.stringify(original));
+console.log(original === copia);</code></pre></div>
+<p><strong>Salida por consola:</strong></p><div class="bloque-codigo"><div class="cabecera-codigo"><span class="lenguaje-codigo">Consola</span><button class="boton-copiar" type="button">📋 Copiar código</button></div><pre><code>false</code></pre></div>
+<h2 id="errores">Errores y precauciones</h2>
+<p>Cuando el texto no cumple la sintaxis JSON, <code>JSON.parse()</code> lanza un <code>SyntaxError</code>. Conviene controlar esta posibilidad con <code>try...catch</code>.</p>
+<div class="bloque-codigo"><div class="cabecera-codigo"><span class="lenguaje-codigo">JavaScript</span><button class="boton-copiar" type="button">📋 Copiar código</button></div><pre><code>const texto = "{nombre: 'Ana'}";
 
 try {
-
   const usuario = JSON.parse(texto);
-
-  console.log("Datos correctos");
   console.log(usuario.nombre);
-
 } catch (error) {
+  console.log("El texto no contiene JSON válido");
+}</code></pre></div>
+<p><strong>Salida por consola:</strong></p><div class="bloque-codigo"><div class="cabecera-codigo"><span class="lenguaje-codigo">Consola</span><button class="boton-copiar" type="button">📋 Copiar código</button></div><pre><code>El texto no contiene JSON válido</code></pre></div>
+<p>Que el texto sea JSON válido no significa que sus datos sean correctos para la aplicación. Después de convertirlo debemos comprobar las propiedades y sus tipos.</p>
+<div class="bloque-codigo"><div class="cabecera-codigo"><span class="lenguaje-codigo">JavaScript</span><button class="boton-copiar" type="button">📋 Copiar código</button></div><pre><code>const texto = '{"nombre":"Monitor","precio":"caro"}';
+const producto = JSON.parse(texto);
 
-  console.log("El JSON no es válido");
-
-}</code></pre>
-
-        </div>
-
-        <div class="salida-codigo">
-
-          <strong>Salida por consola:</strong>
-
-          <pre>Datos correctos
-Ana</pre>
-
-        </div>
-
-        <p>
-          Si sustituimos el contenido de
-          <code>texto</code> por un JSON
-          incorrecto, se ejecutará
-          el bloque <code>catch</code>.
-        </p>
-
-        <div class="caja-importante">
-
-          <strong>📌 Importante</strong>
-
-          <p>
-            <code>try...catch</code>
-            permite controlar un error
-            de sintaxis durante la conversión.
-          </p>
-
-          <p>
-            Sin embargo, que un JSON sea válido
-            <strong>no garantiza que contenga
-            los datos que nuestra aplicación espera</strong>.
-          </p>
-
-          <p>
-            También debemos comprobar
-            que las propiedades necesarias
-            existen y tienen los tipos adecuados.
-          </p>
-
-        </div>
-
-        <h3>
-          Pérdida o transformación de información
-        </h3>
-
-        <p>
-          La conversión a JSON no conserva
-          necesariamente todos los tipos
-          y características de un objeto
-          de JavaScript.
-        </p>
-
-        <p>
-          Observa el siguiente ejemplo:
-        </p>
-
-        <div class="bloque-codigo">
-
-          <div class="cabecera-codigo">
-            <span>JavaScript</span>
-            <button class="boton-copiar" type="button">
-              📋 Copiar código
-            </button>
-          </div>
-
-          <pre><code>const datos = {
-  nombre: "Ana",
-  telefono: undefined,
-  fecha: new Date("2026-10-28T10:00:00Z"),
-  saludar: function() {
-    return "Hola";
-  }
-};
-
-const texto = JSON.stringify(datos);
-
-console.log(texto);</code></pre>
-
-        </div>
-
-        <div class="salida-codigo">
-
-          <strong>Salida por consola:</strong>
-
-          <pre>{"nombre":"Ana","fecha":"2026-10-28T10:00:00.000Z"}</pre>
-
-        </div>
-
-        <p>
-          Podemos observar que:
-        </p>
-
-        <ul>
-          <li>
-            La propiedad <code>telefono</code>
-            se ha omitido porque contiene
-            <code>undefined</code>.
-          </li>
-
-          <li>
-            El método <code>saludar</code>
-            también se ha omitido.
-          </li>
-
-          <li>
-            La fecha se ha convertido
-            en una cadena con formato ISO.
-          </li>
-        </ul>
-
-        <p>
-          Si posteriormente utilizamos
-          <code>JSON.parse()</code>,
-          la fecha se recuperará como
-          una cadena, no como un objeto
-          <code>Date</code>.
-        </p>
-
-        <div class="caja-atencion">
-
-          <strong>⚠️ Atención</strong>
-
-          <p>
-            JSON no debe utilizarse
-            como un mecanismo para ejecutar
-            código recibido de otros sistemas.
-          </p>
-
-          <p>
-            Para interpretar datos JSON
-            debemos utilizar
-            <code>JSON.parse()</code>,
-            <strong>nunca <code>eval()</code></strong>.
-          </p>
-
-          <p>
-            Además, los datos recibidos
-            deben validarse antes de utilizarlos
-            en operaciones sensibles
-            o incorporarlos a una página web.
-          </p>
-
-        </div>
-
-        <!-- ======================================
-             7. EJEMPLOS PRÁCTICOS
-        ====================================== -->
-
-        <h2 id="ejemplos">
-          Ejemplos prácticos
-        </h2>
-
-        <p>
-          Vamos a aplicar los métodos
-          del objeto <code>JSON</code>
-          a situaciones habituales
-          en el desarrollo de aplicaciones web.
-        </p>
-
-        <h3>
-          Ejemplo 1. Preparar los datos de un pedido
-        </h3>
-
-        <p>
-          Una tienda online necesita preparar
-          la información de un pedido
-          para enviarla a un servidor.
-        </p>
-
-        <div class="bloque-codigo">
-
-          <div class="cabecera-codigo">
-            <span>JavaScript</span>
-            <button class="boton-copiar" type="button">
-              📋 Copiar código
-            </button>
-          </div>
-
-          <pre><code>const pedido = {
+if (typeof producto.precio === "number" &amp;&amp; Number.isFinite(producto.precio)) {
+  console.log("Precio válido");
+} else {
+  console.log("Precio incorrecto");
+}</code></pre></div>
+<p><strong>Salida por consola:</strong></p><div class="bloque-codigo"><div class="cabecera-codigo"><span class="lenguaje-codigo">Consola</span><button class="boton-copiar" type="button">📋 Copiar código</button></div><pre><code>Precio incorrecto</code></pre></div>
+<div class="caja caja-importante"><span class="caja-titulo">📌 Importante</span><p>Para interpretar JSON utiliza <code>JSON.parse()</code>, nunca <code>eval()</code>. Valida siempre los datos recibidos antes de incorporarlos a una página o realizar operaciones con ellos.</p></div>
+<h2 id="ejemplos">Ejemplos prácticos</h2>
+<h3>Ejemplo 1. Preparar un pedido para enviarlo al servidor</h3>
+<p>Una tienda puede convertir los datos de un pedido en texto JSON antes de enviarlos en una petición HTTP.</p>
+<div class="bloque-codigo"><div class="cabecera-codigo"><span class="lenguaje-codigo">JavaScript</span><button class="boton-copiar" type="button">📋 Copiar código</button></div><pre><code>const pedido = {
   id: 250,
   cliente: "Lucía",
   productos: [
-    {
-      nombre: "Ratón",
-      cantidad: 2,
-      precio: 15
-    },
-    {
-      nombre: "Teclado",
-      cantidad: 1,
-      precio: 30
-    }
+    { nombre: "Ratón", cantidad: 2, precio: 15 },
+    { nombre: "Teclado", cantidad: 1, precio: 30 }
   ]
 };
 
 const textoJSON = JSON.stringify(pedido);
-
-console.log(textoJSON);</code></pre>
-
-        </div>
-
-        <div class="salida-codigo">
-
-          <strong>Salida por consola:</strong>
-
-          <pre>{"id":250,"cliente":"Lucía","productos":[{"nombre":"Ratón","cantidad":2,"precio":15},{"nombre":"Teclado","cantidad":1,"precio":30}]}</pre>
-
-        </div>
-
-        <p>
-          La variable <code>textoJSON</code>
-          contiene una cadena que representa
-          toda la estructura del pedido.
-        </p>
-
-        <p>
-          Este formato puede utilizarse
-          como cuerpo de una petición HTTP,
-          siempre que se configure
-          correctamente la petición.
-        </p>
-
-        <h3>
-          Ejemplo 2. Recuperar y calcular el total de un pedido
-        </h3>
-
-        <p>
-          Supongamos que recibimos un texto JSON
-          con los productos de un pedido.
-          Queremos convertirlo en un array
-          y calcular su importe total.
-        </p>
-
-        <div class="bloque-codigo">
-
-          <div class="cabecera-codigo">
-            <span>JavaScript</span>
-            <button class="boton-copiar" type="button">
-              📋 Copiar código
-            </button>
-          </div>
-
-          <pre><code>const textoJSON = `[
-  {"nombre":"Ratón","cantidad":2,"precio":15},
-  {"nombre":"Teclado","cantidad":1,"precio":30},
-  {"nombre":"Alfombrilla","cantidad":3,"precio":5}
-]`;
-
-const productos = JSON.parse(textoJSON);
+console.log(textoJSON);</code></pre></div>
+<p><strong>Salida por consola:</strong></p><div class="bloque-codigo"><div class="cabecera-codigo"><span class="lenguaje-codigo">Consola</span><button class="boton-copiar" type="button">📋 Copiar código</button></div><pre><code>{"id":250,"cliente":"Lucía","productos":[{"nombre":"Ratón","cantidad":2,"precio":15},{"nombre":"Teclado","cantidad":1,"precio":30}]}</code></pre></div>
+<h3>Ejemplo 2. Calcular el total de un pedido recibido</h3>
+<div class="bloque-codigo"><div class="cabecera-codigo"><span class="lenguaje-codigo">JavaScript</span><button class="boton-copiar" type="button">📋 Copiar código</button></div><pre><code>const texto = '[{"cantidad":2,"precio":15},{"cantidad":1,"precio":30},{"cantidad":3,"precio":5}]';
+const productos = JSON.parse(texto);
 
 const total = productos.reduce(
-  (acumulado, producto) => {
-    return acumulado +
-      producto.cantidad * producto.precio;
-  },
+  (suma, producto) =&gt; suma + producto.cantidad * producto.precio,
   0
 );
 
-console.log(`Total del pedido: ${total} €`);</code></pre>
-
-        </div>
-
-        <div class="salida-codigo">
-
-          <strong>Salida por consola:</strong>
-
-          <pre>Total del pedido: 75 €</pre>
-
-        </div>
-
-        <p>
-          El programa convierte el texto JSON
-          en un array de objetos y utiliza
-          <code>reduce()</code> para sumar
-          el importe de cada producto.
-        </p>
-
-        <h3>
-          Ejemplo 3. Guardar y recuperar preferencias
-        </h3>
-
-        <p>
-          Una aplicación web puede necesitar
-          conservar algunas preferencias
-          del usuario, como el tema visual
-          o el idioma seleccionado.
-        </p>
-
-        <p>
-          El almacenamiento del navegador
-          trabaja con cadenas de texto.
-          Por eso, JSON resulta especialmente útil
-          para guardar objetos.
-        </p>
-
-        <div class="bloque-codigo">
-
-          <div class="cabecera-codigo">
-            <span>JavaScript — Ejecutar en el navegador</span>
-            <button class="boton-copiar" type="button">
-              📋 Copiar código
-            </button>
-          </div>
-
-          <pre><code>const preferencias = {
-  tema: "oscuro",
-  idioma: "es",
-  notificaciones: true
-};
-
-// Guardar preferencias como texto
-localStorage.setItem(
-  "preferencias",
-  JSON.stringify(preferencias)
-);
-
-// Recuperar el texto almacenado
-const textoGuardado =
-  localStorage.getItem("preferencias");
-
-// Convertirlo de nuevo en un objeto
-const preferenciasRecuperadas =
-  JSON.parse(textoGuardado);
-
-console.log(preferenciasRecuperadas.tema);
-console.log(preferenciasRecuperadas.idioma);</code></pre>
-
-        </div>
-
-        <div class="salida-codigo">
-
-          <strong>Salida por consola:</strong>
-
-          <pre>oscuro
-es</pre>
-
-        </div>
-
-        <p>
-          En este ejemplo hemos utilizado
-          <code>localStorage</code>,
-          una herramienta del navegador
-          que estudiaremos con más detalle
-          en el apartado 7.13.
-        </p>
-
-        <p>
-          Por ahora, lo importante es comprender
-          el proceso:
-        </p>
-
-        <ol>
-          <li>
-            Creamos un objeto JavaScript.
-          </li>
-
-          <li>
-            Lo convertimos en texto mediante
-            <code>JSON.stringify()</code>.
-          </li>
-
-          <li>
-            Guardamos la cadena.
-          </li>
-
-          <li>
-            Recuperamos el texto almacenado.
-          </li>
-
-          <li>
-            Lo convertimos en un objeto mediante
-            <code>JSON.parse()</code>.
-          </li>
-        </ol>
-
-        <div class="caja-atencion">
-
-          <strong>⚠️ Atención</strong>
-
-          <p>
-            <code>localStorage</code>
-            debe utilizarse desde un entorno
-            de navegador que permita acceder
-            a este almacenamiento.
-          </p>
-
-          <p>
-            Además, no es adecuado
-            para guardar contraseñas,
-            claves privadas ni otros
-            datos sensibles.
-          </p>
-
-        </div>
-
-        <h3>
-          Ejemplo 4. Validar datos después de convertir JSON
-        </h3>
-
-        <p>
-          Aunque un texto JSON sea correcto,
-          sus datos podrían no tener
-          el formato esperado.
-        </p>
-
-        <p>
-          Por ejemplo, imaginemos que esperamos
-          recibir un producto con un nombre
-          y un precio numérico.
-        </p>
-
-        <div class="bloque-codigo">
-
-          <div class="cabecera-codigo">
-            <span>JavaScript</span>
-            <button class="boton-copiar" type="button">
-              📋 Copiar código
-            </button>
-          </div>
-
-          <pre><code>const textoJSON =
-  '{"nombre":"Monitor","precio":"ciento cincuenta"}';
-
-try {
-
-  const producto = JSON.parse(textoJSON);
-
-  if (
-    typeof producto.nombre === "string" &&
-    typeof producto.precio === "number" &&
-    Number.isFinite(producto.precio)
-  ) {
-
-    console.log("Producto válido");
-
-  } else {
-
-    console.log("Datos del producto incorrectos");
-
-  }
-
-} catch (error) {
-
-  console.log("JSON incorrecto");
-
-}</code></pre>
-
-        </div>
-
-        <div class="salida-codigo">
-
-          <strong>Salida por consola:</strong>
-
-          <pre>Datos del producto incorrectos</pre>
-
-        </div>
-
-        <p>
-          El texto JSON es válido,
-          por lo que <code>JSON.parse()</code>
-          no produce ningún error.
-        </p>
-
-        <p>
-          Sin embargo, la propiedad
-          <code>precio</code> contiene
-          una cadena en lugar de un número.
-          Por eso, la validación detecta
-          que los datos no son adecuados
-          para nuestra aplicación.
-        </p>
-
-        <!-- ======================================
-             PIENSA
-        ====================================== -->
-
-        <div class="actividad-reflexion">
-
-          <h3>
-            💭 Piensa
-          </h3>
-
-          <p>
-            Observa el siguiente programa
-            <strong>sin ejecutarlo</strong>
-            e intenta responder a las preguntas.
-          </p>
-
-          <div class="bloque-codigo">
-
-            <div class="cabecera-codigo">
-              <span>JavaScript</span>
-              <button class="boton-copiar" type="button">
-                📋 Copiar código
-              </button>
-            </div>
-
-            <pre><code>const producto = {
-  nombre: "Monitor",
-  precio: 150,
-  disponible: true
-};
-
+console.log(`Total del pedido: ${total} €`);</code></pre></div>
+<p><strong>Salida por consola:</strong></p><div class="bloque-codigo"><div class="cabecera-codigo"><span class="lenguaje-codigo">Consola</span><button class="boton-copiar" type="button">📋 Copiar código</button></div><pre><code>Total del pedido: 75 €</code></pre></div>
+<h3>Ejemplo 3. Guardar preferencias en el navegador</h3>
+<p>El almacenamiento del navegador guarda cadenas. Por eso podemos utilizar JSON para conservar un objeto con las preferencias del usuario.</p>
+<div class="bloque-codigo"><div class="cabecera-codigo"><span class="lenguaje-codigo">JavaScript</span><button class="boton-copiar" type="button">📋 Copiar código</button></div><pre><code>const preferencias = { tema: "oscuro", idioma: "es" };
+
+localStorage.setItem("preferencias", JSON.stringify(preferencias));
+
+const texto = localStorage.getItem("preferencias");
+const recuperadas = JSON.parse(texto);
+
+console.log(recuperadas.tema);
+console.log(recuperadas.idioma);</code></pre></div>
+<p><strong>Salida por consola:</strong></p><div class="bloque-codigo"><div class="cabecera-codigo"><span class="lenguaje-codigo">Consola</span><button class="boton-copiar" type="button">📋 Copiar código</button></div><pre><code>oscuro
+es</code></pre></div>
+<div class="caja caja-ejemplo"><span class="caja-titulo">💻 Ejemplo DAW</span><p>En el apartado 7.13 estudiaremos <code>localStorage</code> con más detalle. No debe utilizarse para almacenar contraseñas o datos sensibles.</p></div>
+<div class="actividad-reflexion"><h3>💭 Piensa</h3><p>Observa el programa sin ejecutarlo. ¿Qué valores se mostrarán? ¿Se modifica el objeto original? ¿Qué ocurriría si escribiéramos <code>const copia = producto;</code>?</p><div class="bloque-codigo"><div class="cabecera-codigo"><span class="lenguaje-codigo">JavaScript</span><button class="boton-copiar" type="button">📋 Copiar código</button></div><pre><code>const producto = { nombre: "Monitor", precio: 150 };
 const texto = JSON.stringify(producto);
-
 const copia = JSON.parse(texto);
-
 copia.precio = 120;
 
 console.log(typeof texto);
 console.log(producto.precio);
 console.log(copia.precio);
-console.log(producto === copia);</code></pre>
-
-          </div>
-
-          <ol>
-            <li>
-              ¿Qué tipo de dato contiene
-              la variable <code>texto</code>?
-            </li>
-
-            <li>
-              ¿Qué valor mostrará
-              <code>producto.precio</code>?
-            </li>
-
-            <li>
-              ¿Qué valor mostrará
-              <code>copia.precio</code>?
-            </li>
-
-            <li>
-              ¿Por qué la comparación
-              <code>producto === copia</code>
-              devuelve el resultado que devuelve?
-            </li>
-
-            <li>
-              ¿Qué diferencia habría si,
-              en lugar de utilizar JSON,
-              hubiéramos escrito
-              <code>const copia = producto;</code>?
-            </li>
-          </ol>
-
-          <details class="solucion-desplegable">
-
-            <summary>
-              Ver una posible solución
-            </summary>
-
-            <div class="contenido-solucion">
-
-              <p>
-                <strong>1.</strong>
-                La variable <code>texto</code>
-                contiene una cadena,
-                porque <code>JSON.stringify()</code>
-                devuelve texto JSON.
-              </p>
-
-              <p>
-                <strong>2.</strong>
-                <code>producto.precio</code>
-                sigue valiendo <code>150</code>.
-              </p>
-
-              <p>
-                <strong>3.</strong>
-                <code>copia.precio</code>
-                vale <code>120</code>,
-                porque hemos modificado
-                la propiedad de ese objeto.
-              </p>
-
-              <p>
-                <strong>4.</strong>
-                La comparación devuelve
-                <code>false</code>.
-                <code>JSON.parse()</code>
-                crea un nuevo objeto
-                que tiene una referencia
-                distinta de la original.
-              </p>
-
-              <p>
-                <strong>5.</strong>
-                Si escribiéramos
-                <code>const copia = producto;</code>,
-                ambas variables apuntarían
-                al mismo objeto.
-              </p>
-
-              <p>
-                En ese caso, cambiar
-                <code>copia.precio</code>
-                también afectaría al valor
-                observado mediante
-                <code>producto.precio</code>.
-              </p>
-
-              <p>
-                <strong>Salida del programa original:</strong>
-              </p>
-
-              <div class="salida-codigo">
-
-                <pre>string
+console.log(producto === copia);</code></pre></div><details class="solucion-desplegable"><summary>Ver una posible solución</summary><div class="contenido-solucion"><p><code>texto</code> es una cadena. <code>copia</code> es un objeto nuevo, por lo que cambiar su precio no modifica el objeto original. Si utilizáramos <code>const copia = producto;</code>, ambas variables compartirían la misma referencia.</p><p><strong>Salida por consola:</strong></p><div class="bloque-codigo"><div class="cabecera-codigo"><span class="lenguaje-codigo">Consola</span><button class="boton-copiar" type="button">📋 Copiar código</button></div><pre><code>string
 150
 120
-false</pre>
-
-              </div>
-
-              <p>
-                Este ejemplo permite comprobar
-                que convertir un objeto a JSON
-                y recuperarlo genera
-                una nueva estructura de datos.
-              </p>
-
-            </div>
-
-          </details>
-
-        </div>
-
-        <!-- ======================================
-             CIERRE DEL APARTADO
-        ====================================== -->
-
-        <p>
-          Con el objeto <code>JSON</code>
-          hemos aprendido a representar
-          datos estructurados en formato de texto
-          y a convertirlos entre JSON
-          y los valores de JavaScript.
-        </p>
-
-        <p>
-          Estas operaciones son fundamentales
-          en el desarrollo web, especialmente
-          cuando necesitamos intercambiar
-          información con un servidor
-          o guardar datos de una aplicación.
-        </p>
-
-        <p>
-          En el siguiente apartado
-          comenzaremos a estudiar el
-          <strong>modelo de objetos del navegador (BOM)</strong>,
-          que permite acceder a determinadas
-          características y funcionalidades
-          del entorno en el que se ejecuta
-          nuestra aplicación web.
-        </p>
-
-      </article>
-
-      <!-- ======================================
-           NAVEGACIÓN INFERIOR
-      ====================================== -->
-
-      <nav
-        class="navegacion-paginas"
-        aria-label="Navegación entre apartados"
-      >
-
-        <a
-          class="nav-pagina nav-anterior"
-          href="../7-5/index.html"
-        >
-
-          <span class="nav-etiqueta">
-            Anterior
-          </span>
-
-          <strong>
-            ‹ 7.5 Objeto RegExp y expresiones regulares
-          </strong>
-
-        </a>
-
-        <a
-          class="nav-pagina nav-siguiente"
-          href="../7-7/index.html"
-        >
-
-          <span class="nav-etiqueta">
-            Siguiente
-          </span>
-
-          <strong>
-            7.7 Introducción al BOM: estructura y características ›
-          </strong>
-
-        </a>
-
-      </nav>
-
-    </main>
-
-    <!-- ==========================================
-         ÍNDICE DERECHO
+false</code></pre></div></div></details></div>
+<p>En el siguiente apartado comenzaremos a estudiar el <strong>modelo de objetos del navegador (BOM)</strong>, que permite acceder a distintas características del entorno del navegador.</p></article>
+<!-- ==========================================
+           NAVEGACIÓN
+      ========================================== -->
+<nav class="navegacion-paginas">
+<a class="nav-pagina nav-anterior" href="../7-5/index.html">Anterior ‹ 7.5 Objeto RegExp y expresiones regulares</a>
+<a class="nav-pagina nav-siguiente" href="../7-7/index.html">Siguiente 7.7 Introducción al BOM: estructura y características ›</a>
+</nav>
+</main>
+<!-- ==========================================
+         COLUMNA DERECHA
     ========================================== -->
-
-    <aside class="indice-derecho">
-
-      <h2>
+<aside class="indice-derecho">
+<h2>
         Contenidos del apartado
       </h2>
-
-      <ul>
-
-        <li>
-          <a href="#concepto">
-            Qué es JSON
-          </a>
-        </li>
-
-        <li>
-          <a href="#sintaxis">
-            Sintaxis y estructura de JSON
-          </a>
-        </li>
-
-        <li>
-          <a href="#diferencias">
-            Diferencias entre JSON y objetos JavaScript
-          </a>
-        </li>
-
-        <li>
-          <a href="#stringify">
-            JSON.stringify()
-          </a>
-        </li>
-
-        <li>
-          <a href="#parse">
-            JSON.parse()
-          </a>
-        </li>
-
-        <li>
-          <a href="#errores">
-            Errores y precauciones
-          </a>
-        </li>
-
-        <li>
-          <a href="#ejemplos">
-            Ejemplos prácticos
-          </a>
-        </li>
-
-      </ul>
-
-    </aside>
-
-  </div>
-
-  <!-- ==========================================
+<ul><li><a href="#concepto">Qué es JSON</a></li><li><a href="#sintaxis">Sintaxis y estructura de JSON</a></li><li><a href="#diferencias">Diferencias entre JSON y objetos JavaScript</a></li><li><a href="#stringify">JSON.stringify()</a></li><li><a href="#parse">JSON.parse()</a></li><li><a href="#errores">Errores y precauciones</a></li><li><a href="#ejemplos">Ejemplos prácticos</a></li></ul>
+</aside>
+</div>
+<!-- ==========================================
        PIE DE PÁGINA
   ========================================== -->
-
-  <footer class="footer">
-
-    <p>
+<footer class="footer">
+<p>
 
       Material elaborado por
       <strong>Eva Ballestero Cubeles</strong>
@@ -3023,34 +1030,16 @@ false</pre>
       <span class="licencia">
         CC BY-NC-SA 4.0
       </span>
-
-      <a
-        class="enlace-licencia"
-        href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.es"
-        target="_blank"
-        rel="license noopener noreferrer"
-        aria-label="Licencia Creative Commons BY-NC-SA 4.0"
-      >
-
-        <img
-          class="icono-licencia"
-          src="../../../img/licencias/cc-by-nc-sa.png"
-          alt="Licencia Creative Commons BY-NC-SA 4.0"
-        >
-
-      </a>
-
-    </p>
-
-  </footer>
-
-  <!-- ==========================================
+<a aria-label="Licencia Creative Commons BY-NC-SA 4.0" class="enlace-licencia" href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.es" rel="license noopener noreferrer" target="_blank">
+<img alt="Licencia Creative Commons BY-NC-SA 4.0" class="icono-licencia" src="../../../img/licencias/cc-by-nc-sa.png"/>
+</a>
+</p>
+</footer>
+<!-- ==========================================
        JAVASCRIPT
   ========================================== -->
-
-  <script src="../../../js/modulos.js"></script>
-
-  <script>
+<script src="../../../js/modulos.js"></script>
+<script>
 
     /* ==========================================
        MENÚ SUPERIOR
@@ -3071,8 +1060,15 @@ false</pre>
 
         const enlace = document.createElement("a");
 
-        enlace.href = modulo.enlace || "#";
-        enlace.textContent = modulo.nombre;
+        enlace.href =
+          `../../../${modulo.carpeta}/index.html`;
+
+        enlace.textContent = modulo.siglas;
+        enlace.title = modulo.nombre;
+
+        if (modulo.siglas === "DWEC") {
+          enlace.style.color = "var(--verde-principal)";
+        }
 
         menuModulos.appendChild(enlace);
 
@@ -3084,63 +1080,38 @@ false</pre>
        MODO OSCURO
     ========================================== */
 
-    function aplicarTema(tema) {
+    const temaGuardado =
+      localStorage.getItem("tema");
 
-      const oscuro = tema === "oscuro";
+    if (temaGuardado === "oscuro") {
 
-      document.body.classList.toggle(
-        "modo-oscuro",
-        oscuro
-      );
-
-      document.documentElement.classList.toggle(
-        "modo-oscuro",
-        oscuro
-      );
-
-      if (botonTema) {
-
-        botonTema.textContent =
-          oscuro ? "☀️" : "🌙";
-
-      }
+      document.body.classList.add("modo-oscuro");
+      botonTema.textContent = "🌙";
 
     }
 
-    aplicarTema(
-      localStorage.getItem("tema") || "claro"
-    );
+    botonTema.addEventListener("click", () => {
 
-    if (botonTema) {
+      document.body.classList.toggle("modo-oscuro");
 
-      botonTema.addEventListener("click", () => {
+      const estaOscuro =
+        document.body.classList.contains("modo-oscuro");
 
-        const temaActual =
-          document.body.classList.contains("modo-oscuro")
-            ? "oscuro"
-            : "claro";
+      botonTema.textContent =
+        estaOscuro ? "🌙" : "☀️";
 
-        const nuevoTema =
-          temaActual === "oscuro"
-            ? "claro"
-            : "oscuro";
+      localStorage.setItem(
+        "tema",
+        estaOscuro ? "oscuro" : "claro"
+      );
 
-        localStorage.setItem(
-          "tema",
-          nuevoTema
-        );
-
-        aplicarTema(nuevoTema);
-
-      });
-
-    }
+    });
 
     /* ==========================================
-       DATOS DE LOS APARTADOS DE UT7
+       DATOS DE LOS APARTADOS ANTERIORES
     ========================================== */
 
-    const apartadosUT7 = [
+    const apartadosAnteriores = [
 
       {
         numero: "7.1",
@@ -3148,10 +1119,11 @@ false</pre>
         carpeta: "7-1",
         secciones: [
           ["concepto", "Qué son los objetos predefinidos"],
-          ["utilidad", "Utilidad de los objetos predefinidos"],
-          ["clasificacion", "Clasificación de los objetos"],
+          ["utilidad", "Para qué sirven"],
+          ["clasificacion", "Clasificación de los objetos predefinidos"],
+          ["nativos-navegador", "Objetos nativos y objetos del navegador"],
           ["acceso", "Acceso a propiedades y métodos"],
-          ["ejemplos", "Ejemplos prácticos"]
+          ["ejemplo", "Primer ejemplo práctico"]
         ]
       },
 
@@ -3160,11 +1132,12 @@ false</pre>
         titulo: "Objetos String y Number",
         carpeta: "7-2",
         secciones: [
-          ["string", "Objeto String"],
-          ["propiedades", "Propiedades de String"],
-          ["metodos", "Métodos de String"],
-          ["number", "Objeto Number"],
-          ["conversion", "Conversión de datos numéricos"],
+          ["string", "El objeto String"],
+          ["metodos-string", "Métodos de String"],
+          ["busqueda", "Búsqueda y transformación de cadenas"],
+          ["number", "El objeto Number"],
+          ["metodos-number", "Métodos de Number"],
+          ["conversion", "Conversión y comprobación de valores"],
           ["ejemplos", "Ejemplos prácticos"]
         ]
       },
@@ -3178,7 +1151,7 @@ false</pre>
           ["constantes", "Constantes matemáticas"],
           ["redondeo", "Métodos de redondeo"],
           ["operaciones", "Operaciones matemáticas"],
-          ["aleatorios", "Números aleatorios"],
+          ["aleatorios", "Generación de números aleatorios"],
           ["ejemplos", "Ejemplos prácticos"]
         ]
       },
@@ -3196,22 +1169,15 @@ false</pre>
           ["formato", "Formato de fechas"],
           ["ejemplos", "Ejemplos prácticos"]
         ]
-      },
+      }
 
-      {
-        numero: "7.5",
-        titulo: "Objeto RegExp y expresiones regulares",
-        carpeta: "7-5",
-        secciones: [
-          ["concepto", "Qué es una expresión regular"],
-          ["sintaxis", "Sintaxis de los patrones"],
-          ["caracteres", "Caracteres especiales"],
-          ["cuantificadores", "Cuantificadores"],
-          ["modificadores", "Modificadores"],
-          ["metodos", "Métodos test(), exec() y match()"],
-          ["ejemplos", "Ejemplos prácticos"]
-        ]
-      },
+    ];
+
+    /* ==========================================
+       DATOS DE LOS APARTADOS POSTERIORES
+    ========================================== */
+
+    const apartadosUT7 = [
 
       {
         numero: "7.6",
@@ -3261,9 +1227,9 @@ false</pre>
         titulo: "Gestión de ventanas y temporizadores",
         carpeta: "7-9",
         secciones: [
-          ["ventanas", "Apertura y cierre de ventanas"],
-          ["open", "Método window.open()"],
-          ["close", "Método window.close()"],
+          ["abrir", "Apertura de ventanas"],
+          ["cerrar", "Cierre de ventanas"],
+          ["comunicacion", "Comunicación básica entre ventanas"],
           ["timeout", "setTimeout() y clearTimeout()"],
           ["interval", "setInterval() y clearInterval()"],
           ["ejemplos", "Ejemplos prácticos"]
@@ -3276,9 +1242,10 @@ false</pre>
         carpeta: "7-10",
         secciones: [
           ["concepto", "El objeto location"],
-          ["propiedades", "Propiedades de location"],
-          ["navegacion", "Navegación entre páginas"],
-          ["metodos", "Métodos assign(), replace() y reload()"],
+          ["url", "La propiedad href"],
+          ["partes", "Partes de una URL"],
+          ["navegar", "Navegación con assign() y replace()"],
+          ["recargar", "Recarga de páginas"],
           ["ejemplos", "Ejemplos prácticos"]
         ]
       },
@@ -3289,8 +1256,11 @@ false</pre>
         carpeta: "7-11",
         secciones: [
           ["concepto", "El objeto history"],
-          ["propiedades", "Propiedades de history"],
-          ["metodos", "Métodos back(), forward() y go()"],
+          ["length", "Longitud del historial"],
+          ["back", "history.back()"],
+          ["forward", "history.forward()"],
+          ["go", "history.go()"],
+          ["limitaciones", "Limitaciones y seguridad"],
           ["ejemplos", "Ejemplos prácticos"]
         ]
       },
@@ -3300,9 +1270,10 @@ false</pre>
         titulo: "Objetos navigator y screen",
         carpeta: "7-12",
         secciones: [
-          ["navigator", "Objeto navigator"],
+          ["navigator", "El objeto navigator"],
           ["propiedades", "Propiedades de navigator"],
-          ["screen", "Objeto screen"],
+          ["capacidades", "Capacidades del navegador"],
+          ["screen", "El objeto screen"],
           ["dimensiones", "Dimensiones de pantalla"],
           ["ejemplos", "Ejemplos prácticos"]
         ]
@@ -3310,14 +1281,16 @@ false</pre>
 
       {
         numero: "7.13",
-        titulo: "Almacenamiento en el navegador: localStorage, sessionStorage y cookies",
+        titulo: "Almacenamiento en el navegador",
         carpeta: "7-13",
         secciones: [
-          ["concepto", "Almacenamiento en el navegador"],
+          ["introduccion", "Introducción al almacenamiento web"],
           ["localstorage", "localStorage"],
           ["sessionstorage", "sessionStorage"],
+          ["metodos", "Métodos de almacenamiento"],
+          ["json", "Almacenamiento de objetos con JSON"],
           ["cookies", "Cookies"],
-          ["comparacion", "Comparación de mecanismos"],
+          ["comparacion", "Diferencias entre los mecanismos"],
           ["ejemplos", "Ejemplos prácticos"]
         ]
       },
@@ -3327,45 +1300,49 @@ false</pre>
         titulo: "Interacción con el usuario y aplicación práctica del BOM",
         carpeta: "7-14",
         secciones: [
-          ["interaccion", "Interacción con el usuario"],
-          ["integracion", "Integración de objetos BOM"],
-          ["aplicacion", "Aplicación práctica"],
-          ["ejemplos", "Ejemplos prácticos"]
+          ["planteamiento", "Planteamiento de una aplicación"],
+          ["objetos", "Selección de objetos predefinidos"],
+          ["navegacion", "Navegación e interacción"],
+          ["almacenamiento", "Persistencia de información"],
+          ["organizacion", "Organización del código"],
+          ["pruebas", "Pruebas y depuración"],
+          ["ejemplo", "Ejemplo práctico completo"]
         ]
       }
 
     ];
 
     /* ==========================================
-       GENERAR MENÚ DE APARTADOS
+       CONSTRUCCIÓN DEL MENÚ LATERAL
     ========================================== */
-
-    const numeroActual = "7.6";
-
-    const anteriores =
-      document.getElementById("apartadosAnterioresUT7");
-
-    const posteriores =
-      document.getElementById("restoApartadosUT7");
 
     function crearApartadoMenu(apartado) {
 
-      const contenedor = document.createElement("div");
+      const contenedor =
+        document.createElement("div");
+
       contenedor.className =
         "menu-desplegable menu-apartado";
 
-      const cabecera = document.createElement("div");
+      const cabecera =
+        document.createElement("div");
+
       cabecera.className = "menu-cabecera";
 
-      const enlace = document.createElement("a");
+      const enlace =
+        document.createElement("a");
+
       enlace.className = "menu-titulo";
+
       enlace.href =
         `../${apartado.carpeta}/index.html`;
 
       enlace.textContent =
         `${apartado.numero} ${apartado.titulo}`;
 
-      const boton = document.createElement("button");
+      const boton =
+        document.createElement("button");
+
       boton.className = "boton-desplegar";
       boton.type = "button";
       boton.textContent = "›";
@@ -3373,7 +1350,7 @@ false</pre>
       const idSubmenu =
         `submenu-${apartado.carpeta}`;
 
-      boton.dataset.target = idSubmenu;
+      boton.setAttribute("data-target", idSubmenu);
       boton.setAttribute("aria-expanded", "false");
 
       boton.setAttribute(
@@ -3384,7 +1361,9 @@ false</pre>
       cabecera.appendChild(enlace);
       cabecera.appendChild(boton);
 
-      const submenu = document.createElement("div");
+      const submenu =
+        document.createElement("div");
+
       submenu.id = idSubmenu;
       submenu.className =
         "submenu submenu-apartados";
@@ -3397,8 +1376,7 @@ false</pre>
         enlaceSeccion.href =
           `../${apartado.carpeta}/index.html#${seccion[0]}`;
 
-        enlaceSeccion.textContent =
-          seccion[1];
+        enlaceSeccion.textContent = seccion[1];
 
         submenu.appendChild(enlaceSeccion);
 
@@ -3411,180 +1389,112 @@ false</pre>
 
     }
 
+    const contenedorAnteriores =
+      document.getElementById("apartadosAnterioresUT7");
+
+    apartadosAnteriores.forEach(apartado => {
+
+      contenedorAnteriores.appendChild(
+        crearApartadoMenu(apartado)
+      );
+
+    });
+
+    const contenedorApartados =
+      document.getElementById("restoApartadosUT7");
+
     apartadosUT7.forEach(apartado => {
 
-      if (apartado.numero === numeroActual) {
+      contenedorApartados.appendChild(
+        crearApartadoMenu(apartado)
+      );
+
+    });
+
+    /* ==========================================
+       MENÚS DESPLEGABLES
+    ========================================== */
+
+    document.querySelectorAll(".boton-desplegar")
+      .forEach(boton => {
+
+        boton.addEventListener("click", () => {
+
+          const idSubmenu =
+            boton.getAttribute("data-target");
+
+          const submenu =
+            document.getElementById(idSubmenu);
+
+          if (!submenu) {
+            return;
+          }
+
+          const estaAbierto =
+            submenu.classList.contains("submenu-abierto");
+
+          submenu.classList.toggle("submenu-abierto");
+
+          boton.textContent =
+            estaAbierto ? "›" : "⌄";
+
+          boton.setAttribute(
+            "aria-expanded",
+            String(!estaAbierto)
+          );
+
+        });
+
+      });
+
+    /* ==========================================
+       COPIAR CÓDIGO
+    ========================================== */
+
+    document.addEventListener("click", async evento => {
+
+      const boton =
+        evento.target.closest(".boton-copiar");
+
+      if (!boton) {
         return;
       }
 
-      const elemento = crearApartadoMenu(apartado);
+      const bloque =
+        boton.closest(".bloque-codigo");
 
-      if (
-        Number(apartado.numero.split(".")[1]) <
-        Number(numeroActual.split(".")[1])
-      ) {
+      const codigo =
+        bloque?.querySelector("code");
 
-        anteriores.appendChild(elemento);
+      if (!codigo) {
+        return;
+      }
 
-      } else {
+      const textoOriginal =
+        boton.textContent;
 
-        posteriores.appendChild(elemento);
+      try {
+
+        await navigator.clipboard.writeText(
+          codigo.textContent
+        );
+
+        boton.textContent = "✔ Copiado";
+
+      } catch (error) {
+
+        boton.textContent = "Error al copiar";
 
       }
 
-    });
+      setTimeout(() => {
 
-    /* ==========================================
-       ACORDEONES DEL MENÚ LATERAL
-    ========================================== */
+        boton.textContent = textoOriginal;
 
-    document.querySelectorAll(
-      ".boton-desplegar"
-    ).forEach(boton => {
-
-      boton.addEventListener("click", () => {
-
-        const submenu =
-          document.getElementById(
-            boton.dataset.target
-          );
-
-        if (!submenu) {
-          return;
-        }
-
-        const abierto =
-          submenu.classList.toggle(
-            "submenu-abierto"
-          );
-
-        boton.setAttribute(
-          "aria-expanded",
-          String(abierto)
-        );
-
-      });
+      }, 1600);
 
     });
-
-    /* ==========================================
-       BOTONES COPIAR CÓDIGO
-    ========================================== */
-
-    document.querySelectorAll(
-      ".boton-copiar"
-    ).forEach(boton => {
-
-      boton.addEventListener("click", async () => {
-
-        const bloque =
-          boton.closest(".bloque-codigo");
-
-        const codigo =
-          bloque?.querySelector("pre code");
-
-        if (!codigo) {
-          return;
-        }
-
-        const texto = codigo.textContent;
-
-        try {
-
-          await navigator.clipboard.writeText(texto);
-
-          const textoOriginal =
-            boton.textContent;
-
-          boton.textContent = "✓ Copiado";
-
-          setTimeout(() => {
-
-            boton.textContent = textoOriginal;
-
-          }, 1800);
-
-        } catch (error) {
-
-          console.error(
-            "No se ha podido copiar el código",
-            error
-          );
-
-        }
-
-      });
-
-    });
-
-    /* ==========================================
-       ÍNDICE DERECHO ACTIVO
-    ========================================== */
-
-    const enlacesIndice =
-      document.querySelectorAll(
-        '.indice-derecho a[href^="#"]'
-      );
-
-    const secciones =
-      Array.from(enlacesIndice)
-        .map(enlace => {
-
-          const id =
-            enlace.getAttribute("href").slice(1);
-
-          return document.getElementById(id);
-
-        })
-        .filter(Boolean);
-
-    if (
-      "IntersectionObserver" in window &&
-      secciones.length > 0
-    ) {
-
-      const observador = new IntersectionObserver(
-        entradas => {
-
-          entradas.forEach(entrada => {
-
-            if (!entrada.isIntersecting) {
-              return;
-            }
-
-            enlacesIndice.forEach(enlace => {
-
-              enlace.classList.toggle(
-                "activo",
-                enlace.getAttribute("href") ===
-                  `#${entrada.target.id}`
-              );
-
-            });
-
-          });
-
-        },
-        {
-          rootMargin: "-100px 0px -65% 0px",
-          threshold: 0
-        }
-      );
-
-      secciones.forEach(seccion => {
-        observador.observe(seccion);
-      });
-
-    }
-
-    /* ==========================================
-       NOTA:
-       El texto "Ver una posible solución"
-       permanece fijo al abrir o cerrar
-       el elemento details.
-    ========================================== */
 
   </script>
-
 </body>
 </html>
