@@ -1,0 +1,3672 @@
+
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+  <meta charset="UTF-8">
+
+  <meta
+    name="viewport"
+    content="width=device-width, initial-scale=1.0"
+  >
+
+  <meta
+    name="description"
+    content="7.2 - Objetos String y Number. Propiedades, métodos, transformación de cadenas, conversiones y validación de números en JavaScript."
+  >
+
+  <title>7.2 - Objetos String y Number</title>
+
+  <link
+    rel="icon"
+    type="image/png"
+    href="../../../img/favicon.png?v=5"
+  >
+
+  <link
+    rel="stylesheet"
+    href="../../../css/estilos.css"
+  >
+
+  <style>
+
+    /* ==========================================
+       ESTRUCTURA DE LA UT
+    ========================================== */
+
+    .pagina-ut {
+      display: grid;
+      grid-template-columns: 280px minmax(0, 1fr) 260px;
+      min-height: calc(100vh - 68px);
+    }
+
+    /* ==========================================
+       COLUMNA IZQUIERDA
+    ========================================== */
+
+    .sidebar {
+      border-right: 1px solid var(--borde);
+      background-color: var(--fondo-pagina);
+      padding: 12px 10px 30px;
+      position: sticky;
+      top: 68px;
+      height: calc(100vh - 68px);
+      overflow-y: auto;
+      box-sizing: border-box;
+    }
+
+    .sidebar-modulo {
+      display: block;
+      margin-bottom: 8px;
+      padding: 8px 14px;
+      color: #626873;
+      font-size: 17px;
+      font-weight: 700;
+      line-height: 1.3;
+      text-decoration: none;
+      border-radius: 6px;
+    }
+
+    .sidebar-modulo:hover {
+      color: var(--verde-principal);
+      background-color: #f3f4f6;
+    }
+
+    .menu-desplegable {
+      width: 100%;
+    }
+
+    .menu-cabecera {
+      display: flex;
+      align-items: center;
+      gap: 4px;
+      width: 100%;
+      border-radius: 6px;
+    }
+
+    .menu-cabecera-activa {
+      background-color: #f1f1f1;
+    }
+
+    .menu-cabecera-activa > .menu-titulo {
+      color: var(--verde-principal);
+    }
+
+    .menu-titulo {
+      flex: 1;
+      display: block;
+      padding: 11px 8px 11px 14px;
+      color: #626873;
+      font-size: 16px;
+      font-weight: 650;
+      line-height: 1.4;
+      text-decoration: none;
+    }
+
+    .menu-titulo:hover {
+      color: var(--verde-principal);
+    }
+
+    .boton-desplegar {
+      width: 36px;
+      height: 36px;
+      margin-right: 5px;
+      padding: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+      border: 0;
+      border-radius: 6px;
+      background: transparent;
+      color: #777;
+      font-family: inherit;
+      font-size: 24px;
+      line-height: 1;
+      cursor: pointer;
+    }
+
+    .boton-desplegar:hover {
+      background-color: #e5e7eb;
+      color: var(--verde-principal);
+    }
+
+    .submenu {
+      display: none;
+    }
+
+    .submenu.submenu-abierto {
+      display: block;
+    }
+
+    .menu-apartado {
+      margin-left: 14px;
+    }
+
+    .menu-apartado .menu-titulo {
+      padding-top: 9px;
+      padding-bottom: 9px;
+      font-size: 15px;
+      font-weight: 600;
+    }
+
+    .submenu-apartados {
+      margin: 2px 0 5px 28px;
+      border-left: 2px solid #e0e3e7;
+    }
+
+    .submenu-apartados a {
+      display: block;
+      padding: 7px 10px;
+      color: #777d87;
+      font-size: 14px;
+      font-weight: 500;
+      line-height: 1.35;
+      text-decoration: none;
+    }
+
+    .submenu-apartados a:hover {
+      color: var(--verde-principal);
+    }
+
+    .submenu-apartados a.enlace-actual {
+      color: var(--verde-principal);
+      font-weight: 700;
+    }
+
+    .enlace-apartado-simple {
+      display: block;
+      margin-left: 14px;
+      padding: 10px 14px;
+      color: #626873;
+      font-size: 15px;
+      font-weight: 600;
+      line-height: 1.4;
+      text-decoration: none;
+      border-radius: 6px;
+    }
+
+    .enlace-apartado-simple:hover {
+      color: var(--verde-principal);
+      background-color: #f3f4f6;
+    }
+
+    .sidebar-ut-cerrada {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      padding: 13px 14px;
+      color: #626873;
+      text-decoration: none;
+      font-size: 16px;
+      font-weight: 650;
+      line-height: 1.35;
+      border-radius: 6px;
+    }
+
+    .sidebar-ut-cerrada:hover {
+      background-color: #f3f4f6;
+      color: var(--verde-principal);
+    }
+
+    /* ==========================================
+       MODO OSCURO DEL MENÚ
+    ========================================== */
+
+    body.modo-oscuro .sidebar-modulo:hover,
+    body.modo-oscuro .sidebar-ut-cerrada:hover,
+    body.modo-oscuro .enlace-apartado-simple:hover {
+      background-color: #273244;
+    }
+
+    body.modo-oscuro .menu-cabecera-activa {
+      background-color: #273244;
+    }
+
+    body.modo-oscuro .boton-desplegar:hover {
+      background-color: #334155;
+    }
+
+    body.modo-oscuro .submenu-apartados {
+      border-left-color: #3a4659;
+    }
+
+    /* ==========================================
+       ZONA CENTRAL
+    ========================================== */
+
+    .contenido-ut {
+      padding: 28px 34px 70px;
+      max-width: 1150px;
+      width: 100%;
+      min-width: 0;
+      box-sizing: border-box;
+    }
+
+    .migas {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 30px;
+      font-size: 14px;
+      flex-wrap: wrap;
+    }
+
+    .miga-inicio {
+      text-decoration: none;
+      font-size: 18px;
+    }
+
+    .miga-separador {
+      color: #999;
+      font-size: 22px;
+    }
+
+    .miga-modulo {
+      color: var(--texto-secundario);
+      text-decoration: none;
+    }
+
+    .miga-modulo:hover {
+      color: var(--verde-principal);
+    }
+
+    .miga-actual {
+      padding: 8px 14px;
+      background-color: #f3f3f3;
+      border-radius: 24px;
+      color: var(--verde-principal);
+    }
+
+    body.modo-oscuro .miga-actual {
+      background-color: #273244;
+    }
+
+    .contenido-ut h1 {
+      margin: 0 0 30px;
+      font-size: clamp(34px, 4vw, 48px);
+      line-height: 1.15;
+    }
+
+    .apartado-ut {
+      font-size: 17px;
+      line-height: 1.8;
+    }
+
+    .apartado-ut p {
+      margin: 0 0 19px;
+    }
+
+    .apartado-ut h2 {
+      margin: 48px 0 20px;
+      padding-bottom: 10px;
+      border-bottom: 1px solid var(--borde);
+      font-size: 28px;
+      line-height: 1.3;
+      scroll-margin-top: 95px;
+    }
+
+    .apartado-ut h3 {
+      margin: 32px 0 16px;
+      font-size: 21px;
+      line-height: 1.4;
+    }
+
+    .apartado-ut ul,
+    .apartado-ut ol {
+      margin: 0 0 22px;
+      padding-left: 28px;
+    }
+
+    .apartado-ut li {
+      margin-bottom: 10px;
+    }
+
+    .apartado-ut code:not(.bloque-codigo code) {
+      padding: 2px 5px;
+      border-radius: 4px;
+      background-color: rgba(128, 128, 128, 0.12);
+      font-family: Consolas, "Courier New", monospace;
+      font-size: 0.9em;
+      overflow-wrap: anywhere;
+    }
+
+    /* ==========================================
+       CAJAS DIDÁCTICAS
+    ========================================== */
+
+    .caja {
+      margin: 26px 0;
+      padding: 20px 24px;
+      border-left: 5px solid;
+      border-radius: 7px;
+      background-color: var(--fondo-tarjeta);
+    }
+
+    .caja p {
+      margin-bottom: 10px;
+    }
+
+    .caja p:last-child {
+      margin-bottom: 0;
+    }
+
+    .caja-titulo {
+      display: block;
+      margin-bottom: 10px;
+      font-size: 17px;
+      font-weight: 750;
+    }
+
+    .caja-importante {
+      border-left-color: #2563eb;
+      background-color: rgba(37, 99, 235, 0.07);
+    }
+
+    .caja-atencion {
+      border-left-color: #e6a23c;
+      background-color: rgba(230, 162, 60, 0.09);
+    }
+
+    .caja-ejemplo {
+      border-left-color: #16a34a;
+      background-color: rgba(22, 163, 74, 0.07);
+    }
+
+    .caja-curiosidad {
+      border-left-color: #8b5cf6;
+      background-color: rgba(139, 92, 246, 0.07);
+    }
+
+    /* ==========================================
+       TABLAS
+    ========================================== */
+
+    .tabla-responsive {
+      width: 100%;
+      overflow-x: auto;
+      margin: 24px 0;
+    }
+
+    .tabla-apuntes {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 15px;
+      line-height: 1.6;
+    }
+
+    .tabla-apuntes th,
+    .tabla-apuntes td {
+      padding: 13px 15px;
+      border: 1px solid var(--borde);
+      text-align: left;
+      vertical-align: top;
+    }
+
+    .tabla-apuntes th {
+      background-color: rgba(128, 128, 128, 0.10);
+      font-weight: 700;
+    }
+
+    /* ==========================================
+       ESQUEMAS VISUALES
+    ========================================== */
+
+    .esquema-web {
+      display: grid;
+      gap: 14px;
+      margin: 28px 0;
+    }
+
+    .esquema-fila {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 14px;
+    }
+
+    .esquema-caja {
+      padding: 20px;
+      border: 1px solid var(--borde);
+      border-radius: 9px;
+      background-color: var(--fondo-tarjeta);
+      text-align: center;
+    }
+
+    .esquema-caja strong {
+      display: block;
+      margin-bottom: 7px;
+      color: var(--verde-principal);
+      font-size: 17px;
+    }
+
+    .esquema-caja span {
+      display: block;
+      font-size: 15px;
+      line-height: 1.6;
+    }
+
+    /* ==========================================
+       ACTIVIDAD DE REFLEXIÓN
+    ========================================== */
+
+    .actividad-reflexion {
+      margin: 32px 0;
+      padding: 22px 24px;
+      background-color: #f7f8fa;
+      border: 1px solid var(--borde);
+      border-radius: 10px;
+    }
+
+    .actividad-reflexion h3 {
+      margin: 0 0 12px;
+      color: var(--verde-principal);
+      font-size: 20px;
+    }
+
+    .actividad-reflexion p {
+      margin: 0 0 14px;
+      font-size: 17px;
+      line-height: 1.65;
+    }
+
+    body.modo-oscuro .actividad-reflexion {
+      background-color: #232d3d;
+    }
+
+    /* ==========================================
+       SOLUCIÓN DESPLEGABLE
+    ========================================== */
+
+    .solucion-desplegable {
+      margin-top: 20px;
+    }
+
+    .solucion-desplegable summary {
+      display: inline-block;
+      padding: 10px 16px;
+      background-color: #eef8f1;
+      border: 1px solid #b9dfc6;
+      border-radius: 7px;
+      color: var(--verde-principal);
+      font-size: 16px;
+      font-weight: 700;
+      cursor: pointer;
+      user-select: none;
+    }
+
+    .solucion-desplegable summary:hover {
+      background-color: #e2f3e7;
+    }
+
+    .contenido-solucion {
+      margin-top: 16px;
+      padding: 18px 20px;
+      background-color: var(--fondo-pagina);
+      border-left: 4px solid var(--verde-principal);
+      border-radius: 6px;
+    }
+
+    .contenido-solucion p {
+      margin: 0 0 12px;
+      font-size: 16px;
+      line-height: 1.65;
+    }
+
+    .contenido-solucion p:last-child {
+      margin-bottom: 0;
+    }
+
+    body.modo-oscuro .solucion-desplegable summary {
+      background-color: #20372a;
+      border-color: #315d40;
+    }
+
+    /* ==========================================
+       BLOQUES DE CÓDIGO
+    ========================================== */
+
+    .bloque-codigo {
+      margin: 25px 0;
+      border: 1px solid var(--borde);
+      border-radius: 8px;
+      overflow: hidden;
+      background-color: #1e1e1e;
+    }
+
+    .cabecera-codigo {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      padding: 10px 14px;
+      background-color: #2b2b2b;
+      color: #f3f4f6;
+      font-size: 14px;
+    }
+
+    .lenguaje-codigo {
+      font-weight: 700;
+    }
+
+    .boton-copiar {
+      padding: 6px 10px;
+      border: 1px solid #555;
+      border-radius: 6px;
+      background-color: #383838;
+      color: #f3f4f6;
+      font-family: inherit;
+      font-size: 13px;
+      cursor: pointer;
+    }
+
+    .boton-copiar:hover {
+      background-color: #484848;
+    }
+
+    .bloque-codigo pre {
+      margin: 0;
+      padding: 18px 20px;
+      overflow-x: auto;
+    }
+
+    .bloque-codigo code {
+      color: #f5f5f5;
+      font-family: Consolas, "Courier New", monospace;
+      font-size: 15px;
+      line-height: 1.6;
+      white-space: pre;
+    }
+
+    /* ==========================================
+       COLUMNA DERECHA
+    ========================================== */
+
+    .indice-derecho {
+      padding: 28px 22px 100px;
+      border-left: 1px solid var(--borde);
+      position: sticky;
+      top: 68px;
+      height: calc(100vh - 68px);
+      overflow-y: auto;
+      box-sizing: border-box;
+    }
+
+    .indice-derecho h2 {
+      margin: 8px 0 20px;
+      font-size: 17px;
+      color: #555b65;
+    }
+
+    body.modo-oscuro .indice-derecho h2 {
+      color: #d1d5db;
+    }
+
+    .indice-derecho ul {
+      margin: 0;
+      padding-left: 18px;
+    }
+
+    .indice-derecho li {
+      margin-bottom: 12px;
+    }
+
+    .indice-derecho a {
+      color: var(--texto-secundario);
+      text-decoration: none;
+      font-size: 14px;
+      line-height: 1.4;
+    }
+
+    .indice-derecho a:hover {
+      color: var(--verde-principal);
+    }
+
+    /* ==========================================
+       NAVEGACIÓN ANTERIOR / SIGUIENTE
+    ========================================== */
+
+    .navegacion-paginas {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 20px;
+      margin-top: 50px;
+    }
+
+    .nav-pagina {
+      min-height: 100px;
+      padding: 18px 20px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      border: 1px solid var(--borde);
+      border-radius: 8px;
+      text-decoration: none;
+      background-color: var(--fondo-tarjeta);
+    }
+
+    .nav-anterior {
+      align-items: flex-start;
+      text-align: left;
+    }
+
+    .nav-siguiente {
+      align-items: flex-end;
+      text-align: right;
+    }
+
+    .nav-etiqueta {
+      margin-bottom: 5px;
+      color: var(--texto-secundario);
+      font-size: 14px;
+    }
+
+    .nav-pagina strong {
+      color: var(--verde-principal);
+      font-size: 16px;
+      line-height: 1.4;
+    }
+
+    .nav-pagina:hover {
+      border-color: var(--verde-principal);
+    }
+
+    /* ==========================================
+       RESPONSIVE
+    ========================================== */
+
+    @media (max-width: 1100px) {
+
+      .pagina-ut {
+        grid-template-columns: 250px minmax(0, 1fr);
+      }
+
+      .indice-derecho {
+        display: none;
+      }
+
+    }
+
+    @media (max-width: 760px) {
+
+      .pagina-ut {
+        display: block;
+      }
+
+      .sidebar {
+        position: static;
+        width: 100%;
+        height: auto;
+        border-right: 0;
+        border-bottom: 1px solid var(--borde);
+      }
+
+      .contenido-ut {
+        padding: 28px 20px 60px;
+      }
+
+      .contenido-ut h1 {
+        font-size: 34px;
+      }
+
+      .apartado-ut h2 {
+        font-size: 25px;
+      }
+
+      .esquema-fila,
+      .navegacion-paginas {
+        grid-template-columns: 1fr;
+      }
+
+      .nav-siguiente {
+        align-items: flex-start;
+        text-align: left;
+      }
+
+    }
+
+  </style>
+
+</head>
+
+<body>
+
+  <!-- ==========================================
+       BARRA SUPERIOR
+  ========================================== -->
+
+  <header class="navbar">
+
+    <a class="inicio" href="../../../index.html">
+
+      <img
+        src="../../../img/profesora-castana.png?v=2"
+        alt=""
+        class="icono-profesora"
+      >
+
+      <span>Inicio</span>
+
+    </a>
+
+    <nav
+      id="menuModulos"
+      class="menu-modulos"
+      aria-label="Módulos formativos"
+    ></nav>
+
+    <button
+      id="botonTema"
+      class="boton-tema"
+      type="button"
+      aria-label="Cambiar entre modo claro y oscuro"
+      title="Cambiar tema"
+    >
+      ☀️
+    </button>
+
+  </header>
+
+  <div class="pagina-ut">
+
+    <!-- ==========================================
+         COLUMNA IZQUIERDA
+    ========================================== -->
+
+    <aside class="sidebar">
+
+      <a class="sidebar-modulo" href="../../index.html">
+        Desarrollo web en entorno cliente
+      </a>
+
+      <a class="sidebar-ut-cerrada" href="../../ut1/index.html">
+        <span>UT1 - Introducción al desarrollo web en entorno cliente</span>
+        <span>›</span>
+      </a>
+
+      <a class="sidebar-ut-cerrada" href="../../ut2/index.html">
+        <span>UT2 - Fundamentos de JavaScript: variables, tipos y operadores</span>
+        <span>›</span>
+      </a>
+
+      <a class="sidebar-ut-cerrada" href="../../ut3/index.html">
+        <span>UT3 - Estructuras de control en JavaScript</span>
+        <span>›</span>
+      </a>
+
+      <a class="sidebar-ut-cerrada" href="../../ut4/index.html">
+        <span>UT4 - Arrays y estructuras de datos en JavaScript</span>
+        <span>›</span>
+      </a>
+
+      <a class="sidebar-ut-cerrada" href="../../ut5/index.html">
+        <span>UT5 - Funciones en JavaScript</span>
+        <span>›</span>
+      </a>
+
+      <a class="sidebar-ut-cerrada" href="../../ut6/index.html">
+        <span>UT6 - Objetos y Programación Orientada a Objetos en JavaScript</span>
+        <span>›</span>
+      </a>
+
+      <!-- ==========================================
+           UT7 ABIERTA
+      ========================================== -->
+
+      <div class="menu-desplegable">
+
+        <div class="menu-cabecera menu-cabecera-activa">
+
+          <a class="menu-titulo" href="../index.html">
+            UT7 - Objetos predefinidos y modelo del navegador (BOM)
+          </a>
+
+          <button
+            class="boton-desplegar"
+            type="button"
+            data-target="submenu-ut7"
+            aria-expanded="true"
+            aria-label="Mostrar u ocultar UT7"
+          >
+            ⌄
+          </button>
+
+        </div>
+
+        <div id="submenu-ut7" class="submenu submenu-abierto">
+
+          <!-- 7.1 -->
+
+          <div class="menu-desplegable menu-apartado">
+
+            <div class="menu-cabecera">
+
+              <a class="menu-titulo" href="../7-1/index.html">
+                7.1 Introducción a los objetos predefinidos de JavaScript
+              </a>
+
+              <button
+                class="boton-desplegar"
+                type="button"
+                data-target="submenu-7-1"
+                aria-expanded="false"
+                aria-label="Mostrar u ocultar los subapartados del 7.1"
+              >
+                ›
+              </button>
+
+            </div>
+
+            <div
+              id="submenu-7-1"
+              class="submenu submenu-apartados"
+            >
+
+              <a href="../7-1/index.html#concepto">
+                Qué son los objetos predefinidos
+              </a>
+
+              <a href="../7-1/index.html#utilidad">
+                Para qué sirven
+              </a>
+
+              <a href="../7-1/index.html#clasificacion">
+                Clasificación de los objetos predefinidos
+              </a>
+
+              <a href="../7-1/index.html#nativos-navegador">
+                Objetos nativos y objetos del navegador
+              </a>
+
+              <a href="../7-1/index.html#acceso">
+                Acceso a propiedades y métodos
+              </a>
+
+              <a href="../7-1/index.html#ejemplo">
+                Primer ejemplo práctico
+              </a>
+
+            </div>
+
+          </div>
+
+          <!-- ======================================
+               7.2 ACTIVO
+          ====================================== -->
+
+          <div class="menu-desplegable menu-apartado">
+
+            <div class="menu-cabecera menu-cabecera-activa">
+
+              <a class="menu-titulo" href="index.html">
+                7.2 Objetos String y Number
+              </a>
+
+              <button
+                class="boton-desplegar"
+                type="button"
+                data-target="submenu-7-2"
+                aria-expanded="true"
+                aria-label="Mostrar u ocultar los subapartados del 7.2"
+              >
+                ⌄
+              </button>
+
+            </div>
+
+            <div
+              id="submenu-7-2"
+              class="submenu submenu-apartados submenu-abierto"
+            >
+
+              <a href="#string">
+                El objeto String
+              </a>
+
+              <a href="#metodos-string">
+                Métodos de String
+              </a>
+
+              <a href="#busqueda">
+                Búsqueda y transformación de cadenas
+              </a>
+
+              <a href="#number">
+                El objeto Number
+              </a>
+
+              <a href="#metodos-number">
+                Métodos de Number
+              </a>
+
+              <a href="#conversion">
+                Conversión y comprobación de valores
+              </a>
+
+              <a href="#ejemplos">
+                Ejemplos prácticos
+              </a>
+
+            </div>
+
+          </div>
+
+          <!-- RESTO DE APARTADOS UT7 -->
+
+          <div id="restoApartadosUT7"></div>
+
+          <a
+            class="enlace-apartado-simple"
+            href="../resumen/index.html"
+          >
+            ✏️ Resumen de la UT7
+          </a>
+
+          <div class="menu-desplegable menu-apartado">
+
+            <div class="menu-cabecera">
+
+              <a
+                class="menu-titulo"
+                href="../actividades/index.html"
+              >
+                📝 Actividades de la UT7
+              </a>
+
+              <button
+                class="boton-desplegar"
+                type="button"
+                data-target="submenu-actividades"
+                aria-expanded="false"
+                aria-label="Mostrar u ocultar las actividades"
+              >
+                ›
+              </button>
+
+            </div>
+
+            <div
+              id="submenu-actividades"
+              class="submenu submenu-apartados"
+            >
+
+              <a href="../actividades/index.html#actividades-practicas">
+                💻 Actividades prácticas
+              </a>
+
+              <a href="../actividades/index.html#reto-final">
+                🧩 Reto final
+              </a>
+
+              <a href="../actividades/index.html#autoevaluacion">
+                ✅ Autoevaluación
+              </a>
+
+            </div>
+
+          </div>
+
+        </div>
+
+      </div>
+
+      <a class="sidebar-ut-cerrada" href="../../ut8/index.html">
+        <span>UT8 - Aplicaciones web interactivas: DOM, eventos y formularios</span>
+        <span>›</span>
+      </a>
+
+      <a class="sidebar-ut-cerrada" href="../../ut9/index.html">
+        <span>UT9 - Comunicación asíncrona y peticiones al servidor</span>
+        <span>›</span>
+      </a>
+
+      <a class="sidebar-ut-cerrada" href="../../ut10/index.html">
+        <span>UT10 - Introducción a React</span>
+        <span>›</span>
+      </a>
+
+    </aside>
+
+    <!-- ==========================================
+         ZONA CENTRAL
+    ========================================== -->
+
+    <main class="contenido-ut">
+
+      <div class="migas">
+
+        <a
+          class="miga-inicio"
+          href="../../../index.html"
+          aria-label="Inicio"
+        >
+          🏠
+        </a>
+
+        <span class="miga-separador">›</span>
+
+        <a class="miga-modulo" href="../../index.html">
+          DWEC
+        </a>
+
+        <span class="miga-separador">›</span>
+
+        <a class="miga-modulo" href="../index.html">
+          UT7
+        </a>
+
+        <span class="miga-separador">›</span>
+
+        <span class="miga-actual">
+          7.2
+        </span>
+
+      </div>
+
+      <h1>
+        7.2 Objetos String y Number
+      </h1>
+
+      <article class="apartado-ut">
+
+        <p>
+          En el apartado anterior hemos conocido
+          qué son los objetos predefinidos de JavaScript
+          y cómo podemos utilizar sus propiedades
+          y métodos para resolver tareas habituales.
+        </p>
+
+        <p>
+          Dos de las operaciones más frecuentes
+          en una aplicación web son
+          <strong>trabajar con textos y procesar
+          valores numéricos</strong>.
+          Por ejemplo, podemos necesitar
+          normalizar el nombre de un producto,
+          buscar información dentro de una cadena,
+          convertir el precio introducido por un usuario
+          o comprobar que una cantidad es válida.
+        </p>
+
+        <p>
+          JavaScript proporciona funcionalidades
+          específicas para estas tareas
+          mediante <code>String</code> y
+          <code>Number</code>.
+          Aunque ya hemos utilizado cadenas y números
+          en unidades anteriores, ahora estudiaremos
+          con mayor profundidad sus propiedades,
+          métodos y posibilidades.
+        </p>
+
+        <div class="caja caja-importante">
+
+          <span class="caja-titulo">
+            📌 Importante
+          </span>
+
+          <p>
+            <code>String</code> proporciona herramientas
+            para consultar, buscar y transformar
+            cadenas de texto.
+          </p>
+
+          <p>
+            <code>Number</code> permite representar
+            números y ofrece métodos y propiedades
+            para trabajar con valores numéricos.
+          </p>
+
+          <p>
+            Ambos forman parte del propio lenguaje
+            JavaScript y no dependen del navegador.
+          </p>
+
+        </div>
+
+        <!-- ======================================
+             EL OBJETO STRING
+        ====================================== -->
+
+        <h2 id="string">
+          El objeto String
+        </h2>
+
+        <p>
+          Una <strong>cadena de texto</strong>
+          es una secuencia de caracteres.
+          Puede contener letras, números,
+          espacios, signos de puntuación
+          y otros símbolos.
+        </p>
+
+        <p>
+          En JavaScript, las cadenas suelen crearse
+          utilizando comillas simples,
+          comillas dobles o acentos graves
+          cuando necesitamos una plantilla de texto.
+        </p>
+
+        <div class="bloque-codigo">
+
+          <div class="cabecera-codigo">
+            <span class="lenguaje-codigo">JavaScript</span>
+            <button class="boton-copiar" type="button">
+              📋 Copiar código
+            </button>
+          </div>
+
+          <pre><code>const nombre = "Ana";
+const modulo = 'DWEC';
+const mensaje = `Bienvenida, ${nombre}`;
+
+console.log(nombre);
+console.log(modulo);
+console.log(mensaje);</code></pre>
+
+        </div>
+
+        <p>
+          La salida será:
+        </p>
+
+        <div class="bloque-codigo">
+
+          <div class="cabecera-codigo">
+            <span class="lenguaje-codigo">Consola</span>
+          </div>
+
+          <pre><code>Ana
+DWEC
+Bienvenida, Ana</code></pre>
+
+        </div>
+
+        <p>
+          Aunque normalmente trabajamos con
+          valores primitivos de tipo
+          <code>string</code>, JavaScript permite
+          utilizar sobre ellos las propiedades
+          y métodos asociados a
+          <code>String</code>.
+        </p>
+
+        <p>
+          Esto es posible porque JavaScript
+          facilita temporalmente el acceso
+          a esas funcionalidades cuando
+          utilizamos una cadena primitiva.
+        </p>
+
+        <h3>
+          Cadenas primitivas y objetos String
+        </h3>
+
+        <p>
+          Es importante distinguir entre
+          una cadena primitiva y un objeto
+          creado explícitamente mediante
+          <code>new String()</code>.
+        </p>
+
+        <div class="bloque-codigo">
+
+          <div class="cabecera-codigo">
+            <span class="lenguaje-codigo">JavaScript</span>
+            <button class="boton-copiar" type="button">
+              📋 Copiar código
+            </button>
+          </div>
+
+          <pre><code>const texto1 = "Hola";
+const texto2 = new String("Hola");
+
+console.log(typeof texto1);
+console.log(typeof texto2);</code></pre>
+
+        </div>
+
+        <div class="bloque-codigo">
+
+          <div class="cabecera-codigo">
+            <span class="lenguaje-codigo">Consola</span>
+          </div>
+
+          <pre><code>string
+object</code></pre>
+
+        </div>
+
+        <p>
+          En el primer caso tenemos un valor
+          primitivo de tipo <code>string</code>.
+          En el segundo hemos creado
+          un objeto de tipo <code>String</code>.
+        </p>
+
+        <div class="caja caja-atencion">
+
+          <span class="caja-titulo">
+            ⚠️ Atención
+          </span>
+
+          <p>
+            En la programación habitual
+            se recomienda utilizar
+            <strong>cadenas primitivas</strong>
+            en lugar de crear objetos
+            con <code>new String()</code>.
+          </p>
+
+          <p>
+            Los objetos envoltorio pueden producir
+            comportamientos inesperados,
+            especialmente al comparar valores.
+          </p>
+
+        </div>
+
+        <h3>
+          La propiedad length
+        </h3>
+
+        <p>
+          La propiedad <code>length</code>
+          permite consultar la longitud
+          de una cadena.
+        </p>
+
+        <div class="bloque-codigo">
+
+          <div class="cabecera-codigo">
+            <span class="lenguaje-codigo">JavaScript</span>
+            <button class="boton-copiar" type="button">
+              📋 Copiar código
+            </button>
+          </div>
+
+          <pre><code>const lenguaje = "JavaScript";
+
+console.log(lenguaje.length); // 10</code></pre>
+
+        </div>
+
+        <p>
+          En este ejemplo, la cadena
+          contiene diez caracteres.
+        </p>
+
+        <p>
+          Los espacios también cuentan
+          como caracteres:
+        </p>
+
+        <div class="bloque-codigo">
+
+          <div class="cabecera-codigo">
+            <span class="lenguaje-codigo">JavaScript</span>
+            <button class="boton-copiar" type="button">
+              📋 Copiar código
+            </button>
+          </div>
+
+          <pre><code>const texto = "Hola mundo";
+
+console.log(texto.length); // 10</code></pre>
+
+        </div>
+
+        <p>
+          Para acceder a un carácter
+          mediante su posición podemos
+          utilizar corchetes.
+          La primera posición es la
+          <code>0</code>.
+        </p>
+
+        <div class="bloque-codigo">
+
+          <div class="cabecera-codigo">
+            <span class="lenguaje-codigo">JavaScript</span>
+            <button class="boton-copiar" type="button">
+              📋 Copiar código
+            </button>
+          </div>
+
+          <pre><code>const palabra = "DWEC";
+
+console.log(palabra[0]); // D
+console.log(palabra[1]); // W
+console.log(palabra[3]); // C</code></pre>
+
+        </div>
+
+        <div class="caja caja-importante">
+
+          <span class="caja-titulo">
+            📌 Importante
+          </span>
+
+          <p>
+            Las cadenas son <strong>inmutables</strong>.
+            Esto significa que no podemos modificar
+            directamente un carácter de una cadena
+            existente mediante su posición.
+          </p>
+
+          <p>
+            Los métodos que transforman textos
+            devuelven nuevas cadenas.
+            Si queremos conservar el resultado,
+            debemos guardarlo en una variable.
+          </p>
+
+        </div>
+
+        <!-- ======================================
+             MÉTODOS DE STRING
+        ====================================== -->
+
+        <h2 id="metodos-string">
+          Métodos de String
+        </h2>
+
+        <p>
+          El tipo <code>String</code>
+          dispone de numerosos métodos
+          que permiten consultar
+          y manipular cadenas.
+        </p>
+
+        <p>
+          A continuación estudiaremos
+          algunos de los más utilizados
+          en el desarrollo de aplicaciones web.
+        </p>
+
+        <div class="tabla-responsive">
+
+          <table class="tabla-apuntes">
+
+            <thead>
+              <tr>
+                <th>Método</th>
+                <th>Finalidad</th>
+                <th>Ejemplo</th>
+              </tr>
+            </thead>
+
+            <tbody>
+
+              <tr>
+                <td><code>toUpperCase()</code></td>
+                <td>Convierte a mayúsculas.</td>
+                <td><code>"hola".toUpperCase()</code></td>
+              </tr>
+
+              <tr>
+                <td><code>toLowerCase()</code></td>
+                <td>Convierte a minúsculas.</td>
+                <td><code>"HOLA".toLowerCase()</code></td>
+              </tr>
+
+              <tr>
+                <td><code>trim()</code></td>
+                <td>Elimina espacios y otros blancos de los extremos.</td>
+                <td><code>" hola ".trim()</code></td>
+              </tr>
+
+              <tr>
+                <td><code>charAt()</code></td>
+                <td>Obtiene el carácter de una posición.</td>
+                <td><code>"DWEC".charAt(0)</code></td>
+              </tr>
+
+              <tr>
+                <td><code>slice()</code></td>
+                <td>Extrae una parte de la cadena.</td>
+                <td><code>"JavaScript".slice(0, 4)</code></td>
+              </tr>
+
+              <tr>
+                <td><code>includes()</code></td>
+                <td>Comprueba si contiene un texto.</td>
+                <td><code>"JavaScript".includes("Script")</code></td>
+              </tr>
+
+              <tr>
+                <td><code>indexOf()</code></td>
+                <td>Busca la primera posición de un texto.</td>
+                <td><code>"banana".indexOf("na")</code></td>
+              </tr>
+
+              <tr>
+                <td><code>replace()</code></td>
+                <td>Sustituye una coincidencia.</td>
+                <td><code>"Hola Ana".replace("Ana", "Luis")</code></td>
+              </tr>
+
+              <tr>
+                <td><code>split()</code></td>
+                <td>Divide una cadena y devuelve un array.</td>
+                <td><code>"a,b,c".split(",")</code></td>
+              </tr>
+
+            </tbody>
+
+          </table>
+
+        </div>
+
+        <h3>
+          Conversión a mayúsculas y minúsculas
+        </h3>
+
+        <p>
+          Los métodos <code>toUpperCase()</code>
+          y <code>toLowerCase()</code>
+          permiten transformar
+          el uso de mayúsculas y minúsculas.
+        </p>
+
+        <div class="bloque-codigo">
+
+          <div class="cabecera-codigo">
+            <span class="lenguaje-codigo">JavaScript</span>
+            <button class="boton-copiar" type="button">
+              📋 Copiar código
+            </button>
+          </div>
+
+          <pre><code>const producto = "Teclado Gaming";
+
+console.log(producto.toUpperCase());
+console.log(producto.toLowerCase());
+console.log(producto);</code></pre>
+
+        </div>
+
+        <div class="bloque-codigo">
+
+          <div class="cabecera-codigo">
+            <span class="lenguaje-codigo">Consola</span>
+          </div>
+
+          <pre><code>TECLADO GAMING
+teclado gaming
+Teclado Gaming</code></pre>
+
+        </div>
+
+        <p>
+          Observa que la variable original
+          no se modifica.
+          Los métodos devuelven nuevas cadenas.
+        </p>
+
+        <h3>
+          Eliminación de espacios
+        </h3>
+
+        <p>
+          El método <code>trim()</code>
+          elimina los espacios y otros
+          caracteres en blanco situados
+          al principio y al final
+          de una cadena.
+        </p>
+
+        <div class="bloque-codigo">
+
+          <div class="cabecera-codigo">
+            <span class="lenguaje-codigo">JavaScript</span>
+            <button class="boton-copiar" type="button">
+              📋 Copiar código
+            </button>
+          </div>
+
+          <pre><code>const usuario = "   ana23   ";
+
+const usuarioLimpio = usuario.trim();
+
+console.log(`[${usuario}]`);
+console.log(`[${usuarioLimpio}]`);</code></pre>
+
+        </div>
+
+        <div class="bloque-codigo">
+
+          <div class="cabecera-codigo">
+            <span class="lenguaje-codigo">Consola</span>
+          </div>
+
+          <pre><code>[   ana23   ]
+[ana23]</code></pre>
+
+        </div>
+
+        <p>
+          Este método resulta especialmente
+          útil cuando procesamos datos
+          introducidos por los usuarios.
+        </p>
+
+        <div class="caja caja-atencion">
+
+          <span class="caja-titulo">
+            ⚠️ Atención
+          </span>
+
+          <p>
+            <code>trim()</code> no elimina
+            los espacios que aparecen
+            entre las palabras.
+            Solo actúa sobre los extremos
+            de la cadena.
+          </p>
+
+        </div>
+
+        <h3>
+          Extracción de caracteres y fragmentos
+        </h3>
+
+        <p>
+          El método <code>charAt()</code>
+          devuelve el carácter situado
+          en una posición determinada.
+        </p>
+
+        <p>
+          El método <code>slice()</code>
+          permite extraer una parte
+          de la cadena indicando
+          una posición inicial
+          y, opcionalmente, una final.
+        </p>
+
+        <div class="bloque-codigo">
+
+          <div class="cabecera-codigo">
+            <span class="lenguaje-codigo">JavaScript</span>
+            <button class="boton-copiar" type="button">
+              📋 Copiar código
+            </button>
+          </div>
+
+          <pre><code>const lenguaje = "JavaScript";
+
+console.log(lenguaje.charAt(0));
+console.log(lenguaje.slice(0, 4));
+console.log(lenguaje.slice(4));
+console.log(lenguaje.slice(-6));</code></pre>
+
+        </div>
+
+        <div class="bloque-codigo">
+
+          <div class="cabecera-codigo">
+            <span class="lenguaje-codigo">Consola</span>
+          </div>
+
+          <pre><code>J
+Java
+Script
+Script</code></pre>
+
+        </div>
+
+        <p>
+          En <code>slice(0, 4)</code>,
+          la posición inicial está incluida,
+          pero la posición final no.
+        </p>
+
+        <p>
+          Los índices negativos permiten
+          contar desde el final
+          de la cadena.
+        </p>
+
+        <!-- ======================================
+             BÚSQUEDA Y TRANSFORMACIÓN
+        ====================================== -->
+
+        <h2 id="busqueda">
+          Búsqueda y transformación de cadenas
+        </h2>
+
+        <p>
+          Además de consultar caracteres,
+          con frecuencia necesitamos
+          <strong>localizar información,
+          comprobar si un texto contiene
+          determinadas palabras o sustituir
+          fragmentos</strong>.
+        </p>
+
+        <p>
+          JavaScript proporciona métodos
+          específicos para estas operaciones.
+        </p>
+
+        <h3>
+          Buscar texto con includes() e indexOf()
+        </h3>
+
+        <p>
+          El método <code>includes()</code>
+          comprueba si una cadena
+          contiene otra cadena
+          y devuelve un valor booleano.
+        </p>
+
+        <div class="bloque-codigo">
+
+          <div class="cabecera-codigo">
+            <span class="lenguaje-codigo">JavaScript</span>
+            <button class="boton-copiar" type="button">
+              📋 Copiar código
+            </button>
+          </div>
+
+          <pre><code>const descripcion = "Portátil con 16 GB de RAM";
+
+console.log(descripcion.includes("RAM"));
+console.log(descripcion.includes("SSD"));</code></pre>
+
+        </div>
+
+        <div class="bloque-codigo">
+
+          <div class="cabecera-codigo">
+            <span class="lenguaje-codigo">Consola</span>
+          </div>
+
+          <pre><code>true
+false</code></pre>
+
+        </div>
+
+        <p>
+          El método <code>indexOf()</code>
+          devuelve la posición
+          de la primera coincidencia.
+          Si no encuentra el texto,
+          devuelve <code>-1</code>.
+        </p>
+
+        <div class="bloque-codigo">
+
+          <div class="cabecera-codigo">
+            <span class="lenguaje-codigo">JavaScript</span>
+            <button class="boton-copiar" type="button">
+              📋 Copiar código
+            </button>
+          </div>
+
+          <pre><code>const palabra = "programacion";
+
+console.log(palabra.indexOf("grama"));
+console.log(palabra.indexOf("python"));</code></pre>
+
+        </div>
+
+        <div class="bloque-codigo">
+
+          <div class="cabecera-codigo">
+            <span class="lenguaje-codigo">Consola</span>
+          </div>
+
+          <pre><code>3
+-1</code></pre>
+
+        </div>
+
+        <div class="caja caja-importante">
+
+          <span class="caja-titulo">
+            📌 Importante
+          </span>
+
+          <p>
+            Las búsquedas con estos métodos
+            distinguen entre mayúsculas
+            y minúsculas.
+          </p>
+
+          <p>
+            Por ejemplo,
+            <code>"JavaScript".includes("java")</code>
+            devuelve <code>false</code>.
+          </p>
+
+          <p>
+            Para realizar una búsqueda sencilla
+            sin distinguir mayúsculas,
+            podemos convertir previamente
+            ambos textos a minúsculas.
+          </p>
+
+        </div>
+
+        <h3>
+          Sustituir fragmentos con replace()
+        </h3>
+
+        <p>
+          El método <code>replace()</code>
+          permite sustituir un fragmento
+          de texto por otro.
+        </p>
+
+        <div class="bloque-codigo">
+
+          <div class="cabecera-codigo">
+            <span class="lenguaje-codigo">JavaScript</span>
+            <button class="boton-copiar" type="button">
+              📋 Copiar código
+            </button>
+          </div>
+
+          <pre><code>const mensaje = "Pedido pendiente";
+
+const nuevoMensaje =
+  mensaje.replace("pendiente", "enviado");
+
+console.log(nuevoMensaje);</code></pre>
+
+        </div>
+
+        <div class="bloque-codigo">
+
+          <div class="cabecera-codigo">
+            <span class="lenguaje-codigo">Consola</span>
+          </div>
+
+          <pre><code>Pedido enviado</code></pre>
+
+        </div>
+
+        <p>
+          Cuando utilizamos una cadena
+          como primer argumento,
+          <code>replace()</code>
+          sustituye únicamente
+          la primera coincidencia.
+        </p>
+
+        <p>
+          Para sustituir todas las coincidencias
+          de una cadena literal,
+          podemos utilizar
+          <code>replaceAll()</code>.
+        </p>
+
+        <div class="bloque-codigo">
+
+          <div class="cabecera-codigo">
+            <span class="lenguaje-codigo">JavaScript</span>
+            <button class="boton-copiar" type="button">
+              📋 Copiar código
+            </button>
+          </div>
+
+          <pre><code>const texto = "rojo, azul, rojo";
+
+console.log(texto.replace("rojo", "verde"));
+console.log(texto.replaceAll("rojo", "verde"));</code></pre>
+
+        </div>
+
+        <div class="bloque-codigo">
+
+          <div class="cabecera-codigo">
+            <span class="lenguaje-codigo">Consola</span>
+          </div>
+
+          <pre><code>verde, azul, rojo
+verde, azul, verde</code></pre>
+
+        </div>
+
+        <h3>
+          Dividir cadenas con split()
+        </h3>
+
+        <p>
+          El método <code>split()</code>
+          divide una cadena utilizando
+          un separador y devuelve
+          un <strong>array</strong>.
+        </p>
+
+        <div class="bloque-codigo">
+
+          <div class="cabecera-codigo">
+            <span class="lenguaje-codigo">JavaScript</span>
+            <button class="boton-copiar" type="button">
+              📋 Copiar código
+            </button>
+          </div>
+
+          <pre><code>const categorias = "portatiles,teclados,ratones";
+
+const lista = categorias.split(",");
+
+console.log(lista);
+console.log(lista[1]);</code></pre>
+
+        </div>
+
+        <div class="bloque-codigo">
+
+          <div class="cabecera-codigo">
+            <span class="lenguaje-codigo">Consola</span>
+          </div>
+
+          <pre><code>["portatiles", "teclados", "ratones"]
+teclados</code></pre>
+
+        </div>
+
+        <p>
+          Este método conecta directamente
+          con lo estudiado en la UT4,
+          ya que nos permite transformar
+          información textual
+          en estructuras de datos.
+        </p>
+
+        <div class="caja caja-ejemplo">
+
+          <span class="caja-titulo">
+            💻 Ejemplo DAW
+          </span>
+
+          <p>
+            Imagina que recibimos una lista
+            de categorías de una tienda
+            separadas por comas.
+            Podemos utilizar
+            <code>split()</code>
+            para obtener un array
+            y después recorrerlo
+            con un bucle o un método
+            de arrays.
+          </p>
+
+        </div>
+
+        <!-- ======================================
+             EL OBJETO NUMBER
+        ====================================== -->
+
+        <h2 id="number">
+          El objeto Number
+        </h2>
+
+        <p>
+          El tipo <code>number</code>
+          se utiliza en JavaScript
+          para representar valores numéricos,
+          tanto enteros como decimales.
+        </p>
+
+        <p>
+          Por ejemplo, en una aplicación
+          de gestión de pedidos
+          podemos necesitar almacenar
+          precios, cantidades, descuentos
+          o importes totales.
+        </p>
+
+        <div class="bloque-codigo">
+
+          <div class="cabecera-codigo">
+            <span class="lenguaje-codigo">JavaScript</span>
+            <button class="boton-copiar" type="button">
+              📋 Copiar código
+            </button>
+          </div>
+
+          <pre><code>const cantidad = 5;
+const precio = 19.95;
+const descuento = 0.10;
+
+console.log(typeof cantidad);
+console.log(typeof precio);
+console.log(typeof descuento);</code></pre>
+
+        </div>
+
+        <div class="bloque-codigo">
+
+          <div class="cabecera-codigo">
+            <span class="lenguaje-codigo">Consola</span>
+          </div>
+
+          <pre><code>number
+number
+number</code></pre>
+
+        </div>
+
+        <p>
+          Aunque unos valores sean enteros
+          y otros decimales,
+          todos pertenecen al tipo
+          <code>number</code>.
+        </p>
+
+        <h3>
+          Valores primitivos y objetos Number
+        </h3>
+
+        <p>
+          Al igual que ocurre con
+          <code>String</code>,
+          podemos distinguir entre
+          un número primitivo
+          y un objeto creado mediante
+          <code>new Number()</code>.
+        </p>
+
+        <div class="bloque-codigo">
+
+          <div class="cabecera-codigo">
+            <span class="lenguaje-codigo">JavaScript</span>
+            <button class="boton-copiar" type="button">
+              📋 Copiar código
+            </button>
+          </div>
+
+          <pre><code>const numero1 = 25;
+const numero2 = new Number(25);
+
+console.log(typeof numero1);
+console.log(typeof numero2);</code></pre>
+
+        </div>
+
+        <div class="bloque-codigo">
+
+          <div class="cabecera-codigo">
+            <span class="lenguaje-codigo">Consola</span>
+          </div>
+
+          <pre><code>number
+object</code></pre>
+
+        </div>
+
+        <p>
+          En la práctica utilizaremos
+          normalmente números primitivos,
+          ya que son más sencillos
+          y evitan confusiones
+          al comparar valores.
+        </p>
+
+        <h3>
+          Valores numéricos especiales
+        </h3>
+
+        <p>
+          JavaScript también puede representar
+          determinados resultados especiales,
+          como <code>Infinity</code>,
+          <code>-Infinity</code>
+          y <code>NaN</code>.
+        </p>
+
+        <p>
+          <code>NaN</code> significa
+          <em>Not a Number</em>
+          y suele aparecer cuando
+          una operación numérica
+          no produce un valor numérico válido.
+        </p>
+
+        <div class="bloque-codigo">
+
+          <div class="cabecera-codigo">
+            <span class="lenguaje-codigo">JavaScript</span>
+            <button class="boton-copiar" type="button">
+              📋 Copiar código
+            </button>
+          </div>
+
+          <pre><code>console.log(10 / 0);
+console.log(-10 / 0);
+console.log(Number("hola"));</code></pre>
+
+        </div>
+
+        <div class="bloque-codigo">
+
+          <div class="cabecera-codigo">
+            <span class="lenguaje-codigo">Consola</span>
+          </div>
+
+          <pre><code>Infinity
+-Infinity
+NaN</code></pre>
+
+        </div>
+
+        <div class="caja caja-atencion">
+
+          <span class="caja-titulo">
+            ⚠️ Atención
+          </span>
+
+          <p>
+            Aunque su nombre pueda resultar
+            confuso, <code>NaN</code>
+            pertenece al tipo
+            <code>number</code>.
+          </p>
+
+          <p>
+            Por ello,
+            <code>typeof NaN</code>
+            devuelve <code>"number"</code>.
+            Para comprobar específicamente
+            este valor utilizaremos
+            <code>Number.isNaN()</code>.
+          </p>
+
+        </div>
+
+        <!-- ======================================
+             MÉTODOS DE NUMBER
+        ====================================== -->
+
+        <h2 id="metodos-number">
+          Métodos de Number
+        </h2>
+
+        <p>
+          <code>Number</code> proporciona
+          métodos para presentar valores
+          numéricos y comprobar
+          determinadas características.
+        </p>
+
+        <p>
+          Algunos se utilizan sobre
+          un número concreto,
+          mientras que otros se invocan
+          directamente desde
+          <code>Number</code>.
+        </p>
+
+        <div class="tabla-responsive">
+
+          <table class="tabla-apuntes">
+
+            <thead>
+              <tr>
+                <th>Método</th>
+                <th>Finalidad</th>
+                <th>Ejemplo</th>
+              </tr>
+            </thead>
+
+            <tbody>
+
+              <tr>
+                <td><code>toFixed()</code></td>
+                <td>Devuelve un texto con un número fijo de decimales.</td>
+                <td><code>(12.345).toFixed(2)</code></td>
+              </tr>
+
+              <tr>
+                <td><code>toPrecision()</code></td>
+                <td>Devuelve un texto con un número de cifras significativas.</td>
+                <td><code>(123.456).toPrecision(4)</code></td>
+              </tr>
+
+              <tr>
+                <td><code>toString()</code></td>
+                <td>Convierte el número en texto.</td>
+                <td><code>(25).toString()</code></td>
+              </tr>
+
+              <tr>
+                <td><code>Number.isInteger()</code></td>
+                <td>Comprueba si es un entero.</td>
+                <td><code>Number.isInteger(10)</code></td>
+              </tr>
+
+              <tr>
+                <td><code>Number.isFinite()</code></td>
+                <td>Comprueba si es un número finito.</td>
+                <td><code>Number.isFinite(25)</code></td>
+              </tr>
+
+              <tr>
+                <td><code>Number.isNaN()</code></td>
+                <td>Comprueba si el valor es NaN.</td>
+                <td><code>Number.isNaN(NaN)</code></td>
+              </tr>
+
+            </tbody>
+
+          </table>
+
+        </div>
+
+        <h3>
+          Formatear decimales con toFixed()
+        </h3>
+
+        <p>
+          El método <code>toFixed()</code>
+          permite obtener una representación
+          de un número con una cantidad
+          determinada de cifras decimales.
+        </p>
+
+        <p>
+          Es especialmente útil
+          cuando queremos mostrar precios
+          o importes con dos decimales.
+        </p>
+
+        <div class="bloque-codigo">
+
+          <div class="cabecera-codigo">
+            <span class="lenguaje-codigo">JavaScript</span>
+            <button class="boton-copiar" type="button">
+              📋 Copiar código
+            </button>
+          </div>
+
+          <pre><code>const precio = 19.5;
+
+console.log(precio.toFixed(2));
+console.log(precio.toFixed(3));</code></pre>
+
+        </div>
+
+        <div class="bloque-codigo">
+
+          <div class="cabecera-codigo">
+            <span class="lenguaje-codigo">Consola</span>
+          </div>
+
+          <pre><code>19.50
+19.500</code></pre>
+
+        </div>
+
+        <p>
+          Aunque los resultados
+          parecen números,
+          <code>toFixed()</code>
+          devuelve una <strong>cadena
+          de texto</strong>.
+        </p>
+
+        <div class="bloque-codigo">
+
+          <div class="cabecera-codigo">
+            <span class="lenguaje-codigo">JavaScript</span>
+            <button class="boton-copiar" type="button">
+              📋 Copiar código
+            </button>
+          </div>
+
+          <pre><code>const precio = 19.5;
+
+const precioFormateado = precio.toFixed(2);
+
+console.log(typeof precioFormateado);</code></pre>
+
+        </div>
+
+        <div class="bloque-codigo">
+
+          <div class="cabecera-codigo">
+            <span class="lenguaje-codigo">Consola</span>
+          </div>
+
+          <pre><code>string</code></pre>
+
+        </div>
+
+        <div class="caja caja-importante">
+
+          <span class="caja-titulo">
+            📌 Importante
+          </span>
+
+          <p>
+            <code>toFixed()</code>
+            es un método de formato.
+            No debemos utilizar
+            directamente su resultado
+            como si siguiera siendo
+            un número.
+          </p>
+
+          <p>
+            Además, los números decimales
+            se representan internamente
+            mediante aritmética de coma flotante,
+            por lo que algunos cálculos
+            y redondeos pueden presentar
+            pequeñas imprecisiones.
+          </p>
+
+        </div>
+
+        <h3>
+          Convertir números en cadenas
+        </h3>
+
+        <p>
+          El método <code>toString()</code>
+          permite obtener la representación
+          textual de un número.
+        </p>
+
+        <div class="bloque-codigo">
+
+          <div class="cabecera-codigo">
+            <span class="lenguaje-codigo">JavaScript</span>
+            <button class="boton-copiar" type="button">
+              📋 Copiar código
+            </button>
+          </div>
+
+          <pre><code>const codigo = 2026;
+
+const codigoTexto = codigo.toString();
+
+console.log(codigoTexto);
+console.log(typeof codigoTexto);</code></pre>
+
+        </div>
+
+        <div class="bloque-codigo">
+
+          <div class="cabecera-codigo">
+            <span class="lenguaje-codigo">Consola</span>
+          </div>
+
+          <pre><code>2026
+string</code></pre>
+
+        </div>
+
+        <p>
+          La conversión puede resultar útil
+          cuando necesitamos construir
+          mensajes o identificadores
+          a partir de valores numéricos.
+        </p>
+
+        <h3>
+          Comprobación de enteros y valores finitos
+        </h3>
+
+        <p>
+          El método <code>Number.isInteger()</code>
+          permite comprobar si un valor
+          es un número entero.
+        </p>
+
+        <p>
+          Por su parte,
+          <code>Number.isFinite()</code>
+          permite comprobar si un valor
+          es un número finito.
+        </p>
+
+        <div class="bloque-codigo">
+
+          <div class="cabecera-codigo">
+            <span class="lenguaje-codigo">JavaScript</span>
+            <button class="boton-copiar" type="button">
+              📋 Copiar código
+            </button>
+          </div>
+
+          <pre><code>console.log(Number.isInteger(8));
+console.log(Number.isInteger(8.5));
+
+console.log(Number.isFinite(100));
+console.log(Number.isFinite(Infinity));
+console.log(Number.isFinite("100"));</code></pre>
+
+        </div>
+
+        <div class="bloque-codigo">
+
+          <div class="cabecera-codigo">
+            <span class="lenguaje-codigo">Consola</span>
+          </div>
+
+          <pre><code>true
+false
+true
+false
+false</code></pre>
+
+        </div>
+
+        <p>
+          Observa que estos métodos
+          no convierten automáticamente
+          una cadena en un número.
+        </p>
+
+        <!-- ======================================
+             CONVERSIÓN Y COMPROBACIÓN
+        ====================================== -->
+
+        <h2 id="conversion">
+          Conversión y comprobación de valores
+        </h2>
+
+        <p>
+          En muchas aplicaciones web,
+          los datos introducidos por los usuarios
+          llegan inicialmente como
+          <strong>cadenas de texto</strong>.
+        </p>
+
+        <p>
+          Por ejemplo, cuando utilizamos
+          <code>prompt()</code>,
+          el resultado es una cadena
+          o <code>null</code>
+          si el usuario cancela.
+        </p>
+
+        <p>
+          Antes de realizar operaciones
+          matemáticas, necesitamos comprobar
+          y convertir correctamente
+          esos valores.
+        </p>
+
+        <h3>
+          Conversión mediante Number()
+        </h3>
+
+        <p>
+          La función <code>Number()</code>
+          permite convertir determinados
+          valores a tipo numérico.
+        </p>
+
+        <div class="bloque-codigo">
+
+          <div class="cabecera-codigo">
+            <span class="lenguaje-codigo">JavaScript</span>
+            <button class="boton-copiar" type="button">
+              📋 Copiar código
+            </button>
+          </div>
+
+          <pre><code>console.log(Number("25"));
+console.log(Number("12.5"));
+console.log(Number("hola"));
+console.log(Number(""));</code></pre>
+
+        </div>
+
+        <div class="bloque-codigo">
+
+          <div class="cabecera-codigo">
+            <span class="lenguaje-codigo">Consola</span>
+          </div>
+
+          <pre><code>25
+12.5
+NaN
+0</code></pre>
+
+        </div>
+
+        <p>
+          Cuando la cadena contiene
+          un valor numérico válido,
+          obtenemos un número.
+        </p>
+
+        <p>
+          Si el texto no puede convertirse,
+          el resultado será <code>NaN</code>.
+        </p>
+
+        <div class="caja caja-atencion">
+
+          <span class="caja-titulo">
+            ⚠️ Atención
+          </span>
+
+          <p>
+            <code>Number("")</code>
+            devuelve <code>0</code>.
+            Lo mismo sucede con una cadena
+            formada únicamente por espacios.
+          </p>
+
+          <p>
+            Por ello, cuando validamos
+            una entrada obligatoria,
+            debemos comprobar primero
+            que el texto no esté vacío,
+            en lugar de confiar
+            únicamente en la conversión.
+          </p>
+
+        </div>
+
+        <h3>
+          Diferencias entre Number(), parseInt() y parseFloat()
+        </h3>
+
+        <p>
+          JavaScript también dispone
+          de <code>parseInt()</code>
+          y <code>parseFloat()</code>,
+          que permiten interpretar
+          la parte inicial de una cadena
+          como un número.
+        </p>
+
+        <div class="tabla-responsive">
+
+          <table class="tabla-apuntes">
+
+            <thead>
+              <tr>
+                <th>Función</th>
+                <th>Comportamiento</th>
+                <th>Ejemplo</th>
+              </tr>
+            </thead>
+
+            <tbody>
+
+              <tr>
+                <td><code>Number()</code></td>
+                <td>Convierte el valor completo si es válido.</td>
+                <td><code>Number("12.5")</code> → 12.5</td>
+              </tr>
+
+              <tr>
+                <td><code>parseInt()</code></td>
+                <td>Interpreta un entero desde el inicio del texto.</td>
+                <td><code>parseInt("12.5", 10)</code> → 12</td>
+              </tr>
+
+              <tr>
+                <td><code>parseFloat()</code></td>
+                <td>Interpreta un decimal desde el inicio del texto.</td>
+                <td><code>parseFloat("12.5")</code> → 12.5</td>
+              </tr>
+
+            </tbody>
+
+          </table>
+
+        </div>
+
+        <div class="bloque-codigo">
+
+          <div class="cabecera-codigo">
+            <span class="lenguaje-codigo">JavaScript</span>
+            <button class="boton-copiar" type="button">
+              📋 Copiar código
+            </button>
+          </div>
+
+          <pre><code>const dato = "25 euros";
+
+console.log(Number(dato));
+console.log(parseInt(dato, 10));
+console.log(parseFloat(dato));</code></pre>
+
+        </div>
+
+        <div class="bloque-codigo">
+
+          <div class="cabecera-codigo">
+            <span class="lenguaje-codigo">Consola</span>
+          </div>
+
+          <pre><code>NaN
+25
+25</code></pre>
+
+        </div>
+
+        <p>
+          En este caso,
+          <code>Number()</code>
+          no puede convertir
+          el texto completo.
+        </p>
+
+        <p>
+          Sin embargo,
+          <code>parseInt()</code>
+          y <code>parseFloat()</code>
+          interpretan la parte numérica
+          inicial y dejan de leer
+          al encontrar un carácter
+          que no pertenece al número.
+        </p>
+
+        <div class="caja caja-importante">
+
+          <span class="caja-titulo">
+            📌 Importante
+          </span>
+
+          <p>
+            Para validar que una entrada
+            contiene exclusivamente
+            un número válido,
+            normalmente conviene
+            comprobar la entrada completa
+            y utilizar <code>Number()</code>.
+          </p>
+
+          <p>
+            <code>parseInt()</code>
+            y <code>parseFloat()</code>
+            son útiles cuando queremos
+            interpretar expresamente
+            un número situado al principio
+            de un texto, pero pueden aceptar
+            entradas incompletas.
+          </p>
+
+        </div>
+
+        <h3>
+          Comprobación de NaN
+        </h3>
+
+        <p>
+          El método <code>Number.isNaN()</code>
+          permite comprobar si un valor
+          es exactamente <code>NaN</code>.
+        </p>
+
+        <div class="bloque-codigo">
+
+          <div class="cabecera-codigo">
+            <span class="lenguaje-codigo">JavaScript</span>
+            <button class="boton-copiar" type="button">
+              📋 Copiar código
+            </button>
+          </div>
+
+          <pre><code>const valor1 = Number("30");
+const valor2 = Number("treinta");
+
+console.log(Number.isNaN(valor1));
+console.log(Number.isNaN(valor2));</code></pre>
+
+        </div>
+
+        <div class="bloque-codigo">
+
+          <div class="cabecera-codigo">
+            <span class="lenguaje-codigo">Consola</span>
+          </div>
+
+          <pre><code>false
+true</code></pre>
+
+        </div>
+
+        <p>
+          En una aplicación real,
+          podemos combinar
+          <code>Number()</code>
+          con <code>Number.isFinite()</code>
+          para comprobar que hemos obtenido
+          un valor numérico finito.
+        </p>
+
+        <div class="bloque-codigo">
+
+          <div class="cabecera-codigo">
+            <span class="lenguaje-codigo">JavaScript</span>
+            <button class="boton-copiar" type="button">
+              📋 Copiar código
+            </button>
+          </div>
+
+          <pre><code>const entrada = "49.90";
+
+const precio = Number(entrada);
+
+if (Number.isFinite(precio) && precio >= 0) {
+  console.log("Precio válido:", precio);
+} else {
+  console.log("Precio no válido");
+}</code></pre>
+
+        </div>
+
+        <div class="bloque-codigo">
+
+          <div class="cabecera-codigo">
+            <span class="lenguaje-codigo">Consola</span>
+          </div>
+
+          <pre><code>Precio válido: 49.9</code></pre>
+
+        </div>
+
+        <p>
+          Esta comprobación es adecuada
+          para un valor ya convertido,
+          siempre que también hayamos
+          verificado previamente
+          las condiciones de la entrada,
+          como que no esté vacía.
+        </p>
+
+        <!-- ======================================
+             EJEMPLOS PRÁCTICOS
+        ====================================== -->
+
+        <h2 id="ejemplos">
+          Ejemplos prácticos
+        </h2>
+
+        <p>
+          Vamos a combinar las funcionalidades
+          de <code>String</code>
+          y <code>Number</code>
+          en situaciones relacionadas
+          con el desarrollo de aplicaciones web.
+        </p>
+
+        <h3>
+          Ejemplo 1. Normalización de nombres de productos
+        </h3>
+
+        <p>
+          Una tienda online recibe nombres
+          de productos escritos
+          con diferentes combinaciones
+          de mayúsculas, minúsculas
+          y espacios innecesarios.
+        </p>
+
+        <p>
+          Queremos eliminar los espacios
+          de los extremos y mostrar
+          los nombres en mayúsculas.
+        </p>
+
+        <div class="bloque-codigo">
+
+          <div class="cabecera-codigo">
+            <span class="lenguaje-codigo">JavaScript</span>
+            <button class="boton-copiar" type="button">
+              📋 Copiar código
+            </button>
+          </div>
+
+          <pre><code>const productos = [
+  "   teclado mecánico   ",
+  "Ratón Inalámbrico",
+  "  MONITOR LED "
+];
+
+const productosNormalizados =
+  productos.map(producto =>
+    producto.trim().toUpperCase()
+  );
+
+console.log(productosNormalizados);</code></pre>
+
+        </div>
+
+        <div class="bloque-codigo">
+
+          <div class="cabecera-codigo">
+            <span class="lenguaje-codigo">Consola</span>
+          </div>
+
+          <pre><code>[
+  "TECLADO MECÁNICO",
+  "RATÓN INALÁMBRICO",
+  "MONITOR LED"
+]</code></pre>
+
+        </div>
+
+        <p>
+          En este ejemplo combinamos
+          métodos de cadenas
+          con el método <code>map()</code>
+          de arrays, estudiado
+          en unidades anteriores.
+        </p>
+
+        <div class="caja caja-ejemplo">
+
+          <span class="caja-titulo">
+            💻 Ejemplo DAW
+          </span>
+
+          <p>
+            Normalizar textos puede facilitar
+            las búsquedas y comparaciones
+            dentro de un catálogo.
+          </p>
+
+          <p>
+            Sin embargo, transformar todos
+            los nombres a mayúsculas
+            es solo una decisión de presentación
+            o normalización básica:
+            no siempre conviene sustituir
+            el nombre original almacenado.
+          </p>
+
+        </div>
+
+        <h3>
+          Ejemplo 2. Cálculo del importe de un pedido
+        </h3>
+
+        <p>
+          Supongamos que una aplicación
+          recibe el precio y la cantidad
+          de un producto como cadenas.
+        </p>
+
+        <p>
+          Antes de calcular el importe,
+          debemos convertir los datos
+          y comprobar que son válidos.
+        </p>
+
+        <div class="bloque-codigo">
+
+          <div class="cabecera-codigo">
+            <span class="lenguaje-codigo">JavaScript</span>
+            <button class="boton-copiar" type="button">
+              📋 Copiar código
+            </button>
+          </div>
+
+          <pre><code>const precioTexto = "29.95";
+const cantidadTexto = "3";
+
+const precio = Number(precioTexto);
+const cantidad = Number(cantidadTexto);
+
+const precioValido =
+  precioTexto.trim() !== "" &&
+  Number.isFinite(precio) &&
+  precio >= 0;
+
+const cantidadValida =
+  cantidadTexto.trim() !== "" &&
+  Number.isInteger(cantidad) &&
+  cantidad > 0;
+
+if (precioValido && cantidadValida) {
+
+  const total = precio * cantidad;
+
+  console.log("Precio:", precio.toFixed(2));
+  console.log("Cantidad:", cantidad);
+  console.log("Total:", total.toFixed(2));
+
+} else {
+
+  console.log("Datos del pedido no válidos");
+
+}</code></pre>
+
+        </div>
+
+        <div class="bloque-codigo">
+
+          <div class="cabecera-codigo">
+            <span class="lenguaje-codigo">Consola</span>
+          </div>
+
+          <pre><code>Precio: 29.95
+Cantidad: 3
+Total: 89.85</code></pre>
+
+        </div>
+
+        <p>
+          El programa realiza
+          las siguientes operaciones:
+        </p>
+
+        <ol>
+
+          <li>
+            Convierte las cadenas
+            a valores numéricos.
+          </li>
+
+          <li>
+            Comprueba que las entradas
+            no estén vacías.
+          </li>
+
+          <li>
+            Verifica que el precio
+            sea un número finito
+            no negativo.
+          </li>
+
+          <li>
+            Comprueba que la cantidad
+            sea un entero positivo.
+          </li>
+
+          <li>
+            Calcula el importe
+            y lo presenta
+            con dos decimales.
+          </li>
+
+        </ol>
+
+        <div class="caja caja-atencion">
+
+          <span class="caja-titulo">
+            ⚠️ Atención
+          </span>
+
+          <p>
+            Este ejemplo utiliza
+            números decimales para facilitar
+            el aprendizaje.
+          </p>
+
+          <p>
+            En aplicaciones económicas reales
+            debemos prestar especial atención
+            a la precisión de los cálculos.
+            Una solución habitual consiste
+            en trabajar con unidades enteras
+            de la moneda, como céntimos,
+            o utilizar herramientas
+            de aritmética decimal adecuadas.
+          </p>
+
+        </div>
+
+        <!-- ======================================
+             PIENSA
+        ====================================== -->
+
+        <div class="actividad-reflexion">
+
+          <h3>
+            💭 Piensa
+          </h3>
+
+          <p>
+            Observa el siguiente código
+            sin ejecutarlo:
+          </p>
+
+          <div class="bloque-codigo">
+
+            <div class="cabecera-codigo">
+              <span class="lenguaje-codigo">JavaScript</span>
+              <button class="boton-copiar" type="button">
+                📋 Copiar código
+              </button>
+            </div>
+
+            <pre><code>const producto = "  Teclado Gaming  ";
+const precio = "39.95";
+const cantidad = "2";
+
+const nombre = producto.trim().toUpperCase();
+
+const total =
+  Number(precio) * Number(cantidad);
+
+console.log(nombre);
+console.log(nombre.includes("GAMING"));
+console.log(total.toFixed(2));
+console.log(typeof total.toFixed(2));</code></pre>
+
+          </div>
+
+          <p>
+            Responde a las siguientes preguntas:
+          </p>
+
+          <ol>
+
+            <li>
+              ¿Qué cuatro valores aparecerán
+              en la consola?
+            </li>
+
+            <li>
+              ¿Qué métodos se utilizan
+              para transformar
+              el nombre del producto?
+            </li>
+
+            <li>
+              ¿Por qué se utiliza
+              <code>Number()</code>
+              antes de calcular el total?
+            </li>
+
+            <li>
+              ¿Qué tipo de dato devuelve
+              <code>toFixed(2)</code>?
+            </li>
+
+            <li>
+              ¿Se ha modificado
+              la cadena original
+              almacenada en
+              <code>producto</code>?
+            </li>
+
+          </ol>
+
+          <details class="solucion-desplegable">
+
+            <summary>
+              Ver una posible solución
+            </summary>
+
+            <div class="contenido-solucion">
+
+              <p>
+                <strong>1. Salida esperada:</strong>
+              </p>
+
+              <div class="bloque-codigo">
+
+                <div class="cabecera-codigo">
+                  <span class="lenguaje-codigo">Consola</span>
+                </div>
+
+                <pre><code>TECLADO GAMING
+true
+79.90
+string</code></pre>
+
+              </div>
+
+              <p>
+                <strong>2. Transformación:</strong>
+                se utilizan
+                <code>trim()</code>
+                para eliminar los espacios
+                de los extremos y
+                <code>toUpperCase()</code>
+                para convertir el texto
+                a mayúsculas.
+              </p>
+
+              <p>
+                <strong>3. Conversión:</strong>
+                <code>Number()</code>
+                convierte las cadenas
+                que representan el precio
+                y la cantidad
+                en valores numéricos.
+                Así trabajamos explícitamente
+                con números antes del cálculo.
+              </p>
+
+              <p>
+                <strong>4. Tipo de dato:</strong>
+                <code>toFixed(2)</code>
+                devuelve una cadena
+                de tipo <code>string</code>,
+                aunque visualmente
+                represente un número.
+              </p>
+
+              <p>
+                <strong>5. Cadena original:</strong>
+                no se modifica.
+                La variable <code>producto</code>
+                sigue almacenando
+                <code>"  Teclado Gaming  "</code>.
+                Los métodos han devuelto
+                una nueva cadena.
+              </p>
+
+            </div>
+
+          </details>
+
+        </div>
+
+        <p>
+          Con los objetos
+          <code>String</code>
+          y <code>Number</code>
+          ya disponemos de herramientas
+          fundamentales para procesar
+          textos y valores numéricos
+          en nuestras aplicaciones.
+        </p>
+
+        <p>
+          En el siguiente apartado
+          estudiaremos el
+          <strong>objeto <code>Math</code></strong>,
+          que proporciona constantes
+          y métodos para realizar
+          operaciones matemáticas,
+          redondeos y cálculos
+          con números aleatorios.
+        </p>
+
+      </article>
+
+      <!-- ==========================================
+           NAVEGACIÓN
+      ========================================== -->
+
+      <nav class="navegacion-paginas">
+
+        <a
+          class="nav-pagina nav-anterior"
+          href="../7-1/index.html"
+        >
+
+          <span class="nav-etiqueta">
+            Anterior
+          </span>
+
+          <strong>
+            ‹ 7.1 Introducción a los objetos predefinidos de JavaScript
+          </strong>
+
+        </a>
+
+        <a
+          class="nav-pagina nav-siguiente"
+          href="../7-3/index.html"
+        >
+
+          <span class="nav-etiqueta">
+            Siguiente
+          </span>
+
+          <strong>
+            7.3 Objeto Math ›
+          </strong>
+
+        </a>
+
+      </nav>
+
+    </main>
+
+    <!-- ==========================================
+         COLUMNA DERECHA
+    ========================================== -->
+
+    <aside class="indice-derecho">
+
+      <h2>
+        Contenidos del apartado
+      </h2>
+
+      <ul>
+
+        <li>
+          <a href="#string">
+            El objeto String
+          </a>
+        </li>
+
+        <li>
+          <a href="#metodos-string">
+            Métodos de String
+          </a>
+        </li>
+
+        <li>
+          <a href="#busqueda">
+            Búsqueda y transformación de cadenas
+          </a>
+        </li>
+
+        <li>
+          <a href="#number">
+            El objeto Number
+          </a>
+        </li>
+
+        <li>
+          <a href="#metodos-number">
+            Métodos de Number
+          </a>
+        </li>
+
+        <li>
+          <a href="#conversion">
+            Conversión y comprobación de valores
+          </a>
+        </li>
+
+        <li>
+          <a href="#ejemplos">
+            Ejemplos prácticos
+          </a>
+        </li>
+
+      </ul>
+
+    </aside>
+
+  </div>
+
+  <!-- ==========================================
+       PIE DE PÁGINA
+  ========================================== -->
+
+  <footer class="footer">
+
+    <p>
+
+      Material elaborado por
+      <strong>Eva Ballestero Cubeles</strong>
+
+      - Licencia
+
+      <span class="licencia">
+        CC BY-NC-SA 4.0
+      </span>
+
+      <a
+        class="enlace-licencia"
+        href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.es"
+        target="_blank"
+        rel="license noopener noreferrer"
+        aria-label="Licencia Creative Commons BY-NC-SA 4.0"
+      >
+
+        <img
+          class="icono-licencia"
+          src="../../../img/licencias/cc-by-nc-sa.png"
+          alt="Licencia Creative Commons BY-NC-SA 4.0"
+        >
+
+      </a>
+
+    </p>
+
+  </footer>
+
+  <!-- ==========================================
+       JAVASCRIPT
+  ========================================== -->
+
+  <script src="../../../js/modulos.js"></script>
+
+  <script>
+
+    /* ==========================================
+       MENÚ SUPERIOR
+    ========================================== */
+
+    const menuModulos =
+      document.getElementById("menuModulos");
+
+    const botonTema =
+      document.getElementById("botonTema");
+
+    if (typeof modulos !== "undefined" && menuModulos) {
+
+      const modulosActivos =
+        modulos.filter(modulo => modulo.activo === true);
+
+      modulosActivos.forEach(modulo => {
+
+        const enlace = document.createElement("a");
+
+        enlace.href =
+          `../../../${modulo.carpeta}/index.html`;
+
+        enlace.textContent = modulo.siglas;
+        enlace.title = modulo.nombre;
+
+        if (modulo.siglas === "DWEC") {
+          enlace.style.color = "var(--verde-principal)";
+        }
+
+        menuModulos.appendChild(enlace);
+
+      });
+
+    }
+
+    /* ==========================================
+       MODO OSCURO
+    ========================================== */
+
+    const temaGuardado =
+      localStorage.getItem("tema");
+
+    if (temaGuardado === "oscuro") {
+
+      document.body.classList.add("modo-oscuro");
+      botonTema.textContent = "🌙";
+
+    }
+
+    botonTema.addEventListener("click", () => {
+
+      document.body.classList.toggle("modo-oscuro");
+
+      const estaOscuro =
+        document.body.classList.contains("modo-oscuro");
+
+      botonTema.textContent =
+        estaOscuro ? "🌙" : "☀️";
+
+      localStorage.setItem(
+        "tema",
+        estaOscuro ? "oscuro" : "claro"
+      );
+
+    });
+
+    /* ==========================================
+       DATOS DE LOS APARTADOS DE LA UT7
+    ========================================== */
+
+    const apartadosUT7 = [
+
+      {
+        numero: "7.3",
+        titulo: "Objeto Math",
+        carpeta: "7-3",
+        secciones: [
+          ["introduccion", "Introducción a Math"],
+          ["constantes", "Constantes matemáticas"],
+          ["redondeo", "Métodos de redondeo"],
+          ["operaciones", "Operaciones matemáticas"],
+          ["aleatorios", "Generación de números aleatorios"],
+          ["ejemplos", "Ejemplos prácticos"]
+        ]
+      },
+
+      {
+        numero: "7.4",
+        titulo: "Objeto Date",
+        carpeta: "7-4",
+        secciones: [
+          ["introduccion", "Introducción a Date"],
+          ["crear", "Creación de fechas"],
+          ["consultar", "Consulta de fechas y horas"],
+          ["modificar", "Modificación de fechas"],
+          ["comparar", "Comparación y cálculo de diferencias"],
+          ["formato", "Formato de fechas"],
+          ["ejemplos", "Ejemplos prácticos"]
+        ]
+      },
+
+      {
+        numero: "7.5",
+        titulo: "Objeto RegExp y expresiones regulares",
+        carpeta: "7-5",
+        secciones: [
+          ["concepto", "Qué es una expresión regular"],
+          ["sintaxis", "Sintaxis de los patrones"],
+          ["caracteres", "Caracteres especiales"],
+          ["cuantificadores", "Cuantificadores"],
+          ["modificadores", "Modificadores"],
+          ["metodos", "Métodos test(), exec() y match()"],
+          ["ejemplos", "Ejemplos prácticos"]
+        ]
+      },
+
+      {
+        numero: "7.6",
+        titulo: "Objeto JSON y conversión de datos",
+        carpeta: "7-6",
+        secciones: [
+          ["concepto", "Qué es JSON"],
+          ["sintaxis", "Sintaxis y estructura de JSON"],
+          ["diferencias", "Diferencias entre JSON y objetos JavaScript"],
+          ["stringify", "JSON.stringify()"],
+          ["parse", "JSON.parse()"],
+          ["errores", "Errores y precauciones"],
+          ["ejemplos", "Ejemplos prácticos"]
+        ]
+      },
+
+      {
+        numero: "7.7",
+        titulo: "Introducción al BOM: estructura y características",
+        carpeta: "7-7",
+        secciones: [
+          ["concepto", "Qué es el BOM"],
+          ["estructura", "Estructura del BOM"],
+          ["window", "El objeto window como objeto global"],
+          ["objetos", "Principales objetos del navegador"],
+          ["diferencias", "Diferencias entre BOM y DOM"],
+          ["ejemplo", "Primer ejemplo con el BOM"]
+        ]
+      },
+
+      {
+        numero: "7.8",
+        titulo: "Objeto window: propiedades y métodos",
+        carpeta: "7-8",
+        secciones: [
+          ["concepto", "El objeto window"],
+          ["global", "window y el ámbito global"],
+          ["dimensiones", "Dimensiones de la ventana"],
+          ["desplazamiento", "Desplazamiento y posición"],
+          ["dialogos", "Métodos alert(), confirm() y prompt()"],
+          ["ejemplos", "Ejemplos prácticos"]
+        ]
+      },
+
+      {
+        numero: "7.9",
+        titulo: "Gestión de ventanas y temporizadores",
+        carpeta: "7-9",
+        secciones: [
+          ["abrir", "Apertura de ventanas"],
+          ["cerrar", "Cierre de ventanas"],
+          ["comunicacion", "Comunicación básica entre ventanas"],
+          ["timeout", "setTimeout() y clearTimeout()"],
+          ["interval", "setInterval() y clearInterval()"],
+          ["ejemplos", "Ejemplos prácticos"]
+        ]
+      },
+
+      {
+        numero: "7.10",
+        titulo: "Objeto location: información y navegación",
+        carpeta: "7-10",
+        secciones: [
+          ["concepto", "El objeto location"],
+          ["url", "La propiedad href"],
+          ["partes", "Partes de una URL"],
+          ["navegar", "Navegación con assign() y replace()"],
+          ["recargar", "Recarga de páginas"],
+          ["ejemplos", "Ejemplos prácticos"]
+        ]
+      },
+
+      {
+        numero: "7.11",
+        titulo: "Objeto history: historial de navegación",
+        carpeta: "7-11",
+        secciones: [
+          ["concepto", "El objeto history"],
+          ["length", "Longitud del historial"],
+          ["back", "history.back()"],
+          ["forward", "history.forward()"],
+          ["go", "history.go()"],
+          ["limitaciones", "Limitaciones y seguridad"],
+          ["ejemplos", "Ejemplos prácticos"]
+        ]
+      },
+
+      {
+        numero: "7.12",
+        titulo: "Objetos navigator y screen",
+        carpeta: "7-12",
+        secciones: [
+          ["navigator", "El objeto navigator"],
+          ["propiedades", "Propiedades de navigator"],
+          ["capacidades", "Capacidades del navegador"],
+          ["screen", "El objeto screen"],
+          ["dimensiones", "Dimensiones de pantalla"],
+          ["ejemplos", "Ejemplos prácticos"]
+        ]
+      },
+
+      {
+        numero: "7.13",
+        titulo: "Almacenamiento en el navegador",
+        carpeta: "7-13",
+        secciones: [
+          ["introduccion", "Introducción al almacenamiento web"],
+          ["localstorage", "localStorage"],
+          ["sessionstorage", "sessionStorage"],
+          ["metodos", "Métodos de almacenamiento"],
+          ["json", "Almacenamiento de objetos con JSON"],
+          ["cookies", "Cookies"],
+          ["comparacion", "Diferencias entre los mecanismos"],
+          ["ejemplos", "Ejemplos prácticos"]
+        ]
+      },
+
+      {
+        numero: "7.14",
+        titulo: "Interacción con el usuario y aplicación práctica del BOM",
+        carpeta: "7-14",
+        secciones: [
+          ["planteamiento", "Planteamiento de una aplicación"],
+          ["objetos", "Selección de objetos predefinidos"],
+          ["navegacion", "Navegación e interacción"],
+          ["almacenamiento", "Persistencia de información"],
+          ["organizacion", "Organización del código"],
+          ["pruebas", "Pruebas y depuración"],
+          ["ejemplo", "Ejemplo práctico completo"]
+        ]
+      }
+
+    ];
+
+    /* ==========================================
+       CONSTRUCCIÓN DEL MENÚ LATERAL
+    ========================================== */
+
+    const contenedorApartados =
+      document.getElementById("restoApartadosUT7");
+
+    apartadosUT7.forEach(apartado => {
+
+      const contenedor =
+        document.createElement("div");
+
+      contenedor.className =
+        "menu-desplegable menu-apartado";
+
+      const cabecera =
+        document.createElement("div");
+
+      cabecera.className = "menu-cabecera";
+
+      const enlace =
+        document.createElement("a");
+
+      enlace.className = "menu-titulo";
+
+      enlace.href =
+        `../${apartado.carpeta}/index.html`;
+
+      enlace.textContent =
+        `${apartado.numero} ${apartado.titulo}`;
+
+      const boton =
+        document.createElement("button");
+
+      boton.className = "boton-desplegar";
+      boton.type = "button";
+      boton.textContent = "›";
+
+      const idSubmenu =
+        `submenu-${apartado.carpeta}`;
+
+      boton.setAttribute("data-target", idSubmenu);
+      boton.setAttribute("aria-expanded", "false");
+      boton.setAttribute(
+        "aria-label",
+        `Mostrar u ocultar los subapartados del ${apartado.numero}`
+      );
+
+      cabecera.appendChild(enlace);
+      cabecera.appendChild(boton);
+
+      const submenu =
+        document.createElement("div");
+
+      submenu.id = idSubmenu;
+      submenu.className =
+        "submenu submenu-apartados";
+
+      apartado.secciones.forEach(seccion => {
+
+        const enlaceSeccion =
+          document.createElement("a");
+
+        enlaceSeccion.href =
+          `../${apartado.carpeta}/index.html#${seccion[0]}`;
+
+        enlaceSeccion.textContent = seccion[1];
+
+        submenu.appendChild(enlaceSeccion);
+
+      });
+
+      contenedor.appendChild(cabecera);
+      contenedor.appendChild(submenu);
+
+      contenedorApartados.appendChild(contenedor);
+
+    });
+
+    /* ==========================================
+       MENÚS DESPLEGABLES
+    ========================================== */
+
+    document.querySelectorAll(".boton-desplegar")
+      .forEach(boton => {
+
+        boton.addEventListener("click", () => {
+
+          const idSubmenu =
+            boton.getAttribute("data-target");
+
+          const submenu =
+            document.getElementById(idSubmenu);
+
+          if (!submenu) {
+            return;
+          }
+
+          const estaAbierto =
+            submenu.classList.contains("submenu-abierto");
+
+          submenu.classList.toggle("submenu-abierto");
+
+          boton.textContent =
+            estaAbierto ? "›" : "⌄";
+
+          boton.setAttribute(
+            "aria-expanded",
+            String(!estaAbierto)
+          );
+
+        });
+
+      });
+
+    /* ==========================================
+       SOLUCIONES DESPLEGABLES
+    ========================================== */
+
+    document.querySelectorAll(".solucion-desplegable")
+      .forEach(detalle => {
+
+        const resumen = detalle.querySelector("summary");
+
+        if (!resumen) {
+          return;
+        }
+
+        detalle.addEventListener("toggle", () => {
+
+          resumen.textContent =
+            detalle.open
+              ? "Ocultar solución"
+              : "Ver una posible solución";
+
+        });
+
+      });
+
+    /* ==========================================
+       COPIAR CÓDIGO
+    ========================================== */
+
+    document.addEventListener("click", async evento => {
+
+      const boton =
+        evento.target.closest(".boton-copiar");
+
+      if (!boton) {
+        return;
+      }
+
+      const bloque =
+        boton.closest(".bloque-codigo");
+
+      const codigo =
+        bloque?.querySelector("code");
+
+      if (!codigo) {
+        return;
+      }
+
+      const textoOriginal =
+        boton.textContent;
+
+      try {
+
+        await navigator.clipboard.writeText(
+          codigo.textContent
+        );
+
+        boton.textContent = "✔ Copiado";
+
+      } catch (error) {
+
+        boton.textContent = "Error al copiar";
+
+      }
+
+      setTimeout(() => {
+
+        boton.textContent = textoOriginal;
+
+      }, 1600);
+
+    });
+
+  </script>
+
+</body>
+
+</html>
