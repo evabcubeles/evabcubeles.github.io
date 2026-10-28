@@ -3593,29 +3593,6 @@ string</code></pre>
 
       });
 
-    /* ==========================================
-       SOLUCIONES DESPLEGABLES
-    ========================================== */
-
-    document.querySelectorAll(".solucion-desplegable")
-      .forEach(detalle => {
-
-        const resumen = detalle.querySelector("summary");
-
-        if (!resumen) {
-          return;
-        }
-
-        detalle.addEventListener("toggle", () => {
-
-          resumen.textContent =
-            detalle.open
-              ? "Ocultar solución"
-              : "Ver una posible solución";
-
-        });
-
-      });
 
     /* ==========================================
        COPIAR CÓDIGO
