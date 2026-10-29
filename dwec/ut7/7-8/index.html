@@ -874,7 +874,32 @@ Desplazamiento vertical: 350</code></pre></div><h3>Desplazamiento absoluto con s
   top: 300,
   left: 0,
   behavior: "smooth"
-});</code></pre></div><p>Este segundo ejemplo solicita desplazarse 300 píxeles hacia abajo desde la posición actual. Si la página ya está cerca del final, el desplazamiento real puede ser menor.</p><h3>Escuchar el evento scroll</h3><div class="bloque-codigo"><div class="cabecera-codigo"><span class="lenguaje-codigo">JavaScript</span><button class="boton-copiar" type="button">📋 Copiar código</button></div><pre><code>window.addEventListener("scroll", () =&gt; {
+});</code></pre></div><p>Este segundo ejemplo solicita desplazarse 300 píxeles hacia abajo desde la posición actual. Si la página ya está cerca del final, el desplazamiento real puede ser menor.</p>
+    
+<div class="caja caja-atencion">
+  <span class="caja-titulo">⚠️ Atención</span>
+
+  <p>
+    Los métodos <code>window.scrollTo()</code> y
+    <code>window.scrollBy()</code> controlan el desplazamiento
+    de la ventana.
+  </p>
+
+  <p>
+    Si una página contiene elementos con barras de
+    desplazamiento independientes, como un menú lateral,
+    estos métodos no desplazan necesariamente dichos elementos.
+  </p>
+
+  <p>
+    Para desplazar un elemento concreto que dispone de su
+    propia barra de desplazamiento, podemos utilizar los
+    métodos <code>scrollTo()</code> o <code>scrollBy()</code>
+    directamente sobre ese elemento.
+  </p>
+</div>
+
+    <h3>Escuchar el evento scroll</h3><div class="bloque-codigo"><div class="cabecera-codigo"><span class="lenguaje-codigo">JavaScript</span><button class="boton-copiar" type="button">📋 Copiar código</button></div><pre><code>window.addEventListener("scroll", () =&gt; {
   console.log("Posición vertical:", Math.round(window.scrollY));
 });</code></pre></div><p>Al desplazarte, la consola mostrará sucesivos valores. Este tipo de evento puede utilizarse para activar un botón de «Volver arriba» cuando el usuario ha recorrido parte de la página.</p><div class="caja caja-importante"><span class="caja-titulo">📌 Importante</span><p><code>scrollY</code> indica el desplazamiento vertical del documento, no la altura total de la página. Los métodos <code>scrollTo()</code> y <code>scrollBy()</code> mueven la vista, pero no modifican el contenido HTML.</p></div><h2 id="dialogos">Métodos alert(), confirm() y prompt()</h2><p>El navegador ofrece tres métodos clásicos para mostrar mensajes y solicitar respuestas sencillas. Son útiles para practicar la interacción con el usuario, aunque en aplicaciones reales suelen sustituirse por interfaces HTML más flexibles y accesibles.</p><div class="tabla-responsive"><table class="tabla-apuntes"><thead><tr><th>Método</th><th>Qué hace</th><th>Valor devuelto</th></tr></thead><tbody><tr><td><code>alert(mensaje)</code></td><td>Muestra un mensaje informativo</td><td><code>undefined</code></td></tr><tr><td><code>confirm(mensaje)</code></td><td>Solicita aceptar o cancelar</td><td><code>true</code> o <code>false</code></td></tr><tr><td><code>prompt(mensaje, valor)</code></td><td>Solicita una entrada de texto</td><td>Cadena de texto o <code>null</code></td></tr></tbody></table></div><h3>alert(): mostrar un aviso</h3><div class="bloque-codigo"><div class="cabecera-codigo"><span class="lenguaje-codigo">JavaScript</span><button class="boton-copiar" type="button">📋 Copiar código</button></div><pre><code>window.alert("Bienvenido al módulo DWEC");
 console.log("El programa continúa");</code></pre></div><p><strong>Salida por consola después de cerrar el aviso:</strong></p><div class="bloque-codigo"><div class="cabecera-codigo"><span class="lenguaje-codigo">Consola</span><button class="boton-copiar" type="button">📋 Copiar código</button></div><pre><code>El programa continúa</code></pre></div><p>Primero aparece el cuadro de diálogo. Cuando el usuario lo cierra, se ejecuta la siguiente instrucción. El mensaje del aviso se muestra en pantalla, no en la consola.</p><h3>confirm(): aceptar o cancelar</h3><div class="bloque-codigo"><div class="cabecera-codigo"><span class="lenguaje-codigo">JavaScript</span><button class="boton-copiar" type="button">📋 Copiar código</button></div><pre><code>const continuar = window.confirm("¿Deseas guardar los cambios?");
