@@ -841,7 +841,23 @@ if (nuevaVentana === null) {
 
 boton.addEventListener(&quot;click&quot;, () =&gt; {
   window.open(&quot;ayuda.html&quot;, &quot;_blank&quot;);
-});</code></pre></div><p>Este segundo ejemplo presupone que la página contiene un botón con <code>id="abrirAyuda"</code> y que existe el archivo <code>ayuda.html</code>.</p><div class="caja caja-atencion"><span class="caja-titulo">⚠️ Atención</span><p><code>window.open()</code> puede devolver <code>null</code> si la apertura es bloqueada. Además, <strong>no debemos confiar en que se abra una ventana flotante</strong>: muchos navegadores prefieren pestañas y limitan las características solicitadas.</p></div><h3>Opciones de tamaño</h3><div class="bloque-codigo"><div class="cabecera-codigo"><span class="lenguaje-codigo">JavaScript</span><button class="boton-copiar" type="button">📋 Copiar código</button></div><pre><code>const ayuda = window.open(
+});</code></pre></div><p>Este segundo ejemplo presupone que la página contiene un botón con <code>id="abrirAyuda"</code> y que existe el archivo <code>ayuda.html</code>.</p><div class="caja caja-atencion"><span class="caja-titulo">⚠️ Atención</span>
+<p>
+  <code>window.open()</code> puede devolver
+  <code>null</code> si el navegador bloquea la apertura.
+  Cuando devuelve una referencia, esta corresponde a un
+  contexto de navegación, pero no garantiza que se haya
+  abierto una ventana flotante independiente.
+</p>
+
+<p>
+  El navegador puede abrir una pestaña en lugar de una
+  ventana, modificar las dimensiones solicitadas o aplicar
+  otras restricciones. Por ello, no debemos diseñar una
+  aplicación suponiendo que siempre se abrirá una ventana
+  independiente.
+</p>
+</div><h3>Opciones de tamaño</h3><div class="bloque-codigo"><div class="cabecera-codigo"><span class="lenguaje-codigo">JavaScript</span><button class="boton-copiar" type="button">📋 Copiar código</button></div><pre><code>const ayuda = window.open(
   &quot;ayuda.html&quot;,
   &quot;ventanaAyuda&quot;,
   &quot;width=600,height=400&quot;
@@ -892,17 +908,20 @@ setTimeout(() =&gt; {
 }, 1500);</code></pre></div><p><strong>Salida por consola (el segundo mensaje aparece más tarde):</strong></p><div class="bloque-codigo"><div class="cabecera-codigo"><span class="lenguaje-codigo">Consola</span><button class="boton-copiar" type="button">📋 Copiar código</button></div><pre><code>Guardando borrador...
 Borrador guardado correctamente</code></pre></div><h3>Ejemplo 2. Cuenta atrás para una reserva</h3><p>Simularemos una cuenta atrás de tres segundos. El intervalo se detendrá automáticamente cuando llegue a cero.</p><div class="bloque-codigo"><div class="cabecera-codigo"><span class="lenguaje-codigo">JavaScript</span><button class="boton-copiar" type="button">📋 Copiar código</button></div><pre><code>let segundos = 3;
 
-const reloj = setInterval(() =&gt; {
-  console.log(&quot;Tiempo restante:&quot;, segundos);
+console.log("Tiempo restante:", segundos);
+
+const reloj = setInterval(() => {
   segundos--;
+  console.log("Tiempo restante:", segundos);
 
   if (segundos === 0) {
     clearInterval(reloj);
-    console.log(&quot;Tiempo agotado&quot;);
+    console.log("Tiempo agotado");
   }
 }, 1000);</code></pre></div><p><strong>Salida por consola (aproximadamente cada segundo):</strong></p><div class="bloque-codigo"><div class="cabecera-codigo"><span class="lenguaje-codigo">Consola</span><button class="boton-copiar" type="button">📋 Copiar código</button></div><pre><code>Tiempo restante: 3
 Tiempo restante: 2
 Tiempo restante: 1
+Tiempo restante: 0
 Tiempo agotado</code></pre></div><h3>Ejemplo 3. Evitar que un aviso se muestre si se cancela</h3><p>En una tienda online podemos programar un recordatorio y cancelarlo cuando el usuario completa una acción.</p><div class="bloque-codigo"><div class="cabecera-codigo"><span class="lenguaje-codigo">JavaScript</span><button class="boton-copiar" type="button">📋 Copiar código</button></div><pre><code>const recordatorio = setTimeout(() =&gt; {
   console.log(&quot;Recuerda finalizar tu pedido&quot;);
 }, 5000);
