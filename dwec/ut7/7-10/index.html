@@ -764,7 +764,7 @@
 <!-- APARTADOS 7.1 A 7.8 -->
 <div id="apartadosAnterioresUT7"></div>
 <!-- ======================================
-               7.9 ACTIVO
+               7.10 ACTIVO
           ====================================== -->
 <div class="menu-desplegable menu-apartado"><div class="menu-cabecera menu-cabecera-activa"><a class="menu-titulo" href="index.html">7.10 Objeto location: información y navegación</a><button aria-expanded="true" aria-label="Mostrar u ocultar los subapartados del 7.10" class="boton-desplegar" data-target="submenu-7-10" type="button">⌄</button></div><div class="submenu submenu-apartados submenu-abierto" id="submenu-7-10"><a href="#concepto">El objeto location</a><a href="#url">La propiedad href</a><a href="#partes">Partes de una URL</a><a href="#navegar">Navegación con assign() y replace()</a><a href="#recargar">Recarga de páginas</a><a href="#ejemplos">Ejemplos prácticos</a></div></div>
 <!-- RESTO DE APARTADOS UT7 -->
@@ -880,7 +880,7 @@ if (idTexto !== null && /^[1-9]\d*$/.test(idTexto)) {
 } else {
   console.log("Identificador no válido");
 }
-</code></pre></div><p><strong>Salida por consola:</strong></p><div class="bloque-codigo"><div class="cabecera-codigo"><span class="lenguaje-codigo">Consola</span><button class="boton-copiar" type="button">📋 Copiar código</button></div><pre><code>Producto solicitado: 25</code></pre></div><p>El valor del parámetro llega como texto y se convierte a número. Comprobamos que sea un entero positivo antes de utilizarlo.</p><h3>Ejemplo 3. Redirigir después de una acción</h3><p>Cuando una aplicación termina una operación correctamente, puede ofrecer un botón para navegar a una página de confirmación.</p><div class="bloque-codigo"><div class="cabecera-codigo"><span class="lenguaje-codigo">JavaScript</span><button class="boton-copiar" type="button">📋 Copiar código</button></div><pre><code>// Se presupone que existe un botón con id="verConfirmacion"
+</code></pre></div><p><strong>Salida por consola:</strong></p><div class="bloque-codigo"><div class="cabecera-codigo"><span class="lenguaje-codigo">Consola</span><button class="boton-copiar" type="button">📋 Copiar código</button></div><pre><code>Producto solicitado: 25</code></pre></div><p>El valor del parámetro llega como texto. Primero utilizamos una <strong>expresión regular</strong> para comprobar que contiene un entero positivo sin ceros iniciales. Después lo convertimos a número y verificamos que sea un <strong>entero seguro</strong> mediante <code>Number.isSafeInteger()</code>. De esta forma evitamos utilizar identificadores que no cumplen el formato esperado.</p></p><h3>Ejemplo 3. Redirigir después de una acción</h3><p>Cuando una aplicación termina una operación correctamente, puede ofrecer un botón para navegar a una página de confirmación.</p><div class="bloque-codigo"><div class="cabecera-codigo"><span class="lenguaje-codigo">JavaScript</span><button class="boton-copiar" type="button">📋 Copiar código</button></div><pre><code>// Se presupone que existe un botón con id="verConfirmacion"
 const boton = document.querySelector("#verConfirmacion");
 
 boton.addEventListener("click", () =&gt; {
