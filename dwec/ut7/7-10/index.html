@@ -868,13 +868,19 @@ Es la página de productos: true</code></pre></div><h3>Ejemplo 2. Obtener el ide
 );
 
 const idTexto = direccion.searchParams.get("id");
-const idProducto = Number(idTexto);
 
-if (idTexto !== null &amp;&amp; Number.isInteger(idProducto) &amp;&amp; idProducto &gt; 0) {
-  console.log("Producto solicitado:", idProducto);
+if (idTexto !== null && /^[1-9]\d*$/.test(idTexto)) {
+  const idProducto = Number(idTexto);
+
+  if (Number.isSafeInteger(idProducto)) {
+    console.log("Producto solicitado:", idProducto);
+  } else {
+    console.log("Identificador no válido");
+  }
 } else {
   console.log("Identificador no válido");
-}</code></pre></div><p><strong>Salida por consola:</strong></p><div class="bloque-codigo"><div class="cabecera-codigo"><span class="lenguaje-codigo">Consola</span><button class="boton-copiar" type="button">📋 Copiar código</button></div><pre><code>Producto solicitado: 25</code></pre></div><p>El valor del parámetro llega como texto y se convierte a número. Comprobamos que sea un entero positivo antes de utilizarlo.</p><h3>Ejemplo 3. Redirigir después de una acción</h3><p>Cuando una aplicación termina una operación correctamente, puede ofrecer un botón para navegar a una página de confirmación.</p><div class="bloque-codigo"><div class="cabecera-codigo"><span class="lenguaje-codigo">JavaScript</span><button class="boton-copiar" type="button">📋 Copiar código</button></div><pre><code>// Se presupone que existe un botón con id="verConfirmacion"
+}
+</code></pre></div><p><strong>Salida por consola:</strong></p><div class="bloque-codigo"><div class="cabecera-codigo"><span class="lenguaje-codigo">Consola</span><button class="boton-copiar" type="button">📋 Copiar código</button></div><pre><code>Producto solicitado: 25</code></pre></div><p>El valor del parámetro llega como texto y se convierte a número. Comprobamos que sea un entero positivo antes de utilizarlo.</p><h3>Ejemplo 3. Redirigir después de una acción</h3><p>Cuando una aplicación termina una operación correctamente, puede ofrecer un botón para navegar a una página de confirmación.</p><div class="bloque-codigo"><div class="cabecera-codigo"><span class="lenguaje-codigo">JavaScript</span><button class="boton-copiar" type="button">📋 Copiar código</button></div><pre><code>// Se presupone que existe un botón con id="verConfirmacion"
 const boton = document.querySelector("#verConfirmacion");
 
 boton.addEventListener("click", () =&gt; {
