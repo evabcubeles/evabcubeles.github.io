@@ -762,9 +762,10 @@
           </button>
 </div>
 <div class="submenu submenu-abierto" id="submenu-ut7">
- APARTADOS 7.1 A 7.10 
+  <!-- APARTADOS 7.1 A 7.10 -->
 <div id="apartadosAnterioresUT7"></div>
- 7.11 ACTIVO 
+
+<!-- 7.11 ACTIVO -->
 <div class="menu-desplegable menu-apartado"><div class="menu-cabecera menu-cabecera-activa"><a class="menu-titulo" href="index.html">7.11 Objeto history: historial de navegación</a><button aria-expanded="true" aria-label="Mostrar u ocultar los subapartados del 7.11" class="boton-desplegar" data-target="submenu-7-11" type="button">⌄</button></div><div class="submenu submenu-apartados submenu-abierto" id="submenu-7-11"><a href="#concepto">El objeto history</a><a href="#length">Longitud del historial</a><a href="#back">history.back()</a><a href="#forward">history.forward()</a><a href="#go">history.go()</a><a href="#limitaciones">Limitaciones y seguridad</a><a href="#ejemplos">Ejemplos prácticos</a></div></div>
 <!-- RESTO DE APARTADOS UT7 -->
 <div id="restoApartadosUT7"></div>
@@ -1086,20 +1087,33 @@ history.forward();</code></pre></div><p>Supón que no hay redirecciones ni otras
           ["ejemplos", "Ejemplos prácticos"]
         ]
       },
-      {
-        numero: "7.9",
-        titulo: "Gestión de ventanas y temporizadores",
-        carpeta: "7-9",
-        secciones: [
-          ["abrir", "Apertura de ventanas"],
-          ["cerrar", "Cierre de ventanas"],
-          ["comunicacion", "Comunicación básica entre ventanas"],
-          ["timeout", "setTimeout() y clearTimeout()"],
-          ["interval", "setInterval() y clearInterval()"],
-          ["ejemplos", "Ejemplos prácticos"]
-        ]
-      }
-    ];
+{
+  numero: "7.9",
+  titulo: "Gestión de ventanas y temporizadores",
+  carpeta: "7-9",
+  secciones: [
+    ["abrir", "Apertura de ventanas"],
+    ["cerrar", "Cierre de ventanas"],
+    ["comunicacion", "Comunicación básica entre ventanas"],
+    ["timeout", "setTimeout() y clearTimeout()"],
+    ["interval", "setInterval() y clearInterval()"],
+    ["ejemplos", "Ejemplos prácticos"]
+  ]
+},
+{
+  numero: "7.10",
+  titulo: "Objeto location: información y navegación",
+  carpeta: "7-10",
+  secciones: [
+    ["href", "location.href"],
+    ["componentes", "Componentes de la URL"],
+    ["parametros", "Parámetros de la URL"],
+    ["navegacion", "Navegación con location"],
+    ["recarga", "Recarga de la página"],
+    ["ejemplos", "Ejemplos prácticos"]
+  ]
+}
+];
 
     /* ==========================================
        DATOS DE LOS APARTADOS POSTERIORES
