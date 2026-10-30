@@ -1,0 +1,1384 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<meta content="7.10 - Objeto location: información y navegación. Propiedad href, partes de la URL, assign(), replace() y reload()." name="description"/>
+<title>7.10 - Objeto location: información y navegación</title>
+<link href="../../../img/favicon.png?v=5" rel="icon" type="image/png"/>
+<link href="../../../css/estilos.css" rel="stylesheet"/>
+<style>
+
+    /* ==========================================
+       ESTRUCTURA DE LA UT
+    ========================================== */
+
+    .pagina-ut {
+      display: grid;
+      grid-template-columns: 280px minmax(0, 1fr) 260px;
+      min-height: calc(100vh - 68px);
+    }
+
+    /* ==========================================
+       COLUMNA IZQUIERDA
+    ========================================== */
+
+    .sidebar {
+      border-right: 1px solid var(--borde);
+      background-color: var(--fondo-pagina);
+      padding: 12px 10px 30px;
+      position: sticky;
+      top: 68px;
+      height: calc(100vh - 68px);
+      overflow-y: auto;
+      box-sizing: border-box;
+    }
+
+    .sidebar-modulo {
+      display: block;
+      margin-bottom: 8px;
+      padding: 8px 14px;
+      color: #626873;
+      font-size: 17px;
+      font-weight: 700;
+      line-height: 1.3;
+      text-decoration: none;
+      border-radius: 6px;
+    }
+
+    .sidebar-modulo:hover {
+      color: var(--verde-principal);
+      background-color: #f3f4f6;
+    }
+
+    .menu-desplegable {
+      width: 100%;
+    }
+
+    .menu-cabecera {
+      display: flex;
+      align-items: center;
+      gap: 4px;
+      width: 100%;
+      border-radius: 6px;
+    }
+
+    .menu-cabecera-activa {
+      background-color: #f1f1f1;
+    }
+
+    .menu-cabecera-activa > .menu-titulo {
+      color: var(--verde-principal);
+    }
+
+    .menu-titulo {
+      flex: 1;
+      display: block;
+      padding: 11px 8px 11px 14px;
+      color: #626873;
+      font-size: 16px;
+      font-weight: 650;
+      line-height: 1.4;
+      text-decoration: none;
+    }
+
+    .menu-titulo:hover {
+      color: var(--verde-principal);
+    }
+
+    .boton-desplegar {
+      width: 36px;
+      height: 36px;
+      margin-right: 5px;
+      padding: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+      border: 0;
+      border-radius: 6px;
+      background: transparent;
+      color: #777;
+      font-family: inherit;
+      font-size: 24px;
+      line-height: 1;
+      cursor: pointer;
+    }
+
+    .boton-desplegar:hover {
+      background-color: #e5e7eb;
+      color: var(--verde-principal);
+    }
+
+    .submenu {
+      display: none;
+    }
+
+    .submenu.submenu-abierto {
+      display: block;
+    }
+
+    .menu-apartado {
+      margin-left: 14px;
+    }
+
+    .menu-apartado .menu-titulo {
+      padding-top: 9px;
+      padding-bottom: 9px;
+      font-size: 15px;
+      font-weight: 600;
+    }
+
+    .submenu-apartados {
+      margin: 2px 0 5px 28px;
+      border-left: 2px solid #e0e3e7;
+    }
+
+    .submenu-apartados a {
+      display: block;
+      padding: 7px 10px;
+      color: #777d87;
+      font-size: 14px;
+      font-weight: 500;
+      line-height: 1.35;
+      text-decoration: none;
+    }
+
+    .submenu-apartados a:hover {
+      color: var(--verde-principal);
+    }
+
+    .submenu-apartados a.enlace-actual {
+      color: var(--verde-principal);
+      font-weight: 700;
+    }
+
+    .enlace-apartado-simple {
+      display: block;
+      margin-left: 14px;
+      padding: 10px 14px;
+      color: #626873;
+      font-size: 15px;
+      font-weight: 600;
+      line-height: 1.4;
+      text-decoration: none;
+      border-radius: 6px;
+    }
+
+    .enlace-apartado-simple:hover {
+      color: var(--verde-principal);
+      background-color: #f3f4f6;
+    }
+
+    .sidebar-ut-cerrada {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      padding: 13px 14px;
+      color: #626873;
+      text-decoration: none;
+      font-size: 16px;
+      font-weight: 650;
+      line-height: 1.35;
+      border-radius: 6px;
+    }
+
+    .sidebar-ut-cerrada:hover {
+      background-color: #f3f4f6;
+      color: var(--verde-principal);
+    }
+
+    /* ==========================================
+       MODO OSCURO DEL MENÚ
+    ========================================== */
+
+    body.modo-oscuro .sidebar-modulo:hover,
+    body.modo-oscuro .sidebar-ut-cerrada:hover,
+    body.modo-oscuro .enlace-apartado-simple:hover {
+      background-color: #273244;
+    }
+
+    body.modo-oscuro .menu-cabecera-activa {
+      background-color: #273244;
+    }
+
+    body.modo-oscuro .boton-desplegar:hover {
+      background-color: #334155;
+    }
+
+    body.modo-oscuro .submenu-apartados {
+      border-left-color: #3a4659;
+    }
+
+    /* ==========================================
+       ZONA CENTRAL
+    ========================================== */
+
+    .contenido-ut {
+      padding: 28px 34px 70px;
+      max-width: 1150px;
+      width: 100%;
+      min-width: 0;
+      box-sizing: border-box;
+    }
+
+    .migas {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 30px;
+      font-size: 14px;
+      flex-wrap: wrap;
+    }
+
+    .miga-inicio {
+      text-decoration: none;
+      font-size: 18px;
+    }
+
+    .miga-separador {
+      color: #999;
+      font-size: 22px;
+    }
+
+    .miga-modulo {
+      color: var(--texto-secundario);
+      text-decoration: none;
+    }
+
+    .miga-modulo:hover {
+      color: var(--verde-principal);
+    }
+
+    .miga-actual {
+      padding: 8px 14px;
+      background-color: #f3f3f3;
+      border-radius: 24px;
+      color: var(--verde-principal);
+    }
+
+    body.modo-oscuro .miga-actual {
+      background-color: #273244;
+    }
+
+    .contenido-ut h1 {
+      margin: 0 0 30px;
+      font-size: clamp(34px, 4vw, 48px);
+      line-height: 1.15;
+    }
+
+    .apartado-ut {
+      font-size: 17px;
+      line-height: 1.8;
+    }
+
+    .apartado-ut p {
+      margin: 0 0 19px;
+    }
+
+    .apartado-ut h2 {
+      margin: 48px 0 20px;
+      padding-bottom: 10px;
+      border-bottom: 1px solid var(--borde);
+      font-size: 28px;
+      line-height: 1.3;
+      scroll-margin-top: 95px;
+    }
+
+    .apartado-ut h3 {
+      margin: 32px 0 16px;
+      font-size: 21px;
+      line-height: 1.4;
+    }
+
+    .apartado-ut ul,
+    .apartado-ut ol {
+      margin: 0 0 22px;
+      padding-left: 28px;
+    }
+
+    .apartado-ut li {
+      margin-bottom: 10px;
+    }
+
+    .apartado-ut code:not(.bloque-codigo code) {
+      padding: 2px 5px;
+      border-radius: 4px;
+      background-color: rgba(128, 128, 128, 0.12);
+      font-family: Consolas, "Courier New", monospace;
+      font-size: 0.9em;
+      overflow-wrap: anywhere;
+    }
+
+    /* ==========================================
+       CAJAS DIDÁCTICAS
+    ========================================== */
+
+    .caja {
+      margin: 26px 0;
+      padding: 20px 24px;
+      border-left: 5px solid;
+      border-radius: 7px;
+      background-color: var(--fondo-tarjeta);
+    }
+
+    .caja p {
+      margin-bottom: 10px;
+    }
+
+    .caja p:last-child {
+      margin-bottom: 0;
+    }
+
+    .caja-titulo {
+      display: block;
+      margin-bottom: 10px;
+      font-size: 17px;
+      font-weight: 750;
+    }
+
+    .caja-importante {
+      border-left-color: #2563eb;
+      background-color: rgba(37, 99, 235, 0.07);
+    }
+
+    .caja-atencion {
+      border-left-color: #e6a23c;
+      background-color: rgba(230, 162, 60, 0.09);
+    }
+
+    .caja-ejemplo {
+      border-left-color: #16a34a;
+      background-color: rgba(22, 163, 74, 0.07);
+    }
+
+    .caja-curiosidad {
+      border-left-color: #8b5cf6;
+      background-color: rgba(139, 92, 246, 0.07);
+    }
+
+    /* ==========================================
+       TABLAS
+    ========================================== */
+
+    .tabla-responsive {
+      width: 100%;
+      overflow-x: auto;
+      margin: 24px 0;
+    }
+
+    .tabla-apuntes {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 15px;
+      line-height: 1.6;
+    }
+
+    .tabla-apuntes th,
+    .tabla-apuntes td {
+      padding: 13px 15px;
+      border: 1px solid var(--borde);
+      text-align: left;
+      vertical-align: top;
+    }
+
+    .tabla-apuntes th {
+      background-color: rgba(128, 128, 128, 0.10);
+      font-weight: 700;
+    }
+
+    /* ==========================================
+       ESQUEMAS VISUALES
+    ========================================== */
+
+    .esquema-web {
+      display: grid;
+      gap: 14px;
+      margin: 28px 0;
+    }
+
+    .esquema-fila {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 14px;
+    }
+
+    .esquema-caja {
+      padding: 20px;
+      border: 1px solid var(--borde);
+      border-radius: 9px;
+      background-color: var(--fondo-tarjeta);
+      text-align: center;
+    }
+
+    .esquema-caja strong {
+      display: block;
+      margin-bottom: 7px;
+      color: var(--verde-principal);
+      font-size: 17px;
+    }
+
+    .esquema-caja span {
+      display: block;
+      font-size: 15px;
+      line-height: 1.6;
+    }
+
+    /* ==========================================
+       ACTIVIDAD DE REFLEXIÓN
+    ========================================== */
+
+    .actividad-reflexion {
+      margin: 32px 0;
+      padding: 22px 24px;
+      background-color: #f7f8fa;
+      border: 1px solid var(--borde);
+      border-radius: 10px;
+    }
+
+    .actividad-reflexion h3 {
+      margin: 0 0 12px;
+      color: var(--verde-principal);
+      font-size: 20px;
+    }
+
+    .actividad-reflexion p {
+      margin: 0 0 14px;
+      font-size: 17px;
+      line-height: 1.65;
+    }
+
+    body.modo-oscuro .actividad-reflexion {
+      background-color: #232d3d;
+    }
+
+    /* ==========================================
+       SOLUCIÓN DESPLEGABLE
+    ========================================== */
+
+    .solucion-desplegable {
+      margin-top: 20px;
+    }
+
+    .solucion-desplegable summary {
+      display: inline-block;
+      padding: 10px 16px;
+      background-color: #eef8f1;
+      border: 1px solid #b9dfc6;
+      border-radius: 7px;
+      color: var(--verde-principal);
+      font-size: 16px;
+      font-weight: 700;
+      cursor: pointer;
+      user-select: none;
+    }
+
+    .solucion-desplegable summary:hover {
+      background-color: #e2f3e7;
+    }
+
+    .contenido-solucion {
+      margin-top: 16px;
+      padding: 18px 20px;
+      background-color: var(--fondo-pagina);
+      border-left: 4px solid var(--verde-principal);
+      border-radius: 6px;
+    }
+
+    .contenido-solucion p {
+      margin: 0 0 12px;
+      font-size: 16px;
+      line-height: 1.65;
+    }
+
+    .contenido-solucion p:last-child {
+      margin-bottom: 0;
+    }
+
+    body.modo-oscuro .solucion-desplegable summary {
+      background-color: #20372a;
+      border-color: #315d40;
+    }
+
+    /* ==========================================
+       BLOQUES DE CÓDIGO
+    ========================================== */
+
+    .bloque-codigo {
+      margin: 25px 0;
+      border: 1px solid var(--borde);
+      border-radius: 8px;
+      overflow: hidden;
+      background-color: #1e1e1e;
+    }
+
+    .cabecera-codigo {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      padding: 10px 14px;
+      background-color: #2b2b2b;
+      color: #f3f4f6;
+      font-size: 14px;
+    }
+
+    .lenguaje-codigo {
+      font-weight: 700;
+    }
+
+    .boton-copiar {
+      padding: 6px 10px;
+      border: 1px solid #555;
+      border-radius: 6px;
+      background-color: #383838;
+      color: #f3f4f6;
+      font-family: inherit;
+      font-size: 13px;
+      cursor: pointer;
+    }
+
+    .boton-copiar:hover {
+      background-color: #484848;
+    }
+
+    .bloque-codigo pre {
+      margin: 0;
+      padding: 18px 20px;
+      overflow-x: auto;
+    }
+
+    .bloque-codigo code {
+      color: #f5f5f5;
+      font-family: Consolas, "Courier New", monospace;
+      font-size: 15px;
+      line-height: 1.6;
+      white-space: pre;
+    }
+
+    /* ==========================================
+       COLUMNA DERECHA
+    ========================================== */
+
+    .indice-derecho {
+      padding: 28px 22px 100px;
+      border-left: 1px solid var(--borde);
+      position: sticky;
+      top: 68px;
+      height: calc(100vh - 68px);
+      overflow-y: auto;
+      box-sizing: border-box;
+    }
+
+    .indice-derecho h2 {
+      margin: 8px 0 20px;
+      font-size: 17px;
+      color: #555b65;
+    }
+
+    body.modo-oscuro .indice-derecho h2 {
+      color: #d1d5db;
+    }
+
+    .indice-derecho ul {
+      margin: 0;
+      padding-left: 18px;
+    }
+
+    .indice-derecho li {
+      margin-bottom: 12px;
+    }
+
+    .indice-derecho a {
+      color: var(--texto-secundario);
+      text-decoration: none;
+      font-size: 14px;
+      line-height: 1.4;
+    }
+
+    .indice-derecho a:hover {
+      color: var(--verde-principal);
+    }
+
+    /* ==========================================
+       NAVEGACIÓN ANTERIOR / SIGUIENTE
+    ========================================== */
+
+    .navegacion-paginas {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 20px;
+      margin-top: 50px;
+    }
+
+    .nav-pagina {
+      min-height: 100px;
+      padding: 18px 20px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      border: 1px solid var(--borde);
+      border-radius: 8px;
+      text-decoration: none;
+      background-color: var(--fondo-tarjeta);
+    }
+
+    .nav-anterior {
+      align-items: flex-start;
+      text-align: left;
+    }
+
+    .nav-siguiente {
+      align-items: flex-end;
+      text-align: right;
+    }
+
+    .nav-etiqueta {
+      margin-bottom: 5px;
+      color: var(--texto-secundario);
+      font-size: 14px;
+    }
+
+    .nav-pagina strong {
+      color: var(--verde-principal);
+      font-size: 16px;
+      line-height: 1.4;
+    }
+
+    .nav-pagina:hover {
+      border-color: var(--verde-principal);
+    }
+
+    /* ==========================================
+       RESPONSIVE
+    ========================================== */
+
+    @media (max-width: 1100px) {
+      .pagina-ut {
+        grid-template-columns: 250px minmax(0, 1fr);
+      }
+
+      .indice-derecho {
+        display: none;
+      }
+    }
+
+    @media (max-width: 760px) {
+      .pagina-ut {
+        display: block;
+      }
+
+      .sidebar {
+        position: static;
+        width: 100%;
+        height: auto;
+        border-right: 0;
+        border-bottom: 1px solid var(--borde);
+      }
+
+      .contenido-ut {
+        padding: 28px 20px 60px;
+      }
+
+      .contenido-ut h1 {
+        font-size: 34px;
+      }
+
+      .apartado-ut h2 {
+        font-size: 25px;
+      }
+
+      .esquema-fila,
+      .navegacion-paginas {
+        grid-template-columns: 1fr;
+      }
+
+      .nav-siguiente {
+        align-items: flex-start;
+        text-align: left;
+      }
+    }
+
+  </style>
+</head>
+<body>
+<!-- ==========================================
+       BARRA SUPERIOR
+  ========================================== -->
+<header class="navbar">
+<a class="inicio" href="../../../index.html">
+<img alt="" class="icono-profesora" src="../../../img/profesora-castana.png?v=2"/>
+<span>Inicio</span>
+</a>
+<nav aria-label="Módulos formativos" class="menu-modulos" id="menuModulos"></nav>
+<button aria-label="Cambiar entre modo claro y oscuro" class="boton-tema" id="botonTema" title="Cambiar tema" type="button">
+      ☀️
+    </button>
+</header>
+<div class="pagina-ut">
+<!-- ==========================================
+         COLUMNA IZQUIERDA
+    ========================================== -->
+<aside class="sidebar">
+<a class="sidebar-modulo" href="../../index.html">
+        Desarrollo web en entorno cliente
+      </a>
+<a class="sidebar-ut-cerrada" href="../../ut1/index.html">
+<span>UT1 - Introducción al desarrollo web en entorno cliente</span>
+<span>›</span>
+</a>
+<a class="sidebar-ut-cerrada" href="../../ut2/index.html">
+<span>UT2 - Fundamentos de JavaScript: variables, tipos y operadores</span>
+<span>›</span>
+</a>
+<a class="sidebar-ut-cerrada" href="../../ut3/index.html">
+<span>UT3 - Estructuras de control en JavaScript</span>
+<span>›</span>
+</a>
+<a class="sidebar-ut-cerrada" href="../../ut4/index.html">
+<span>UT4 - Arrays y estructuras de datos en JavaScript</span>
+<span>›</span>
+</a>
+<a class="sidebar-ut-cerrada" href="../../ut5/index.html">
+<span>UT5 - Funciones en JavaScript</span>
+<span>›</span>
+</a>
+<a class="sidebar-ut-cerrada" href="../../ut6/index.html">
+<span>UT6 - Objetos y Programación Orientada a Objetos en JavaScript</span>
+<span>›</span>
+</a>
+<!-- ==========================================
+           UT7 ABIERTA
+      ========================================== -->
+<div class="menu-desplegable">
+<div class="menu-cabecera menu-cabecera-activa">
+<a class="menu-titulo" href="../index.html">
+            UT7 - Objetos predefinidos y modelo del navegador (BOM)
+          </a>
+<button aria-expanded="true" aria-label="Mostrar u ocultar UT7" class="boton-desplegar" data-target="submenu-ut7" type="button">
+            ⌄
+          </button>
+</div>
+<div class="submenu submenu-abierto" id="submenu-ut7">
+<!-- APARTADOS 7.1 A 7.8 -->
+<div id="apartadosAnterioresUT7"></div>
+<!-- ======================================
+               7.9 ACTIVO
+          ====================================== -->
+<div class="menu-desplegable menu-apartado"><div class="menu-cabecera menu-cabecera-activa"><a class="menu-titulo" href="index.html">7.10 Objeto location: información y navegación</a><button aria-expanded="true" aria-label="Mostrar u ocultar los subapartados del 7.10" class="boton-desplegar" data-target="submenu-7-10" type="button">⌄</button></div><div class="submenu submenu-apartados submenu-abierto" id="submenu-7-10"><a href="#concepto">El objeto location</a><a href="#url">La propiedad href</a><a href="#partes">Partes de una URL</a><a href="#navegar">Navegación con assign() y replace()</a><a href="#recargar">Recarga de páginas</a><a href="#ejemplos">Ejemplos prácticos</a></div></div>
+<!-- RESTO DE APARTADOS UT7 -->
+<div id="restoApartadosUT7"></div>
+<a class="enlace-apartado-simple" href="../resumen/index.html">
+            ✏️ Resumen de la UT7
+          </a>
+<div class="menu-desplegable menu-apartado">
+<div class="menu-cabecera">
+<a class="menu-titulo" href="../actividades/index.html">
+                📝 Actividades de la UT7
+              </a>
+<button aria-expanded="false" aria-label="Mostrar u ocultar las actividades" class="boton-desplegar" data-target="submenu-actividades" type="button">
+                ›
+              </button>
+</div>
+<div class="submenu submenu-apartados" id="submenu-actividades">
+<a href="../actividades/index.html#actividades-practicas">
+                💻 Actividades prácticas
+              </a>
+<a href="../actividades/index.html#reto-final">
+                🧩 Reto final
+              </a>
+<a href="../actividades/index.html#autoevaluacion">
+                ✅ Autoevaluación
+              </a>
+</div>
+</div>
+</div>
+</div>
+<a class="sidebar-ut-cerrada" href="../../ut8/index.html">
+<span>UT8 - Aplicaciones web interactivas: DOM, eventos y formularios</span>
+<span>›</span>
+</a>
+<a class="sidebar-ut-cerrada" href="../../ut9/index.html">
+<span>UT9 - Comunicación asíncrona y peticiones al servidor</span>
+<span>›</span>
+</a>
+<a class="sidebar-ut-cerrada" href="../../ut10/index.html">
+<span>UT10 - Introducción a React</span>
+<span>›</span>
+</a>
+</aside>
+<!-- ==========================================
+         ZONA CENTRAL
+    ========================================== -->
+<main class="contenido-ut">
+<div class="migas">
+<a aria-label="Inicio" class="miga-inicio" href="../../../index.html">
+          🏠
+        </a>
+<span class="miga-separador">›</span>
+<a class="miga-modulo" href="../../index.html">
+          DWEC
+        </a>
+<span class="miga-separador">›</span>
+<a class="miga-modulo" href="../index.html">
+          UT7
+        </a>
+<span class="miga-separador">›</span>
+<span class="miga-actual">7.10</span>
+</div>
+<h1>7.10 Objeto location: información y navegación</h1>
+<article class="apartado-ut"><p>En los apartados anteriores hemos trabajado con el objeto <code>window</code>, la apertura de ventanas y los temporizadores. Ahora estudiaremos <strong>cómo consultar la dirección de una página y cómo navegar a otras direcciones desde JavaScript</strong> utilizando el objeto <code>location</code>.</p><p>Este objeto resulta útil cuando una aplicación necesita redirigir al usuario, consultar parámetros de una URL, cambiar de página o recargar el contenido actual.</p><div class="caja caja-importante"><span class="caja-titulo">📌 Importante</span><p><code>window.location</code> representa la dirección del documento actual y permite consultar o modificar la URL. <strong>Cambiar su dirección puede provocar una navegación y abandonar la página actual.</strong></p></div><h2 id="concepto">El objeto location</h2><p>El objeto <code>location</code> forma parte de la interfaz del navegador y está disponible a través de <code>window.location</code>. Como ocurre con otras propiedades de <code>window</code>, normalmente podemos omitir el prefijo <code>window.</code>.</p><div class="bloque-codigo"><div class="cabecera-codigo"><span class="lenguaje-codigo">JavaScript</span><button class="boton-copiar" type="button">📋 Copiar código</button></div><pre><code>console.log(window.location === location); // true
+console.log(location.protocol); // Protocolo de la página actual</code></pre></div><p>La primera expresión compara dos referencias al mismo objeto. La segunda consulta el protocolo de la página, que normalmente será <code>https:</code> cuando accedemos a una web segura.</p><div class="caja caja-atencion"><span class="caja-titulo">⚠️ Atención</span><p>Los resultados dependen de la dirección desde la que se ejecute el código. Si abres un archivo directamente desde tu ordenador, puede aparecer el protocolo <code>file:</code>. Para realizar las pruebas es preferible utilizar un servidor local, como Live Server de Visual Studio Code.</p></div><h2 id="url">La propiedad href</h2><p>La propiedad <code>location.href</code> contiene la <strong>URL completa</strong> del documento actual. Podemos leerla para conocer dónde está el usuario o asignarle otra dirección para iniciar una navegación.</p><div class="bloque-codigo"><div class="cabecera-codigo"><span class="lenguaje-codigo">JavaScript</span><button class="boton-copiar" type="button">📋 Copiar código</button></div><pre><code>console.log(location.href);
+console.log(typeof location.href);</code></pre></div><p><strong>Salida orientativa</strong> si la página se encuentra en <code>https://www.ejemplo.com/tienda/producto.html?id=25</code>:</p><div class="bloque-codigo"><div class="cabecera-codigo"><span class="lenguaje-codigo">Consola</span><button class="boton-copiar" type="button">📋 Copiar código</button></div><pre><code>https://www.ejemplo.com/tienda/producto.html?id=25
+string</code></pre></div><p>La primera línea es solo un ejemplo: en la práctica aparecerá la dirección de la página que tengas abierta.</p><h3>Navegar mediante href</h3><div class="bloque-codigo"><div class="cabecera-codigo"><span class="lenguaje-codigo">JavaScript</span><button class="boton-copiar" type="button">📋 Copiar código</button></div><pre><code>// Esta instrucción abandona la página actual:
+location.href = "https://example.com";</code></pre></div><p>Al asignar una nueva dirección a <code>href</code>, el navegador solicita cargarla en el contexto actual. Por ello, <strong>no conviene ejecutar este ejemplo en la consola de tus apuntes</strong> si no quieres salir de la página.</p><div class="caja caja-ejemplo"><span class="caja-titulo">💻 Ejemplo DAW</span><p>En una tienda online, tras completar correctamente un pedido, podríamos redirigir al usuario a una página de confirmación mediante <code>location.href = "confirmacion.html";</code>. La ruta es relativa a la URL actual y debe existir en el proyecto.</p></div><h2 id="partes">Partes de una URL</h2><p>Además de la dirección completa, <code>location</code> ofrece propiedades para consultar sus componentes. Observa esta dirección ficticia:</p><div class="bloque-codigo"><div class="cabecera-codigo"><span class="lenguaje-codigo">URL de ejemplo</span><button class="boton-copiar" type="button">📋 Copiar código</button></div><pre><code>https://www.ejemplo.com:8080/catalogo/producto.html?id=25&amp;color=azul#detalles</code></pre></div><div class="tabla-responsive"><table class="tabla-apuntes"><thead><tr><th>Propiedad</th><th>Valor para la URL del ejemplo</th><th>Qué representa</th></tr></thead><tbody><tr><td><code>protocol</code></td><td><code>https:</code></td><td>Protocolo utilizado</td></tr><tr><td><code>hostname</code></td><td><code>www.ejemplo.com</code></td><td>Nombre del servidor</td></tr><tr><td><code>port</code></td><td><code>8080</code></td><td>Puerto indicado explícitamente</td></tr><tr><td><code>host</code></td><td><code>www.ejemplo.com:8080</code></td><td>Nombre del servidor y puerto</td></tr><tr><td><code>pathname</code></td><td><code>/catalogo/producto.html</code></td><td>Ruta del recurso</td></tr><tr><td><code>search</code></td><td><code>?id=25&amp;color=azul</code></td><td>Cadena de consulta</td></tr><tr><td><code>hash</code></td><td><code>#detalles</code></td><td>Fragmento de la URL</td></tr><tr><td><code>origin</code></td><td><code>https://www.ejemplo.com:8080</code></td><td>Origen: protocolo, servidor y puerto</td></tr></tbody></table></div><p>Para practicar sin depender de la dirección de la página actual, podemos crear un objeto <code>URL</code> a partir de una cadena. Este objeto permite estudiar las mismas partes de una dirección sin provocar ninguna navegación.</p><div class="bloque-codigo"><div class="cabecera-codigo"><span class="lenguaje-codigo">JavaScript</span><button class="boton-copiar" type="button">📋 Copiar código</button></div><pre><code>const direccion = new URL(
+  "https://www.ejemplo.com:8080/catalogo/producto.html?id=25&amp;color=azul#detalles"
+);
+
+console.log(direccion.protocol);
+console.log(direccion.hostname);
+console.log(direccion.pathname);
+console.log(direccion.search);
+console.log(direccion.hash);</code></pre></div><p><strong>Salida por consola:</strong></p><div class="bloque-codigo"><div class="cabecera-codigo"><span class="lenguaje-codigo">Consola</span><button class="boton-copiar" type="button">📋 Copiar código</button></div><pre><code>https:
+www.ejemplo.com
+/catalogo/producto.html
+?id=25&amp;color=azul
+#detalles</code></pre></div><h3>Consultar parámetros de búsqueda</h3><p>Los parámetros que aparecen después del signo <code>?</code> suelen utilizarse para indicar filtros, identificadores o búsquedas. Podemos acceder a ellos mediante <code>URLSearchParams</code>.</p><div class="bloque-codigo"><div class="cabecera-codigo"><span class="lenguaje-codigo">JavaScript</span><button class="boton-copiar" type="button">📋 Copiar código</button></div><pre><code>const direccion = new URL(
+  "https://www.ejemplo.com/catalogo?id=25&amp;color=azul"
+);
+
+const parametros = direccion.searchParams;
+console.log(parametros.get("id"));
+console.log(parametros.get("color"));
+console.log(parametros.has("oferta"));</code></pre></div><p><strong>Salida por consola:</strong></p><div class="bloque-codigo"><div class="cabecera-codigo"><span class="lenguaje-codigo">Consola</span><button class="boton-copiar" type="button">📋 Copiar código</button></div><pre><code>25
+azul
+false</code></pre></div><p><code>get()</code> devuelve el valor como <strong>cadena de texto</strong>, o <code>null</code> si el parámetro no existe. <code>has()</code> indica si está presente. En una página real podríamos utilizar <code>new URLSearchParams(location.search)</code> para leer sus parámetros.</p><div class="caja caja-atencion"><span class="caja-titulo">⚠️ Atención</span><p>Los parámetros de una URL pueden ser modificados por cualquier usuario. <strong>No deben considerarse datos fiables</strong>: es necesario validarlos antes de utilizarlos. Tampoco conviene colocar contraseñas ni información sensible en una URL.</p></div><h2 id="navegar">Navegación con assign() y replace()</h2><p>El objeto <code>location</code> dispone de métodos para navegar a otra dirección. Los dos principales son <code>assign()</code> y <code>replace()</code>. Ambos cargan otra página, pero se diferencian en su relación con el historial.</p><div class="tabla-responsive"><table class="tabla-apuntes"><thead><tr><th>Método</th><th>Qué hace</th><th>Historial de navegación</th></tr></thead><tbody><tr><td><code>location.assign(url)</code></td><td>Navega a la URL indicada</td><td>Normalmente conserva la página anterior, permitiendo volver con Atrás</td></tr><tr><td><code>location.replace(url)</code></td><td>Sustituye la entrada actual por la nueva URL</td><td>No conserva la entrada sustituida para volver a ella con Atrás</td></tr></tbody></table></div><h3>Utilizar assign()</h3><div class="bloque-codigo"><div class="cabecera-codigo"><span class="lenguaje-codigo">JavaScript</span><button class="boton-copiar" type="button">📋 Copiar código</button></div><pre><code>// Ejemplo: abrir una página del propio proyecto
+location.assign("productos.html");</code></pre></div><p>El navegador intentará cargar <code>productos.html</code>. Si el usuario utiliza el botón «Atrás», normalmente podrá regresar a la página anterior.</p><h3>Utilizar replace()</h3><div class="bloque-codigo"><div class="cabecera-codigo"><span class="lenguaje-codigo">JavaScript</span><button class="boton-copiar" type="button">📋 Copiar código</button></div><pre><code>// Ejemplo: sustituir una pantalla temporal
+location.replace("inicio.html");</code></pre></div><p>Este método puede ser útil para sustituir una pantalla de redirección que no necesitamos mantener como entrada del historial. No elimina todo el historial: <strong>solo reemplaza la entrada actual</strong>.</p><div class="caja caja-importante"><span class="caja-titulo">📌 Importante</span><p><code>href</code>, <code>assign()</code> y <code>replace()</code> pueden provocar que se abandone la página actual. La diferencia más importante es que <code>replace()</code> <strong>reemplaza la entrada actual del historial</strong>, mientras que <code>assign()</code> realiza una navegación ordinaria.</p></div><h3>Rutas absolutas y relativas</h3><div class="tabla-responsive"><table class="tabla-apuntes"><thead><tr><th>Tipo</th><th>Ejemplo</th><th>Interpretación</th></tr></thead><tbody><tr><td>Absoluta</td><td><code>https://example.com/ayuda.html</code></td><td>Indica una dirección completa</td></tr><tr><td>Relativa</td><td><code>ayuda.html</code></td><td>Se resuelve a partir de la URL actual</td></tr><tr><td>Desde la raíz del sitio</td><td><code>/contacto.html</code></td><td>Se resuelve desde la raíz del origen actual</td></tr></tbody></table></div><p>Una ruta relativa no depende de la ubicación del archivo JavaScript, sino de la URL base del documento (que también puede verse afectada por una etiqueta <code>&lt;base&gt;</code>).</p><h2 id="recargar">Recarga de páginas</h2><p>El método <code>location.reload()</code> solicita al navegador que vuelva a cargar la página actual. Puede utilizarse, por ejemplo, cuando el usuario desea actualizar una pantalla después de realizar cambios en el servidor.</p><div class="bloque-codigo"><div class="cabecera-codigo"><span class="lenguaje-codigo">JavaScript</span><button class="boton-copiar" type="button">📋 Copiar código</button></div><pre><code>// Recarga la página actual
+location.reload();</code></pre></div><p>Este ejemplo provoca una recarga real; por tanto, no debe ejecutarse sin querer mientras estés trabajando en los apuntes. La forma en que se reutilizan los recursos almacenados en caché depende del navegador y de sus políticas.</p><div class="caja caja-atencion"><span class="caja-titulo">⚠️ Atención</span><p>Una recarga puede reiniciar el estado de las variables JavaScript y hacer que se pierdan los datos que solo estaban guardados en memoria. Antes de recargar una aplicación, comprueba si existen cambios sin guardar.</p></div><h2 id="ejemplos">Ejemplos prácticos</h2><h3>Ejemplo 1. Identificar la sección actual</h3><p>En una aplicación web podemos consultar la ruta para saber qué recurso se está mostrando. Usaremos una URL de ejemplo para obtener siempre la misma salida.</p><div class="bloque-codigo"><div class="cabecera-codigo"><span class="lenguaje-codigo">JavaScript</span><button class="boton-copiar" type="button">📋 Copiar código</button></div><pre><code>const direccion = new URL(
+  "https://www.ejemplo.com/tienda/productos.html"
+);
+
+console.log("Ruta:", direccion.pathname);
+console.log("Es la página de productos:",
+  direccion.pathname.endsWith("productos.html"));</code></pre></div><p><strong>Salida por consola:</strong></p><div class="bloque-codigo"><div class="cabecera-codigo"><span class="lenguaje-codigo">Consola</span><button class="boton-copiar" type="button">📋 Copiar código</button></div><pre><code>Ruta: /tienda/productos.html
+Es la página de productos: true</code></pre></div><h3>Ejemplo 2. Obtener el identificador de un producto</h3><p>Imagina que una tienda muestra un producto a partir de una dirección que contiene el parámetro <code>id</code>. Antes de utilizarlo debemos comprobar que sea válido.</p><div class="bloque-codigo"><div class="cabecera-codigo"><span class="lenguaje-codigo">JavaScript</span><button class="boton-copiar" type="button">📋 Copiar código</button></div><pre><code>const direccion = new URL(
+  "https://www.ejemplo.com/producto.html?id=25"
+);
+
+const idTexto = direccion.searchParams.get("id");
+const idProducto = Number(idTexto);
+
+if (idTexto !== null &amp;&amp; Number.isInteger(idProducto) &amp;&amp; idProducto &gt; 0) {
+  console.log("Producto solicitado:", idProducto);
+} else {
+  console.log("Identificador no válido");
+}</code></pre></div><p><strong>Salida por consola:</strong></p><div class="bloque-codigo"><div class="cabecera-codigo"><span class="lenguaje-codigo">Consola</span><button class="boton-copiar" type="button">📋 Copiar código</button></div><pre><code>Producto solicitado: 25</code></pre></div><p>El valor del parámetro llega como texto y se convierte a número. Comprobamos que sea un entero positivo antes de utilizarlo.</p><h3>Ejemplo 3. Redirigir después de una acción</h3><p>Cuando una aplicación termina una operación correctamente, puede ofrecer un botón para navegar a una página de confirmación.</p><div class="bloque-codigo"><div class="cabecera-codigo"><span class="lenguaje-codigo">JavaScript</span><button class="boton-copiar" type="button">📋 Copiar código</button></div><pre><code>// Se presupone que existe un botón con id="verConfirmacion"
+const boton = document.querySelector("#verConfirmacion");
+
+boton.addEventListener("click", () =&gt; {
+  location.assign("confirmacion.html");
+});</code></pre></div><p>Este ejemplo requiere un botón HTML con <code>id="verConfirmacion"</code> y un archivo <code>confirmacion.html</code> accesible desde la ruta actual. La navegación se produce únicamente cuando el usuario pulsa el botón.</p><div class="caja caja-ejemplo"><span class="caja-titulo">💻 Ejemplo DAW</span><p>En una aplicación de gestión de pedidos, <code>location.search</code> puede indicar qué pedido consultar, <code>location.assign()</code> permite ir a su ficha y <code>location.reload()</code> puede volver a solicitar la página. Es importante validar los parámetros y evitar recargas innecesarias.</p></div><div class="actividad-reflexion"><h3>💭 Piensa</h3><p>Sin ejecutar el código, indica qué mensajes aparecerán en la consola. ¿Qué devuelve <code>get("categoria")</code> cuando el parámetro no existe? ¿Se produce alguna navegación?</p><div class="bloque-codigo"><div class="cabecera-codigo"><span class="lenguaje-codigo">JavaScript</span><button class="boton-copiar" type="button">📋 Copiar código</button></div><pre><code>const direccion = new URL(
+  "https://www.ejemplo.com/catalogo.html?pagina=3#ofertas"
+);
+
+console.log(direccion.pathname);
+console.log(direccion.searchParams.get("pagina"));
+console.log(direccion.searchParams.get("categoria"));
+console.log(direccion.hash);</code></pre></div><details class="solucion-desplegable"><summary>Ver una posible solución</summary><div class="contenido-solucion"><p>La URL se analiza con <code>new URL()</code>, pero <strong>no se modifica la dirección del navegador</strong>. El parámetro <code>pagina</code> existe y su valor es la cadena <code>"3"</code>; el parámetro <code>categoria</code> no existe y <code>get()</code> devuelve <code>null</code>.</p><p><strong>Salida esperada por consola:</strong></p><div class="bloque-codigo"><div class="cabecera-codigo"><span class="lenguaje-codigo">Consola</span><button class="boton-copiar" type="button">📋 Copiar código</button></div><pre><code>/catalogo.html
+3
+null
+#ofertas</code></pre></div><p>No se produce ninguna navegación porque el código únicamente consulta propiedades del objeto <code>URL</code>.</p></div></details></div><p>En el siguiente apartado estudiaremos el objeto <code>history</code>, que permite desplazarse por las entradas del historial de navegación.</p></article>
+<!-- ==========================================
+     NAVEGACIÓN ANTERIOR / SIGUIENTE
+========================================== -->
+<nav class="navegacion-paginas"><a class="nav-pagina nav-anterior" href="../7-9/index.html"><span class="nav-etiqueta">Anterior</span><strong>‹ 7.9 Gestión de ventanas y temporizadores</strong></a><a class="nav-pagina nav-siguiente" href="../7-11/index.html"><span class="nav-etiqueta">Siguiente</span><strong>7.11 Objeto history: historial de navegación ›</strong></a></nav>
+</main>
+<!-- ==========================================
+         COLUMNA DERECHA
+    ========================================== -->
+<aside class="indice-derecho"><h2>Contenidos del apartado</h2><ul><li><a href="#concepto">El objeto location</a></li><li><a href="#url">La propiedad href</a></li><li><a href="#partes">Partes de una URL</a></li><li><a href="#navegar">Navegación con assign() y replace()</a></li><li><a href="#recargar">Recarga de páginas</a></li><li><a href="#ejemplos">Ejemplos prácticos</a></li></ul></aside>
+</div>
+<!-- ==========================================
+       PIE DE PÁGINA
+  ========================================== -->
+<footer class="footer">
+<p>
+
+      Material elaborado por
+      <strong>Eva Ballestero Cubeles</strong>
+
+      - Licencia
+
+      <span class="licencia">
+        CC BY-NC-SA 4.0
+      </span>
+<a aria-label="Licencia Creative Commons BY-NC-SA 4.0" class="enlace-licencia" href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.es" rel="license noopener noreferrer" target="_blank">
+<img alt="Licencia Creative Commons BY-NC-SA 4.0" class="icono-licencia" src="../../../img/licencias/cc-by-nc-sa.png"/>
+</a>
+</p>
+</footer>
+<!-- ==========================================
+       JAVASCRIPT
+  ========================================== -->
+<script src="../../../js/modulos.js"></script>
+<script>
+
+    /* ==========================================
+       MENÚ SUPERIOR
+    ========================================== */
+
+    const menuModulos =
+      document.getElementById("menuModulos");
+
+    const botonTema =
+      document.getElementById("botonTema");
+
+    if (typeof modulos !== "undefined" && menuModulos) {
+
+      const modulosActivos =
+        modulos.filter(modulo => modulo.activo === true);
+
+      modulosActivos.forEach(modulo => {
+
+        const enlace = document.createElement("a");
+
+        enlace.href =
+          `../../../${modulo.carpeta}/index.html`;
+
+        enlace.textContent = modulo.siglas;
+        enlace.title = modulo.nombre;
+
+        if (modulo.siglas === "DWEC") {
+          enlace.style.color = "var(--verde-principal)";
+        }
+
+        menuModulos.appendChild(enlace);
+
+      });
+
+    }
+
+    /* ==========================================
+       MODO OSCURO
+    ========================================== */
+
+    const temaGuardado =
+      localStorage.getItem("tema");
+
+    if (temaGuardado === "oscuro") {
+
+      document.body.classList.add("modo-oscuro");
+      botonTema.textContent = "🌙";
+
+    }
+
+    botonTema.addEventListener("click", () => {
+
+      document.body.classList.toggle("modo-oscuro");
+
+      const estaOscuro =
+        document.body.classList.contains("modo-oscuro");
+
+      botonTema.textContent =
+        estaOscuro ? "🌙" : "☀️";
+
+      localStorage.setItem(
+        "tema",
+        estaOscuro ? "oscuro" : "claro"
+      );
+
+    });
+
+    /* ==========================================
+       DATOS DE LOS APARTADOS ANTERIORES
+    ========================================== */
+
+    const apartadosAnteriores = [
+
+      {
+        numero: "7.1",
+        titulo: "Introducción a los objetos predefinidos de JavaScript",
+        carpeta: "7-1",
+        secciones: [
+          ["concepto", "Qué son los objetos predefinidos"],
+          ["utilidad", "Para qué sirven"],
+          ["clasificacion", "Clasificación de los objetos predefinidos"],
+          ["nativos-navegador", "Objetos nativos y objetos del navegador"],
+          ["acceso", "Acceso a propiedades y métodos"],
+          ["ejemplo", "Primer ejemplo práctico"]
+        ]
+      },
+
+      {
+        numero: "7.2",
+        titulo: "Objetos String y Number",
+        carpeta: "7-2",
+        secciones: [
+          ["string", "El objeto String"],
+          ["metodos-string", "Métodos de String"],
+          ["busqueda", "Búsqueda y transformación de cadenas"],
+          ["number", "El objeto Number"],
+          ["metodos-number", "Métodos de Number"],
+          ["conversion", "Conversión y comprobación de valores"],
+          ["ejemplos", "Ejemplos prácticos"]
+        ]
+      },
+
+      {
+        numero: "7.3",
+        titulo: "Objeto Math",
+        carpeta: "7-3",
+        secciones: [
+          ["introduccion", "Introducción a Math"],
+          ["constantes", "Constantes matemáticas"],
+          ["redondeo", "Métodos de redondeo"],
+          ["operaciones", "Operaciones matemáticas"],
+          ["aleatorios", "Generación de números aleatorios"],
+          ["ejemplos", "Ejemplos prácticos"]
+        ]
+      },
+
+      {
+        numero: "7.4",
+        titulo: "Objeto Date",
+        carpeta: "7-4",
+        secciones: [
+          ["introduccion", "Introducción a Date"],
+          ["crear", "Creación de fechas"],
+          ["consultar", "Consulta de fechas y horas"],
+          ["modificar", "Modificación de fechas"],
+          ["comparar", "Comparación y cálculo de diferencias"],
+          ["formato", "Formato de fechas"],
+          ["ejemplos", "Ejemplos prácticos"]
+        ]
+      },
+
+      {
+        numero: "7.5",
+        titulo: "Objeto RegExp y expresiones regulares",
+        carpeta: "7-5",
+        secciones: [
+          ["concepto", "Qué es una expresión regular"],
+          ["sintaxis", "Sintaxis de los patrones"],
+          ["caracteres", "Caracteres especiales"],
+          ["cuantificadores", "Cuantificadores"],
+          ["modificadores", "Modificadores"],
+          ["metodos", "Métodos test(), exec() y match()"],
+          ["ejemplos", "Ejemplos prácticos"]
+        ]
+      },
+
+      {
+        numero: "7.6",
+        titulo: "Objeto JSON y conversión de datos",
+        carpeta: "7-6",
+        secciones: [
+          ["concepto", "Qué es JSON"],
+          ["sintaxis", "Sintaxis y estructura de JSON"],
+          ["diferencias", "Diferencias entre JSON y objetos JavaScript"],
+          ["stringify", "JSON.stringify()"],
+          ["parse", "JSON.parse()"],
+          ["errores", "Errores y precauciones"],
+          ["ejemplos", "Ejemplos prácticos"]
+        ]
+      },
+
+      {
+        numero: "7.7",
+        titulo: "Introducción al BOM: estructura y características",
+        carpeta: "7-7",
+        secciones: [
+          ["concepto", "Qué es el BOM"],
+          ["estructura", "Estructura del BOM"],
+          ["window", "El objeto window como objeto global"],
+          ["objetos", "Principales objetos del navegador"],
+          ["diferencias", "Diferencias entre BOM y DOM"],
+          ["ejemplo", "Primer ejemplo con el BOM"]
+        ]
+      }
+,
+
+      {
+        numero: "7.8",
+        titulo: "Objeto window: propiedades y métodos",
+        carpeta: "7-8",
+        secciones: [
+          ["concepto", "El objeto window"],
+          ["global", "window y el ámbito global"],
+          ["dimensiones", "Dimensiones de la ventana"],
+          ["desplazamiento", "Desplazamiento y posición"],
+          ["dialogos", "Métodos alert(), confirm() y prompt()"],
+          ["ejemplos", "Ejemplos prácticos"]
+        ]
+      },
+      {
+        numero: "7.9",
+        titulo: "Gestión de ventanas y temporizadores",
+        carpeta: "7-9",
+        secciones: [
+          ["abrir", "Apertura de ventanas"],
+          ["cerrar", "Cierre de ventanas"],
+          ["comunicacion", "Comunicación básica entre ventanas"],
+          ["timeout", "setTimeout() y clearTimeout()"],
+          ["interval", "setInterval() y clearInterval()"],
+          ["ejemplos", "Ejemplos prácticos"]
+        ]
+      }
+    ];
+
+    /* ==========================================
+       DATOS DE LOS APARTADOS POSTERIORES
+    ========================================== */
+
+    const apartadosUT7 = [
+
+      {
+        numero: "7.11",
+        titulo: "Objeto history: historial de navegación",
+        carpeta: "7-11",
+        secciones: [
+          ["concepto", "El objeto history"],
+          ["length", "Longitud del historial"],
+          ["back", "history.back()"],
+          ["forward", "history.forward()"],
+          ["go", "history.go()"],
+          ["limitaciones", "Limitaciones y seguridad"],
+          ["ejemplos", "Ejemplos prácticos"]
+        ]
+      },
+
+      {
+        numero: "7.12",
+        titulo: "Objetos navigator y screen",
+        carpeta: "7-12",
+        secciones: [
+          ["navigator", "El objeto navigator"],
+          ["propiedades", "Propiedades de navigator"],
+          ["capacidades", "Capacidades del navegador"],
+          ["screen", "El objeto screen"],
+          ["dimensiones", "Dimensiones de pantalla"],
+          ["ejemplos", "Ejemplos prácticos"]
+        ]
+      },
+
+      {
+        numero: "7.13",
+        titulo: "Almacenamiento en el navegador",
+        carpeta: "7-13",
+        secciones: [
+          ["introduccion", "Introducción al almacenamiento web"],
+          ["localstorage", "localStorage"],
+          ["sessionstorage", "sessionStorage"],
+          ["metodos", "Métodos de almacenamiento"],
+          ["json", "Almacenamiento de objetos con JSON"],
+          ["cookies", "Cookies"],
+          ["comparacion", "Diferencias entre los mecanismos"],
+          ["ejemplos", "Ejemplos prácticos"]
+        ]
+      },
+
+      {
+        numero: "7.14",
+        titulo: "Interacción con el usuario y aplicación práctica del BOM",
+        carpeta: "7-14",
+        secciones: [
+          ["planteamiento", "Planteamiento de una aplicación"],
+          ["objetos", "Selección de objetos predefinidos"],
+          ["navegacion", "Navegación e interacción"],
+          ["almacenamiento", "Persistencia de información"],
+          ["organizacion", "Organización del código"],
+          ["pruebas", "Pruebas y depuración"],
+          ["ejemplo", "Ejemplo práctico completo"]
+        ]
+      }
+
+    ];
+
+    /* ==========================================
+       CONSTRUCCIÓN DEL MENÚ LATERAL
+    ========================================== */
+
+    function crearApartadoMenu(apartado) {
+
+      const contenedor =
+        document.createElement("div");
+
+      contenedor.className =
+        "menu-desplegable menu-apartado";
+
+      const cabecera =
+        document.createElement("div");
+
+      cabecera.className = "menu-cabecera";
+
+      const enlace =
+        document.createElement("a");
+
+      enlace.className = "menu-titulo";
+
+      enlace.href =
+        `../${apartado.carpeta}/index.html`;
+
+      enlace.textContent =
+        `${apartado.numero} ${apartado.titulo}`;
+
+      const boton =
+        document.createElement("button");
+
+      boton.className = "boton-desplegar";
+      boton.type = "button";
+      boton.textContent = "›";
+
+      const idSubmenu =
+        `submenu-${apartado.carpeta}`;
+
+      boton.setAttribute("data-target", idSubmenu);
+      boton.setAttribute("aria-expanded", "false");
+
+      boton.setAttribute(
+        "aria-label",
+        `Mostrar u ocultar los subapartados del ${apartado.numero}`
+      );
+
+      cabecera.appendChild(enlace);
+      cabecera.appendChild(boton);
+
+      const submenu =
+        document.createElement("div");
+
+      submenu.id = idSubmenu;
+      submenu.className =
+        "submenu submenu-apartados";
+
+      apartado.secciones.forEach(seccion => {
+
+        const enlaceSeccion =
+          document.createElement("a");
+
+        enlaceSeccion.href =
+          `../${apartado.carpeta}/index.html#${seccion[0]}`;
+
+        enlaceSeccion.textContent = seccion[1];
+
+        submenu.appendChild(enlaceSeccion);
+
+      });
+
+      contenedor.appendChild(cabecera);
+      contenedor.appendChild(submenu);
+
+      return contenedor;
+
+    }
+
+    const contenedorAnteriores =
+      document.getElementById("apartadosAnterioresUT7");
+
+    apartadosAnteriores.forEach(apartado => {
+
+      contenedorAnteriores.appendChild(
+        crearApartadoMenu(apartado)
+      );
+
+    });
+
+    const contenedorApartados =
+      document.getElementById("restoApartadosUT7");
+
+    apartadosUT7.forEach(apartado => {
+
+      contenedorApartados.appendChild(
+        crearApartadoMenu(apartado)
+      );
+
+    });
+
+    /* ==========================================
+       MENÚS DESPLEGABLES
+    ========================================== */
+
+    document.querySelectorAll(".boton-desplegar")
+      .forEach(boton => {
+
+        boton.addEventListener("click", () => {
+
+          const idSubmenu =
+            boton.getAttribute("data-target");
+
+          const submenu =
+            document.getElementById(idSubmenu);
+
+          if (!submenu) {
+            return;
+          }
+
+          const estaAbierto =
+            submenu.classList.contains("submenu-abierto");
+
+          submenu.classList.toggle("submenu-abierto");
+
+          boton.textContent =
+            estaAbierto ? "›" : "⌄";
+
+          boton.setAttribute(
+            "aria-expanded",
+            String(!estaAbierto)
+          );
+
+        });
+
+      });
+
+    /* ==========================================
+       COPIAR CÓDIGO
+    ========================================== */
+
+    document.addEventListener("click", async evento => {
+
+      const boton =
+        evento.target.closest(".boton-copiar");
+
+      if (!boton) {
+        return;
+      }
+
+      const bloque =
+        boton.closest(".bloque-codigo");
+
+      const codigo =
+        bloque?.querySelector("code");
+
+      if (!codigo) {
+        return;
+      }
+
+      const textoOriginal =
+        boton.textContent;
+
+      try {
+
+        await navigator.clipboard.writeText(
+          codigo.textContent
+        );
+
+        boton.textContent = "✔ Copiado";
+
+      } catch (error) {
+
+        boton.textContent = "Error al copiar";
+
+      }
+
+      setTimeout(() => {
+
+        boton.textContent = textoOriginal;
+
+      }, 1600);
+
+    });
+
+  </script>
+</body>
+</html>
