@@ -1,6 +1,5 @@
 <!DOCTYPE html>
 
-<!DOCTYPE html>
 <html lang="es">
 <head>
 <meta charset="utf-8"/>
@@ -838,7 +837,7 @@
   
 <div id="apartadosAnterioresUT7"></div>
   
-<div class="menu-desplegable menu-apartado"><div class="menu-cabecera menu-cabecera-activa"><a class="menu-titulo" href="index.html">7.14 Interacción con el usuario y aplicación práctica del BOM</a><button aria-expanded="true" aria-label="Mostrar u ocultar los subapartados del 7.14" class="boton-desplegar" data-target="submenu-7-14" type="button">⌄</button></div><div class="submenu submenu-apartados submenu-abierto" id="submenu-7-14"><a href="#planteamiento">Planteamiento de una aplicación</a><a href="#objetos">Selección de objetos predefinidos</a><a href="#navegacion">Navegación e interacción</a><a href="#almacenamiento">Persistencia de información</a><a href="#organizacion">Organización del código</a><a href="#pruebas">Pruebas y depuración</a><a href="#ejemplo">Ejemplo práctico completo</a></div></div>
+<div class="menu-desplegable menu-apartado"><div class="menu-cabecera"><a class="menu-titulo" href="../7-14/index.html">7.14 Interacción con el usuario y aplicación práctica del BOM</a><button aria-expanded="true" aria-label="Mostrar u ocultar los subapartados del 7.14" class="boton-desplegar" data-target="submenu-7-14" type="button">⌄</button></div><div class="submenu submenu-apartados submenu-abierto" id="submenu-7-14"><a href="../7-14/index.html#planteamiento">Planteamiento de una aplicación</a><a href="#objetos">Selección de objetos predefinidos</a><a href="#navegacion">Navegación e interacción</a><a href="#almacenamiento">Persistencia de información</a><a href="#organizacion">Organización del código</a><a href="#pruebas">Pruebas y depuración</a><a href="#ejemplo">Ejemplo práctico completo</a></div></div>
 <!-- RESTO DE APARTADOS UT7 -->
 <div id="restoApartadosUT7"></div>
 
@@ -863,7 +862,7 @@
               </a>
 </div>
 </div>
-<div class="menu-desplegable menu-apartado"><div class="menu-cabecera menu-cabecera-activa"><a class="menu-titulo" href="index.html">✏️ Resumen de la UT7</a><button aria-expanded="true" aria-label="Mostrar u ocultar el resumen de la UT7" class="boton-desplegar" data-target="submenu-resumen" type="button">⌄</button></div><div class="submenu submenu-apartados submenu-abierto" id="submenu-resumen"><a href="#vision-global">Visión global de la unidad</a><a href="#predefinidos">7.1 Introducción a los objetos predefinidos de JavaScript</a><a href="#string-number">7.2 Objetos String y Number</a><a href="#math">7.3 Objeto Math</a><a href="#date">7.4 Objeto Date</a><a href="#regexp">7.5 Objeto RegExp y expresiones regulares</a><a href="#json">7.6 Objeto JSON y conversión de datos</a><a href="#bom">7.7 Introducción al BOM: estructura y características</a><a href="#window">7.8 Objeto window</a><a href="#dialogos">7.9 Ventanas de diálogo y temporizadores</a><a href="#location">7.10 Objeto location y navegación</a><a href="#history">7.11 Objeto history e historial de navegación</a><a href="#navigator-screen">7.12 Objetos navigator y screen</a><a href="#almacenamiento">7.13 Almacenamiento en el navegador</a><a href="#aplicacion">7.14 Interacción con el usuario y aplicación práctica del BOM</a><a href="#ideas-clave">Ideas clave de la UT7</a></div></div><a class="enlace-apartado-simple" href="../actividades/index.html">📝 Actividades de la UT7</a></div>
+<div class="menu-desplegable menu-apartado"><div class="menu-cabecera menu-cabecera-activa"><a class="menu-titulo" href="index.html">✏️ Resumen de la UT7</a><button aria-expanded="true" aria-label="Mostrar u ocultar el resumen de la UT7" class="boton-desplegar" data-target="submenu-resumen" type="button">⌄</button></div><div class="submenu submenu-apartados submenu-abierto" id="submenu-resumen"><a href="#vision-global">Visión global de la unidad</a><a href="#predefinidos">7.1 Introducción a los objetos predefinidos de JavaScript</a><a href="#string-number">7.2 Objetos String y Number</a><a href="#math">7.3 Objeto Math</a><a href="#date">7.4 Objeto Date</a><a href="#regexp">7.5 Objeto RegExp y expresiones regulares</a><a href="#json">7.6 Objeto JSON y conversión de datos</a><a href="#bom">7.7 Introducción al BOM: estructura y características</a><a href="#window">7.8 Objeto window</a><a href="#dialogos">7.9 Ventanas de diálogo y temporizadores</a><a href="#location">7.10 Objeto location y navegación</a><a href="#history">7.11 Objeto history e historial de navegación</a><a href="#navigator-screen">7.12 Objetos navigator y screen</a><a href="#almacenamiento">7.13 Almacenamiento en el navegador</a><a href="#aplicacion">7.14 Interacción con el usuario y aplicación práctica del BOM</a><a href="#ideas-clave">Ideas clave de la UT7</a></div></div></div>
 </div>
 <a class="sidebar-ut-cerrada" href="../../ut8/index.html">
 <span>UT8 - Aplicaciones web interactivas: DOM, eventos y formularios</span>
@@ -891,11 +890,12 @@ console.log(Math.floor(precio)); // 18
 
 const dado = Math.floor(Math.random() * 6) + 1;
 console.log(dado); // Entero entre 1 y 6</code></pre></div><div class="caja caja-importante"><span class="caja-titulo">📌 Recuerda</span><p><code>Math.random()</code> devuelve un número desde 0 (incluido) hasta 1 (excluido).</p></div></section><section class="apartado-ut" id="date"><h2>7.4 Objeto Date</h2><p><code>Date</code> permite crear fechas, consultar sus componentes, modificarlas y comparar instantes mediante sus valores temporales.</p><div class="ejemplo-codigo"><div class="ejemplo-codigo-cabecera"><span>JavaScript — Fechas y diferencias</span><button class="boton-copiar" type="button">Copiar código</button></div><pre><code>const hoy = new Date();
-const entrega = new Date(2026, 10, 30); // Noviembre: mes 10
+const entrega = new Date(hoy.getTime() + 5 * 24 * 60 * 60 * 1000);
 
 const diferencia = entrega.getTime() - hoy.getTime();
 const dias = Math.ceil(diferencia / (1000 * 60 * 60 * 24));
-console.log(dias);</code></pre></div><div class="caja caja-atencion"><span class="caja-titulo">⚠️ Atención</span><p>Al construir fechas con <code>new Date(año, mes, día)</code>, los meses se numeran del 0 al 11.</p></div></section><section class="apartado-ut" id="regexp"><h2>7.5 Objeto RegExp y expresiones regulares</h2><p>Las expresiones regulares describen patrones para buscar o validar textos. El método <code>test()</code> indica si una cadena coincide con un patrón.</p><div class="ejemplo-codigo"><div class="ejemplo-codigo-cabecera"><span>JavaScript — Validar un código de pedido</span><button class="boton-copiar" type="button">Copiar código</button></div><pre><code>const patron = /^PED-\d{4}$/;
+
+console.log(dias); // 5</code></pre></div><div class="caja caja-atencion"><span class="caja-titulo">⚠️ Atención</span><p>Al construir fechas con <code>new Date(año, mes, día)</code>, los meses se numeran del 0 al 11.</p></div></section><section class="apartado-ut" id="regexp"><h2>7.5 Objeto RegExp y expresiones regulares</h2><p>Las expresiones regulares describen patrones para buscar o validar textos. El método <code>test()</code> indica si una cadena coincide con un patrón.</p><div class="ejemplo-codigo"><div class="ejemplo-codigo-cabecera"><span>JavaScript — Validar un código de pedido</span><button class="boton-copiar" type="button">Copiar código</button></div><pre><code>const patron = /^PED-\d{4}$/;
 
 console.log(patron.test("PED-0123")); // true
 console.log(patron.test("PED-12"));   // false</code></pre></div><div class="lista-claves"><div><strong><code>^</code> y <code>$</code></strong><span>Marcan el inicio y el final de la cadena.</span></div><div><strong><code>\d</code></strong><span>Representa un dígito.</span></div><div><strong><code>{4}</code></strong><span>Exige cuatro repeticiones del elemento anterior.</span></div><div><strong><code>i</code></strong><span>Es una bandera que permite ignorar mayúsculas y minúsculas.</span></div></div></section><section class="apartado-ut" id="json"><h2>7.6 Objeto JSON y conversión de datos</h2><p><strong>JSON</strong> es un formato de texto para intercambiar y guardar datos estructurados. <code>JSON.stringify()</code> convierte un valor JavaScript a texto JSON y <code>JSON.parse()</code> realiza la operación inversa.</p><div class="ejemplo-codigo"><div class="ejemplo-codigo-cabecera"><span>JavaScript — Convertir datos a JSON y recuperarlos</span><button class="boton-copiar" type="button">Copiar código</button></div><pre><code>const pedido = { codigo: "PED-0123", total: 45 };
@@ -904,7 +904,7 @@ const recuperado = JSON.parse(texto);
 
 console.log(recuperado.codigo); // PED-0123</code></pre></div><div class="caja caja-atencion"><span class="caja-titulo">⚠️ Atención</span><p>JSON no es lo mismo que un objeto JavaScript. <code>JSON.parse()</code> puede lanzar un error si el texto no tiene un formato JSON válido.</p></div></section><section class="apartado-ut" id="bom"><h2>7.7 Introducción al BOM: estructura y características</h2><p>El <strong>Browser Object Model (BOM)</strong> reúne objetos proporcionados por el navegador para consultar su entorno y controlar aspectos de la ventana o la navegación. <code>window</code> es el objeto global de una página web en el contexto habitual del navegador.</p><div class="lista-claves"><div><strong><code>window</code></strong><span>Ventana y funciones generales del navegador.</span></div><div><strong><code>navigator</code></strong><span>Información y capacidades del navegador.</span></div><div><strong><code>screen</code></strong><span>Características de la pantalla.</span></div><div><strong><code>location</code> y <code>history</code></strong><span>Dirección actual e historial de navegación.</span></div></div><div class="caja caja-importante"><span class="caja-titulo">📌 Recuerda</span><p>El BOM no es el DOM: el BOM se relaciona con el navegador; el DOM representa la estructura del documento HTML.</p></div></section><section class="apartado-ut" id="window"><h2>7.8 Objeto window</h2><p><code>window</code> permite consultar propiedades de la ventana y acceder a funciones globales. En una página web, <code>window.innerWidth</code> indica el ancho interior de la ventana gráfica.</p><div class="ejemplo-codigo"><div class="ejemplo-codigo-cabecera"><span>JavaScript — Consultar la ventana</span><button class="boton-copiar" type="button">Copiar código</button></div><pre><code>console.log(window.innerWidth);
 console.log(window.innerHeight);
-console.log(window.location.href);</code></pre></div><div class="caja caja-importante"><span class="caja-titulo">📌 Recuerda</span><p>En el navegador, algunas funciones globales pueden utilizarse con o sin el prefijo <code>window.</code>.</p></div></section><section class="apartado-ut" id="dialogos"><h2>7.9 Ventanas de diálogo y temporizadores</h2><p>Los diálogos básicos permiten informar, pedir datos y solicitar confirmación. Los temporizadores ejecutan funciones después de una espera o a intervalos.</p><div class="lista-claves"><div><strong><code>alert()</code></strong><span>Muestra un mensaje.</span></div><div><strong><code>prompt()</code></strong><span>Solicita texto; puede devolver <code>null</code>.</span></div><div><strong><code>confirm()</code></strong><span>Devuelve <code>true</code> o <code>false</code>.</span></div><div><strong><code>setTimeout()</code> y <code>setInterval()</code></strong><span>Programan ejecuciones diferidas o periódicas.</span></div></div><div class="ejemplo-codigo"><div class="ejemplo-codigo-cabecera"><span>JavaScript — Temporizador sencillo</span><button class="boton-copiar" type="button">Copiar código</button></div><pre><code>const identificador = setTimeout(() =&gt; {
+console.log(window.location.href);</code></pre></div><div class="caja caja-importante"><span class="caja-titulo">📌 Recuerda</span><p>En el navegador, algunas funciones globales pueden utilizarse con o sin el prefijo <code>window</code>.</p></div></section><section class="apartado-ut" id="dialogos"><h2>7.9 Ventanas de diálogo y temporizadores</h2><p>Los diálogos básicos permiten informar, pedir datos y solicitar confirmación. Los temporizadores ejecutan funciones después de una espera o a intervalos.</p><div class="lista-claves"><div><strong><code>alert()</code></strong><span>Muestra un mensaje.</span></div><div><strong><code>prompt()</code></strong><span>Solicita texto; puede devolver <code>null</code>.</span></div><div><strong><code>confirm()</code></strong><span>Devuelve <code>true</code> o <code>false</code>.</span></div><div><strong><code>setTimeout()</code> y <code>setInterval()</code></strong><span>Programan ejecuciones diferidas o periódicas.</span></div></div><div class="ejemplo-codigo"><div class="ejemplo-codigo-cabecera"><span>JavaScript — Temporizador sencillo</span><button class="boton-copiar" type="button">Copiar código</button></div><pre><code>const identificador = setTimeout(() =&gt; {
   console.log("Han pasado dos segundos");
 }, 2000);
 
@@ -931,12 +931,19 @@ if (entrada !== null) {
   const codigo = entrada.trim().toUpperCase();
   const patron = /^PED-\d{4}$/;
 
-  if (patron.test(codigo)) {
+
+if (patron.test(codigo)) {
+  try {
     sessionStorage.setItem("ultimoPedido", codigo);
-    console.log(`Pedido ${codigo} consultado el ${new Date().toLocaleDateString()}`);
-  } else {
-    console.log("El código no tiene el formato correcto.");
+  } catch (error) {
+    console.warn("No se ha podido guardar el último pedido.", error);
   }
+
+  console.log(`Pedido ${codigo} consultado el ${new Date().toLocaleDateString()}`);
+} else {
+  console.log("El código no tiene el formato correcto.");
+}
+
 }</code></pre></div><div class="caja caja-ejemplo"><span class="caja-titulo">💻 Ejemplo DAW</span><p>Un panel de pedidos puede recordar el último código consultado, leer parámetros de la URL y validar la entrada antes de procesarla.</p></div></section><section class="apartado-ut" id="ideas-clave"><h2>Ideas clave de la UT7</h2><div class="caja caja-importante resumen-final"><span class="caja-titulo">📌 Si tuvieras que recordar solo estas ideas…</span><ul><li>Los <strong>objetos predefinidos</strong> simplifican operaciones habituales.</li><li><code>String</code> y <code>Number</code> ayudan a tratar textos y números.</li><li><code>Math</code> permite realizar cálculos y generar números pseudoaleatorios.</li><li><code>Date</code> representa fechas e instantes temporales.</li><li><code>RegExp</code> permite buscar y validar patrones.</li><li><code>JSON.stringify()</code> y <code>JSON.parse()</code> convierten entre valores JavaScript y texto JSON.</li><li>El <strong>BOM</strong> permite interactuar con el entorno del navegador.</li><li><code>window</code> ofrece propiedades y funciones relacionadas con la ventana.</li><li>Los diálogos y temporizadores permiten interacciones sencillas y ejecuciones programadas.</li><li><code>location</code> gestiona la dirección y <code>history</code> permite desplazarse por el historial.</li><li><code>navigator</code> y <code>screen</code> proporcionan información del navegador y la pantalla.</li><li><code>localStorage</code> y <code>sessionStorage</code> guardan datos como texto con distinta duración.</li><li>Una aplicación útil combina <strong>entrada, validación, navegación y persistencia</strong> de forma organizada.</li></ul></div></section><nav aria-label="Navegación entre páginas" class="navegacion-paginas"><a class="nav-pagina nav-anterior" href="../7-14/index.html"><span class="nav-etiqueta">Anterior</span><strong>‹ 7.14 Interacción con el usuario y aplicación práctica del BOM</strong></a><a class="nav-pagina nav-siguiente" href="../actividades/index.html"><span class="nav-etiqueta">Siguiente</span><strong>📝 Actividades de la UT7 ›</strong></a></nav></main>
 <!-- ==========================================
          ÍNDICE LATERAL DERECHO
@@ -1385,8 +1392,8 @@ if (entrada !== null) {
         return;
       }
 
-      const bloque =
-        boton.closest(".bloque-codigo");
+const bloque =
+  boton.closest(".ejemplo-codigo");
 
       const codigo =
         bloque?.querySelector("code");
