@@ -1,0 +1,1360 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<meta content="7.6 - Imágenes y contenido multimedia responsive. Diseño de Interfaces Web." name="description"/>
+<title>7.6 - Imágenes y contenido multimedia responsive</title>
+<link href="../../../img/favicon.png?v=5" rel="icon" type="image/png"/>
+<link href="../../../css/estilos.css" rel="stylesheet"/>
+<style>
+
+    /* ==========================================
+       ESTRUCTURA DE LA UT
+    ========================================== */
+
+    .pagina-ut {
+      display: grid;
+      grid-template-columns: 280px 1fr 260px;
+      min-height: calc(100vh - 68px);
+    }
+
+
+    /* ==========================================
+       COLUMNA IZQUIERDA
+    ========================================== */
+
+    .sidebar {
+      border-right: 1px solid var(--borde);
+      background-color: var(--fondo-pagina);
+      padding: 12px 10px 30px;
+      position: sticky;
+      top: 68px;
+      height: calc(100vh - 68px);
+      overflow-y: auto;
+    }
+
+    .sidebar-modulo {
+      display: block;
+      margin-bottom: 8px;
+      padding: 8px 14px;
+      color: #626873;
+      font-size: 17px;
+      font-weight: 700;
+      line-height: 1.3;
+      text-decoration: none;
+      border-radius: 6px;
+      transition:
+        color 0.2s ease,
+        background-color 0.2s ease;
+    }
+
+    .sidebar-modulo:hover {
+      color: var(--verde-principal);
+      background-color: #f3f4f6;
+    }
+
+    body.modo-oscuro .sidebar-modulo:hover {
+      background-color: #273244;
+    }
+
+    .sidebar-ut {
+      margin-bottom: 12px;
+      padding: 10px 14px;
+      background-color: #f1f1f1;
+      border-radius: 5px;
+      color: var(--verde-principal);
+      font-size: 17px;
+      font-weight: 700;
+      line-height: 1.35;
+    }
+
+    .sidebar-ut-activa {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+    }
+
+    .flecha-ut-abierta {
+      flex-shrink: 0;
+      font-size: 22px;
+      color: #777;
+    }
+
+    .sidebar-ut-cerrada {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      padding: 13px 14px;
+      color: #626873;
+      text-decoration: none;
+      font-size: 16px;
+      font-weight: 650;
+      line-height: 1.35;
+      border-radius: 6px;
+      transition:
+        background-color 0.2s ease,
+        color 0.2s ease;
+    }
+
+    .sidebar-ut-cerrada:hover {
+      background-color: #f3f4f6;
+      color: var(--verde-principal);
+    }
+
+    body.modo-oscuro .sidebar-ut-cerrada:hover {
+      background-color: #273244;
+    }
+
+    body.modo-oscuro .sidebar-ut {
+      background-color: #273244;
+      color: #5ed28a;
+    }
+
+    .lista-apartados {
+      list-style: none;
+      margin: 0;
+      padding: 0;
+    }
+
+    .enlace-apartado {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      padding: 11px 14px;
+      color: #626873;
+      text-decoration: none;
+      font-size: 15px;
+      font-weight: 600;
+      line-height: 1.4;
+      border-radius: 6px;
+      transition:
+        background-color 0.2s ease,
+        color 0.2s ease;
+    }
+
+    .enlace-apartado:hover {
+      background-color: #f3f4f6;
+      color: var(--verde-principal);
+    }
+
+    body.modo-oscuro .enlace-apartado:hover {
+      background-color: #273244;
+    }
+
+    .flecha-apartado {
+      flex-shrink: 0;
+      color: #8b8b8b;
+      font-size: 22px;
+    }
+
+
+    /* ==========================================
+       MENÚ LATERAL DESPLEGABLE
+    ========================================== */
+
+    .menu-desplegable {
+      width: 100%;
+    }
+
+    .menu-cabecera {
+      display: flex;
+      align-items: center;
+      gap: 4px;
+      width: 100%;
+      border-radius: 6px;
+    }
+
+    .menu-cabecera-activa {
+      background-color: #f1f1f1;
+    }
+
+    .menu-cabecera-activa > .menu-titulo {
+      color: var(--verde-principal);
+    }
+
+    .menu-titulo {
+      flex: 1;
+      display: block;
+      padding: 11px 8px 11px 14px;
+      color: #626873;
+      font-size: 16px;
+      font-weight: 650;
+      line-height: 1.4;
+      text-decoration: none;
+    }
+
+    .menu-titulo:hover {
+      color: var(--verde-principal);
+    }
+
+    .boton-desplegar {
+      width: 36px;
+      height: 36px;
+      margin-right: 5px;
+      padding: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+      border: 0;
+      border-radius: 6px;
+      background: transparent;
+      color: #777;
+      font-family: inherit;
+      font-size: 24px;
+      line-height: 1;
+      cursor: pointer;
+    }
+
+    .boton-desplegar:hover {
+      background-color: #e5e7eb;
+      color: var(--verde-principal);
+    }
+
+
+    /* ==========================================
+       CONTENIDO DESPLEGABLE
+    ========================================== */
+
+    .submenu {
+      display: none;
+    }
+
+    .submenu.submenu-abierto {
+      display: block;
+    }
+
+
+    /* ==========================================
+       APARTADOS DE UNA UT
+    ========================================== */
+
+    .menu-apartado {
+      margin-left: 14px;
+    }
+
+    .menu-apartado .menu-titulo {
+      padding-top: 9px;
+      padding-bottom: 9px;
+      font-size: 15px;
+      font-weight: 600;
+    }
+
+    .enlace-apartado-simple {
+      display: block;
+      margin-left: 14px;
+      padding: 10px 14px;
+      color: #626873;
+      font-size: 15px;
+      font-weight: 600;
+      line-height: 1.4;
+      text-decoration: none;
+      border-radius: 6px;
+      transition:
+        background-color 0.2s ease,
+        color 0.2s ease;
+    }
+
+    .enlace-apartado-simple:hover {
+      background-color: #f3f4f6;
+      color: var(--verde-principal);
+    }
+
+
+    /* ==========================================
+       SUBAPARTADOS
+    ========================================== */
+
+    .submenu-apartados {
+      margin: 2px 0 5px 28px;
+      border-left: 2px solid #e0e3e7;
+    }
+
+    .submenu-apartados a {
+      display: block;
+      padding: 7px 10px;
+      color: #777d87;
+      font-size: 14px;
+      font-weight: 500;
+      line-height: 1.35;
+      text-decoration: none;
+    }
+
+    .submenu-apartados a:hover {
+      color: var(--verde-principal);
+    }
+
+
+    /* ==========================================
+       MODO OSCURO DEL MENÚ
+    ========================================== */
+
+    body.modo-oscuro .menu-cabecera-activa {
+      background-color: #273244;
+    }
+
+    body.modo-oscuro .boton-desplegar:hover {
+      background-color: #334155;
+    }
+
+    body.modo-oscuro .enlace-apartado-simple:hover {
+      background-color: #273244;
+    }
+
+    body.modo-oscuro .submenu-apartados {
+      border-left-color: #3a4659;
+    }
+
+
+    /* ==========================================
+       ZONA CENTRAL
+    ========================================== */
+
+    .contenido-ut {
+      padding: 28px 34px 70px;
+      max-width: 1150px;
+      width: 100%;
+      min-width: 0;
+    }
+
+    .migas {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 30px;
+      font-size: 14px;
+    }
+
+    .miga-inicio {
+      text-decoration: none;
+      font-size: 18px;
+    }
+
+    .miga-separador {
+      color: #999;
+      font-size: 22px;
+    }
+
+    .miga-modulo {
+      color: var(--texto-secundario);
+      text-decoration: none;
+    }
+
+    .miga-modulo:hover {
+      color: var(--verde-principal);
+    }
+
+    .miga-actual {
+      padding: 8px 14px;
+      background-color: #f3f3f3;
+      border-radius: 24px;
+      color: var(--verde-principal);
+    }
+
+    body.modo-oscuro .miga-actual {
+      background-color: #273244;
+    }
+
+    .contenido-ut h1 {
+      margin: 0 0 30px;
+      font-size: clamp(38px, 5vw, 58px);
+      line-height: 1.12;
+    }
+
+    .introduccion-ut {
+      max-width: 980px;
+      font-size: 19px;
+      line-height: 1.75;
+    }
+
+    .introduccion-ut p {
+      margin: 0 0 20px;
+    }
+
+
+    /* ==========================================
+       CONTENIDO DE LOS APARTADOS
+    ========================================== */
+
+    .apartado-ut {
+      margin-top: 55px;
+      scroll-margin-top: 95px;
+    }
+
+    .apartado-ut h2 {
+      margin: 0 0 24px;
+      font-size: 32px;
+      line-height: 1.2;
+      scroll-margin-top: 95px;
+    }
+
+    .apartado-ut h3 {
+      margin: 34px 0 16px;
+      font-size: 24px;
+      line-height: 1.3;
+    }
+
+    .apartado-ut p {
+      margin: 0 0 18px;
+      font-size: 18px;
+      line-height: 1.75;
+    }
+
+    .apartado-ut ul,
+    .apartado-ut ol {
+      margin: 16px 0 24px;
+      padding-left: 28px;
+    }
+
+    .apartado-ut li {
+      margin-bottom: 10px;
+      font-size: 17px;
+      line-height: 1.6;
+    }
+
+
+    /* ==========================================
+       CAJAS DE LOS APUNTES
+    ========================================== */
+
+    .caja {
+      margin: 28px 0;
+      padding: 18px 20px;
+      border-left: 5px solid;
+      border-radius: 8px;
+      line-height: 1.65;
+    }
+
+    .caja p {
+      margin: 0;
+      font-size: 17px;
+    }
+
+    .caja-titulo {
+      display: block;
+      margin-bottom: 8px;
+      font-size: 17px;
+      font-weight: 700;
+    }
+
+    .caja-importante {
+      background-color: #eef8f1;
+      border-left-color: #2f9e5b;
+    }
+
+    .caja-atencion {
+      background-color: #fff7e8;
+      border-left-color: #e09b27;
+    }
+
+    .caja-ejemplo {
+      background-color: #eef5ff;
+      border-left-color: #3f7acb;
+    }
+
+    .caja-curiosidad {
+      background-color: #f7f1ff;
+      border-left-color: #8b5cc7;
+    }
+
+    body.modo-oscuro .caja-importante {
+      background-color: #20372a;
+    }
+
+    body.modo-oscuro .caja-atencion {
+      background-color: #3b3020;
+    }
+
+    body.modo-oscuro .caja-ejemplo {
+      background-color: #23344a;
+    }
+
+    body.modo-oscuro .caja-curiosidad {
+      background-color: #332944;
+    }
+
+
+    /* ==========================================
+       TABLAS
+    ========================================== */
+
+    .tabla-responsive {
+      width: 100%;
+      margin: 28px 0;
+      overflow-x: auto;
+    }
+
+    .tabla-apuntes {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 16px;
+    }
+
+    .tabla-apuntes th,
+    .tabla-apuntes td {
+      padding: 14px 16px;
+      border: 1px solid var(--borde);
+      text-align: left;
+      vertical-align: top;
+      line-height: 1.55;
+    }
+
+    .tabla-apuntes th {
+      background-color: #f1f3f5;
+      font-weight: 700;
+    }
+
+    body.modo-oscuro .tabla-apuntes th {
+      background-color: #273244;
+    }
+
+
+    /* ==========================================
+       ESQUEMA VISUAL
+    ========================================== */
+
+    .esquema-sostenibilidad {
+      max-width: 520px;
+      margin: 30px auto;
+      padding: 24px;
+      text-align: center;
+    }
+
+    .esquema-caja {
+      padding: 16px 20px;
+      background-color: var(--fondo-tarjeta);
+      border: 1px solid var(--borde);
+      border-radius: 10px;
+      font-size: 18px;
+      font-weight: 700;
+    }
+
+    .esquema-flecha {
+      margin: 8px 0;
+      color: var(--verde-principal);
+      font-size: 26px;
+      font-weight: 700;
+    }
+
+    .esquema-texto {
+      margin: 0 0 8px;
+      color: var(--texto-secundario);
+      font-size: 15px;
+    }
+
+
+    /* ==========================================
+       ACTIVIDAD DE REFLEXIÓN
+    ========================================== */
+
+    .actividad-reflexion {
+      margin: 32px 0;
+      padding: 22px 24px;
+      background-color: #f7f8fa;
+      border: 1px solid var(--borde);
+      border-radius: 10px;
+    }
+
+    .actividad-reflexion h3 {
+      margin: 0 0 12px;
+      color: var(--verde-principal);
+      font-size: 20px;
+    }
+
+    .actividad-reflexion p {
+      margin: 0;
+      font-size: 17px;
+      line-height: 1.65;
+    }
+
+    body.modo-oscuro .actividad-reflexion {
+      background-color: #232d3d;
+    }
+
+
+    /* ==========================================
+       SOLUCIÓN DESPLEGABLE
+    ========================================== */
+
+    .solucion-desplegable {
+      margin-top: 20px;
+    }
+
+    .solucion-desplegable summary {
+      display: inline-block;
+      padding: 10px 16px;
+      background-color: #eef8f1;
+      border: 1px solid #b9dfc6;
+      border-radius: 7px;
+      color: var(--verde-principal);
+      font-size: 16px;
+      font-weight: 700;
+      cursor: pointer;
+      user-select: none;
+    }
+
+    .solucion-desplegable summary:hover {
+      background-color: #e2f3e7;
+    }
+
+    .contenido-solucion {
+      margin-top: 16px;
+      padding: 18px 20px;
+      background-color: var(--fondo-pagina);
+      border-left: 4px solid var(--verde-principal);
+      border-radius: 6px;
+    }
+
+    .contenido-solucion p {
+      margin: 0 0 12px;
+      font-size: 16px;
+      line-height: 1.65;
+    }
+
+    .contenido-solucion p:last-child {
+      margin-bottom: 0;
+    }
+
+    body.modo-oscuro .solucion-desplegable summary {
+      background-color: #20372a;
+      border-color: #315d40;
+    }
+
+
+/* ==========================================
+   COLUMNA DERECHA
+========================================== */
+
+.indice-derecho {
+  padding: 28px 22px;
+
+  border-left: 1px solid var(--borde);
+
+  position: sticky;
+  top: 68px;
+
+  height: calc(100vh - 68px);
+}
+
+.indice-derecho h2 {
+  margin: 8px 0 20px;
+
+  font-size: 17px;
+  color: #555b65;
+}
+
+body.modo-oscuro .indice-derecho h2 {
+  color: #d1d5db;
+}
+
+.indice-derecho ul {
+  margin: 0;
+  padding-left: 18px;
+}
+
+.indice-derecho li {
+  margin-bottom: 12px;
+}
+
+.indice-derecho a {
+  color: var(--texto-secundario);
+
+  text-decoration: none;
+
+  font-size: 14px;
+  line-height: 1.4;
+}
+
+.indice-derecho a:hover {
+  color: var(--verde-principal);
+}
+
+
+    /* ==========================================
+       NAVEGACIÓN ANTERIOR / SIGUIENTE
+    ========================================== */
+
+    .navegacion-paginas {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 20px;
+      margin-top: 50px;
+    }
+
+    .nav-pagina {
+      min-height: 100px;
+      padding: 18px 20px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      border: 1px solid var(--borde);
+      border-radius: 8px;
+      text-decoration: none;
+      background-color: var(--fondo-tarjeta);
+    }
+
+    .nav-anterior {
+      align-items: flex-start;
+      text-align: left;
+    }
+
+    .nav-siguiente {
+      align-items: flex-end;
+      text-align: right;
+    }
+
+    .nav-etiqueta {
+      margin-bottom: 5px;
+      color: var(--texto-secundario);
+      font-size: 14px;
+    }
+
+    .nav-pagina strong {
+      color: var(--verde-principal);
+      font-size: 16px;
+      line-height: 1.4;
+    }
+
+    .nav-pagina:hover {
+      border-color: var(--verde-principal);
+    }
+
+
+    /* ==========================================
+       EJEMPLOS DE CÓDIGO
+    ========================================== */
+
+    .codigo-ejemplo {
+      margin: 24px 0 30px;
+      border: 1px solid var(--borde);
+      border-radius: 9px;
+      overflow: hidden;
+      background: #172033;
+    }
+
+    .codigo-cabecera {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      padding: 10px 14px;
+      background: #202b3d;
+      color: #e5e7eb;
+      font-size: 14px;
+      font-weight: 700;
+    }
+
+    .boton-copiar {
+      padding: 6px 10px;
+      border: 1px solid #526078;
+      border-radius: 6px;
+      background: transparent;
+      color: #e5e7eb;
+      font: inherit;
+      cursor: pointer;
+    }
+
+    .boton-copiar:hover {
+      background: #2d3a50;
+    }
+
+    .codigo-ejemplo pre {
+      margin: 0;
+      padding: 18px;
+      overflow-x: auto;
+    }
+
+    .codigo-ejemplo code {
+      color: #f3f4f6;
+      font-family: Consolas, "Courier New", monospace;
+      font-size: 15px;
+      line-height: 1.65;
+    }
+
+
+    /* ==========================================
+       EJEMPLOS VISUALES DEL APARTADO 6.1
+    ========================================== */
+
+    .demo-display {
+      margin: 24px 0 30px;
+      padding: 22px;
+      border: 1px solid var(--borde);
+      border-radius: 10px;
+      background: var(--fondo-tarjeta);
+    }
+
+    .demo-display > strong {
+      display: block;
+      margin-bottom: 16px;
+      font-size: 17px;
+    }
+
+    .demo-elemento {
+      padding: 12px 16px;
+      background: #e4f3e9;
+      border: 1px solid #85c79b;
+      border-radius: 5px;
+      color: #195c36;
+      font-size: 15px;
+      font-weight: 600;
+    }
+
+    .demo-bloque .demo-elemento {
+      display: block;
+      margin-bottom: 8px;
+    }
+
+    .demo-linea {
+      line-height: 3.2;
+    }
+
+    .demo-linea .demo-elemento {
+      display: inline;
+      margin-right: 6px;
+    }
+
+    .demo-inline-block .demo-elemento {
+      display: inline-block;
+      width: 140px;
+      margin: 4px;
+      text-align: center;
+    }
+
+    .demo-explicacion {
+      margin: 14px 0 0;
+      color: var(--texto-secundario);
+      font-size: 15px;
+      line-height: 1.55;
+    }
+
+    .comparacion-display {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 16px;
+      margin: 24px 0 30px;
+    }
+
+    .tarjeta-display {
+      padding: 20px;
+      border: 1px solid var(--borde);
+      border-radius: 10px;
+      background: var(--fondo-tarjeta);
+    }
+
+    .tarjeta-display strong {
+      display: block;
+      margin-bottom: 10px;
+      font-size: 18px;
+    }
+
+    .tarjeta-display p {
+      margin: 0;
+      font-size: 16px;
+      line-height: 1.55;
+    }
+
+    body.modo-oscuro .demo-elemento {
+      background: #203b2b;
+      border-color: #397a50;
+      color: #b5edc7;
+    }
+
+
+    /* ==========================================
+       RESPONSIVE
+    ========================================== */
+
+    @media (max-width: 1100px) {
+
+      .pagina-ut {
+        grid-template-columns: 250px minmax(0, 1fr);
+      }
+
+      .indice-derecho {
+        display: none;
+      }
+
+    }
+
+    @media (max-width: 760px) {
+
+      .pagina-ut {
+        display: block;
+      }
+
+      .sidebar {
+        position: static;
+        width: 100%;
+        height: auto;
+        border-right: 0;
+        border-bottom: 1px solid var(--borde);
+      }
+
+      .contenido-ut {
+        padding: 28px 20px 60px;
+      }
+
+      .contenido-ut h1 {
+        font-size: 36px;
+      }
+
+      .navegacion-paginas,
+      .comparacion-display {
+        grid-template-columns: 1fr;
+      }
+
+      .nav-siguiente {
+        align-items: flex-start;
+        text-align: left;
+      }
+
+    }
+
+  
+/* Demostración visual específica del apartado 7.1 */
+.demo-responsive-comparacion { display:grid; grid-template-columns:minmax(0, 1.5fr) minmax(0, .75fr); gap:18px; align-items:start; }
+.demo-pantalla { min-width:0; padding:14px; border:2px solid #9ca3af; border-radius:9px; }
+.demo-pantalla-titulo { display:block; margin-bottom:12px; font-size:14px; font-weight:700; color:var(--texto-secundario); }
+.demo-cabecera { padding:12px; border-radius:5px; background:#dbeafe; color:#1e3a8a; font-weight:700; }
+.demo-tarjetas { display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); gap:8px; margin-top:10px; }
+.demo-tarjetas span { min-width:0; padding:12px 4px; text-align:center; border-radius:5px; background:#e4f3e9; color:#195c36; font-weight:700; font-size:13px; }
+.demo-movil .demo-tarjetas { grid-template-columns:1fr; }
+@media(max-width:600px) { .demo-responsive-comparacion { grid-template-columns:1fr; } }
+body.modo-oscuro .demo-cabecera { background:#23344a; color:#dbeafe; }
+body.modo-oscuro .demo-tarjetas span { background:#203b2b; color:#b5edc7; }
+
+/* Demostración específica del apartado 7.2 */
+.demo-tarjeta-flexible { width:min(100%, 650px); min-height:140px; padding:22px; border:1px solid #b9dfc6; border-radius:10px; background:#eef8f1; color:#195c36; box-sizing:border-box; }
+.demo-tarjeta-flexible h3 { margin:0 0 10px; font-size:20px; }
+.demo-tarjeta-flexible p { margin:0 0 16px; font-size:16px; line-height:1.5; }
+.demo-enlace { display:inline-block; padding:8px 12px; background:#195c36; color:white; border-radius:6px; font-size:15px; }
+body.modo-oscuro .demo-tarjeta-flexible { background:#203b2b; border-color:#397a50; color:#b5edc7; }
+
+/* Demostraciones específicas del apartado 7.3 */
+.demo-media-comparacion{display:grid;grid-template-columns:minmax(0,1.5fr) minmax(0,.8fr);gap:16px;margin:18px 0}
+.demo-media-marco{min-width:0;padding:14px;border:2px solid #9ca3af;border-radius:9px}
+.demo-media-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px}
+.demo-media-grid span{min-width:0;padding:14px 5px;text-align:center;border-radius:6px;background:#e4f3e9;color:#195c36;font-size:14px;font-weight:700}
+.demo-media-estrecho .demo-media-grid{grid-template-columns:1fr}
+.demo-selector-anchura{display:flex;flex-wrap:wrap;gap:8px;margin:18px 0}
+.demo-ancho-btn{padding:9px 14px;border:1px solid var(--borde);border-radius:7px;background:var(--fondo-tarjeta);color:inherit;cursor:pointer;font:inherit}
+.demo-ancho-btn.activo{background:#195c36;color:#fff;border-color:#195c36}
+.demo-marco-responsive{width:100%;max-width:100%;overflow-x:auto;padding:16px;border:2px solid #9ca3af;border-radius:9px;box-sizing:border-box}
+.demo-panel-responsive{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px;max-width:100%;margin:auto}
+.demo-panel-responsive[data-columnas="2"]{grid-template-columns:repeat(2,minmax(0,1fr))}
+.demo-panel-responsive[data-columnas="1"]{grid-template-columns:1fr}
+.demo-modulo-responsive{min-width:0;padding:18px;border:1px solid #b9dfc6;border-radius:9px;background:#eef8f1;color:#195c36}
+.demo-modulo-responsive strong{display:block;margin-bottom:7px;font-size:17px}
+.demo-modulo-responsive span{font-size:14px;line-height:1.5}
+.demo-panel-responsive[data-columnas="1"] .demo-modulo-responsive{padding:14px}
+body.modo-oscuro .demo-media-grid span,body.modo-oscuro .demo-modulo-responsive{background:#203b2b;color:#b5edc7;border-color:#397a50}
+@media(max-width:760px){.demo-media-comparacion{grid-template-columns:1fr}}
+
+/* Esquema de estrategias específico del apartado 7.4 */
+.demo-estrategia{display:flex;flex-wrap:wrap;align-items:center;gap:8px;margin-top:15px}.demo-estrategia span{padding:8px 10px;border-radius:6px;background:#e4f3e9;color:#195c36;font-size:14px;font-weight:700}.demo-estrategia span:not(:last-child)::after{content:" →";margin-left:8px}body.modo-oscuro .demo-estrategia span{background:#203b2b;color:#b5edc7}
+
+/* Demostraciones de Flexbox y Grid del apartado 7.5 */
+.demo75-controles{display:flex;flex-wrap:wrap;gap:8px;margin:16px 0}
+.demo75-btn{padding:9px 14px;border:1px solid var(--borde);border-radius:7px;background:var(--fondo-tarjeta);color:inherit;font:inherit;cursor:pointer}
+.demo75-btn.activo{background:#195c36;color:white;border-color:#195c36}
+.demo75-marco{padding:16px;border:2px solid #9ca3af;border-radius:9px;max-width:100%;overflow-x:auto;box-sizing:border-box}
+.demo75-panel{width:100%;margin:auto;min-width:0;box-sizing:border-box}
+.demo75-panel.flex{display:flex;flex-wrap:wrap;gap:12px}
+.demo75-panel.flex .demo75-tarjeta{flex:1 1 220px}
+.demo75-panel.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,220px),1fr));gap:12px}
+.demo75-tarjeta{min-width:0;box-sizing:border-box;padding:16px;border:1px solid #b9dfc6;border-radius:9px;background:#eef8f1;color:#195c36}
+.demo75-tarjeta strong{display:block;margin-bottom:7px;font-size:17px}
+.demo75-tarjeta span{font-size:14px;line-height:1.5}
+body.modo-oscuro .demo75-tarjeta{background:#203b2b;color:#b5edc7;border-color:#397a50}
+.demo75-pista{font-size:15px!important;color:var(--texto-secundario);margin-top:12px!important}
+
+/* Demostraciones específicas del apartado 7.6 */
+.demo76-controles{display:flex;flex-wrap:wrap;gap:8px;margin:16px 0}.demo76-btn{padding:9px 14px;border:1px solid var(--borde);border-radius:7px;background:var(--fondo-tarjeta);color:inherit;font:inherit;cursor:pointer}.demo76-btn.activo{background:#195c36;color:#fff;border-color:#195c36}.demo76-marco{width:min(100%,390px);aspect-ratio:16/9;margin:12px auto;border:2px solid #9ca3af;border-radius:8px;overflow:hidden;background:#e5e7eb}.demo76-marco svg{display:block;width:100%;height:100%}.demo76-tarjeta{width:min(100%,430px);margin:20px auto;border:1px solid var(--borde);border-radius:10px;overflow:hidden;background:var(--fondo-tarjeta)}.demo76-ilustracion svg{display:block;width:100%;height:auto;aspect-ratio:16/9}.demo76-tarjeta-texto{padding:16px;display:flex;flex-direction:column;gap:7px}.demo76-tarjeta-texto strong{font-size:18px}.demo76-tarjeta-texto span{font-size:15px;color:var(--texto-secundario)}
+</style>
+</head>
+<body>
+<!-- ==========================================
+       CABECERA SUPERIOR
+  ========================================== -->
+<header class="navbar">
+<a class="inicio" href="../../../index.html">
+<img alt="" class="icono-profesora" src="../../../img/profesora-castana.png?v=2"/>
+<span>Inicio</span>
+</a>
+<nav aria-label="Módulos formativos" class="menu-modulos" id="menuModulos"></nav>
+<button aria-label="Cambiar entre modo claro y oscuro" class="boton-tema" id="botonTema" title="Cambiar tema" type="button">☀️</button>
+</header>
+<!-- ==========================================
+       ESTRUCTURA PRINCIPAL
+  ========================================== -->
+<div class="pagina-ut">
+<!-- ==========================================
+         MENÚ LATERAL IZQUIERDO
+    ========================================== -->
+<aside class="sidebar"><a class="sidebar-modulo" href="../../index.html">Diseño de interfaces web</a><a class="sidebar-ut-cerrada" href="../../ut1/index.html"><span>UT1 - Fundamentos del diseño de interfaces web</span><span>›</span></a><a class="sidebar-ut-cerrada" href="../../ut2/index.html"><span>UT2 - Color, tipografía, iconografía e identidad visual</span><span>›</span></a><a class="sidebar-ut-cerrada" href="../../ut3/index.html"><span>UT3 - Planificación, arquitectura y prototipado de interfaces</span><span>›</span></a><a class="sidebar-ut-cerrada" href="../../ut4/index.html"><span>UT4 - HTML: estructura y contenido de interfaces web</span><span>›</span></a><a class="sidebar-ut-cerrada" href="../../ut5/index.html"><span>UT5 - CSS: fundamentos y diseño visual</span><span>›</span></a><a class="sidebar-ut-cerrada" href="../../ut6/index.html"><span>UT6 - CSS: maquetación y diseño avanzado</span><span>›</span></a><div class="menu-desplegable"><div class="menu-cabecera"><a class="menu-titulo" href="../index.html">UT7 - Diseño web responsive</a><button aria-expanded="true" aria-label="Mostrar u ocultar UT7" class="boton-desplegar" data-target="submenu-ut7" type="button">⌄</button></div><div class="submenu submenu-abierto" id="submenu-ut7"><div class="menu-desplegable menu-apartado"><div class="menu-cabecera"><a class="menu-titulo" href="../7-1/index.html">7.1 Introducción al diseño web responsive</a><button aria-expanded="false" aria-label="Mostrar u ocultar 7-1" class="boton-desplegar" data-target="submenu-7-1" type="button">›</button></div><div class="submenu submenu-apartados" id="submenu-7-1"><a href="../7-1/index.html#concepto-responsive">Qué es el diseño web responsive</a><a href="../7-1/index.html#necesidad-adaptacion">Por qué necesitamos interfaces adaptables</a><a href="../7-1/index.html#tipos-diseno">Diseños fijos, fluidos, adaptables y responsive</a><a href="../7-1/index.html#principios-responsive">Principios del diseño responsive</a><a href="../7-1/index.html#ejemplo-studyflow">Ejemplo aplicado a StudyFlow</a><a href="../7-1/index.html#buenas-practicas">Buenas prácticas y errores frecuentes</a></div></div><div class="menu-desplegable menu-apartado"><div class="menu-cabecera"><a class="menu-titulo" href="../7-2/index.html">7.2 Viewport y dimensiones flexibles</a><button aria-expanded="false" aria-label="Mostrar u ocultar 7-2" class="boton-desplegar" data-target="submenu-7-2" type="button">›</button></div><div class="submenu submenu-apartados" id="submenu-7-2"><a href="../7-2/index.html#viewport">Qué es el viewport</a><a href="../7-2/index.html#meta-viewport">La etiqueta meta viewport</a><a href="../7-2/index.html#unidades">Unidades absolutas y relativas</a><a href="../7-2/index.html#dimensiones">Anchuras y dimensiones flexibles</a><a href="../7-2/index.html#desbordamiento">Desbordamiento horizontal</a><a href="../7-2/index.html#studyflow">Aplicación a StudyFlow</a></div></div><div class="menu-desplegable menu-apartado"><div class="menu-cabecera"><a class="menu-titulo" href="../7-3/index.html">7.3 Media queries y puntos de ruptura</a><button aria-expanded="false" aria-label="Mostrar u ocultar 7-3" class="boton-desplegar" data-target="submenu-7-3" type="button">›</button></div><div class="submenu submenu-apartados" id="submenu-7-3"><a href="../7-3/index.html#concepto-media">Qué son las media queries</a><a href="../7-3/index.html#sintaxis">Sintaxis y funcionamiento</a><a href="../7-3/index.html#condiciones">Condiciones y operadores</a><a href="../7-3/index.html#breakpoints">Puntos de ruptura</a><a href="../7-3/index.html#cascada">Cascada y orden de las reglas</a><a href="../7-3/index.html#studyflow">Aplicación a StudyFlow</a><a href="../7-3/index.html#errores">Buenas prácticas y errores frecuentes</a></div></div><div class="menu-desplegable menu-apartado"><div class="menu-cabecera"><a class="menu-titulo" href="../7-4/index.html">7.4 Estrategias mobile first y desktop first</a><button aria-expanded="false" aria-label="Mostrar u ocultar 7-4" class="boton-desplegar" data-target="submenu-7-4" type="button">›</button></div><div class="submenu-apartados submenu" id="submenu-7-4"><a href="../7-4/index.html#concepto">Qué significa mobile first y desktop first</a><a href="../7-4/index.html#mobile">Estrategia mobile first</a><a href="../7-4/index.html#desktop">Estrategia desktop first</a><a href="../7-4/index.html#comparacion">Comparación de ambas estrategias</a><a href="../7-4/index.html#cascada">Orden, cascada y breakpoints</a><a href="../7-4/index.html#studyflow">Aplicación práctica a StudyFlow</a><a href="../7-4/index.html#buenas">Buenas prácticas y errores frecuentes</a></div></div><div class="menu-desplegable menu-apartado"><div class="menu-cabecera"><a class="menu-titulo" href="index.html">7.5 Maquetación responsive con Flexbox y CSS Grid</a><button aria-expanded="false" aria-label="Mostrar u ocultar 7-5" class="boton-desplegar" data-target="submenu-7-5" type="button">›</button></div><div class="submenu submenu-apartados" id="submenu-7-5"><a href="#flexbox">Flexbox en diseños responsive</a><a href="#grid">CSS Grid en diseños responsive</a><a href="#eleccion">Cuándo utilizar Flexbox y cuándo CSS Grid</a><a href="#layout">Adaptar una página con barra lateral y contenido</a><a href="#studyflow">Aplicación práctica a StudyFlow</a><a href="#buenas">Buenas prácticas y errores frecuentes</a></div></div><div class="menu-desplegable menu-apartado"><div class="menu-cabecera menu-cabecera-activa"><a class="menu-titulo" href="../7-6/index.html">7.6 Imágenes y contenido multimedia responsive</a><button aria-expanded="true" aria-label="Mostrar u ocultar 7-6" class="boton-desplegar" data-target="submenu-7-6" type="button">⌄</button></div><div class="submenu-apartados submenu submenu-abierto" id="submenu-7-6"><a href="#imagenes">Imágenes fluidas y proporciones</a><a href="#ajuste">Ajuste y recorte con object-fit</a><a href="#fuentes">Imágenes adaptativas con srcset y sizes</a><a href="#picture">El elemento picture</a><a href="#multimedia">Vídeos e iframes responsive</a><a href="#studyflow">Aplicación práctica a StudyFlow</a><a href="#buenas">Buenas prácticas y errores frecuentes</a></div></div><div class="menu-desplegable menu-apartado"><div class="menu-cabecera"><a class="menu-titulo" href="../7-7/index.html">7.7 Frameworks responsive: Bootstrap 5</a><button aria-expanded="false" aria-label="Mostrar u ocultar 7-7" class="boton-desplegar" data-target="submenu-7-7" type="button">›</button></div><div class="submenu submenu-apartados" id="submenu-7-7"></div></div><div class="menu-desplegable menu-apartado"><div class="menu-cabecera"><a class="menu-titulo" href="../7-8/index.html">7.8 Pruebas y verificación del diseño responsive</a><button aria-expanded="false" aria-label="Mostrar u ocultar 7-8" class="boton-desplegar" data-target="submenu-7-8" type="button">›</button></div><div class="submenu submenu-apartados" id="submenu-7-8"></div></div><a class="enlace-apartado-simple" href="../resumen/index.html">✏️ Resumen de la UT7</a><a class="enlace-apartado-simple" href="../actividades/index.html">📝 Actividades de la UT7</a></div></div><a class="sidebar-ut-cerrada" href="../../ut8/index.html"><span>UT8 - Recursos gráficos e imágenes para la web</span><span>›</span></a><a class="sidebar-ut-cerrada" href="../../ut9/index.html"><span>UT9 - Audio, vídeo, animaciones e interactividad</span><span>›</span></a><a class="sidebar-ut-cerrada" href="../../ut10/index.html"><span>UT10 - Accesibilidad web</span><span>›</span></a><a class="sidebar-ut-cerrada" href="../../ut11/index.html"><span>UT11 - Usabilidad y evaluación de interfaces web</span><span>›</span></a></aside>
+<!-- ==========================================
+         CONTENIDO CENTRAL
+    ========================================== -->
+<main class="contenido-ut"><div class="migas"><a aria-label="Volver a la página principal" class="miga-inicio" href="../../../index.html">🏠</a><span class="miga-separador">›</span><a class="miga-modulo" href="../../index.html">DIW</a><span class="miga-separador">›</span><a class="miga-modulo" href="../index.html">UT7</a><span class="miga-separador">›</span><span class="miga-actual">7.6</span></div><h1>7.6 Imágenes y contenido multimedia responsive</h1><section class="apartado-ut">
+<p>En el apartado 7.5 aprendimos a reorganizar los elementos de una página mediante Flexbox y CSS Grid. Sin embargo, una distribución flexible puede seguir fallando si contiene <strong>imágenes, vídeos o recursos incrustados que no se adaptan</strong> al espacio disponible.</p>
+<p>En este apartado veremos cómo hacer que los recursos multimedia se ajusten a diferentes pantallas, mantengan sus proporciones y, cuando sea conveniente, permitan al navegador elegir una imagen más adecuada.</p>
+<div class="caja caja-importante"><span class="caja-titulo">📌 Importante</span><p>Una imagen responsive no es simplemente una imagen pequeña: debe <strong>adaptarse al espacio disponible</strong> sin deformarse ni provocar desbordamiento horizontal. Además, podemos ofrecer distintas versiones de un recurso según las necesidades de visualización.</p></div><h2 id="imagenes">Imágenes fluidas y proporciones</h2><p>Una imagen puede tener un tamaño original mayor que la columna donde se muestra. Si no establecemos límites, podría sobresalir del contenedor. Una solución habitual es combinar <code>max-width: 100%</code> y <code>height: auto</code>.</p><div class="codigo-ejemplo"><div class="codigo-cabecera"><span>HTML · Imagen de una tarjeta</span><button class="boton-copiar" type="button">Copiar</button></div><pre><code>&lt;img class="imagen-fluida" src="img/panel-studyflow.jpg" alt="Panel de módulos de StudyFlow"&gt;</code></pre></div><div class="codigo-ejemplo"><div class="codigo-cabecera"><span>CSS · Imagen fluida</span><button class="boton-copiar" type="button">Copiar</button></div><pre><code>.imagen-fluida {
+  display: block;
+  max-width: 100%;
+  height: auto;
+}</code></pre></div><p><code>max-width: 100%</code> impide que la imagen supere la anchura disponible de su contenedor; <code>height: auto</code> conserva su relación de aspecto cuando cambia de tamaño. <code>display: block</code> evita el pequeño espacio inferior que puede aparecer cuando la imagen se comporta como elemento en línea.</p><p>Si queremos que la imagen ocupe siempre todo el ancho de la tarjeta, podemos utilizar <code>width: 100%</code> junto con <code>height: auto</code>. Esto puede ampliarla respecto a su tamaño original, por lo que conviene disponer de suficiente resolución.</p><div class="caja caja-atencion"><span class="caja-titulo">⚠️ Atención</span><p>Establecer simultáneamente <code>width: 100%</code> y una <strong>altura fija</strong> sin controlar el ajuste puede deformar la imagen. Si necesitamos un marco de altura determinada, utilizaremos <code>object-fit</code>.</p></div><h2 id="ajuste">Ajuste y recorte con object-fit</h2><p>En una cuadrícula de tarjetas puede interesarnos que todas las imágenes tengan la misma altura, aunque los archivos originales presenten proporciones distintas. Para ello podemos definir un marco y utilizar <code>object-fit</code>.</p><div class="codigo-ejemplo"><div class="codigo-cabecera"><span>CSS · Imagen recortada sin deformarse</span><button class="boton-copiar" type="button">Copiar</button></div><pre><code>.tarjeta-imagen {
+  width: 100%;
+  aspect-ratio: 16 / 9;
+  object-fit: cover;
+  object-position: center;
+  display: block;
+}</code></pre></div><p><code>aspect-ratio: 16 / 9</code> define la proporción del espacio que ocupa la imagen. <code>object-fit: cover</code> rellena ese espacio sin deformar la imagen, pero puede <strong>recortar parte de su contenido</strong>. Con <code>object-position</code> podemos decidir qué zona queda centrada.</p><p>Si necesitamos mostrar la imagen completa, <code>object-fit: contain</code> la ajusta dentro del marco sin recortarla, aunque puede dejar espacios libres.</p><div class="demo-display"><strong>Demostración visual · cover frente a contain</strong><p>Selecciona el modo de ajuste. La ilustración mantiene la misma proporción y cambia la forma en que ocupa el marco.</p><div aria-label="Modo de ajuste" class="demo76-controles" role="group"><button aria-pressed="true" class="demo76-btn activo" data-fit76="cover" type="button">cover</button><button aria-pressed="false" class="demo76-btn" data-fit76="contain" type="button">contain</button></div><div class="demo76-marco"><svg aria-label="Ilustración de montañas y sol utilizada para demostrar el ajuste de una imagen" id="demo76-svg" preserveaspectratio="xMidYMid slice" role="img" viewbox="0 0 600 260"><rect fill="#bde4f8" height="260" width="600"></rect><circle cx="465" cy="65" fill="#f4c451" r="38"></circle><path d="M0 225 L165 40 L310 225 Z" fill="#548f84"></path><path d="M170 225 L390 65 L600 225 Z" fill="#357f6c"></path><path d="M0 225 H600 V260 H0Z" fill="#276a58"></path><path d="M165 40 L124 86 L199 86Z" fill="#f8fafc"></path><path d="M390 65 L343 99 L436 99Z" fill="#f8fafc"></path></svg></div><p aria-live="polite" class="demo-explicacion" id="demo76-estado"><strong>cover:</strong> el marco queda lleno, pero pueden recortarse los bordes.</p></div><div class="caja caja-ejemplo"><span class="caja-titulo">💻 Ejemplo DAW</span><p>En las tarjetas de cursos de StudyFlow, <code>cover</code> puede funcionar bien para fotografías decorativas. En cambio, para una captura de pantalla con texto o información importante suele ser preferible mostrar el contenido completo y evitar recortes.</p></div><h2 id="fuentes">Imágenes adaptativas con srcset y sizes</h2><p>Una imagen fluida se ajusta visualmente, pero el navegador podría seguir descargando un archivo mucho más grande de lo necesario. El atributo <code>srcset</code> permite ofrecer <strong>varias versiones de una misma imagen</strong> y <code>sizes</code> ayuda al navegador a estimar cuánto espacio ocupará.</p><div class="codigo-ejemplo"><div class="codigo-cabecera"><span>HTML · Distintas resoluciones de una misma imagen</span><button class="boton-copiar" type="button">Copiar</button></div><pre><code>&lt;img
+  src="img/panel-800.jpg"
+  srcset="img/panel-400.jpg 400w,
+          img/panel-800.jpg 800w,
+          img/panel-1200.jpg 1200w"
+  sizes="(max-width: 600px) 100vw,
+         (max-width: 1000px) 50vw,
+         33vw"
+  alt="Vista del panel de módulos de StudyFlow"
+  class="imagen-fluida"
+&gt;</code></pre></div><p>Los descriptores <code>400w</code>, <code>800w</code> y <code>1200w</code> indican la <strong>anchura real de cada archivo en píxeles</strong>. El atributo <code>sizes</code> describe la anchura aproximada con la que se mostrará la imagen: en este ejemplo, toda la anchura del viewport en pantallas estrechas, la mitad en tamaños intermedios y aproximadamente un tercio en los más amplios.</p><p>El navegador combina esa información con otros factores, como la densidad de píxeles de la pantalla, para elegir un recurso. <strong>No debemos interpretar <code>sizes</code> como una regla CSS:</strong> no modifica por sí mismo el tamaño visible de la imagen.</p><div class="caja caja-atencion"><span class="caja-titulo">⚠️ Atención</span><p>Las rutas del ejemplo son ilustrativas: para probarlo debes crear realmente los archivos <code>panel-400.jpg</code>, <code>panel-800.jpg</code> y <code>panel-1200.jpg</code>. Todos deben representar la misma imagen si los utilizamos como alternativas de resolución.</p></div><h2 id="picture">El elemento picture</h2><p>En ocasiones no queremos únicamente una versión más pequeña de la misma imagen, sino una <strong>composición distinta</strong>. Por ejemplo, una imagen panorámica para escritorio y un recorte vertical más útil en móvil. El elemento <code>&lt;picture&gt;</code> permite indicar fuentes alternativas mediante <code>&lt;source&gt;</code>.</p><div class="codigo-ejemplo"><div class="codigo-cabecera"><span>HTML · Composición distinta según la anchura</span><button class="boton-copiar" type="button">Copiar</button></div><pre><code>&lt;picture&gt;
+  &lt;source
+    media="(max-width: 600px)"
+    srcset="img/cabecera-vertical.jpg"
+  &gt;
+  &lt;img
+    src="img/cabecera-horizontal.jpg"
+    alt="Estudiantes consultando el panel de StudyFlow"
+    class="imagen-fluida"
+  &gt;
+&lt;/picture&gt;</code></pre></div><p>Cuando la condición del elemento <code>&lt;source&gt;</code> se cumple, el navegador puede utilizar la versión vertical; en caso contrario, emplea la imagen del elemento <code>&lt;img&gt;</code>. El elemento <code>&lt;img&gt;</code> también proporciona el texto alternativo y actúa como alternativa cuando no se selecciona ninguna fuente.</p><p>También podemos utilizar <code>&lt;picture&gt;</code> para ofrecer formatos diferentes, por ejemplo WebP con una alternativa JPEG, siempre que existan los archivos correspondientes.</p><h2 id="multimedia">Vídeos e iframes responsive</h2><p>Los vídeos y contenidos incrustados pueden provocar el mismo problema de desbordamiento que las imágenes. Para un vídeo HTML podemos utilizar <code>width: 100%</code> y <code>height: auto</code>, manteniendo las proporciones originales.</p><div class="codigo-ejemplo"><div class="codigo-cabecera"><span>HTML y CSS · Vídeo adaptable</span><button class="boton-copiar" type="button">Copiar</button></div><pre><code>&lt;video class="video-responsive" controls preload="metadata"&gt;
+  &lt;source src="video/presentacion-studyflow.mp4" type="video/mp4"&gt;
+  Tu navegador no admite la reproducción de vídeo.
+&lt;/video&gt;
+
+&lt;style&gt;
+.video-responsive {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+&lt;/style&gt;</code></pre></div><p>Cuando incrustamos un vídeo externo mediante <code>&lt;iframe&gt;</code>, podemos situarlo dentro de un contenedor con una relación de aspecto definida. Así, el marco se adapta sin necesitar una altura fija para cada pantalla.</p><div class="codigo-ejemplo"><div class="codigo-cabecera"><span>HTML y CSS · Contenido incrustado responsive</span><button class="boton-copiar" type="button">Copiar</button></div><pre><code>&lt;div class="marco-video"&gt;
+  &lt;iframe
+    src="https://www.youtube-nocookie.com/embed/ID_DEL_VIDEO"
+    title="Presentación de StudyFlow"
+    loading="lazy"
+    allowfullscreen
+  &gt;&lt;/iframe&gt;
+&lt;/div&gt;
+
+&lt;style&gt;
+.marco-video {
+  width: 100%;
+  aspect-ratio: 16 / 9;
+}
+.marco-video iframe {
+  display: block;
+  width: 100%;
+  height: 100%;
+  border: 0;
+}
+&lt;/style&gt;</code></pre></div><p>La dirección del <code>iframe</code> contiene un identificador de ejemplo que debe sustituirse por el de un vídeo real. El atributo <code>title</code> describe el contenido incrustado para tecnologías de apoyo. <code>loading="lazy"</code> permite diferir su carga cuando el navegador lo considera apropiado.</p><h2 id="studyflow">Aplicación práctica a StudyFlow</h2><p>Imaginemos una tarjeta de curso que contiene una imagen, un título y una descripción. Queremos que la imagen se adapte a la anchura de la tarjeta y conserve una presentación uniforme dentro de una cuadrícula responsive.</p><div class="codigo-ejemplo"><div class="codigo-cabecera"><span>HTML · Tarjeta de curso con imagen</span><button class="boton-copiar" type="button">Copiar</button></div><pre><code>&lt;article class="curso"&gt;
+  &lt;img
+    class="curso-imagen"
+    src="img/curso-diw.jpg"
+    alt="Vista previa de una interfaz web"
+  &gt;
+  &lt;div class="curso-contenido"&gt;
+    &lt;h3&gt;Diseño de Interfaces Web&lt;/h3&gt;
+    &lt;p&gt;Aprende a crear interfaces adaptables.&lt;/p&gt;
+  &lt;/div&gt;
+&lt;/article&gt;</code></pre></div><div class="codigo-ejemplo"><div class="codigo-cabecera"><span>CSS · Tarjeta e imagen responsive</span><button class="boton-copiar" type="button">Copiar</button></div><pre><code>.curso {
+  overflow: hidden;
+  border: 1px solid #b9dfc6;
+  border-radius: 10px;
+}
+.curso-imagen {
+  display: block;
+  width: 100%;
+  aspect-ratio: 16 / 9;
+  object-fit: cover;
+}
+.curso-contenido {
+  padding: 16px;
+}</code></pre></div><p>En este ejemplo, la tarjeta puede crecer o reducirse dentro de una cuadrícula como las del apartado 7.5. La imagen ocupa todo su ancho, conserva un marco 16:9 y se recorta cuando es necesario, sin deformarse.</p><div class="demo-display"><strong>Vista de ejemplo · Tarjeta adaptable</strong><div class="demo76-tarjeta"><div class="demo76-ilustracion"><svg aria-label="Ilustración de una interfaz web con cabecera y tarjetas" role="img" viewbox="0 0 600 338"><rect fill="#e5f1f9" height="338" width="600"></rect><rect fill="white" height="262" rx="12" stroke="#8ca7b8" stroke-width="4" width="488" x="56" y="38"></rect><rect fill="#245d51" height="52" rx="12" width="488" x="56" y="38"></rect><circle cx="87" cy="64" fill="#c8e8d6" r="9"></circle><rect fill="#c8e8d6" height="15" rx="5" width="150" x="112" y="56"></rect><rect fill="#e4f3e9" height="155" rx="7" width="125" x="82" y="115"></rect><rect fill="#bad9ed" height="68" rx="7" width="130" x="226" y="115"></rect><rect fill="#bad9ed" height="68" rx="7" width="130" x="376" y="115"></rect><rect fill="#e4f3e9" height="70" rx="7" width="280" x="226" y="200"></rect></svg></div><div class="demo76-tarjeta-texto"><strong>Diseño de Interfaces Web</strong><span>Una imagen que acompaña a una tarjeta flexible.</span></div></div><p class="demo-explicacion">La ilustración se incluye en esta demostración y no requiere archivos externos.</p></div><h2 id="buenas">Buenas prácticas y errores frecuentes</h2><ul><li><strong>Evitar desbordamientos:</strong> limita la anchura de las imágenes y revisa también los vídeos y contenidos incrustados.</li><li><strong>Conservar las proporciones:</strong> utiliza <code>height: auto</code> cuando no necesites un recorte.</li><li><strong>Recortar con criterio:</strong> emplea <code>object-fit: cover</code> solo cuando no se pierda información esencial.</li><li><strong>Elegir recursos adecuados:</strong> usa <code>srcset</code> y <code>sizes</code> cuando dispongas de versiones de distintas resoluciones.</li><li><strong>Describir el contenido:</strong> escribe textos <code>alt</code> útiles para imágenes informativas; para imágenes puramente decorativas utiliza <code>alt=""</code>.</li><li><strong>Comprobar distintos tamaños:</strong> revisa imágenes, vídeos y recortes en móvil, escritorio y anchuras intermedias.</li></ul><div class="caja caja-importante"><span class="caja-titulo">📌 Idea clave</span><p>Una interfaz responsive también necesita <strong>recursos multimedia responsive</strong>. El objetivo es que las imágenes y los vídeos se adapten al contenedor sin deformaciones, desbordamientos ni pérdidas innecesarias de información.</p></div><p>En el apartado 7.7 veremos cómo utilizar <strong>Bootstrap 5</strong> para construir interfaces responsive con componentes y utilidades ya preparadas.</p><div class="actividad-reflexion"><h3>💭 Piensa</h3><p>En StudyFlow tienes una cuadrícula de tarjetas de cursos. Cada tarjeta muestra una imagen y un título. En móviles algunas imágenes sobresalen de la tarjeta y, cuando les asignas una altura fija, aparecen deformadas. ¿Qué propiedades CSS utilizarías para corregir ambos problemas? ¿En qué situación elegirías <code>object-fit: cover</code> y cuándo preferirías <code>contain</code>?</p><details class="solucion-desplegable"><summary>Ver una posible solución</summary><div class="contenido-solucion"><p>Para evitar que una imagen supere la anchura disponible, aplicaría <code>max-width: 100%</code> y <code>height: auto</code>. Si quiero imágenes de tarjeta con un marco uniforme, utilizaría <code>width: 100%</code>, <code>aspect-ratio: 16 / 9</code> y <code>object-fit: cover</code>, sabiendo que se puede recortar parte de la imagen.</p><p>Preferiría <code>contain</code> si fuera necesario mostrar toda la imagen, por ejemplo una captura de pantalla con información importante, aunque quedaran espacios libres dentro del marco.</p></div></details></div></section><nav aria-label="Navegación entre apartados" class="navegacion-paginas"><a class="nav-pagina nav-anterior" href="../7-5/index.html"><span class="nav-etiqueta">Anterior</span><strong>‹ 7.5 Maquetación responsive con Flexbox y CSS Grid</strong></a><a class="nav-pagina nav-siguiente" href="../7-7/index.html"><span class="nav-etiqueta">Siguiente</span><strong>7.7 Frameworks responsive: Bootstrap 5 ›</strong></a></nav></main>
+<!-- ==========================================
+         ÍNDICE DERECHO
+    ========================================== -->
+<aside class="indice-derecho"><h2>Contenidos del apartado</h2><ul><li><a href="#imagenes">Imágenes fluidas y proporciones</a></li><li><a href="#ajuste">Ajuste y recorte con object-fit</a></li><li><a href="#fuentes">Imágenes adaptativas con srcset y sizes</a></li><li><a href="#picture">El elemento picture</a></li><li><a href="#multimedia">Vídeos e iframes responsive</a></li><li><a href="#studyflow">Aplicación práctica a StudyFlow</a></li><li><a href="#buenas">Buenas prácticas y errores frecuentes</a></li></ul></aside>
+</div>
+<!-- ==========================================
+       PIE DE PÁGINA
+  ========================================== -->
+<footer class="footer">
+<p>
+      Material elaborado por
+      <strong>Eva Ballestero Cubeles</strong>
+      · Licencia
+      <span class="licencia">CC BY-NC-SA 4.0</span>
+<a aria-label="Licencia Creative Commons BY-NC-SA 4.0" class="enlace-licencia" href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.es" rel="license noopener noreferrer" target="_blank">
+<img alt="Licencia Creative Commons BY-NC-SA 4.0" class="icono-licencia" src="../../../img/licencias/cc-by-nc-sa.png"/>
+</a>
+</p>
+</footer>
+<!-- ==========================================
+       JAVASCRIPT
+  ========================================== -->
+<script src="../../../js/modulos.js"></script>
+<script>
+
+    /* ==========================================
+       MENÚ SUPERIOR DE MÓDULOS
+    ========================================== */
+
+    const menuModulos =
+      document.getElementById("menuModulos");
+
+    const botonTema =
+      document.getElementById("botonTema");
+
+    if (typeof modulos !== "undefined") {
+
+      const modulosActivos =
+        modulos.filter(modulo => modulo.activo === true);
+
+      modulosActivos.forEach(modulo => {
+
+        const enlace =
+          document.createElement("a");
+
+        enlace.href =
+          `../../../${modulo.carpeta}/index.html`;
+
+        enlace.textContent =
+          modulo.siglas;
+
+        enlace.title =
+          modulo.nombre;
+
+        if (modulo.siglas === "DIW") {
+          enlace.style.color =
+            "var(--verde-principal)";
+        }
+
+        menuModulos.appendChild(enlace);
+
+      });
+
+    }
+
+
+    /* ==========================================
+       MODO CLARO Y OSCURO
+    ========================================== */
+
+    const temaGuardado =
+      localStorage.getItem("tema");
+
+    if (temaGuardado === "oscuro") {
+
+      document.body.classList.add("modo-oscuro");
+
+      botonTema.textContent = "🌙";
+
+    }
+
+    botonTema.addEventListener("click", () => {
+
+      document.body.classList.toggle("modo-oscuro");
+
+      const estaOscuro =
+        document.body.classList.contains("modo-oscuro");
+
+      botonTema.textContent =
+        estaOscuro ? "🌙" : "☀️";
+
+      localStorage.setItem(
+        "tema",
+        estaOscuro ? "oscuro" : "claro"
+      );
+
+    });
+
+
+    /* ==========================================
+       MENÚS DESPLEGABLES LATERALES
+    ========================================== */
+
+    const botonesDesplegar =
+      document.querySelectorAll(".boton-desplegar");
+
+    botonesDesplegar.forEach((boton) => {
+
+      boton.addEventListener("click", () => {
+
+        const idSubmenu =
+          boton.getAttribute("data-target");
+
+        const submenu =
+          document.getElementById(idSubmenu);
+
+        if (!submenu) {
+          return;
+        }
+
+        const estaAbierto =
+          submenu.classList.contains("submenu-abierto");
+
+        if (estaAbierto) {
+
+          submenu.classList.remove("submenu-abierto");
+
+          boton.textContent = "›";
+
+          boton.setAttribute(
+            "aria-expanded",
+            "false"
+          );
+
+        } else {
+
+          submenu.classList.add("submenu-abierto");
+
+          boton.textContent = "⌄";
+
+          boton.setAttribute(
+            "aria-expanded",
+            "true"
+          );
+
+        }
+
+      });
+
+    });
+
+
+    /* ==========================================
+       BOTONES PARA COPIAR CÓDIGO
+    ========================================== */
+
+    const botonesCopiar =
+      document.querySelectorAll(".boton-copiar");
+
+    botonesCopiar.forEach((boton) => {
+
+      boton.addEventListener("click", async () => {
+
+        const bloque =
+          boton.closest(".codigo-ejemplo");
+
+        const codigo =
+          bloque.querySelector("pre code");
+
+        if (!codigo) {
+          return;
+        }
+
+        const texto =
+          codigo.textContent;
+
+        try {
+
+          await navigator.clipboard.writeText(texto);
+
+          boton.textContent = "¡Copiado!";
+
+          setTimeout(() => {
+            boton.textContent = "Copiar";
+          }, 1800);
+
+        } catch (error) {
+
+          boton.textContent = "Error al copiar";
+
+          setTimeout(() => {
+            boton.textContent = "Copiar";
+          }, 1800);
+
+        }
+
+      });
+
+    });
+
+  
+document.querySelectorAll(".demo-ancho-btn").forEach(boton => {
+  boton.addEventListener("click", () => {
+    const ancho = Number(boton.dataset.ancho);
+    const columnas = ancho <= 600 ? 1 : ancho <= 900 ? 2 : 3;
+    const panel = document.getElementById("demoPanelResponsive");
+    const estado = document.getElementById("demoEstadoResponsive");
+    panel.dataset.columnas = String(columnas);
+    document.querySelectorAll(".demo-ancho-btn").forEach(b => {
+      const activo = b === boton;
+      b.classList.toggle("activo", activo);
+      b.setAttribute("aria-pressed", String(activo));
+    });
+    estado.textContent = `${ancho} px: ${columnas === 1 ? "una columna" : columnas === 2 ? "dos columnas" : "tres columnas"}. La simulación cambia el número de columnas, sin modificar el viewport real.`;
+  });
+});
+</script>
+<script>
+(() => {
+  let ancho = 480;
+  let estrategia = "mobile";
+  const panel = document.getElementById("demoPanel74");
+  const estado = document.getElementById("demoEstado74");
+  const actualizar = () => {
+    const columnas = ancho < 600 ? 1 : ancho < 900 ? 2 : 3;
+    panel.dataset.columnas = String(columnas);
+    estado.textContent = `${ancho} px · ${estrategia === "mobile" ? "Mobile first" : "Desktop first"}: ${columnas === 1 ? "una columna" : columnas === 2 ? "dos columnas" : "tres columnas"}. Ambas estrategias producen la misma distribución.`;
+  };
+  document.querySelectorAll("[data-ancho74]").forEach(boton => boton.addEventListener("click", () => {
+    ancho = Number(boton.dataset.ancho74);
+    document.querySelectorAll("[data-ancho74]").forEach(b => { const activo = b === boton; b.classList.toggle("activo", activo); b.setAttribute("aria-pressed", String(activo)); });
+    actualizar();
+  }));
+  document.querySelectorAll("[data-estrategia74]").forEach(boton => boton.addEventListener("click", () => {
+    estrategia = boton.dataset.estrategia74;
+    document.querySelectorAll("[data-estrategia74]").forEach(b => { const activo = b === boton; b.classList.toggle("activo", activo); b.setAttribute("aria-pressed", String(activo)); });
+    actualizar();
+  }));
+})();
+
+/* Demostración interactiva del apartado 7.5 */
+(() => {
+  const panel = document.getElementById('demoPanel75');
+  const estado = document.getElementById('demoEstado75');
+  if (!panel || !estado) return;
+  let modo = 'flex';
+  let ancho = 100;
+  const actualizar = () => {
+    panel.classList.toggle('flex', modo === 'flex');
+    panel.classList.toggle('grid', modo === 'grid');
+    panel.style.width = ancho + '%';
+    const etiqueta = ancho === 100 ? 'amplio' : ancho === 70 ? 'medio' : 'estrecho';
+    estado.textContent = (modo === 'flex' ? 'Flexbox' : 'CSS Grid') + ' · espacio ' + etiqueta + '.';
+    document.querySelectorAll('[data-modo75]').forEach(b => {
+      const activo = b.dataset.modo75 === modo;
+      b.classList.toggle('activo', activo);
+      b.setAttribute('aria-pressed', String(activo));
+    });
+    document.querySelectorAll('[data-ancho75]').forEach(b => {
+      const activo = Number(b.dataset.ancho75) === ancho;
+      b.classList.toggle('activo', activo);
+      b.setAttribute('aria-pressed', String(activo));
+    });
+  };
+  document.querySelectorAll('[data-modo75]').forEach(b => b.addEventListener('click', () => {modo=b.dataset.modo75; actualizar();}));
+  document.querySelectorAll('[data-ancho75]').forEach(b => b.addEventListener('click', () => {ancho=Number(b.dataset.ancho75); actualizar();}));
+  actualizar();
+})();
+</script><script>(() => { const svg=document.getElementById('demo76-svg'); const estado=document.getElementById('demo76-estado'); if(!svg||!estado)return; document.querySelectorAll('[data-fit76]').forEach(b=>b.addEventListener('click',()=>{const modo=b.dataset.fit76;svg.setAttribute('preserveAspectRatio',modo==='cover'?'xMidYMid slice':'xMidYMid meet');document.querySelectorAll('[data-fit76]').forEach(x=>{const activo=x===b;x.classList.toggle('activo',activo);x.setAttribute('aria-pressed',String(activo));});estado.textContent=modo==='cover'?'cover: el marco queda lleno, pero pueden recortarse los bordes.':'contain: se ve toda la ilustración, aunque quede espacio libre.';}));})();</script></body>
+</html>
