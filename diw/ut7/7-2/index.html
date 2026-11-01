@@ -1028,7 +1028,15 @@ body.modo-oscuro .demo-tarjeta-flexible { background:#203b2b; border-color:#397a
 .titulo-principal {
   font-size: clamp(1.5rem, 3vw, 2.5rem);
 }</code></pre></div>
-<p>La función <code>clamp()</code> permite establecer un valor mínimo, uno preferido y uno máximo. Así evitamos que el título se reduzca o aumente sin límites.</p>
+<p>La función <code>clamp()</code> permite establecer un tamaño flexible dentro de unos límites. Recibe tres valores: <strong>mínimo, preferido y máximo</strong>.</p>
+
+<ul>
+  <li><strong>Valor mínimo (<code>1.5rem</code>):</strong> el tamaño de letra no será inferior a este valor.</li>
+  <li><strong>Valor preferido (<code>3vw</code>):</strong> el tamaño se calcula en función de la anchura del viewport, por lo que puede aumentar o disminuir al cambiar el tamaño de la ventana.</li>
+  <li><strong>Valor máximo (<code>2.5rem</code>):</strong> el tamaño de letra no superará este valor.</li>
+</ul>
+
+<p>Por ejemplo, si el elemento raíz tiene un tamaño de letra de 16 px, el título tendrá un tamaño mínimo de <strong>24 px</strong> y uno máximo de <strong>40 px</strong>. Entre ambos límites, su tamaño podrá variar según la anchura del viewport.</p>
 <p>En móviles, la altura visible puede cambiar cuando aparecen o desaparecen las barras del navegador. Para algunos diseños actuales existen unidades como <code>dvh</code>, que siguen la altura dinámica del viewport.</p>
 <div class="tabla-responsive"><table class="tabla-apuntes"><thead><tr><th>Unidad</th><th>Referencia habitual</th><th>Uso frecuente</th></tr></thead><tbody><tr><td><code>px</code></td><td>Píxel CSS</td><td>Bordes y tamaños concretos.</td></tr><tr><td><code>%</code></td><td>Dimensión de referencia del contenedor, según la propiedad</td><td>Anchuras flexibles.</td></tr><tr><td><code>rem</code></td><td>Tipografía raíz</td><td>Tipografía y espaciados consistentes.</td></tr><tr><td><code>em</code></td><td>Tipografía del elemento o de su padre, según la propiedad</td><td>Componentes que escalan con el texto.</td></tr><tr><td><code>vw</code></td><td>Anchura del viewport</td><td>Dimensiones relacionadas con la ventana.</td></tr><tr><td><code>vh</code></td><td>Altura del viewport</td><td>Secciones relacionadas con la altura de la ventana.</td></tr><tr><td><code>dvh</code></td><td>Altura dinámica del viewport</td><td>Vistas móviles que se ajustan a barras del navegador.</td></tr></tbody></table></div>
 <h2 id="dimensiones">Anchuras y dimensiones flexibles</h2>
