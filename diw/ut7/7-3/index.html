@@ -1,0 +1,359 @@
+
+<!DOCTYPE html>
+
+<html lang="es">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<meta content="7.3 - Media queries y puntos de ruptura. Diseño de Interfaces Web." name="description"/>
+<title>7.3 - Media queries y puntos de ruptura</title>
+<link href="../../../img/favicon.png?v=5" rel="icon" type="image/png"/>
+<link href="../../../css/estilos.css" rel="stylesheet"/>
+<style>None</style>
+</head>
+<body>
+<!-- ==========================================
+       CABECERA SUPERIOR
+  ========================================== -->
+<header class="navbar">
+<a class="inicio" href="../../../index.html">
+<img alt="" class="icono-profesora" src="../../../img/profesora-castana.png?v=2"/>
+<span>Inicio</span>
+</a>
+<nav aria-label="Módulos formativos" class="menu-modulos" id="menuModulos"></nav>
+<button aria-label="Cambiar entre modo claro y oscuro" class="boton-tema" id="botonTema" title="Cambiar tema" type="button">☀️</button>
+</header>
+<!-- ==========================================
+       ESTRUCTURA PRINCIPAL
+  ========================================== -->
+<div class="pagina-ut">
+<!-- ==========================================
+         MENÚ LATERAL IZQUIERDO
+    ========================================== -->
+<aside class="sidebar"><a class="sidebar-modulo" href="../../index.html">Diseño de interfaces web</a><a class="sidebar-ut-cerrada" href="../../ut1/index.html"><span>UT1 - Fundamentos del diseño de interfaces web</span><span>›</span></a><a class="sidebar-ut-cerrada" href="../../ut2/index.html"><span>UT2 - Color, tipografía, iconografía e identidad visual</span><span>›</span></a><a class="sidebar-ut-cerrada" href="../../ut3/index.html"><span>UT3 - Planificación, arquitectura y prototipado de interfaces</span><span>›</span></a><a class="sidebar-ut-cerrada" href="../../ut4/index.html"><span>UT4 - HTML: estructura y contenido de interfaces web</span><span>›</span></a><a class="sidebar-ut-cerrada" href="../../ut5/index.html"><span>UT5 - CSS: fundamentos y diseño visual</span><span>›</span></a><a class="sidebar-ut-cerrada" href="../../ut6/index.html"><span>UT6 - CSS: maquetación y diseño avanzado</span><span>›</span></a><div class="menu-desplegable"><div class="menu-cabecera menu-cabecera-activa"><a class="menu-titulo" href="../index.html">UT7 - Diseño web responsive</a><button aria-expanded="true" aria-label="Mostrar u ocultar UT7" class="boton-desplegar" data-target="submenu-ut7" type="button">⌄</button></div><div class="submenu submenu-abierto" id="submenu-ut7"><div class="menu-desplegable menu-apartado"><div class="menu-cabecera"><a class="menu-titulo" href="../7-1/index.html">7.1 Introducción al diseño web responsive</a><button aria-expanded="false" aria-label="Mostrar u ocultar 7-1" class="boton-desplegar" data-target="submenu-7-1" type="button">›</button></div><div class="submenu submenu-apartados" id="submenu-7-1"><a href="../7-1/index.html#concepto-responsive">Qué es el diseño web responsive</a><a href="../7-1/index.html#necesidad-adaptacion">Por qué necesitamos interfaces adaptables</a><a href="../7-1/index.html#tipos-diseno">Diseños fijos, fluidos, adaptables y responsive</a><a href="../7-1/index.html#principios-responsive">Principios del diseño responsive</a><a href="../7-1/index.html#ejemplo-studyflow">Ejemplo aplicado a StudyFlow</a><a href="../7-1/index.html#buenas-practicas">Buenas prácticas y errores frecuentes</a></div></div><div class="menu-desplegable menu-apartado"><div class="menu-cabecera"><a class="menu-titulo" href="index.html">7.2 Viewport y dimensiones flexibles</a><button aria-expanded="false" aria-label="Mostrar u ocultar 7-2" class="boton-desplegar" data-target="submenu-7-2" type="button">›</button></div><div class="submenu submenu-apartados" id="submenu-7-2"><a href="#viewport">Qué es el viewport</a><a href="#meta-viewport">La etiqueta meta viewport</a><a href="#unidades">Unidades absolutas y relativas</a><a href="#dimensiones">Anchuras y dimensiones flexibles</a><a href="#desbordamiento">Desbordamiento horizontal</a><a href="#studyflow">Aplicación a StudyFlow</a></div></div><div class="menu-desplegable menu-apartado"><div class="menu-cabecera menu-cabecera-activa"><a class="menu-titulo" href="index.html">7.3 Media queries y puntos de ruptura</a><button aria-expanded="true" aria-label="Mostrar u ocultar 7-3" class="boton-desplegar" data-target="submenu-7-3" type="button">⌄</button></div><div class="submenu submenu-apartados submenu-abierto" id="submenu-7-3"><a href="#concepto-media">Qué son las media queries</a><a href="#sintaxis">Sintaxis y funcionamiento</a><a href="#condiciones">Condiciones y operadores</a><a href="#breakpoints">Puntos de ruptura</a><a href="#cascada">Cascada y orden de las reglas</a><a href="#studyflow">Aplicación a StudyFlow</a><a href="#errores">Buenas prácticas y errores frecuentes</a></div></div><div class="menu-desplegable menu-apartado"><div class="menu-cabecera"><a class="menu-titulo" href="../7-4/index.html">7.4 Estrategias mobile first y desktop first</a><button aria-expanded="false" aria-label="Mostrar u ocultar 7-4" class="boton-desplegar" data-target="submenu-7-4" type="button">›</button></div><div class="submenu submenu-apartados" id="submenu-7-4"></div></div><div class="menu-desplegable menu-apartado"><div class="menu-cabecera"><a class="menu-titulo" href="../7-5/index.html">7.5 Maquetación responsive con Flexbox y CSS Grid</a><button aria-expanded="false" aria-label="Mostrar u ocultar 7-5" class="boton-desplegar" data-target="submenu-7-5" type="button">›</button></div><div class="submenu submenu-apartados" id="submenu-7-5"></div></div><div class="menu-desplegable menu-apartado"><div class="menu-cabecera"><a class="menu-titulo" href="../7-6/index.html">7.6 Imágenes y contenido multimedia responsive</a><button aria-expanded="false" aria-label="Mostrar u ocultar 7-6" class="boton-desplegar" data-target="submenu-7-6" type="button">›</button></div><div class="submenu submenu-apartados" id="submenu-7-6"></div></div><div class="menu-desplegable menu-apartado"><div class="menu-cabecera"><a class="menu-titulo" href="../7-7/index.html">7.7 Frameworks responsive: Bootstrap 5</a><button aria-expanded="false" aria-label="Mostrar u ocultar 7-7" class="boton-desplegar" data-target="submenu-7-7" type="button">›</button></div><div class="submenu submenu-apartados" id="submenu-7-7"></div></div><div class="menu-desplegable menu-apartado"><div class="menu-cabecera"><a class="menu-titulo" href="../7-8/index.html">7.8 Pruebas y verificación del diseño responsive</a><button aria-expanded="false" aria-label="Mostrar u ocultar 7-8" class="boton-desplegar" data-target="submenu-7-8" type="button">›</button></div><div class="submenu submenu-apartados" id="submenu-7-8"></div></div><a class="enlace-apartado-simple" href="../resumen/index.html">✏️ Resumen de la UT7</a><a class="enlace-apartado-simple" href="../actividades/index.html">📝 Actividades de la UT7</a></div></div><a class="sidebar-ut-cerrada" href="../../ut8/index.html"><span>UT8 - Recursos gráficos e imágenes para la web</span><span>›</span></a><a class="sidebar-ut-cerrada" href="../../ut9/index.html"><span>UT9 - Audio, vídeo, animaciones e interactividad</span><span>›</span></a><a class="sidebar-ut-cerrada" href="../../ut10/index.html"><span>UT10 - Accesibilidad web</span><span>›</span></a><a class="sidebar-ut-cerrada" href="../../ut11/index.html"><span>UT11 - Usabilidad y evaluación de interfaces web</span><span>›</span></a></aside>
+<!-- ==========================================
+         CONTENIDO CENTRAL
+    ========================================== -->
+<main class="contenido-ut"><div class="migas"><a aria-label="Volver a la página principal" class="miga-inicio" href="../../../index.html">🏠</a><span class="miga-separador">›</span><a class="miga-modulo" href="../../index.html">DIW</a><span class="miga-separador">›</span><a class="miga-modulo" href="../index.html">UT7</a><span class="miga-separador">›</span><span class="miga-actual">7.3</span></div><h1>7.3 Media queries y puntos de ruptura</h1><section class="apartado-ut"><p>En el apartado 7.2 aprendimos a utilizar el <strong>viewport</strong> y las dimensiones flexibles para que los elementos aprovechen el espacio disponible. Sin embargo, hay situaciones en las que no basta con reducir su anchura: necesitamos <strong>cambiar la distribución o la presentación</strong> de determinados componentes.</p><p>En este apartado estudiaremos las <strong>media queries</strong>, su sintaxis, las condiciones que permiten evaluar y los <strong>puntos de ruptura</strong> (<em>breakpoints</em>). También aprenderemos a comprobar cuándo se aplican las reglas y a elegir cambios que respondan a las necesidades reales del contenido.</p><div class="caja caja-importante"><span class="caja-titulo">📌 Importante</span><p>Una media query no detecta si el usuario tiene un modelo concreto de móvil o tableta. Evalúa <strong>características del entorno de visualización</strong>, como la anchura del viewport, y aplica estilos cuando se cumple una condición.</p></div><h2 id="concepto-media">Qué son las media queries</h2><p>Una <strong>media query</strong> es una condición escrita en CSS que permite aplicar un conjunto de reglas solo cuando se cumplen determinadas características del dispositivo o del entorno de visualización.</p><p>Por ejemplo, StudyFlow puede mostrar tres tarjetas en una fila cuando hay espacio suficiente y colocarlas una debajo de otra cuando la ventana se estrecha. El contenido HTML permanece igual; lo que cambia es su presentación.</p><div class="codigo-ejemplo"><div class="codigo-cabecera"><span>CSS · Primera media query</span><button class="boton-copiar" type="button">Copiar</button></div><pre><code>.modulos {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 16px;
+}
+
+@media (max-width: 700px) {
+  .modulos {
+    grid-template-columns: 1fr;
+  }
+}</code></pre></div><p>En este ejemplo, la regla general distribuye las tarjetas en tres columnas. Cuando la anchura del viewport es de <strong>700 px o menos</strong>, la media query sustituye esa distribución por una sola columna. No es necesario modificar el HTML ni utilizar JavaScript.</p><div class="demo-display"><strong>Comparación visual de una misma interfaz</strong><div class="demo-media-comparacion"><div class="demo-media-marco"><span class="demo-pantalla-titulo">Viewport amplio · 3 columnas</span><div class="demo-media-grid"><span>DWEC</span><span>DIW</span><span>SASP</span></div></div><div class="demo-media-marco demo-media-estrecho"><span class="demo-pantalla-titulo">Viewport estrecho · 1 columna</span><div class="demo-media-grid"><span>DWEC</span><span>DIW</span><span>SASP</span></div></div></div><p class="demo-explicacion">Los dos esquemas muestran el mismo contenido organizado de forma distinta. La comparación es ilustrativa: en el navegador real la media query responde a la anchura del viewport.</p></div><h2 id="sintaxis">Sintaxis y funcionamiento</h2><p>La sintaxis habitual utiliza <code>@media</code>, una condición entre paréntesis y un bloque de declaraciones CSS. Si la condición se cumple, las reglas incluidas participan en la cascada; si no se cumple, no se aplican.</p><div class="codigo-ejemplo"><div class="codigo-cabecera"><span>CSS · Estructura básica</span><button class="boton-copiar" type="button">Copiar</button></div><pre><code>@media (max-width: 768px) {
+  .menu {
+    flex-direction: column;
+  }
+}</code></pre></div><div class="tabla-responsive"><table class="tabla-apuntes"><thead><tr><th>Elemento</th><th>Significado</th></tr></thead><tbody><tr><td><code>@media</code></td><td>Inicia una regla condicional de CSS.</td></tr><tr><td><code>(max-width: 768px)</code></td><td>Comprueba si la anchura del viewport es de 768 píxeles CSS o menos.</td></tr><tr><td><code>{ ... }</code></td><td>Contiene las reglas que participan en la cascada cuando se cumple la condición.</td></tr><tr><td><code>.menu</code></td><td>Selecciona el componente al que se quiere aplicar el cambio.</td></tr></tbody></table></div><p>La condición <code>max-width</code> incluye el valor indicado: se cumple tanto a 768 px como a 767 px. Por su parte, <code>min-width</code> se cumple desde el valor indicado en adelante.</p><div class="codigo-ejemplo"><div class="codigo-cabecera"><span>CSS · Comparación de condiciones</span><button class="boton-copiar" type="button">Copiar</button></div><pre><code>/* Se cumple hasta 768px, incluido */
+@media (max-width: 768px) {
+  .aviso { display: block; }
+}
+
+/* Se cumple desde 769px, incluido */
+@media (min-width: 769px) {
+  .aviso { display: none; }
+}</code></pre></div><div class="caja caja-atencion"><span class="caja-titulo">⚠️ Atención</span><p>Las condiciones <code>min-width</code> y <code>max-width</code> se refieren aquí a la <strong>anchura del viewport</strong>, no a la anchura del elemento seleccionado. Para responder al tamaño de un contenedor concreto existen las <em>container queries</em>, que se estudiarán cuando corresponda.</p></div><h2 id="condiciones">Condiciones y operadores</h2><p>Las media queries pueden evaluar distintas características. En diseño responsive, la más habitual es <code>width</code>, aunque también existen consultas relacionadas con la orientación o con las preferencias de las personas usuarias.</p><div class="tabla-responsive"><table class="tabla-apuntes"><thead><tr><th>Condición</th><th>Qué evalúa</th><th>Ejemplo de uso</th></tr></thead><tbody><tr><td><code>min-width</code></td><td>Anchura mínima del viewport.</td><td>Activar una distribución con más columnas.</td></tr><tr><td><code>max-width</code></td><td>Anchura máxima del viewport.</td><td>Simplificar un menú en espacios estrechos.</td></tr><tr><td><code>orientation</code></td><td>Relación entre anchura y altura del viewport.</td><td>Ajustar un componente en orientación horizontal.</td></tr><tr><td><code>prefers-reduced-motion</code></td><td>Preferencia del usuario por reducir movimiento.</td><td>Reducir animaciones no esenciales.</td></tr></tbody></table></div><div class="codigo-ejemplo"><div class="codigo-cabecera"><span>CSS · Combinar condiciones con and</span><button class="boton-copiar" type="button">Copiar</button></div><pre><code>@media (min-width: 600px) and (max-width: 999px) {
+  .panel-lateral {
+    width: 220px;
+  }
+}</code></pre></div><p>El operador <code>and</code> exige que se cumplan <strong>ambas condiciones</strong>. En el ejemplo, la regla se aplica entre 600 y 999 px, ambos incluidos. También es posible separar consultas con una coma para expresar alternativas: basta con que se cumpla una de ellas.</p><div class="codigo-ejemplo"><div class="codigo-cabecera"><span>CSS · Alternativas con coma</span><button class="boton-copiar" type="button">Copiar</button></div><pre><code>@media (max-width: 600px), (orientation: portrait) {
+  .barra-herramientas {
+    flex-wrap: wrap;
+  }
+}</code></pre></div><p>En esta segunda consulta, la barra puede reorganizarse si el viewport tiene 600 px o menos <strong>o</strong> si su orientación es vertical. Conviene usar este tipo de condiciones cuando exista una necesidad concreta y no por añadir complejidad al CSS.</p><h3>Sintaxis moderna de comparación</h3><p>CSS también permite escribir consultas de rango con operadores de comparación. Por ejemplo, <code>(width &lt;= 700px)</code> expresa la misma condición que <code>(max-width: 700px)</code>. Ambas formas son válidas en navegadores modernos.</p><div class="codigo-ejemplo"><div class="codigo-cabecera"><span>CSS · Sintaxis tradicional y moderna</span><button class="boton-copiar" type="button">Copiar</button></div><pre><code>/* Sintaxis tradicional */
+@media (max-width: 700px) {
+  .modulos { grid-template-columns: 1fr; }
+}
+
+/* Condición equivalente con sintaxis moderna */
+@media (width &lt;= 700px) {
+  .modulos { grid-template-columns: 1fr; }
+}</code></pre></div><p>Estos dos bloques se muestran como <strong>alternativas equivalentes</strong>; no es necesario duplicarlos en una hoja de estilos real.</p><h2 id="breakpoints">Puntos de ruptura</h2><p>Un <strong>punto de ruptura</strong> o <em>breakpoint</em> es un valor a partir del cual decidimos modificar la presentación de la interfaz. Por ejemplo, cuando tres tarjetas ya no caben con una anchura legible, podemos pasar a dos columnas y, más adelante, a una.</p><p>Los valores de los breakpoints <strong>no son universales</strong>. No existe una anchura exacta que identifique a todos los móviles o a todas las tabletas. Deben elegirse observando cuándo el contenido empieza a necesitar otra distribución.</p><div class="codigo-ejemplo"><div class="codigo-cabecera"><span>CSS · Tres distribuciones posibles</span><button class="boton-copiar" type="button">Copiar</button></div><pre><code>.modulos {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 16px;
+}
+
+@media (max-width: 900px) {
+  .modulos {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 600px) {
+  .modulos {
+    grid-template-columns: 1fr;
+  }
+}</code></pre></div><div class="tabla-responsive"><table class="tabla-apuntes"><thead><tr><th>Anchura del viewport</th><th>Distribución resultante</th></tr></thead><tbody><tr><td>Más de 900 px</td><td>Tres columnas.</td></tr><tr><td>Más de 600 px y hasta 900 px</td><td>Dos columnas.</td></tr><tr><td>600 px o menos</td><td>Una columna.</td></tr></tbody></table></div><p>En el ejemplo, 900 px y 600 px son <strong>decisiones de diseño</strong>, no categorías obligatorias de dispositivos. Podemos cambiarlos si las tarjetas contienen textos más largos o si el espacio disponible es distinto.</p><div class="caja caja-ejemplo"><span class="caja-titulo">💻 Ejemplo DAW</span><p>Si en StudyFlow los títulos de los módulos comienzan a partirse de forma incómoda a 850 px, tiene sentido cambiar a dos columnas antes de llegar a ese ancho. La referencia debe ser <strong>el comportamiento del contenido</strong>, no una lista de modelos de teléfono.</p></div><h2 id="cascada">Cascada y orden de las reglas</h2><p>Las reglas incluidas en una media query no tienen prioridad automáticamente sobre las reglas generales. Siguen participando en la <strong>cascada CSS</strong>: importan el origen, la importancia, la especificidad y el orden de aparición.</p><p>Cuando dos reglas tienen la misma prioridad y especificidad, y ambas son aplicables, suele prevalecer la que aparece después. Por eso es importante ordenar de manera coherente las media queries.</p><div class="codigo-ejemplo"><div class="codigo-cabecera"><span>CSS · Orden correcto de reglas</span><button class="boton-copiar" type="button">Copiar</button></div><pre><code>.tarjeta {
+  padding: 24px;
+}
+
+/* Misma especificidad y aparece después */
+@media (max-width: 600px) {
+  .tarjeta {
+    padding: 12px;
+  }
+}</code></pre></div><p>Con 500 px de viewport, la tarjeta tendrá <code>padding: 12px</code>. Si se colocara el bloque general después de la media query, con la misma especificidad, podría volver a aplicarse <code>24px</code>.</p><div class="caja caja-atencion"><span class="caja-titulo">⚠️ Atención</span><p>Si utilizas varias condiciones <code>max-width</code>, recuerda que pueden cumplirse <strong>simultáneamente</strong>. Por ejemplo, a 500 px se cumplen tanto <code>max-width: 900px</code> como <code>max-width: 600px</code>. El orden de las reglas debe permitir que el diseño más estrecho prevalezca donde corresponda.</p></div><h2 id="studyflow">Aplicación a StudyFlow</h2><p>Vamos a adaptar el panel de módulos de StudyFlow. En una ventana amplia mostraremos tres tarjetas; cuando disminuya el espacio, utilizaremos dos columnas y, finalmente, una sola. También reduciremos ligeramente el relleno en pantallas estrechas.</p><div class="codigo-ejemplo"><div class="codigo-cabecera"><span>HTML · Panel de módulos</span><button class="boton-copiar" type="button">Copiar</button></div><pre><code>&lt;section class="modulos" aria-label="Módulos del curso"&gt;
+  &lt;article class="modulo"&gt;
+    &lt;h2&gt;DWEC&lt;/h2&gt;
+    &lt;p&gt;Desarrollo Web en Entorno Cliente&lt;/p&gt;
+  &lt;/article&gt;
+  &lt;article class="modulo"&gt;
+    &lt;h2&gt;DIW&lt;/h2&gt;
+    &lt;p&gt;Diseño de Interfaces Web&lt;/p&gt;
+  &lt;/article&gt;
+  &lt;article class="modulo"&gt;
+    &lt;h2&gt;SASP&lt;/h2&gt;
+    &lt;p&gt;Sostenibilidad aplicada al sistema productivo&lt;/p&gt;
+  &lt;/article&gt;
+&lt;/section&gt;</code></pre></div><div class="codigo-ejemplo"><div class="codigo-cabecera"><span>CSS · Adaptación del panel</span><button class="boton-copiar" type="button">Copiar</button></div><pre><code>.modulos {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 16px;
+}
+
+.modulo {
+  min-width: 0;
+  padding: 20px;
+  border: 1px solid #b9dfc6;
+  border-radius: 10px;
+}
+
+@media (max-width: 900px) {
+  .modulos {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 600px) {
+  .modulos {
+    grid-template-columns: 1fr;
+  }
+
+  .modulo {
+    padding: 14px;
+  }
+}</code></pre></div><div class="demo-display"><strong>Demostración interactiva · StudyFlow</strong><p>Selecciona una anchura de viewport simulada para observar cómo se reorganizan las tarjetas. La simulación reproduce los cambios definidos en el CSS anterior.</p><div aria-label="Anchura simulada" class="demo-selector-anchura" role="group"><button aria-pressed="true" class="demo-ancho-btn activo" data-ancho="1100" type="button">1100 px</button><button aria-pressed="false" class="demo-ancho-btn" data-ancho="800" type="button">800 px</button><button aria-pressed="false" class="demo-ancho-btn" data-ancho="480" type="button">480 px</button></div><div class="demo-marco-responsive"><div class="demo-panel-responsive" data-columnas="3" id="demoPanelResponsive"><div class="demo-modulo-responsive"><strong>DWEC</strong><span>Desarrollo Web en Entorno Cliente</span></div><div class="demo-modulo-responsive"><strong>DIW</strong><span>Diseño de Interfaces Web</span></div><div class="demo-modulo-responsive"><strong>SASP</strong><span>Sostenibilidad aplicada al sistema productivo</span></div></div></div><p aria-live="polite" class="demo-explicacion" id="demoEstadoResponsive">1100 px: tres columnas. En una pantalla real, las media queries se activan según la anchura del viewport.</p></div><p>Para comprobar el ejemplo en un proyecto real, abre la página en el navegador y utiliza las herramientas de desarrollo para cambiar la anchura del viewport. Observa cuándo se activan los breakpoints y verifica que no aparece desplazamiento horizontal innecesario.</p><h2 id="errores">Buenas prácticas y errores frecuentes</h2><ul><li><strong>Elegir breakpoints por el contenido:</strong> modifica la distribución cuando deje de ser cómoda, no porque un dispositivo tenga una anchura conocida.</li><li><strong>Mantener una base flexible:</strong> combina las media queries con porcentajes, <code>max-width</code> y tamaños relativos vistos en el apartado 7.2.</li><li><strong>Evitar reglas contradictorias:</strong> revisa el orden de los bloques y qué condiciones se cumplen al mismo tiempo.</li><li><strong>No ocultar información esencial:</strong> adaptar la interfaz no debería impedir acceder a funciones importantes.</li><li><strong>Probar anchuras intermedias:</strong> comprueba también los tamaños entre dos breakpoints, no solo los extremos.</li></ul><div class="caja caja-importante"><span class="caja-titulo">📌 Idea clave</span><p>Las media queries permiten <strong>cambiar estilos de forma condicional</strong>. Los breakpoints son decisiones de diseño que deben responder a las necesidades del contenido y trabajar junto con las dimensiones flexibles.</p></div><p>En el siguiente apartado compararemos las estrategias <strong>mobile first</strong> y <strong>desktop first</strong>, que influyen en el orden en que escribimos las reglas generales y las media queries.</p><div class="actividad-reflexion"><h3>💭 Piensa</h3><p>En StudyFlow, las tres tarjetas se muestran correctamente a 1100 px, pero a 820 px sus textos quedan demasiado comprimidos y a 520 px dos columnas siguen siendo difíciles de leer. ¿Qué dos breakpoints propondrías y qué distribución aplicarías en cada intervalo? Explica por qué.</p><details class="solucion-desplegable"><summary>Ver una posible solución</summary><div class="contenido-solucion"><p>Podemos establecer un breakpoint en <code>900px</code> para pasar de tres a dos columnas y otro en <code>600px</code> para pasar a una sola. Así, por encima de 900 px se muestran tres tarjetas, entre 601 y 900 px se muestran dos y a 600 px o menos se muestra una.</p><p>Estos valores son orientativos: lo importante es probar el contenido y ajustar los puntos de ruptura donde las tarjetas dejen de ser legibles.</p></div></details></div></section><nav aria-label="Navegación entre apartados" class="navegacion-paginas"><a class="nav-pagina nav-anterior" href="../7-2/index.html"><span class="nav-etiqueta">Anterior</span><strong>‹ 7.2 Viewport y dimensiones flexibles</strong></a><a class="nav-pagina nav-siguiente" href="../7-4/index.html"><span class="nav-etiqueta">Siguiente</span><strong>7.4 Estrategias mobile first y desktop first ›</strong></a></nav></main>
+<!-- ==========================================
+         ÍNDICE DERECHO
+    ========================================== -->
+<aside class="indice-derecho"><h2>Contenidos del apartado</h2><ul><li><a href="#concepto-media">Qué son las media queries</a></li><li><a href="#sintaxis">Sintaxis y funcionamiento</a></li><li><a href="#condiciones">Condiciones y operadores</a></li><li><a href="#breakpoints">Puntos de ruptura</a></li><li><a href="#cascada">Cascada y orden de las reglas</a></li><li><a href="#studyflow">Aplicación a StudyFlow</a></li><li><a href="#errores">Buenas prácticas y errores frecuentes</a></li></ul></aside>
+</div>
+<!-- ==========================================
+       PIE DE PÁGINA
+  ========================================== -->
+<footer class="footer">
+<p>
+      Material elaborado por
+      <strong>Eva Ballestero Cubeles</strong>
+      · Licencia
+      <span class="licencia">CC BY-NC-SA 4.0</span>
+<a aria-label="Licencia Creative Commons BY-NC-SA 4.0" class="enlace-licencia" href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.es" rel="license noopener noreferrer" target="_blank">
+<img alt="Licencia Creative Commons BY-NC-SA 4.0" class="icono-licencia" src="../../../img/licencias/cc-by-nc-sa.png"/>
+</a>
+</p>
+</footer>
+<!-- ==========================================
+       JAVASCRIPT
+  ========================================== -->
+<script src="../../../js/modulos.js"></script>
+<script>
+
+    /* ==========================================
+       MENÚ SUPERIOR DE MÓDULOS
+    ========================================== */
+
+    const menuModulos =
+      document.getElementById("menuModulos");
+
+    const botonTema =
+      document.getElementById("botonTema");
+
+    if (typeof modulos !== "undefined") {
+
+      const modulosActivos =
+        modulos.filter(modulo => modulo.activo === true);
+
+      modulosActivos.forEach(modulo => {
+
+        const enlace =
+          document.createElement("a");
+
+        enlace.href =
+          `../../../${modulo.carpeta}/index.html`;
+
+        enlace.textContent =
+          modulo.siglas;
+
+        enlace.title =
+          modulo.nombre;
+
+        if (modulo.siglas === "DIW") {
+          enlace.style.color =
+            "var(--verde-principal)";
+        }
+
+        menuModulos.appendChild(enlace);
+
+      });
+
+    }
+
+
+    /* ==========================================
+       MODO CLARO Y OSCURO
+    ========================================== */
+
+    const temaGuardado =
+      localStorage.getItem("tema");
+
+    if (temaGuardado === "oscuro") {
+
+      document.body.classList.add("modo-oscuro");
+
+      botonTema.textContent = "🌙";
+
+    }
+
+    botonTema.addEventListener("click", () => {
+
+      document.body.classList.toggle("modo-oscuro");
+
+      const estaOscuro =
+        document.body.classList.contains("modo-oscuro");
+
+      botonTema.textContent =
+        estaOscuro ? "🌙" : "☀️";
+
+      localStorage.setItem(
+        "tema",
+        estaOscuro ? "oscuro" : "claro"
+      );
+
+    });
+
+
+    /* ==========================================
+       MENÚS DESPLEGABLES LATERALES
+    ========================================== */
+
+    const botonesDesplegar =
+      document.querySelectorAll(".boton-desplegar");
+
+    botonesDesplegar.forEach((boton) => {
+
+      boton.addEventListener("click", () => {
+
+        const idSubmenu =
+          boton.getAttribute("data-target");
+
+        const submenu =
+          document.getElementById(idSubmenu);
+
+        if (!submenu) {
+          return;
+        }
+
+        const estaAbierto =
+          submenu.classList.contains("submenu-abierto");
+
+        if (estaAbierto) {
+
+          submenu.classList.remove("submenu-abierto");
+
+          boton.textContent = "›";
+
+          boton.setAttribute(
+            "aria-expanded",
+            "false"
+          );
+
+        } else {
+
+          submenu.classList.add("submenu-abierto");
+
+          boton.textContent = "⌄";
+
+          boton.setAttribute(
+            "aria-expanded",
+            "true"
+          );
+
+        }
+
+      });
+
+    });
+
+
+    /* ==========================================
+       BOTONES PARA COPIAR CÓDIGO
+    ========================================== */
+
+    const botonesCopiar =
+      document.querySelectorAll(".boton-copiar");
+
+    botonesCopiar.forEach((boton) => {
+
+      boton.addEventListener("click", async () => {
+
+        const bloque =
+          boton.closest(".codigo-ejemplo");
+
+        const codigo =
+          bloque.querySelector("pre code");
+
+        if (!codigo) {
+          return;
+        }
+
+        const texto =
+          codigo.textContent;
+
+        try {
+
+          await navigator.clipboard.writeText(texto);
+
+          boton.textContent = "¡Copiado!";
+
+          setTimeout(() => {
+            boton.textContent = "Copiar";
+          }, 1800);
+
+        } catch (error) {
+
+          boton.textContent = "Error al copiar";
+
+          setTimeout(() => {
+            boton.textContent = "Copiar";
+          }, 1800);
+
+        }
+
+      });
+
+    });
+
+  
+document.querySelectorAll(".demo-ancho-btn").forEach(boton => {
+  boton.addEventListener("click", () => {
+    const ancho = Number(boton.dataset.ancho);
+    const columnas = ancho <= 600 ? 1 : ancho <= 900 ? 2 : 3;
+    const panel = document.getElementById("demoPanelResponsive");
+    const estado = document.getElementById("demoEstadoResponsive");
+    panel.dataset.columnas = String(columnas);
+    document.querySelectorAll(".demo-ancho-btn").forEach(b => {
+      const activo = b === boton;
+      b.classList.toggle("activo", activo);
+      b.setAttribute("aria-pressed", String(activo));
+    });
+    estado.textContent = `${ancho} px: ${columnas === 1 ? "una columna" : columnas === 2 ? "dos columnas" : "tres columnas"}. La simulación cambia el número de columnas, sin modificar el viewport real.`;
+  });
+});
+</script>
+</body>
+</html>
