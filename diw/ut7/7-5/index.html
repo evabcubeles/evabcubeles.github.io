@@ -1024,7 +1024,15 @@ body.modo-oscuro .demo75-tarjeta{background:#203b2b;color:#b5edc7;border-color:#
   border: 1px solid #b9dfc6;
   border-radius: 8px;
 }</code></pre></div>
-<p>La declaración <code>flex: 1 1 180px</code> indica, en este ejemplo, que cada acceso puede crecer, encogerse y tomar <code>180px</code> como tamaño base. Junto con <code>flex-wrap: wrap</code>, permite que los enlaces se distribuyan en varias filas cuando no hay espacio suficiente. <strong>No garantiza un número exacto de columnas</strong>: ese número depende del ancho del contenedor y de los espacios entre elementos.</p>
+<p>La declaración <code>flex: 1 1 180px</code> es una forma abreviada de establecer tres propiedades:</p>
+
+<ul>
+  <li><code>flex-grow: 1</code>: permite que el elemento crezca para aprovechar el espacio disponible.</li>
+  <li><code>flex-shrink: 1</code>: permite que el elemento reduzca su tamaño cuando sea necesario.</li>
+  <li><code>flex-basis: 180px</code>: establece un tamaño inicial de referencia de 180 px.</li>
+</ul>
+
+<p>Junto con <code>flex-wrap: wrap</code>, esta configuración permite que los enlaces se distribuyan en varias filas cuando no hay espacio suficiente. <strong>No garantiza un número exacto de columnas</strong>, ya que depende del ancho del contenedor y de la separación entre elementos.</p>
 <h3>Reorganizar un menú mediante una media query</h3>
 <p>Cuando queremos un cambio concreto, por ejemplo, pasar de un menú horizontal a uno vertical, podemos combinar Flexbox con una media query.</p>
 <div class="codigo-ejemplo"><div class="codigo-cabecera"><span>CSS · Menú horizontal que pasa a vertical</span><button class="boton-copiar" type="button">Copiar</button></div><pre><code>.menu-principal {
@@ -1071,7 +1079,9 @@ body.modo-oscuro .demo75-tarjeta{background:#203b2b;color:#b5edc7;border-color:#
   );
   gap: 16px;
 }</code></pre></div>
-<p><code>auto-fit</code> ajusta el número de columnas que caben; <code>minmax()</code> establece un tamaño mínimo y uno máximo para cada columna. Aquí se utiliza <code>min(100%, 220px)</code> para que el tamaño mínimo no supere el ancho disponible en contenedores muy estrechos. Las columnas pueden crecer hasta ocupar una fracción del espacio libre gracias a <code>1fr</code>.</p>
+<p>La función <code>repeat()</code> permite repetir una definición de columna. El valor <code>auto-fit</code> crea tantas columnas como puedan caber en el contenedor y permite que las columnas utilizadas se expandan para ocupar el espacio disponible. Por su parte, <code>minmax()</code> establece un tamaño mínimo y máximo para cada columna.</p>
+
+<p>En este ejemplo, <code>min(100%, 220px)</code> establece como mínimo el menor valor entre el 100 % del espacio disponible y 220 px, evitando que una columna tenga una anchura mínima superior a la del contenedor. El valor <code>1fr</code> permite que las columnas crezcan y compartan el espacio libre.</p>
 <p>Esta técnica se adapta al <strong>ancho del contenedor</strong>, no a un modelo concreto de dispositivo. Por eso es especialmente útil para galerías, tarjetas y listados con cantidades variables de elementos.</p>
 <div class="caja caja-ejemplo"><span class="caja-titulo">💻 Ejemplo DAW</span><p>En StudyFlow, una cuadrícula automática permite añadir un cuarto módulo sin escribir otra media query para un número concreto de tarjetas. El navegador distribuye los módulos en las columnas que caben dentro del panel.</p></div>
 <h2 id="eleccion">Cuándo utilizar Flexbox y cuándo CSS Grid</h2>
@@ -1143,7 +1153,9 @@ body.modo-oscuro .demo75-tarjeta{background:#203b2b;color:#b5edc7;border-color:#
 }</code></pre></div>
 <p>Estas son <strong>dos alternativas independientes</strong>. En Flexbox, las tarjetas se ajustan y pueden saltar de línea; en Grid, las columnas se crean automáticamente según el espacio disponible. No es necesario aplicar ambas reglas <code>display</code> al mismo contenedor.</p>
 <div class="demo-display"><strong>Demostración interactiva · Flexbox frente a CSS Grid</strong>
-<p>Selecciona una herramienta y una anchura simulada. Observa cómo se reorganizan las tarjetas de StudyFlow.</p>
+<p>Selecciona <strong>Flexbox</strong> o <strong>CSS Grid</strong> y cambia el espacio disponible mediante los botones. Observa cómo se reorganizan las tarjetas de StudyFlow.</p>
+
+<p>Con <strong>Flexbox</strong>, las tarjetas se distribuyen en filas y pueden pasar a una nueva línea gracias a <code>flex-wrap: wrap</code>. Con <strong>CSS Grid</strong>, el navegador calcula automáticamente las columnas disponibles mediante <code>auto-fit</code> y <code>minmax()</code>. Aunque ambas soluciones pueden producir distribuciones similares, <strong>no siempre se comportan exactamente igual</strong>, especialmente cuando la última fila contiene menos tarjetas.</p>
 <div aria-label="Herramienta de maquetación" class="demo75-controles" role="group"><button aria-pressed="true" class="demo75-btn activo" data-modo75="flex" type="button">Flexbox</button><button aria-pressed="false" class="demo75-btn" data-modo75="grid" type="button">CSS Grid</button></div>
 <div aria-label="Anchura simulada" class="demo75-controles" role="group"><button aria-pressed="true" class="demo75-btn activo" data-ancho75="100" type="button">Espacio amplio</button><button aria-pressed="false" class="demo75-btn" data-ancho75="70" type="button">Espacio medio</button><button aria-pressed="false" class="demo75-btn" data-ancho75="40" type="button">Espacio estrecho</button></div>
 <div class="demo75-marco"><div class="demo75-panel flex" id="demoPanel75"><div class="demo75-tarjeta"><strong>DWEC</strong><span>Entorno Cliente</span></div><div class="demo75-tarjeta"><strong>DIW</strong><span>Diseño de Interfaces</span></div><div class="demo75-tarjeta"><strong>SASP</strong><span>Sostenibilidad</span></div></div></div>
