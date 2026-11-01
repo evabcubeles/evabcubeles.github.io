@@ -1,0 +1,1326 @@
+
+<!DOCTYPE html>
+
+<html lang="es">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<meta content="7.2 - Viewport y dimensiones flexibles. Diseño de Interfaces Web." name="description"/>
+<title>7.2 - Viewport y dimensiones flexibles</title>
+<link href="../../../img/favicon.png?v=5" rel="icon" type="image/png"/>
+<link href="../../../css/estilos.css" rel="stylesheet"/>
+<style>
+
+    /* ==========================================
+       ESTRUCTURA DE LA UT
+    ========================================== */
+
+    .pagina-ut {
+      display: grid;
+      grid-template-columns: 280px 1fr 260px;
+      min-height: calc(100vh - 68px);
+    }
+
+
+    /* ==========================================
+       COLUMNA IZQUIERDA
+    ========================================== */
+
+    .sidebar {
+      border-right: 1px solid var(--borde);
+      background-color: var(--fondo-pagina);
+      padding: 12px 10px 30px;
+      position: sticky;
+      top: 68px;
+      height: calc(100vh - 68px);
+      overflow-y: auto;
+    }
+
+    .sidebar-modulo {
+      display: block;
+      margin-bottom: 8px;
+      padding: 8px 14px;
+      color: #626873;
+      font-size: 17px;
+      font-weight: 700;
+      line-height: 1.3;
+      text-decoration: none;
+      border-radius: 6px;
+      transition:
+        color 0.2s ease,
+        background-color 0.2s ease;
+    }
+
+    .sidebar-modulo:hover {
+      color: var(--verde-principal);
+      background-color: #f3f4f6;
+    }
+
+    body.modo-oscuro .sidebar-modulo:hover {
+      background-color: #273244;
+    }
+
+    .sidebar-ut {
+      margin-bottom: 12px;
+      padding: 10px 14px;
+      background-color: #f1f1f1;
+      border-radius: 5px;
+      color: var(--verde-principal);
+      font-size: 17px;
+      font-weight: 700;
+      line-height: 1.35;
+    }
+
+    .sidebar-ut-activa {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+    }
+
+    .flecha-ut-abierta {
+      flex-shrink: 0;
+      font-size: 22px;
+      color: #777;
+    }
+
+    .sidebar-ut-cerrada {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      padding: 13px 14px;
+      color: #626873;
+      text-decoration: none;
+      font-size: 16px;
+      font-weight: 650;
+      line-height: 1.35;
+      border-radius: 6px;
+      transition:
+        background-color 0.2s ease,
+        color 0.2s ease;
+    }
+
+    .sidebar-ut-cerrada:hover {
+      background-color: #f3f4f6;
+      color: var(--verde-principal);
+    }
+
+    body.modo-oscuro .sidebar-ut-cerrada:hover {
+      background-color: #273244;
+    }
+
+    body.modo-oscuro .sidebar-ut {
+      background-color: #273244;
+      color: #5ed28a;
+    }
+
+    .lista-apartados {
+      list-style: none;
+      margin: 0;
+      padding: 0;
+    }
+
+    .enlace-apartado {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      padding: 11px 14px;
+      color: #626873;
+      text-decoration: none;
+      font-size: 15px;
+      font-weight: 600;
+      line-height: 1.4;
+      border-radius: 6px;
+      transition:
+        background-color 0.2s ease,
+        color 0.2s ease;
+    }
+
+    .enlace-apartado:hover {
+      background-color: #f3f4f6;
+      color: var(--verde-principal);
+    }
+
+    body.modo-oscuro .enlace-apartado:hover {
+      background-color: #273244;
+    }
+
+    .flecha-apartado {
+      flex-shrink: 0;
+      color: #8b8b8b;
+      font-size: 22px;
+    }
+
+
+    /* ==========================================
+       MENÚ LATERAL DESPLEGABLE
+    ========================================== */
+
+    .menu-desplegable {
+      width: 100%;
+    }
+
+    .menu-cabecera {
+      display: flex;
+      align-items: center;
+      gap: 4px;
+      width: 100%;
+      border-radius: 6px;
+    }
+
+    .menu-cabecera-activa {
+      background-color: #f1f1f1;
+    }
+
+    .menu-cabecera-activa > .menu-titulo {
+      color: var(--verde-principal);
+    }
+
+    .menu-titulo {
+      flex: 1;
+      display: block;
+      padding: 11px 8px 11px 14px;
+      color: #626873;
+      font-size: 16px;
+      font-weight: 650;
+      line-height: 1.4;
+      text-decoration: none;
+    }
+
+    .menu-titulo:hover {
+      color: var(--verde-principal);
+    }
+
+    .boton-desplegar {
+      width: 36px;
+      height: 36px;
+      margin-right: 5px;
+      padding: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+      border: 0;
+      border-radius: 6px;
+      background: transparent;
+      color: #777;
+      font-family: inherit;
+      font-size: 24px;
+      line-height: 1;
+      cursor: pointer;
+    }
+
+    .boton-desplegar:hover {
+      background-color: #e5e7eb;
+      color: var(--verde-principal);
+    }
+
+
+    /* ==========================================
+       CONTENIDO DESPLEGABLE
+    ========================================== */
+
+    .submenu {
+      display: none;
+    }
+
+    .submenu.submenu-abierto {
+      display: block;
+    }
+
+
+    /* ==========================================
+       APARTADOS DE UNA UT
+    ========================================== */
+
+    .menu-apartado {
+      margin-left: 14px;
+    }
+
+    .menu-apartado .menu-titulo {
+      padding-top: 9px;
+      padding-bottom: 9px;
+      font-size: 15px;
+      font-weight: 600;
+    }
+
+    .enlace-apartado-simple {
+      display: block;
+      margin-left: 14px;
+      padding: 10px 14px;
+      color: #626873;
+      font-size: 15px;
+      font-weight: 600;
+      line-height: 1.4;
+      text-decoration: none;
+      border-radius: 6px;
+      transition:
+        background-color 0.2s ease,
+        color 0.2s ease;
+    }
+
+    .enlace-apartado-simple:hover {
+      background-color: #f3f4f6;
+      color: var(--verde-principal);
+    }
+
+
+    /* ==========================================
+       SUBAPARTADOS
+    ========================================== */
+
+    .submenu-apartados {
+      margin: 2px 0 5px 28px;
+      border-left: 2px solid #e0e3e7;
+    }
+
+    .submenu-apartados a {
+      display: block;
+      padding: 7px 10px;
+      color: #777d87;
+      font-size: 14px;
+      font-weight: 500;
+      line-height: 1.35;
+      text-decoration: none;
+    }
+
+    .submenu-apartados a:hover {
+      color: var(--verde-principal);
+    }
+
+
+    /* ==========================================
+       MODO OSCURO DEL MENÚ
+    ========================================== */
+
+    body.modo-oscuro .menu-cabecera-activa {
+      background-color: #273244;
+    }
+
+    body.modo-oscuro .boton-desplegar:hover {
+      background-color: #334155;
+    }
+
+    body.modo-oscuro .enlace-apartado-simple:hover {
+      background-color: #273244;
+    }
+
+    body.modo-oscuro .submenu-apartados {
+      border-left-color: #3a4659;
+    }
+
+
+    /* ==========================================
+       ZONA CENTRAL
+    ========================================== */
+
+    .contenido-ut {
+      padding: 28px 34px 70px;
+      max-width: 1150px;
+      width: 100%;
+      min-width: 0;
+    }
+
+    .migas {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 30px;
+      font-size: 14px;
+    }
+
+    .miga-inicio {
+      text-decoration: none;
+      font-size: 18px;
+    }
+
+    .miga-separador {
+      color: #999;
+      font-size: 22px;
+    }
+
+    .miga-modulo {
+      color: var(--texto-secundario);
+      text-decoration: none;
+    }
+
+    .miga-modulo:hover {
+      color: var(--verde-principal);
+    }
+
+    .miga-actual {
+      padding: 8px 14px;
+      background-color: #f3f3f3;
+      border-radius: 24px;
+      color: var(--verde-principal);
+    }
+
+    body.modo-oscuro .miga-actual {
+      background-color: #273244;
+    }
+
+    .contenido-ut h1 {
+      margin: 0 0 30px;
+      font-size: clamp(38px, 5vw, 58px);
+      line-height: 1.12;
+    }
+
+    .introduccion-ut {
+      max-width: 980px;
+      font-size: 19px;
+      line-height: 1.75;
+    }
+
+    .introduccion-ut p {
+      margin: 0 0 20px;
+    }
+
+
+    /* ==========================================
+       CONTENIDO DE LOS APARTADOS
+    ========================================== */
+
+    .apartado-ut {
+      margin-top: 55px;
+      scroll-margin-top: 95px;
+    }
+
+    .apartado-ut h2 {
+      margin: 0 0 24px;
+      font-size: 32px;
+      line-height: 1.2;
+      scroll-margin-top: 95px;
+    }
+
+    .apartado-ut h3 {
+      margin: 34px 0 16px;
+      font-size: 24px;
+      line-height: 1.3;
+    }
+
+    .apartado-ut p {
+      margin: 0 0 18px;
+      font-size: 18px;
+      line-height: 1.75;
+    }
+
+    .apartado-ut ul,
+    .apartado-ut ol {
+      margin: 16px 0 24px;
+      padding-left: 28px;
+    }
+
+    .apartado-ut li {
+      margin-bottom: 10px;
+      font-size: 17px;
+      line-height: 1.6;
+    }
+
+
+    /* ==========================================
+       CAJAS DE LOS APUNTES
+    ========================================== */
+
+    .caja {
+      margin: 28px 0;
+      padding: 18px 20px;
+      border-left: 5px solid;
+      border-radius: 8px;
+      line-height: 1.65;
+    }
+
+    .caja p {
+      margin: 0;
+      font-size: 17px;
+    }
+
+    .caja-titulo {
+      display: block;
+      margin-bottom: 8px;
+      font-size: 17px;
+      font-weight: 700;
+    }
+
+    .caja-importante {
+      background-color: #eef8f1;
+      border-left-color: #2f9e5b;
+    }
+
+    .caja-atencion {
+      background-color: #fff7e8;
+      border-left-color: #e09b27;
+    }
+
+    .caja-ejemplo {
+      background-color: #eef5ff;
+      border-left-color: #3f7acb;
+    }
+
+    .caja-curiosidad {
+      background-color: #f7f1ff;
+      border-left-color: #8b5cc7;
+    }
+
+    body.modo-oscuro .caja-importante {
+      background-color: #20372a;
+    }
+
+    body.modo-oscuro .caja-atencion {
+      background-color: #3b3020;
+    }
+
+    body.modo-oscuro .caja-ejemplo {
+      background-color: #23344a;
+    }
+
+    body.modo-oscuro .caja-curiosidad {
+      background-color: #332944;
+    }
+
+
+    /* ==========================================
+       TABLAS
+    ========================================== */
+
+    .tabla-responsive {
+      width: 100%;
+      margin: 28px 0;
+      overflow-x: auto;
+    }
+
+    .tabla-apuntes {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 16px;
+    }
+
+    .tabla-apuntes th,
+    .tabla-apuntes td {
+      padding: 14px 16px;
+      border: 1px solid var(--borde);
+      text-align: left;
+      vertical-align: top;
+      line-height: 1.55;
+    }
+
+    .tabla-apuntes th {
+      background-color: #f1f3f5;
+      font-weight: 700;
+    }
+
+    body.modo-oscuro .tabla-apuntes th {
+      background-color: #273244;
+    }
+
+
+    /* ==========================================
+       ESQUEMA VISUAL
+    ========================================== */
+
+    .esquema-sostenibilidad {
+      max-width: 520px;
+      margin: 30px auto;
+      padding: 24px;
+      text-align: center;
+    }
+
+    .esquema-caja {
+      padding: 16px 20px;
+      background-color: var(--fondo-tarjeta);
+      border: 1px solid var(--borde);
+      border-radius: 10px;
+      font-size: 18px;
+      font-weight: 700;
+    }
+
+    .esquema-flecha {
+      margin: 8px 0;
+      color: var(--verde-principal);
+      font-size: 26px;
+      font-weight: 700;
+    }
+
+    .esquema-texto {
+      margin: 0 0 8px;
+      color: var(--texto-secundario);
+      font-size: 15px;
+    }
+
+
+    /* ==========================================
+       ACTIVIDAD DE REFLEXIÓN
+    ========================================== */
+
+    .actividad-reflexion {
+      margin: 32px 0;
+      padding: 22px 24px;
+      background-color: #f7f8fa;
+      border: 1px solid var(--borde);
+      border-radius: 10px;
+    }
+
+    .actividad-reflexion h3 {
+      margin: 0 0 12px;
+      color: var(--verde-principal);
+      font-size: 20px;
+    }
+
+    .actividad-reflexion p {
+      margin: 0;
+      font-size: 17px;
+      line-height: 1.65;
+    }
+
+    body.modo-oscuro .actividad-reflexion {
+      background-color: #232d3d;
+    }
+
+
+    /* ==========================================
+       SOLUCIÓN DESPLEGABLE
+    ========================================== */
+
+    .solucion-desplegable {
+      margin-top: 20px;
+    }
+
+    .solucion-desplegable summary {
+      display: inline-block;
+      padding: 10px 16px;
+      background-color: #eef8f1;
+      border: 1px solid #b9dfc6;
+      border-radius: 7px;
+      color: var(--verde-principal);
+      font-size: 16px;
+      font-weight: 700;
+      cursor: pointer;
+      user-select: none;
+    }
+
+    .solucion-desplegable summary:hover {
+      background-color: #e2f3e7;
+    }
+
+    .contenido-solucion {
+      margin-top: 16px;
+      padding: 18px 20px;
+      background-color: var(--fondo-pagina);
+      border-left: 4px solid var(--verde-principal);
+      border-radius: 6px;
+    }
+
+    .contenido-solucion p {
+      margin: 0 0 12px;
+      font-size: 16px;
+      line-height: 1.65;
+    }
+
+    .contenido-solucion p:last-child {
+      margin-bottom: 0;
+    }
+
+    body.modo-oscuro .solucion-desplegable summary {
+      background-color: #20372a;
+      border-color: #315d40;
+    }
+
+
+/* ==========================================
+   COLUMNA DERECHA
+========================================== */
+
+.indice-derecho {
+  padding: 28px 22px;
+
+  border-left: 1px solid var(--borde);
+
+  position: sticky;
+  top: 68px;
+
+  height: calc(100vh - 68px);
+}
+
+.indice-derecho h2 {
+  margin: 8px 0 20px;
+
+  font-size: 17px;
+  color: #555b65;
+}
+
+body.modo-oscuro .indice-derecho h2 {
+  color: #d1d5db;
+}
+
+.indice-derecho ul {
+  margin: 0;
+  padding-left: 18px;
+}
+
+.indice-derecho li {
+  margin-bottom: 12px;
+}
+
+.indice-derecho a {
+  color: var(--texto-secundario);
+
+  text-decoration: none;
+
+  font-size: 14px;
+  line-height: 1.4;
+}
+
+.indice-derecho a:hover {
+  color: var(--verde-principal);
+}
+
+
+    /* ==========================================
+       NAVEGACIÓN ANTERIOR / SIGUIENTE
+    ========================================== */
+
+    .navegacion-paginas {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 20px;
+      margin-top: 50px;
+    }
+
+    .nav-pagina {
+      min-height: 100px;
+      padding: 18px 20px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      border: 1px solid var(--borde);
+      border-radius: 8px;
+      text-decoration: none;
+      background-color: var(--fondo-tarjeta);
+    }
+
+    .nav-anterior {
+      align-items: flex-start;
+      text-align: left;
+    }
+
+    .nav-siguiente {
+      align-items: flex-end;
+      text-align: right;
+    }
+
+    .nav-etiqueta {
+      margin-bottom: 5px;
+      color: var(--texto-secundario);
+      font-size: 14px;
+    }
+
+    .nav-pagina strong {
+      color: var(--verde-principal);
+      font-size: 16px;
+      line-height: 1.4;
+    }
+
+    .nav-pagina:hover {
+      border-color: var(--verde-principal);
+    }
+
+
+    /* ==========================================
+       EJEMPLOS DE CÓDIGO
+    ========================================== */
+
+    .codigo-ejemplo {
+      margin: 24px 0 30px;
+      border: 1px solid var(--borde);
+      border-radius: 9px;
+      overflow: hidden;
+      background: #172033;
+    }
+
+    .codigo-cabecera {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      padding: 10px 14px;
+      background: #202b3d;
+      color: #e5e7eb;
+      font-size: 14px;
+      font-weight: 700;
+    }
+
+    .boton-copiar {
+      padding: 6px 10px;
+      border: 1px solid #526078;
+      border-radius: 6px;
+      background: transparent;
+      color: #e5e7eb;
+      font: inherit;
+      cursor: pointer;
+    }
+
+    .boton-copiar:hover {
+      background: #2d3a50;
+    }
+
+    .codigo-ejemplo pre {
+      margin: 0;
+      padding: 18px;
+      overflow-x: auto;
+    }
+
+    .codigo-ejemplo code {
+      color: #f3f4f6;
+      font-family: Consolas, "Courier New", monospace;
+      font-size: 15px;
+      line-height: 1.65;
+    }
+
+
+    /* ==========================================
+       EJEMPLOS VISUALES DEL APARTADO 6.1
+    ========================================== */
+
+    .demo-display {
+      margin: 24px 0 30px;
+      padding: 22px;
+      border: 1px solid var(--borde);
+      border-radius: 10px;
+      background: var(--fondo-tarjeta);
+    }
+
+    .demo-display > strong {
+      display: block;
+      margin-bottom: 16px;
+      font-size: 17px;
+    }
+
+    .demo-elemento {
+      padding: 12px 16px;
+      background: #e4f3e9;
+      border: 1px solid #85c79b;
+      border-radius: 5px;
+      color: #195c36;
+      font-size: 15px;
+      font-weight: 600;
+    }
+
+    .demo-bloque .demo-elemento {
+      display: block;
+      margin-bottom: 8px;
+    }
+
+    .demo-linea {
+      line-height: 3.2;
+    }
+
+    .demo-linea .demo-elemento {
+      display: inline;
+      margin-right: 6px;
+    }
+
+    .demo-inline-block .demo-elemento {
+      display: inline-block;
+      width: 140px;
+      margin: 4px;
+      text-align: center;
+    }
+
+    .demo-explicacion {
+      margin: 14px 0 0;
+      color: var(--texto-secundario);
+      font-size: 15px;
+      line-height: 1.55;
+    }
+
+    .comparacion-display {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 16px;
+      margin: 24px 0 30px;
+    }
+
+    .tarjeta-display {
+      padding: 20px;
+      border: 1px solid var(--borde);
+      border-radius: 10px;
+      background: var(--fondo-tarjeta);
+    }
+
+    .tarjeta-display strong {
+      display: block;
+      margin-bottom: 10px;
+      font-size: 18px;
+    }
+
+    .tarjeta-display p {
+      margin: 0;
+      font-size: 16px;
+      line-height: 1.55;
+    }
+
+    body.modo-oscuro .demo-elemento {
+      background: #203b2b;
+      border-color: #397a50;
+      color: #b5edc7;
+    }
+
+
+    /* ==========================================
+       RESPONSIVE
+    ========================================== */
+
+    @media (max-width: 1100px) {
+
+      .pagina-ut {
+        grid-template-columns: 250px minmax(0, 1fr);
+      }
+
+      .indice-derecho {
+        display: none;
+      }
+
+    }
+
+    @media (max-width: 760px) {
+
+      .pagina-ut {
+        display: block;
+      }
+
+      .sidebar {
+        position: static;
+        width: 100%;
+        height: auto;
+        border-right: 0;
+        border-bottom: 1px solid var(--borde);
+      }
+
+      .contenido-ut {
+        padding: 28px 20px 60px;
+      }
+
+      .contenido-ut h1 {
+        font-size: 36px;
+      }
+
+      .navegacion-paginas,
+      .comparacion-display {
+        grid-template-columns: 1fr;
+      }
+
+      .nav-siguiente {
+        align-items: flex-start;
+        text-align: left;
+      }
+
+    }
+
+  
+/* Demostración visual específica del apartado 7.1 */
+.demo-responsive-comparacion { display:grid; grid-template-columns:minmax(0, 1.5fr) minmax(0, .75fr); gap:18px; align-items:start; }
+.demo-pantalla { min-width:0; padding:14px; border:2px solid #9ca3af; border-radius:9px; }
+.demo-pantalla-titulo { display:block; margin-bottom:12px; font-size:14px; font-weight:700; color:var(--texto-secundario); }
+.demo-cabecera { padding:12px; border-radius:5px; background:#dbeafe; color:#1e3a8a; font-weight:700; }
+.demo-tarjetas { display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); gap:8px; margin-top:10px; }
+.demo-tarjetas span { min-width:0; padding:12px 4px; text-align:center; border-radius:5px; background:#e4f3e9; color:#195c36; font-weight:700; font-size:13px; }
+.demo-movil .demo-tarjetas { grid-template-columns:1fr; }
+@media(max-width:600px) { .demo-responsive-comparacion { grid-template-columns:1fr; } }
+body.modo-oscuro .demo-cabecera { background:#23344a; color:#dbeafe; }
+body.modo-oscuro .demo-tarjetas span { background:#203b2b; color:#b5edc7; }
+
+/* Demostración específica del apartado 7.2 */
+.demo-tarjeta-flexible { width:min(100%, 650px); min-height:140px; padding:22px; border:1px solid #b9dfc6; border-radius:10px; background:#eef8f1; color:#195c36; box-sizing:border-box; }
+.demo-tarjeta-flexible h3 { margin:0 0 10px; font-size:20px; }
+.demo-tarjeta-flexible p { margin:0 0 16px; font-size:16px; line-height:1.5; }
+.demo-enlace { display:inline-block; padding:8px 12px; background:#195c36; color:white; border-radius:6px; font-size:15px; }
+body.modo-oscuro .demo-tarjeta-flexible { background:#203b2b; border-color:#397a50; color:#b5edc7; }
+</style>
+</head>
+<body>
+<!-- ==========================================
+       CABECERA SUPERIOR
+  ========================================== -->
+<header class="navbar">
+<a class="inicio" href="../../../index.html">
+<img alt="" class="icono-profesora" src="../../../img/profesora-castana.png?v=2"/>
+<span>Inicio</span>
+</a>
+<nav aria-label="Módulos formativos" class="menu-modulos" id="menuModulos"></nav>
+<button aria-label="Cambiar entre modo claro y oscuro" class="boton-tema" id="botonTema" title="Cambiar tema" type="button">☀️</button>
+</header>
+<!-- ==========================================
+       ESTRUCTURA PRINCIPAL
+  ========================================== -->
+<div class="pagina-ut">
+<!-- ==========================================
+         MENÚ LATERAL IZQUIERDO
+    ========================================== -->
+<aside class="sidebar"><a class="sidebar-modulo" href="../../index.html">Diseño de interfaces web</a><a class="sidebar-ut-cerrada" href="../../ut1/index.html"><span>UT1 - Fundamentos del diseño de interfaces web</span><span>›</span></a><a class="sidebar-ut-cerrada" href="../../ut2/index.html"><span>UT2 - Color, tipografía, iconografía e identidad visual</span><span>›</span></a><a class="sidebar-ut-cerrada" href="../../ut3/index.html"><span>UT3 - Planificación, arquitectura y prototipado de interfaces</span><span>›</span></a><a class="sidebar-ut-cerrada" href="../../ut4/index.html"><span>UT4 - HTML: estructura y contenido de interfaces web</span><span>›</span></a><a class="sidebar-ut-cerrada" href="../../ut5/index.html"><span>UT5 - CSS: fundamentos y diseño visual</span><span>›</span></a><a class="sidebar-ut-cerrada" href="../../ut6/index.html"><span>UT6 - CSS: maquetación y diseño avanzado</span><span>›</span></a><div class="menu-desplegable"><div class="menu-cabecera menu-cabecera-activa"><a class="menu-titulo" href="../index.html">UT7 - Diseño web responsive</a><button aria-expanded="true" aria-label="Mostrar u ocultar UT7" class="boton-desplegar" data-target="submenu-ut7" type="button">⌄</button></div><div class="submenu submenu-abierto" id="submenu-ut7"><div class="menu-desplegable menu-apartado"><div class="menu-cabecera"><a class="menu-titulo" href="../7-1/index.html">7.1 Introducción al diseño web responsive</a><button aria-expanded="false" aria-label="Mostrar u ocultar 7-1" class="boton-desplegar" data-target="submenu-7-1" type="button">›</button></div><div class="submenu submenu-apartados" id="submenu-7-1"><a href="../7-1/index.html#concepto-responsive">Qué es el diseño web responsive</a><a href="../7-1/index.html#necesidad-adaptacion">Por qué necesitamos interfaces adaptables</a><a href="../7-1/index.html#tipos-diseno">Diseños fijos, fluidos, adaptables y responsive</a><a href="../7-1/index.html#principios-responsive">Principios del diseño responsive</a><a href="../7-1/index.html#ejemplo-studyflow">Ejemplo aplicado a StudyFlow</a><a href="../7-1/index.html#buenas-practicas">Buenas prácticas y errores frecuentes</a></div></div><div class="menu-desplegable menu-apartado"><div class="menu-cabecera menu-cabecera-activa"><a class="menu-titulo" href="index.html">7.2 Viewport y dimensiones flexibles</a><button aria-expanded="true" aria-label="Mostrar u ocultar 7-2" class="boton-desplegar" data-target="submenu-7-2" type="button">⌄</button></div><div class="submenu submenu-apartados submenu-abierto" id="submenu-7-2"><a href="#viewport">Qué es el viewport</a><a href="#meta-viewport">La etiqueta meta viewport</a><a href="#unidades">Unidades absolutas y relativas</a><a href="#dimensiones">Anchuras y dimensiones flexibles</a><a href="#desbordamiento">Desbordamiento horizontal</a><a href="#studyflow">Aplicación a StudyFlow</a></div></div><div class="menu-desplegable menu-apartado"><div class="menu-cabecera"><a class="menu-titulo" href="../7-3/index.html">7.3 Media queries y puntos de ruptura</a><button aria-expanded="false" aria-label="Mostrar u ocultar 7-3" class="boton-desplegar" data-target="submenu-7-3" type="button">›</button></div><div class="submenu submenu-apartados" id="submenu-7-3"></div></div><div class="menu-desplegable menu-apartado"><div class="menu-cabecera"><a class="menu-titulo" href="../7-4/index.html">7.4 Estrategias mobile first y desktop first</a><button aria-expanded="false" aria-label="Mostrar u ocultar 7-4" class="boton-desplegar" data-target="submenu-7-4" type="button">›</button></div><div class="submenu submenu-apartados" id="submenu-7-4"></div></div><div class="menu-desplegable menu-apartado"><div class="menu-cabecera"><a class="menu-titulo" href="../7-5/index.html">7.5 Maquetación responsive con Flexbox y CSS Grid</a><button aria-expanded="false" aria-label="Mostrar u ocultar 7-5" class="boton-desplegar" data-target="submenu-7-5" type="button">›</button></div><div class="submenu submenu-apartados" id="submenu-7-5"></div></div><div class="menu-desplegable menu-apartado"><div class="menu-cabecera"><a class="menu-titulo" href="../7-6/index.html">7.6 Imágenes y contenido multimedia responsive</a><button aria-expanded="false" aria-label="Mostrar u ocultar 7-6" class="boton-desplegar" data-target="submenu-7-6" type="button">›</button></div><div class="submenu submenu-apartados" id="submenu-7-6"></div></div><div class="menu-desplegable menu-apartado"><div class="menu-cabecera"><a class="menu-titulo" href="../7-7/index.html">7.7 Frameworks responsive: Bootstrap 5</a><button aria-expanded="false" aria-label="Mostrar u ocultar 7-7" class="boton-desplegar" data-target="submenu-7-7" type="button">›</button></div><div class="submenu submenu-apartados" id="submenu-7-7"></div></div><div class="menu-desplegable menu-apartado"><div class="menu-cabecera"><a class="menu-titulo" href="../7-8/index.html">7.8 Pruebas y verificación del diseño responsive</a><button aria-expanded="false" aria-label="Mostrar u ocultar 7-8" class="boton-desplegar" data-target="submenu-7-8" type="button">›</button></div><div class="submenu submenu-apartados" id="submenu-7-8"></div></div><a class="enlace-apartado-simple" href="../resumen/index.html">✏️ Resumen de la UT7</a><a class="enlace-apartado-simple" href="../actividades/index.html">📝 Actividades de la UT7</a></div></div><a class="sidebar-ut-cerrada" href="../../ut8/index.html"><span>UT8 - Recursos gráficos e imágenes para la web</span><span>›</span></a><a class="sidebar-ut-cerrada" href="../../ut9/index.html"><span>UT9 - Audio, vídeo, animaciones e interactividad</span><span>›</span></a><a class="sidebar-ut-cerrada" href="../../ut10/index.html"><span>UT10 - Accesibilidad web</span><span>›</span></a><a class="sidebar-ut-cerrada" href="../../ut11/index.html"><span>UT11 - Usabilidad y evaluación de interfaces web</span><span>›</span></a></aside>
+<!-- ==========================================
+         CONTENIDO CENTRAL
+    ========================================== -->
+<main class="contenido-ut"><div class="migas"><a aria-label="Volver a la página principal" class="miga-inicio" href="../../../index.html">🏠</a><span class="miga-separador">›</span><a class="miga-modulo" href="../../index.html">DIW</a><span class="miga-separador">›</span><a class="miga-modulo" href="../index.html">UT7</a><span class="miga-separador">›</span><span class="miga-actual">7.2</span></div><h1>7.2 Viewport y dimensiones flexibles</h1><section class="apartado-ut">
+<p>En el apartado anterior hemos visto que una interfaz responsive debe adaptarse al espacio disponible sin perder legibilidad ni funcionalidad. Para conseguirlo necesitamos comprender <strong>qué espacio utiliza el navegador para mostrar la página</strong> y cómo podemos expresar las dimensiones de sus elementos de forma flexible.</p>
+<p>En este apartado estudiaremos el <strong>viewport</strong>, la etiqueta <code>&lt;meta name="viewport"&gt;</code>, las principales unidades de CSS y las propiedades que permiten construir contenedores capaces de crecer o reducirse sin provocar desbordamientos.</p>
+<div class="caja caja-importante"><span class="caja-titulo">📌 Importante</span><p>Una página no se convierte en responsive por utilizar únicamente porcentajes o por incluir la etiqueta <code>meta viewport</code>. Es necesario combinar una configuración correcta del viewport con <strong>dimensiones flexibles y una distribución que se adapte al contenido</strong>.</p></div>
+<h2 id="viewport">Qué es el viewport</h2>
+<p>El <strong>viewport</strong> es el área de visualización de la página web que utiliza el navegador para representar su contenido. En el diseño responsive nos interesa especialmente su <strong>anchura</strong>, porque condiciona el espacio disponible para distribuir textos, imágenes y componentes.</p>
+<p>El viewport no debe confundirse con la resolución física de la pantalla. Un dispositivo puede tener muchos píxeles físicos, pero el navegador utiliza un sistema de coordenadas expresado en <strong>píxeles CSS</strong>. Además, en un ordenador podemos reducir la anchura de la ventana sin cambiar de monitor.</p>
+<div class="tabla-responsive"><table class="tabla-apuntes"><thead><tr><th>Concepto</th><th>Significado</th></tr></thead><tbody><tr><td><strong>Pantalla física</strong></td><td>Superficie y resolución reales del dispositivo.</td></tr><tr><td><strong>Píxel CSS</strong></td><td>Unidad de referencia utilizada por CSS; no tiene por qué equivaler a un píxel físico.</td></tr><tr><td><strong>Viewport</strong></td><td>Área de referencia que utiliza el navegador para mostrar y distribuir la página.</td></tr><tr><td><strong>Anchura del viewport</strong></td><td>Medida relevante para muchas reglas de diseño responsive y media queries.</td></tr></tbody></table></div>
+<div class="caja caja-ejemplo"><span class="caja-titulo">💻 Ejemplo DAW</span><p>Si abres StudyFlow en un portátil y reduces la ventana del navegador, la página dispone de menos espacio horizontal aunque sigas utilizando el mismo ordenador. Por eso debemos comprobar el comportamiento del diseño con diferentes <strong>anchuras de ventana</strong>, no solo con diferentes dispositivos.</p></div>
+<h2 id="meta-viewport">La etiqueta meta viewport</h2>
+<p>En los navegadores móviles, una página sin una configuración adecuada puede representarse inicialmente sobre un viewport de diseño más ancho que la pantalla y después reducirse visualmente. Esto puede hacer que los textos y los controles aparezcan demasiado pequeños.</p>
+<p>Para indicar que queremos utilizar la anchura del dispositivo como referencia inicial, incluimos la siguiente etiqueta en el <code>&lt;head&gt;</code> del documento HTML:</p>
+<div class="codigo-ejemplo"><div class="codigo-cabecera"><span>HTML · Configuración del viewport</span><button class="boton-copiar" type="button">Copiar</button></div><pre><code>&lt;meta name="viewport" content="width=device-width, initial-scale=1.0"&gt;</code></pre></div>
+<div class="tabla-responsive"><table class="tabla-apuntes"><thead><tr><th>Parte</th><th>Función</th></tr></thead><tbody><tr><td><code>name="viewport"</code></td><td>Indica que la etiqueta configura el viewport.</td></tr><tr><td><code>width=device-width</code></td><td>Solicita que la anchura del viewport de diseño se ajuste a la anchura del dispositivo en píxeles CSS.</td></tr><tr><td><code>initial-scale=1.0</code></td><td>Establece el nivel inicial de escala en 1.</td></tr></tbody></table></div>
+<p>Esta etiqueta es habitual en los documentos HTML actuales y debe aparecer dentro de <code>&lt;head&gt;</code>, junto a la codificación, el título y los enlaces a las hojas de estilo.</p>
+<div class="codigo-ejemplo"><div class="codigo-cabecera"><span>HTML · Estructura mínima</span><button class="boton-copiar" type="button">Copiar</button></div><pre><code>&lt;!DOCTYPE html&gt;
+&lt;html lang="es"&gt;
+&lt;head&gt;
+  &lt;meta charset="UTF-8"&gt;
+  &lt;meta name="viewport" content="width=device-width, initial-scale=1.0"&gt;
+  &lt;title&gt;StudyFlow&lt;/title&gt;
+  &lt;link rel="stylesheet" href="estilos.css"&gt;
+&lt;/head&gt;
+&lt;body&gt;
+  &lt;h1&gt;Bienvenido a StudyFlow&lt;/h1&gt;
+&lt;/body&gt;
+&lt;/html&gt;</code></pre></div>
+<div class="caja caja-atencion"><span class="caja-titulo">⚠️ Atención</span><p>Evita configurar <code>user-scalable=no</code> o limitar innecesariamente el zoom. Impedir que las personas amplíen la página puede perjudicar la accesibilidad. La etiqueta <code>meta viewport</code> tampoco corrige por sí sola una maquetación con anchuras rígidas.</p></div>
+<h2 id="unidades">Unidades absolutas y relativas</h2>
+<p>En CSS podemos definir tamaños con distintas unidades. Elegirlas correctamente permite crear diseños más flexibles y facilitar la lectura en diferentes contextos.</p>
+<h3>La unidad px</h3>
+<p>La unidad <code>px</code> representa un <strong>píxel CSS</strong>. Es útil para bordes, separaciones y otros valores concretos, pero utilizar anchuras fijas grandes puede generar problemas cuando el viewport se estrecha.</p>
+<div class="codigo-ejemplo"><div class="codigo-cabecera"><span>CSS · Anchura fija</span><button class="boton-copiar" type="button">Copiar</button></div><pre><code>.panel {
+  width: 1000px;
+}</code></pre></div>
+<p>Un panel de 1000 px puede ser demasiado ancho para una ventana de 390 px y provocar desplazamiento horizontal.</p>
+<h3>Porcentajes (%)</h3>
+<p>Los porcentajes permiten establecer dimensiones respecto a una referencia, que en el caso habitual de <code>width</code> es la anchura del bloque contenedor.</p>
+<div class="codigo-ejemplo"><div class="codigo-cabecera"><span>CSS · Anchura relativa</span><button class="boton-copiar" type="button">Copiar</button></div><pre><code>.panel {
+  width: 80%;
+}</code></pre></div>
+<p>Si el contenedor tiene una anchura de 1000 px, el panel ocupará aproximadamente 800 px; si mide 500 px, ocupará aproximadamente 400 px, suponiendo que no intervengan otras restricciones.</p>
+<h3>rem y em</h3>
+<p>Las unidades <code>rem</code> y <code>em</code> son relativas a tamaños de letra y resultan útiles para crear espacios y componentes que acompañen a la tipografía.</p>
+<ul><li><code>rem</code>: toma como referencia el tamaño de letra del elemento raíz (<code>html</code>).</li><li><code>em</code>: para <code>font-size</code> se calcula respecto al tamaño de letra del elemento padre; en muchas otras propiedades, respecto al tamaño de letra del propio elemento.</li></ul>
+<div class="codigo-ejemplo"><div class="codigo-cabecera"><span>CSS · Medidas relativas a la tipografía</span><button class="boton-copiar" type="button">Copiar</button></div><pre><code>html {
+  font-size: 16px;
+}
+
+.titulo {
+  font-size: 2rem;   /* 32px si la raíz mide 16px */
+}
+
+.boton {
+  font-size: 1rem;
+  padding: 0.75em 1.25em;
+}</code></pre></div>
+<p>En este ejemplo, los espacios interiores del botón se calculan a partir de su tamaño de letra. El resultado puede escalar de manera coherente si cambiamos dicho tamaño.</p>
+<h3>vw, vh y unidades modernas del viewport</h3>
+<p><code>vw</code> representa el 1 % de la anchura del viewport; <code>vh</code> representa el 1 % de su altura. Son útiles en determinadas situaciones, aunque hay que emplearlas con criterio.</p>
+<div class="codigo-ejemplo"><div class="codigo-cabecera"><span>CSS · Unidades del viewport</span><button class="boton-copiar" type="button">Copiar</button></div><pre><code>.cabecera {
+  min-height: 30vh;
+}
+
+.titulo-principal {
+  font-size: clamp(1.5rem, 3vw, 2.5rem);
+}</code></pre></div>
+<p>La función <code>clamp()</code> permite establecer un valor mínimo, uno preferido y uno máximo. Así evitamos que el título se reduzca o aumente sin límites.</p>
+<p>En móviles, la altura visible puede cambiar cuando aparecen o desaparecen las barras del navegador. Para algunos diseños actuales existen unidades como <code>dvh</code>, que siguen la altura dinámica del viewport.</p>
+<div class="tabla-responsive"><table class="tabla-apuntes"><thead><tr><th>Unidad</th><th>Referencia habitual</th><th>Uso frecuente</th></tr></thead><tbody><tr><td><code>px</code></td><td>Píxel CSS</td><td>Bordes y tamaños concretos.</td></tr><tr><td><code>%</code></td><td>Dimensión de referencia del contenedor, según la propiedad</td><td>Anchuras flexibles.</td></tr><tr><td><code>rem</code></td><td>Tipografía raíz</td><td>Tipografía y espaciados consistentes.</td></tr><tr><td><code>em</code></td><td>Tipografía del elemento o de su padre, según la propiedad</td><td>Componentes que escalan con el texto.</td></tr><tr><td><code>vw</code></td><td>Anchura del viewport</td><td>Dimensiones relacionadas con la ventana.</td></tr><tr><td><code>vh</code></td><td>Altura del viewport</td><td>Secciones relacionadas con la altura de la ventana.</td></tr><tr><td><code>dvh</code></td><td>Altura dinámica del viewport</td><td>Vistas móviles que se ajustan a barras del navegador.</td></tr></tbody></table></div>
+<h2 id="dimensiones">Anchuras y dimensiones flexibles</h2>
+<p>Una técnica habitual consiste en combinar una anchura flexible con un límite máximo. De esta forma, un contenedor puede ocupar el espacio disponible en pantallas pequeñas sin extenderse demasiado en monitores grandes.</p>
+<div class="codigo-ejemplo"><div class="codigo-cabecera"><span>CSS · Contenedor flexible</span><button class="boton-copiar" type="button">Copiar</button></div><pre><code>.contenedor {
+  width: 90%;
+  max-width: 1100px;
+  margin-inline: auto;
+}</code></pre></div>
+<p>El contenedor ocupa el 90 % de la anchura disponible, pero no supera los 1100 px. <code>margin-inline: auto</code> permite centrarlo horizontalmente cuando queda espacio libre.</p>
+<h3>La función min()</h3>
+<p>La función <code>min()</code> permite utilizar el menor de varios valores. Podemos expresar el mismo límite de anchura de una manera compacta:</p>
+<div class="codigo-ejemplo"><div class="codigo-cabecera"><span>CSS · min()</span><button class="boton-copiar" type="button">Copiar</button></div><pre><code>.contenedor {
+  width: min(90%, 1100px);
+  margin-inline: auto;
+}</code></pre></div>
+<h3>La propiedad max-width</h3>
+<p><code>max-width</code> también es importante para los elementos multimedia. Por ejemplo, una imagen puede conservar su tamaño natural cuando hay espacio suficiente y reducirse si el contenedor es más estrecho.</p>
+<div class="codigo-ejemplo"><div class="codigo-cabecera"><span>CSS · Imagen flexible</span><button class="boton-copiar" type="button">Copiar</button></div><pre><code>img {
+  max-width: 100%;
+  height: auto;
+}</code></pre></div>
+<p>Esta regla es una primera aproximación a las imágenes responsive. Estudiaremos las opciones avanzadas para imágenes y multimedia en el apartado 7.6.</p>
+<h3>Evitar alturas rígidas innecesarias</h3>
+<p>En componentes con texto variable, establecer una altura fija puede hacer que el contenido se salga de la caja. En muchos casos es preferible utilizar <code>min-height</code> o dejar que la altura se ajuste automáticamente.</p>
+<div class="codigo-ejemplo"><div class="codigo-cabecera"><span>CSS · Altura adaptable</span><button class="boton-copiar" type="button">Copiar</button></div><pre><code>.tarjeta {
+  min-height: 150px;
+  padding: 1.25rem;
+}</code></pre></div>
+<p>La tarjeta tendrá una altura mínima de 150 px, pero podrá crecer si necesita mostrar más contenido.</p>
+<h2 id="desbordamiento">Desbordamiento horizontal</h2>
+<p>Existe <strong>desbordamiento horizontal</strong> cuando un elemento ocupa más anchura de la disponible y sobresale del área de visualización. Es uno de los problemas más habituales al adaptar una página a pantallas pequeñas.</p>
+<p>Entre sus causas frecuentes encontramos los contenedores con anchuras fijas excesivas, las imágenes sin límites, las palabras o direcciones muy largas y algunos elementos de Grid o Flexbox que no pueden reducirse lo suficiente.</p>
+<div class="caja caja-atencion"><span class="caja-titulo">⚠️ Atención</span><p>Aplicar <code>overflow-x: hidden</code> a toda la página puede ocultar el problema sin solucionarlo. Antes de hacerlo, identifica qué elemento se desborda y corrige sus dimensiones o su comportamiento.</p></div>
+<h3>El modelo de caja y box-sizing</h3>
+<p>Con el valor predeterminado <code>content-box</code>, el <code>padding</code> y el borde se añaden a la anchura declarada. Esto puede provocar que un elemento con <code>width: 100%</code> termine ocupando más espacio del esperado.</p>
+<div class="codigo-ejemplo"><div class="codigo-cabecera"><span>CSS · Modelo de caja más predecible</span><button class="boton-copiar" type="button">Copiar</button></div><pre><code>*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+.panel {
+  width: 100%;
+  padding: 20px;
+}</code></pre></div>
+<p>Con <code>border-box</code>, el relleno y el borde quedan incluidos en la anchura declarada. Esta configuración facilita la construcción de interfaces flexibles.</p>
+<h3>Contenido que necesita desplazamiento propio</h3>
+<p>En ocasiones, como sucede con tablas de muchas columnas o fragmentos de código, puede ser preferible permitir el desplazamiento horizontal <strong>solo dentro de ese componente</strong>.</p>
+<div class="codigo-ejemplo"><div class="codigo-cabecera"><span>CSS · Desplazamiento localizado</span><button class="boton-copiar" type="button">Copiar</button></div><pre><code>.tabla-contenedor {
+  max-width: 100%;
+  overflow-x: auto;
+}</code></pre></div>
+<p>De esta manera evitamos que la tabla obligue a desplazar horizontalmente toda la página.</p>
+<h2 id="studyflow">Aplicación a StudyFlow</h2>
+<p>Vamos a preparar una tarjeta informativa de StudyFlow que aproveche el espacio disponible, mantenga una anchura máxima razonable y permita que el contenido aumente su altura cuando sea necesario.</p>
+<div class="codigo-ejemplo"><div class="codigo-cabecera"><span>HTML · Tarjeta de StudyFlow</span><button class="boton-copiar" type="button">Copiar</button></div><pre><code>&lt;main class="contenedor"&gt;
+  &lt;article class="tarjeta-curso"&gt;
+    &lt;h2&gt;Diseño de Interfaces Web&lt;/h2&gt;
+    &lt;p&gt;Consulta los contenidos y actividades de la UT7.&lt;/p&gt;
+    &lt;a href="ut7/index.html"&gt;Ver unidad&lt;/a&gt;
+  &lt;/article&gt;
+&lt;/main&gt;</code></pre></div>
+<div class="codigo-ejemplo"><div class="codigo-cabecera"><span>CSS · Dimensiones flexibles</span><button class="boton-copiar" type="button">Copiar</button></div><pre><code>*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+.contenedor {
+  width: min(90%, 900px);
+  margin-inline: auto;
+}
+
+.tarjeta-curso {
+  width: 100%;
+  min-height: 160px;
+  padding: 1.5rem;
+  border: 1px solid #b9dfc6;
+  border-radius: 10px;
+  background-color: #eef8f1;
+  color: #195c36;
+}
+
+.tarjeta-curso h2 {
+  margin-top: 0;
+}</code></pre></div>
+<div class="demo-display"><strong>Resultado visual aproximado</strong><div class="demo-tarjeta-flexible"><h3>Diseño de Interfaces Web</h3><p>Consulta los contenidos y actividades de la UT7.</p><span class="demo-enlace">Ver unidad</span></div><p class="demo-explicacion">La tarjeta ocupa el ancho disponible de su contenedor y puede aumentar de altura si el texto necesita más líneas. Reduce la ventana del navegador para observar el cambio de anchura.</p></div>
+<div class="caja caja-importante"><span class="caja-titulo">📌 Idea clave</span><p>Las dimensiones flexibles son la base del diseño responsive. Antes de añadir media queries, comprueba si la propia estructura puede adaptarse mediante porcentajes, límites máximos, unidades relativas y una altura determinada por el contenido.</p></div>
+<p>En el siguiente apartado aprenderemos a utilizar las <strong>media queries</strong> para modificar estilos cuando las características del viewport lo requieran.</p>
+<div class="actividad-reflexion"><h3>💭 Piensa</h3><p>En StudyFlow tenemos una tarjeta con <code>width: 900px</code> y <code>height: 180px</code>. En una pantalla estrecha aparece una barra de desplazamiento horizontal y, cuando el texto ocupa varias líneas, parte del contenido sobresale. ¿Qué cambios harías para que la tarjeta se adapte mejor?</p><details class="solucion-desplegable"><summary>Ver una posible solución</summary><div class="contenido-solucion"><p>Sustituiría la anchura rígida por <code>width: 100%</code> y añadiría <code>max-width: 900px</code> al contenedor correspondiente. Utilizaría <code>box-sizing: border-box</code> para incluir el relleno en la anchura y cambiaría <code>height: 180px</code> por <code>min-height: 180px</code> o una altura automática para permitir que el contenido crezca.</p></div></details></div>
+</section><nav aria-label="Navegación entre apartados" class="navegacion-paginas"><a class="nav-pagina nav-anterior" href="../7-1/index.html"><span class="nav-etiqueta">Anterior</span><strong>‹ 7.1 Introducción al diseño web responsive</strong></a><a class="nav-pagina nav-siguiente" href="../7-3/index.html"><span class="nav-etiqueta">Siguiente</span><strong>7.3 Media queries y puntos de ruptura ›</strong></a></nav></main>
+<!-- ==========================================
+         ÍNDICE DERECHO
+    ========================================== -->
+<aside class="indice-derecho"><h2>Contenidos del apartado</h2><ul><li><a href="#viewport">Qué es el viewport</a></li><li><a href="#meta-viewport">La etiqueta meta viewport</a></li><li><a href="#unidades">Unidades absolutas y relativas</a></li><li><a href="#dimensiones">Anchuras y dimensiones flexibles</a></li><li><a href="#desbordamiento">Desbordamiento horizontal</a></li><li><a href="#studyflow">Aplicación a StudyFlow</a></li></ul></aside>
+</div>
+<!-- ==========================================
+       PIE DE PÁGINA
+  ========================================== -->
+<footer class="footer">
+<p>
+      Material elaborado por
+      <strong>Eva Ballestero Cubeles</strong>
+      · Licencia
+      <span class="licencia">CC BY-NC-SA 4.0</span>
+<a aria-label="Licencia Creative Commons BY-NC-SA 4.0" class="enlace-licencia" href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.es" rel="license noopener noreferrer" target="_blank">
+<img alt="Licencia Creative Commons BY-NC-SA 4.0" class="icono-licencia" src="../../../img/licencias/cc-by-nc-sa.png"/>
+</a>
+</p>
+</footer>
+<!-- ==========================================
+       JAVASCRIPT
+  ========================================== -->
+<script src="../../../js/modulos.js"></script>
+<script>
+
+    /* ==========================================
+       MENÚ SUPERIOR DE MÓDULOS
+    ========================================== */
+
+    const menuModulos =
+      document.getElementById("menuModulos");
+
+    const botonTema =
+      document.getElementById("botonTema");
+
+    if (typeof modulos !== "undefined") {
+
+      const modulosActivos =
+        modulos.filter(modulo => modulo.activo === true);
+
+      modulosActivos.forEach(modulo => {
+
+        const enlace =
+          document.createElement("a");
+
+        enlace.href =
+          `../../../${modulo.carpeta}/index.html`;
+
+        enlace.textContent =
+          modulo.siglas;
+
+        enlace.title =
+          modulo.nombre;
+
+        if (modulo.siglas === "DIW") {
+          enlace.style.color =
+            "var(--verde-principal)";
+        }
+
+        menuModulos.appendChild(enlace);
+
+      });
+
+    }
+
+
+    /* ==========================================
+       MODO CLARO Y OSCURO
+    ========================================== */
+
+    const temaGuardado =
+      localStorage.getItem("tema");
+
+    if (temaGuardado === "oscuro") {
+
+      document.body.classList.add("modo-oscuro");
+
+      botonTema.textContent = "🌙";
+
+    }
+
+    botonTema.addEventListener("click", () => {
+
+      document.body.classList.toggle("modo-oscuro");
+
+      const estaOscuro =
+        document.body.classList.contains("modo-oscuro");
+
+      botonTema.textContent =
+        estaOscuro ? "🌙" : "☀️";
+
+      localStorage.setItem(
+        "tema",
+        estaOscuro ? "oscuro" : "claro"
+      );
+
+    });
+
+
+    /* ==========================================
+       MENÚS DESPLEGABLES LATERALES
+    ========================================== */
+
+    const botonesDesplegar =
+      document.querySelectorAll(".boton-desplegar");
+
+    botonesDesplegar.forEach((boton) => {
+
+      boton.addEventListener("click", () => {
+
+        const idSubmenu =
+          boton.getAttribute("data-target");
+
+        const submenu =
+          document.getElementById(idSubmenu);
+
+        if (!submenu) {
+          return;
+        }
+
+        const estaAbierto =
+          submenu.classList.contains("submenu-abierto");
+
+        if (estaAbierto) {
+
+          submenu.classList.remove("submenu-abierto");
+
+          boton.textContent = "›";
+
+          boton.setAttribute(
+            "aria-expanded",
+            "false"
+          );
+
+        } else {
+
+          submenu.classList.add("submenu-abierto");
+
+          boton.textContent = "⌄";
+
+          boton.setAttribute(
+            "aria-expanded",
+            "true"
+          );
+
+        }
+
+      });
+
+    });
+
+
+    /* ==========================================
+       BOTONES PARA COPIAR CÓDIGO
+    ========================================== */
+
+    const botonesCopiar =
+      document.querySelectorAll(".boton-copiar");
+
+    botonesCopiar.forEach((boton) => {
+
+      boton.addEventListener("click", async () => {
+
+        const bloque =
+          boton.closest(".codigo-ejemplo");
+
+        const codigo =
+          bloque.querySelector("pre code");
+
+        if (!codigo) {
+          return;
+        }
+
+        const texto =
+          codigo.textContent;
+
+        try {
+
+          await navigator.clipboard.writeText(texto);
+
+          boton.textContent = "¡Copiado!";
+
+          setTimeout(() => {
+            boton.textContent = "Copiar";
+          }, 1800);
+
+        } catch (error) {
+
+          boton.textContent = "Error al copiar";
+
+          setTimeout(() => {
+            boton.textContent = "Copiar";
+          }, 1800);
+
+        }
+
+      });
+
+    });
+
+  </script>
+</body>
+</html>
