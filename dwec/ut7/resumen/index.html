@@ -1,0 +1,1426 @@
+<!DOCTYPE html>
+
+<!DOCTYPE html>
+
+<html lang="es">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<meta content="Resumen de la UT7 - Objetos predefinidos y modelo del navegador (BOM). Desarrollo Web en Entorno Cliente." name="description"/>
+<title>Resumen UT7 - Objetos predefinidos y modelo del navegador (BOM)</title>
+<link href="../../../img/favicon.png?v=5" rel="icon" type="image/png"/>
+<link href="../../../css/estilos.css" rel="stylesheet"/>
+<style>
+
+    /* ==========================================
+       ESTRUCTURA GENERAL
+    ========================================== */
+
+    .pagina-ut {
+      display: grid;
+      grid-template-columns: 280px minmax(0, 1fr) 260px;
+      min-height: calc(100vh - 68px);
+    }
+
+    /* ==========================================
+       COLUMNA IZQUIERDA
+    ========================================== */
+
+    .sidebar {
+      border-right: 1px solid var(--borde);
+      background-color: var(--fondo-pagina);
+      padding: 12px 10px 30px;
+      position: sticky;
+      top: 68px;
+      height: calc(100vh - 68px);
+      overflow-y: auto;
+    }
+
+    .sidebar-modulo {
+      display: block;
+      margin-bottom: 8px;
+      padding: 8px 14px;
+      color: #626873;
+      font-size: 17px;
+      font-weight: 700;
+      line-height: 1.3;
+      text-decoration: none;
+      border-radius: 6px;
+    }
+
+    .sidebar-modulo:hover {
+      color: var(--verde-principal);
+      background-color: #f3f4f6;
+    }
+
+    .sidebar-ut-cerrada {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      padding: 13px 14px;
+      color: #626873;
+      text-decoration: none;
+      font-size: 16px;
+      font-weight: 650;
+      line-height: 1.35;
+      border-radius: 6px;
+      transition:
+        background-color 0.2s ease,
+        color 0.2s ease;
+    }
+
+    .sidebar-ut-cerrada:hover {
+      background-color: #f3f4f6;
+      color: var(--verde-principal);
+    }
+
+    .menu-desplegable {
+      width: 100%;
+    }
+
+    .menu-cabecera {
+      display: flex;
+      align-items: center;
+      gap: 4px;
+      width: 100%;
+      border-radius: 6px;
+    }
+
+    .menu-cabecera-activa {
+      background-color: #f1f1f1;
+    }
+
+    .menu-cabecera-activa > .menu-titulo {
+      color: var(--verde-principal);
+    }
+
+    .menu-titulo {
+      flex: 1;
+      display: block;
+      padding: 11px 8px 11px 14px;
+      color: #626873;
+      font-size: 16px;
+      font-weight: 650;
+      line-height: 1.4;
+      text-decoration: none;
+    }
+
+    .menu-titulo:hover {
+      color: var(--verde-principal);
+    }
+
+    .boton-desplegar {
+      width: 36px;
+      height: 36px;
+      margin-right: 5px;
+      padding: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+      border: 0;
+      border-radius: 6px;
+      background: transparent;
+      color: #777;
+      font-family: inherit;
+      font-size: 24px;
+      line-height: 1;
+      cursor: pointer;
+    }
+
+    .boton-desplegar:hover {
+      background-color: #e5e7eb;
+      color: var(--verde-principal);
+    }
+
+    .submenu {
+      display: none;
+    }
+
+    .submenu.submenu-abierto {
+      display: block;
+    }
+
+    .menu-apartado {
+      margin-left: 14px;
+    }
+
+    .menu-apartado .menu-titulo {
+      padding-top: 9px;
+      padding-bottom: 9px;
+      font-size: 15px;
+      font-weight: 600;
+    }
+
+    .enlace-apartado-simple {
+      display: block;
+      margin-left: 14px;
+      padding: 10px 14px;
+      color: #626873;
+      font-size: 15px;
+      font-weight: 600;
+      line-height: 1.4;
+      text-decoration: none;
+      border-radius: 6px;
+    }
+
+    .enlace-apartado-simple:hover {
+      background-color: #f3f4f6;
+      color: var(--verde-principal);
+    }
+
+    .submenu-apartados {
+      margin: 2px 0 5px 28px;
+      border-left: 2px solid #e0e3e7;
+    }
+
+    .submenu-apartados a {
+      display: block;
+      padding: 7px 10px;
+      color: #777d87;
+      font-size: 14px;
+      font-weight: 500;
+      line-height: 1.35;
+      text-decoration: none;
+    }
+
+    .submenu-apartados a:hover {
+      color: var(--verde-principal);
+    }
+
+    .enlace-resumen-activo {
+      color: var(--verde-principal) !important;
+      font-weight: 700 !important;
+    }
+
+    /* ==========================================
+       MODO OSCURO DEL MENÚ
+    ========================================== */
+
+    body.modo-oscuro .sidebar-modulo,
+    body.modo-oscuro .sidebar-ut-cerrada,
+    body.modo-oscuro .menu-titulo,
+    body.modo-oscuro .enlace-apartado-simple {
+      color: #cbd5e1;
+    }
+
+    body.modo-oscuro .menu-cabecera-activa {
+      background-color: #273244;
+    }
+
+    body.modo-oscuro
+    .menu-cabecera-activa > .menu-titulo {
+      color: #5ed28a;
+    }
+
+    body.modo-oscuro .sidebar-modulo:hover,
+    body.modo-oscuro .sidebar-ut-cerrada:hover,
+    body.modo-oscuro .enlace-apartado-simple:hover {
+      background-color: #273244;
+      color: #5ed28a;
+    }
+
+    body.modo-oscuro .boton-desplegar:hover {
+      background-color: #334155;
+    }
+
+    body.modo-oscuro .submenu-apartados {
+      border-left-color: #3a4659;
+    }
+
+    body.modo-oscuro .submenu-apartados a {
+      color: #aab4c4;
+    }
+
+    body.modo-oscuro .submenu-apartados a:hover,
+    body.modo-oscuro .enlace-resumen-activo {
+      color: #5ed28a !important;
+    }
+
+    /* ==========================================
+       ZONA CENTRAL
+    ========================================== */
+
+    .contenido-ut {
+      padding: 28px 34px 70px;
+      max-width: 1150px;
+      width: 100%;
+      min-width: 0;
+    }
+
+    .migas {
+      display: flex;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-bottom: 30px;
+      font-size: 14px;
+    }
+
+    .miga-inicio {
+      text-decoration: none;
+      font-size: 18px;
+    }
+
+    .miga-separador {
+      color: #999;
+      font-size: 22px;
+    }
+
+    .miga-modulo {
+      color: var(--texto-secundario);
+      text-decoration: none;
+    }
+
+    .miga-modulo:hover {
+      color: var(--verde-principal);
+    }
+
+    .miga-actual {
+      padding: 8px 14px;
+      background-color: #f3f3f3;
+      border-radius: 24px;
+      color: var(--verde-principal);
+    }
+
+    body.modo-oscuro .miga-actual {
+      background-color: #273244;
+    }
+
+    .contenido-ut h1 {
+      margin: 0 0 30px;
+      font-size: clamp(38px, 5vw, 58px);
+      line-height: 1.12;
+    }
+
+    .introduccion-ut {
+      max-width: 980px;
+      font-size: 19px;
+      line-height: 1.75;
+    }
+
+    .introduccion-ut p {
+      margin: 0 0 20px;
+    }
+
+    /* ==========================================
+       CONTENIDO DE LOS APARTADOS
+    ========================================== */
+
+    .apartado-ut {
+      margin-top: 55px;
+      scroll-margin-top: 95px;
+    }
+
+    .apartado-ut h2 {
+      margin: 0 0 24px;
+      font-size: 32px;
+      line-height: 1.2;
+    }
+
+    .apartado-ut h3 {
+      margin: 34px 0 16px;
+      font-size: 24px;
+      line-height: 1.3;
+    }
+
+    .apartado-ut p {
+      margin: 0 0 18px;
+      font-size: 18px;
+      line-height: 1.75;
+    }
+
+    .apartado-ut ul {
+      margin: 16px 0 24px;
+      padding-left: 28px;
+    }
+
+    .apartado-ut li {
+      margin-bottom: 10px;
+      font-size: 17px;
+      line-height: 1.6;
+    }
+
+    .apartado-ut code {
+      overflow-wrap: anywhere;
+    }
+
+    /* ==========================================
+       CAJAS DE LOS APUNTES
+    ========================================== */
+
+    .caja {
+      margin: 28px 0;
+      padding: 18px 20px;
+      border-left: 5px solid;
+      border-radius: 8px;
+      line-height: 1.65;
+    }
+
+    .caja p {
+      margin: 0;
+      font-size: 17px;
+    }
+
+    .caja-titulo {
+      display: block;
+      margin-bottom: 8px;
+      font-size: 17px;
+      font-weight: 700;
+    }
+
+    .caja-importante {
+      background-color: #eef8f1;
+      border-left-color: #2f9e5b;
+    }
+
+    .caja-atencion {
+      background-color: #fff7e8;
+      border-left-color: #e09b27;
+    }
+
+    .caja-ejemplo {
+      background-color: #eef5ff;
+      border-left-color: #3f7acb;
+    }
+
+    body.modo-oscuro .caja-importante {
+      background-color: #20372a;
+    }
+
+    body.modo-oscuro .caja-atencion {
+      background-color: #3b3020;
+    }
+
+    body.modo-oscuro .caja-ejemplo {
+      background-color: #23344a;
+    }
+
+    /* ==========================================
+       TABLAS
+    ========================================== */
+
+    .tabla-responsive {
+      width: 100%;
+      margin: 28px 0;
+      overflow-x: auto;
+    }
+
+    .tabla-apuntes {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 16px;
+    }
+
+    .tabla-apuntes th,
+    .tabla-apuntes td {
+      padding: 14px 16px;
+      border: 1px solid var(--borde);
+      text-align: left;
+      vertical-align: top;
+      line-height: 1.55;
+    }
+
+    .tabla-apuntes th {
+      background-color: #f1f3f5;
+      font-weight: 700;
+    }
+
+    body.modo-oscuro .tabla-apuntes th {
+      background-color: #273244;
+    }
+
+    /* ==========================================
+       MAPA VISUAL DEL RESUMEN
+    ========================================== */
+
+    .mapa-resumen {
+      margin: 28px 0;
+      padding: 22px;
+      border: 1px solid var(--borde);
+      border-radius: 10px;
+      background: var(--fondo-tarjeta);
+    }
+
+    .mapa-nodo {
+      padding: 17px;
+      border: 2px solid var(--verde-principal);
+      border-radius: 9px;
+      text-align: center;
+      background: var(--fondo-pagina);
+    }
+
+    .mapa-nodo strong,
+    .mapa-nodo span {
+      display: block;
+    }
+
+    .mapa-nodo span {
+      margin-top: 8px;
+      font-size: 15px;
+      line-height: 1.5;
+      color: var(--texto-secundario);
+    }
+
+    .mapa-principal {
+      max-width: 720px;
+      margin: 0 auto;
+      font-weight: 800;
+    }
+
+    .mapa-flecha {
+      margin: 8px 0;
+      text-align: center;
+      color: var(--verde-principal);
+      font-size: 28px;
+      font-weight: 700;
+    }
+
+    .mapa-columnas {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 14px;
+    }
+
+    /* ==========================================
+       TARJETAS DE RESUMEN
+    ========================================== */
+
+    .rejilla-resumen {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 14px;
+      margin: 24px 0;
+    }
+
+    .tarjeta-resumen {
+      padding: 18px;
+      border: 1px solid var(--borde);
+      border-radius: 9px;
+      background: var(--fondo-tarjeta);
+      min-width: 0;
+    }
+
+    .tarjeta-resumen > span {
+      display: block;
+      margin-bottom: 8px;
+      font-size: 30px;
+    }
+
+    .tarjeta-resumen > strong {
+      display: block;
+      margin-bottom: 8px;
+      font-size: 17px;
+    }
+
+    .tarjeta-resumen p {
+      margin: 0;
+      font-size: 15px;
+      line-height: 1.55;
+    }
+
+    /* ==========================================
+       LISTAS DE CONCEPTOS
+    ========================================== */
+
+    .lista-claves {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+      margin: 24px 0;
+    }
+
+    .lista-claves > div {
+      padding: 16px 18px;
+      border: 1px solid var(--borde);
+      border-radius: 8px;
+      background: var(--fondo-tarjeta);
+      min-width: 0;
+    }
+
+    .lista-claves strong,
+    .lista-claves span {
+      display: block;
+    }
+
+    .lista-claves strong {
+      margin-bottom: 6px;
+      color: var(--verde-principal);
+    }
+
+    .lista-claves span {
+      line-height: 1.5;
+    }
+
+    /* ==========================================
+       EJEMPLOS DE CÓDIGO
+    ========================================== */
+
+    .ejemplo-codigo {
+      margin: 24px 0;
+      overflow: hidden;
+      border: 1px solid var(--borde);
+      border-radius: 9px;
+      background: var(--fondo-tarjeta);
+    }
+
+    .ejemplo-codigo-cabecera {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      padding: 11px 16px;
+      border-bottom: 1px solid var(--borde);
+      font-size: 14px;
+      font-weight: 700;
+    }
+
+    .boton-copiar {
+      padding: 7px 11px;
+      border: 1px solid var(--borde);
+      border-radius: 6px;
+      background: var(--fondo-pagina);
+      color: var(--texto-principal);
+      font: inherit;
+      font-size: 13px;
+      cursor: pointer;
+    }
+
+    .boton-copiar:hover {
+      border-color: var(--verde-principal);
+      color: var(--verde-principal);
+    }
+
+    .ejemplo-codigo pre {
+      margin: 0;
+      padding: 18px;
+      overflow-x: auto;
+      font-size: 14px;
+      line-height: 1.65;
+      tab-size: 2;
+    }
+
+    .ejemplo-codigo pre code {
+      font-family:
+        Consolas,
+        "Courier New",
+        monospace;
+      white-space: pre;
+      overflow-wrap: normal;
+    }
+
+    /* ==========================================
+       IDEAS FINALES
+    ========================================== */
+
+    .resumen-final ul {
+      margin: 12px 0 0;
+      padding-left: 24px;
+    }
+
+    .resumen-final li {
+      margin-bottom: 10px;
+    }
+
+    /* ==========================================
+       COLUMNA DERECHA
+    ========================================== */
+
+    .indice-derecho {
+      padding: 28px 22px;
+      border-left: 1px solid var(--borde);
+      position: sticky;
+      top: 68px;
+      height: calc(100vh - 68px);
+      overflow-y: auto;
+    }
+
+    .indice-derecho h2 {
+      margin: 8px 0 20px;
+      font-size: 17px;
+      color: #555b65;
+    }
+
+    body.modo-oscuro .indice-derecho h2 {
+      color: #d1d5db;
+    }
+
+    .indice-derecho ul {
+      margin: 0;
+      padding-left: 18px;
+    }
+
+    .indice-derecho li {
+      margin-bottom: 12px;
+    }
+
+    .indice-derecho a {
+      color: var(--texto-secundario);
+      text-decoration: none;
+      font-size: 14px;
+      line-height: 1.4;
+    }
+
+    .indice-derecho a:hover {
+      color: var(--verde-principal);
+    }
+
+    /* ==========================================
+       NAVEGACIÓN ANTERIOR / SIGUIENTE
+    ========================================== */
+
+    .navegacion-paginas {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 20px;
+      margin-top: 50px;
+    }
+
+    .nav-pagina {
+      min-height: 100px;
+      padding: 18px 20px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      border: 1px solid var(--borde);
+      border-radius: 8px;
+      text-decoration: none;
+      background-color: var(--fondo-tarjeta);
+    }
+
+    .nav-anterior {
+      align-items: flex-start;
+      text-align: left;
+    }
+
+    .nav-siguiente {
+      align-items: flex-end;
+      text-align: right;
+    }
+
+    .nav-etiqueta {
+      margin-bottom: 5px;
+      color: var(--texto-secundario);
+      font-size: 14px;
+    }
+
+    .nav-pagina strong {
+      color: var(--verde-principal);
+      font-size: 16px;
+      line-height: 1.4;
+    }
+
+    .nav-pagina:hover {
+      border-color: var(--verde-principal);
+    }
+
+    /* ==========================================
+       RESPONSIVE
+    ========================================== */
+
+    @media (max-width: 1100px) {
+
+      .pagina-ut {
+        grid-template-columns: 250px minmax(0, 1fr);
+      }
+
+      .indice-derecho {
+        display: none;
+      }
+
+    }
+
+    @media (max-width: 900px) {
+
+      .mapa-columnas,
+      .rejilla-resumen {
+        grid-template-columns: 1fr;
+      }
+
+      .lista-claves {
+        grid-template-columns: 1fr;
+      }
+
+    }
+
+    @media (max-width: 760px) {
+
+      .pagina-ut {
+        display: block;
+      }
+
+      .sidebar {
+        position: static;
+        width: 100%;
+        height: auto;
+        border-right: 0;
+        border-bottom: 1px solid var(--borde);
+      }
+
+      .contenido-ut {
+        padding: 28px 20px 60px;
+      }
+
+      .contenido-ut h1 {
+        font-size: 36px;
+      }
+
+      .navegacion-paginas {
+        grid-template-columns: 1fr;
+      }
+
+      .nav-siguiente {
+        align-items: flex-start;
+        text-align: left;
+      }
+
+    }
+
+  </style>
+</head>
+<body>
+<!-- ==========================================
+       BARRA SUPERIOR
+  ========================================== -->
+<header class="navbar">
+<a class="inicio" href="../../../index.html">
+<img alt="" class="icono-profesora" src="../../../img/profesora-castana.png?v=2"/>
+<span>Inicio</span>
+</a>
+<nav aria-label="Módulos formativos" class="menu-modulos" id="menuModulos"></nav>
+<button aria-label="Cambiar entre modo claro y oscuro" class="boton-tema" id="botonTema" title="Cambiar tema" type="button">☀️</button>
+</header>
+<div class="pagina-ut">
+<!-- ==========================================
+         MENÚ LATERAL IZQUIERDO
+    ========================================== -->
+<aside class="sidebar">
+<a class="sidebar-modulo" href="../../index.html">
+        Desarrollo web en entorno cliente
+      </a>
+<a class="sidebar-ut-cerrada" href="../../ut1/index.html">
+<span>UT1 - Introducción al desarrollo web en entorno cliente</span>
+<span>›</span>
+</a>
+<a class="sidebar-ut-cerrada" href="../../ut2/index.html">
+<span>UT2 - Fundamentos de JavaScript: variables, tipos y operadores</span>
+<span>›</span>
+</a>
+<a class="sidebar-ut-cerrada" href="../../ut3/index.html">
+<span>UT3 - Estructuras de control en JavaScript</span>
+<span>›</span>
+</a>
+<a class="sidebar-ut-cerrada" href="../../ut4/index.html">
+<span>UT4 - Arrays y estructuras de datos en JavaScript</span>
+<span>›</span>
+</a>
+<a class="sidebar-ut-cerrada" href="../../ut5/index.html">
+<span>UT5 - Funciones en JavaScript</span>
+<span>›</span>
+</a>
+<a class="sidebar-ut-cerrada" href="../../ut6/index.html">
+<span>UT6 - Objetos y Programación Orientada a Objetos en JavaScript</span>
+<span>›</span>
+</a>
+<!-- ==========================================
+           UT7 ABIERTA
+      ========================================== -->
+<div class="menu-desplegable">
+<div class="menu-cabecera menu-cabecera-activa">
+<a class="menu-titulo" href="../index.html">
+            UT7 - Objetos predefinidos y modelo del navegador (BOM)
+          </a>
+<button aria-expanded="true" aria-label="Mostrar u ocultar UT7" class="boton-desplegar" data-target="submenu-ut7" type="button">
+            ⌄
+          </button>
+</div>
+<div class="submenu submenu-abierto" id="submenu-ut7">
+  
+<div id="apartadosAnterioresUT7"></div>
+  
+<div class="menu-desplegable menu-apartado"><div class="menu-cabecera menu-cabecera-activa"><a class="menu-titulo" href="index.html">7.14 Interacción con el usuario y aplicación práctica del BOM</a><button aria-expanded="true" aria-label="Mostrar u ocultar los subapartados del 7.14" class="boton-desplegar" data-target="submenu-7-14" type="button">⌄</button></div><div class="submenu submenu-apartados submenu-abierto" id="submenu-7-14"><a href="#planteamiento">Planteamiento de una aplicación</a><a href="#objetos">Selección de objetos predefinidos</a><a href="#navegacion">Navegación e interacción</a><a href="#almacenamiento">Persistencia de información</a><a href="#organizacion">Organización del código</a><a href="#pruebas">Pruebas y depuración</a><a href="#ejemplo">Ejemplo práctico completo</a></div></div>
+<!-- RESTO DE APARTADOS UT7 -->
+<div id="restoApartadosUT7"></div>
+
+<div class="menu-desplegable menu-apartado">
+<div class="menu-cabecera">
+<a class="menu-titulo" href="../actividades/index.html">
+                📝 Actividades de la UT7
+              </a>
+<button aria-expanded="false" aria-label="Mostrar u ocultar las actividades" class="boton-desplegar" data-target="submenu-actividades" type="button">
+                ›
+              </button>
+</div>
+<div class="submenu submenu-apartados" id="submenu-actividades">
+<a href="../actividades/index.html#actividades-practicas">
+                💻 Actividades prácticas
+              </a>
+<a href="../actividades/index.html#reto-final">
+                🧩 Reto final
+              </a>
+<a href="../actividades/index.html#autoevaluacion">
+                ✅ Autoevaluación
+              </a>
+</div>
+</div>
+<div class="menu-desplegable menu-apartado"><div class="menu-cabecera menu-cabecera-activa"><a class="menu-titulo" href="index.html">✏️ Resumen de la UT7</a><button aria-expanded="true" aria-label="Mostrar u ocultar el resumen de la UT7" class="boton-desplegar" data-target="submenu-resumen" type="button">⌄</button></div><div class="submenu submenu-apartados submenu-abierto" id="submenu-resumen"><a href="#vision-global">Visión global de la unidad</a><a href="#predefinidos">7.1 Introducción a los objetos predefinidos de JavaScript</a><a href="#string-number">7.2 Objetos String y Number</a><a href="#math">7.3 Objeto Math</a><a href="#date">7.4 Objeto Date</a><a href="#regexp">7.5 Objeto RegExp y expresiones regulares</a><a href="#json">7.6 Objeto JSON y conversión de datos</a><a href="#bom">7.7 Introducción al BOM: estructura y características</a><a href="#window">7.8 Objeto window</a><a href="#dialogos">7.9 Ventanas de diálogo y temporizadores</a><a href="#location">7.10 Objeto location y navegación</a><a href="#history">7.11 Objeto history e historial de navegación</a><a href="#navigator-screen">7.12 Objetos navigator y screen</a><a href="#almacenamiento">7.13 Almacenamiento en el navegador</a><a href="#aplicacion">7.14 Interacción con el usuario y aplicación práctica del BOM</a><a href="#ideas-clave">Ideas clave de la UT7</a></div></div><a class="enlace-apartado-simple" href="../actividades/index.html">📝 Actividades de la UT7</a></div>
+</div>
+<a class="sidebar-ut-cerrada" href="../../ut8/index.html">
+<span>UT8 - Aplicaciones web interactivas: DOM, eventos y formularios</span>
+<span>›</span>
+</a>
+<a class="sidebar-ut-cerrada" href="../../ut9/index.html">
+<span>UT9 - Comunicación asíncrona y peticiones al servidor</span>
+<span>›</span>
+</a>
+<a class="sidebar-ut-cerrada" href="../../ut10/index.html">
+<span>UT10 - Introducción a React</span>
+<span>›</span>
+</a>
+</aside>
+<!-- ==========================================
+         CONTENIDO PRINCIPAL
+    ========================================== -->
+<main class="contenido-ut"><div class="migas"><a aria-label="Volver a la página principal" class="miga-inicio" href="../../../index.html">🏠</a><span class="miga-separador">›</span><a class="miga-modulo" href="../../index.html">DWEC</a><span class="miga-separador">›</span><a class="miga-modulo" href="../index.html">UT7</a><span class="miga-separador">›</span><span class="miga-actual">Resumen</span></div><h1>✏️ Resumen de la UT7</h1><div class="introduccion-ut"><p>En esta unidad hemos estudiado los objetos predefinidos de JavaScript y el modelo de objetos del navegador (BOM), herramientas que permiten procesar información e interactuar con el entorno de una página web.</p><p>Hemos trabajado con cadenas, números, cálculos, fechas, expresiones regulares y JSON, además de explorar ventanas, diálogos, temporizadores, navegación, historial y almacenamiento.</p><p>Este resumen reúne las ideas fundamentales de los apartados 7.1 a 7.14, con ejemplos breves y recordatorios para repasar antes de las actividades y la evaluación.</p></div><section class="apartado-ut" id="vision-global"><h2>Visión global de la unidad</h2><div class="mapa-resumen"><div class="mapa-nodo mapa-principal">OBJETOS PREDEFINIDOS Y MODELO DEL NAVEGADOR (BOM)</div><div class="mapa-flecha">↓</div><div class="mapa-columnas"><div class="mapa-nodo"><strong>Procesar datos</strong><span>String · Number · Math · Date · RegExp · JSON</span></div><div class="mapa-nodo"><strong>Conocer el navegador</strong><span>window · navigator · screen · location · history</span></div><div class="mapa-nodo"><strong>Crear interacción</strong><span>Diálogos · temporizadores · navegación · almacenamiento</span></div></div><div class="mapa-flecha">↓</div><div class="mapa-nodo mapa-principal"><strong>OBJETIVO FINAL</strong><span>Combinar los recursos de JavaScript y del navegador para construir aplicaciones web útiles.</span></div></div><div class="caja caja-importante"><span class="caja-titulo">📌 Idea principal</span><p>Los objetos predefinidos facilitan operaciones habituales. El BOM permite interactuar con el entorno del navegador, sus ventanas y servicios.</p></div></section><section class="apartado-ut" id="predefinidos"><h2>7.1 Introducción a los objetos predefinidos de JavaScript</h2><p>JavaScript proporciona objetos y funcionalidades incorporadas para realizar tareas habituales sin programarlas desde cero. Algunos, como <code>Math</code> o <code>JSON</code>, se utilizan directamente; otros, como <code>Date</code>, permiten crear instancias.</p><div class="lista-claves"><div><strong>Objetos nativos</strong><span>Forman parte del lenguaje JavaScript y no dependen de una página web.</span></div><div><strong>Objetos del navegador</strong><span>Ofrecen acceso a funciones y características del entorno donde se ejecuta la página.</span></div><div><strong>Propiedades</strong><span>Permiten consultar información.</span></div><div><strong>Métodos</strong><span>Permiten realizar operaciones mediante llamadas con paréntesis.</span></div></div><div class="caja caja-atencion"><span class="caja-titulo">⚠️ Atención</span><p>No todos los objetos predefinidos se crean con <code>new</code>: por ejemplo, <code>Math.random()</code> y <code>JSON.parse()</code> se invocan directamente.</p></div></section><section class="apartado-ut" id="string-number"><h2>7.2 Objetos String y Number</h2><p><code>String</code> ofrece métodos para consultar y transformar cadenas; <code>Number</code> facilita la comprobación y el formato de valores numéricos.</p><div class="lista-claves"><div><strong><code>trim()</code></strong><span>Elimina espacios al principio y al final.</span></div><div><strong><code>toUpperCase()</code></strong><span>Convierte el texto a mayúsculas.</span></div><div><strong><code>includes()</code></strong><span>Comprueba si una cadena contiene otra.</span></div><div><strong><code>Number.isFinite()</code></strong><span>Comprueba si un valor es un número finito.</span></div></div><div class="ejemplo-codigo"><div class="ejemplo-codigo-cabecera"><span>JavaScript — Texto y conversión numérica</span><button class="boton-copiar" type="button">Copiar código</button></div><pre><code>const nombre = "  Ana  ".trim();
+const precio = Number("19.95");
+
+console.log(nombre.toUpperCase()); // ANA
+console.log(Number.isFinite(precio)); // true</code></pre></div><div class="caja caja-atencion"><span class="caja-titulo">⚠️ Atención</span><p><code>Number("hola")</code> devuelve <code>NaN</code>. Comprueba el resultado antes de utilizarlo en cálculos.</p></div></section><section class="apartado-ut" id="math"><h2>7.3 Objeto Math</h2><p>El objeto <code>Math</code> agrupa constantes y operaciones matemáticas, como redondeos, potencias, valores máximos y números pseudoaleatorios.</p><div class="ejemplo-codigo"><div class="ejemplo-codigo-cabecera"><span>JavaScript — Redondeo y número aleatorio</span><button class="boton-copiar" type="button">Copiar código</button></div><pre><code>const precio = 18.75;
+console.log(Math.round(precio)); // 19
+console.log(Math.floor(precio)); // 18
+
+const dado = Math.floor(Math.random() * 6) + 1;
+console.log(dado); // Entero entre 1 y 6</code></pre></div><div class="caja caja-importante"><span class="caja-titulo">📌 Recuerda</span><p><code>Math.random()</code> devuelve un número desde 0 (incluido) hasta 1 (excluido).</p></div></section><section class="apartado-ut" id="date"><h2>7.4 Objeto Date</h2><p><code>Date</code> permite crear fechas, consultar sus componentes, modificarlas y comparar instantes mediante sus valores temporales.</p><div class="ejemplo-codigo"><div class="ejemplo-codigo-cabecera"><span>JavaScript — Fechas y diferencias</span><button class="boton-copiar" type="button">Copiar código</button></div><pre><code>const hoy = new Date();
+const entrega = new Date(2026, 10, 30); // Noviembre: mes 10
+
+const diferencia = entrega.getTime() - hoy.getTime();
+const dias = Math.ceil(diferencia / (1000 * 60 * 60 * 24));
+console.log(dias);</code></pre></div><div class="caja caja-atencion"><span class="caja-titulo">⚠️ Atención</span><p>Al construir fechas con <code>new Date(año, mes, día)</code>, los meses se numeran del 0 al 11.</p></div></section><section class="apartado-ut" id="regexp"><h2>7.5 Objeto RegExp y expresiones regulares</h2><p>Las expresiones regulares describen patrones para buscar o validar textos. El método <code>test()</code> indica si una cadena coincide con un patrón.</p><div class="ejemplo-codigo"><div class="ejemplo-codigo-cabecera"><span>JavaScript — Validar un código de pedido</span><button class="boton-copiar" type="button">Copiar código</button></div><pre><code>const patron = /^PED-\d{4}$/;
+
+console.log(patron.test("PED-0123")); // true
+console.log(patron.test("PED-12"));   // false</code></pre></div><div class="lista-claves"><div><strong><code>^</code> y <code>$</code></strong><span>Marcan el inicio y el final de la cadena.</span></div><div><strong><code>\d</code></strong><span>Representa un dígito.</span></div><div><strong><code>{4}</code></strong><span>Exige cuatro repeticiones del elemento anterior.</span></div><div><strong><code>i</code></strong><span>Es una bandera que permite ignorar mayúsculas y minúsculas.</span></div></div></section><section class="apartado-ut" id="json"><h2>7.6 Objeto JSON y conversión de datos</h2><p><strong>JSON</strong> es un formato de texto para intercambiar y guardar datos estructurados. <code>JSON.stringify()</code> convierte un valor JavaScript a texto JSON y <code>JSON.parse()</code> realiza la operación inversa.</p><div class="ejemplo-codigo"><div class="ejemplo-codigo-cabecera"><span>JavaScript — Convertir datos a JSON y recuperarlos</span><button class="boton-copiar" type="button">Copiar código</button></div><pre><code>const pedido = { codigo: "PED-0123", total: 45 };
+const texto = JSON.stringify(pedido);
+const recuperado = JSON.parse(texto);
+
+console.log(recuperado.codigo); // PED-0123</code></pre></div><div class="caja caja-atencion"><span class="caja-titulo">⚠️ Atención</span><p>JSON no es lo mismo que un objeto JavaScript. <code>JSON.parse()</code> puede lanzar un error si el texto no tiene un formato JSON válido.</p></div></section><section class="apartado-ut" id="bom"><h2>7.7 Introducción al BOM: estructura y características</h2><p>El <strong>Browser Object Model (BOM)</strong> reúne objetos proporcionados por el navegador para consultar su entorno y controlar aspectos de la ventana o la navegación. <code>window</code> es el objeto global de una página web en el contexto habitual del navegador.</p><div class="lista-claves"><div><strong><code>window</code></strong><span>Ventana y funciones generales del navegador.</span></div><div><strong><code>navigator</code></strong><span>Información y capacidades del navegador.</span></div><div><strong><code>screen</code></strong><span>Características de la pantalla.</span></div><div><strong><code>location</code> y <code>history</code></strong><span>Dirección actual e historial de navegación.</span></div></div><div class="caja caja-importante"><span class="caja-titulo">📌 Recuerda</span><p>El BOM no es el DOM: el BOM se relaciona con el navegador; el DOM representa la estructura del documento HTML.</p></div></section><section class="apartado-ut" id="window"><h2>7.8 Objeto window</h2><p><code>window</code> permite consultar propiedades de la ventana y acceder a funciones globales. En una página web, <code>window.innerWidth</code> indica el ancho interior de la ventana gráfica.</p><div class="ejemplo-codigo"><div class="ejemplo-codigo-cabecera"><span>JavaScript — Consultar la ventana</span><button class="boton-copiar" type="button">Copiar código</button></div><pre><code>console.log(window.innerWidth);
+console.log(window.innerHeight);
+console.log(window.location.href);</code></pre></div><div class="caja caja-importante"><span class="caja-titulo">📌 Recuerda</span><p>En el navegador, algunas funciones globales pueden utilizarse con o sin el prefijo <code>window.</code>.</p></div></section><section class="apartado-ut" id="dialogos"><h2>7.9 Ventanas de diálogo y temporizadores</h2><p>Los diálogos básicos permiten informar, pedir datos y solicitar confirmación. Los temporizadores ejecutan funciones después de una espera o a intervalos.</p><div class="lista-claves"><div><strong><code>alert()</code></strong><span>Muestra un mensaje.</span></div><div><strong><code>prompt()</code></strong><span>Solicita texto; puede devolver <code>null</code>.</span></div><div><strong><code>confirm()</code></strong><span>Devuelve <code>true</code> o <code>false</code>.</span></div><div><strong><code>setTimeout()</code> y <code>setInterval()</code></strong><span>Programan ejecuciones diferidas o periódicas.</span></div></div><div class="ejemplo-codigo"><div class="ejemplo-codigo-cabecera"><span>JavaScript — Temporizador sencillo</span><button class="boton-copiar" type="button">Copiar código</button></div><pre><code>const identificador = setTimeout(() =&gt; {
+  console.log("Han pasado dos segundos");
+}, 2000);
+
+// clearTimeout(identificador) lo cancelaría.</code></pre></div><div class="caja caja-atencion"><span class="caja-titulo">⚠️ Atención</span><p>Los temporizadores no detienen el resto del programa. <code>setInterval()</code> se cancela con <code>clearInterval()</code>.</p></div></section><section class="apartado-ut" id="location"><h2>7.10 Objeto location y navegación</h2><p>El objeto <code>location</code> describe la dirección de la página actual y permite navegar a otras direcciones. La propiedad <code>search</code> contiene la parte de consulta de la URL.</p><div class="ejemplo-codigo"><div class="ejemplo-codigo-cabecera"><span>JavaScript — Leer parámetros de la URL</span><button class="boton-copiar" type="button">Copiar código</button></div><pre><code>// URL de ejemplo: pagina.html?pedido=PED-0123
+const parametros = new URLSearchParams(location.search);
+const codigo = parametros.get("pedido");
+console.log(codigo); // PED-0123</code></pre></div><div class="caja caja-importante"><span class="caja-titulo">📌 Recuerda</span><p><code>location.assign(url)</code> navega a otra dirección; <code>location.reload()</code> recarga la página.</p></div></section><section class="apartado-ut" id="history"><h2>7.11 Objeto history e historial de navegación</h2><p>El objeto <code>history</code> permite desplazarse por las entradas del historial de la pestaña o ventana actual.</p><div class="ejemplo-codigo"><div class="ejemplo-codigo-cabecera"><span>JavaScript — Navegar por el historial</span><button class="boton-copiar" type="button">Copiar código</button></div><pre><code>// Volver a la entrada anterior, si existe:
+// history.back();
+
+// Avanzar a la siguiente, si existe:
+// history.forward();
+
+// Desplazarse una entrada hacia atrás:
+// history.go(-1);</code></pre></div><div class="caja caja-atencion"><span class="caja-titulo">⚠️ Atención</span><p>El navegador puede no tener entradas anteriores o posteriores. Por privacidad, el historial no permite consultar libremente las direcciones visitadas.</p></div></section><section class="apartado-ut" id="navigator-screen"><h2>7.12 Objetos navigator y screen</h2><p><code>navigator</code> permite consultar determinadas características del navegador, mientras que <code>screen</code> informa sobre la pantalla del dispositivo.</p><div class="ejemplo-codigo"><div class="ejemplo-codigo-cabecera"><span>JavaScript — Idioma y dimensiones de pantalla</span><button class="boton-copiar" type="button">Copiar código</button></div><pre><code>console.log(navigator.language);
+console.log(screen.width);
+console.log(screen.height);</code></pre></div><div class="caja caja-atencion"><span class="caja-titulo">⚠️ Atención</span><p>El tamaño de la pantalla (<code>screen.width</code>) no equivale al tamaño interior de la ventana (<code>window.innerWidth</code>).</p></div></section><section class="apartado-ut" id="almacenamiento"><h2>7.13 Almacenamiento en el navegador</h2><p>El navegador puede conservar información sencilla mediante <code>localStorage</code> y <code>sessionStorage</code>. Ambos almacenan pares clave–valor como cadenas de texto.</p><div class="lista-claves"><div><strong><code>localStorage</code></strong><span>Mantiene los datos entre sesiones hasta que se eliminan.</span></div><div><strong><code>sessionStorage</code></strong><span>Conserva datos durante la sesión de la pestaña.</span></div><div><strong><code>setItem()</code></strong><span>Guarda un valor asociado a una clave.</span></div><div><strong><code>getItem()</code></strong><span>Recupera el valor o devuelve <code>null</code> si no existe.</span></div></div><div class="ejemplo-codigo"><div class="ejemplo-codigo-cabecera"><span>JavaScript — Guardar y recuperar un objeto</span><button class="boton-copiar" type="button">Copiar código</button></div><pre><code>const preferencias = { idioma: "es", avisos: true };
+localStorage.setItem("preferencias", JSON.stringify(preferencias));
+
+const texto = localStorage.getItem("preferencias");
+const datos = texto === null ? null : JSON.parse(texto);
+console.log(datos);</code></pre></div><div class="caja caja-atencion"><span class="caja-titulo">⚠️ Atención</span><p>El almacenamiento web no debe utilizarse para guardar contraseñas ni otros datos sensibles. Su acceso puede fallar en determinados contextos.</p></div></section><section class="apartado-ut" id="aplicacion"><h2>7.14 Interacción con el usuario y aplicación práctica del BOM</h2><p>Una aplicación real combina varios recursos: recoge datos, los valida, consulta el navegador, presenta resultados y conserva información cuando es necesario.</p><div class="lista-claves"><div><strong>Entrada de datos</strong><span><code>prompt()</code> o controles HTML.</span></div><div><strong>Validación</strong><span><code>String</code>, <code>Number</code> y <code>RegExp</code>.</span></div><div><strong>Entorno y navegación</strong><span><code>navigator</code>, <code>location</code> y <code>URLSearchParams</code>.</span></div><div><strong>Persistencia</strong><span><code>localStorage</code>, <code>sessionStorage</code> y <code>JSON</code>.</span></div></div><div class="ejemplo-codigo"><div class="ejemplo-codigo-cabecera"><span>JavaScript — Ejemplo integrado: consulta de pedidos</span><button class="boton-copiar" type="button">Copiar código</button></div><pre><code>const entrada = window.prompt("Código de pedido (PED-0000):");
+
+if (entrada !== null) {
+  const codigo = entrada.trim().toUpperCase();
+  const patron = /^PED-\d{4}$/;
+
+  if (patron.test(codigo)) {
+    sessionStorage.setItem("ultimoPedido", codigo);
+    console.log(`Pedido ${codigo} consultado el ${new Date().toLocaleDateString()}`);
+  } else {
+    console.log("El código no tiene el formato correcto.");
+  }
+}</code></pre></div><div class="caja caja-ejemplo"><span class="caja-titulo">💻 Ejemplo DAW</span><p>Un panel de pedidos puede recordar el último código consultado, leer parámetros de la URL y validar la entrada antes de procesarla.</p></div></section><section class="apartado-ut" id="ideas-clave"><h2>Ideas clave de la UT7</h2><div class="caja caja-importante resumen-final"><span class="caja-titulo">📌 Si tuvieras que recordar solo estas ideas…</span><ul><li>Los <strong>objetos predefinidos</strong> simplifican operaciones habituales.</li><li><code>String</code> y <code>Number</code> ayudan a tratar textos y números.</li><li><code>Math</code> permite realizar cálculos y generar números pseudoaleatorios.</li><li><code>Date</code> representa fechas e instantes temporales.</li><li><code>RegExp</code> permite buscar y validar patrones.</li><li><code>JSON.stringify()</code> y <code>JSON.parse()</code> convierten entre valores JavaScript y texto JSON.</li><li>El <strong>BOM</strong> permite interactuar con el entorno del navegador.</li><li><code>window</code> ofrece propiedades y funciones relacionadas con la ventana.</li><li>Los diálogos y temporizadores permiten interacciones sencillas y ejecuciones programadas.</li><li><code>location</code> gestiona la dirección y <code>history</code> permite desplazarse por el historial.</li><li><code>navigator</code> y <code>screen</code> proporcionan información del navegador y la pantalla.</li><li><code>localStorage</code> y <code>sessionStorage</code> guardan datos como texto con distinta duración.</li><li>Una aplicación útil combina <strong>entrada, validación, navegación y persistencia</strong> de forma organizada.</li></ul></div></section><nav aria-label="Navegación entre páginas" class="navegacion-paginas"><a class="nav-pagina nav-anterior" href="../7-14/index.html"><span class="nav-etiqueta">Anterior</span><strong>‹ 7.14 Interacción con el usuario y aplicación práctica del BOM</strong></a><a class="nav-pagina nav-siguiente" href="../actividades/index.html"><span class="nav-etiqueta">Siguiente</span><strong>📝 Actividades de la UT7 ›</strong></a></nav></main>
+<!-- ==========================================
+         ÍNDICE LATERAL DERECHO
+    ========================================== -->
+<aside class="indice-derecho"><h2>En este resumen</h2><ul><li><a href="#vision-global">Visión global de la unidad</a></li><li><a href="#predefinidos">7.1 Introducción a los objetos predefin</a></li><li><a href="#string-number">7.2 Objetos String y Number</a></li><li><a href="#math">7.3 Objeto Math</a></li><li><a href="#date">7.4 Objeto Date</a></li><li><a href="#regexp">7.5 Objeto RegExp y expresiones regular</a></li><li><a href="#json">7.6 Objeto JSON y conversión de datos</a></li><li><a href="#bom">7.7 Introducción al BOM: estructura y c</a></li><li><a href="#window">7.8 Objeto window</a></li><li><a href="#dialogos">7.9 Ventanas de diálogo y temporizadore</a></li><li><a href="#location">7.10 Objeto location y navegación</a></li><li><a href="#history">7.11 Objeto history e historial de naveg</a></li><li><a href="#navigator-screen">7.12 Objetos navigator y screen</a></li><li><a href="#almacenamiento">7.13 Almacenamiento en el navegador</a></li><li><a href="#aplicacion">7.14 Interacción con el usuario y aplica</a></li><li><a href="#ideas-clave">Ideas clave de la UT7</a></li></ul></aside>
+</div>
+<!-- ==========================================
+       PIE DE PÁGINA
+  ========================================== -->
+<footer class="footer">
+<p>
+
+      Material elaborado por
+      <strong>Eva Ballestero Cubeles</strong>
+      · Licencia
+
+      <span class="licencia">
+        CC BY-NC-SA 4.0
+      </span>
+<a aria-label="Licencia Creative Commons BY-NC-SA 4.0" class="enlace-licencia" href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.es" rel="license noopener noreferrer" target="_blank">
+<img alt="Licencia Creative Commons BY-NC-SA 4.0" class="icono-licencia" src="../../../img/licencias/cc-by-nc-sa.png"/>
+</a>
+</p>
+</footer>
+<!-- ==========================================
+       SCRIPTS GENERALES
+  ========================================== -->
+<script src="../../../js/modulos.js"></script>
+<script>
+
+    /* ==========================================
+       MENÚ SUPERIOR
+    ========================================== */
+
+    const menuModulos =
+      document.getElementById("menuModulos");
+
+    const botonTema =
+      document.getElementById("botonTema");
+
+    if (typeof modulos !== "undefined" && menuModulos) {
+
+      const modulosActivos =
+        modulos.filter(modulo => modulo.activo === true);
+
+      modulosActivos.forEach(modulo => {
+
+        const enlace = document.createElement("a");
+
+        enlace.href =
+          `../../../${modulo.carpeta}/index.html`;
+
+        enlace.textContent = modulo.siglas;
+        enlace.title = modulo.nombre;
+
+        if (modulo.siglas === "DWEC") {
+          enlace.style.color = "var(--verde-principal)";
+        }
+
+        menuModulos.appendChild(enlace);
+
+      });
+
+    }
+
+    /* ==========================================
+       MODO OSCURO
+    ========================================== */
+
+    const temaGuardado =
+      localStorage.getItem("tema");
+
+    if (temaGuardado === "oscuro") {
+
+      document.body.classList.add("modo-oscuro");
+      botonTema.textContent = "🌙";
+
+    }
+
+    botonTema.addEventListener("click", () => {
+
+      document.body.classList.toggle("modo-oscuro");
+
+      const estaOscuro =
+        document.body.classList.contains("modo-oscuro");
+
+      botonTema.textContent =
+        estaOscuro ? "🌙" : "☀️";
+
+      localStorage.setItem(
+        "tema",
+        estaOscuro ? "oscuro" : "claro"
+      );
+
+    });
+
+    /* ==========================================
+       DATOS DE LOS APARTADOS ANTERIORES
+    ========================================== */
+
+    const apartadosAnteriores = [
+
+      {
+        numero: "7.1",
+        titulo: "Introducción a los objetos predefinidos de JavaScript",
+        carpeta: "7-1",
+        secciones: [
+          ["concepto", "Qué son los objetos predefinidos"],
+          ["utilidad", "Para qué sirven"],
+          ["clasificacion", "Clasificación de los objetos predefinidos"],
+          ["nativos-navegador", "Objetos nativos y objetos del navegador"],
+          ["acceso", "Acceso a propiedades y métodos"],
+          ["ejemplo", "Primer ejemplo práctico"]
+        ]
+      },
+
+      {
+        numero: "7.2",
+        titulo: "Objetos String y Number",
+        carpeta: "7-2",
+        secciones: [
+          ["string", "El objeto String"],
+          ["metodos-string", "Métodos de String"],
+          ["busqueda", "Búsqueda y transformación de cadenas"],
+          ["number", "El objeto Number"],
+          ["metodos-number", "Métodos de Number"],
+          ["conversion", "Conversión y comprobación de valores"],
+          ["ejemplos", "Ejemplos prácticos"]
+        ]
+      },
+
+      {
+        numero: "7.3",
+        titulo: "Objeto Math",
+        carpeta: "7-3",
+        secciones: [
+          ["introduccion", "Introducción a Math"],
+          ["constantes", "Constantes matemáticas"],
+          ["redondeo", "Métodos de redondeo"],
+          ["operaciones", "Operaciones matemáticas"],
+          ["aleatorios", "Generación de números aleatorios"],
+          ["ejemplos", "Ejemplos prácticos"]
+        ]
+      },
+
+      {
+        numero: "7.4",
+        titulo: "Objeto Date",
+        carpeta: "7-4",
+        secciones: [
+          ["introduccion", "Introducción a Date"],
+          ["crear", "Creación de fechas"],
+          ["consultar", "Consulta de fechas y horas"],
+          ["modificar", "Modificación de fechas"],
+          ["comparar", "Comparación y cálculo de diferencias"],
+          ["formato", "Formato de fechas"],
+          ["ejemplos", "Ejemplos prácticos"]
+        ]
+      },
+
+      {
+        numero: "7.5",
+        titulo: "Objeto RegExp y expresiones regulares",
+        carpeta: "7-5",
+        secciones: [
+          ["concepto", "Qué es una expresión regular"],
+          ["sintaxis", "Sintaxis de los patrones"],
+          ["caracteres", "Caracteres especiales"],
+          ["cuantificadores", "Cuantificadores"],
+          ["modificadores", "Modificadores"],
+          ["metodos", "Métodos test(), exec() y match()"],
+          ["ejemplos", "Ejemplos prácticos"]
+        ]
+      },
+
+      {
+        numero: "7.6",
+        titulo: "Objeto JSON y conversión de datos",
+        carpeta: "7-6",
+        secciones: [
+          ["concepto", "Qué es JSON"],
+          ["sintaxis", "Sintaxis y estructura de JSON"],
+          ["diferencias", "Diferencias entre JSON y objetos JavaScript"],
+          ["stringify", "JSON.stringify()"],
+          ["parse", "JSON.parse()"],
+          ["errores", "Errores y precauciones"],
+          ["ejemplos", "Ejemplos prácticos"]
+        ]
+      },
+
+      {
+        numero: "7.7",
+        titulo: "Introducción al BOM: estructura y características",
+        carpeta: "7-7",
+        secciones: [
+          ["concepto", "Qué es el BOM"],
+          ["estructura", "Estructura del BOM"],
+          ["window", "El objeto window como objeto global"],
+          ["objetos", "Principales objetos del navegador"],
+          ["diferencias", "Diferencias entre BOM y DOM"],
+          ["ejemplo", "Primer ejemplo con el BOM"]
+        ]
+      }
+,
+
+      {
+        numero: "7.8",
+        titulo: "Objeto window: propiedades y métodos",
+        carpeta: "7-8",
+        secciones: [
+          ["concepto", "El objeto window"],
+          ["global", "window y el ámbito global"],
+          ["dimensiones", "Dimensiones de la ventana"],
+          ["desplazamiento", "Desplazamiento y posición"],
+          ["dialogos", "Métodos alert(), confirm() y prompt()"],
+          ["ejemplos", "Ejemplos prácticos"]
+        ]
+      },
+{
+  numero: "7.9",
+  titulo: "Gestión de ventanas y temporizadores",
+  carpeta: "7-9",
+  secciones: [
+    ["abrir", "Apertura de ventanas"],
+    ["cerrar", "Cierre de ventanas"],
+    ["comunicacion", "Comunicación básica entre ventanas"],
+    ["timeout", "setTimeout() y clearTimeout()"],
+    ["interval", "setInterval() y clearInterval()"],
+    ["ejemplos", "Ejemplos prácticos"]
+  ]
+},
+{
+  numero: "7.10",
+  titulo: "Objeto location: información y navegación",
+  carpeta: "7-10",
+  secciones: [
+    ["href", "location.href"],
+    ["componentes", "Componentes de la URL"],
+    ["parametros", "Parámetros de la URL"],
+    ["navegacion", "Navegación con location"],
+    ["recarga", "Recarga de la página"],
+    ["ejemplos", "Ejemplos prácticos"]
+  ]
+}
+,
+{
+  numero: "7.11",
+  titulo: "Objeto history: historial de navegación",
+  carpeta: "7-11",
+  secciones: [
+    ["concepto", "El objeto history"],
+    ["length", "Longitud del historial"],
+    ["back", "history.back()"],
+    ["forward", "history.forward()"],
+    ["go", "history.go()"],
+    ["limitaciones", "Limitaciones y seguridad"],
+    ["ejemplos", "Ejemplos prácticos"]
+  ]
+}
+
+,
+{
+  numero: "7.12",
+  titulo: "Objetos navigator y screen",
+  carpeta: "7-12",
+  secciones: [
+    ["navigator", "El objeto navigator"],
+    ["propiedades", "Propiedades de navigator"],
+    ["capacidades", "Capacidades del navegador"],
+    ["screen", "El objeto screen"],
+    ["dimensiones", "Dimensiones de pantalla"],
+    ["ejemplos", "Ejemplos prácticos"]
+  ]
+}
+
+,
+{
+  numero: "7.13",
+  titulo: "Almacenamiento en el navegador",
+  carpeta: "7-13",
+  secciones: [
+    ["introduccion", "Introducción al almacenamiento web"],
+    ["localstorage", "localStorage"],
+    ["sessionstorage", "sessionStorage"],
+    ["metodos", "Métodos de almacenamiento"],
+    ["json", "Almacenamiento de objetos con JSON"],
+    ["cookies", "Cookies"],
+    ["comparacion", "Diferencias entre los mecanismos"],
+    ["ejemplos", "Ejemplos prácticos"]
+  ]
+}
+
+];
+
+/* ==========================================
+       DATOS DE LOS APARTADOS POSTERIORES
+    ========================================== */
+
+    const apartadosUT7 = [];
+
+    /* ==========================================
+       CONSTRUCCIÓN DEL MENÚ LATERAL
+    ========================================== */
+
+    function crearApartadoMenu(apartado) {
+
+      const contenedor =
+        document.createElement("div");
+
+      contenedor.className =
+        "menu-desplegable menu-apartado";
+
+      const cabecera =
+        document.createElement("div");
+
+      cabecera.className = "menu-cabecera";
+
+      const enlace =
+        document.createElement("a");
+
+      enlace.className = "menu-titulo";
+
+      enlace.href =
+        `../${apartado.carpeta}/index.html`;
+
+      enlace.textContent =
+        `${apartado.numero} ${apartado.titulo}`;
+
+      const boton =
+        document.createElement("button");
+
+      boton.className = "boton-desplegar";
+      boton.type = "button";
+      boton.textContent = "›";
+
+      const idSubmenu =
+        `submenu-${apartado.carpeta}`;
+
+      boton.setAttribute("data-target", idSubmenu);
+      boton.setAttribute("aria-expanded", "false");
+
+      boton.setAttribute(
+        "aria-label",
+        `Mostrar u ocultar los subapartados del ${apartado.numero}`
+      );
+
+      cabecera.appendChild(enlace);
+      cabecera.appendChild(boton);
+
+      const submenu =
+        document.createElement("div");
+
+      submenu.id = idSubmenu;
+      submenu.className =
+        "submenu submenu-apartados";
+
+      apartado.secciones.forEach(seccion => {
+
+        const enlaceSeccion =
+          document.createElement("a");
+
+        enlaceSeccion.href =
+          `../${apartado.carpeta}/index.html#${seccion[0]}`;
+
+        enlaceSeccion.textContent = seccion[1];
+
+        submenu.appendChild(enlaceSeccion);
+
+      });
+
+      contenedor.appendChild(cabecera);
+      contenedor.appendChild(submenu);
+
+      return contenedor;
+
+    }
+
+    const contenedorAnteriores =
+      document.getElementById("apartadosAnterioresUT7");
+
+    apartadosAnteriores.forEach(apartado => {
+
+      contenedorAnteriores.appendChild(
+        crearApartadoMenu(apartado)
+      );
+
+    });
+
+    const contenedorApartados =
+      document.getElementById("restoApartadosUT7");
+
+    apartadosUT7.forEach(apartado => {
+
+      contenedorApartados.appendChild(
+        crearApartadoMenu(apartado)
+      );
+
+    });
+
+    /* ==========================================
+       MENÚS DESPLEGABLES
+    ========================================== */
+
+    document.querySelectorAll(".boton-desplegar")
+      .forEach(boton => {
+
+        boton.addEventListener("click", () => {
+
+          const idSubmenu =
+            boton.getAttribute("data-target");
+
+          const submenu =
+            document.getElementById(idSubmenu);
+
+          if (!submenu) {
+            return;
+          }
+
+          const estaAbierto =
+            submenu.classList.contains("submenu-abierto");
+
+          submenu.classList.toggle("submenu-abierto");
+
+          boton.textContent =
+            estaAbierto ? "›" : "⌄";
+
+          boton.setAttribute(
+            "aria-expanded",
+            String(!estaAbierto)
+          );
+
+        });
+
+      });
+
+    /* ==========================================
+       COPIAR CÓDIGO
+    ========================================== */
+
+    document.addEventListener("click", async evento => {
+
+      const boton =
+        evento.target.closest(".boton-copiar");
+
+      if (!boton) {
+        return;
+      }
+
+      const bloque =
+        boton.closest(".bloque-codigo");
+
+      const codigo =
+        bloque?.querySelector("code");
+
+      if (!codigo) {
+        return;
+      }
+
+      const textoOriginal =
+        boton.textContent;
+
+      try {
+
+        await navigator.clipboard.writeText(
+          codigo.textContent
+        );
+
+        boton.textContent = "✔ Copiado";
+
+      } catch (error) {
+
+        boton.textContent = "Error al copiar";
+
+      }
+
+      setTimeout(() => {
+
+        boton.textContent = textoOriginal;
+
+      }, 1600);
+
+    });
+
+  </script>
+</body>
+</html>
