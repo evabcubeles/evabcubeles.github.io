@@ -892,35 +892,33 @@ console.log(esCodigoValido(normalizarCodigo(" ped-0025 ")));</code></pre></div><
     const resultado = document.getElementById("resultado");
     const informacion = document.getElementById("informacion");
 
+    function leer(tipo, clave) {
+      try {
+        const almacen = window[tipo];
+        return almacen.getItem(clave);
+      } catch (error) {
+        console.warn("No se puede leer el almacenamiento", error);
+        return null;
+      }
+    }
 
-function leer(tipo, clave) {
-  try {
-    const almacen = window[tipo];
-    return almacen.getItem(clave);
-  } catch (error) {
-    console.warn("No se puede leer el almacenamiento", error);
-    return null;
-  }
-}
+    function guardar(tipo, clave, valor) {
+      try {
+        const almacen = window[tipo];
+        almacen.setItem(clave, valor);
+      } catch (error) {
+        console.warn("No se puede guardar el dato", error);
+      }
+    }
 
-function guardar(tipo, clave, valor) {
-  try {
-    const almacen = window[tipo];
-    almacen.setItem(clave, valor);
-  } catch (error) {
-    console.warn("No se puede guardar el dato", error);
-  }
-}
-
-function borrar(tipo, clave) {
-  try {
-    const almacen = window[tipo];
-    almacen.removeItem(clave);
-  } catch (error) {
-    console.warn("No se puede borrar el dato", error);
-  }
-}
-
+    function borrar(tipo, clave) {
+      try {
+        const almacen = window[tipo];
+        almacen.removeItem(clave);
+      } catch (error) {
+        console.warn("No se puede borrar el dato", error);
+      }
+    }
 
     function normalizarCodigo(texto) {
       return texto.trim().toUpperCase();
@@ -955,7 +953,6 @@ function borrar(tipo, clave) {
       if (!confirm("¿Borrar los datos de esta demostración?")) {
         return;
       }
-
 
       borrar("localStorage", "panel714_nombre");
       borrar("sessionStorage", "panel714_ultimo");
